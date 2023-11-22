@@ -1,0 +1,17 @@
+/*
+Theme color scheme from...
+*/
+
+:root {
+  --primary-color: #24062b;
+  --secondary-color: #6c207f;
+  --tertiary-color: #ededed;
+  --font-primary-color: #444;
+  --font-secondary-color: #ededed;
+  --font-header-color: #6c207f;
+}
+
+.nav-pills .nav-link.active{
+  color: var(--font-secondary-color);
+  background-color: var(--secondary-color);
+}

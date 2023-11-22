@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  escapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: "registry.digitalocean.com/forestresearch/mavisapp:v0.01"
+    container_name: "mavisapp"
+    restart: always
+    privileged: true
+    ports:
+      - "8001:8001"
+
+
+

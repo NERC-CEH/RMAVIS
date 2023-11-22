@@ -1,0 +1,36 @@
+# Load required packages
+library(tidyverse)
+library(shiny)
+library(shinyjs)
+library(shinyalert)
+library(shinyWidgets)
+library(shinybusy)
+library(bslib)
+library(httr)
+library(leaflet)
+library(knitr)
+library(plotly)
+library(htmlwidgets)
+library(rhandsontable)
+library(jsonlite)
+library(kableExtra)
+
+# To run app call: shiny::runApp("app.R")
+
+# shinyOptions(bslib = TRUE)
+
+# Source utility files
+source("R/create_constants.R", local = TRUE)
+
+# Source functions
+
+# Source sub-modules
+source("modules/inputs_ui.R", local = TRUE)
+source("modules/inputs_server.R", local = TRUE)
+
+# Source main UI and Server modules
+source("modules/ui.R", local = TRUE)
+source("modules/server.R", local = TRUE)
+
+# Run the application
+shiny::shinyApp(ui = ui, server = server)
