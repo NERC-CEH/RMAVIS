@@ -1,14 +1,29 @@
-inputs <- function(input, output, session) {
+inputs <- function(input, output, session, sidebar_options) {
 
   ns <- session$ns
   
-# Survey Data Entry Table -------------------------------------------------
 
-  surveyTable_init <- data.frame("Site" = c(1, 1, 1),
-                                 "Sample" = c("A", "A", "A"),
-                                 "Species" = c("Acer campestre", "Acer campestre", "Acer campestre"),
-                                 "Abundance" = c(0.7, 0.15, 0.15)
-                                 )
+# Retrieve sidebar options ------------------------------------------------
+  
+  dataEntryFormat <- reactiveVal()
+  runAnalysis <- reactiveVal()
+  coverMethod <- reactiveVal()
+  habitatRestriction <- reactiveVal()
+  nTopResults <- reactiveVal()
+  
+  observe({
+    
+    dataEntryFormat(sidebar_options()$dataEntryFormat)
+    runAnalysis(sidebar_options()$runAnalysis)
+    coverMethod(sidebar_options()$coverMethod)
+    habitatRestriction(sidebar_options()$habitatRestriction)
+    nTopResults(sidebar_options()$nTopResults)
+    
+  }) |>
+    bindEvent(sidebar_options(), ignoreInit = TRUE)
+  
+# Survey Data Entry Table -------------------------------------------------
+  surveyTable_init <- example_data_df
   
   surveyTable_rval <- reactiveVal(surveyTable_init)
   
@@ -16,16 +31,11 @@ inputs <- function(input, output, session) {
     
     surveyTable <- rhandsontable::rhandsontable(data = surveyTable_init,
                                                 rowHeaders = NULL,
-                                                width = "100%"
+                                                width = "100%"#,
                                                 # overflow = "visible",
                                                 # stretchH = "all"
-                                                ) |>
+    ) |>
       rhandsontable::hot_col(col = colnames(surveyTable_init), halign = "htCenter") |>
-      rhandsontable::hot_col(
-        col = "Site",
-        readOnly = FALSE,
-        type = "text"
-      ) |>
       rhandsontable::hot_col(
         col = "Sample",
         readOnly = FALSE,
@@ -35,24 +45,18 @@ inputs <- function(input, output, session) {
         col = "Species",
         readOnly = FALSE,
         type = "dropdown",
-        source = c(species_list),
-        strict = TRUE
+        source = speciesNames, # [1:50]
+        strict = TRUE,
+        default = as.character(NA_character_)
       ) |>
       rhandsontable::hot_col(
-        col = "Abundance",
+        col = "Cover",
         readOnly = FALSE,
         type = "numeric",
         strict = FALSE
       ) |>
       rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"basic_inputs_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
     
     return(surveyTable)
     
@@ -60,76 +64,128 @@ inputs <- function(input, output, session) {
   
   # observe({
   #   
-  #   req(input$surveyTable)
-  #   
-  #   # Retrieve the table, optionally modify the table without triggering recursion.
-  #   isolate({
+  #   if(dataEntryFormat() == "table"){
   #     
-  #     surveyTable <- as.data.frame(rhandsontable::hot_to_r(input$surveyTable))
-  # 
-  #   })
-  #   
-  #   output$surveyTable <- rhandsontable::renderRHandsontable({
+  #     surveyTable_init <- example_data_df
   #     
-  #     surveyTable <- rhandsontable::rhandsontable(data = surveyTable,
-  #                                                 rowHeaders = NULL,
-  #                                                 # overflow = "visible",
-  #                                                 stretchH = "all"
-  #                                                 ) |>
-  #       rhandsontable::hot_col(col = colnames(surveyTable), halign = "htCenter") |>
-  #       rhandsontable::hot_col(
-  #         col = "Site",
-  #         readOnly = FALSE,
-  #         # type = "character",
-  #         source = NULL,
-  #         strict = FALSE
+  #     output$surveyTable <- rhandsontable::renderRHandsontable({
+  #       
+  #       surveyTable <- rhandsontable::rhandsontable(data = surveyTable_init,
+  #                                                   rowHeaders = NULL,
+  #                                                   width = "100%"#,
+  #                                                   # overflow = "visible",
+  #                                                   # stretchH = "all"
   #       ) |>
-  #       rhandsontable::hot_col(
-  #         col = "Sample",
-  #         readOnly = FALSE,
-  #         type = "character",
-  #         source = NULL,
-  #         strict = FALSE
-  #       ) |>
-  #       rhandsontable::hot_col(
-  #         col = "Species",
-  #         readOnly = FALSE,
-  #         type = "dropdown",
-  #         source = c(species_list),
-  #         strict = TRUE
-  #       ) |>
-  #       rhandsontable::hot_col(
-  #         col = "Abundance",
-  #         readOnly = FALSE,
-  #         type = "numeric",
-  #         strict = FALSE
-  #       ) |>
-  #       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-  #       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-  #       htmlwidgets::onRender("
-  #       function(el, x) {
-  #         var hot = this.hot
-  #         $('a[data-value=\"basic_inputs_panel\"').on('click', function(){
-  #           setTimeout(function() {hot.render();}, 0);
-  #         })
-  #       }")
+  #         rhandsontable::hot_col(col = colnames(surveyTable_init), halign = "htCenter") |>
+  #         rhandsontable::hot_col(
+  #           col = "Sample",
+  #           readOnly = FALSE,
+  #           type = "text"
+  #         ) |>
+  #         rhandsontable::hot_col(
+  #           col = "Species",
+  #           readOnly = FALSE,
+  #           type = "dropdown",
+  #           source = speciesNames, # [1:50]
+  #           strict = TRUE,
+  #           default = as.character(NA_character_)
+  #         ) |>
+  #         rhandsontable::hot_col(
+  #           col = "Cover",
+  #           readOnly = FALSE,
+  #           type = "numeric",
+  #           strict = FALSE
+  #         ) |>
+  #         rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE) |>
+  #         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
+  #       
+  #       return(surveyTable)
+  #       
+  #     })
   #     
-  #     return(surveyTable)
   #     
-  #   })
-  #   
-  #   surveyTable_rval(rhandsontable::hot_to_r(input$surveyTable))
-  #   
-  # })
+  #   } else if(dataEntryFormat() == "matrix"){
+  #     
+  #     surveyTable_init <- example_data_matrix
+  #     
+  #     output$surveyTable <- rhandsontable::renderRHandsontable({
+  #       
+  #       surveyTable <- rhandsontable::rhandsontable(data = surveyTable_init,
+  #                                                   rowHeaders = NULL,
+  #                                                   # useTypes = FALSE,
+  #                                                   width = "100%"#,
+  #                                                   # overflow = "visible",
+  #                                                   # stretchH = "all"
+  #       ) |>
+  #         # rhandsontable::hot_col(col = colnames(surveyTable_init), halign = "htCenter") |>
+  #         # rhandsontable::hot_col(
+  #         #   col = "Species",
+  #         #   readOnly = FALSE,
+  #         #   type = "dropdown",
+  #         #   source = speciesNames,
+  #         #   strict = TRUE,
+  #         #   default = as.character(NA_character_)
+  #         # ) |>
+  #         rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = TRUE) |>
+  #         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all", useTypes = FALSE)
+  #       
+  #       return(surveyTable)
+  #       
+  #     })
+  #   }
+  # }) |>
+  #   bindEvent(dataEntryFormat(), ignoreInit = TRUE)
+  
   
   observe({
-    
+
     surveyTable_rval(rhandsontable::hot_to_r(input$surveyTable))
-    
+
   }) |>
-    bindEvent(input$surveyTable)
+    bindEvent(input$surveyTable, ignoreInit = FALSE)
     
   
   outputOptions(output, "surveyTable", suspendWhenHidden = FALSE)
+  
+  
+  assignNVC_results <- reactiveVal()
+  
+  observe({
+    
+    surveyTable <- surveyTable_rval()
+    
+    surveyTable_prepped <- surveyTable |>
+      dplyr::select(Sample, Species) |>
+      dplyr::rename("ID" = "Sample",
+                    "species" = "Species")
+    
+    pquads_to_use <- assignNVC::nvc_pquads
+    
+    if(!is.null(habitatRestriction())){
+      pquads_to_use <- assignNVC::nvc_pquads |>
+        dplyr::filter(stringr::str_detect(NVC, (stringr::str_c(habitatRestriction(), collapse="|")))) # &
+    }
+    
+    fitted_nvc <- assignNVC::assign_nvc(samp_df = surveyTable_prepped,
+                                        comp_df = pquads_to_use,
+                                        spp_col = "species",
+                                        samp_id = "ID",
+                                        comp_id = "Pid3",
+                                        top_n = as.numeric(nTopResults())) |>
+      dplyr::rename("Sample" = "FOCAL_ID", 
+                    "Pseudo.Quadrat" = "COMP_ID", 
+                    "Jaccard.Similarity" = "JAC_SIM", 
+                    "NVC.Code" = "NVC")
+    
+    assignNVC_results(fitted_nvc)
+    
+  }) |>
+    bindEvent(runAnalysis(), 
+              habitatRestriction(), 
+              nTopResults(), 
+              ignoreInit = TRUE)
+  
+  
+  return(assignNVC_results)
 
 }

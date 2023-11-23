@@ -112,6 +112,21 @@
       ],
       "Hash": "e8a22846fff485f0be3770c2da758713"
     },
+    "assignNVC": {
+      "Package": "assignNVC",
+      "Version": "0.0.0.9004",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "assignNVC",
+      "RemoteUsername": "colinharrower",
+      "RemoteRef": "master",
+      "RemoteSha": "2eb9ce15b48e403c105305b300e667281135b332",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "e2da920075e5c7f823d0e350f9fa0c22"
+    },
     "backports": {
       "Package": "backports",
       "Version": "1.4.1",
