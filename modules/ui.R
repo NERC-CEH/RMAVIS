@@ -1,22 +1,50 @@
 # UI
-ui <- bslib::page_sidebar(
+ui <- bslib::page_navbar(
 
-  title = "MAVIS",
-
+  title = shiny::tagList(
+    shiny::div(
+      bslib::card_image(file = "www/ukceh_logo_long_720x170_rgb.png", fill = FALSE, height = "75px"),
+      shiny::h4("MAVIS"),
+      div(style="display:inline-block !important")
+      )
+    ),
+  
+  # title = bslib::card_title(bslib::container = htmltools::img("www/ukceh_logo_long_720x170_rgb.png")),
+  
+  id = "nav",
+  
   sidebar = sidebarUI(id = "sidebar_id_1"),
+  
+  # sidebar = bslib::sidebar(
+  #   
+  #   shiny::conditionalPanel(
+  #     "input.nav === 'Main'",
+  #     sidebarUI(id = "sidebar_id_1")
+  #   ),
+  #   
+  #   shiny::conditionalPanel(
+  #     "input.nav === 'Documentation'",
+  #     ""
+  #   )
+  #   
+  # ),
 
   tags$head(includeCSS("www/style.css")),
   
-  bslib::card(
-  # bslib::navset_card_pill(
-  #   
-  #   bslib::nav_panel(
+  bslib::nav_spacer(),
+    
+  bslib::nav_panel(
+    
+    "Main",
+    
+    bslib::card(
       
-      # title = "Basic Inputs",
-      # value = "basic_inputs_panel",
+      full_screen = TRUE,
+      
+      bslib::card_header("Main"),
       
       shiny::h5("Survey Data Table"),
-    
+      
       inputsUI(id = "inputs_id_1"),
       
       shiny::h5("Results"),
@@ -27,6 +55,23 @@ ui <- bslib::page_sidebar(
       
       habCorUI(id = "habCor_id_1")
       
-#     )
+    )
+  ),
+    
+  bslib::nav_panel(
+    
+    "Documentation",
+    
+    bslib::card(
+      
+      full_screen = TRUE,
+      
+      bslib::card_header("Documentation"),
+      
+      documentationUI(id = "docs_id_1")
+      
+    )
   )
+
+  # )
 )

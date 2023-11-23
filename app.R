@@ -1,19 +1,19 @@
 # Load required packages
 library(tidyverse)
 library(shiny)
-library(shinyjs)
-library(shinyalert)
-library(shinyWidgets)
-library(shinybusy)
+# library(shinyjs)
+# library(shinyalert)
+# library(shinyWidgets)
+# library(shinybusy)
 library(bslib)
-library(httr)
-library(leaflet)
-library(knitr)
-library(plotly)
-library(htmlwidgets)
+# library(httr)
+# library(leaflet)
+# library(knitr)
+# library(plotly)
+# library(htmlwidgets)
 library(rhandsontable)
-library(jsonlite)
-library(kableExtra)
+# library(jsonlite)
+# library(kableExtra)
 
 # To run app call: shiny::runApp("app.R")
 
@@ -22,9 +22,13 @@ library(kableExtra)
 # Source utility files
 source("R/create_constants.R", local = TRUE)
 
+# Render documentation
+source("R/render_docs.R", local = TRUE)
+
 # Source functions
 
 # Source sub-modules
+source("modules/documentation_ui.R", local = TRUE)
 source("modules/sidebar_ui.R", local = TRUE)
 source("modules/sidebar_server.R", local = TRUE)
 source("modules/inputs_ui.R", local = TRUE)

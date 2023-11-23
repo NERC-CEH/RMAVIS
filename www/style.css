@@ -11,7 +11,32 @@ Theme color scheme from...
   --font-header-color: #6c207f;
 }
 
+.navbar {
+  --bs-navbar-padding-x: 0.25rem !important;
+  --bs-navbar-padding-y: 0.25rem !important;
+  --bs-navbar-brand-margin-end: 0rem !important;
+}
+
+.navbar.navbar-inverse {
+  background-color: white !important;
+}
+
+.navbar-nav {
+  --bs-nav-link-padding-x: 0 !important;
+  --bs-nav-link-padding-y: 0rem !important;
+  --bs-nav-link-color: black !important;
+  --bs-nav-link-hover-color: black !important;
+  --bs-nav-link-disabled-color: black !important;
+}
+
+.bslib-sidebar-layout {
+  --bslib-sidebar-bg: white !important;
+}
+
 .nav-pills .nav-link.active{
-  color: var(--font-secondary-color);
-  background-color: var(--secondary-color);
+  color: black !important;
+}
+
+.navbar-brand {
+  color: black !important;
 }
