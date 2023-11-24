@@ -20,7 +20,7 @@ library(rhandsontable)
 # shinyOptions(bslib = TRUE)
 
 # Source utility files
-source("R/create_constants.R", local = TRUE)
+source("R/create_constants_load.R", local = TRUE)
 
 # Render documentation
 source("R/render_docs.R", local = TRUE)

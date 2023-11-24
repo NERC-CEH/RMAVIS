@@ -1,0 +1,26 @@
+\usepackage{booktabs}
+\geometry{left=2cm,right=2cm,top=3cm,bottom=2cm,headheight=3cm}
+\definecolor{fr.purple.dark}{HTML}{491656}
+\usepackage{sectsty}
+\allsectionsfont{\color{fr.purple.dark}}
+\usepackage[yyyymmdd,hhmmss]{datetime}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyheadoffset{0cm}
+\fancyhf{}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{fr.purple.dark}\leaders\hrule height \headrulewidth\hfill}}
+\lhead{\includegraphics[width=4cm]{fr.logo.purple.png}} \rhead{}
+\lfoot{\thepage   |   EWCO    |   Author   |   \today}
+\fancypagestyle{plain}{\pagestyle{fancy}}
+\usepackage{titling}
+\setlength{\droptitle}{-2cm}
+\pretitle{\begin{flushleft}\LARGE}
+\posttitle{\end{flushleft}}
+\preauthor{\begin{flushleft}\Large}
+\postauthor{\end{flushleft}}
+\predate{\begin{flushleft}}
+\postdate{\end{flushleft}}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{pdflscape}

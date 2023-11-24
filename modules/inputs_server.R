@@ -148,6 +148,8 @@ inputs <- function(input, output, session, sidebar_options) {
   outputOptions(output, "surveyTable", suspendWhenHidden = FALSE)
   
   
+
+# Calculate assignNVC results ---------------------------------------------
   assignNVC_results <- reactiveVal()
   
   observe({
@@ -163,7 +165,7 @@ inputs <- function(input, output, session, sidebar_options) {
     
     if(!is.null(habitatRestriction())){
       pquads_to_use <- assignNVC::nvc_pquads |>
-        dplyr::filter(stringr::str_detect(NVC, (stringr::str_c(habitatRestriction(), collapse="|")))) # &
+        dplyr::filter(stringr::str_detect(NVC, (stringr::str_c(habitatRestriction(), collapse = "|"))))
     }
     
     fitted_nvc <- assignNVC::assign_nvc(samp_df = surveyTable_prepped,

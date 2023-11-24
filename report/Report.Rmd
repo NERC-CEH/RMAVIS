@@ -1,0 +1,256 @@
+---
+output: 
+  pdf_document:
+    includes:
+      in_header: "Report.preamble.tex"
+params: 
+    allEWCOData: NULL
+# bibliography: EWCO.Report.refs.bib
+# link-citations: yes
+editor_options: 
+  markdown: 
+    wrap: 72
+title: \textbf{\textcolor{fr.purple.dark}{England Woodland Creation Cash-flow Scenarios Tool}}
+subtitle: \textbf{\textcolor{fr.purple.dark}{User Report}}
+# author: "Author"
+date: \textbf{\textcolor{fr.purple.dark}{`r Sys.Date()`}}
+---
+
+```{r load_packages, message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(kableExtra)
+```
+
+```{r retrieve_data, message=FALSE, warning=FALSE, include=FALSE}
+
+# source("../create_constants.R", local = knitr::knit_global())
+# sys.source("./create_constants.R", envir = knitr::knit_global())
+
+allEWCOData <- params$allEWCOData
+
+location_data <- allEWCOData$location_data
+summary_total_list <- allEWCOData$summary_total_list
+grantsTable <- allEWCOData$grantsTable
+compartmentsTable <- allEWCOData$compartmentsTable
+standardCostsTable <- allEWCOData$standardCostsTable
+all_ts_df <- allEWCOData$all_ts_df
+
+```
+
+```{r wrangle_data, message=FALSE, warning=FALSE, include=FALSE}
+
+costIncomeGroups_balanceTable <- tibble::tribble(
+  ~Variable, ~Row, ~Row.Group,
+  "Lost Agricultural Income", "6", "Lost Agricultural Income",
+  "Carbon", "5", "Carbon Income",
+  "Planning", "1", "Woodland Creation Planning Grant",
+  "Standard Costs","2", "EWCO Standard Cost and Maintenance",
+  "Maintenance", "2", "EWCO Standard Cost and Maintenance",
+  "Total Infrastructure", "2", "EWCO Standard Cost and Maintenance",
+  "Additional Contributions", "3", "EWCO Additional Contribution",
+  
+  "Agent Fees", "2", "Planning, Establishment, and Maintenance",
+  "Preparation", "2", "Planning, Establishment, and Maintenance",
+  "Planting", "2", "Planning, Establishment, and Maintenance",
+  "Establishment", "2", "Planning, Establishment, and Maintenance",
+  "Insurance", "2", "Planning, Establishment, and Maintenance",
+  "Recreational Infrastructure", "2", "Planning, Establishment, and Maintenance",
+  "Non-recreational Infrastructure", "2", "Planning, Establishment, and Maintenance",
+  "Timber", "4", "Timber Income",
+  "Timber operations", "4", "Timber Operations"
+)
+
+costIncomeGroups <- costIncomeGroups_balanceTable |>
+  dplyr::select(Variable, Row.Group) |>
+  dplyr::rename("Var" = "Variable",
+                "Group" = "Row.Group")
+
+# define color palette
+sumPlot_col_pal_ungrouped <- list(
+  
+  # Income
+  "Income - Timber" = "#25400a",
+  "Income - Carbon" = "#25570a",
+  "Income - Planning" = "#2a6d09",
+  "Income - Standard Costs" = "#2e8308",
+  "Income - Maintenance" = "#2f9b05",
+  "Income - Total Infrastructure" = "#2fb303",
+  "Income - Additional Contributions" = "#2bcc00",
+  
+  # Costs
+  "Costs - Agent Fees" = "#7a1006",
+  "Costs - Lost Agricultural Income" = "#8c1b0e",
+  "Costs - Preparation" = "#9e2615",
+  "Costs - Planting" = "#b1301d",
+  "Costs - Establishment" = "#c43a24",
+  "Costs - Insurance" = "#d7452c",
+  "Costs - Recreational Infrastructure" = "#eb4f33",
+  "Costs - Non-recreational Infrastructure" = "#ff5a3b",
+  "Costs - Timber operations" = "#ff5b5b"
+)
+
+# define color palette
+sumPlot_col_pal_grouped <- list(
+  
+  # Income
+  "Woodland Creation Planning Grant" = "#25400a",
+  "EWCO Additional Contribution" = "#25570a",
+  "EWCO Standard Cost and Maintenance" = "#2a6d09",
+  "Carbon Income" = "#2f9b05",
+  "Timber Income" = "#2fb303",
+  
+  # Costs
+  "Planning, Establishment, and Maintenance" = "#7a1006",
+  "Lost Agricultural Income" = "#b1301d",
+  "Timber Operations" = "#eb4f33"
+  
+)
+
+costIncomeGroups <- costIncomeGroups_balanceTable |>
+      dplyr::select(Variable, Row.Group) |>
+      dplyr::rename("Var" = "Variable",
+                    "Group" = "Row.Group")
+
+all_ts_df_grouped <- all_ts_df |>
+  dplyr::left_join(costIncomeGroups, by = "Var") |>
+  dplyr::group_by(fin_year, year, year_t, discount_rate, discount_factor, Group) |>
+  dplyr::summarise("Value" = sum(Value), "Discounted.Value" = sum(Discounted.Value)) |>
+  dplyr::rename("Var" = "Group")
+      
+sumPlot_col_pal <- sumPlot_col_pal_grouped
+
+all_ts_df_cumsum <- all_ts_df_grouped |>
+  dplyr::group_by(Var) |>
+  dplyr::mutate("Cumulative Discounted.Value" = round(cumsum(Discounted.Value), digits = 2)) |> # .data[[data_col]]
+  dplyr::mutate("Cumulative Value" = round(cumsum(Value), digits = 2)) |> # .data[[data_col]]
+  dplyr::ungroup() |>
+  tidyr::pivot_longer(cols = c(Value, Discounted.Value, `Cumulative Discounted.Value`, `Cumulative Value`), 
+                      names_to = "data.type",
+                      values_to = "Value")
+
+all_ts_df_netbalance <- all_ts_df_cumsum |>
+  dplyr::group_by(fin_year, year, discount_rate, discount_factor, year_t, data.type) |>
+  dplyr::summarise("Net Balance" = sum(Value)) |>
+  dplyr::ungroup()
+
+all_ts_df_cumsum_cdv <- all_ts_df_cumsum |>
+  dplyr::filter(data.type == "Cumulative Discounted.Value")
+all_ts_df_cumsum_cdv$Var <- factor(all_ts_df_cumsum_cdv$Var, levels =  names(sumPlot_col_pal))
+all_ts_df_netbalance_cdv <- all_ts_df_netbalance |>
+  dplyr::filter(data.type == "Cumulative Discounted.Value")
+
+all_ts_df_cumsum_cv <- all_ts_df_cumsum |>
+  dplyr::filter(data.type == "Cumulative Value")
+all_ts_df_cumsum_cv$Var <- factor(all_ts_df_cumsum_cv$Var, levels =  names(sumPlot_col_pal))
+all_ts_df_netbalance_cv <- all_ts_df_netbalance |>
+  dplyr::filter(data.type == "Cumulative Value")
+```
+
+# Results
+
+## Summary
+
+```{r longTable, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+longTable_total <- summary_total_list[["Total"]] |>
+  dplyr::mutate("Category" = "Total",
+                "Variable" = "Total Net Balance") |>
+  dplyr::rename("Total" = "total", 
+                "Discounted.Total" = "discounted.total")
+    
+longTable <- summary_total_list[["Variable"]] |>
+  dplyr::rename("Category" = "Cat", 
+                "Variable" = "Var", 
+                "Total" = "total", 
+                "Discounted.Total" = "discounted.total") |>
+  dplyr::arrange(Category, Variable) |>
+  rbind(longTable_total)
+
+knitr::kable(longTable, format = "latex", booktabs = TRUE,
+             linesep = "",
+             caption = "Total Value and Discounted Value by Income/Cost Category.") |>
+  kableExtra::kable_styling(latex_options = "HOLD_position")
+
+```
+
+```{r summaryPlot_cdv, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Cumulative income and costs, broad groupings, discounted."}
+
+summaryGraphPlot_plot <- ggplot2::ggplot() +
+  ggplot2::geom_area(data = all_ts_df_cumsum_cdv,
+                     mapping = ggplot2::aes(x = year, y = Value, fill = Var), alpha = 0.8) +
+  ggplot2::geom_line(data = all_ts_df_netbalance_cdv,
+                     mapping = ggplot2::aes(x = year, y = `Net Balance`)) +
+  ggplot2::theme_minimal() +
+  ggplot2::scale_fill_manual(values = sumPlot_col_pal) +
+  ggplot2::theme(legend.position = "bottom") +
+  ggplot2::guides(fill = guide_legend(nrow = 2, byrow = TRUE)) +
+  ggplot2::ylab(label = "Cumulative Value [£]") +
+  ggplot2::xlab(label = NA) +
+  NULL
+
+summaryGraphPlot_plot
+
+```
+
+```{r summaryPlot_cv, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Cumulative income and costs, broad groupings, undiscounted."}
+
+summaryGraphPlot_plot <- ggplot2::ggplot() +
+  ggplot2::geom_area(data = all_ts_df_cumsum_cv,
+                     mapping = ggplot2::aes(x = year, y = Value, fill = Var), alpha = 0.8) +
+  ggplot2::geom_line(data = all_ts_df_netbalance_cv,
+                     mapping = ggplot2::aes(x = year, y = `Net Balance`)) +
+  ggplot2::theme_minimal() +
+  ggplot2::scale_fill_manual(values = sumPlot_col_pal) +
+  ggplot2::theme(legend.position = "bottom") +
+  ggplot2::guides(fill = guide_legend(nrow = 2, byrow = TRUE)) +
+  ggplot2::ylab(label = "Cumulative Value [£]") +
+  ggplot2::xlab(label = NA) +
+  NULL
+
+summaryGraphPlot_plot
+
+```
+
+
+
+# User Inputs
+
+## Location
+
+Grid Reference: `r location_data$grid.ref`
+
+Latitude/Longitude: `r paste0(location_data$latitude, ", ", location_data$longitude)`
+
+## Standard Costs
+
+```{r standardCostsTable, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+knitr::kable(standardCostsTable, format = "latex", booktabs = TRUE,
+             linesep = "",
+             caption = "Standard costs associated with woodland establishment.") |>
+  kableExtra::kable_styling(latex_options = "HOLD_position")
+
+```
+
+## Woodland Compartments
+
+```{r scompartmentsTable, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+knitr::kable(compartmentsTable, format = "latex", booktabs = TRUE,
+             linesep = "",
+             caption = "Woodland compartment data.") |>
+  kableExtra::kable_styling(latex_options = "HOLD_position")
+
+```
+
+## EWCO Additional Contribution Grants
+
+```{r grantsTable, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+knitr::kable(grantsTable, format = "latex", booktabs = TRUE,
+             linesep = "",
+             caption = "EWCO additional contribution grants selected.") |>
+  kableExtra::kable_styling(latex_options = "HOLD_position")
+
+```
+

@@ -1,15 +1,11 @@
 # UI
 ui <- bslib::page_navbar(
 
-  title = shiny::tagList(
-    shiny::div(
-      bslib::card_image(file = "www/ukceh_logo_long_720x170_rgb.png", fill = FALSE, height = "75px"),
-      shiny::h4("MAVIS"),
-      div(style="display:inline-block !important")
-      )
+  title = bslib::layout_columns(
+    bslib::card_image(file = "www/ukceh_logo_long_720x170_rgb.png", fill = FALSE, width = "320px"),
+    shiny::h2("MAVIS", 
+              id = "title")
     ),
-  
-  # title = bslib::card_title(bslib::container = htmltools::img("www/ukceh_logo_long_720x170_rgb.png")),
   
   id = "nav",
   
@@ -41,7 +37,7 @@ ui <- bslib::page_navbar(
       
       full_screen = TRUE,
       
-      bslib::card_header("Main"),
+      bslib::card_header(""),
       
       shiny::h5("Survey Data Table"),
       
@@ -57,6 +53,21 @@ ui <- bslib::page_navbar(
       
     )
   ),
+  
+  # bslib::nav_panel(
+  #   
+  #   "Analysis",
+  #   
+  #   bslib::card(
+  #     
+  #     full_screen = TRUE,
+  #     
+  #     bslib::card_header("Analysis"),
+  #     
+  #     analysisUI(id = "analysis_id_1")
+  #     
+  #   )
+  # ),
     
   bslib::nav_panel(
     

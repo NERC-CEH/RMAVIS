@@ -1,43 +1,46 @@
 # Example Sample Data -----------------------------------------------------
-example_data_df <- readxl::read_xlsx("data/example_data.xlsx", sheet = "df")
-example_data_matrix <- readxl::read_xlsx("data/example_data.xlsx", sheet = "matrix")
+example_data_df <- readxl::read_xlsx("data/raw_data/example_data.xlsx", sheet = "df")
+saveRDS(object = example_data_df, file = "data/bundled_data/example_data_df.rds")
 
+example_data_matrix <- readxl::read_xlsx("data/raw_data/example_data.xlsx", sheet = "matrix")
+saveRDS(object = example_data_matrix, file = "data/bundled_data/example_data_matrix.rds")
 
 # Data Entry Format Options -----------------------------------------------
 dataEntryFormat_options <- c("Table" = "table",
                              "Matrix" = "matrix")
-
+saveRDS(object = dataEntryFormat_options, file = "data/bundled_data/dataEntryFormat_options.rds")
 
 # Domin Cover -------------------------------------------------------------
-domin.cover.vals <- c("91-100%" = 10,
-                      "76-90%" = 9,
-                      "51-75%" = 8,
-                      "34-50%" = 7,
-                      "26-33%" = 6,
-                      "11-25%" = 5,
-                      "4-10%" = 4,
-                      "<4% (many individuals)" = 3,
-                      "<4% (several individuals)" = 2,
-                      "<4% (few individuals)" = 1)
+dominCoverVals <- c("91-100%" = 10,
+                    "76-90%" = 9,
+                    "51-75%" = 8,
+                    "34-50%" = 7,
+                    "26-33%" = 6,
+                    "11-25%" = 5,
+                    "4-10%" = 4,
+                    "<4% (many individuals)" = 3,
+                    "<4% (several individuals)" = 2,
+                    "<4% (few individuals)" = 1)
+saveRDS(object = dominCoverVals, file = "data/bundled_data/dominCoverVals.rds")
 
-domin.cover.vals.rev <- c("10" = "91-100%",
-                          "9" = "76-90%",
-                          "8" = "51-75%",
-                          "7" = "34-50%",
-                          "6" = "26-33%",
-                          "5" = "11-25%",
-                          "4" = "4-10%",
-                          "3" = "<4% (many individuals)",
-                          "2" = "<4% (several individuals)",
-                          "1" = "<4% (few individuals)")
-
+dominCoverValsRev <- c("10" = "91-100%",
+                       "9" = "76-90%",
+                       "8" = "51-75%",
+                       "7" = "34-50%",
+                       "6" = "26-33%",
+                       "5" = "11-25%",
+                       "4" = "4-10%",
+                       "3" = "<4% (many individuals)",
+                       "2" = "<4% (several individuals)",
+                       "1" = "<4% (few individuals)")
+saveRDS(object = dominCoverValsRev , file = "data/bundled_data/dominCoverValsRev.rds")
 
 # Cover Method Options ----------------------------------------------------
 coverMethod_options <- list(
   "Direct Percentage" = "directPercentage",
   "Domin Class" = "dominCover"
 )
-
+saveRDS(object = coverMethod_options, file = "data/bundled_data/coverMethod_options.rds")
 
 # Habitat Restriction Options ---------------------------------------------
 habitatRestriction_options <- list(
@@ -54,20 +57,20 @@ habitatRestriction_options <- list(
   "Maritime cliff communities (MC)" = "MC",
   "Vegetation of open habitats (OV)" = "OV"
 )
-
+saveRDS(object = habitatRestriction_options, file = "data/bundled_data/habitatRestriction_options.rds")
 
 # Species Name Options ----------------------------------------------------
 speciesNames <- assignNVC::nvc_pquads |>
   dplyr::pull(species) |>
   unique() |>
   sort()
-
+saveRDS(object = speciesNames, file = "data/bundled_data/speciesNames.rds")
 
 
 # Create Correspondence Data ----------------------------------------------
 suppressWarnings(
   suppressMessages(
-    raw_JNCC_habCor <- readxl::read_xls(path = "data/Habitat-correspondences-2008.xls",
+    raw_JNCC_habCor <- readxl::read_xls(path = "data/raw_data/Habitat-correspondences-2008.xls",
                                         sheet = "master table - sheet protected",
                                         col_types = c("text", "text", "text",
                                                       "text", "text", "text",
@@ -78,13 +81,13 @@ suppressWarnings(
 
 suppressWarnings(
   suppressMessages(
-    nvc_floristic_tables <- read.csv(file = "data/NVC-floristic-tables.csv")
+    nvc_floristic_tables <- read.csv(file = "data/raw_data/NVC-floristic-tables.csv")
   )
 )
 
 suppressWarnings(
   suppressMessages(
-    ukHab_habCor_raw <- readxl::read_xlsx(path = "data/UK Habitat Classification V1-1 including Correspondences_7 Sep 2020_ZMCleaned.xlsx",
+    ukHab_habCor_raw <- readxl::read_xlsx(path = "data/raw_data/UK Habitat Classification V1-1 including Correspondences_7 Sep 2020_ZMCleaned.xlsx",
                                       sheet = "NVC to UKHab",
                                       skip = 6,
                                       .name_repair = "minimal")
@@ -93,7 +96,7 @@ suppressWarnings(
 
 suppressWarnings(
   suppressMessages(
-    ukHab_namesCodes_raw <- readxl::read_xlsx(path = "data/UK Habitat Classification V1-1 including Correspondences_7 Sep 2020_ZMCleaned.xlsx",
+    ukHab_namesCodes_raw <- readxl::read_xlsx(path = "data/raw_data/UK Habitat Classification V1-1 including Correspondences_7 Sep 2020_ZMCleaned.xlsx",
                                               sheet = "Professional Edition Hierarchy",
                                               skip = 0,
                                               .name_repair = "minimal")
@@ -286,7 +289,9 @@ all_habCor_final <- rbind(
   ukHab_habCor_final,
   jncc_habCor_final
 )
+saveRDS(object = all_habCor_final, file = "data/bundled_data/all_habCor_final.rds")
 
 all_habCor_classifications <- all_habCor_final |>
   dplyr::pull(Classification) |>
   unique()
+saveRDS(object = all_habCor_classifications, file = "data/bundled_data/all_habCor_classifications.rds")

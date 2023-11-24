@@ -60,6 +60,28 @@ if (window.hljs) {
 
 
 
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 
 
@@ -244,6 +266,21 @@ System (MAVIS)</h1>
 
 <style type="text/css">
 
+:root {
+  
+  --ceh-background-grey: #EBF0EE;
+  --ceh-main-green: #4DA43B;
+  --ceh-main-blue #2F7ECC:
+  --ceh-main-darkblue #306FAE:
+  --ceh-mid-1 #3889A3:
+  --ceh-mid-2 #3F9280;
+  --ceh-mid-3 #459A62;
+  --text-title-color: #575656;
+  
+}
+
+* {font-family: "Montserrat", sans-serif !important;}
+
 body .main-container {
   max-width: 2800px !important;
   width: 1400px !important;
@@ -255,18 +292,86 @@ body {
 
 .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
   z-index: 2;
-  color: #ffffff;
-  background-color: #008847;
-  border-color: #008847;
+  color: black;
+  background-color: var(--ceh-background-grey);
+  border-color: var(--ceh-background-grey);
 }
 
 </style>
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>Lorum ipsum…..</p>
 </div>
-<div id="references" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> References</h1>
+<div id="modules" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Modules</h1>
+<div id="nvc-assignment" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> NVC Assignment</h2>
+<div id="nvc-assignment-1" class="section level3" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> NVC Assignment</h3>
+<p>Two methods are available for assigning NVC</p>
+<ol style="list-style-type: decimal">
+<li>An R implementation of the Modular Analysis of Vegetation
+Information System (MAVIS). This method uses the Czekanowski index <span
+class="citation">(<a href="#ref-bloom1981" role="doc-biblioref">Bloom
+1981</a>)</span> to quantify the similarity between NVC survey data and
+the NVC Floristic Tables.</li>
+<li>An R implementation of the method outlined in <span
+class="citation">Tipping et al. (<a href="#ref-tipping2013"
+role="doc-biblioref">2013</a>)</span>. This method calculates the
+Jaccard similarity between user-inputted sample quadrats and
+pseudo-quadrats. This approach is noted as improving the accuracy of fit
+relative to the Czekanowski index for sample quadrats with poor species
+richness <span class="citation">(<a href="#ref-tipping2013"
+role="doc-biblioref">Tipping et al. 2013</a>)</span>.</li>
+</ol>
+</div>
+<div id="habitat-correspondences" class="section level3" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Habitat
+Correspondences</h3>
+<p>Habitat correspondence data is drawn from the Joint Nature
+Conservation Committee (JNCC) Spreadsheet of Habitat Correspondences
+<span class="citation">(<a href="#ref-jncc2008"
+role="doc-biblioref">JNCC 2008</a>)</span>.</p>
+<p>Currently, habitat correspondence data for UKHab is drawn from UKHab
+V1.1.</p>
+</div>
+</div>
+<div id="analysis-metrics" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Analysis Metrics</h2>
+<p>… uses the results of the NVC Assignment module to calculate the
+following metrics:</p>
+<ul>
+<li>Cover-weighted Hill-Ellenberg:
+<ul>
+<li>Nitrogen Score (N)</li>
+<li>Moisture Score (F)</li>
+<li>Reaction Score (R)</li>
+<li>Salinity Score (S)</li>
+<li>Light Score (L)</li>
+</ul></li>
+<li></li>
+</ul>
+</div>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-bloom1981" class="csl-entry">
+Bloom, SA. 1981. <span>“Similarity Indices in Community Studies:
+Potential Pitfalls.”</span> <em>Marine Ecology Progress Series</em> 5:
+125–28. <a
+href="https://doi.org/10.3354/meps005125">https://doi.org/10.3354/meps005125</a>.
+</div>
+<div id="ref-jncc2008" class="csl-entry">
+JNCC. 2008. <em>Spreadsheet of Habitat Correspondences</em>. <a
+href="https://hub.jncc.gov.uk/assets/9e70531b-5467-4136-88f6-3b3dd905b56d">https://hub.jncc.gov.uk/assets/9e70531b-5467-4136-88f6-3b3dd905b56d</a>.
+</div>
+<div id="ref-tipping2013" class="csl-entry">
+Tipping, E, PA Henrys, LC Maskell, and SM Smart. 2013. <span>“Nitrogen
+Deposition Effects on Plant Species Diversity; Threshold Loads from
+Field Data.”</span> <em>Environmental Pollution</em> 179: 218–23. <a
+href="https://doi.org/10.1016/j.envpol.2013.04.008">https://doi.org/10.1016/j.envpol.2013.04.008</a>.
+</div>
+</div>
 </div>
 
 

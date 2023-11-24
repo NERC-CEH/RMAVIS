@@ -8,13 +8,19 @@ sidebarUI <- function(id){
     shiny::hr(),
     shiny::actionButton(inputId = ns("runAnalysis"),
                         label = "Run Analysis"),
-    shiny::hr(),
+    # shiny::hr(),
+    
+    shiny::div(shiny::br()),
     
     bslib::accordion(
       
+      open = FALSE,
+      
       bslib::accordion_panel(
         
-        "Input Data", icon = bsicons::bs_icon("menu-app"),
+        "Input Data", 
+        
+        icon = bsicons::bs_icon("menu-app"),
         
         shiny::selectizeInput(inputId = ns("dataEntryFormat"), 
                               label = "Data Entry Format", 
@@ -41,7 +47,9 @@ sidebarUI <- function(id){
       
       bslib::accordion_panel(
         
-        "Habitat Correspondence", icon = bsicons::bs_icon("sliders"),
+        "Habitat Correspondence", 
+        
+        icon = bsicons::bs_icon("sliders"),
         
         shiny::selectizeInput(inputId = ns("habCorClass"), 
                               label = "Habitat Correspondance Classification", 
@@ -51,7 +59,18 @@ sidebarUI <- function(id){
         
       )
       
+    ),
+    
+    shiny::hr(),
+    
+    shiny::downloadButton(
+      outputId = ns("generateReport"),
+      label = "Download Report",
+      class = NULL,
+      icon = shiny::icon("book")
     )
+    
+    
   )
   
 }

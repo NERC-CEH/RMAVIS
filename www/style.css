@@ -1,14 +1,33 @@
 /*
-Theme color scheme from...
+Theme color scheme from https://www.ceh.ac.uk
+Approximate palette retrieved using https://html-color-codes.info/colors-from-image/ 
 */
 
 :root {
-  --primary-color: #24062b;
-  --secondary-color: #6c207f;
-  --tertiary-color: #ededed;
-  --font-primary-color: #444;
-  --font-secondary-color: #ededed;
-  --font-header-color: #6c207f;
+  
+  --ceh-background-grey: #EBF0EE;
+  --ceh-main-green: #4DA43B;
+  --ceh-main-blue #2F7ECC:
+  --ceh-main-darkblue #306FAE:
+  --ceh-mid-1 #3889A3:
+  --ceh-mid-2 #3F9280;
+  --ceh-mid-3 #459A62;
+  --text-title-color: #575656;
+  
+}
+
+* {font-family: "Montserrat", sans-serif !important;}
+
+
+.g-col-sm-1.g-col-lg-1.bslib-grid-item.bslib-gap-spacing.html-fill-container{
+  /*align-items: center !important;*/
+  justify-content: center !important;
+}
+
+#title{
+  margin-bottom: 0 !important;
+  color: var(--text-title-color) !important;
+  font-weight: bold !important;
 }
 
 .navbar {
@@ -33,10 +52,19 @@ Theme color scheme from...
   --bslib-sidebar-bg: white !important;
 }
 
-.nav-pills .nav-link.active{
+.nav-link.active{
+  background-color: var(--ceh-background-grey) !important;
+  color: black !important;
+}
+
+.nav-item{
   color: black !important;
 }
 
 .navbar-brand {
   color: black !important;
+}
+
+.accordion-button{
+  font-size: 1rem !important;
 }
