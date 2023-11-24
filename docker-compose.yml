@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: "registry.digitalocean.com/forestresearch/mavisapp:v0.01"
+    image: "<container registry url>/mavisapp:v0.01"
     container_name: "mavisapp"
     restart: always
     privileged: true
