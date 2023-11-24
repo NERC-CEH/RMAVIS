@@ -19,12 +19,12 @@ floristicTablesUI <- function(id){
       
       shiny::h5("Floristic Tables - NVC"),
       
-      # shiny::div(
-      #   rhandsontable::rHandsontableOutput(outputId = ns("floristicTables_nvc"))
-      #   #, style = "margin-right: 5px !important;"
-      # )
+      shiny::div(
+        rhandsontable::rHandsontableOutput(outputId = ns("floristicTables_nvc"))
+        #, style = "margin-right: 5px !important;"
+      )
       
-    ),
+    )
   )
   
 }

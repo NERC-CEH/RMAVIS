@@ -1,28 +1,26 @@
-floristicTables <- function(input, output, session, surveyTable) {
+floristicTables <- function(input, output, session, surveyTable, sidebar_options) {
   
   ns <- session$ns
   
   # Retrieve sidebar options ------------------------------------------------
   
-  # habCorClass <- reactiveVal()
-  # 
-  # observe({
-  #   
-  #   habCorClass(sidebar_options()$habCorClass)
-  #   
-  # }) |>
-  #   bindEvent(sidebar_options(), ignoreInit = TRUE)
+  nvcFloristicTable <- reactiveVal()
+
+  observe({
+
+    nvcFloristicTable(sidebar_options()$nvcFloristicTable)
+
+  }) |>
+    bindEvent(sidebar_options(), ignoreInit = TRUE)
   
+  
+
+# Composed Floristic Tables -----------------------------------------------
+
   floristicTables_composed_init <- tibble::tribble(
-    ~NVC.Code, ~Constancy,
+    ~Species, ~Constancy,
     "", ""
   )
-  
-  floristicTables_nvc_init <- tibble::tribble(
-    ~NVC.Code, ~Constancy,
-    "", ""
-  )
-  
   
   floristicTables_composed_rval <- reactiveVal(floristicTables_composed_init)
   
@@ -69,7 +67,7 @@ floristicTables <- function(input, output, session, surveyTable) {
         ) |>
         dplyr::select(Species, Constancy) |>
         dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
-        dplyr::arrange(Constancy)
+        dplyr::arrange(Constancy, Species)
 
     })
     
@@ -95,5 +93,70 @@ floristicTables <- function(input, output, session, surveyTable) {
   
   
   outputOptions(output, "floristicTables_composed", suspendWhenHidden = FALSE)
+  
+  
+  
+
+# NVC Floristic Tables ----------------------------------------------------
+
+  floristicTables_nvc_init <- tibble::tribble(
+    ~Species, ~Constancy,
+    "", ""
+  )
+  
+  floristicTables_nvc_rval <- reactiveVal(floristicTables_nvc_init)
+  
+  output$floristicTables_nvc <- rhandsontable::renderRHandsontable({
+    
+    floristicTables_nvc <- rhandsontable::rhandsontable(data = floristicTables_nvc_init,
+                                                             rowHeaders = NULL,
+                                                             width = "100%"#,
+                                                             # overflow = "visible",
+                                                             # stretchH = "all"
+    ) |>
+      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
+    
+    return(floristicTables_nvc)
+    
+  })
+  
+  observe({
+    
+    req(input$floristicTables_nvc)
+    
+    # Retrieve the table, optionally modify the table without triggering recursion.
+    isolate({
+      
+      floristicTables_nvc <- nvc_floristic_tables |>
+        dplyr::filter(NVC.Code == nvcFloristicTable()) |>
+        dplyr::select(-NVC.Code) |>
+        dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
+        dplyr::arrange(Constancy, Species)
+      
+    })
+    
+    output$floristicTables_nvc <- rhandsontable::renderRHandsontable({
+      
+      floristicTables_nvc <- rhandsontable::rhandsontable(data = floristicTables_nvc,
+                                                          rowHeaders = NULL#,
+                                                          # overflow = "visible",
+                                                          # stretchH = "all"
+      ) |>
+        rhandsontable::hot_col(col = colnames(floristicTables_nvc), halign = "htCenter") |>
+        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
+      
+      return(floristicTables_nvc)
+      
+    })
+    
+    floristicTables_nvc_rval(rhandsontable::hot_to_r(input$floristicTables_nvc))
+    
+  }) |>
+    bindEvent(nvcFloristicTable(), ignoreInit = TRUE, ignoreNULL = TRUE)
+  
+  
+  outputOptions(output, "floristicTables_nvc", suspendWhenHidden = FALSE)
   
 }

@@ -13,13 +13,15 @@ sidebar <- function(input, output, session) {
         "coverMethod" = input$coverMethod, 
         "habitatRestriction" = input$habitatRestriction,
         "nTopResults" = input$nTopResults,
-        "habCorClass" = input$habCorClass
+        "habCorClass" = input$habCorClass,
+        "nvcFloristicTable" = input$nvcFloristicTable
       )
     )
     
   }) |>
     bindEvent(input$dataEntryFormat, input$runAnalysis, input$coverMethod, 
               input$habitatRestriction, input$nTopResults, input$habCorClass,
+              input$nvcFloristicTable,
               ignoreInit = TRUE)
   
   return(sidebar_options)

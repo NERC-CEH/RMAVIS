@@ -20,6 +20,7 @@ server <- function(input, output, session) {
   
   callModule(module = floristicTables,
              id = "floristicTables_id_1",
-             surveyTable = surveyTable)
+             surveyTable = surveyTable,
+             sidebar_options = sidebar_options)
 
 }

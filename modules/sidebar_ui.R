@@ -63,7 +63,13 @@ sidebarUI <- function(id){
         
         "Floristic Tables", 
         
-        icon = bsicons::bs_icon("sliders")
+        icon = bsicons::bs_icon("sliders"),
+        
+        shiny::selectizeInput(inputId = ns("nvcFloristicTable"), 
+                              label = "NVC Community", 
+                              choices = nvc_community_codes, 
+                              selected = "A1", 
+                              multiple = FALSE)
         
       )
       

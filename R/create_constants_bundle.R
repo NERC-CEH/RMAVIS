@@ -214,7 +214,7 @@ suppressWarnings(
 
 suppressWarnings(
   suppressMessages(
-    nvc_floristic_tables <- read.csv(file = "data/raw_data/NVC-floristic-tables.csv")
+    nvc_floristic_tables_raw <- read.csv(file = "data/raw_data/NVC-floristic-tables.csv")
   )
 )
 
@@ -364,11 +364,27 @@ ukHab_habCor_final <- ukHab_habCor_renamed |>
 
 
 
+# Create NVC Floristic Tables Constant ------------------------------------
+nvc_floristic_tables_tidied <- nvc_floristic_tables_raw |>
+  dplyr::filter(is.na(Special.variable.value)) |>
+  dplyr::select("NVC.Code" = Community.or.sub.community.code, 
+                "Species" = Species.name.or.special.variable,
+                "Constancy" = Species.constancy.value)
+
+saveRDS(object = nvc_floristic_tables_tidied, file = "data/bundled_data/nvc_floristic_tables.rds")
+
 # Get NVC names from floristic tables -------------------------------------
-nvc_name_to_code <- nvc_floristic_tables |>
+nvc_name_to_code <- nvc_floristic_tables_raw |>
   dplyr::select("Community.or.sub.community.name", "Community.or.sub.community.code") |>
   dplyr::distinct()
 
+
+# Create NVC Codes vector -------------------------------------------------
+
+nvc_community_codes <- nvc_name_to_code |>
+  dplyr::pull("Community.or.sub.community.code")
+
+saveRDS(object = nvc_community_codes, file = "data/bundled_data/nvc_community_codes.rds")
 
 
 # Create JNCC correspondence df -------------------------------------------
