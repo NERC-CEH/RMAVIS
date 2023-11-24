@@ -1,16 +1,22 @@
-# Example Sample Data -----------------------------------------------------
-example_data_df <- readxl::read_xlsx("data/raw_data/example_data.xlsx", sheet = "df")
-saveRDS(object = example_data_df, file = "data/bundled_data/example_data_df.rds")
-
-example_data_matrix <- readxl::read_xlsx("data/raw_data/example_data.xlsx", sheet = "matrix")
-saveRDS(object = example_data_matrix, file = "data/bundled_data/example_data_matrix.rds")
-
 # Data Entry Format Options -----------------------------------------------
 dataEntryFormat_options <- c("Table" = "table",
                              "Matrix" = "matrix")
 saveRDS(object = dataEntryFormat_options, file = "data/bundled_data/dataEntryFormat_options.rds")
 
 # Domin Cover -------------------------------------------------------------
+dominCoverMidPointPerc <- c("10" = 0.955,
+                            "9" = 0.83,
+                            "8" = 0.58,
+                            "7" = 0.42,
+                            "6" = 0.295,
+                            "5" = 0.18,
+                            "4" = 0.07,
+                            "3" = 0.04,
+                            "2" = 0.025,
+                            "1" = 0.01
+                            )
+saveRDS(object = dominCoverMidPointPerc, file = "data/bundled_data/dominCoverMidPointPerc.rds")
+
 dominCoverVals <- c("91-100%" = 10,
                     "76-90%" = 9,
                     "51-75%" = 8,
@@ -34,6 +40,50 @@ dominCoverValsRev <- c("10" = "91-100%",
                        "2" = "<4% (several individuals)",
                        "1" = "<4% (few individuals)")
 saveRDS(object = dominCoverValsRev , file = "data/bundled_data/dominCoverValsRev.rds")
+
+
+# Frequency Classes -------------------------------------------------------
+
+freqClasses_numToPerc <- list(
+  "I" = "1-20%",
+  "II" = "21-40%",
+  "III" = "41-60%",
+  "IV" = "61-80%",
+  "V" = "81-100%"
+)
+
+freqClasses_numToName <- list(
+  "I" = "Scarce",
+  "II" = "Occasional",
+  "III" = "Frequent",
+  "IV" = "Constant",
+  "V" = "Contant"
+)
+
+# Example Sample Data -----------------------------------------------------
+
+# example_data_df <- readRDS(file = "data/raw_data/assignNVC_test_dataset.rds")
+# example_data_df$site |> unique()
+
+dominCoverMidPointPerc_df <- tibble::enframe(dominCoverMidPointPerc) |>
+  dplyr::rename("domin" = name,
+                "Cover" = value)
+
+example_data_df <- readRDS(file = "data/raw_data/assignNVC_test_dataset.rds") |>
+  dplyr::filter(site == "Ben Lawers & LAWERS",
+                ID %in% c(247, 248, 249, 255)) |>
+  dplyr::arrange(ID) |>
+  dplyr::select("Sample" = ID, "Species" = species, domin) |>
+  dplyr::mutate("domin" = as.character(domin)) |>
+  dplyr::left_join(dominCoverMidPointPerc_df, by = "domin") |>
+  dplyr::select(-domin)
+
+
+# example_data_df <- readxl::read_xlsx("data/raw_data/example_data.xlsx", sheet = "df")
+saveRDS(object = example_data_df, file = "data/bundled_data/example_data_df.rds")
+
+# example_data_matrix <- readxl::read_xlsx("data/raw_data/example_data.xlsx", sheet = "matrix")
+# saveRDS(object = example_data_matrix, file = "data/bundled_data/example_data_matrix.rds")
 
 # Cover Method Options ----------------------------------------------------
 coverMethod_options <- list(

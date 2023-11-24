@@ -8,6 +8,8 @@ dominCoverVals <- readRDS(file = "data/bundled_data/dominCoverVals.rds")
 
 dominCoverValsRev <- readRDS(file = "data/bundled_data/dominCoverValsRev.rds")
 
+dominCoverMidPointPerc <- readRDS(file = "data/bundled_data/dominCoverMidPointPerc.rds")
+
 coverMethod_options <- readRDS(file = "data/bundled_data/coverMethod_options.rds")
 
 habitatRestriction_options <- readRDS(file = "data/bundled_data/habitatRestriction_options.rds")

@@ -56,6 +56,10 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
   background-color: var(--ceh-background-grey) !important;
   color: black !important;
 }
+.nav-link{
+  background-color: white !important;
+  color: black !important;
+}
 
 .nav-item{
   color: black !important;
@@ -67,4 +71,9 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
 
 .accordion-button{
   font-size: 1rem !important;
+}
+
+.card-header{
+  color: black !important
+  background-color: var(--ceh-background-grey) !important;
 }

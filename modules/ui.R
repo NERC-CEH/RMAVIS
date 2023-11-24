@@ -33,41 +33,43 @@ ui <- bslib::page_navbar(
     
     "Main",
     
-    bslib::card(
+    bslib::navset_card_tab(
       
-      full_screen = TRUE,
+      bslib::nav_panel(
+        
+        full_screen = TRUE,
+        
+        bslib::card_header("Main"),
+        
+        # id = "main_card",
+        
+        shiny::h5("Survey Data Table"),
+        
+        surveyTableUI(id = "surveyTable_id_1"),
+        
+        shiny::h5("Results"),
+        
+        assignNVCResultsUI(id = "assignNVCResults_id_1"),
+        
+        shiny::h5("Habitat Correspondence"),
+        
+        habCorUI(id = "habCor_id_1")
+        
+      ),
       
-      bslib::card_header(""),
-      
-      shiny::h5("Survey Data Table"),
-      
-      inputsUI(id = "inputs_id_1"),
-      
-      shiny::h5("Results"),
-      
-      resultsUI(id = "results_id_1"),
-      
-      shiny::h5("Habitat Correspondence"),
-      
-      habCorUI(id = "habCor_id_1")
-      
+      bslib::nav_panel(
+        
+        full_screen = TRUE,
+        
+        # id = "floristicTables_card",
+        
+        bslib::card_header("Floristic Tables"),
+        
+        floristicTablesUI(id = "floristicTables_id_1")
+        
+      )
     )
   ),
-  
-  # bslib::nav_panel(
-  #   
-  #   "Analysis",
-  #   
-  #   bslib::card(
-  #     
-  #     full_screen = TRUE,
-  #     
-  #     bslib::card_header("Analysis"),
-  #     
-  #     analysisUI(id = "analysis_id_1")
-  #     
-  #   )
-  # ),
     
   bslib::nav_panel(
     

@@ -1,4 +1,4 @@
-resultsUI <- function(id){
+assignNVCResultsUI <- function(id){
   
   ns <- NS(id)
   

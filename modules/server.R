@@ -4,17 +4,22 @@ server <- function(input, output, session) {
   sidebar_options <- callModule(module = sidebar,
                                 id = "sidebar_id_1")
   
-  assignNVC_results <- callModule(module = inputs,
-                                  id = "inputs_id_1",
-                                  sidebar_options = sidebar_options)
-  
-  callModule(module = results,
-             id = "results_id_1",
-             assignNVC_results = assignNVC_results)
+  surveyTable <- callModule(module = surveyTable,
+                            id = "surveyTable_id_1",
+                            sidebar_options = sidebar_options)
+   
+  assignNVCResults <- callModule(module = assignNVCResults,
+                                 id = "assignNVCResults_id_1",
+                                 surveyTable = surveyTable,
+                                 sidebar_options = sidebar_options)
   
   callModule(module = habCor,
              id = "habCor_id_1",
-             assignNVC_results = assignNVC_results,
+             assignNVCResults = assignNVCResults,
              sidebar_options = sidebar_options)
+  
+  callModule(module = floristicTables,
+             id = "floristicTables_id_1",
+             surveyTable = surveyTable)
 
 }

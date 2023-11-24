@@ -57,6 +57,14 @@ sidebarUI <- function(id){
                               selected = "UKHab - Level5", 
                               multiple = FALSE)
         
+      ),
+      
+      bslib::accordion_panel(
+        
+        "Floristic Tables", 
+        
+        icon = bsicons::bs_icon("sliders")
+        
       )
       
     ),

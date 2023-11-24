@@ -18,7 +18,9 @@ sidebar <- function(input, output, session) {
     )
     
   }) |>
-    bindEvent(input$dataEntryFormat, input$runAnalysis, input$coverMethod, input$habitatRestriction, input$nTopResults, input$habCorClass)
+    bindEvent(input$dataEntryFormat, input$runAnalysis, input$coverMethod, 
+              input$habitatRestriction, input$nTopResults, input$habCorClass,
+              ignoreInit = TRUE)
   
   return(sidebar_options)
   

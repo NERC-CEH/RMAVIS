@@ -1,4 +1,4 @@
-inputs <- function(input, output, session, sidebar_options) {
+surveyTable <- function(input, output, session, sidebar_options) {
 
   ns <- session$ns
   
@@ -148,46 +148,6 @@ inputs <- function(input, output, session, sidebar_options) {
   outputOptions(output, "surveyTable", suspendWhenHidden = FALSE)
   
   
-
-# Calculate assignNVC results ---------------------------------------------
-  assignNVC_results <- reactiveVal()
-  
-  observe({
-    
-    surveyTable <- surveyTable_rval()
-    
-    surveyTable_prepped <- surveyTable |>
-      dplyr::select(Sample, Species) |>
-      dplyr::rename("ID" = "Sample",
-                    "species" = "Species")
-    
-    pquads_to_use <- nvc_pquads_tidied
-    
-    if(!is.null(habitatRestriction())){
-      pquads_to_use <- nvc_pquads_tidied |>
-        dplyr::filter(stringr::str_detect(NVC, (stringr::str_c(habitatRestriction(), collapse = "|"))))
-    }
-    
-    fitted_nvc <- assignNVC::assign_nvc(samp_df = surveyTable_prepped,
-                                        comp_df = pquads_to_use,
-                                        spp_col = "species",
-                                        samp_id = "ID",
-                                        comp_id = "Pid3",
-                                        top_n = as.numeric(nTopResults())) |>
-      dplyr::rename("Sample" = "FOCAL_ID", 
-                    "Pseudo.Quadrat" = "COMP_ID", 
-                    "Jaccard.Similarity" = "JAC_SIM", 
-                    "NVC.Code" = "NVC")
-    
-    assignNVC_results(fitted_nvc)
-    
-  }) |>
-    bindEvent(runAnalysis(), 
-              habitatRestriction(), 
-              nTopResults(), 
-              ignoreInit = TRUE)
-  
-  
-  return(assignNVC_results)
+  return(surveyTable_rval)
 
 }

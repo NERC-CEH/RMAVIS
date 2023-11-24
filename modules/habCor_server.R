@@ -1,4 +1,4 @@
-habCor <- function(input, output, session, assignNVC_results, sidebar_options) {
+habCor <- function(input, output, session, assignNVCResults, sidebar_options) {
   
   ns <- session$ns
   
@@ -39,10 +39,10 @@ habCor <- function(input, output, session, assignNVC_results, sidebar_options) {
     
     req(input$habCorTable)
     
-    # Retrieve the table, optionally modify the table without triggering recursion.
+    # # Retrieve the table, optionally modify the table without triggering recursion.
     isolate({
 
-      habCorTable <- assignNVC_results() |>
+      habCorTable <- assignNVCResults() |>
         dplyr::select(NVC.Code) |>
         dplyr::left_join(all_habCor_final, relationship = "many-to-many", by = dplyr::join_by(NVC.Code)) |>
         dplyr::filter(Classification == habCorClass()) |>
@@ -70,7 +70,11 @@ habCor <- function(input, output, session, assignNVC_results, sidebar_options) {
     habCorTable_rval(rhandsontable::hot_to_r(input$habCorTable))
     
   }) |>
-    bindEvent(assignNVC_results(), habCorClass(), ignoreInit = TRUE, ignoreNULL = TRUE)
+    bindEvent(
+      assignNVCResults(),
+      habCorClass(), 
+      ignoreInit = TRUE, ignoreNULL = TRUE
+      )
   
   
   outputOptions(output, "habCorTable", suspendWhenHidden = FALSE)
