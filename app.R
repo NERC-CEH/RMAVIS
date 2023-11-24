@@ -15,8 +15,6 @@ library(rhandsontable)
 # library(jsonlite)
 # library(kableExtra)
 
-# To run app call: shiny::runApp("app.R")
-
 # shinyOptions(bslib = TRUE)
 
 # Source utility files
