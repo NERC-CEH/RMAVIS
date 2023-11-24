@@ -14,6 +14,10 @@ habitatRestriction_options <- readRDS(file = "data/bundled_data/habitatRestricti
 
 speciesNames <- readRDS(file = "data/bundled_data/speciesNames.rds")
 
+sppName_to_brcCode <- readRDS(file = "data/bundled_data/sppName_to_brcCode.rds")
+
+nvc_pquads_tidied <- readRDS(file = "data/bundled_data/nvc_pquads_tidied.rds")
+
 all_habCor_final <- readRDS(file = "data/bundled_data/all_habCor_final.rds")
 
 all_habCor_classifications <- readRDS(file = "data/bundled_data/all_habCor_classifications.rds")

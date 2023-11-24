@@ -12,17 +12,17 @@ ui <- bslib::page_navbar(
   sidebar = sidebarUI(id = "sidebar_id_1"),
   
   # sidebar = bslib::sidebar(
-  #   
+  # 
   #   shiny::conditionalPanel(
   #     "input.nav === 'Main'",
   #     sidebarUI(id = "sidebar_id_1")
   #   ),
-  #   
+  # 
   #   shiny::conditionalPanel(
   #     "input.nav === 'Documentation'",
-  #     ""
+  #     NULL
   #   )
-  #   
+  # 
   # ),
 
   tags$head(includeCSS("www/style.css")),

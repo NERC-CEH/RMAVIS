@@ -161,10 +161,10 @@ inputs <- function(input, output, session, sidebar_options) {
       dplyr::rename("ID" = "Sample",
                     "species" = "Species")
     
-    pquads_to_use <- assignNVC::nvc_pquads
+    pquads_to_use <- nvc_pquads_tidied
     
     if(!is.null(habitatRestriction())){
-      pquads_to_use <- assignNVC::nvc_pquads |>
+      pquads_to_use <- nvc_pquads_tidied |>
         dplyr::filter(stringr::str_detect(NVC, (stringr::str_c(habitatRestriction(), collapse = "|"))))
     }
     

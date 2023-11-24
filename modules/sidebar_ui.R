@@ -52,7 +52,7 @@ sidebarUI <- function(id){
         icon = bsicons::bs_icon("sliders"),
         
         shiny::selectizeInput(inputId = ns("habCorClass"), 
-                              label = "Habitat Correspondance Classification", 
+                              label = "Classification", 
                               choices = all_habCor_classifications, 
                               selected = "UKHab - Level5", 
                               multiple = FALSE)

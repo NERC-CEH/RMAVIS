@@ -60,11 +60,94 @@ habitatRestriction_options <- list(
 saveRDS(object = habitatRestriction_options, file = "data/bundled_data/habitatRestriction_options.rds")
 
 # Species Name Options ----------------------------------------------------
-speciesNames <- assignNVC::nvc_pquads |>
+sppName_to_brcCode <- readr::read_delim("data/raw_data/bsbi_checklist_sppName_to_brcCode.csv", 
+                                        delim = "\t", escape_double = FALSE, 
+                                        trim_ws = TRUE,
+                                        show_col_types = FALSE) |>
+  dplyr::select(key, taxonId, dataValue, origTaxon, origTaxonId) |>
+  dplyr::rename("BRC" = "dataValue")
+
+saveRDS(object = sppName_to_brcCode, file = "data/bundled_data/sppName_to_brcCode.rds")
+
+speciesNames <- assignNVC::nvc_pquads |> # sppName_to_brcCode |>
   dplyr::pull(species) |>
   unique() |>
   sort()
+
 saveRDS(object = speciesNames, file = "data/bundled_data/speciesNames.rds")
+
+
+# assignNVC::nvc_pquads - Tidied names ------------------------------------
+
+nvc_pquads_tidied <- assignNVC::nvc_pquads
+
+# assignNVC::nvc_pquads BRC Code and BSBI Checklist BRC Codes don't match...
+# nvc_pquads_tidied <- assignNVC::nvc_pquads |>
+#   dplyr::mutate("BRC" = as.character(BRC)) |>
+#   dplyr::left_join(sppName_to_brcCode, by = "BRC")
+  
+
+saveRDS(object = nvc_pquads_tidied, file = "data/bundled_data/nvc_pquads_tidied.rds")
+
+# BSBI Checklist DF -------------------------------------------------------
+HE_F <- readr::read_delim("data/raw_data/bsbi_checklist_HE_F.csv", 
+                          delim = "\t", escape_double = FALSE, 
+                          trim_ws = TRUE,
+                          show_col_types = FALSE) |>
+  dplyr::select(key, taxonId, dataValue) |>
+  dplyr::mutate("dataType" = "Hill-Ellenberg F")
+
+HE_L <- readr::read_delim("data/raw_data/bsbi_checklist_HE_L.csv", 
+                          delim = "\t", escape_double = FALSE, 
+                          trim_ws = TRUE,
+                          show_col_types = FALSE) |>
+  dplyr::select(key, taxonId, dataValue) |>
+  dplyr::mutate("dataType" = "Hill-Ellenberg L")
+
+HE_N <- readr::read_delim("data/raw_data/bsbi_checklist_HE_N.csv", 
+                          delim = "\t", escape_double = FALSE, 
+                          trim_ws = TRUE,
+                          show_col_types = FALSE) |>
+  dplyr::select(key, taxonId, dataValue) |>
+  dplyr::mutate("dataType" = "Hill-Ellenberg N")
+
+HE_R <- readr::read_delim("data/raw_data/bsbi_checklist_HE_R.csv", 
+                          delim = "\t", escape_double = FALSE, 
+                          trim_ws = TRUE,
+                          show_col_types = FALSE) |>
+  dplyr::select(key, taxonId, dataValue) |>
+  dplyr::mutate("dataType" = "Hill-Ellenberg R")
+
+HE_S <- readr::read_delim("data/raw_data/bsbi_checklist_HE_S.csv", 
+                          delim = "\t", escape_double = FALSE, 
+                          trim_ws = TRUE,
+                          show_col_types = FALSE) |>
+  dplyr::select(key, taxonId, dataValue) |>
+  dplyr::mutate("dataType" = "Hill-Ellenberg S")
+
+rarityNewAtlas_GB <- readr::read_delim("data/raw_data/bsbi_checklist_rarityNewAtlas_GB.csv", 
+                                       delim = "\t", escape_double = FALSE, 
+                                       trim_ws = TRUE,
+                                       show_col_types = FALSE) |>
+  dplyr::select(key, taxonId, dataValue) |>
+  dplyr::mutate("dataType" = "Rarity - GB")
+
+rarityNewAtlas_Ireland <- readr::read_delim("data/raw_data/bsbi_checklist_rarityNewAtlas_Ireland.csv", 
+                                            delim = "\t", escape_double = FALSE, 
+                                            trim_ws = TRUE,
+                                            show_col_types = FALSE) |>
+  dplyr::select(key, taxonId, dataValue) |>
+  dplyr::mutate("dataType" = "Rarity - Ireland")
+
+bsbiChecklistData <- rbind(
+  HE_F,
+  HE_L,
+  HE_N,
+  HE_R,
+  HE_S,
+  rarityNewAtlas_GB,
+  rarityNewAtlas_Ireland
+)
 
 
 # Create Correspondence Data ----------------------------------------------
