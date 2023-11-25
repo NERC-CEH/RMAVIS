@@ -84,7 +84,13 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
         dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
         dplyr::arrange(Constancy, Species)
       
-      floristicTables_nvc <- rhandsontable::hot_to_r(input$floristicTables_nvc)
+      # floristicTables_nvc <- rhandsontable::hot_to_r(input$floristicTables_nvc)
+      
+      floristicTables_nvc <- nvc_floristic_tables |>
+        dplyr::filter(NVC.Code == nvcFloristicTable()) |>
+        dplyr::select(-NVC.Code) |>
+        dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
+        dplyr::arrange(Constancy, Species)
       
       floristicTables_composed_compToNVC <- floristicTables_nvc |> # floristicTables_nvc_rval()
         dplyr::select(-Constancy) |>
@@ -99,15 +105,15 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
       
       if(crossTabulate() == "No"){
         
-        floristicTables_composed <- floristicTables_composed
+        floristicTables_composed_view <- floristicTables_composed
         
       } else if(crossTabulate() == "compToNVC"){
         
-        floristicTables_composed <- floristicTables_composed_compToNVC
+        floristicTables_composed_view <- floristicTables_composed_compToNVC
         
       } else if(crossTabulate() == "NVCToComp"){
         
-        floristicTables_composed <- floristicTables_composed
+        floristicTables_composed_view <- floristicTables_composed
         
       }
 
@@ -125,7 +131,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     
     output$floristicTables_composed <- rhandsontable::renderRHandsontable({
 
-      floristicTables_composed <- rhandsontable::rhandsontable(data = floristicTables_composed,
+      floristicTables_composed <- rhandsontable::rhandsontable(data = floristicTables_composed_view,
                                                   rowHeaders = NULL#,
                                                   # overflow = "visible",
                                                   # stretchH = "all"
@@ -195,6 +201,9 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     req(input$floristicTables_nvc)
     req(input$floristicTables_composed)
     
+    # print(nvcFloristicTable())
+    # print(crossTabulate())
+    
     # Require the survey table to not be empty
     req(nrow(surveyTable()) > 0) 
     # Require the run analysis button to have been clicked
@@ -208,14 +217,38 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
         dplyr::select(-NVC.Code) |>
         dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
         dplyr::arrange(Constancy, Species)
+
+      # floristicTables_composed <- rhandsontable::hot_to_r(input$floristicTables_composed)
       
-      floristicTables_composed <- rhandsontable::hot_to_r(input$floristicTables_composed)
-      
+      floristicTables_composed <- surveyTable() |> # example_data_df
+        dplyr::select(-Cover) |>
+        dplyr::mutate("Present" = 1) |>
+        tidyr::pivot_wider(values_from = Present,
+                           names_from = Sample) |>
+        dplyr::rowwise() |>
+        dplyr::mutate("Sum" = sum(dplyr::c_across(dplyr::where(is.numeric)), na.rm = TRUE)) |>
+        dplyr::ungroup() |>
+        dplyr::mutate("Frequency" = Sum / (ncol(dplyr::pick(dplyr::everything())) - 2)) |>
+        dplyr::mutate(
+          "Constancy" = 
+            dplyr::case_when(
+              Frequency <= 0.2 ~ "I",
+              Frequency <= 0.4 ~ "II",
+              Frequency <= 0.6 ~ "III",
+              Frequency <= 0.8 ~ "IV",
+              Frequency <= 1.0 ~ "V",
+              TRUE ~ as.character(Frequency)
+            )
+        ) |>
+        dplyr::select(Species, Constancy) |>
+        dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
+        dplyr::arrange(Constancy, Species)
+
       floristicTables_nvc_NVCToComp <- floristicTables_composed |>
         dplyr::select(-Constancy) |>
         dplyr::left_join(floristicTables_nvc, by = "Species") |>
         dplyr::mutate(
-          "Species" = 
+          "Species" =
             dplyr::case_when(
               is.na(Constancy) ~ "",
               TRUE ~ as.character(Species)
@@ -224,15 +257,15 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
       
       if(crossTabulate() == "No"){
         
-        floristicTables_nvc <- floristicTables_nvc
+        floristicTables_nvc_view <- floristicTables_nvc
         
       } else if(crossTabulate() == "compToNVC"){
         
-        floristicTables_nvc <- floristicTables_nvc
+        floristicTables_nvc_view <- floristicTables_nvc
         
       } else if(crossTabulate() == "NVCToComp"){
         
-        floristicTables_nvc <- floristicTables_nvc_NVCToComp
+        floristicTables_nvc_view <- floristicTables_nvc_NVCToComp
         
       }
       
@@ -240,7 +273,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     
     output$floristicTables_nvc <- rhandsontable::renderRHandsontable({
       
-      floristicTables_nvc <- rhandsontable::rhandsontable(data = floristicTables_nvc,
+      floristicTables_nvc <- rhandsontable::rhandsontable(data = floristicTables_nvc_view,
                                                           rowHeaders = NULL#,
                                                           # overflow = "visible",
                                                           # stretchH = "all"
