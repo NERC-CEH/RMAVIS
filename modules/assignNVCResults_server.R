@@ -74,8 +74,16 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
                                                 # overflow = "visible",
                                                 # stretchH = "all"
                                                 ) |>
+      rhandsontable::hot_col(col = colnames(resultsTable_init), halign = "htCenter", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
+      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+      htmlwidgets::onRender("
+        function(el, x) {
+          var hot = this.hot
+          $('a[data-value=\"resultsAndHabCor_panel\"').on('click', function(){
+            setTimeout(function() {hot.render();}, 0);
+          })
+        }")
 
     return(resultsTable)
 
@@ -98,9 +106,16 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
                                                    # overflow = "visible",
                                                    # stretchH = "all"
                                                    ) |>
-        rhandsontable::hot_col(col = colnames(assignNVCResults), halign = "htCenter") |>
+        rhandsontable::hot_col(col = colnames(assignNVCResults), halign = "htCenter", readOnly = TRUE) |>
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+        function(el, x) {
+          var hot = this.hot
+          $('a[data-value=\"resultsAndHabCor_panel\"').on('click', function(){
+            setTimeout(function() {hot.render();}, 0);
+          })
+        }")
 
       return(resultsTable)
 

@@ -27,9 +27,17 @@ habCor <- function(input, output, session, assignNVCResults, sidebar_options) {
                                                 width = "100%"#,
                                                 # overflow = "visible",
                                                 # stretchH = "all"
-    ) |>
+                                                ) |>
+      rhandsontable::hot_col(col = colnames(habCorData_init), halign = "htCenter", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
+      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+      htmlwidgets::onRender("
+        function(el, x) {
+          var hot = this.hot
+          $('a[data-value=\"resultsAndHabCor_panel\"').on('click', function(){
+            setTimeout(function() {hot.render();}, 0);
+          })
+        }")
     
     return(habCorTable)
     
@@ -58,10 +66,17 @@ habCor <- function(input, output, session, assignNVCResults, sidebar_options) {
                                                   rowHeaders = NULL#,
                                                   # overflow = "visible",
                                                   # stretchH = "all"
-      ) |>
-        rhandsontable::hot_col(col = colnames(habCorTable), halign = "htCenter") |>
+                                                  ) |>
+        rhandsontable::hot_col(col = colnames(habCorTable), halign = "htCenter", readOnly = TRUE) |>
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+        function(el, x) {
+          var hot = this.hot
+          $('a[data-value=\"resultsAndHabCor_panel\"').on('click', function(){
+            setTimeout(function() {hot.render();}, 0);
+          })
+        }")
       
       return(habCorTable)
       

@@ -9,12 +9,12 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   # up. An alternative would be to call sidebar_options()$nvcFloristicTable throughout
   # rather than nvcFloristicTable()
   nvcFloristicTable <- reactiveVal("A1")
-  compareSpecies <- reactiveVal(FALSE)
+  crossTabulate <- reactiveVal(FALSE)
 
   observe({
 
     nvcFloristicTable(sidebar_options()$nvcFloristicTable)
-    compareSpecies(sidebar_options()$compareSpecies)
+    crossTabulate(sidebar_options()$crossTabulate)
 
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -100,15 +100,15 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
             )
         )
       
-      if(compareSpecies() == "No"){
+      if(crossTabulate() == "No"){
         
         floristicTables_composed <- floristicTables_composed
         
-      } else if(compareSpecies() == "compToNVC"){
+      } else if(crossTabulate() == "compToNVC"){
         
         floristicTables_composed <- floristicTables_composed_compToNVC
         
-      } else if(compareSpecies() == "NVCToComp"){
+      } else if(crossTabulate() == "NVCToComp"){
         
         floristicTables_composed <- floristicTables_composed
         
@@ -151,7 +151,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     floristicTables_composed_rval(rhandsontable::hot_to_r(input$floristicTables_composed))
     
   }) |>
-    bindEvent(surveyTable(), compareSpecies(), input$floristicTables_nvc, ignoreInit = TRUE, ignoreNULL = TRUE) # input$runAnalysis
+    bindEvent(surveyTable(), crossTabulate(), input$floristicTables_nvc, ignoreInit = TRUE, ignoreNULL = TRUE) # input$runAnalysis
   
   
   outputOptions(output, "floristicTables_composed", suspendWhenHidden = FALSE)
@@ -219,15 +219,15 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
           )
       )
     
-    if(compareSpecies() == "No"){
+    if(crossTabulate() == "No"){
       
       floristicTables_nvc <- floristicTables_nvc
       
-    } else if(compareSpecies() == "compToNVC"){
+    } else if(crossTabulate() == "compToNVC"){
       
       floristicTables_nvc <- floristicTables_nvc
       
-    } else if(compareSpecies() == "NVCToComp"){
+    } else if(crossTabulate() == "NVCToComp"){
       
       floristicTables_nvc <- floristicTables_nvc_NVCToComp
       
@@ -258,7 +258,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     floristicTables_nvc_rval(rhandsontable::hot_to_r(input$floristicTables_nvc))
     
   }) |>
-    bindEvent(nvcFloristicTable(), compareSpecies(), input$floristicTables_composed, ignoreInit = TRUE, ignoreNULL = TRUE)
+    bindEvent(nvcFloristicTable(), crossTabulate(), input$floristicTables_composed, ignoreInit = TRUE, ignoreNULL = TRUE)
   
   
   outputOptions(output, "floristicTables_nvc", suspendWhenHidden = FALSE)

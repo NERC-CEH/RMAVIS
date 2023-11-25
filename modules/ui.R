@@ -39,13 +39,23 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
-        bslib::card_header("Main"),
+        bslib::card_header("Survey Data"),
         
-        value = "main_panel",
+        value = "surveyData_panel",
         
         shiny::h5("Survey Data Table"),
         
-        surveyTableUI(id = "surveyTable_id_1"),
+        surveyTableUI(id = "surveyTable_id_1")
+        
+      ),
+      
+      bslib::nav_panel(
+        
+        full_screen = TRUE,
+        
+        value = "resultsAndHabCor_panel",
+        
+        bslib::card_header("Results & Habitat Correspondence"),
         
         shiny::h5("Results"),
         

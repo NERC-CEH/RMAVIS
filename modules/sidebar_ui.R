@@ -71,8 +71,8 @@ sidebarUI <- function(id){
                               selected = "A1", 
                               multiple = FALSE),
         
-        shiny::selectizeInput(inputId = ns("compareSpecies"), 
-                              label = "Compare Species",
+        shiny::selectizeInput(inputId = ns("crossTabulate"), 
+                              label = "Cross Tabulate",
                               choices = c("No" = "No",
                                           "Composed to NVC" = "compToNVC",
                                           "NVC to Composed" = "NVCToComp"), 

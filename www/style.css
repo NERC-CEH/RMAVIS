@@ -74,6 +74,10 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
   font-size: 1rem !important;
 }
 
+.card {
+  background-color: white !important
+}
+
 .card-header{
   color: black !important
   background-color: var(--ceh-background-grey) !important;
