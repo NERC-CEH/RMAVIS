@@ -27,56 +27,62 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
   
   observe({
     
+    req(isFALSE(runAnalysis() == 0))
+    
     shinybusy::show_modal_spinner(
       spin = "fading-circle",
       color = "#3F9280",
       text = "Calculating NVC Pseudo-Quadrat Similarity"
     )
     
-    surveyTable <- surveyTable()
-    
-    surveyTable_prepped <- surveyTable |>
-      dplyr::select(Sample, Species) |>
-      dplyr::rename("ID" = "Sample",
-                    "species" = "Species")
-    
-    # if(groupSample() == TRUE){
-    #   
-    #   surveyTable_prepped <- surveyTable |>
-    #     dplyr::select(Sample, Species) |>
-    #     dplyr::rename("ID" = "Sample",
-    #                   "species" = "Species") |>
-    #     dplyr::mutate(ID = "All")
-    #   
-    # } else if(groupSample() == FALSE){
-    #   
-    #   surveyTable_prepped <- surveyTable |>
-    #     dplyr::select(Sample, Species) |>
-    #     dplyr::rename("ID" = "Sample",
-    #                   "species" = "Species")
-    #   
-    # }
-    
-    pquads_to_use <- nvc_pquads_tidied
-    
-    if(!is.null(habitatRestriction())){
-      pquads_to_use <- nvc_pquads_tidied |>
-        dplyr::filter(stringr::str_detect(NVC, (stringr::str_c(habitatRestriction(), collapse = "|"))))
-    }
-    
-    fitted_nvc <- assignNVC::assign_nvc(samp_df = surveyTable_prepped,
-                                        comp_df = pquads_to_use,
-                                        spp_col = "species",
-                                        samp_id = "ID",
-                                        comp_id = "Pid3",
-                                        top_n = as.numeric(nTopResults())) |>
-      dplyr::rename("Sample" = "FOCAL_ID", 
-                    "Pseudo.Quadrat" = "COMP_ID", 
-                    "Jaccard.Similarity" = "JAC_SIM", 
-                    "NVC.Code" = "NVC") |>
-      dplyr::arrange(Sample, dplyr::desc(Jaccard.Similarity))
-    
-    assignNVCResults(fitted_nvc)
+    shiny::isolate({
+      
+      surveyTable <- surveyTable()
+      
+      surveyTable_prepped <- surveyTable |>
+        dplyr::select(Sample, Species) |>
+        dplyr::rename("ID" = "Sample",
+                      "species" = "Species")
+      
+      # if(groupSample() == TRUE){
+      #   
+      #   surveyTable_prepped <- surveyTable |>
+      #     dplyr::select(Sample, Species) |>
+      #     dplyr::rename("ID" = "Sample",
+      #                   "species" = "Species") |>
+      #     dplyr::mutate(ID = "All")
+      #   
+      # } else if(groupSample() == FALSE){
+      #   
+      #   surveyTable_prepped <- surveyTable |>
+      #     dplyr::select(Sample, Species) |>
+      #     dplyr::rename("ID" = "Sample",
+      #                   "species" = "Species")
+      #   
+      # }
+      
+      pquads_to_use <- nvc_pquads_tidied
+      
+      if(!is.null(habitatRestriction())){
+        pquads_to_use <- nvc_pquads_tidied |>
+          dplyr::filter(stringr::str_detect(NVC, (stringr::str_c(habitatRestriction(), collapse = "|"))))
+      }
+      
+      fitted_nvc <- assignNVC::assign_nvc(samp_df = surveyTable_prepped,
+                                          comp_df = pquads_to_use,
+                                          spp_col = "species",
+                                          samp_id = "ID",
+                                          comp_id = "Pid3",
+                                          top_n = as.numeric(nTopResults())) |>
+        dplyr::rename("Sample" = "FOCAL_ID", 
+                      "Pseudo.Quadrat" = "COMP_ID", 
+                      "Jaccard.Similarity" = "JAC_SIM", 
+                      "NVC.Code" = "NVC") |>
+        dplyr::arrange(Sample, dplyr::desc(Jaccard.Similarity))
+      
+      assignNVCResults(fitted_nvc)
+      
+    })
     
     shinybusy::remove_modal_spinner()
     
@@ -85,12 +91,14 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
               habitatRestriction(), 
               nTopResults(),
               # groupSample(),
-              ignoreInit = TRUE)
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
   
-  resultsTable_init <- tibble::tribble(
-    ~Sample, ~Pseudo.Quadrat, ~Jaccard.Similarity, ~NVC.Code,
-    "", "", "", ""
-  )
+  resultsTable_init <- data.frame("Sample" = character(),
+                                  "Pseudo.Quadrat" = character(),
+                                  "Jaccard.Similarity" = numeric(),
+                                  "NVC.Code" = character()
+                                  )
   
   resultsTable_rval <- reactiveVal(resultsTable_init)
   
@@ -121,11 +129,11 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
 
     req(input$resultsTable)
     
-    assignNVCResults <- assignNVCResults()
-    
-    # isolate({
-    #   
-    # })
+    shiny::isolate({
+      
+      assignNVCResults <- assignNVCResults()
+
+    })
 
     output$resultsTable <- rhandsontable::renderRHandsontable({
 

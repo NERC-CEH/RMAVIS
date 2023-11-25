@@ -4,12 +4,10 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   
 # Retrieve sidebar options ------------------------------------------------
   
-  # If you don't initialise values here the reactiveVals only get populated when 
-  # there is a change to sidebar_options(), meaning the default options aren't picked
-  # up. An alternative would be to call sidebar_options()$nvcFloristicTable throughout
-  # rather than nvcFloristicTable()
-  nvcFloristicTable <- reactiveVal("A1")
-  crossTabulate <- reactiveVal(FALSE)
+  # nvcFloristicTable <- reactiveVal("A1") # "A1"
+  # crossTabulate <- reactiveVal(FALSE) # FALSE
+  nvcFloristicTable <- reactiveVal()
+  crossTabulate <- reactiveVal()
 
   observe({
 
@@ -18,15 +16,11 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
 
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
-  
-  
 
 # Composed Floristic Tables -----------------------------------------------
 
-  floristicTables_composed_init <- tibble::tribble(
-    ~Species, ~Constancy,
-    "", ""
-  )
+  floristicTables_composed_init <- data.frame("Species" = character(),
+                                              "Constancy" = character())
   
   floristicTables_composed_rval <- reactiveVal(floristicTables_composed_init)
   
@@ -58,10 +52,13 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     req(input$floristicTables_composed)
     req(input$floristicTables_nvc)
     
-    # print(surveyTable())
+    # Require the survey table to not be empty
+    req(nrow(surveyTable()) > 0) 
+    # Require the run analysis button to have been clicked
+    # req(isFALSE(runAnalysis() == 0))
     
     # Retrieve the table, optionally modify the table without triggering recursion.
-    isolate({
+    shiny::isolate({
         
       floristicTables_composed <- surveyTable() |> # example_data_df
         dplyr::select(-Cover) |>
@@ -135,14 +132,14 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
                                                   ) |>
         rhandsontable::hot_col(col = colnames(floristicTables_composed), halign = "htCenter", readOnly = TRUE) |> # renderer = row_renderer
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") #|>
-        # htmlwidgets::onRender("
-        # # function(el, x) {
-        # #   var hot = this.hot
-        # #   $('a[data-value=\"floristicTables_panel\"').on('click', function(){
-        # #     setTimeout(function() {hot.render();}, 0);
-        # #   })
-        # # }")
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+        # function(el, x) {
+        #   var hot = this.hot
+        #   $('a[data-value=\"floristicTables_panel\"').on('click', function(){
+        #     setTimeout(function() {hot.render();}, 0);
+        #   })
+        # }")
 
       return(floristicTables_composed)
 
@@ -151,7 +148,11 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     floristicTables_composed_rval(rhandsontable::hot_to_r(input$floristicTables_composed))
     
   }) |>
-    bindEvent(surveyTable(), crossTabulate(), input$floristicTables_nvc, ignoreInit = TRUE, ignoreNULL = TRUE) # input$runAnalysis
+    bindEvent(surveyTable(), 
+              crossTabulate(), 
+              # floristicTables_nvc_rval(),
+              input$floristicTables_nvc,
+              ignoreInit = TRUE, ignoreNULL = TRUE)
   
   
   outputOptions(output, "floristicTables_composed", suspendWhenHidden = FALSE)
@@ -161,10 +162,8 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
 
 # NVC Floristic Tables ----------------------------------------------------
 
-  floristicTables_nvc_init <- tibble::tribble(
-    ~Species, ~Constancy,
-    "", ""
-  )
+  floristicTables_nvc_init <- data.frame("Species" = character(),
+                                         "Constancy" = character())
   
   floristicTables_nvc_rval <- reactiveVal(floristicTables_nvc_init)
   
@@ -194,9 +193,15 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   observe({
     
     req(input$floristicTables_nvc)
+    req(input$floristicTables_composed)
+    
+    # Require the survey table to not be empty
+    req(nrow(surveyTable()) > 0) 
+    # Require the run analysis button to have been clicked
+    # req(isFALSE(runAnalysis() == 0))
     
     # Retrieve the table, optionally modify the table without triggering recursion.
-    isolate({
+    shiny::isolate({
       
       floristicTables_nvc <- nvc_floristic_tables |>
         dplyr::filter(NVC.Code == nvcFloristicTable()) |>
@@ -204,34 +209,34 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
         dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
         dplyr::arrange(Constancy, Species)
       
+      floristicTables_composed <- rhandsontable::hot_to_r(input$floristicTables_composed)
+      
+      floristicTables_nvc_NVCToComp <- floristicTables_composed |>
+        dplyr::select(-Constancy) |>
+        dplyr::left_join(floristicTables_nvc, by = "Species") |>
+        dplyr::mutate(
+          "Species" = 
+            dplyr::case_when(
+              is.na(Constancy) ~ "",
+              TRUE ~ as.character(Species)
+            )
+        )
+      
+      if(crossTabulate() == "No"){
+        
+        floristicTables_nvc <- floristicTables_nvc
+        
+      } else if(crossTabulate() == "compToNVC"){
+        
+        floristicTables_nvc <- floristicTables_nvc
+        
+      } else if(crossTabulate() == "NVCToComp"){
+        
+        floristicTables_nvc <- floristicTables_nvc_NVCToComp
+        
+      }
+      
     })
-    
-    floristicTables_composed <- rhandsontable::hot_to_r(input$floristicTables_composed)
-    
-    floristicTables_nvc_NVCToComp <- floristicTables_composed |>
-      dplyr::select(-Constancy) |>
-      dplyr::left_join(floristicTables_nvc, by = "Species") |>
-      dplyr::mutate(
-        "Species" = 
-          dplyr::case_when(
-            is.na(Constancy) ~ "",
-            TRUE ~ as.character(Species)
-          )
-      )
-    
-    if(crossTabulate() == "No"){
-      
-      floristicTables_nvc <- floristicTables_nvc
-      
-    } else if(crossTabulate() == "compToNVC"){
-      
-      floristicTables_nvc <- floristicTables_nvc
-      
-    } else if(crossTabulate() == "NVCToComp"){
-      
-      floristicTables_nvc <- floristicTables_nvc_NVCToComp
-      
-    }
     
     output$floristicTables_nvc <- rhandsontable::renderRHandsontable({
       
@@ -258,7 +263,12 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     floristicTables_nvc_rval(rhandsontable::hot_to_r(input$floristicTables_nvc))
     
   }) |>
-    bindEvent(nvcFloristicTable(), crossTabulate(), input$floristicTables_composed, ignoreInit = TRUE, ignoreNULL = TRUE)
+    bindEvent(#surveyTable(),
+              nvcFloristicTable(), 
+              crossTabulate(), 
+              # floristicTables_composed_rval(),
+              input$floristicTables_composed,
+              ignoreInit = TRUE, ignoreNULL = TRUE)
   
   
   outputOptions(output, "floristicTables_nvc", suspendWhenHidden = FALSE)

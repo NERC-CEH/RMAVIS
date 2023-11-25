@@ -2,21 +2,25 @@ habCor <- function(input, output, session, nvcAverageSim, sidebar_options) {
   
   ns <- session$ns
   
-  # Retrieve sidebar options ------------------------------------------------
+# Retrieve sidebar options ------------------------------------------------
   
   habCorClass <- reactiveVal()
 
   observe({
-    
+
     habCorClass(sidebar_options()$habCorClass)
 
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
   
-  habCorData_init <- tibble::tribble(
-    ~NVC.Code, ~Relationship, ~Code, ~Label,
-    "", "", "", ""
-  )
+
+# Create initial habitat correspondance table -----------------------------
+  
+  habCorData_init <- data.frame("NVC.Code" = character(),
+                                "Relationship" = character(),
+                                "Code" = character(),
+                                "Label" = character()
+                                )
   
   habCorTable_rval <- reactiveVal(habCorData_init)
   
@@ -46,9 +50,13 @@ habCor <- function(input, output, session, nvcAverageSim, sidebar_options) {
   observe({
     
     req(input$habCorTable)
+    req(nvcAverageSim())
+    
+    # print(input$habCorTable)
+    # print(nvcAverageSim())
     
     # # Retrieve the table, optionally modify the table without triggering recursion.
-    isolate({
+    shiny::isolate({
       
       # Get all NVC communities and sub-communities from nvc assignment results
       NVC_communities_all <- nvcAverageSim() |> # nvcAverageSim()
@@ -70,9 +78,11 @@ habCor <- function(input, output, session, nvcAverageSim, sidebar_options) {
         dplyr::select(NVC.Code, Relationship, Code, Label) |>
         dplyr::distinct() |>
         dplyr::arrange(NVC.Code)
+      
+      # print(habCorTable)
 
     })
-    
+
     output$habCorTable <- rhandsontable::renderRHandsontable({
       
       habCorTable <- rhandsontable::rhandsontable(data = habCorTable,
@@ -98,15 +108,14 @@ habCor <- function(input, output, session, nvcAverageSim, sidebar_options) {
     habCorTable_rval(rhandsontable::hot_to_r(input$habCorTable))
     
   }) |>
-    bindEvent(
-      nvcAverageSim(),
-      habCorClass(), 
-      ignoreInit = TRUE, ignoreNULL = TRUE
-      )
+    bindEvent(nvcAverageSim(),
+              habCorClass(), 
+              ignoreInit = TRUE, ignoreNULL = TRUE
+              )
   
   
   outputOptions(output, "habCorTable", suspendWhenHidden = FALSE)
   
-  return(habCorTable_rval)
+  return(habCorTable_rval) # habCorTable_rval
   
 }

@@ -25,6 +25,11 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
   justify-content: center !important;
 }
 
+/* Remove spacing below header flex container*/
+.bslib-mb-spacing {
+  margin-bottom: 0 !important;
+}
+
 #title{
   margin-bottom: 0 !important;
   color: var(--text-title-color) !important;
@@ -51,6 +56,12 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
 
 .bslib-sidebar-layout {
   --bslib-sidebar-bg: white !important;
+}
+
+/* Align bslib info icons */
+.g-col-md-1.bslib-grid-item.bslib-gap-spacing.html-fill-container{
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .nav-link.active{

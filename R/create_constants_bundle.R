@@ -69,21 +69,35 @@ dominCoverMidPointPerc_df <- tibble::enframe(dominCoverMidPointPerc) |>
   dplyr::rename("domin" = name,
                 "Cover" = value)
 
-example_data_df <- readRDS(file = "data/raw_data/assignNVC_test_dataset.rds") |>
-  dplyr::filter(site == "Ben Lawers & LAWERS",
-                ID %in% c(247, 248, 249, 255)) |>
+example_data_df_all <- readRDS(file = "data/raw_data/assignNVC_test_dataset.rds") |>
+#   dplyr::filter(site == "Ben Lawers & LAWERS",
+#                 ID %in% c(247, 248, 249, 255)) |>
   dplyr::arrange(ID) |>
-  dplyr::select("Sample" = ID, "Species" = species, domin) |>
+  dplyr::select("Sample" = ID, "Species" = species, "Site" = site, domin) |>
   dplyr::mutate("domin" = as.character(domin)) |>
   dplyr::left_join(dominCoverMidPointPerc_df, by = "domin") |>
-  dplyr::select(-domin)
+  dplyr::select(-domin) |>
+  dplyr::filter(Site != "")
 
+exampleDataOptions <- example_data_df_all$Site |> unique()
+setNames(exampleDataOptions, exampleDataOptions)
+exampleDataOptions <- c(exampleDataOptions, "None" = "none")
+saveRDS(object = exampleDataOptions, file = "data/bundled_data/exampleDataOptions.rds")
 
-# example_data_df <- readxl::read_xlsx("data/raw_data/example_data.xlsx", sheet = "df")
-saveRDS(object = example_data_df, file = "data/bundled_data/example_data_df.rds")
+example_data_df_samples_per_site <- example_data_df_all |>
+  dplyr::group_by(Site) |>
+  dplyr::summarise(samples_per_site = dplyr::n())
 
-# example_data_matrix <- readxl::read_xlsx("data/raw_data/example_data.xlsx", sheet = "matrix")
-# saveRDS(object = example_data_matrix, file = "data/bundled_data/example_data_matrix.rds")
+example_data_df_trimmed <- example_data_df_all |>
+  # Create a site sample number
+  dplyr::group_by(Site) |>
+  dplyr::mutate("Site.Sample" = as.integer(factor(Sample))) |>
+  dplyr::ungroup() |>
+  # Select only 5 samples per site as example data
+  dplyr::filter(Site.Sample <= 5) |>
+  dplyr::select(-Site.Sample)
+
+saveRDS(object = example_data_df_trimmed, file = "data/bundled_data/example_data_df.rds")
 
 # Cover Method Options ----------------------------------------------------
 coverMethod_options <- list(

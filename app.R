@@ -1,6 +1,6 @@
 # shinyOptions(bslib = TRUE)
 
-# Source utility files
+# Load constants into memory
 source("R/create_constants_load.R", local = TRUE)
 
 # Render documentation

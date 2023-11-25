@@ -1,6 +1,6 @@
 example_data_df <- readRDS(file = "data/bundled_data/example_data_df.rds")
 
-example_data_matrix <- readRDS(file = "data/bundled_data/example_data_matrix.rds")
+exampleDataOptions <- readRDS(file = "data/bundled_data/exampleDataOptions.rds")
 
 dataEntryFormat_options <- readRDS(file = "data/bundled_data/dataEntryFormat_options.rds")
 
