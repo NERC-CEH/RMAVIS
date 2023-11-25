@@ -5,12 +5,12 @@ sidebarUI <- function(id){
   bslib::sidebar(
     
     shiny::h5("Model Options"),
-    shiny::hr(),
+    # shiny::hr(),
     shiny::actionButton(inputId = ns("runAnalysis"),
                         label = "Run Analysis"),
     # shiny::hr(),
     
-    shiny::div(shiny::br()),
+    # shiny::div(shiny::br()),
     
     bslib::accordion(
       
@@ -42,6 +42,9 @@ sidebarUI <- function(id){
                               choices = c(5:10), 
                               selected = 5, 
                               multiple = FALSE),
+        shiny::checkboxInput(inputId = ns("groupSample"), 
+                             label = "Group by Sample",
+                             value = TRUE)
         
       ),
       
@@ -51,10 +54,26 @@ sidebarUI <- function(id){
         
         icon = bsicons::bs_icon("sliders"),
         
-        shiny::selectizeInput(inputId = ns("habCorClass"), 
-                              label = "Classification", 
-                              choices = all_habCor_classifications, 
-                              selected = "UKHab - Level5", 
+        # shiny::span(
+        #   
+        #   shiny::selectizeInput(inputId = ns("habCorClass"), 
+        #                         label = "Classification", 
+        #                         choices = all_habCor_classifications, 
+        #                         selected = "UKHab - Level5", 
+        #                         multiple = FALSE),
+        #   
+        #   bslib::popover(
+        #     bsicons::bs_icon("info-circle"),
+        #     title = "Tooltip message",
+        #     "lorum ipsum",
+        #     placement = "bottom"
+        #   )
+        # )
+        
+        shiny::selectizeInput(inputId = ns("habCorClass"),
+                              label = "Classification",
+                              choices = all_habCor_classifications,
+                              selected = "UKHab - Level5",
                               multiple = FALSE)
         
       ),
@@ -64,6 +83,10 @@ sidebarUI <- function(id){
         "Floristic Tables", 
         
         icon = bsicons::bs_icon("table"),
+        
+        shiny::checkboxInput(inputId = ns("restrictNVCFlorTablesOpts"),
+                             label = "Restrict",
+                             value = TRUE),
         
         shiny::selectizeInput(inputId = ns("nvcFloristicTable"), 
                               label = "NVC Community", 

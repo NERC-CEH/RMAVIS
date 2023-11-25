@@ -53,13 +53,27 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
-        value = "resultsAndHabCor_panel",
+        value = "results_panel",
         
-        bslib::card_header("Results & Habitat Correspondence"),
+        bslib::card_header("Results"),
         
-        shiny::h5("Results"),
+        shiny::h5("Results: NVC Community Similarities"),
         
-        assignNVCResultsUI(id = "assignNVCResults_id_1"),
+        nvcAverageSimUI(id = "nvcAverageSim_id_1"),
+        
+        shiny::h5("Results: Pseudo-Quadrat Similarities"),
+        
+        assignNVCResultsUI(id = "assignNVCResults_id_1")
+        
+      ),
+      
+      bslib::nav_panel(
+        
+        full_screen = TRUE,
+        
+        value = "habCor_panel",
+        
+        bslib::card_header("Habitat Correspondence"),
         
         shiny::h5("Habitat Correspondence"),
         

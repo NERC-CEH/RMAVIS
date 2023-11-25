@@ -8,6 +8,7 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
   coverMethod <- reactiveVal()
   habitatRestriction <- reactiveVal()
   nTopResults <- reactiveVal()
+  # groupSample <- reactiveVal() # TRUE
 
   observe({
 
@@ -16,6 +17,7 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
     coverMethod(sidebar_options()$coverMethod)
     habitatRestriction(sidebar_options()$habitatRestriction)
     nTopResults(sidebar_options()$nTopResults)
+    # groupSample(sidebar_options()$groupSample)
 
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -25,12 +27,35 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
   
   observe({
     
+    shinybusy::show_modal_spinner(
+      spin = "fading-circle",
+      color = "#3F9280",
+      text = "Calculating NVC Pseudo-Quadrat Similarity"
+    )
+    
     surveyTable <- surveyTable()
     
     surveyTable_prepped <- surveyTable |>
       dplyr::select(Sample, Species) |>
       dplyr::rename("ID" = "Sample",
                     "species" = "Species")
+    
+    # if(groupSample() == TRUE){
+    #   
+    #   surveyTable_prepped <- surveyTable |>
+    #     dplyr::select(Sample, Species) |>
+    #     dplyr::rename("ID" = "Sample",
+    #                   "species" = "Species") |>
+    #     dplyr::mutate(ID = "All")
+    #   
+    # } else if(groupSample() == FALSE){
+    #   
+    #   surveyTable_prepped <- surveyTable |>
+    #     dplyr::select(Sample, Species) |>
+    #     dplyr::rename("ID" = "Sample",
+    #                   "species" = "Species")
+    #   
+    # }
     
     pquads_to_use <- nvc_pquads_tidied
     
@@ -53,10 +78,13 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
     
     assignNVCResults(fitted_nvc)
     
+    shinybusy::remove_modal_spinner()
+    
   }) |>
     bindEvent(runAnalysis(), 
               habitatRestriction(), 
-              nTopResults(), 
+              nTopResults(),
+              # groupSample(),
               ignoreInit = TRUE)
   
   resultsTable_init <- tibble::tribble(
@@ -80,7 +108,7 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
       htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot
-          $('a[data-value=\"resultsAndHabCor_panel\"').on('click', function(){
+          $('a[data-value=\"results_panel\"').on('click', function(){
             setTimeout(function() {hot.render();}, 0);
           })
         }")
@@ -112,7 +140,7 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
         htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot
-          $('a[data-value=\"resultsAndHabCor_panel\"').on('click', function(){
+          $('a[data-value=\"results_panel\"').on('click', function(){
             setTimeout(function() {hot.render();}, 0);
           })
         }")

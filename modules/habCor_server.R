@@ -1,4 +1,4 @@
-habCor <- function(input, output, session, assignNVCResults, sidebar_options) {
+habCor <- function(input, output, session, nvcAverageSim, sidebar_options) {
   
   ns <- session$ns
   
@@ -34,7 +34,7 @@ habCor <- function(input, output, session, assignNVCResults, sidebar_options) {
       htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot
-          $('a[data-value=\"resultsAndHabCor_panel\"').on('click', function(){
+          $('a[data-value=\"habCor_panel\"').on('click', function(){
             setTimeout(function() {hot.render();}, 0);
           })
         }")
@@ -49,9 +49,22 @@ habCor <- function(input, output, session, assignNVCResults, sidebar_options) {
     
     # # Retrieve the table, optionally modify the table without triggering recursion.
     isolate({
+      
+      # Get all NVC communities and sub-communities from nvc assignment results
+      NVC_communities_all <- nvcAverageSim() |> # nvcAverageSim()
+        dplyr::pull(NVC.Code)
+      
+      # Get all NVC communities from community and sub-community codes
+      NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
+                                                         pattern = "(\\d)[^0-9]+$", 
+                                                         replace = "\\1") |>
+        unique()
 
-      habCorTable <- assignNVCResults() |>
-        dplyr::select(NVC.Code) |>
+      NVC_communities_final <- data.frame(
+        "NVC.Code" = unique(c(NVC_communities_all, NVC_communities_fromSubCom))
+        )
+      
+      habCorTable <- NVC_communities_final |>
         dplyr::left_join(all_habCor_final, relationship = "many-to-many", by = dplyr::join_by(NVC.Code)) |>
         dplyr::filter(Classification == habCorClass()) |>
         dplyr::select(NVC.Code, Relationship, Code, Label) |>
@@ -73,7 +86,7 @@ habCor <- function(input, output, session, assignNVCResults, sidebar_options) {
         htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot
-          $('a[data-value=\"resultsAndHabCor_panel\"').on('click', function(){
+          $('a[data-value=\"habCor_panel\"').on('click', function(){
             setTimeout(function() {hot.render();}, 0);
           })
         }")
@@ -86,12 +99,14 @@ habCor <- function(input, output, session, assignNVCResults, sidebar_options) {
     
   }) |>
     bindEvent(
-      assignNVCResults(),
+      nvcAverageSim(),
       habCorClass(), 
       ignoreInit = TRUE, ignoreNULL = TRUE
       )
   
   
   outputOptions(output, "habCorTable", suspendWhenHidden = FALSE)
+  
+  return(habCorTable_rval)
   
 }
