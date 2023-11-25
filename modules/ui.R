@@ -41,7 +41,7 @@ ui <- bslib::page_navbar(
         
         bslib::card_header("Main"),
         
-        # id = "main_card",
+        value = "main_panel",
         
         shiny::h5("Survey Data Table"),
         
@@ -61,7 +61,7 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
-        # id = "floristicTables_card",
+        value = "floristicTables_panel",
         
         bslib::card_header("Floristic Tables"),
         

@@ -32,7 +32,7 @@ surveyTable <- function(input, output, session, sidebar_options) {
     surveyTable <- rhandsontable::rhandsontable(data = surveyTable_init,
                                                 rowHeaders = NULL,
                                                 width = "100%"#,
-                                                # overflow = "visible",
+                                                # overflow = "visible"
                                                 # stretchH = "all"
     ) |>
       rhandsontable::hot_col(col = colnames(surveyTable_init), halign = "htCenter") |>

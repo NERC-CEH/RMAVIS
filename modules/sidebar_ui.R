@@ -20,7 +20,7 @@ sidebarUI <- function(id){
         
         "Input Data", 
         
-        icon = bsicons::bs_icon("menu-app"),
+        icon = bsicons::bs_icon("wrench-adjustable"),
         
         shiny::selectizeInput(inputId = ns("dataEntryFormat"), 
                               label = "Data Entry Format", 
@@ -63,28 +63,40 @@ sidebarUI <- function(id){
         
         "Floristic Tables", 
         
-        icon = bsicons::bs_icon("sliders"),
+        icon = bsicons::bs_icon("table"),
         
         shiny::selectizeInput(inputId = ns("nvcFloristicTable"), 
                               label = "NVC Community", 
                               choices = nvc_community_codes, 
                               selected = "A1", 
+                              multiple = FALSE),
+        
+        shiny::selectizeInput(inputId = ns("compareSpecies"), 
+                              label = "Compare Species",
+                              choices = c("No" = "No",
+                                          "Composed to NVC" = "compToNVC",
+                                          "NVC to Composed" = "NVCToComp"), 
+                              selected = "", 
                               multiple = FALSE)
         
+      ),
+      
+      bslib::accordion_panel(
+        
+        "Download Options", 
+        
+        icon = bsicons::bs_icon("download"),
+        
+        shiny::downloadButton(
+          outputId = ns("generateReport"),
+          label = "Download Report",
+          class = NULL,
+          icon = shiny::icon("book")
+          
+        )
       )
       
-    ),
-    
-    shiny::hr(),
-    
-    shiny::downloadButton(
-      outputId = ns("generateReport"),
-      label = "Download Report",
-      class = NULL,
-      icon = shiny::icon("book")
     )
-    
-    
   )
   
 }

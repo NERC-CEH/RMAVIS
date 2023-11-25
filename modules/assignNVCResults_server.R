@@ -48,7 +48,8 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
       dplyr::rename("Sample" = "FOCAL_ID", 
                     "Pseudo.Quadrat" = "COMP_ID", 
                     "Jaccard.Similarity" = "JAC_SIM", 
-                    "NVC.Code" = "NVC")
+                    "NVC.Code" = "NVC") |>
+      dplyr::arrange(Sample, dplyr::desc(Jaccard.Similarity))
     
     assignNVCResults(fitted_nvc)
     

@@ -2,13 +2,19 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   
   ns <- session$ns
   
-  # Retrieve sidebar options ------------------------------------------------
+# Retrieve sidebar options ------------------------------------------------
   
-  nvcFloristicTable <- reactiveVal()
+  # If you don't initialise values here the reactiveVals only get populated when 
+  # there is a change to sidebar_options(), meaning the default options aren't picked
+  # up. An alternative would be to call sidebar_options()$nvcFloristicTable throughout
+  # rather than nvcFloristicTable()
+  nvcFloristicTable <- reactiveVal("A1")
+  compareSpecies <- reactiveVal(FALSE)
 
   observe({
 
     nvcFloristicTable(sidebar_options()$nvcFloristicTable)
+    compareSpecies(sidebar_options()$compareSpecies)
 
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -31,9 +37,17 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
                                                              width = "100%"#,
                                                              # overflow = "visible",
                                                              # stretchH = "all"
-    ) |>
+                                                             ) |>
+      rhandsontable::hot_col(col = colnames(floristicTables_composed_init), halign = "htCenter", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
+      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+      htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"floristicTables_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
     
     return(floristicTables_composed)
     
@@ -42,6 +56,9 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   observe({
     
     req(input$floristicTables_composed)
+    req(input$floristicTables_nvc)
+    
+    # print(surveyTable())
     
     # Retrieve the table, optionally modify the table without triggering recursion.
     isolate({
@@ -53,6 +70,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
                            names_from = Sample) |>
         dplyr::rowwise() |>
         dplyr::mutate("Sum" = sum(dplyr::c_across(dplyr::where(is.numeric)), na.rm = TRUE)) |>
+        dplyr::ungroup() |>
         dplyr::mutate("Frequency" = Sum / (ncol(dplyr::pick(dplyr::everything())) - 2)) |>
         dplyr::mutate(
           "Constancy" = 
@@ -68,8 +86,45 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
         dplyr::select(Species, Constancy) |>
         dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
         dplyr::arrange(Constancy, Species)
+      
+      floristicTables_nvc <- rhandsontable::hot_to_r(input$floristicTables_nvc)
+      
+      floristicTables_composed_compToNVC <- floristicTables_nvc |> # floristicTables_nvc_rval()
+        dplyr::select(-Constancy) |>
+        dplyr::left_join(floristicTables_composed, by = "Species") |>
+        dplyr::mutate(
+          "Species" = 
+            dplyr::case_when(
+              is.na(Constancy) ~ "",
+              TRUE ~ as.character(Species)
+            )
+        )
+      
+      if(compareSpecies() == "No"){
+        
+        floristicTables_composed <- floristicTables_composed
+        
+      } else if(compareSpecies() == "compToNVC"){
+        
+        floristicTables_composed <- floristicTables_composed_compToNVC
+        
+      } else if(compareSpecies() == "NVCToComp"){
+        
+        floristicTables_composed <- floristicTables_composed
+        
+      }
 
     })
+    
+    # Create renderer to highlight rows if Constancy is empty
+    # row_renderer <- "
+    # function (instance, td, row, col, prop, value, cellproperties) {
+    #   handsontable.renderers.textrenderer.apply(this, arguments);
+    #   var col_value = instance.getdata()[row][1]
+    #   if (col_value == '<NA>') {
+    #     td.style.background = 'pink';
+    #   }
+    # }"
     
     output$floristicTables_composed <- rhandsontable::renderRHandsontable({
 
@@ -77,10 +132,17 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
                                                   rowHeaders = NULL#,
                                                   # overflow = "visible",
                                                   # stretchH = "all"
-      ) |>
-        rhandsontable::hot_col(col = colnames(floristicTables_composed), halign = "htCenter") |>
+                                                  ) |>
+        rhandsontable::hot_col(col = colnames(floristicTables_composed), halign = "htCenter", readOnly = TRUE) |> # renderer = row_renderer
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") #|>
+        # htmlwidgets::onRender("
+        # # function(el, x) {
+        # #   var hot = this.hot
+        # #   $('a[data-value=\"floristicTables_panel\"').on('click', function(){
+        # #     setTimeout(function() {hot.render();}, 0);
+        # #   })
+        # # }")
 
       return(floristicTables_composed)
 
@@ -89,7 +151,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     floristicTables_composed_rval(rhandsontable::hot_to_r(input$floristicTables_composed))
     
   }) |>
-    bindEvent(surveyTable(), ignoreInit = TRUE, ignoreNULL = TRUE)
+    bindEvent(surveyTable(), compareSpecies(), input$floristicTables_nvc, ignoreInit = TRUE, ignoreNULL = TRUE) # input$runAnalysis
   
   
   outputOptions(output, "floristicTables_composed", suspendWhenHidden = FALSE)
@@ -109,13 +171,21 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   output$floristicTables_nvc <- rhandsontable::renderRHandsontable({
     
     floristicTables_nvc <- rhandsontable::rhandsontable(data = floristicTables_nvc_init,
-                                                             rowHeaders = NULL,
-                                                             width = "100%"#,
-                                                             # overflow = "visible",
-                                                             # stretchH = "all"
-    ) |>
+                                                        rowHeaders = NULL,
+                                                        width = "100%"#,
+                                                        # overflow = "visible",
+                                                        # stretchH = "all"
+                                                        ) |>
+      rhandsontable::hot_col(col = colnames(floristicTables_nvc_init), halign = "htCenter", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
+      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+      htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"floristicTables_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
     
     return(floristicTables_nvc)
     
@@ -136,6 +206,33 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
       
     })
     
+    floristicTables_composed <- rhandsontable::hot_to_r(input$floristicTables_composed)
+    
+    floristicTables_nvc_NVCToComp <- floristicTables_composed |>
+      dplyr::select(-Constancy) |>
+      dplyr::left_join(floristicTables_nvc, by = "Species") |>
+      dplyr::mutate(
+        "Species" = 
+          dplyr::case_when(
+            is.na(Constancy) ~ "",
+            TRUE ~ as.character(Species)
+          )
+      )
+    
+    if(compareSpecies() == "No"){
+      
+      floristicTables_nvc <- floristicTables_nvc
+      
+    } else if(compareSpecies() == "compToNVC"){
+      
+      floristicTables_nvc <- floristicTables_nvc
+      
+    } else if(compareSpecies() == "NVCToComp"){
+      
+      floristicTables_nvc <- floristicTables_nvc_NVCToComp
+      
+    }
+    
     output$floristicTables_nvc <- rhandsontable::renderRHandsontable({
       
       floristicTables_nvc <- rhandsontable::rhandsontable(data = floristicTables_nvc,
@@ -143,9 +240,16 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
                                                           # overflow = "visible",
                                                           # stretchH = "all"
       ) |>
-        rhandsontable::hot_col(col = colnames(floristicTables_nvc), halign = "htCenter") |>
+        rhandsontable::hot_col(col = colnames(floristicTables_nvc), halign = "htCenter", readOnly = TRUE) |>
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+        function(el, x) {
+          var hot = this.hot
+          $('a[data-value=\"floristicTables_panel\"').on('click', function(){
+            setTimeout(function() {hot.render();}, 0);
+          })
+        }")
       
       return(floristicTables_nvc)
       
@@ -154,7 +258,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     floristicTables_nvc_rval(rhandsontable::hot_to_r(input$floristicTables_nvc))
     
   }) |>
-    bindEvent(nvcFloristicTable(), ignoreInit = TRUE, ignoreNULL = TRUE)
+    bindEvent(nvcFloristicTable(), compareSpecies(), input$floristicTables_composed, ignoreInit = TRUE, ignoreNULL = TRUE)
   
   
   outputOptions(output, "floristicTables_nvc", suspendWhenHidden = FALSE)

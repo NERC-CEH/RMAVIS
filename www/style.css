@@ -16,9 +16,10 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
   
 }
 
+/* Main font */
 * {font-family: "Montserrat", sans-serif !important;}
 
-
+/* Title header flex container*/
 .g-col-sm-1.g-col-lg-1.bslib-grid-item.bslib-gap-spacing.html-fill-container{
   /*align-items: center !important;*/
   justify-content: center !important;
@@ -76,4 +77,23 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
 .card-header{
   color: black !important
   background-color: var(--ceh-background-grey) !important;
+}
+
+
+/* rhandsontable */
+.handsontable {
+  overflow: hidden;
+}
+
+.handsontable-td {
+  background-color: #ffffff !important;
+}
+
+.handsontable-td.htInvalid {
+  background-color: #ffb8b8 !important;
+}
+
+.handsontable .htDimmed {
+  background-color: #ffffff !important;
+  color: #000000 !important;
 }

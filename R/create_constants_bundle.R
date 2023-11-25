@@ -369,7 +369,8 @@ nvc_floristic_tables_tidied <- nvc_floristic_tables_raw |>
   dplyr::filter(is.na(Special.variable.value)) |>
   dplyr::select("NVC.Code" = Community.or.sub.community.code, 
                 "Species" = Species.name.or.special.variable,
-                "Constancy" = Species.constancy.value)
+                "Constancy" = Species.constancy.value) |>
+  dplyr::mutate("Species" = stringr::str_trim(Species))
 
 saveRDS(object = nvc_floristic_tables_tidied, file = "data/bundled_data/nvc_floristic_tables.rds")
 
