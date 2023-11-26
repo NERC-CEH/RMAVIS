@@ -45,8 +45,6 @@ ui <- bslib::page_navbar(
         
         value = "surveyData_panel",
         
-        shiny::h5("Survey Data Table"),
-        
         surveyTableUI(id = "surveyTable_id_1")
         
       ),
@@ -59,11 +57,7 @@ ui <- bslib::page_navbar(
         
         bslib::card_header("Results"),
         
-        shiny::h5("Results: NVC Community Similarities"),
-        
         nvcAverageSimUI(id = "nvcAverageSim_id_1"),
-        
-        shiny::h5("Results: Pseudo-Quadrat Similarities"),
         
         assignNVCResultsUI(id = "assignNVCResults_id_1")
         
@@ -76,8 +70,6 @@ ui <- bslib::page_navbar(
         value = "habCor_panel",
         
         bslib::card_header("Habitat Correspondence"),
-        
-        shiny::h5("Habitat Correspondence"),
         
         habCorUI(id = "habCor_id_1")
         
@@ -93,7 +85,20 @@ ui <- bslib::page_navbar(
         
         floristicTablesUI(id = "floristicTables_id_1")
         
+      ),
+      
+      bslib::nav_panel(
+        
+        full_screen = TRUE,
+        
+        value = "analysis_panel",
+        
+        bslib::card_header("Analysis"),
+        
+        calcAvgEIVsUI(id = "calcAvgEIVs_id_1")
+        
       )
+      
     )
   ),
     

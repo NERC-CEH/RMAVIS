@@ -219,6 +219,8 @@ bsbiChecklistData <- rbind(
   rarityNewAtlas_Ireland
 )
 
+saveRDS(object = bsbiChecklistData, file = "data/bundled_data/bsbiChecklistData.rds")
+
 
 # Create Correspondence Data ----------------------------------------------
 suppressWarnings(

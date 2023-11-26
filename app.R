@@ -17,6 +17,9 @@ source("modules/sidebar_server.R", local = TRUE)
 source("modules/surveyTable_ui.R", local = TRUE)
 source("modules/surveyTable_server.R", local = TRUE)
 
+source("modules/surveyTablePrepped_ui.R", local = TRUE)
+source("modules/surveyTablePrepped_server.R", local = TRUE)
+
 source("modules/assignNVCResults_ui.R", local = TRUE)
 source("modules/assignNVCResults_server.R", local = TRUE)
 
@@ -28,6 +31,9 @@ source("modules/habCor_server.R", local = TRUE)
 
 source("modules/floristicTables_ui.R", local = TRUE)
 source("modules/floristicTables_server.R", local = TRUE)
+
+source("modules/calcAvgEIVs_ui.R", local = TRUE)
+source("modules/calcAvgEIVs_server.R", local = TRUE)
 
 # Source main UI and Server modules
 source("modules/ui.R", local = TRUE)

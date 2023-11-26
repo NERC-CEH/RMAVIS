@@ -22,6 +22,8 @@ sppName_to_brcCode <- readRDS(file = "data/bundled_data/sppName_to_brcCode.rds")
 
 nvc_pquads_tidied <- readRDS(file = "data/bundled_data/nvc_pquads_tidied.rds")
 
+bsbiChecklistData <- readRDS(file = "data/bundled_data/bsbiChecklistData.rds")
+
 nvc_floristic_tables <- readRDS(file = "data/bundled_data/nvc_floristic_tables.rds")
 
 nvc_community_codes <- readRDS(file = "data/bundled_data/nvc_community_codes.rds")

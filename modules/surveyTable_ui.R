@@ -5,6 +5,9 @@ surveyTableUI <- function(id) {
   shiny::fluidRow(
     shiny::column(
       width = 12,
+      
+      shiny::h5("Survey Data Table"),
+      
       shiny::div(
         rhandsontable::rHandsontableOutput(outputId = ns("surveyTable"))
       )

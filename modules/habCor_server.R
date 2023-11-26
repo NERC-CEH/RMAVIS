@@ -52,9 +52,6 @@ habCor <- function(input, output, session, nvcAverageSim, sidebar_options) {
     req(input$habCorTable)
     req(nvcAverageSim())
     
-    # print(input$habCorTable)
-    # print(nvcAverageSim())
-    
     # # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
       
@@ -117,6 +114,6 @@ habCor <- function(input, output, session, nvcAverageSim, sidebar_options) {
   
   outputOptions(output, "habCorTable", suspendWhenHidden = FALSE)
   
-  return(habCorTable_rval) # habCorTable_rval
+  return(habCorTable_rval)
   
 }
