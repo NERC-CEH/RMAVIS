@@ -4,6 +4,8 @@ surveyTable <- function(input, output, session, sidebar_options) {
   
 # Retrieve sidebar options ------------------------------------------------
   
+  # resetTable <- reactiveVal()
+  inputMethod <- reactiveVal()
   exampleData <- reactiveVal()
   dataEntryFormat <- reactiveVal()
   runAnalysis <- reactiveVal()
@@ -13,6 +15,8 @@ surveyTable <- function(input, output, session, sidebar_options) {
 
   observe({
     
+    # resetTable(sidebar_options()$resetTable)
+    inputMethod(sidebar_options()$inputMethod)
     exampleData(sidebar_options()$exampleData)
     dataEntryFormat(sidebar_options()$dataEntryFormat)
     runAnalysis(sidebar_options()$runAnalysis)
@@ -25,9 +29,11 @@ surveyTable <- function(input, output, session, sidebar_options) {
 
 # Initial survey table data -----------------------------------------------
 
-  surveyTable_init <- data.frame("Sample" = character(),
-                                 "Species" = numeric(),
-                                 "Cover" = character())
+  surveyTable_init <- data.frame("Year" = as.character(rep(2024, 20)),
+                                 "Site" = as.character(rep("1", 20)),
+                                 "Sample" = as.character(rep("A", 20)),
+                                 "Species" = as.character(rep("", 20)),
+                                 "Cover" = as.numeric(rep(0, 20)))
   
 # Survey Data Entry Table -------------------------------------------------
   
@@ -42,6 +48,16 @@ surveyTable <- function(input, output, session, sidebar_options) {
                                                 # stretchH = "all"
     ) |>
       rhandsontable::hot_col(col = colnames(surveyTable_init), halign = "htCenter") |>
+      rhandsontable::hot_col(
+        col = "Year",
+        readOnly = FALSE,
+        type = "text"
+      ) |>
+      rhandsontable::hot_col(
+        col = "Site",
+        readOnly = FALSE,
+        type = "text"
+      ) |>
       rhandsontable::hot_col(
         col = "Sample",
         readOnly = FALSE,
@@ -79,23 +95,41 @@ surveyTable <- function(input, output, session, sidebar_options) {
     
     shiny::isolate({
       
-      surveyTable <- example_data_df |>
-        dplyr::filter(Site == exampleData()) |>
-        dplyr::select(-Site)
+      if(inputMethod() == "manual"){
+        
+        surveyTable <- rhandsontable::hot_to_r(input$surveyTable)
+        
+      } else if(inputMethod() == "example"){
+        
+        surveyTable <- example_data_df |>
+          dplyr::filter(Site == exampleData()) |>
+          dplyr::mutate(Year = "2023") |>
+          dplyr::select(Year, Site, Sample, Species, Cover)
+        
+      } else if(inputMethod() == "upload"){
+        
+        surveyTable <- rhandsontable::hot_to_r(input$surveyTable)
+        
+      }
       
-      # if (exampleData() == "none"){
+      # if(resetTable() == TRUE){
       #   
-      #   surveyTable <- surveyTable_init
-      #     
-      # } else {
+      #   surveyTable = surveyTable_init
       #   
-      #   surveyTable <- example_data_df |>
-      #     dplyr::filter(Site == exampleData()) |>
-      #     dplyr::select(-Site)
-      #   
-      # } 
+      # }
       
-      # print(surveyTable)
+      if (inputMethod() == "uploadData") {
+        
+        # From uploaded csv
+        uploaded_data_raw <- input$uploadData
+        
+        if (is.null(uploaded_data_raw)) {
+          return(NULL)
+        }
+        
+        print(uploaded_data_raw)
+        
+      }
       
     })
 
@@ -144,7 +178,9 @@ surveyTable <- function(input, output, session, sidebar_options) {
     # surveyTable_rval(rhandsontable::hot_to_r(input$surveyTable))
       
   }) |>
-    bindEvent(exampleData(), 
+    bindEvent(inputMethod(),
+              exampleData(),
+              # resetTable(),
               ignoreInit = TRUE)
   
   

@@ -4,6 +4,8 @@ sidebarUI <- function(id){
   
   bslib::sidebar(
     
+    width = 320,
+    
     shiny::h5("Model Options"),
     # shiny::hr(),
     shiny::actionButton(inputId = ns("runAnalysis"),
@@ -22,6 +24,15 @@ sidebarUI <- function(id){
         
         icon = bsicons::bs_icon("wrench-adjustable"),
         
+        # shiny::actionButton(inputId = ns("resetTable"),
+        #                     label = "Reset Table"),
+        shiny::selectizeInput(inputId = ns("inputMethod"), 
+                              label = "Input Method", 
+                              choices = c("Manual" = "manual",
+                                          "Example" = "example",
+                                          "Upload" = "upload"), 
+                              selected = "none", 
+                              multiple = FALSE),
         shiny::selectizeInput(inputId = ns("exampleData"), 
                               label = "Example Data", 
                               choices = exampleDataOptions, 
@@ -32,6 +43,13 @@ sidebarUI <- function(id){
                               choices = dataEntryFormat_options, 
                               selected = "table", 
                               multiple = FALSE),
+        shiny::fileInput(inputId = ns("uploadData"),
+                         label = "Upload .csv",
+                         accept = c("text/csv",
+                                    "text/comma-separated-values,text/plain",
+                                    ".csv"
+                                    )
+                         ),
         shiny::selectizeInput(inputId = ns("coverMethod"), 
                               label = "Cover Method", 
                               choices = coverMethod_options, 
@@ -50,12 +68,16 @@ sidebarUI <- function(id){
         #                       multiple = FALSE),
         shiny::selectizeInput(inputId = ns("nTopResults"), 
                               label = "Number of Top Results", 
-                              choices = c(5:10), 
-                              selected = 5, 
+                              choices = c(1:10), 
+                              selected = 3, 
                               multiple = FALSE),
-        shiny::checkboxInput(inputId = ns("groupSample"), 
-                             label = "Group by Sample",
-                             value = TRUE)
+        shiny::selectizeInput(inputId = ns("groupMethod"), 
+                              label = "Grouping Method", 
+                              choices = c("Year" = "year",
+                                          "Site" = "site",
+                                          "Sample" = "sample"),
+                              selected = c("year", "site"), 
+                              multiple = TRUE)
         
       ),
       
@@ -107,7 +129,7 @@ sidebarUI <- function(id){
           bslib::popover(
             bsicons::bs_icon("info-circle"),
             title = "Restrict",
-            paste0("Restrict the NVC communities options below",
+            paste0("Restrict the NVC community option below",
                    " to the fitted NVC communities."),
             placement = "bottom"
           )

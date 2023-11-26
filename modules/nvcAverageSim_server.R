@@ -8,7 +8,7 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
   coverMethod <- reactiveVal()
   habitatRestriction <- reactiveVal()
   nTopResults <- reactiveVal()
-  groupSample <- reactiveVal(TRUE) # TRUE
+  groupMethod <- reactiveVal() # TRUE
 
   observe({
 
@@ -17,7 +17,7 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
     coverMethod(sidebar_options()$coverMethod)
     habitatRestriction(sidebar_options()$habitatRestriction)
     nTopResults(sidebar_options()$nTopResults)
-    groupSample(sidebar_options()$groupSample)
+    groupMethod(sidebar_options()$groupMethod)
 
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -39,22 +39,12 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
       
       surveyTable <- surveyTable()
       
-      if(groupSample() == TRUE){
-        
-        surveyTable_prepped <- surveyTable |>
-          dplyr::select(Sample, Species) |>
-          dplyr::rename("ID" = "Sample",
-                        "species" = "Species") |>
-          dplyr::mutate(ID = "All")
-        
-      } else if(groupSample() == FALSE){
-        
-        surveyTable_prepped <- surveyTable |>
-          dplyr::select(Sample, Species) |>
-          dplyr::rename("ID" = "Sample",
-                        "species" = "Species")
-        
-      }
+      groupMethod_cols <- names(groupMethod_options)[groupMethod_options %in% groupMethod()]
+      
+      surveyTable_prepped <- surveyTable |>
+        dplyr::select(groupMethod_cols, Species, Cover) |>
+        tidyr::unite(col = "ID", -c("Species", "Cover"), sep = " - ", remove = FALSE) |>
+        dplyr::rename("species" = "Species")
       
       pquads_to_use <- nvc_pquads_tidied
       
@@ -68,14 +58,14 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
                                                spp_col = "species",
                                                samp_id = "ID",
                                                comp_id = "Pid3") |>
-        dplyr::select("Sample" = FOCAL_ID,
+        dplyr::select("ID" = FOCAL_ID,
                       "Mean.Similarity" = MEAN_SIM, 
                       "Standard.Deviation" = SD,
                       "NVC.Code" = NVC) |>
-        dplyr::group_by(Sample) |>
+        dplyr::group_by(ID) |>
         dplyr::arrange(dplyr::desc(Mean.Similarity)) |>
         dplyr::slice(1:as.numeric(nTopResults())) |>
-        dplyr::arrange(Sample, dplyr::desc(Mean.Similarity)) |>
+        dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
         dplyr::ungroup()
       
       nvcAverageSim(fitted_nvc)
@@ -86,12 +76,12 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
     
   }) |>
     bindEvent(runAnalysis(), 
-              habitatRestriction(), 
-              nTopResults(), 
-              groupSample(),
+              # habitatRestriction(), 
+              # nTopResults(), 
+              # groupMethod(),
               ignoreInit = TRUE)
   
-  nvcAverageSimTable_init <- data.frame("Sample" = character(),
+  nvcAverageSimTable_init <- data.frame("ID" = character(),
                                         "Mean.Similarity" = numeric(),
                                         "Standard.Deviation" = numeric(),
                                         "NVC.Code" = character()

@@ -1,3 +1,9 @@
+# Group Method Options ----------------------------------------------------
+groupMethod_options <- c("Year" = "year",
+                         "Site" = "site",
+                         "Sample" = "sample")
+saveRDS(object = groupMethod_options, file = "data/bundled_data/groupMethod_options.rds")
+
 # Data Entry Format Options -----------------------------------------------
 dataEntryFormat_options <- c("Table" = "table",
                              "Matrix" = "matrix")
@@ -81,7 +87,7 @@ example_data_df_all <- readRDS(file = "data/raw_data/assignNVC_test_dataset.rds"
 
 exampleDataOptions <- example_data_df_all$Site |> unique()
 setNames(exampleDataOptions, exampleDataOptions)
-exampleDataOptions <- c(exampleDataOptions, "None" = "none")
+exampleDataOptions <- c("None" = "none", exampleDataOptions)
 saveRDS(object = exampleDataOptions, file = "data/bundled_data/exampleDataOptions.rds")
 
 example_data_df_samples_per_site <- example_data_df_all |>

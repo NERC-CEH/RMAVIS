@@ -1,3 +1,5 @@
+groupMethod_options <- readRDS(file = "data/bundled_data/groupMethod_options.rds")
+
 example_data_df <- readRDS(file = "data/bundled_data/example_data_df.rds")
 
 exampleDataOptions <- readRDS(file = "data/bundled_data/exampleDataOptions.rds")

@@ -3,7 +3,7 @@ ui <- bslib::page_navbar(
 
   title = bslib::layout_columns(
     bslib::card_image(file = "www/ukceh_logo_long_720x170_rgb.png", fill = FALSE, width = "320px"),
-    shiny::h2("MAVIS", 
+    shiny::h1("MAVIS", 
               id = "title")
     ),
   
@@ -26,6 +26,8 @@ ui <- bslib::page_navbar(
   # ),
 
   tags$head(includeCSS("www/style.css")),
+  
+  shinyjs::useShinyjs(),
   
   bslib::nav_spacer(),
     

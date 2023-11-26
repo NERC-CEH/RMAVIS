@@ -8,16 +8,16 @@ server <- function(input, output, session) {
   surveyTable <- callModule(module = surveyTable,
                             id = "surveyTable_id_1",
                             sidebar_options = sidebar_options)
+  
+  nvcAverageSim <- callModule(module = nvcAverageSim,
+                              id = "nvcAverageSim_id_1",
+                              surveyTable = surveyTable,
+                              sidebar_options = sidebar_options)
 
   assignNVCResults <- callModule(module = assignNVCResults,
                                  id = "assignNVCResults_id_1",
                                  surveyTable = surveyTable,
                                  sidebar_options = sidebar_options)
-
-  nvcAverageSim <- callModule(module = nvcAverageSim,
-                              id = "nvcAverageSim_id_1",
-                              surveyTable = surveyTable,
-                              sidebar_options = sidebar_options)
 
   habCor <- callModule(module = habCor,
                        id = "habCor_id_1",

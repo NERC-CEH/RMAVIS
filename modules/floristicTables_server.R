@@ -49,13 +49,43 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   
   observe({
     
-    req(input$floristicTables_composed)
-    req(input$floristicTables_nvc)
+    shiny::req(input$floristicTables_composed)
+    shiny::req(input$floristicTables_nvc)
     
-    # Require the survey table to not be empty
-    req(nrow(surveyTable()) > 0) 
-    # Require the run analysis button to have been clicked
-    # req(isFALSE(runAnalysis() == 0))
+    # print()
+    # print()
+    # print()
+    # print((length(unique(surveyTable()$Species)) == length(surveyTable())))
+    
+    # if(all(surveyTable()$Species %in% speciesNames) == TRUE){
+    #   
+    #   shiny::validate("All species must be accepted names.")
+    #   
+    # }
+    # 
+    # if(any(is.na(surveyTable()$Sample)) == FALSE){
+    #   
+    #   shiny::validate("All sample names must not be NA.")
+    #   
+    # }
+    # 
+    # if(any(surveyTable()$Sample == "") == FALSE){
+    #   
+    #   shiny::validate("All sample names must not be an empty string.")
+    #   
+    # }
+    # 
+    # if((length(unique(surveyTable()$Species)) == length(surveyTable())) == FALSE){
+    #   
+    #   shiny::validate("Each species in a sample must only appear once.")
+    #   
+    # }
+    # 
+    # # shiny::validate(
+    # #   shiny::need(all(surveyTable()$Species %in% speciesNames) == TRUE, message = "All species must be accepted names."),
+    # #   shiny::need(all(is.na(surveyTable()$Sample) == FALSE, message = "All sample names must not be NA.")),
+    # #   shiny::need(all(is.na(surveyTable()$Sample) == FALSE, message = "All sample names must not be an empty string."))
+    # # )
     
     # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
@@ -155,9 +185,9 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     
   }) |>
     bindEvent(surveyTable(), 
-              crossTabulate(), 
+              crossTabulate(),
               # floristicTables_nvc_rval(),
-              input$floristicTables_nvc,
+              # input$floristicTables_nvc,
               ignoreInit = TRUE, ignoreNULL = TRUE)
   
   
@@ -198,16 +228,38 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   
   observe({
     
-    req(input$floristicTables_nvc)
-    req(input$floristicTables_composed)
+    shiny::req(input$floristicTables_nvc)
+    shiny::req(input$floristicTables_composed)
     
-    # print(nvcFloristicTable())
-    # print(crossTabulate())
+    # if(all(surveyTable()$Species %in% speciesNames) == FALSE){
+    #   
+    #   shiny::validate("All species must be accepted names.")
+    #   
+    # }
+    # 
+    # if(any(is.na(surveyTable()$Sample)) == TRUE){
+    #   
+    #   shiny::validate("All sample names must not be NA.")
+    #   
+    # }
+    # 
+    # if(any(surveyTable()$Sample == "") == TRUE){
+    #   
+    #   shiny::validate("All sample names must not be an empty string.")
+    #   
+    # }
+    # 
+    # if((length(unique(surveyTable()$Species)) == length(surveyTable())) == FALSE){
+    #   
+    #   shiny::validate("Each species in a sample must only appear once.")
+    #   
+    # }
     
-    # Require the survey table to not be empty
-    req(nrow(surveyTable()) > 0) 
-    # Require the run analysis button to have been clicked
-    # req(isFALSE(runAnalysis() == 0))
+    # shiny::validate(
+    #   shiny::need(all(surveyTable()$Species %in% speciesNames) == TRUE, message = "All species must be accepted names."),
+    #   shiny::need(all(is.na(surveyTable()$Sample) == TRUE, message = "All sample names must not be NA.")),
+    #   shiny::need(any(surveyTable()$Sample == "") == TRUE, message = "All sample names must not be an empty string."))
+    # )
     
     # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
@@ -296,11 +348,11 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     floristicTables_nvc_rval(rhandsontable::hot_to_r(input$floristicTables_nvc))
     
   }) |>
-    bindEvent(#surveyTable(),
+    bindEvent(surveyTable(),
               nvcFloristicTable(), 
               crossTabulate(), 
               # floristicTables_composed_rval(),
-              input$floristicTables_composed,
+              # input$floristicTables_composed,
               ignoreInit = TRUE, ignoreNULL = TRUE)
   
   

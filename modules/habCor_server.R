@@ -110,7 +110,8 @@ habCor <- function(input, output, session, nvcAverageSim, sidebar_options) {
   }) |>
     bindEvent(nvcAverageSim(),
               habCorClass(), 
-              ignoreInit = TRUE, ignoreNULL = TRUE
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE
               )
   
   

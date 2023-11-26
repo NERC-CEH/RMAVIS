@@ -8,7 +8,7 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
   coverMethod <- reactiveVal()
   habitatRestriction <- reactiveVal()
   nTopResults <- reactiveVal()
-  # groupSample <- reactiveVal() # TRUE
+  groupMethod <- reactiveVal() # TRUE
 
   observe({
 
@@ -17,7 +17,7 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
     coverMethod(sidebar_options()$coverMethod)
     habitatRestriction(sidebar_options()$habitatRestriction)
     nTopResults(sidebar_options()$nTopResults)
-    # groupSample(sidebar_options()$groupSample)
+    groupMethod(sidebar_options()$groupMethod)
 
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -39,27 +39,13 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
       
       surveyTable <- surveyTable()
       
-      surveyTable_prepped <- surveyTable |>
-        dplyr::select(Sample, Species) |>
-        dplyr::rename("ID" = "Sample",
-                      "species" = "Species")
+      groupMethod_cols <- c("Year", "Site", "Sample")
+      # groupMethod_cols <- names(groupMethod_options)[groupMethod_options %in% groupMethod()]
       
-      # if(groupSample() == TRUE){
-      #   
-      #   surveyTable_prepped <- surveyTable |>
-      #     dplyr::select(Sample, Species) |>
-      #     dplyr::rename("ID" = "Sample",
-      #                   "species" = "Species") |>
-      #     dplyr::mutate(ID = "All")
-      #   
-      # } else if(groupSample() == FALSE){
-      #   
-      #   surveyTable_prepped <- surveyTable |>
-      #     dplyr::select(Sample, Species) |>
-      #     dplyr::rename("ID" = "Sample",
-      #                   "species" = "Species")
-      #   
-      # }
+      surveyTable_prepped <- surveyTable |>
+        dplyr::select(groupMethod_cols, Species, Cover) |>
+        tidyr::unite(col = "ID", -c("Species", "Cover"), sep = " - ", remove = FALSE) |>
+        dplyr::rename("species" = "Species")
       
       pquads_to_use <- nvc_pquads_tidied
       
@@ -74,11 +60,11 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
                                           samp_id = "ID",
                                           comp_id = "Pid3",
                                           top_n = as.numeric(nTopResults())) |>
-        dplyr::rename("Sample" = "FOCAL_ID", 
+        dplyr::rename("ID" = "FOCAL_ID", 
                       "Pseudo.Quadrat" = "COMP_ID", 
                       "Jaccard.Similarity" = "JAC_SIM", 
                       "NVC.Code" = "NVC") |>
-        dplyr::arrange(Sample, dplyr::desc(Jaccard.Similarity))
+        dplyr::arrange(ID, dplyr::desc(Jaccard.Similarity))
       
       assignNVCResults(fitted_nvc)
       
@@ -88,13 +74,13 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
     
   }) |>
     bindEvent(runAnalysis(), 
-              habitatRestriction(), 
-              nTopResults(),
-              # groupSample(),
+              # habitatRestriction(), 
+              # nTopResults(),
+              # groupMethod(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
-  resultsTable_init <- data.frame("Sample" = character(),
+  resultsTable_init <- data.frame("ID" = character(),
                                   "Pseudo.Quadrat" = character(),
                                   "Jaccard.Similarity" = numeric(),
                                   "NVC.Code" = character()

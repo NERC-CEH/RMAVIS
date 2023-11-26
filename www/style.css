@@ -112,3 +112,7 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
   background-color: #ffffff !important;
   color: #000000 !important;
 }
+
+.handsontable thead th.ht__highlight {
+  background-color: var(--ceh-background-grey) !important;
+}
