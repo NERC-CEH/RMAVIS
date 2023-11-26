@@ -4,13 +4,15 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   
 # Retrieve sidebar options ------------------------------------------------
   
-  # nvcFloristicTable <- reactiveVal("A1") # "A1"
-  # crossTabulate <- reactiveVal(FALSE) # FALSE
+  groupMethod <- reactiveVal()
+  composedFloristicTable <- reactiveVal()
   nvcFloristicTable <- reactiveVal()
   crossTabulate <- reactiveVal()
 
   observe({
 
+    groupMethod(sidebar_options()$groupMethod)
+    composedFloristicTable(sidebar_options()$composedFloristicTable)
     nvcFloristicTable(sidebar_options()$nvcFloristicTable)
     crossTabulate(sidebar_options()$crossTabulate)
 
@@ -51,50 +53,25 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     
     shiny::req(input$floristicTables_composed)
     shiny::req(input$floristicTables_nvc)
-    
-    # print()
-    # print()
-    # print()
-    # print((length(unique(surveyTable()$Species)) == length(surveyTable())))
-    
-    # if(all(surveyTable()$Species %in% speciesNames) == TRUE){
-    #   
-    #   shiny::validate("All species must be accepted names.")
-    #   
-    # }
-    # 
-    # if(any(is.na(surveyTable()$Sample)) == FALSE){
-    #   
-    #   shiny::validate("All sample names must not be NA.")
-    #   
-    # }
-    # 
-    # if(any(surveyTable()$Sample == "") == FALSE){
-    #   
-    #   shiny::validate("All sample names must not be an empty string.")
-    #   
-    # }
-    # 
-    # if((length(unique(surveyTable()$Species)) == length(surveyTable())) == FALSE){
-    #   
-    #   shiny::validate("Each species in a sample must only appear once.")
-    #   
-    # }
-    # 
-    # # shiny::validate(
-    # #   shiny::need(all(surveyTable()$Species %in% speciesNames) == TRUE, message = "All species must be accepted names."),
-    # #   shiny::need(all(is.na(surveyTable()$Sample) == FALSE, message = "All sample names must not be NA.")),
-    # #   shiny::need(all(is.na(surveyTable()$Sample) == FALSE, message = "All sample names must not be an empty string."))
-    # # )
+    shiny::req(!is.null(composedFloristicTable()))
     
     # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
+      
+      surveyTable <- surveyTable()
+      
+      groupMethod_cols <- names(groupMethod_options)[groupMethod_options %in% groupMethod()]
+      
+      surveyTable_prepped <- surveyTable |>
+        tidyr::unite(col = "ID", groupMethod_cols, sep = " - ", remove = TRUE)
+      
+      pivot_col <- setdiff(c("Year", "Site", "Sample"), groupMethod_cols)
         
-      floristicTables_composed <- surveyTable() |> # example_data_df
+      floristicTables_composed <- surveyTable_prepped |>
         dplyr::select(-Cover) |>
         dplyr::mutate("Present" = 1) |>
         tidyr::pivot_wider(values_from = Present,
-                           names_from = Sample) |>
+                           names_from = pivot_col) |>
         dplyr::rowwise() |>
         dplyr::mutate("Sum" = sum(dplyr::c_across(dplyr::where(is.numeric)), na.rm = TRUE)) |>
         dplyr::ungroup() |>
@@ -110,9 +87,11 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
               TRUE ~ as.character(Frequency)
             )
         ) |>
-        dplyr::select(Species, Constancy) |>
+        dplyr::select(ID, Species, Constancy) |>
         dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
-        dplyr::arrange(Constancy, Species)
+        dplyr::arrange(ID, Constancy, Species) |>
+        dplyr::filter(ID == composedFloristicTable()) |>
+        dplyr::select(-ID)
       
       # floristicTables_nvc <- rhandsontable::hot_to_r(input$floristicTables_nvc)
       
@@ -186,8 +165,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   }) |>
     bindEvent(surveyTable(), 
               crossTabulate(),
-              # floristicTables_nvc_rval(),
-              # input$floristicTables_nvc,
+              composedFloristicTable(),
               ignoreInit = TRUE, ignoreNULL = TRUE)
   
   
@@ -230,36 +208,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     
     shiny::req(input$floristicTables_nvc)
     shiny::req(input$floristicTables_composed)
-    
-    # if(all(surveyTable()$Species %in% speciesNames) == FALSE){
-    #   
-    #   shiny::validate("All species must be accepted names.")
-    #   
-    # }
-    # 
-    # if(any(is.na(surveyTable()$Sample)) == TRUE){
-    #   
-    #   shiny::validate("All sample names must not be NA.")
-    #   
-    # }
-    # 
-    # if(any(surveyTable()$Sample == "") == TRUE){
-    #   
-    #   shiny::validate("All sample names must not be an empty string.")
-    #   
-    # }
-    # 
-    # if((length(unique(surveyTable()$Species)) == length(surveyTable())) == FALSE){
-    #   
-    #   shiny::validate("Each species in a sample must only appear once.")
-    #   
-    # }
-    
-    # shiny::validate(
-    #   shiny::need(all(surveyTable()$Species %in% speciesNames) == TRUE, message = "All species must be accepted names."),
-    #   shiny::need(all(is.na(surveyTable()$Sample) == TRUE, message = "All sample names must not be NA.")),
-    #   shiny::need(any(surveyTable()$Sample == "") == TRUE, message = "All sample names must not be an empty string."))
-    # )
+    shiny::req(!is.null(composedFloristicTable()))
     
     # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
@@ -269,14 +218,21 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
         dplyr::select(-NVC.Code) |>
         dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
         dplyr::arrange(Constancy, Species)
-
-      # floristicTables_composed <- rhandsontable::hot_to_r(input$floristicTables_composed)
       
-      floristicTables_composed <- surveyTable() |> # example_data_df
+      surveyTable <- surveyTable()
+      
+      groupMethod_cols <- names(groupMethod_options)[groupMethod_options %in% groupMethod()]
+      
+      surveyTable_prepped <- surveyTable |>
+        tidyr::unite(col = "ID", groupMethod_cols, sep = " - ", remove = TRUE)
+      
+      pivot_col <- setdiff(c("Year", "Site", "Sample"), groupMethod_cols)
+      
+      floristicTables_composed <- surveyTable_prepped |>
         dplyr::select(-Cover) |>
         dplyr::mutate("Present" = 1) |>
         tidyr::pivot_wider(values_from = Present,
-                           names_from = Sample) |>
+                           names_from = pivot_col) |>
         dplyr::rowwise() |>
         dplyr::mutate("Sum" = sum(dplyr::c_across(dplyr::where(is.numeric)), na.rm = TRUE)) |>
         dplyr::ungroup() |>
@@ -292,9 +248,11 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
               TRUE ~ as.character(Frequency)
             )
         ) |>
-        dplyr::select(Species, Constancy) |>
+        dplyr::select(ID, Species, Constancy) |>
         dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
-        dplyr::arrange(Constancy, Species)
+        dplyr::arrange(ID, Constancy, Species) |>
+        dplyr::filter(ID == composedFloristicTable()) |>
+        dplyr::select(-ID)
 
       floristicTables_nvc_NVCToComp <- floristicTables_composed |>
         dplyr::select(-Constancy) |>
@@ -351,8 +309,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     bindEvent(surveyTable(),
               nvcFloristicTable(), 
               crossTabulate(), 
-              # floristicTables_composed_rval(),
-              # input$floristicTables_composed,
+              composedFloristicTable(),
               ignoreInit = TRUE, ignoreNULL = TRUE)
   
   

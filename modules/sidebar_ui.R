@@ -160,6 +160,28 @@ sidebarUI <- function(id){
           
           col_widths = c(11, 1),
           
+          shiny::selectizeInput(inputId = ns("composedFloristicTable"), 
+                                label = "Composed Table", 
+                                choices = NULL,
+                                selected = NULL,
+                                # choices = c("2023 - Rothiemurchus & ROTHIEM"), # NULL,
+                                # selected = "2023 - Rothiemurchus & ROTHIEM", # NULL,
+                                multiple = TRUE,
+                                options = list(maxItems = 1)),
+          
+          bslib::popover(
+            bsicons::bs_icon("info-circle"),
+            title = "Composed Table",
+            paste0("Select a year/site/sample ID to compose a floristic table,"),
+            placement = "bottom"
+          )
+          
+        ),
+        
+        bslib::layout_columns(
+          
+          col_widths = c(11, 1),
+          
           shiny::selectizeInput(inputId = ns("crossTabulate"), 
                                 label = "Cross Tabulate",
                                 choices = c("No" = "No",

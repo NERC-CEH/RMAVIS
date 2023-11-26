@@ -1,7 +1,9 @@
-sidebar <- function(input, output, session, nvcAverageSim) {
+sidebar <- function(input, output, session, surveyTable, nvcAverageSim) {
   
   ns <- session$ns
   
+
+# Compose list of inputs to return from module ----------------------------
   sidebar_options <- reactiveVal()
   
   observe({
@@ -17,6 +19,7 @@ sidebar <- function(input, output, session, nvcAverageSim) {
       "nTopResults" = input$nTopResults,
       "groupMethod" = input$groupMethod,
       "habCorClass" = input$habCorClass,
+      "composedFloristicTable" = input$composedFloristicTable,
       "nvcFloristicTable" = input$nvcFloristicTable,
       "crossTabulate" = input$crossTabulate,
       "restrictNVCFlorTablesOpts" = input$restrictNVCFlorTablesOpts
@@ -30,10 +33,13 @@ sidebar <- function(input, output, session, nvcAverageSim) {
               input$exampleData, 
               input$dataEntryFormat, input$runAnalysis, input$coverMethod, 
               input$habitatRestriction, input$nTopResults, input$groupMethod,
-              input$habCorClass, input$nvcFloristicTable, input$crossTabulate,
+              input$habCorClass, input$composedFloristicTable,
+              input$nvcFloristicTable, input$crossTabulate,
               input$restrictNVCFlorTablesOpts,
               ignoreInit = TRUE)
   
+
+# Show/Hide inputMethod-related inputs ------------------------------------
   observe({
     if (input$inputMethod == "manual") {
       shinyjs::hide(id = "exampleData")
@@ -51,6 +57,9 @@ sidebar <- function(input, output, session, nvcAverageSim) {
   }) |>
     bindEvent(input$inputMethod, ignoreInit = FALSE)
   
+  
+
+# Reactively update nvcFloristicTable options -----------------------------
   observe({
     
     fitted_nvcs <- nvcAverageSim()$NVC.Code |> unique()
@@ -80,6 +89,33 @@ sidebar <- function(input, output, session, nvcAverageSim) {
   }) |>
     bindEvent(input$restrictNVCFlorTablesOpts,
               nvcAverageSim(),
+              ignoreInit = TRUE)
+
+
+# Reactively update composedFloristicTable options ------------------------
+  observe({
+    
+    groupMethod_cols <- names(groupMethod_options)[groupMethod_options %in% input$groupMethod]
+    
+    uniq_IDs <- surveyTable() |>
+      dplyr::select(groupMethod_cols, Species, Cover) |>
+      tidyr::unite(col = "ID", -c("Species", "Cover"), sep = " - ", remove = FALSE) |>
+      dplyr::pull(ID) |>
+      unique()
+    
+    names(uniq_IDs) <- uniq_IDs
+    
+    shiny::updateSelectizeInput(
+        session = session,
+        inputId = "composedFloristicTable",
+        choices = uniq_IDs, # names(uniq_IDs)
+        selected = NULL,
+        server = FALSE
+        )
+    
+  }) |>
+    bindEvent(input$groupMethod,
+              surveyTable(),
               ignoreInit = TRUE)
   
   return(sidebar_options)
