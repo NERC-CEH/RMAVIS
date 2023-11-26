@@ -36,12 +36,12 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"analysis_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"analysis_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
     
     return(avgEIVsTable)
     
@@ -52,12 +52,16 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
     req(input$avgEIVsTable)
     req(surveyTablePrepped())
     
+    print(input$avgEIVsTable)
+    
+    print(surveyTablePrepped())
+    
     # # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
       
       surveyTablePrepped <- surveyTablePrepped()
       
-      print(surveyTablePrepped)
+      # print(surveyTablePrepped)
       
       bsbiChecklistData_he <- bsbiChecklistData |>
         dplyr::filter(dataType %in% c("Hill-Ellenberg F", "Hill-Ellenberg L", "Hill-Ellenberg N", "Hill-Ellenberg R", "Hill-Ellenberg S")) |>
@@ -68,7 +72,7 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
       avgEIVsTable <- surveyTablePrepped |>
         dplyr::left_join(bsbiChecklistData_he, by = Species)
       
-      print(avgEIVsTable)
+      # print(avgEIVsTable)
         
       
     })

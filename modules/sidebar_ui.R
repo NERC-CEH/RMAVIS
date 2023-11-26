@@ -172,7 +172,7 @@ sidebarUI <- function(id){
           bslib::popover(
             bsicons::bs_icon("info-circle"),
             title = "Composed Table",
-            paste0("Select a year/site/sample ID to compose a floristic table,"),
+            paste0("Select a year/site/sample ID to compose a floristic table."),
             placement = "bottom"
           )
           

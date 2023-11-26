@@ -39,6 +39,8 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
       
       surveyTable <- surveyTable()
       
+      print(surveyTable)
+      
       groupMethod_cols <- names(groupMethod_options)[groupMethod_options %in% groupMethod()]
       
       surveyTable_prepped <- surveyTable |>
@@ -54,7 +56,7 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
       }
       
       fitted_nvc <- assignNVC::nvc_average_sim(samp_df = surveyTable_prepped,
-                                               comp_df = pquads_to_use,
+                                               comp_df = pquads_to_use, # 
                                                spp_col = "species",
                                                samp_id = "ID",
                                                comp_id = "Pid3") |>
@@ -67,6 +69,8 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
         dplyr::slice(1:as.numeric(nTopResults())) |>
         dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
         dplyr::ungroup()
+      
+      print(fitted_nvc)
       
       nvcAverageSim(fitted_nvc)
       

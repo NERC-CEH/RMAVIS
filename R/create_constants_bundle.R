@@ -129,16 +129,84 @@ habitatRestriction_options <- list(
 )
 saveRDS(object = habitatRestriction_options, file = "data/bundled_data/habitatRestriction_options.rds")
 
+
+# BRC taxon concepts ------------------------------------------------------
+brcTaxonConcepts <- readr::read_delim("data/raw_data/bsbi_checklist_BRC_taxonConcepts.csv", 
+                                      delim = "\t", escape_double = FALSE, 
+                                      trim_ws = TRUE,
+                                      show_col_types = FALSE) 
+
+
 # Species Name Options ----------------------------------------------------
 sppName_to_brcCode <- readr::read_delim("data/raw_data/bsbi_checklist_sppName_to_brcCode.csv", 
                                         delim = "\t", escape_double = FALSE, 
                                         trim_ws = TRUE,
                                         show_col_types = FALSE) |>
-  dplyr::select(key, taxonId, dataValue, origTaxon, origTaxonId) |>
+  dplyr::group_by(dataValue) |>
+  dplyr::filter(preferredTaxon == origTaxon) |>
   dplyr::rename("BRC" = "dataValue")
 
-saveRDS(object = sppName_to_brcCode, file = "data/bundled_data/sppName_to_brcCode.rds")
+# If the length is equal there are no duplicate codes
+nrow(sppName_to_brcCode) == length(sppName_to_brcCode$BRC |> unique())
 
+# Find the duplicates
+sppName_to_brcCode_duplicates <- sppName_to_brcCode |>
+  dplyr::group_by(BRC) |>
+  dplyr::filter(dplyr::n() > 1) |>
+  dplyr::ungroup() |>
+  dplyr::arrange(BRC)
+
+# Remove duplicates
+sppName_to_brcCode_NOduplicates <- sppName_to_brcCode |>
+  dplyr::group_by(BRC) |>
+  dplyr::filter(dplyr::n() == 1) |>
+  dplyr::ungroup() |>
+  dplyr::arrange(BRC)
+
+
+# Align the BSBI BRC codes with assignNVC BRC codes
+sppName_to_brcCode_alignedCodes <- sppName_to_brcCode_NOduplicates |>
+  dplyr::mutate("BRC" = stringr::str_remove(string = BRC, pattern = "^0")) |>
+  dplyr::mutate("BRC" = stringr::str_remove(string = BRC, pattern = "(?<=\\d)0+(?=0)")) |>
+  dplyr::select(key, BRC, taxonId, preferredQualifiedTaxonName, preferredTaxon, preferredTaxonQualifier, origTaxon) |>
+  # Shouldn't be any duplicates, there aren't.
+  dplyr::distinct()
+
+sppName_to_brcCode_alignedCodes_duplicates <- sppName_to_brcCode_alignedCodes |>
+  dplyr::group_by(BRC) |>
+  dplyr::filter(dplyr::n() > 1) |>
+  dplyr::ungroup() |>
+  dplyr::arrange(BRC)
+
+
+# There are duplicate BRC codes due to families not adhering to the fix rule
+# remove
+sppName_to_brcCode_alignedCodes <- sppName_to_brcCode_alignedCodes |>
+  dplyr::filter(!stringr::str_detect(preferredTaxon, pattern = "^[A-Za-z]+$"))
+
+length(sppName_to_brcCode_alignedCodes$BRC) == nrow(sppName_to_brcCode_alignedCodes)
+
+
+# test_bsbi_BSBI_av <- 0920000035.1
+# test_bsbi_pquad_av <- 92035.1
+# 
+# test_bsbi_BSBI_at <- 0910000194
+# test_bsbi_pquad_at <- 910194
+# 
+# stringr::str_remove(string = BRC, pattern = "^0")
+# stringr::str_remove(string = test_bsbi_BSBI_at, pattern = "(?<=\\d)0+(?=0)")
+
+# sppName_to_brcCode_alignedCodes without BRC codes - should be a 0-row tibble
+sppName_to_brcCode_alignedCodes_NOBRC <- sppName_to_brcCode_alignedCodes |>
+  dplyr::filter(is.na(BRC)) |>
+  dplyr::select(key) |>
+  dplyr::distinct()
+
+saveRDS(object = sppName_to_brcCode_alignedCodes, file = "data/bundled_data/sppName_to_brcCode.rds")
+
+
+
+# Species names -----------------------------------------------------------
 speciesNames <- assignNVC::nvc_pquads |> # sppName_to_brcCode |>
   dplyr::pull(species) |>
   unique() |>
@@ -149,15 +217,79 @@ saveRDS(object = speciesNames, file = "data/bundled_data/speciesNames.rds")
 
 # assignNVC::nvc_pquads - Tidied names ------------------------------------
 
-nvc_pquads_tidied <- assignNVC::nvc_pquads
+nvc_pquads_raw <- assignNVC::nvc_pquads
 
-# assignNVC::nvc_pquads BRC Code and BSBI Checklist BRC Codes don't match...
-# nvc_pquads_tidied <- assignNVC::nvc_pquads |>
-#   dplyr::mutate("BRC" = as.character(BRC)) |>
-#   dplyr::left_join(sppName_to_brcCode, by = "BRC")
+# Species in NVC pquads without BRC codes
+nvc_pquads_raw_NOBRC <- nvc_pquads_raw |>
+  dplyr::filter(is.na(BRC)) |>
+  dplyr::select(species) |>
+  dplyr::distinct()
+
+# Duplicate pquads
+nvc_pquads_raw_dupes <- nvc_pquads_raw  |>
+  dplyr::group_by(species, BRC, Pid2, NVC, Pid3, counter) |>
+  dplyr::filter(dplyr::n() > 1) |>
+  dplyr::distinct() |>
+  dplyr::ungroup()
+
+nvc_pquads_fixed <- nvc_pquads_raw |>
+  dplyr::group_by(species, BRC, Pid2, NVC, Pid3, counter) |>
+  # Remove duplicates
+  dplyr::filter(dplyr::n() == 1) |>
+  # Add duplicates
+  rbind(nvc_pquads_raw_dupes)|>
+  dplyr::ungroup() |>
+  as.data.frame()
+
+colnames(nvc_pquads_fixed) %in% colnames(sppName_to_brcCode_alignedCodes)
+colnames(sppName_to_brcCode_alignedCodes) %in% colnames(nvc_pquads_fixed)
+
+unique(sppName_to_brcCode_alignedCodes$BRC) |> length()
+
+sppName_to_brcCode_alignedCodes_uniq <- unique(sppName_to_brcCode_alignedCodes$BRC)
+
+nvc_pquads_joinedBSBIBRC <- nvc_pquads_fixed |>
+  dplyr::mutate("BRC" = as.character(BRC)) |>
+  dplyr::left_join(sppName_to_brcCode_alignedCodes, 
+                   by = "BRC") |>
+  dplyr::distinct()
+
+# Joining the sppName_to_brcCode_alignedCodes should NOT add rows
+nrow(nvc_pquads_joinedBSBIBRC) == nrow(nvc_pquads_fixed)
+
+nvc_pquads_final <- nvc_pquads_joinedBSBIBRC
+
+saveRDS(object = nvc_pquads_fixed, file = "data/bundled_data/nvc_pquads_tidied.rds")
+
+
+# Join bsbiChecklist ------------------------------------------------------
+# 
+# bsbiChecklistData_nokey <- bsbiChecklistData |>
+#   dplyr::select(-key)
+# 
+# bsbiChecklistData_nokey$dataType |> unique()
+# 
+# nvc_pquads_wBSBIChecklist <- nvc_pquads_final |>
+#   dplyr::left_join(bsbiChecklistData_nokey, by = "taxonId")
   
 
-saveRDS(object = nvc_pquads_tidied, file = "data/bundled_data/nvc_pquads_tidied.rds")
+# Create NVC Floristic Tables Constant ------------------------------------
+
+# assignNVC::NVC_communities
+
+nvc_floristic_tables_tidied <- read.csv(file = "data/raw_data/NVC-floristic-tables.csv") |>
+  dplyr::filter(is.na(Special.variable.value)) |>
+  dplyr::select("NVC.Code" = Community.or.sub.community.code, 
+                "Species" = Species.name.or.special.variable,
+                "Constancy" = Species.constancy.value) |>
+  dplyr::mutate("Species" = stringr::str_trim(Species))
+
+saveRDS(object = nvc_floristic_tables_tidied, file = "data/bundled_data/nvc_floristic_tables.rds")
+
+# Get NVC names from floristic tables -------------------------------------
+nvc_name_to_code <- read.csv(file = "data/raw_data/NVC-floristic-tables.csv") |>
+  dplyr::select("Community.or.sub.community.name", "Community.or.sub.community.code") |>
+  dplyr::distinct()
 
 # BSBI Checklist DF -------------------------------------------------------
 HE_F <- readr::read_delim("data/raw_data/bsbi_checklist_HE_F.csv", 
@@ -231,12 +363,6 @@ suppressWarnings(
                                                       "text", "text", "text",
                                                       "text", "text", "text",
                                                       "text"))
-  )
-)
-
-suppressWarnings(
-  suppressMessages(
-    nvc_floristic_tables_raw <- read.csv(file = "data/raw_data/NVC-floristic-tables.csv")
   )
 )
 
@@ -383,24 +509,6 @@ ukHab_habCor_final <- ukHab_habCor_renamed |>
   dplyr::left_join(ukHab_namesCodes, by = "Code") |>
   dplyr::select(-Level) |>
   dplyr::select(NVC.Code, Relationship, Code, Label, Classification)
-
-
-
-# Create NVC Floristic Tables Constant ------------------------------------
-nvc_floristic_tables_tidied <- nvc_floristic_tables_raw |>
-  dplyr::filter(is.na(Special.variable.value)) |>
-  dplyr::select("NVC.Code" = Community.or.sub.community.code, 
-                "Species" = Species.name.or.special.variable,
-                "Constancy" = Species.constancy.value) |>
-  dplyr::mutate("Species" = stringr::str_trim(Species))
-
-saveRDS(object = nvc_floristic_tables_tidied, file = "data/bundled_data/nvc_floristic_tables.rds")
-
-# Get NVC names from floristic tables -------------------------------------
-nvc_name_to_code <- nvc_floristic_tables_raw |>
-  dplyr::select("Community.or.sub.community.name", "Community.or.sub.community.code") |>
-  dplyr::distinct()
-
 
 # Create NVC Codes vector -------------------------------------------------
 

@@ -1,3 +1,5 @@
+# To run app: shiny::runApp("app.R")
+
 # shinyOptions(bslib = TRUE)
 
 # Load constants into memory

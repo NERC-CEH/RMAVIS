@@ -34,7 +34,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
                                                              # overflow = "visible",
                                                              # stretchH = "all"
                                                              ) |>
-      rhandsontable::hot_col(col = colnames(floristicTables_composed_init), halign = "htCenter", readOnly = TRUE) |>
+      rhandsontable::hot_col(col = colnames(floristicTables_composed_init), halign = "htCenter", format = "character", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
@@ -145,7 +145,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
                                                   # overflow = "visible",
                                                   # stretchH = "all"
                                                   ) |>
-        rhandsontable::hot_col(col = colnames(floristicTables_composed), halign = "htCenter", readOnly = TRUE) |> # renderer = row_renderer
+        rhandsontable::hot_col(col = colnames(floristicTables_composed), halign = "htCenter", format = "character", readOnly = TRUE) |> # renderer = row_renderer
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
         htmlwidgets::onRender("
@@ -189,7 +189,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
                                                         # overflow = "visible",
                                                         # stretchH = "all"
                                                         ) |>
-      rhandsontable::hot_col(col = colnames(floristicTables_nvc_init), halign = "htCenter", readOnly = TRUE) |>
+      rhandsontable::hot_col(col = colnames(floristicTables_nvc_init), halign = "htCenter", format = "character", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
@@ -288,7 +288,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
                                                           # overflow = "visible",
                                                           # stretchH = "all"
       ) |>
-        rhandsontable::hot_col(col = colnames(floristicTables_nvc), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_col(col = colnames(floristicTables_nvc), halign = "htCenter", format = "character", readOnly = TRUE) |>
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
         htmlwidgets::onRender("

@@ -35,8 +35,7 @@ surveyTablePrepped <- function(input, output, session, surveyTable, sidebar_opti
     bindEvent(surveyTable(),
               groupMethod(), 
               ignoreInit = TRUE, 
-              ignoreNULL = TRUE
-    )
+              ignoreNULL = TRUE)
   
   return(surveyTablePrepped_rval)
   
