@@ -3,11 +3,11 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
   ns <- session$ns
 
 # Retrieve sidebar options ------------------------------------------------
-  habCorClass <- reactiveVal()
+  runAnalysis <- reactiveVal()
   
   observe({
     
-    habCorClass(sidebar_options()$habCorClass)
+    runAnalysis(sidebar_options()$runAnalysis)
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -15,11 +15,12 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
   
 # Create initial habitat correspondance table -----------------------------
   avgEIVsTable_init <- data.frame("ID" = character(),
-                                  "Hill-Ellenberg F" = character(),
-                                  "Hill-Ellenberg L" = character(),
-                                  "Hill-Ellenberg N" = character(),
-                                  "Hill-Ellenberg R" = character(),
-                                  "Hill-Ellenberg S" = character()
+                                  "Sample" = character(),
+                                  "Moisture.F" = character(),
+                                  "Light.L" = character(),
+                                  "Nitrogen.N" = character(),
+                                  "Reaction.R" = character(),
+                                  "Salinity.S" = character()
                                   )
   
   avgEIVsTable_rval <- reactiveVal(avgEIVsTable_init)
@@ -49,30 +50,43 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
   
   observe({
     
-    req(input$avgEIVsTable)
-    req(surveyTablePrepped())
+    # shiny::req(input$avgEIVsTable) # Why do I not need this???????????????
+    shiny::req(surveyTablePrepped())
     
-    print(input$avgEIVsTable)
-    
-    print(surveyTablePrepped())
+    # print(surveyTablePrepped())
     
     # # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
       
       surveyTablePrepped <- surveyTablePrepped()
       
-      # print(surveyTablePrepped)
-      
-      bsbiChecklistData_he <- bsbiChecklistData |>
-        dplyr::filter(dataType %in% c("Hill-Ellenberg F", "Hill-Ellenberg L", "Hill-Ellenberg N", "Hill-Ellenberg R", "Hill-Ellenberg S")) |>
-        dplyr::rename("Species" = "key")
-      
-      print(bsbiChecklistData_he)
+      print(str(surveyTablePrepped))
       
       avgEIVsTable <- surveyTablePrepped |>
-        dplyr::left_join(bsbiChecklistData_he, by = Species)
+        dplyr::rename("preferredTaxon" = "Species") |>
+        dplyr::left_join(master_data, by = "preferredTaxon") |>
+        dplyr::select(ID, Sample, Cover, `F`, L, N, R, S) |>
+        dplyr::mutate("F" = `F` * Cover,
+                      "L" = L * Cover, 
+                      "N" = N * Cover, 
+                      "R" = R * Cover, 
+                      "S" = S * Cover) |>
+        dplyr::group_by(ID, Sample) |>
+        dplyr::summarise("Moisture.F" = sum(`F`, na.rm = TRUE),
+                         "Light.L" = sum(L, na.rm = TRUE), 
+                         "Nitrogen.N" = sum(N, na.rm = TRUE), 
+                         "Reaction.R" = sum(R, na.rm = TRUE), 
+                         "Salinity.S" = sum(S, na.rm = TRUE))
+
+      print(avgEIVsTable)
       
-      # print(avgEIVsTable)
+      # avgEIVsTable <- data.frame("ID" = as.character("Test"),
+      #                            "Moisture.F" = as.character("Test"),
+      #                            "Light.L" = as.character("Test"),
+      #                            "Nitrogen.N" = as.character("Test"),
+      #                            "Reaction.R" = as.character("Test"),
+      #                            "Salinity.S" = as.character("Test")
+      #                            )
         
       
     })
@@ -85,7 +99,7 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
                                                    # overflow = "visible",
                                                    # stretchH = "all"
       ) |>
-        rhandsontable::hot_col(col = colnames(avgEIVsTable_init), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_col(col = colnames(avgEIVsTable), halign = "htCenter", readOnly = TRUE) |>
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
         htmlwidgets::onRender("
@@ -100,10 +114,13 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
       
     })
     
-    avgEIVsTable_rval(avgEIVsTable)
+    print(rhandsontable::hot_to_r(input$avgEIVsTable))
+    
+    avgEIVsTable_rval(rhandsontable::hot_to_r(input$avgEIVsTable))
     
   }) |>
-    bindEvent(surveyTablePrepped(),
+    bindEvent(runAnalysis(),
+              # surveyTablePrepped(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   

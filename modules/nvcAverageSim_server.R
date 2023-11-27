@@ -46,10 +46,10 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
         tidyr::unite(col = "ID", -c("Species", "Cover"), sep = " - ", remove = FALSE) |>
         dplyr::rename("species" = "Species")
       
-      pquads_to_use <- nvc_pquads_tidied
+      pquads_to_use <- nvc_pquads_final
       
       if(!is.null(habitatRestriction())){
-        pquads_to_use <- nvc_pquads_tidied |>
+        pquads_to_use <- nvc_pquads_final |>
           dplyr::filter(stringr::str_detect(NVC, (stringr::str_c(habitatRestriction(), collapse = "|"))))
       }
       

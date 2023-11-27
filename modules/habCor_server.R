@@ -49,8 +49,8 @@ habCor <- function(input, output, session, nvcAverageSim, sidebar_options) {
   
   observe({
     
-    req(input$habCorTable)
-    req(nvcAverageSim())
+    shiny::req(input$habCorTable)
+    shiny::req(nvcAverageSim())
     
     # # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({

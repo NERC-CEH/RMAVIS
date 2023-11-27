@@ -3,14 +3,14 @@ surveyTablePrepped <- function(input, output, session, surveyTable, sidebar_opti
   ns <- session$ns
   
 # Retrieve sidebar options ------------------------------------------------
-  groupMethod <- reactiveVal()
+  groupMethod <- reactiveVal(c("year", "site"))
   
   observe({
     
     groupMethod(sidebar_options()$groupMethod)
     
   }) |>
-    bindEvent(sidebar_options(), ignoreInit = TRUE)
+    bindEvent(sidebar_options(), ignoreInit = FALSE)
   
 # Prepare surveyTable -----------------------------------------------------
   
