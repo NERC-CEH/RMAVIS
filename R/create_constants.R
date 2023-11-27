@@ -1,0 +1,83 @@
+# Group Method Options ----------------------------------------------------
+groupMethod_options <- c("Year" = "year",
+                         "Site" = "site",
+                         "Sample" = "sample")
+
+# Data Entry Format Options -----------------------------------------------
+dataEntryFormat_options <- c("Table" = "table",
+                             "Matrix" = "matrix")
+
+# Domin Cover -------------------------------------------------------------
+dominCoverMidPointPerc <- c("10" = 0.955,
+                            "9" = 0.83,
+                            "8" = 0.58,
+                            "7" = 0.42,
+                            "6" = 0.295,
+                            "5" = 0.18,
+                            "4" = 0.07,
+                            "3" = 0.04,
+                            "2" = 0.025,
+                            "1" = 0.01
+)
+
+dominCoverVals <- c("91-100%" = 10,
+                    "76-90%" = 9,
+                    "51-75%" = 8,
+                    "34-50%" = 7,
+                    "26-33%" = 6,
+                    "11-25%" = 5,
+                    "4-10%" = 4,
+                    "<4% (many individuals)" = 3,
+                    "<4% (several individuals)" = 2,
+                    "<4% (few individuals)" = 1)
+
+dominCoverValsRev <- c("10" = "91-100%",
+                       "9" = "76-90%",
+                       "8" = "51-75%",
+                       "7" = "34-50%",
+                       "6" = "26-33%",
+                       "5" = "11-25%",
+                       "4" = "4-10%",
+                       "3" = "<4% (many individuals)",
+                       "2" = "<4% (several individuals)",
+                       "1" = "<4% (few individuals)")
+
+
+# Frequency Classes -------------------------------------------------------
+freqClasses_numToPerc <- list(
+  "I" = "1-20%",
+  "II" = "21-40%",
+  "III" = "41-60%",
+  "IV" = "61-80%",
+  "V" = "81-100%"
+)
+
+freqClasses_numToName <- list(
+  "I" = "Scarce",
+  "II" = "Occasional",
+  "III" = "Frequent",
+  "IV" = "Constant",
+  "V" = "Contant"
+)
+
+# Cover Method Options ----------------------------------------------------
+coverMethod_options <- list(
+  "Direct Percentage" = "directPercentage",
+  "Domin Class" = "dominCover"
+)
+
+# Habitat Restriction Options ---------------------------------------------
+habitatRestriction_options <- list(
+  "Woodland and scrub (W)" = "W",
+  "Mires (M)" = "M",
+  "Heaths (H)" = "H",
+  "Mesotrophic grasslands (MG)" = "MG",
+  "Calcicolous grasslands (CG)" = "CG",
+  "Calcifugous grasslands and montane communities (U)" = "U",
+  "Aquatic communities (A)" = "A",
+  "Swamps and tall-herb fens (S)" = "S",
+  "Salt-marsh communities (SM)" = "SM",
+  "Shingle, strandline and sand-dune communities (SD)" = "SD",
+  "Maritime cliff communities (MC)" = "MC",
+  "Vegetation of open habitats (OV)" = "OV"
+)

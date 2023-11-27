@@ -39,8 +39,6 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
       
       surveyTable <- surveyTable()
       
-      print(surveyTable)
-      
       groupMethod_cols <- names(groupMethod_options)[groupMethod_options %in% groupMethod()]
       
       surveyTable_prepped <- surveyTable |>
@@ -69,8 +67,6 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
         dplyr::slice(1:as.numeric(nTopResults())) |>
         dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
         dplyr::ungroup()
-      
-      print(fitted_nvc)
       
       nvcAverageSim(fitted_nvc)
       

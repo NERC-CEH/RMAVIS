@@ -3,7 +3,10 @@
 # shinyOptions(bslib = TRUE)
 
 # Load constants into memory
-source("R/create_constants_load.R", local = TRUE)
+source("R/create_constants.R", local = TRUE)
+
+# Load data into memory
+source("R/load_data.R", local = TRUE)
 
 # Render documentation
 source("R/render_docs.R", local = TRUE)

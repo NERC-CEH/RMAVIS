@@ -108,10 +108,18 @@ sidebar <- function(input, output, session, surveyTable, nvcAverageSim) {
     shiny::updateSelectizeInput(
         session = session,
         inputId = "composedFloristicTable",
-        choices = uniq_IDs, # names(uniq_IDs)
+        choices = uniq_IDs,
         selected = NULL,
         server = FALSE
         )
+    
+    # shiny::updateSelectizeInput(
+    #   session = session,
+    #   inputId = "composedFloristicTable",
+    #   choices = uniq_IDs,
+    #   selected = uniq_IDs[1],
+    #   server = FALSE
+    # )
     
   }) |>
     bindEvent(input$groupMethod,
