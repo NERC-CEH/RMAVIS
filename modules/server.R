@@ -38,5 +38,25 @@ server <- function(input, output, session) {
              id = "calcAvgEIVs_id_1",
              surveyTablePrepped = surveyTablePrepped,
              sidebar_options = sidebar_options)
+  
+  callModule(module = report,
+             id = "sidebar_id_1",
+             surveyTable = surveyTable,
+             surveyTablePrepped = surveyTablePrepped,
+             nvcAverageSim = nvcAverageSim,
+             assignNVCResults = assignNVCResults,
+             sidebar_options = sidebar_options)
+  
+  
+  # observe({
+  #   
+  #   assign(x = "sidebar_options", value = sidebar_options(), envir = .GlobalEnv)
+  #   assign(x = "surveyTable", value = surveyTable(), envir = .GlobalEnv)
+  #   assign(x = "surveyTablePrepped", value = surveyTablePrepped(), envir = .GlobalEnv)
+  #   assign(x = "nvcAverageSim", value = nvcAverageSim(), envir = .GlobalEnv)
+  #   assign(x = "assignNVCResults", value = assignNVCResults(), envir = .GlobalEnv)
+  #   assign(x = "habCor", value = habCor(), envir = .GlobalEnv)
+  #   
+  # })
 
 }

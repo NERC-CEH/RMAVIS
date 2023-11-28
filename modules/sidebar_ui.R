@@ -212,10 +212,11 @@ sidebarUI <- function(id){
           label = "Download Report",
           class = NULL,
           icon = shiny::icon("book")
-          
         )
-      )
-      
+        
+        # reportUI(id = ns("report_id_1"))
+        
+        )
     )
   )
   

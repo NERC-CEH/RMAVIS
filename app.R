@@ -40,6 +40,9 @@ source("modules/floristicTables_server.R", local = TRUE)
 source("modules/calcAvgEIVs_ui.R", local = TRUE)
 source("modules/calcAvgEIVs_server.R", local = TRUE)
 
+# source("modules/report_ui.R", local = TRUE)
+source("modules/report_server.R", local = TRUE)
+
 # Source main UI and Server modules
 source("modules/ui.R", local = TRUE)
 source("modules/server.R", local = TRUE)

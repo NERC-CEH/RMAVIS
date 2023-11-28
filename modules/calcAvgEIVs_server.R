@@ -62,7 +62,8 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
       
       avgWeightedEIVsTable <- surveyTablePrepped |>
         dplyr::rename("preferredTaxon" = "Species") |>
-        dplyr::left_join(master_data, by = "preferredTaxon") |>
+        dplyr::left_join(master_data, by = "preferredTaxon",
+                         relationship = "many-to-many") |>
         dplyr::select(ID, Sample, Cover, `F`, L, N, R, S) |>
         dplyr::mutate("F" = `F` * Cover,
                       "L" = L * Cover, 
@@ -160,7 +161,8 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
       
       avgUnweightedEIVsTable <- surveyTablePrepped |>
         dplyr::rename("preferredTaxon" = "Species") |>
-        dplyr::left_join(master_data, by = "preferredTaxon") |>
+        dplyr::left_join(master_data, by = "preferredTaxon",
+                         relationship = "many-to-many") |>
         dplyr::select(ID, Sample, Cover, `F`, L, N, R, S) |>
         dplyr::group_by(ID, Sample) |>
         dplyr::summarise("Moisture.F" = mean(`F`, na.rm = TRUE),

@@ -32,6 +32,7 @@ COPY /renv.lock /renv.lock
 # Install renv & restore packages
 RUN Rscript -e 'install.packages("renv")'
 RUN Rscript -e 'renv::restore()'
+RUN Rscript -e 'tinytex::install_tinytex()'
 
 # Expose port
 EXPOSE 8001

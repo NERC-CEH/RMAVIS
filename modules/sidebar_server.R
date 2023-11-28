@@ -22,7 +22,8 @@ sidebar <- function(input, output, session, nvcAverageSim) {
       "composedFloristicTable" = input$composedFloristicTable,
       "nvcFloristicTable" = input$nvcFloristicTable,
       "crossTabulate" = input$crossTabulate,
-      "restrictNVCFlorTablesOpts" = input$restrictNVCFlorTablesOpts
+      "restrictNVCFlorTablesOpts" = input$restrictNVCFlorTablesOpts#,
+      # "generateReport" = input$generateReport
     )
     
     sidebar_options(sidebar_options_list)
@@ -36,24 +37,33 @@ sidebar <- function(input, output, session, nvcAverageSim) {
               input$habCorClass, input$composedFloristicTable,
               input$nvcFloristicTable, input$crossTabulate,
               input$restrictNVCFlorTablesOpts,
+              # input$generateReport,
               ignoreInit = TRUE)
   
 
 # Show/Hide inputMethod-related inputs ------------------------------------
   observe({
+    
     if (input$inputMethod == "manual") {
+      
       shinyjs::hide(id = "exampleData")
       shinyjs::hide(id = "dataEntryFormat")
       shinyjs::hide(id = "uploadData")
+      
     } else if (input$inputMethod == "example") {
+      
       shinyjs::show(id = "exampleData")
       shinyjs::hide(id = "dataEntryFormat")
       shinyjs::hide(id = "uploadData")
+      
     } else if (input$inputMethod == "upload") {
+      
       shinyjs::hide(id = "exampleData")
       shinyjs::show(id = "dataEntryFormat")
       shinyjs::show(id = "uploadData")
+      
     }
+    
   }) |>
     bindEvent(input$inputMethod, ignoreInit = FALSE)
   
@@ -103,8 +113,6 @@ sidebar <- function(input, output, session, nvcAverageSim) {
       
       names(uniq_IDs) <- uniq_IDs
       
-      print(uniq_IDs)
-      
       shiny::updateSelectizeInput(
         session = session,
         inputId = "composedFloristicTable",
@@ -118,7 +126,10 @@ sidebar <- function(input, output, session, nvcAverageSim) {
   }) |>
     bindEvent(nvcAverageSim(),
               ignoreInit = TRUE)
-  
+
   return(sidebar_options)
   
 }
+
+
+
