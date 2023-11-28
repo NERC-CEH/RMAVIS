@@ -1,4 +1,4 @@
-sidebar <- function(input, output, session, surveyTable, nvcAverageSim) {
+sidebar <- function(input, output, session, nvcAverageSim) {
   
   ns <- session$ns
   
@@ -94,36 +94,29 @@ sidebar <- function(input, output, session, surveyTable, nvcAverageSim) {
 
 # Reactively update composedFloristicTable options ------------------------
   observe({
-    
-    groupMethod_cols <- names(groupMethod_options)[groupMethod_options %in% input$groupMethod]
-    
-    uniq_IDs <- surveyTable() |>
-      dplyr::select(groupMethod_cols, Species, Cover) |>
-      tidyr::unite(col = "ID", -c("Species", "Cover"), sep = " - ", remove = FALSE) |>
-      dplyr::pull(ID) |>
-      unique()
-    
-    names(uniq_IDs) <- uniq_IDs
-    
-    shiny::updateSelectizeInput(
+      
+    if(nrow(nvcAverageSim()) != 0){
+      
+      uniq_IDs <- nvcAverageSim() |>
+        dplyr::pull(ID) |>
+        unique()
+      
+      names(uniq_IDs) <- uniq_IDs
+      
+      print(uniq_IDs)
+      
+      shiny::updateSelectizeInput(
         session = session,
         inputId = "composedFloristicTable",
         choices = uniq_IDs,
         selected = NULL,
         server = FALSE
-        )
-    
-    # shiny::updateSelectizeInput(
-    #   session = session,
-    #   inputId = "composedFloristicTable",
-    #   choices = uniq_IDs,
-    #   selected = uniq_IDs[1],
-    #   server = FALSE
-    # )
+      )
+      
+    }
     
   }) |>
-    bindEvent(input$groupMethod,
-              surveyTable(),
+    bindEvent(nvcAverageSim(),
               ignoreInit = TRUE)
   
   return(sidebar_options)
