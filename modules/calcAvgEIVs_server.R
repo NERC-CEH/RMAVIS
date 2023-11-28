@@ -75,7 +75,8 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
                          "Light.L" = sum(L, na.rm = TRUE), 
                          "Nitrogen.N" = sum(N, na.rm = TRUE), 
                          "Reaction.R" = sum(R, na.rm = TRUE), 
-                         "Salinity.S" = sum(S, na.rm = TRUE))
+                         "Salinity.S" = sum(S, na.rm = TRUE), .groups = "drop") |>
+        dplyr::ungroup()
         
       
     })
@@ -169,7 +170,8 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
                          "Light.L" = mean(L, na.rm = TRUE), 
                          "Nitrogen.N" = mean(N, na.rm = TRUE), 
                          "Reaction.R" = mean(R, na.rm = TRUE), 
-                         "Salinity.S" = mean(S, na.rm = TRUE))
+                         "Salinity.S" = mean(S, na.rm = TRUE), .groups = "drop") |>
+        dplyr::ungroup()
       
       
     })
