@@ -1,3 +1,14 @@
+# Input method options ----------------------------------------------------
+inputMethod_options <- c("Manual" = "manual",
+                         "Example" = "example",
+                         "Upload" = "upload")
+
+# NVC assignment method options -------------------------------------------
+assignmentMethod_options <- c("Pseudo-quadrat, per group" = "pseudoQuadratGroup",
+                              "Pseudo-quadrat, per sample" = "pseudoQuadratSample",
+                              "Czekanowski" = "czekanowski")
+
+
 # Group Method Options ----------------------------------------------------
 groupMethod_options <- c("Year" = "year",
                          "Site" = "site",
@@ -81,3 +92,9 @@ habitatRestriction_options <- list(
   "Maritime cliff communities (MC)" = "MC",
   "Vegetation of open habitats (OV)" = "OV"
 )
+
+
+# Cross-tabulate NVC floristic tables options -----------------------------
+crossTabulate_options <- c("No" = "No",
+                           "Composed to NVC" = "compToNVC",
+                           "NVC to Composed" = "NVCToComp")
