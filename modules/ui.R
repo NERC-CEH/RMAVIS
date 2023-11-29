@@ -91,9 +91,9 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
-        value = "analysis_panel",
+        value = "eivs_panel",
         
-        bslib::card_header("Analysis"),
+        bslib::card_header("EIVs"),
         
         calcAvgEIVsUI(id = "calcAvgEIVs_id_1")
         

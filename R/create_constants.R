@@ -5,14 +5,15 @@ inputMethod_options <- c("Manual" = "manual",
 
 # NVC assignment method options -------------------------------------------
 assignmentMethod_options <- c("Pseudo-quadrat, per group" = "pseudoQuadratGroup",
-                              "Pseudo-quadrat, per sample" = "pseudoQuadratSample",
+                              "Pseudo-quadrat, per quadrat" = "pseudoQuadratQuadrat",
                               "Czekanowski" = "czekanowski")
 
 
 # Group Method Options ----------------------------------------------------
 groupMethod_options <- c("Year" = "year",
                          "Site" = "site",
-                         "Sample" = "sample")
+                         "Quadrat.Group" = "quadrat.group",
+                         "Quadrat" = "quadrat")
 
 # Data Entry Format Options -----------------------------------------------
 dataEntryFormat_options <- c("Table" = "table",

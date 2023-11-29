@@ -15,7 +15,7 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
 
 # Cover-weighted mean Hill-Ellenberg values -------------------------------
   avgWeightedEIVsTable_init <- data.frame("ID" = character(),
-                                          "Sample" = character(),
+                                          "Quadrat" = character(),
                                           "Moisture.F" = double(),
                                           "Light.L" = double(),
                                           "Nitrogen.N" = double(),
@@ -39,7 +39,7 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
       htmlwidgets::onRender("
       function(el, x) {
         var hot = this.hot
-        $('a[data-value=\"analysis_panel\"').on('click', function(){
+        $('a[data-value=\"eivs_panel\"').on('click', function(){
           setTimeout(function() {hot.render();}, 0);
         })
       }")
@@ -64,13 +64,13 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
         dplyr::rename("preferredTaxon" = "Species") |>
         dplyr::left_join(master_data, by = "preferredTaxon",
                          relationship = "many-to-many") |>
-        dplyr::select(ID, Sample, Cover, `F`, L, N, R, S) |>
+        dplyr::select(ID, Quadrat, Cover, `F`, L, N, R, S) |>
         dplyr::mutate("F" = `F` * Cover,
                       "L" = L * Cover, 
                       "N" = N * Cover, 
                       "R" = R * Cover, 
                       "S" = S * Cover) |>
-        dplyr::group_by(ID, Sample) |>
+        dplyr::group_by(ID, Quadrat) |>
         dplyr::summarise("Moisture.F" = sum(`F`, na.rm = TRUE),
                          "Light.L" = sum(L, na.rm = TRUE), 
                          "Nitrogen.N" = sum(N, na.rm = TRUE), 
@@ -95,7 +95,7 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
         htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot
-          $('a[data-value=\"analysis_panel\"').on('click', function(){
+          $('a[data-value=\"eivs_panel\"').on('click', function(){
             setTimeout(function() {hot.render();}, 0);
           })
         }")
@@ -115,7 +115,7 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
 
 # Unweighted mean Hill-Ellenberg values -------------------------------
   avgUnweightedEIVsTable_init <- data.frame("ID" = character(),
-                                            "Sample" = character(),
+                                            "Quadrat" = character(),
                                             "Moisture.F" = double(),
                                             "Light.L" = double(),
                                             "Nitrogen.N" = double(),
@@ -139,7 +139,7 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
       htmlwidgets::onRender("
       function(el, x) {
         var hot = this.hot
-        $('a[data-value=\"analysis_panel\"').on('click', function(){
+        $('a[data-value=\"eivs_panel\"').on('click', function(){
           setTimeout(function() {hot.render();}, 0);
         })
       }")
@@ -164,8 +164,8 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
         dplyr::rename("preferredTaxon" = "Species") |>
         dplyr::left_join(master_data, by = "preferredTaxon",
                          relationship = "many-to-many") |>
-        dplyr::select(ID, Sample, Cover, `F`, L, N, R, S) |>
-        dplyr::group_by(ID, Sample) |>
+        dplyr::select(ID, Quadrat, Cover, `F`, L, N, R, S) |>
+        dplyr::group_by(ID, Quadrat) |>
         dplyr::summarise("Moisture.F" = mean(`F`, na.rm = TRUE),
                          "Light.L" = mean(L, na.rm = TRUE), 
                          "Nitrogen.N" = mean(N, na.rm = TRUE), 
@@ -190,7 +190,7 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
         htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot
-          $('a[data-value=\"analysis_panel\"').on('click', function(){
+          $('a[data-value=\"eivs_panel\"').on('click', function(){
             setTimeout(function() {hot.render();}, 0);
           })
         }")

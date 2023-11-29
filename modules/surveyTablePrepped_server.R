@@ -4,7 +4,7 @@ surveyTablePrepped <- function(input, output, session, surveyTable, sidebar_opti
   
 # Retrieve sidebar options ------------------------------------------------
   # runAnalysis <- reactiveVal()
-  groupMethod <- reactiveVal(c("year", "site"))
+  groupMethod <- reactiveVal(c("year", "site", "quadrat.group"))
   
   observe({
     

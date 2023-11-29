@@ -65,7 +65,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
       surveyTable_prepped <- surveyTable |>
         tidyr::unite(col = "ID", groupMethod_cols, sep = " - ", remove = TRUE)
       
-      pivot_col <- setdiff(c("Year", "Site", "Sample"), groupMethod_cols)
+      pivot_col <- setdiff(c("Year", "Site", "Quadrat"), groupMethod_cols)
         
       floristicTables_composed <- surveyTable_prepped |>
         dplyr::select(-Cover) |>
@@ -226,7 +226,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
       surveyTable_prepped <- surveyTable |>
         tidyr::unite(col = "ID", groupMethod_cols, sep = " - ", remove = TRUE)
       
-      pivot_col <- setdiff(c("Year", "Site", "Sample"), groupMethod_cols)
+      pivot_col <- setdiff(c("Year", "Site", "Quadrat"), groupMethod_cols)
       
       floristicTables_composed <- surveyTable_prepped |>
         dplyr::select(-Cover) |>

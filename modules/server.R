@@ -47,6 +47,12 @@ server <- function(input, output, session) {
              assignNVCResults = assignNVCResults,
              sidebar_options = sidebar_options)
   
+  # callModule(module = communityAnalysis,
+  #            id = "communityAnalysis_id_1",
+  #            surveyTable = surveyTable,
+  #            surveyTablePrepped = surveyTablePrepped,
+  #            sidebar_options = sidebar_options)
+  
   
   # observe({
   #   

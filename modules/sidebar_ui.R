@@ -51,7 +51,7 @@ sidebarUI <- function(id){
         # shiny::selectizeInput(inputId = ns("assignmentMethods"),
         #                       label = "NVC Assignment Methods",
         #                       choices = assignmentMethod_options,
-        #                       selected = c("pseudoQuadratGroup", "pseudoQuadratSample"),
+        #                       selected = c("pseudoQuadratGroup", "pseudoQuadratQuadrat"),
         #                       multiple = TRUE),
         # shiny::selectizeInput(inputId = ns("coverMethod"), 
         #                       label = "Cover Method", 
@@ -77,7 +77,7 @@ sidebarUI <- function(id){
         shiny::selectizeInput(inputId = ns("groupMethod"), 
                               label = "Grouping Method", 
                               choices = groupMethod_options,
-                              selected = c("year", "site"), 
+                              selected = c("year", "site", "quadrat.group"), 
                               multiple = TRUE)
         
       ),
@@ -173,7 +173,7 @@ sidebarUI <- function(id){
           bslib::popover(
             bsicons::bs_icon("info-circle"),
             title = "Composed Table",
-            paste0("Select a year/site/sample ID to compose a floristic table."),
+            paste0("Select a year/site/quadrat ID to compose a floristic table."),
             placement = "bottom"
           )
           

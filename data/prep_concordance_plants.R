@@ -80,9 +80,10 @@ bsbiParserData_2 <- readr::read_delim("data/raw_data/results20231129111717.csv",
                                       trim_ws = TRUE)
 
 bsbiParserData_2_prepped <- typesOfError_notMatched_strataErrors_noId |>
+  dplyr::rename("species" = "speciestoJoin") |>
+  dplyr::left_join(nvc_pquads_uniqSpecies_plants, by = "species") |>
   dplyr::left_join(bsbiParserData_2, by = "speciestoSearch") |>
-  dplyr::select(-speciestoSearch) |>
-  dplyr::rename("species" = "speciestoJoin")
+  dplyr::select(-speciestoSearch)
 
 # Manually match the taxon id by checking the BSBI taxon concepts checklist
 typesOfError_notMatched_other <- typesOfError_notMatched |>
@@ -121,7 +122,7 @@ bsbiParserData_3 <- readr::read_delim("data/raw_data/results20231129104808.csv",
                                       trim_ws = TRUE)
 
 bsbiParserData_3_prepped <- typesOfError_notMatched_other |>
-  dplyr::select(species, speciesSearch) |>
+  dplyr::select(species, speciesSearch, BRC) |>
   dplyr::left_join(bsbiParserData_3, by = "speciesSearch") |>
   dplyr::select(-speciesSearch)
 
@@ -140,7 +141,8 @@ typesOfError_other_noID_sppFix <- data.frame("species" = c("Vaccinium myrtillus 
                                                            "Festuca pratensis x Lolium perenne (x Festulolium"),
                                              "speciestoSubmit" = c("Vaccinium myrtillus x vitis-idaea", 
                                                                    "Festuca pratensis x Lolium perenne",
-                                                                   "Festuca pratensis x Lolium perenne"))
+                                                                   "Festuca pratensis x Lolium perenne")) |>
+  dplyr::left_join(nvc_pquads_uniqSpecies_plants, by = "species")
 
 # Manually create names to re-submit
 typesOfError_other_to_Resubmit3 <- typesOfError_other_noID_sppFix |>
@@ -182,7 +184,7 @@ concordance_plants_draft <- bsbiParserData_1_prepped |>
   dplyr::distinct() |>
   # Apply some manual fixes for BRC_new and TVK codes that could not be found via the BSBI taxon name parser, where possible
   # TVK codes found using NHM UK species inventory, found here: https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy
-  # BRC_new codes found using
+  # BRC_new codes found using the BRC species dictionary
   dplyr::mutate(
     "TVK" = dplyr::case_when(
       assignNVCSpecies == "Bromus racemosus" ~ "NBNSYS0000002585",
@@ -193,34 +195,54 @@ concordance_plants_draft <- bsbiParserData_1_prepped |>
       assignNVCSpecies == "Brassica oleracea (cultivated)" ~ "NBNSYS0000002800",
       TRUE ~ as.character(TVK)
     )
-  ) #|>
-  # dplyr::mutate(
-  #   "BRC_new" = dplyr::case_when(
-  #     assignNVCSpecies == "Bromus racemosus" ~ ,
-  #     # assignNVCSpecies == "Polygala oxyptera" ~ ,
-  #     assignNVCSpecies == "Rosa villosa agg." ~ ,
-  #     assignNVCSpecies == "Utricularia vulgaris sens.lat." ~ ,
-  #     assignNVCSpecies == "Dactylorhiza traunsteineri" ~ ,
-  #     assignNVCSpecies == "Brassica oleracea (cultivated)" ~ ,
-  #     TRUE ~ as.character(BRC_new)
-  #   )
-  # )
+  ) |>
+  dplyr::mutate(
+    "BRC_new" = dplyr::case_when(
+      assignNVCSpecies == "Bromus racemosus" ~ "Vas_271",
+      # assignNVCSpecies == "Polygala oxyptera" ~ ,
+      assignNVCSpecies == "Rosa villosa agg." ~ "Vas_1722", # Listed under the synonym Rosa mollis agg. according to old BRC code
+      assignNVCSpecies == "Utricularia vulgaris sens.lat." ~ "Vas_2132",
+      assignNVCSpecies == "Dactylorhiza traunsteineri" ~ "Vas_614",
+      assignNVCSpecies == "Brassica oleracea (cultivated)" ~ "Vas_253.2",
+      TRUE ~ as.character(BRC_new)
+    )
+  )
 
-concordance_plants_polygala_oxyptera <- concordance_plants |>
+concordance_plants_polygala_oxyptera <- concordance_plants_draft |>
   dplyr::filter(assignNVCSpecies == "Polygala vulgaris") |>
   dplyr::mutate("assignNVCSpecies" = "Polygala oxyptera")
 
+
+
+# Get concordance data for plants present in assignNVC::NVC_communities but not in 
+nvc_comms_uniqSpecies <- assignNVC::NVC_communities |>
+  dplyr::select(Species, BRC) |>
+  dplyr::distinct() |>
+  dplyr::filter(!(Species %in% unique(assignNVC::nvc_pquads$species)))
+
+# nvcCommSpp_tosubmit <- 
+# 
+# write.table(nvcCommSpp_tosubmit, file = './data/raw_data/nvcCommSpp_tosubmit.tsv', quote = FALSE, sep = '\t', row.names = FALSE)
+# 
+# bsbiParserData_5 <- readr::read_delim("data/raw_data/.csv",
+#                                       delim = "\t", escape_double = FALSE, 
+#                                       trim_ws = TRUE)
+# 
+# bsbiParserData_5_prepped <- bsbiParserData_4 |>
+#   dplyr::left_join(typesOfError_other_noID_sppFix, by = "speciestoSubmit") |>
+#   dplyr::select(-speciestoSubmit)
 
 concordance_plants <- concordance_plants_draft |>
   dplyr::filter(assignNVCSpecies != "Polygala oxyptera") |>
   dplyr::bind_rows(concordance_plants_polygala_oxyptera) |>
   dplyr::mutate(
-    "proposedName" = 
+    "proposedSpecies" = 
       dplyr::case_when(
         assignNVCSpecies |> stringr::str_detect(pattern = "(\\w*)(\\s)(\\w*)(\\s)(\\([sgc]\\))") == TRUE ~ assignNVCSpecies,
         TRUE ~ as.character(bsbiTaxonName)
       )
-  )
+  ) |>
+  dplyr::select(-bsbiQualifiedTaxonName, -bsbiTaxonName)
 
 # Check that the number of plant species in nvc_pquads_uniqSpecies_plants is equal to the length of concordance_plants
 nrow(nvc_pquads_uniqSpecies_plants) - nrow(concordance_plants)
