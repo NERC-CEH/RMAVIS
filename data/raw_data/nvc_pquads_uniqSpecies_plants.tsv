@@ -680,6 +680,12 @@ Atriplex littoralis	920217
 Diplotaxis muralis	920644
 Polygonum aviculare agg.	9201522
 Lavatera arborea	9201119
+Stellaria media agg.	9202012
+Cochlearia officinalis	920535
+Matricaria maritima	9201241.3
+Atriplex prostrata	920214
+Polygonum aviculare	9201523
+Spergula arvensis	9201987
 Cerastium glomeratum	920466
 Carex distans	920366
 Euphrasia tetraquetra	920799
@@ -761,7 +767,6 @@ Veronica persica	9202175
 Veronica polita	9202176
 Alliaria petiolata	92064
 Fumaria officinalis	920854
-Spergula arvensis	9201987
 Euphorbia helioscopia	920772
 Polygonum arenastrum	9201520
 Matricaria recutita	9201239
@@ -967,6 +972,9 @@ Carex acuta	920340
 Alnus glutinosa (c)	92077
 Dryopteris cristata	910663
 Cardamine amara	920327
+Aster tripolium (rayed)	920204
+Triglochin maritima	9202101
+Juncus gerardi	9201069
 Persicaria bistorta	9201525
 Phleum arenarium	9201459
 Viola tricolor subsp.curtisii	9202220
@@ -1002,6 +1010,7 @@ Salicornia europaea agg.	9204326
 Sarcocornia perennis	9201777
 Salicornia agg.	9202242
 Spartina anglica	9202278
+Aster tripolium (unrayed)	920204
 Spartina maritima	9201985
 Limonium humile	9201149
 Carex extensa	920374
@@ -1010,6 +1019,7 @@ Hordeum marinum	920991
 Blysmus rufus	920246
 Zostera angustifolia	9202238
 Zostera noltii	9202240
+Zostera marina	9202239
 Frankenia laevis	920840
 Limonium bellidifolium	9201147
 Melilotus altissimus	9201265
@@ -1174,3 +1184,8 @@ Ulmus minor (s)	9202115
 Tilia platyphyllos	9202064
 Carex pallescens	920399
 Circaea alpina x lutetiana (C. x intermedia)	920512
+Bromus racemosus	920271
+Bromus commutatus	920262
+Oenanthe silaifolia	9201368
+Polygala oxyptera	9201515
+Festuca pratensis x Lolium perenne (x Festulolium loli	920815
