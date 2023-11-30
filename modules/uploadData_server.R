@@ -63,6 +63,8 @@ uploadData <- function(input, output, session) {
       
       uploaded_data_raw <- read.csv(input$uploadDataInput$datapath)
       
+      # print(uploaded_data_raw)
+      
     } else if(input$dataEntryFormat == "wide"){
       
       uploaded_data_raw <- read.csv(input$uploadDataInput$datapath, check.names = FALSE, row.names = 1) |>
@@ -109,7 +111,17 @@ uploadData <- function(input, output, session) {
     
     output$columnNames_correct_expression <- shiny::renderText({
       
-      paste0("Column Names Correct: ", as.character(columnNames_correct))
+      paste0("Column Names Correct: ",
+             ifelse(
+               as.character(columnNames_correct) == TRUE,
+               paste('<font color="green"><b>', 
+                     as.character(columnNames_correct), 
+                     '</b></font>'),
+               paste('<font color="red"><b>', 
+                     as.character(columnNames_correct), 
+                     '</b></font>')
+               )
+             )
       
     })
     
@@ -124,13 +136,33 @@ uploadData <- function(input, output, session) {
       
       output$yearValues_numeric_expression <- shiny::renderText({
         
-        paste0("Year Values Numeric: ", as.character(yearValues_numeric))
+        paste0("Year Values Numeric: ",
+               ifelse(
+                 as.character(yearValues_numeric) == TRUE,
+                 paste('<font color="green"><b>', 
+                       as.character(yearValues_numeric), 
+                       '</b></font>'),
+                 paste('<font color="red"><b>', 
+                       as.character(yearValues_numeric), 
+                       '</b></font>')
+               )
+        )
         
       })
       
       output$speciesNames_correct_expression <- shiny::renderText({
         
-        paste0("Species Names Correct: ", as.character(speciesNames_correct))
+        paste0("Species Names Correct: ",
+               ifelse(
+                 as.character(speciesNames_correct) == TRUE,
+                 paste('<font color="green"><b>', 
+                       as.character(speciesNames_correct), 
+                       '</b></font>'),
+                 paste('<font color="red"><b>', 
+                       as.character(speciesNames_correct), 
+                       '</b></font>')
+               )
+        )
         
       })
       
@@ -146,7 +178,7 @@ uploadData <- function(input, output, session) {
     
     uploadDataTable_rval(rhandsontable::hot_to_r(input$uploadDataTable))
     
-    shinyjs::click(id = "confirmUpload")
+    # shinyjs::click(id = "confirmUpload")
     
     # print(uploadDataTable_rval)
     

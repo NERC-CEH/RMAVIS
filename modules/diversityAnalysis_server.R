@@ -113,20 +113,20 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTablePr
         dplyr::mutate_all(~replace(., is.na(.), 0)) |>
         as.matrix() 
       
-      print(simpsonDiversity_idQuad_matrix)
+      # print(simpsonDiversity_idQuad_matrix)
       
       simpsonDiversity_idQuad_results <- simpsonDiversity_idQuad_matrix |>
         vegan::diversity(index = "simpson") |>
         tibble::as_tibble(rownames = "ID") |> # column_name = "Simpson.Diversity"
         dplyr::rename("Simpson.Diversity" = "value")
       
-      print(simpsonDiversity_idQuad_results)
+      # print(simpsonDiversity_idQuad_results)
       
       # Create metricsTableIDQuad_data
       metricsTableIDQuad_data <- speciesRichness_idQuad |>
         dplyr::left_join(simpsonDiversity_idQuad_results, by = "ID")
       
-      print(metricsTableIDQuad_data)
+      # print(metricsTableIDQuad_data)
       
     })
     

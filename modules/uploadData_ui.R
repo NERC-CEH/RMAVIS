@@ -84,9 +84,9 @@ uploadDataUI <- function(id) {
       
       shiny::div(
         
-        shiny::textOutput(outputId = ns("columnNames_correct_expression")),
-        shiny::textOutput(outputId = ns("yearValues_numeric_expression")),
-        shiny::textOutput(outputId = ns("speciesNames_correct_expression"))
+        shiny::htmlOutput(outputId = ns("columnNames_correct_expression")),
+        shiny::htmlOutput(outputId = ns("yearValues_numeric_expression")),
+        shiny::htmlOutput(outputId = ns("speciesNames_correct_expression"))
         
       ),
       
