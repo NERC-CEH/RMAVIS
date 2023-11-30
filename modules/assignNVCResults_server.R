@@ -3,7 +3,6 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
   ns <- session$ns
   
 # Retrieve sidebar options ------------------------------------------------
-  dataEntryFormat <- reactiveVal()
   runAnalysis <- reactiveVal()
   coverMethod <- reactiveVal()
   habitatRestriction <- reactiveVal()
@@ -12,7 +11,6 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
 
   observe({
 
-    dataEntryFormat(sidebar_options()$dataEntryFormat)
     runAnalysis(sidebar_options()$runAnalysis)
     coverMethod(sidebar_options()$coverMethod)
     habitatRestriction(sidebar_options()$habitatRestriction)

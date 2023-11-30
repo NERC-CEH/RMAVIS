@@ -3,7 +3,6 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
   ns <- session$ns
   
 # Retrieve sidebar options ------------------------------------------------
-  dataEntryFormat <- reactiveVal()
   runAnalysis <- reactiveVal()
   coverMethod <- reactiveVal()
   habitatRestriction <- reactiveVal()
@@ -12,7 +11,6 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
 
   observe({
 
-    dataEntryFormat(sidebar_options()$dataEntryFormat)
     runAnalysis(sidebar_options()$runAnalysis)
     coverMethod(sidebar_options()$coverMethod)
     habitatRestriction(sidebar_options()$habitatRestriction)

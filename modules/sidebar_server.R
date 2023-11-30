@@ -12,7 +12,6 @@ sidebar <- function(input, output, session, nvcAverageSim) {
       "inputMethod" = input$inputMethod,
       # "resetTable" = input$resetTable,
       "exampleData" = input$exampleData,
-      "dataEntryFormat" = input$dataEntryFormat,
       "runAnalysis" = input$runAnalysis,
       # "coverMethod" = input$coverMethod,
       "habitatRestriction" = input$habitatRestriction,
@@ -32,7 +31,7 @@ sidebar <- function(input, output, session, nvcAverageSim) {
     bindEvent(input$inputMethod, 
               # input$resetTable, 
               input$exampleData, 
-              input$dataEntryFormat, input$runAnalysis, 
+              input$runAnalysis, 
               # input$coverMethod, 
               input$habitatRestriction, input$nTopResults, input$groupMethod,
               input$habCorClass, input$composedFloristicTable,
@@ -48,31 +47,25 @@ sidebar <- function(input, output, session, nvcAverageSim) {
     if (input$inputMethod == "manual") {
       
       shinyjs::hide(id = "exampleData")
-      shinyjs::hide(id = "dataEntryFormat")
       shinyjs::hide(id = "uploadData")
       
       shinyjs::hideElement(id = "exampleDataInfo")
-      shinyjs::hideElement(id = "dataEntryFormatInfo")
       shinyjs::hideElement(id = "uploadDataInfo")
       
     } else if (input$inputMethod == "example") {
       
       shinyjs::show(id = "exampleData")
-      shinyjs::hide(id = "dataEntryFormat")
       shinyjs::hide(id = "uploadData")
       
       shinyjs::showElement(id = "exampleDataInfo")
-      shinyjs::hideElement(id = "dataEntryFormatInfo")
       shinyjs::hideElement(id = "uploadDataInfo")
       
     } else if (input$inputMethod == "upload") {
       
       shinyjs::hide(id = "exampleData")
-      shinyjs::show(id = "dataEntryFormat")
       shinyjs::show(id = "uploadData")
       
       shinyjs::hideElement(id = "exampleDataInfo")
-      shinyjs::showElement(id = "dataEntryFormatInfo")
       shinyjs::showElement(id = "uploadDataInfo")
       
     }
@@ -92,6 +85,7 @@ sidebar <- function(input, output, session, nvcAverageSim) {
       shiny::modalDialog(
         
         title = "Upload Data",
+        id = "uploadDataModal",
         footer = shiny::tagList(
           shiny::modalButton("Close"),
           shiny::actionButton("Upload", "Upload")

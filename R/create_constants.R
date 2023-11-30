@@ -16,8 +16,8 @@ groupMethod_options <- c("Year" = "year",
                          "Quadrat" = "quadrat")
 
 # Data Entry Format Options -----------------------------------------------
-dataEntryFormat_options <- c("Table" = "table",
-                             "Matrix" = "matrix")
+dataEntryFormat_options <- c("Long" = "long",
+                             "Wide" = "wide")
 
 # Domin Cover -------------------------------------------------------------
 dominCoverMidPointPerc <- c("10" = 0.955,

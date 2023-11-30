@@ -1,28 +1,51 @@
 uploadData <- function(input, output, session) {
   
   ns <- session$ns
-  
-  # Retrieve sidebar options ------------------------------------------------
-  # observe({
-  #   
-  #   
-  # }) |>
-  #   bindEvent(sidebar_options(), ignoreInit = TRUE)
-  
+
+
+# Intialiase data validation objects --------------------------------------
   columnNames_correct <- reactiveVal()
   yearValues_numeric <- reactiveVal()
   speciesNames_correct <- reactiveVal()
   
+
+# Initialise table --------------------------------------------------------
+  uploaded_data_init <- data.frame("Year" = character(),
+                                   "Site" = character(),
+                                   "Quadrat.Group" = character(),
+                                   "Quadrat" = character(),
+                                   "Species" = character(),
+                                   "Cover" = numeric())
+  
+  output$uploadDataTable <- rhandsontable::renderRHandsontable({
+    
+    uploadDataTable <- rhandsontable::rhandsontable(data = uploaded_data_init,
+                                                    rowHeaders = NULL,
+                                                    width = "100%"
+    ) |>
+      rhandsontable::hot_col(col = colnames(uploaded_data_init), halign = "htCenter") |>
+      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
+    
+    return(uploadDataTable)
+    
+  })
+  
   observe({
+    
+    # shiny::req(input$uploadDataTable)
     
     uploaded_data_raw <- read.csv(input$uploadDataInput$datapath)
     
-    output$uploadDataTable <- DT::renderDT({
+    output$uploadDataTable <- rhandsontable::renderRHandsontable({
       
-      uploadDataTable <- DT::datatable(
-        data = uploaded_data_raw,
-        editable = FALSE
-      )
+      uploadDataTable <- rhandsontable::rhandsontable(data = uploaded_data_raw,
+                                                      rowHeaders = NULL,
+                                                      width = "100%"
+                                                      ) |>
+        rhandsontable::hot_col(col = colnames(uploaded_data_raw), halign = "htCenter") |>
+        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
       
       return(uploadDataTable)
       
@@ -68,7 +91,7 @@ uploadData <- function(input, output, session) {
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
 
-  
+  # outputOptions(output, "uploadDataTable", suspendWhenHidden = FALSE)
   
   # return()
   

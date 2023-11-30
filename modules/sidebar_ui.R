@@ -64,26 +64,6 @@ sidebarUI <- function(id){
           
         ),
         
-        # bslib::layout_columns(
-        #   
-        #   col_widths = c(11, 1),
-        #   
-        #   shiny::selectizeInput(inputId = ns("dataEntryFormat"), 
-        #                         label = "Data Entry Format", 
-        #                         choices = dataEntryFormat_options, 
-        #                         selected = "table", 
-        #                         multiple = FALSE),
-        #   
-        #   bslib::popover(
-        #     bsicons::bs_icon("info-circle"),
-        #     title = "Data Entry Format",
-        #     id = ns("dataEntryFormatInfo"),
-        #     paste0(""),
-        #     placement = "bottom"
-        #   )
-        #   
-        # ),
-        
         bslib::layout_columns(
           
           col_widths = c(11, 1),
