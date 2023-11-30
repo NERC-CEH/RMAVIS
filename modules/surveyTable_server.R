@@ -30,9 +30,9 @@ surveyTable <- function(input, output, session, sidebar_options) {
 # Initial survey table data -----------------------------------------------
 
   surveyTable_init <- data.frame("Year" = as.character(rep(2024, 20)),
-                                 "Site" = as.character(rep("Placeholder", 20)),
-                                 "Quadrat" = as.character(rep("1", 20)),
+                                 "Site" = as.character(rep("...", 20)),
                                  "Quadrat.Group" = as.character(rep("A", 20)),
+                                 "Quadrat" = as.character(rep("1", 20)),
                                  "Species" = as.character(rep("", 20)),
                                  "Cover" = as.numeric(rep(0, 20)))
   
@@ -110,7 +110,7 @@ surveyTable <- function(input, output, session, sidebar_options) {
         surveyTable <- example_data_df |>
           dplyr::filter(Site == exampleData()) |>
           dplyr::mutate(Year = "2023") |>
-          dplyr::select(Year, Site, Quadrat, Quadrat.Group, Species, Cover)
+          dplyr::select(Year, Site, Quadrat.Group, Quadrat, Species, Cover)
         
       } else if(inputMethod() == "upload"){
         

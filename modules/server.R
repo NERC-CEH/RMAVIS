@@ -5,6 +5,9 @@ server <- function(input, output, session) {
                                 id = "sidebar_id_1",
                                 nvcAverageSim = nvcAverageSim)
   
+  callModule(module = uploadData,
+             id = "uploadData_id_1")
+  
   surveyTable <- callModule(module = surveyTable,
                             id = "surveyTable_id_1",
                             sidebar_options = sidebar_options)
@@ -47,8 +50,14 @@ server <- function(input, output, session) {
              assignNVCResults = assignNVCResults,
              sidebar_options = sidebar_options)
   
-  # callModule(module = communityAnalysis,
-  #            id = "communityAnalysis_id_1",
+  callModule(module = diversityAnalysis,
+             id = "diversityAnalysis_id_1",
+             surveyTable = surveyTable,
+             surveyTablePrepped = surveyTablePrepped,
+             sidebar_options = sidebar_options)
+  
+  # callModule(module = ordinationAnalysis,
+  #            id = "ordinationAnalysis_id_1",
   #            surveyTable = surveyTable,
   #            surveyTablePrepped = surveyTablePrepped,
   #            sidebar_options = sidebar_options)

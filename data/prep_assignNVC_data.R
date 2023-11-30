@@ -53,3 +53,11 @@ nvc_community_codes <- assignNVC::NVC_communities |>
 
 saveRDS(object = nvc_community_codes, file = "./data/bundled_data/nvc_community_codes.rds")
 
+
+nvc_community_namesCodes <- read.csv(file = "./data/raw_data/NVC-floristic-tables.csv") |>
+  dplyr::select("NVC.Code" = Community.or.sub.community.code, 
+                "NVC.Name" = Community.or.sub.community.name) |>
+  dplyr::distinct()
+
+saveRDS(object = nvc_community_namesCodes, file = "./data/bundled_data/nvc_community_namesCodes.rds")
+

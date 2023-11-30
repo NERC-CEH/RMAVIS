@@ -51,11 +51,19 @@ sidebar <- function(input, output, session, nvcAverageSim) {
       shinyjs::hide(id = "dataEntryFormat")
       shinyjs::hide(id = "uploadData")
       
+      shinyjs::hideElement(id = "exampleDataInfo")
+      shinyjs::hideElement(id = "dataEntryFormatInfo")
+      shinyjs::hideElement(id = "uploadDataInfo")
+      
     } else if (input$inputMethod == "example") {
       
       shinyjs::show(id = "exampleData")
       shinyjs::hide(id = "dataEntryFormat")
       shinyjs::hide(id = "uploadData")
+      
+      shinyjs::showElement(id = "exampleDataInfo")
+      shinyjs::hideElement(id = "dataEntryFormatInfo")
+      shinyjs::hideElement(id = "uploadDataInfo")
       
     } else if (input$inputMethod == "upload") {
       
@@ -63,11 +71,43 @@ sidebar <- function(input, output, session, nvcAverageSim) {
       shinyjs::show(id = "dataEntryFormat")
       shinyjs::show(id = "uploadData")
       
+      shinyjs::hideElement(id = "exampleDataInfo")
+      shinyjs::showElement(id = "dataEntryFormatInfo")
+      shinyjs::showElement(id = "uploadDataInfo")
+      
     }
     
   }) |>
     bindEvent(input$inputMethod, ignoreInit = FALSE)
-  
+
+
+# Upload Data Modal Popup -------------------------------------------------
+
+  observe({
+    
+    shiny::showModal(
+      
+      session = session,
+      
+      shiny::modalDialog(
+        
+        title = "Upload Data",
+        footer = shiny::tagList(
+          shiny::modalButton("Close"),
+          shiny::actionButton("Upload", "Upload")
+        ),
+        size = "xl",
+        easyClose = FALSE,
+        fade = TRUE,
+        
+        uploadDataUI(id = "uploadData_id_1"),
+        
+      )
+    )
+    
+  }) |>
+    bindEvent(input$uploadData,
+              ignoreInit = TRUE)
   
 
 # Reactively update nvcFloristicTable options -----------------------------

@@ -19,6 +19,9 @@ source("modules/documentation_ui.R", local = TRUE)
 source("modules/sidebar_ui.R", local = TRUE)
 source("modules/sidebar_server.R", local = TRUE)
 
+source("modules/uploadData_ui.R", local = TRUE)
+source("modules/uploadData_server.R", local = TRUE)
+
 source("modules/surveyTable_ui.R", local = TRUE)
 source("modules/surveyTable_server.R", local = TRUE)
 
@@ -40,8 +43,11 @@ source("modules/floristicTables_server.R", local = TRUE)
 source("modules/calcAvgEIVs_ui.R", local = TRUE)
 source("modules/calcAvgEIVs_server.R", local = TRUE)
 
-# source("modules/communityAnalysis_ui.R", local = TRUE)
-# source("modules/communityAnalysis_server.R", local = TRUE)
+source("modules/diversityAnalysis_ui.R", local = TRUE)
+source("modules/diversityAnalysis_server.R", local = TRUE)
+
+# source("modules/ordinationAnalysis_ui.R", local = TRUE)
+# source("modules/ordinationAnalysis_server.R", local = TRUE)
 
 # source("modules/report_ui.R", local = TRUE)
 source("modules/report_server.R", local = TRUE)

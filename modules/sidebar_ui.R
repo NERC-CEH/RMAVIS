@@ -24,30 +24,155 @@ sidebarUI <- function(id){
         
         icon = bsicons::bs_icon("wrench-adjustable"),
         
+        bslib::layout_columns(
+          
+          col_widths = c(11, 1),
+          
+          shiny::selectizeInput(inputId = ns("inputMethod"), 
+                                label = "Input Method", 
+                                choices = inputMethod_options, 
+                                selected = "none", 
+                                multiple = FALSE),
+          
+          bslib::popover(
+            bsicons::bs_icon("info-circle"),
+            title = "Input Method",
+            id = ns("inputmethodInfo"),
+            paste0(""),
+            placement = "bottom"
+          )
+          
+        ),
+        
+        bslib::layout_columns(
+          
+          col_widths = c(11, 1),
+          
+          shiny::selectizeInput(inputId = ns("exampleData"), 
+                                label = "Example Data", 
+                                choices = exampleDataOptions, 
+                                selected = "none", 
+                                multiple = FALSE),
+            
+          bslib::popover(
+            bsicons::bs_icon("info-circle"),
+            title = "Example Data",
+            id = ns("exampleDataInfo"),
+            paste0(""),
+            placement = "bottom"
+          )
+          
+        ),
+        
+        # bslib::layout_columns(
+        #   
+        #   col_widths = c(11, 1),
+        #   
+        #   shiny::selectizeInput(inputId = ns("dataEntryFormat"), 
+        #                         label = "Data Entry Format", 
+        #                         choices = dataEntryFormat_options, 
+        #                         selected = "table", 
+        #                         multiple = FALSE),
+        #   
+        #   bslib::popover(
+        #     bsicons::bs_icon("info-circle"),
+        #     title = "Data Entry Format",
+        #     id = ns("dataEntryFormatInfo"),
+        #     paste0(""),
+        #     placement = "bottom"
+        #   )
+        #   
+        # ),
+        
+        bslib::layout_columns(
+          
+          col_widths = c(11, 1),
+          
+          shiny::actionButton(inputId = ns("uploadData"),
+                              label = "Upload Data"),
+          
+          # shiny::fileInput(inputId = ns("uploadDataInput"),
+          #                  label = "browse",
+          #                  accept = c("text/csv",
+          #                             "text/comma-separated-values,text/plain",
+          #                             ".csv"
+          #                  )
+          # ),
+          
+          bslib::popover(
+            bsicons::bs_icon("info-circle"),
+            title = "Upload Data",
+            id = ns("uploadDataInfo"),
+            paste0(""),
+            placement = "bottom"
+          )
+          
+        ),
+        
+        shiny::div(shiny::br()),
+        
+        bslib::layout_columns(
+          
+          col_widths = c(11, 1),
+          
+          shiny::selectizeInput(inputId = ns("habitatRestriction"), 
+                                label = "Restrict Habitat", 
+                                choices = habitatRestriction_options, 
+                                selected = NA, 
+                                multiple = TRUE),
+          
+          bslib::popover(
+            bsicons::bs_icon("info-circle"),
+            title = "Restrict Habitat",
+            id = ns("restrictHabitatInfo"),
+            paste0(""),
+            placement = "bottom"
+          )
+          
+        ),
+        
+        bslib::layout_columns(
+          
+          col_widths = c(11, 1),
+          
+          shiny::selectizeInput(inputId = ns("nTopResults"), 
+                                label = "Number of Top Results", 
+                                choices = c(1:10), 
+                                selected = 3, 
+                                multiple = FALSE),
+          
+          bslib::popover(
+            bsicons::bs_icon("info-circle"),
+            title = "Number of Top Results",
+            id = ns("nTopResultsInfo"),
+            paste0(""),
+            placement = "bottom"
+          )
+          
+        ),
+        
+        bslib::layout_columns(
+          
+          col_widths = c(11, 1),
+          
+          shiny::selectizeInput(inputId = ns("groupMethod"), 
+                                label = "Grouping Method", 
+                                choices = groupMethod_options,
+                                selected = c("year", "site", "quadrat.group"), 
+                                multiple = TRUE),
+          
+          bslib::popover(
+            bsicons::bs_icon("info-circle"),
+            title = "Grouping Method",
+            id = ns("groupMethodInfo"),
+            paste0(""),
+            placement = "bottom"
+          )
+          
+        )
+        
         # shiny::actionButton(inputId = ns("resetTable"),
         #                     label = "Reset Table"),
-        shiny::selectizeInput(inputId = ns("inputMethod"), 
-                              label = "Input Method", 
-                              choices = inputMethod_options, 
-                              selected = "none", 
-                              multiple = FALSE),
-        shiny::selectizeInput(inputId = ns("exampleData"), 
-                              label = "Example Data", 
-                              choices = exampleDataOptions, 
-                              selected = "none", 
-                              multiple = FALSE),
-        shiny::selectizeInput(inputId = ns("dataEntryFormat"), 
-                              label = "Data Entry Format", 
-                              choices = dataEntryFormat_options, 
-                              selected = "table", 
-                              multiple = FALSE),
-        shiny::fileInput(inputId = ns("uploadData"),
-                         label = "Upload .csv",
-                         accept = c("text/csv",
-                                    "text/comma-separated-values,text/plain",
-                                    ".csv"
-                                    )
-                         ),
         # shiny::selectizeInput(inputId = ns("assignmentMethods"),
         #                       label = "NVC Assignment Methods",
         #                       choices = assignmentMethod_options,
@@ -58,27 +183,12 @@ sidebarUI <- function(id){
         #                       choices = coverMethod_options, 
         #                       selected = "directPercentage", 
         #                       multiple = FALSE),
-        shiny::selectizeInput(inputId = ns("habitatRestriction"), 
-                              label = "Restrict Habitat", 
-                              choices = habitatRestriction_options, 
-                              selected = NA, 
-                              multiple = TRUE),
         # shiny::selectizeInput(inputId = ns("nvcFittingMethod"), 
         #                       label = "Method", 
         #                       choices = c("Pseudo-Quadrat" = "pseudoQuadrat",
         #                                   "Floristic Table" = "floristicTable"), 
         #                       selected = "pseudoQuadrat", 
         #                       multiple = FALSE),
-        shiny::selectizeInput(inputId = ns("nTopResults"), 
-                              label = "Number of Top Results", 
-                              choices = c(1:10), 
-                              selected = 3, 
-                              multiple = FALSE),
-        shiny::selectizeInput(inputId = ns("groupMethod"), 
-                              label = "Grouping Method", 
-                              choices = groupMethod_options,
-                              selected = c("year", "site", "quadrat.group"), 
-                              multiple = TRUE)
         
       ),
       
@@ -209,6 +319,13 @@ sidebarUI <- function(id){
         shiny::downloadButton(
           outputId = ns("generateReport"),
           label = "Download Report",
+          class = NULL,
+          icon = shiny::icon("book")
+        ),
+        
+        shiny::downloadButton(
+          outputId = ns("downloadSpeciesData"),
+          label = "Download Accepted Species",
           class = NULL,
           icon = shiny::icon("book")
         )

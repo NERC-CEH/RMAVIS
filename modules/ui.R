@@ -97,6 +97,30 @@ ui <- bslib::page_navbar(
         
         calcAvgEIVsUI(id = "calcAvgEIVs_id_1")
         
+      ),
+      
+      bslib::nav_panel(
+        
+        full_screen = TRUE,
+        
+        value = "diversity_panel",
+        
+        bslib::card_header("Diversity"),
+        
+        diversityAnalysisUI(id = "diversityAnalysis_id_1")
+        
+      ),
+      
+      bslib::nav_panel(
+        
+        full_screen = TRUE,
+        
+        value = "ordination_panel",
+        
+        bslib::card_header("Ordination")#,
+        
+        # ordinationAnalysisUI(id = "ordinationAnalysis_id_1")
+        
       )
       
     )
