@@ -1,3 +1,8 @@
+concordance_all <- readRDS(file = "./data/bundled_data/concordance_all.rds")
+concordance_all_trimmed <- concordance_all |>
+  dplyr::select("proposedSpecies" = proposedSpecies,
+                "taxonId" = bsbiTaxonId)
+
 bsbiTaxonConcepts <- readr::read_delim("./data/raw_data/bsbi_checklist_BRC_taxonConcepts.csv",
                                        delim = "\t", escape_double = FALSE,
                                        trim_ws = TRUE,
@@ -90,7 +95,13 @@ bsbiTaxonConcepts_ready <- bsbiTaxonConcepts |>
   dplyr::select(-c(key, dataValue, origTaxonId, preferredTaxonQualifier, origTaxon, origQualifier, notes, referenceSummary, `reference entity id`)) |>
   dplyr::distinct()
 
+# Expect a many to many join because of the "Acer campestre (c)" strata taxa
 plants_data <- bsbiTaxonConcepts_ready |>
-  dplyr::left_join(bsbiChecklistData_ready, by = "taxonId")
+  dplyr::left_join(bsbiChecklistData_ready, by = "taxonId") |>
+  dplyr::right_join(concordance_all_trimmed, by = "taxonId") |>
+  dplyr::select(-taxonId, -preferredQualifiedTaxonName, -preferredTaxon) |>
+  dplyr::rename("species" = "proposedSpecies")
 
-length(plants_data$taxonId) == nrow(plants_data)
+length(plants_data$species) == nrow(plants_data)
+
+

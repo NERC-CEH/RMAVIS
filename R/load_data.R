@@ -26,3 +26,7 @@ nvc_pquads_final <- readRDS(file = "data/bundled_data/nvc_pquads_final.rds")
 
 # Species names -----------------------------------------------------------
 speciesNames <- readRDS(file = "data/bundled_data/speciesNames.rds")
+
+
+# Concordance data --------------------------------------------------------
+concordance_all <- readRDS(file = "./data/bundled_data/concordance_all.rds")

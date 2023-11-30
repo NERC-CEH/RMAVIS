@@ -11,8 +11,48 @@ nhm_nsi$INFORMAL_GROUP |> unique()
 
 nhm_nsi_bryophytes <- nhm_nsi |>
   dplyr::filter(INFORMAL_GROUP %in% c("clubmoss", "hornwort", "liverwort", "moss")) |>
+  dplyr::filter(RANK == "Species") |>
   dplyr::select(NBN_TAXON_VERSION_KEY_FOR_RECOMMENDED_NAME, RECOMMENDED_SCIENTIFIC_NAME, TAXON_NAME) |>
-  dplyr::rename("species" = "TAXON_NAME")
+  dplyr::rename("species" = "TAXON_NAME") |>
+  dplyr::distinct()
+
+# Manually remove incorrect NVK for species in check_nhm_nsi
+nhm_nsi_bryophytes <- nhm_nsi_bryophytes |>
+  dplyr::filter(
+    !(NBN_TAXON_VERSION_KEY_FOR_RECOMMENDED_NAME %in% c(
+    "NHMSYS0021195178", # Anomobryum julaceum
+    "NBNSYS0000036624", # Bryum bicolor
+    "NHMSYS0020695943", # Fissidens bryoides
+    "NHMSYS0021195191", # Campylium stellatum
+    "NHMSYS0000310860", # Ceratodon purpureus
+    "NHMSYS0000310861", # Chiloscyphus polyanthos
+    "NHMSYS0020695939", # Ephemerum serratum
+    "NHMSYS0000310871", # Fissidens pusillus
+    "NHMSYS0000310872", # Fissidens viridulus
+    "NHMSYS0021239468", # Oncophorus virens
+    "NHMSYS0021239484", # Orthotrichum pumilum
+    "NHMSYS0000310891", # Phaeoceros laevis
+    "NHMSYS0000310893", # Plagiochila asplenioides
+    "NHMSYS0000310903", # Pseudoleskeella catenulata
+    "NBNSYS0000189249", # Racomitrium affine
+    "NHMSYS0000310906", # Racomitrium canescens
+    "NHMSYS0000310909", # Racomitrium heterostichum
+    "NBNSYS0000189251", # Racomitrium microcarpon
+    "NHMSYS0000309281", # Schistidium apocarpum
+    "NHMSYS0000310914", # Schistidium rivulare
+    "NHMSYS0020083535", # Sphagnum contortum
+    "NHMSYS0000310916", # Sphagnum denticulatum
+    "NHMSYS0021232431", # Sphagnum fuscum
+    "NHMSYS0000310918", # Sphagnum recurvum
+    "NHMSYS0000310921" # Syntrichia ruralis
+  )))
+
+# Check for species occurrences
+check_nhm_nsi <- nhm_nsi_bryophytes |>
+  dplyr::group_by(species) |>
+  dplyr::filter(dplyr::n() > 1) |>
+  dplyr::ungroup() |>
+  dplyr::arrange(species)
 
 bryoatt_raw <- readxl::read_xls(path = "./data/raw_data/Bryoatt_updated_2017.xls", sheet = "BRYOATT")
 
@@ -63,7 +103,7 @@ nvc_pquads_uniqSpecies_bryophytes_missing_fixed <- nvc_pquads_uniqSpecies_bryoph
         species == "Fissidens sp." ~ "Fissidens",
         species == "Calypogeia sp." ~ "Calypogeia",
         species == "Cephaloziella sp." ~ "Cephaloziella",
-        species == "Racomitrium heterostichum sens.lat." ~ "",
+        species == "Racomitrium heterostichum sens.lat." ~ "Racomitrium heterostichum",
         species == "Bryum erythrocarpum" ~ "Bryum",
         species == "Pottia starkeana subsp.conica" ~ "Microbryum davallianum",
         species == "Lophocolea bidentata var.bidentata" ~ "Lophocolea bidentata",
@@ -76,15 +116,38 @@ nvc_pquads_uniqSpecies_bryophytes_missing_fixed <- nvc_pquads_uniqSpecies_bryoph
   dplyr::select(-bryoattSpecies)
 
 
+# Check for duplicates
+# nvc_pquads_uniqSpecies_bryophytes_missing_fixed |>
+#   dplyr::group_by(proposedSpecies, species) |>
+#   dplyr::filter(dplyr::n() > 1) |>
+#   dplyr::ungroup() |>
+#   dplyr::arrange(proposedSpecies)
+# 
+# nvc_pquads_uniqSpecies_bryophytes_joined_present |>
+#   dplyr::group_by(species, bryoattSpecies) |>
+#   dplyr::filter(dplyr::n() > 1) |>
+#   dplyr::ungroup() |>
+#   dplyr::arrange(bryoattSpecies)
+# 
+# foo <- nvc_pquads_uniqSpecies_bryophytes_joined_present |>
+#   dplyr::bind_rows(nvc_pquads_uniqSpecies_bryophytes_missing_fixed) |>
+#   dplyr::left_join(nhm_nsi_bryophytes, by = "species") |>
+#   # dplyr::distinct() |>
+#   dplyr::group_by(species, bryoattSpecies) |>
+#   dplyr::filter(dplyr::n() > 1) |>
+#   dplyr::ungroup() |>
+#   dplyr::arrange(bryoattSpecies)
+
+
 nvc_pquads_uniqSpecies_bryophytes_fixedBRC <- nvc_pquads_uniqSpecies_bryophytes_joined_present |>
   dplyr::bind_rows(nvc_pquads_uniqSpecies_bryophytes_missing_fixed) |>
-  # Add TVK
+  # Add TVK from natural history museum species inventory
   dplyr::left_join(nhm_nsi_bryophytes, by = "species") |>
+  dplyr::distinct() |>
   dplyr::mutate(
     "proposedSpecies" =
       dplyr::case_when(
         is.na(proposedSpecies) ~ bryoattSpecies,
-        species == "Racomitrium heterostichum sens.lat." ~ "Racomitrium heterostichum",
         is.na(bryoattSpecies) ~ proposedSpecies,
         TRUE ~ as.character(proposedSpecies)
       )
@@ -119,11 +182,24 @@ nvc_pquads_uniqSpecies_bryophytes_fixedBRC <- nvc_pquads_uniqSpecies_bryophytes_
         assignNVCSpecies == "Riccia sp." ~ "NHMSYS0000310446",
         assignNVCSpecies == "Barbula sp." ~ "NHMSYS0000309401",
         assignNVCSpecies == "Pohlia proligera sensu Smith (1978)" ~ "NBNSYS0000036560",
+        assignNVCSpecies == "Plagiochila spinulosa agg." ~ "NHMSYS0000310896",
+        assignNVCSpecies == "Sphagnum auriculatum" ~ "NHMSYS0000310916",
+        assignNVCSpecies == "Hypnum cupressiforme var. lacunosum" ~ "NBNSYS0000036934",
         TRUE ~ as.character(TVK)
       )
   ) |>
   dplyr::distinct()
 
+# Check for duplicates
+nvc_pquads_uniqSpecies_bryophytes_fixedBRC |>
+  dplyr::group_by(proposedSpecies, assignNVCSpecies) |>
+  dplyr::filter(dplyr::n() > 1) |>
+  dplyr::ungroup() |>
+  dplyr::arrange(proposedSpecies) |>
+  print()
+
+
+# Check for species with no TVK
 nvc_pquads_uniqSpecies_bryophytes_noTVK <- nvc_pquads_uniqSpecies_bryophytes_fixedBRC |>
   dplyr::filter(is.na(TVK))
 
@@ -144,6 +220,15 @@ concordance_bryophytes |> dplyr::filter(is.na(BRC_new))
 concordance_bryophytes |> dplyr::filter(is.na(proposedSpecies))
 concordance_bryophytes |> dplyr::filter(is.na(TVK))
 
+# Check whether there are any duplicate assignNVCSpecies and BRC_old combinations
+concordance_bryophytes_nonUniqpropSpecies <- concordance_bryophytes |>
+  dplyr::group_by(proposedSpecies, assignNVCSpecies) |>
+  dplyr::filter(dplyr::n() > 1) |>
+  dplyr::ungroup() |>
+  dplyr::arrange(proposedSpecies) |>
+  print()
+
 # Check whether there is any missing data
 concordance_bryophytes_naRows <- concordance_bryophytes |>
   dplyr::filter(is.na(dplyr::if_any(dplyr::everything(), is.na)))
+

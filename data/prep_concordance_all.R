@@ -1,17 +1,39 @@
+source("./data/prep_concordance_plants.R", local = TRUE)
+source("./data/prep_concordance_lichens.R", local = TRUE)
+source("./data/prep_concordance_charophytes.R", local = TRUE)
+source("./data/prep_concordance_bryophytes.R", local = TRUE)
+source("./data/prep_concordance_algae.R", local = TRUE)
+
 nvc_pquads_uniqSpecies <- assignNVC::nvc_pquads |>
   dplyr::select(species, BRC) |>
+  dplyr::distinct()
+
+nvc_psquad_uniqSpecies <- assignNVC::ps_quad |>
+  dplyr::select(name, spp) |>
   dplyr::distinct()
 
 nvc_comms_uniqSpecies <- assignNVC::NVC_communities |>
   dplyr::select(Species, BRC) |>
   dplyr::distinct()
 
+all_species <- c(nvc_comms_uniqSpecies$Species, nvc_pquads_uniqSpecies$species, nvc_psquad_uniqSpecies$name) |> unique()
+
 length(assignNVC::nvc_pquads$species |> unique())
+length(assignNVC::ps_quad$name |> unique())
 length(assignNVC::NVC_communities$Species |> unique())
+length(all_species)
+
+
+
+setdiff(nvc_psquad_uniqSpecies$name, nvc_comms_uniqSpecies$Species)
+setdiff(nvc_comms_uniqSpecies$Species, nvc_psquad_uniqSpecies$name)
 
 
 setdiff(nvc_pquads_uniqSpecies$species, nvc_comms_uniqSpecies$Species)
+setdiff(nvc_pquads_uniqSpecies$species, all_species)
+
 setdiff(nvc_comms_uniqSpecies$Species, nvc_pquads_uniqSpecies$species)
+setdiff(nvc_comms_uniqSpecies$Species, all_species)
 
 
 
@@ -31,27 +53,40 @@ concordance_all <- concordance_plants |>
 nrow(nvc_pquads_uniqSpecies) - nrow(concordance_all)
 
 # NO missing assignNVC species
-setdiff(nvc_pquads_uniqSpecies$species, concordance_all$assignNVCSpecies) 
-setdiff(concordance_all$assignNVCSpecies, nvc_pquads_uniqSpecies$species) 
+setdiff(concordance_all$assignNVCSpecies, all_species) 
+setdiff(all_species, concordance_all$assignNVCSpecies) # "" empty string missing, present in assignNVC::nvc_pquads and assignNVC::ps_quad
 
 concordance_all_missing_assignNVCSpecies <- concordance_all |>
-  dplyr::filter(is.na(assignNVCSpecies))
+  dplyr::filter(is.na(assignNVCSpecies)) |>
+  print()
 
 # 35 lichens with no BRC_new code
 concordance_all_missing_BRC_new <- concordance_all |>
-  dplyr::filter(is.na(BRC_new))
+  dplyr::filter(is.na(BRC_new)) |>
+  print()
 
 # NO missing TVK codes
 concordance_all_missing_TVK <- concordance_all |>
-  dplyr::filter(is.na(TVK))
+  dplyr::filter(is.na(TVK)) |>
+  print()
 
 # NO missing old BRC codes
 concordance_all_missing_BRC_old <- concordance_all |>
-  dplyr::filter(is.na(BRC_old))
+  dplyr::filter(is.na(BRC_old)) |>
+  print()
 
 # NO missing proposed species
 concordance_all_missing_proposedSpecies <- concordance_all |>
-  dplyr::filter(is.na(proposedSpecies))
+  dplyr::filter(is.na(proposedSpecies)) |>
+  print()
+
+# Is every proposed species unique
+concordance_all_nonUniqpropSpecies <- concordance_all |>
+  dplyr::group_by(proposedSpecies, assignNVCSpecies) |>
+  dplyr::filter(dplyr::n() > 1) |>
+  dplyr::ungroup() |>
+  dplyr::arrange(proposedSpecies)|>
+  print()
 
 # Save concordance
 saveRDS(object = concordance_all, file = "./data/bundled_data/concordance_all.rds")

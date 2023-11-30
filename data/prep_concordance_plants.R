@@ -10,7 +10,7 @@ nvc_pquads_uniqSpecies_plants <- nvc_pquads_noMissCodes |>
   dplyr::distinct() |>
   dplyr::filter(stringr::str_detect(string = BRC, pattern = "^[9]")) 
 
-write.table(nvc_pquads_uniqSpecies_plants, file = './data/raw_data/nvc_pquads_uniqSpecies_plants.tsv', quote = FALSE, sep = '\t', row.names = FALSE)
+# write.table(nvc_pquads_uniqSpecies_plants, file = './data/raw_data/nvc_pquads_uniqSpecies_plants.tsv', quote = FALSE, sep = '\t', row.names = FALSE)
 
 # Read results from BSBI taxon parser
 bsbiParserData_1 <- readr::read_delim("data/raw_data/results20231129103853.csv",
@@ -73,7 +73,7 @@ typesOfError_other_to_Resubmit1 <- typesOfError_notMatched_strataErrors_noId |>
   dplyr::select(speciestoSearch) |>
   dplyr::distinct()
 
-write.table(typesOfError_other_to_Resubmit1, file = './data/raw_data/typesOfError_other_to_Resubmit1.tsv', quote = FALSE, sep = '\t', row.names = FALSE)
+# write.table(typesOfError_other_to_Resubmit1, file = './data/raw_data/typesOfError_other_to_Resubmit1.tsv', quote = FALSE, sep = '\t', row.names = FALSE)
 
 bsbiParserData_2 <- readr::read_delim("data/raw_data/results20231129111717.csv",
                                       delim = "\t", escape_double = FALSE, 
@@ -115,7 +115,7 @@ typesOfError_notMatched_other <- typesOfError_notMatched |>
 typesOfError_other_to_Resubmit2 <- typesOfError_notMatched_other |>
   dplyr::select(speciesSearch)
 
-write.table(typesOfError_other_to_Resubmit2, file = './data/raw_data/typesOfError_other_to_Resubmit2.tsv', quote = FALSE, sep = '\t', row.names = FALSE)
+# write.table(typesOfError_other_to_Resubmit2, file = './data/raw_data/typesOfError_other_to_Resubmit2.tsv', quote = FALSE, sep = '\t', row.names = FALSE)
 
 bsbiParserData_3 <- readr::read_delim("data/raw_data/results20231129104808.csv",
                                       delim = "\t", escape_double = FALSE, 
@@ -149,7 +149,7 @@ typesOfError_other_to_Resubmit3 <- typesOfError_other_noID_sppFix |>
   dplyr::select(speciestoSubmit) |>
   dplyr::distinct()
 
-write.table(typesOfError_other_to_Resubmit3, file = './data/raw_data/typesOfError_other_to_Resubmit3.tsv', quote = FALSE, sep = '\t', row.names = FALSE)
+# write.table(typesOfError_other_to_Resubmit3, file = './data/raw_data/typesOfError_other_to_Resubmit3.tsv', quote = FALSE, sep = '\t', row.names = FALSE)
 
 bsbiParserData_4 <- readr::read_delim("data/raw_data/results20231129110045.csv",
                                       delim = "\t", escape_double = FALSE, 
@@ -159,6 +159,53 @@ bsbiParserData_4_prepped <- bsbiParserData_4 |>
   dplyr::left_join(typesOfError_other_noID_sppFix, by = "speciestoSubmit") |>
   dplyr::select(-speciestoSubmit)
 
+# Get concordance data for plants present in assignNVC::NVC_communities but not in 
+nvc_comms_uniqSpecies <- assignNVC::NVC_communities |>
+  dplyr::select(Species, BRC) |>
+  dplyr::distinct() |>
+  dplyr::filter(!(Species %in% unique(assignNVC::nvc_pquads$species)))
+
+nvcCommSpp_tosubmit <- nvc_comms_uniqSpecies |>
+  dplyr::select(Species) |>
+  dplyr::filter(Species != "") |>
+  dplyr::mutate(
+    "Species" =
+      dplyr::case_when(
+        Species == "Galium palustre sens.lat." ~ "Galium palustre", #  This taxon does not resolve from the parser as Galium palustre sens.lat.
+        TRUE ~ as.character(Species)
+      )
+  )
+
+# write.table(nvcCommSpp_tosubmit, file = './data/raw_data/nvcCommSpp_tosubmit.tsv', quote = FALSE, sep = '\t', row.names = FALSE)
+
+bsbiParserData_5 <- readr::read_delim("data/raw_data/results20231130071119.csv",
+                                      delim = "\t", escape_double = FALSE,
+                                      trim_ws = TRUE)
+
+bsbiParserData_5_prepped <- bsbiParserData_5 |>
+  dplyr::rename("species" = "Species")|>
+  dplyr::mutate(
+    "species" =
+      dplyr::case_when(
+        species == "Galium palustre" ~ "Galium palustre sens.lat.",
+        TRUE ~ as.character(species)
+      )
+  ) |>
+  # Add missing BRC_old codes from BRC dictionary
+  dplyr::mutate(
+    "BRC" =
+      dplyr::case_when(
+        species == "Nasturtium officinale" ~ 9201347, # Rorippa nasturtium-aquaticum
+        species == "Callitriche agg." ~ 09202249,
+        species == "Alisma lanceolatum" ~ 092062,
+        species == "Galium palustre sens.lat." ~ 0920882,
+        species == "Catabrosa aquatica" ~ 920433, # present in assignNVC::ps_quad
+        species == "Eleocharis parvula" ~ 920676, # present in assignNVC::ps_quad
+        species == "Spartina alterniflora" ~ 9201984,
+        TRUE ~ as.numeric(NA)
+      )
+  )
+
 
 colnames(bsbiParserData_1_prepped)
 colnames(typesOfError_other_prepped)
@@ -166,6 +213,7 @@ colnames(typesOfError_notMatched_strataErrors_withId_prepped)
 colnames(bsbiParserData_2_prepped)
 colnames(bsbiParserData_3_prepped)
 colnames(bsbiParserData_4_prepped)
+colnames(bsbiParserData_5_prepped)
 
 # Create final dataset for plants.
 concordance_plants_draft <- bsbiParserData_1_prepped |>
@@ -174,6 +222,7 @@ concordance_plants_draft <- bsbiParserData_1_prepped |>
   dplyr::bind_rows(bsbiParserData_2_prepped) |>
   dplyr::bind_rows(bsbiParserData_3_prepped) |>
   dplyr::bind_rows(bsbiParserData_4_prepped) |>
+  dplyr::bind_rows(bsbiParserData_5_prepped) |>
   dplyr::select("assignNVCSpecies" = species,
                 "bsbiTaxonId" = `DDb matched name (id)`,
                 "bsbiQualifiedTaxonName" = `DDb matched name (full)`,
@@ -212,26 +261,6 @@ concordance_plants_polygala_oxyptera <- concordance_plants_draft |>
   dplyr::filter(assignNVCSpecies == "Polygala vulgaris") |>
   dplyr::mutate("assignNVCSpecies" = "Polygala oxyptera")
 
-
-
-# Get concordance data for plants present in assignNVC::NVC_communities but not in 
-nvc_comms_uniqSpecies <- assignNVC::NVC_communities |>
-  dplyr::select(Species, BRC) |>
-  dplyr::distinct() |>
-  dplyr::filter(!(Species %in% unique(assignNVC::nvc_pquads$species)))
-
-# nvcCommSpp_tosubmit <- 
-# 
-# write.table(nvcCommSpp_tosubmit, file = './data/raw_data/nvcCommSpp_tosubmit.tsv', quote = FALSE, sep = '\t', row.names = FALSE)
-# 
-# bsbiParserData_5 <- readr::read_delim("data/raw_data/.csv",
-#                                       delim = "\t", escape_double = FALSE, 
-#                                       trim_ws = TRUE)
-# 
-# bsbiParserData_5_prepped <- bsbiParserData_4 |>
-#   dplyr::left_join(typesOfError_other_noID_sppFix, by = "speciestoSubmit") |>
-#   dplyr::select(-speciestoSubmit)
-
 concordance_plants <- concordance_plants_draft |>
   dplyr::filter(assignNVCSpecies != "Polygala oxyptera") |>
   dplyr::bind_rows(concordance_plants_polygala_oxyptera) |>
@@ -242,9 +271,12 @@ concordance_plants <- concordance_plants_draft |>
         TRUE ~ as.character(bsbiTaxonName)
       )
   ) |>
-  dplyr::select(-bsbiQualifiedTaxonName, -bsbiTaxonName)
+  dplyr::select(-bsbiQualifiedTaxonName, -bsbiTaxonName) |>
+  # Remove incorrect duplicate code for Geranium molle
+  dplyr::filter(BRC_old != 92041.0)
 
 # Check that the number of plant species in nvc_pquads_uniqSpecies_plants is equal to the length of concordance_plants
+# This should be -7
 nrow(nvc_pquads_uniqSpecies_plants) - nrow(concordance_plants)
 
 # Missing species - should be an empty data frame
