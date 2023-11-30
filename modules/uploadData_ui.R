@@ -32,8 +32,6 @@ uploadDataUI <- function(id) {
       
       shiny::div(shiny::br()),
       
-      shiny::h5("Uploaded Data"),
-      
       shiny::markdown(
         "
         MAVIS expects data to be uploaded in .csv format in one of two formats: long or wide, see below.
