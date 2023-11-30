@@ -27,7 +27,7 @@ surveyTable <- function(input, output, session, sidebar_options) {
 
 # Initial survey table data -----------------------------------------------
 
-  surveyTable_init <- data.frame("Year" = as.character(rep(2024, 20)),
+  surveyTable_init <- data.frame("Year" = as.character(rep(as.numeric(format(Sys.Date(), "%Y")), 20)),
                                  "Site" = as.character(rep("...", 20)),
                                  "Quadrat.Group" = as.character(rep("A", 20)),
                                  "Quadrat" = as.character(rep("1", 20)),
@@ -109,6 +109,19 @@ surveyTable <- function(input, output, session, sidebar_options) {
           dplyr::filter(Site == exampleData()) |>
           dplyr::mutate(Year = "2023") |>
           dplyr::select(Year, Site, Quadrat.Group, Quadrat, Species, Cover)
+        
+        # surveyTableWide <- surveyTable |>
+        #   # tidyr::unite(col = "ID", c(Year, Site, Quadrat.Group, Quadrat), sep = " - ", remove = TRUE) |>
+        #   dplyr::select(Quadrat, Species, Cover) |>
+        #   dplyr::filter(!is.na(Cover)) |>
+        #   tidyr::pivot_wider(id_cols = Quadrat,
+        #                      names_from = Species, 
+        #                      values_from = Cover) |>
+        #   # dplyr::select(-ID) |>
+        #   tibble::column_to_rownames(var = "Quadrat")
+        # 
+        # write.csv(x = surveyTable, file = "./data/bundled_data/example_data_long.csv", row.names = FALSE)
+        # write.csv(x = surveyTableWide, file = "./data/bundled_data/example_data_wide.csv", row.names = TRUE)
         
       } else if(inputMethod() == "upload"){
         

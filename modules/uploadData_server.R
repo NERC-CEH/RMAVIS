@@ -9,6 +9,26 @@ uploadData <- function(input, output, session) {
   speciesNames_correct <- reactiveVal()
   
 
+# Show/Hide Long/Wide descriptions ----------------------------------------
+  
+  observe({
+    
+    if(input$dataEntryFormat == "long") {
+      
+      shinyjs::hideElement(id = "wide_description")
+      shinyjs::showElement(id = "long_description")
+      
+    } else if(input$dataEntryFormat == "wide") {
+      
+      shinyjs::showElement(id = "wide_description")
+      shinyjs::hideElement(id = "long_description")
+      
+    }
+    
+  }) |>
+    bindEvent(input$dataEntryFormat, ignoreInit = FALSE)
+  
+
 # Initialise table --------------------------------------------------------
   uploaded_data_init <- data.frame("Year" = character(),
                                    "Site" = character(),
@@ -22,7 +42,7 @@ uploadData <- function(input, output, session) {
     uploadDataTable <- rhandsontable::rhandsontable(data = uploaded_data_init,
                                                     rowHeaders = NULL,
                                                     width = "100%"
-    ) |>
+                                                    ) |>
       rhandsontable::hot_col(col = colnames(uploaded_data_init), halign = "htCenter") |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
@@ -35,7 +55,26 @@ uploadData <- function(input, output, session) {
     
     # shiny::req(input$uploadDataTable)
     
-    uploaded_data_raw <- read.csv(input$uploadDataInput$datapath)
+    if(input$dataEntryFormat == "long"){
+      
+      uploaded_data_raw <- read.csv(input$uploadDataInput$datapath)
+      
+    } else if(input$dataEntryFormat == "wide"){
+      
+      uploaded_data_raw <- read.csv(input$uploadDataInput$datapath, check.names = FALSE, row.names = 1) |>
+        tibble::rownames_to_column(var = "Quadrat")|>
+        dplyr::mutate(dplyr::across(dplyr::everything(), as.character))|>
+        tidyr::pivot_longer(cols = -c(Quadrat),
+                            names_to = "Species",
+                            values_to = "Cover",
+                            values_transform = list(Cover = as.numeric)) |> # as.numeric
+        dplyr::mutate("Year" = as.integer(format(Sys.Date(), "%Y")),
+                      "Site" = "...",
+                      "Quadrat.Group" = "A") |>
+        dplyr::select(Year, Site, Quadrat.Group, Quadrat, Species, Cover) |>
+        dplyr::filter(!is.na(Cover))
+      
+    }
     
     output$uploadDataTable <- rhandsontable::renderRHandsontable({
       
@@ -45,7 +84,8 @@ uploadData <- function(input, output, session) {
                                                       ) |>
         rhandsontable::hot_col(col = colnames(uploaded_data_raw), halign = "htCenter") |>
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames)
       
       return(uploadDataTable)
       
@@ -66,7 +106,7 @@ uploadData <- function(input, output, session) {
     if(columnNames_correct == TRUE){
       
       yearValues_numeric <- all(is.numeric(uploaded_data_raw$Year))
-      speciesNames_correct <- unique(uploaded_data_raw$Species) %in% speciesNames
+      speciesNames_correct <- all(unique(uploaded_data_raw$Species) %in% speciesNames)
       
       yearValues_numeric(yearValues_numeric)
       speciesNames_correct(speciesNames_correct)
@@ -88,6 +128,7 @@ uploadData <- function(input, output, session) {
     
   }) |>
     bindEvent(input$uploadDataInput,
+              # input$dataEntryFormat,
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
 

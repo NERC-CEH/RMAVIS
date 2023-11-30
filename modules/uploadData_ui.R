@@ -38,54 +38,43 @@ uploadDataUI <- function(id) {
         "
       ),
       
-      bslib::nav_panel(
+      shiny::div(
         
-        "Main",
+        id = ns("long_description"),
         
-        bslib::navset_card_tab(
+        shiny::markdown(
+          "
+          Long data must be structured as a six-column dataframe with the following columns.
           
-          bslib::nav_panel(
-            
-            full_screen = FALSE,
-            
-            bslib::card_header("Long Format"),
-            
-            
-            shiny::markdown(
-              "
-              Long data must be structured as a six-column dataframe with the following columns.
-              
-              - *Year:* Contains the year the quadrat was surveyed. Numeric.
-              - *Site:* Contains the name of the site containing the quadrat. String.
-              - *Quadrat.Group:* Contains the quadrat group. String.
-              - *Quadrat:* Contains the quadrat ID. String.
-              - *Species:* Contains the species, please download the list of accepted species names using the button above. String.
-              - *Cover:* Contains the species-quadrat cover estimates, with values between 0 and 1. Numeric.
-              
-              Formatting issues are displayed below.
-              
-              "
-            )
-            
-          ),
+          - *Year:* Contains the year the quadrat was surveyed. Numeric.
+          - *Site:* Contains the name of the site containing the quadrat. String.
+          - *Quadrat.Group:* Contains the quadrat group. String.
+          - *Quadrat:* Contains the quadrat ID. String.
+          - *Species:* Contains the species, please download the list of accepted species names using the button above. String.
+          - *Cover:* Contains the species-quadrat cover estimates, with values between 0 and 1. Numeric.
           
-          bslib::nav_panel(
-            
-            full_screen = FALSE,
-            
-            bslib::card_header("Wide Format"),
-            
-            
-            shiny::markdown(
-              "
-              Wide data must be structured with rows as quadrat IDs and columns as species names, with values as species-quadrat cover estimates, with values between 0 and 1.
-              
-              Formatting issues are displayed below.
-              
-              "
-              )
-            )
-          )
+          Formatting issues are displayed below.
+          
+          "
+        )
+        
+      ),
+      
+      shiny::div(
+        
+        id = ns("wide_description"),
+        
+        shiny::markdown(
+          "
+          Wide data must be structured with rows as quadrat IDs and columns as species names, with values as species-quadrat cover estimates, with values between 0 and 1.
+          
+          Once uploaded wide data will be converted into long format, with placeholder Year, Site, and Quadrat.Group values which the user may edit.
+          
+          Formatting issues are displayed below.
+          
+          "
+        )
+        
       ),
       
       shiny::div(shiny::br()),
