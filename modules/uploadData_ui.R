@@ -56,7 +56,7 @@ uploadDataUI <- function(id) {
           - *Species:* Contains the species, please download the list of accepted species names using the button above. String.
           - *Cover:* Contains the species-quadrat cover estimates, with values between 0 and 1. Numeric.
           
-          Formatting issues are displayed below.
+          Formatting checks are displayed below.
           
           "
         )
@@ -73,14 +73,14 @@ uploadDataUI <- function(id) {
           
           Once uploaded wide data will be converted into long format, with placeholder Year, Site, and Quadrat.Group values which the user may edit.
           
-          Formatting issues are displayed below.
+          Formatting checks are displayed below.
           
           "
         )
         
       ),
       
-      shiny::div(shiny::br()),
+      # shiny::div(shiny::br()),
       
       shiny::div(
         

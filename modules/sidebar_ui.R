@@ -303,6 +303,8 @@ sidebarUI <- function(id){
           icon = shiny::icon("book")
         ),
         
+        shiny::div(shiny::br()),
+        
         shiny::downloadButton(
           outputId = ns("downloadSpeciesData"),
           label = "Download Accepted Species",
