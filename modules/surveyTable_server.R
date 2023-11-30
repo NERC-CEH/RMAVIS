@@ -1,4 +1,4 @@
-surveyTable <- function(input, output, session, sidebar_options) {
+surveyTable <- function(input, output, session, uploadDataTable, sidebar_options) {
   
   ns <- session$ns
   
@@ -127,24 +127,13 @@ surveyTable <- function(input, output, session, sidebar_options) {
         
         surveyTable <- rhandsontable::hot_to_r(input$surveyTable)
         
-      }
-      
-      # if(resetTable() == TRUE){
-      #   
-      #   surveyTable = surveyTable_init
-      #   
-      # }
-      
-      if (inputMethod() == "uploadData") {
+        # print(uploadDataTable())
         
-        # From uploaded csv
-        uploaded_data_raw <- input$uploadData
-        
-        if (is.null(uploaded_data_raw)) {
-          return(NULL)
+        if(!is.null(uploadDataTable())){
+          
+          surveyTable <- uploadDataTable()
+          
         }
-        
-        print(uploaded_data_raw)
         
       }
       
@@ -212,6 +201,7 @@ surveyTable <- function(input, output, session, sidebar_options) {
   }) |>
     bindEvent(inputMethod(),
               exampleData(),
+              uploadDataTable(),
               # resetTable(),
               ignoreInit = TRUE)
   

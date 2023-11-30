@@ -9,7 +9,7 @@ uploadDataUI <- function(id) {
       
       bslib::layout_columns(
         
-        col_widths = c(8, 4),
+        col_widths = c(6, 6, 4),
         
         shiny::fileInput(inputId = ns("uploadDataInput"),
                          label = "Browse",
@@ -23,7 +23,10 @@ uploadDataUI <- function(id) {
                               label = "Data Entry Format",
                               choices = dataEntryFormat_options,
                               selected = "table",
-                              multiple = FALSE)
+                              multiple = FALSE),
+        
+        shiny::actionButton(inputId = ns("confirmUpload"), 
+                            label = "Confirm Upload")
         
       ),
       

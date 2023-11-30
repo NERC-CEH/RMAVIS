@@ -87,8 +87,7 @@ sidebar <- function(input, output, session, nvcAverageSim) {
         title = "Upload Data",
         id = "uploadDataModal",
         footer = shiny::tagList(
-          shiny::modalButton("Close"),
-          shiny::actionButton("Upload", "Upload")
+          shiny::modalButton("Close")
         ),
         size = "xl",
         easyClose = FALSE,

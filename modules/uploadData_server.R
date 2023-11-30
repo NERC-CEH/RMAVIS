@@ -30,6 +30,9 @@ uploadData <- function(input, output, session) {
   
 
 # Initialise table --------------------------------------------------------
+  
+  uploadDataTable_rval <- reactiveVal()
+  
   uploaded_data_init <- data.frame("Year" = character(),
                                    "Site" = character(),
                                    "Quadrat.Group" = character(),
@@ -45,7 +48,8 @@ uploadData <- function(input, output, session) {
                                                     ) |>
       rhandsontable::hot_col(col = colnames(uploaded_data_init), halign = "htCenter") |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
+      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") #|>
+      # rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames, allowInvalid = FALSE)
     
     return(uploadDataTable)
     
@@ -84,8 +88,15 @@ uploadData <- function(input, output, session) {
                                                       ) |>
         rhandsontable::hot_col(col = colnames(uploaded_data_raw), halign = "htCenter") |>
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames)
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") #|>
+        # rhandsontable::hot_col(
+        #   col = "Species",
+        #   readOnly = FALSE,
+        #   type = "dropdown",
+        #   source = speciesNames,
+        #   strict = FALSE
+        # ) |>
+        # rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames, allowInvalid = FALSE) # speciesNames
       
       return(uploadDataTable)
       
@@ -125,15 +136,27 @@ uploadData <- function(input, output, session) {
       
     }
     
-    
   }) |>
     bindEvent(input$uploadDataInput,
               # input$dataEntryFormat,
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
+  
+  observe({
+    
+    uploadDataTable_rval(rhandsontable::hot_to_r(input$uploadDataTable))
+    
+    shinyjs::click(id = "confirmUpload")
+    
+    # print(uploadDataTable_rval)
+    
+  }) |>
+    bindEvent(input$confirmUpload,
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
 
   # outputOptions(output, "uploadDataTable", suspendWhenHidden = FALSE)
   
-  # return()
+  return(uploadDataTable_rval)
   
 }

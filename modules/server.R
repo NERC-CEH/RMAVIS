@@ -5,11 +5,12 @@ server <- function(input, output, session) {
                                 id = "sidebar_id_1",
                                 nvcAverageSim = nvcAverageSim)
   
-  callModule(module = uploadData,
-             id = "uploadData_id_1")
+  uploadDataTable <- callModule(module = uploadData,
+                                id = "uploadData_id_1")
   
   surveyTable <- callModule(module = surveyTable,
                             id = "surveyTable_id_1",
+                            uploadDataTable = uploadDataTable,
                             sidebar_options = sidebar_options)
   
   surveyTablePrepped <- callModule(module = surveyTablePrepped,
