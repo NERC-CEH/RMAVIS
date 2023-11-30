@@ -26,10 +26,22 @@ saveRDS(object = nvc_pquads_final, file = "./data/bundled_data/nvc_pquads_final.
 
 # assignNVC::NVC_communities ----------------------------------------------
 nvc_communities_final <- concordance_all_trimmed |>
-  dplyr::rename("Species" = species) |>
+  dplyr::rename("Species" = "species") |>
   dplyr::right_join(assignNVC::NVC_communities, by = "Species") |>
-  dplyr::select(-Species) |>
-  dplyr::rename("Species" = "proposedSpecies")
+  dplyr::select(-Species, -freq, -BRC) |>
+  dplyr::rename("Species" = "proposedSpecies") |>
+  dplyr::rename("NVC.Code" = "NVC")|>
+  dplyr::mutate(
+    "Constancy" = 
+      dplyr::case_when(
+        Constancy == 1 ~ "I",
+        Constancy == 2 ~ "II",
+        Constancy == 3 ~ "III",
+        Constancy == 4 ~ "IV",
+        Constancy == 5 ~ "V",
+        TRUE ~ as.character(Constancy)
+      )
+  )
 
 nrow(nvc_communities_final) == nrow(assignNVC::NVC_communities)
 

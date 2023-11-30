@@ -61,8 +61,8 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
       surveyTablePrepped <- surveyTablePrepped()
       
       avgWeightedEIVsTable <- surveyTablePrepped |>
-        dplyr::rename("preferredTaxon" = "Species") |>
-        dplyr::left_join(master_data, by = "preferredTaxon",
+        dplyr::rename("species" = "Species") |>
+        dplyr::left_join(master_data, by = "species",
                          relationship = "many-to-many") |>
         dplyr::select(ID, Quadrat, Cover, `F`, L, N, R, S) |>
         dplyr::mutate("F" = `F` * Cover,
@@ -161,8 +161,8 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
       surveyTablePrepped <- surveyTablePrepped()
       
       avgUnweightedEIVsTable <- surveyTablePrepped |>
-        dplyr::rename("preferredTaxon" = "Species") |>
-        dplyr::left_join(master_data, by = "preferredTaxon",
+        dplyr::rename("species" = "Species") |>
+        dplyr::left_join(master_data, by = "species",
                          relationship = "many-to-many") |>
         dplyr::select(ID, Quadrat, Cover, `F`, L, N, R, S) |>
         dplyr::group_by(ID, Quadrat) |>
