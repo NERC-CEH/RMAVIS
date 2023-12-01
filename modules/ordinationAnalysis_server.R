@@ -73,7 +73,7 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
         dplyr::mutate(
           "NVC.Comm" =
             dplyr::case_when(
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(selected_communities, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = "^([A-Z]*)(\\d*)"),
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(fitted_nvcs, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"),
               TRUE ~ as.character("Sample")
               ),
           .before  = "Quadrat"
@@ -81,13 +81,13 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
         dplyr::mutate(
           "NVC.Broad" =
             dplyr::case_when(
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(selected_communities, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = "^([A-Z]*)"),
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(fitted_nvcs, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = "^([A-Z]*)"),
               TRUE ~ as.character("Sample")
             ),
           .before  = "NVC.Comm"
         )
       
-      print(dca_results_psquad_axisScores)
+      # print(dca_results_psquad_axisScores)
         
       
     })
