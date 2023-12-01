@@ -31,5 +31,4 @@ concordance_all <- readRDS(file = "./data/bundled_data/concordance_all.rds")
 
 # Pseudo-quadrat DCA scores -----------------------------------------------
 nvc_pquads_final_wide <- readRDS(file = "./data/bundled_data/nvc_pquads_final_wide.rds")
-# nvc_pquads_final_dca_psquad_axisScores <-readRDS(file = "./data/bundled_data/nvc_pquads_final_dca_psquad_axisScores.rds")
-# nvc_pquads_final_dca_species_axisScores <-readRDS(file = "./data/bundled_data/nvc_pquads_final_dca_species_axisScores.rds")
+nvc_pquad_dca_list <- readRDS(file = "./data/bundled_data/nvc_pquad_dca_list.rds")

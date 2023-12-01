@@ -38,8 +38,8 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
         as.data.frame()
       
       # Prepare survey data
-      # surveyTable <- read.csv(file = "./data/bundled_data/example_data_long.csv")
-      surveyTable <- surveyTable()
+      surveyTable <- read.csv(file = "./data/bundled_data/example_data_long.csv")
+      # surveyTable <- surveyTable()
       
       surveyTable_prepped <- surveyTable |>
         # Convert cover estimates to presence/absence binary values

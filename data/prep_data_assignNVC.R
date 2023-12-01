@@ -16,7 +16,14 @@ saveRDS(object = speciesNames, file = "./data/bundled_data/speciesNames.rds")
 nvc_pquads_final <- assignNVC::nvc_pquads |>
   dplyr::left_join(concordance_all_trimmed, by = "species") |>
   dplyr::select(-species) |>
-  dplyr::rename("species" = "proposedSpecies")
+  dplyr::rename("species" = "proposedSpecies") |>
+  dplyr::mutate(
+    "NVC" =
+      dplyr::case_when(
+        NVC == "SM 1a" ~ "SM1a",
+        TRUE ~ as.character(NVC)
+      )
+  )
 
 nrow(nvc_pquads_final) == nrow(assignNVC::nvc_pquads)
 
@@ -47,14 +54,27 @@ nvc_communities_final <- concordance_all_trimmed |>
         Constancy == 5 ~ "V",
         TRUE ~ as.character(Constancy)
       )
+  ) |>
+  dplyr::mutate(
+    "NVC.Code" =
+      dplyr::case_when(
+        NVC.Code == "MG7A" ~ "MG7a",
+        NVC.Code == "MG7B" ~ "MG7b",
+        NVC.Code == "MG7C" ~ "MG7c",
+        NVC.Code == "MG7D" ~ "MG7d",
+        NVC.Code == "MG7E" ~ "MG7e",
+        NVC.Code == "MG7F" ~ "MG7f",
+        NVC.Code == "SM 1a" ~ "SM1a",
+        TRUE ~ as.character(NVC.Code)
+      )
   )
 
 nrow(nvc_communities_final) == nrow(assignNVC::NVC_communities)
 
 saveRDS(object = nvc_communities_final, file = "./data/bundled_data/nvc_floristic_tables.rds")
 
-nvc_community_codes <- assignNVC::NVC_communities |>
-  dplyr::pull(NVC) |>
+nvc_community_codes <- nvc_communities_final |>
+  dplyr::pull(NVC.Code) |>
   unique()
 
 saveRDS(object = nvc_community_codes, file = "./data/bundled_data/nvc_community_codes.rds")
