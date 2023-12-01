@@ -106,15 +106,25 @@ sidebar <- function(input, output, session, nvcAverageSim) {
 # Reactively update nvcFloristicTable options -----------------------------
   observe({
     
-    fitted_nvcs <- nvcAverageSim()$NVC.Code |> unique()
+    # Get all NVC communities and sub-communities from nvc assignment results
+    NVC_communities_all <- nvcAverageSim() |> # nvcAverageSim()
+      dplyr::pull(NVC.Code)
+    
+    # Get all NVC communities from community and sub-community codes
+    NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
+                                                       pattern = "(\\d)[^0-9]+$", 
+                                                       replace = "\\1") |>
+      unique()
+    
+    NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
 
     if(input$restrictNVCFlorTablesOpts == TRUE){
 
       shiny::updateSelectizeInput(
         session = session,
         inputId = "nvcFloristicTable",
-        choices = fitted_nvcs,
-        selected = fitted_nvcs[1],
+        choices = NVC_communities_final,
+        selected = NVC_communities_final[1],
         server = TRUE
       )
 
@@ -124,7 +134,7 @@ sidebar <- function(input, output, session, nvcAverageSim) {
         session = session,
         inputId = "nvcFloristicTable",
         choices = nvc_community_codes,
-        selected = fitted_nvcs[1],
+        selected = NVC_communities_final[1],
         server = TRUE
       )
       

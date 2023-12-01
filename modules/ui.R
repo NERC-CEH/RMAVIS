@@ -119,15 +119,10 @@ ui <- bslib::page_navbar(
         
         bslib::card_header("Community Visualisation"),
         
-        bslib::layout_columns(
-          
-          col_widths = c(6, 6),
-          
-          heatmapUI(id = "heatmap_id_1"),
-          
-          ordinationAnalysisUI(id = "ordinationAnalysis_id_1")
-          
-        )
+        # heatmapUI(id = "heatmap_id_1"),
+        
+        ordinationAnalysisUI(id = "ordinationAnalysis_id_1")
+        
       )
     )
   ),
