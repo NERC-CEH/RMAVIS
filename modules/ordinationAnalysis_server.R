@@ -40,9 +40,28 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
       
       NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
       
+      print(NVC_communities_final)
+      
+      # Create pattern to subset matrix rows
+      codes_regex <- c()
+      
+      for(code in codes){
+        
+        regex <- paste0("(", code, ")(?<=)P")
+        
+        codes_regex <- c(codes_regex, regex)
+        
+        codes_regex <- stringr::str_c(codes_regex, collapse = "|")
+        
+      }
+      
+      print(codes_regex)
+      
       # Subset communities
-      nvc_pquads_final_wide_trimmed <- nvc_pquads_final_wide[stringr::str_detect(string = row.names(nvc_pquads_final_wide),
-                                                                                 pattern = stringr::str_c(NVC_communities_final, collapse = "|")), ]
+      # nvc_pquads_final_wide_trimmed <- nvc_pquads_final_wide[stringr::str_detect(string = row.names(nvc_pquads_final_wide),
+      #                                                                            pattern = stringr::str_c(NVC_communities_final, collapse = "|")), ]
+      nvc_pquads_final_wide_trimmed <- nvc_pquads_final_wide[stringr::str_detect(string = row.names(nvc_pquads_final_wide), pattern = codes_regex), ]
+      
       # Remove columns (species) that are absent in all selected communities
       nvc_pquads_final_wide_prepped <- nvc_pquads_final_wide_trimmed[, colSums(abs(nvc_pquads_final_wide_trimmed)) != 0] |>
         as.data.frame()
