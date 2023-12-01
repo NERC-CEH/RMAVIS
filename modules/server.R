@@ -57,11 +57,17 @@ server <- function(input, output, session) {
              surveyTablePrepped = surveyTablePrepped,
              sidebar_options = sidebar_options)
   
-  # callModule(module = ordinationAnalysis,
-  #            id = "ordinationAnalysis_id_1",
-  #            surveyTable = surveyTable,
-  #            surveyTablePrepped = surveyTablePrepped,
-  #            sidebar_options = sidebar_options)
+  callModule(module = heatmap,
+             id = "heatmap_id_1",
+             surveyTable = surveyTable,
+             sidebar_options = sidebar_options)
+  
+  callModule(module = ordinationAnalysis,
+             id = "ordinationAnalysis_id_1",
+             surveyTable = surveyTable,
+             # surveyTablePrepped = surveyTablePrepped,
+             nvcAverageSim = nvcAverageSim,
+             sidebar_options = sidebar_options)
   
   
   # observe({

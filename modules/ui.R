@@ -115,14 +115,20 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
-        value = "ordination_panel",
+        value = "communityVisualisation_panel",
         
-        bslib::card_header("Ordination")#,
+        bslib::card_header("Community Visualisation"),
         
-        # ordinationAnalysisUI(id = "ordinationAnalysis_id_1")
-        
+        bslib::layout_columns(
+          
+          col_widths = c(6, 6),
+          
+          heatmapUI(id = "heatmap_id_1"),
+          
+          ordinationAnalysisUI(id = "ordinationAnalysis_id_1")
+          
+        )
       )
-      
     )
   ),
     

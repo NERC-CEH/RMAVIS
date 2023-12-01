@@ -22,6 +22,12 @@ nrow(nvc_pquads_final) == nrow(assignNVC::nvc_pquads)
 
 saveRDS(object = nvc_pquads_final, file = "./data/bundled_data/nvc_pquads_final.rds")
 
+# !!! when replacing the names in assignNVC::nvc_pquads several Pid3-Species duplications are introduced:
+duplictate_Pid3_species <- nvc_pquads_final |>
+  dplyr::group_by(Pid3, species) |>
+  dplyr::summarise(n = dplyr::n(), .groups = "drop") |>
+  dplyr::filter(n > 1L) 
+
 
 
 # assignNVC::NVC_communities ----------------------------------------------

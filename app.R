@@ -46,8 +46,11 @@ source("modules/calcAvgEIVs_server.R", local = TRUE)
 source("modules/diversityAnalysis_ui.R", local = TRUE)
 source("modules/diversityAnalysis_server.R", local = TRUE)
 
-# source("modules/ordinationAnalysis_ui.R", local = TRUE)
-# source("modules/ordinationAnalysis_server.R", local = TRUE)
+source("modules/heatmap_ui.R", local = TRUE)
+source("modules/heatmap_server.R", local = TRUE)
+
+source("modules/ordinationAnalysis_ui.R", local = TRUE)
+source("modules/ordinationAnalysis_server.R", local = TRUE)
 
 # source("modules/report_ui.R", local = TRUE)
 source("modules/report_server.R", local = TRUE)
