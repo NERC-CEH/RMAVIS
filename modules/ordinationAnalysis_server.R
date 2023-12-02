@@ -150,63 +150,70 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
           .before  = "NVC.Broad"
         )
       
-      # method1_results1 <- method1_sampleDCA |>
-      #   dplyr::mutate(
-      #     "NVC.Comm" =
-      #       dplyr::case_when(
-      #         stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"),
-      #         TRUE ~ as.character("Sample")
-      #       ),
-      #     .before  = "Quadrat"
-      #   ) |>
-      #   dplyr::mutate(
-      #     "NVC.Broad" =
-      #       dplyr::case_when(
-      #         stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = "^([A-Z]*)"),
-      #         TRUE ~ as.character("Sample")
-      #       ),
-      #     .before  = "NVC.Comm"
-      #   ) |>
-      #   dplyr::mutate(
-      #     "Year" =
-      #       dplyr::case_when(
-      #         stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ "Reference",
-      #         TRUE ~ stringr::str_extract(string = Quadrat, pattern = "(\\d{4})")
-      #       ),
-      #     .before  = "NVC.Broad"
-      #   )
-      # 
-      # 
-      # 
-      # method1_results2 <- dca_results_m1_quadrats  |>
-      #   dplyr::mutate(
-      #     "NVC.Comm" =
-      #       dplyr::case_when(
-      #         stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"),
-      #         TRUE ~ as.character("Sample")
-      #       ),
-      #     .before  = "Quadrat"
-      #   ) |>
-      #   dplyr::mutate(
-      #     "NVC.Broad" =
-      #       dplyr::case_when(
-      #         stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = "^([A-Z]*)"),
-      #         TRUE ~ as.character("Sample")
-      #       ),
-      #     .before  = "NVC.Comm"
-      #   ) |>
-      #   dplyr::mutate(
-      #     "Year" =
-      #       dplyr::case_when(
-      #         stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ "Reference",
-      #         TRUE ~ stringr::str_extract(string = Quadrat, pattern = "(\\d{4})")
-      #       ),
-      #     .before  = "NVC.Broad"
-      #   )
+      method1_results1 <- method1_sampleDCA |>
+        dplyr::mutate(
+          "NVC.Comm" =
+            dplyr::case_when(
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"),
+              TRUE ~ as.character("Sample")
+            ),
+          .before  = "Quadrat"
+        ) |>
+        dplyr::mutate(
+          "NVC.Broad" =
+            dplyr::case_when(
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = "^([A-Z]*)"),
+              TRUE ~ as.character("Sample")
+            ),
+          .before  = "NVC.Comm"
+        ) |>
+        dplyr::mutate(
+          "Year" =
+            dplyr::case_when(
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ "Reference",
+              TRUE ~ stringr::str_extract(string = Quadrat, pattern = "(\\d{4})")
+            ),
+          .before  = "NVC.Broad"
+        )
+
+
+
+      method1_results2 <- dca_results_m1_quadrats  |>
+        dplyr::mutate(
+          "NVC.Comm" =
+            dplyr::case_when(
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"),
+              TRUE ~ as.character("Sample")
+            ),
+          .before  = "Quadrat"
+        ) |>
+        dplyr::mutate(
+          "NVC.Broad" =
+            dplyr::case_when(
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = "^([A-Z]*)"),
+              TRUE ~ as.character("Sample")
+            ),
+          .before  = "NVC.Comm"
+        ) |>
+        dplyr::mutate(
+          "Year" =
+            dplyr::case_when(
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ "Reference",
+              TRUE ~ stringr::str_extract(string = Quadrat, pattern = "(\\d{4})")
+            ),
+          .before  = "NVC.Broad"
+        )
       
       # print("method1_results")
       # print(method1_results)
-        
+      
+      method1_results2_hull <- method1_results2 |>
+        dplyr::group_by(NVC.Comm) |>
+        dplyr::slice(grDevices::chull(DCA1, DCA2))
+      
+      
+      # print(method1_results2_hull)
+      
       
       # Method 2
       nvc_pquads_final_wide_prepped_wSurveyTable_prepped <- nvc_pquads_final_wide_prepped |>
@@ -240,6 +247,8 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
     output$method1DCAPlot <- plotly::renderPlotly({
       
       method1DCAPlot_plot <- ggplot2::ggplot() +
+        ggplot2::geom_polygon(data = method1_results2_hull, alpha = 0.2, 
+                              mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm, colour = NVC.Comm)) +
         ggplot2::geom_point(data = method1_results,
                             mapping = ggplot2::aes(color = NVC.Comm,
                                                    label2 = Quadrat,

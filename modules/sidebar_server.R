@@ -39,7 +39,6 @@ sidebar <- function(input, output, session, nvcAverageSim) {
               input$restrictNVCFlorTablesOpts,
               # input$generateReport,
               ignoreInit = TRUE)
-  
 
 # Show/Hide inputMethod-related inputs ------------------------------------
   observe({
