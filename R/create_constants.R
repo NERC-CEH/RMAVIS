@@ -99,3 +99,12 @@ habitatRestriction_options <- list(
 crossTabulate_options <- c("No" = "No",
                            "Composed to NVC" = "compToNVC",
                            "NVC to Composed" = "NVCToComp")
+
+
+# DCA Variable Options To Show --------------------------------------------
+dcaVars_options <- c("Survey Quadrats" = "surveyQuadrats",
+                     "Pseudo-Quadrats" = "pseudoQuadrats",
+                     "Reference Space" = "referenceSpace",
+                     "Species" = "species",
+                     "Hill-Ellenberg" = "hillEllenberg",
+                     "Arrows" = "arrows") 

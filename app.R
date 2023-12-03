@@ -12,6 +12,7 @@ source("R/load_data.R", local = TRUE)
 source("R/render_docs.R", local = TRUE)
 
 # Source functions
+source("R/functions.R", local = TRUE) # Do I need to switch this to global to allow knitr access?
 
 # Source sub-modules
 source("modules/documentation_ui.R", local = TRUE)

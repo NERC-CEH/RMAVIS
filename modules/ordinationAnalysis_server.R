@@ -4,10 +4,12 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
   
   # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
+  dcaVars <- reactiveVal()
   
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
+    dcaVars(sidebar_options()$dcaVars)
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -18,6 +20,7 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
   observe({
     
     shiny::req(surveyTable())
+    shiny::req(nvcAverageSim())
     
     shinybusy::show_modal_spinner(
       spin = "fading-circle",
@@ -29,7 +32,7 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
     shiny::isolate({
       
       # Get all NVC communities and sub-communities from nvc assignment results
-      NVC_communities_all <- nvcAverageSim() |> # nvcAverageSim()
+      NVC_communities_all <- nvcAverageSim() |>
         dplyr::pull(NVC.Code)
       
       # Get all NVC communities from community and sub-community codes
@@ -40,12 +43,11 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
       
       NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
       
-      print(NVC_communities_final)
       
       # Create pattern to subset matrix rows
       codes_regex <- c()
       
-      for(code in codes){
+      for(code in NVC_communities_final){
         
         regex <- paste0("(", code, ")(?<=)P")
         
@@ -55,11 +57,6 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
         
       }
       
-      print(codes_regex)
-      
-      # Subset communities
-      # nvc_pquads_final_wide_trimmed <- nvc_pquads_final_wide[stringr::str_detect(string = row.names(nvc_pquads_final_wide),
-      #                                                                            pattern = stringr::str_c(NVC_communities_final, collapse = "|")), ]
       nvc_pquads_final_wide_trimmed <- nvc_pquads_final_wide[stringr::str_detect(string = row.names(nvc_pquads_final_wide), pattern = codes_regex), ]
       
       # Remove columns (species) that are absent in all selected communities
@@ -120,38 +117,18 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
                          .groups = "drop") |>
         dplyr::rename("Quadrat" = "ID")
       
-      # print("method1_sampleDCA")
-      # print(method1_sampleDCA)
-      
-      method1_results <- method1_sampleDCA |>
-        dplyr::bind_rows(dca_results_m1_quadrats) |>
-        dplyr::mutate(
-          "NVC.Comm" =
-            dplyr::case_when(
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"),
-              TRUE ~ as.character("Sample")
-            ),
-          .before  = "Quadrat"
-        ) |>
-        dplyr::mutate(
-          "NVC.Broad" =
-            dplyr::case_when(
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = "^([A-Z]*)"),
-              TRUE ~ as.character("Sample")
-            ),
-          .before  = "NVC.Comm"
-        ) |>
-        dplyr::mutate(
-          "Year" =
-            dplyr::case_when(
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ "Reference",
-              TRUE ~ stringr::str_extract(string = Quadrat, pattern = "(\\d{4})")
-            ),
-          .before  = "NVC.Broad"
-        )
+
       
       method1_results1 <- method1_sampleDCA |>
         dplyr::mutate(
+          "Year" =
+            dplyr::case_when(
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ "Reference",
+              TRUE ~ stringr::str_extract(string = Quadrat, pattern = "(\\d{4})")
+            ),
+          .before  = "Quadrat"
+        ) |>
+        dplyr::mutate(
           "NVC.Comm" =
             dplyr::case_when(
               stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"),
@@ -160,24 +137,16 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
           .before  = "Quadrat"
         ) |>
         dplyr::mutate(
-          "NVC.Broad" =
+          "Quadrat.Group" =
             dplyr::case_when(
               stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = "^([A-Z]*)"),
               TRUE ~ as.character("Sample")
             ),
-          .before  = "NVC.Comm"
-        ) |>
-        dplyr::mutate(
-          "Year" =
-            dplyr::case_when(
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ "Reference",
-              TRUE ~ stringr::str_extract(string = Quadrat, pattern = "(\\d{4})")
-            ),
-          .before  = "NVC.Broad"
+          .before  = "Quadrat"
         )
+      
 
-
-
+      
       method1_results2 <- dca_results_m1_quadrats  |>
         dplyr::mutate(
           "NVC.Comm" =
@@ -188,12 +157,12 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
           .before  = "Quadrat"
         ) |>
         dplyr::mutate(
-          "NVC.Broad" =
+          "Quadrat.Group" =
             dplyr::case_when(
               stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = "^([A-Z]*)"),
               TRUE ~ as.character("Sample")
             ),
-          .before  = "NVC.Comm"
+          .before  = "Quadrat"
         ) |>
         dplyr::mutate(
           "Year" =
@@ -201,18 +170,17 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
               stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ "Reference",
               TRUE ~ stringr::str_extract(string = Quadrat, pattern = "(\\d{4})")
             ),
-          .before  = "NVC.Broad"
+          .before  = "Quadrat"
         )
       
-      # print("method1_results")
-      # print(method1_results)
+      # print(method1_results1)
+      # print(method1_results2)
+      
+      method1_results_all <- dplyr::bind_rows(method1_results1, method1_results2)
       
       method1_results2_hull <- method1_results2 |>
         dplyr::group_by(NVC.Comm) |>
         dplyr::slice(grDevices::chull(DCA1, DCA2))
-      
-      
-      # print(method1_results2_hull)
       
       
       # Method 2
@@ -246,48 +214,71 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
     
     output$method1DCAPlot <- plotly::renderPlotly({
       
+      # Create a plot containing the path along a set of sample quadrats by year.
+      arrow_plot <- ggplot2::ggplot() +
+        ggplot2::geom_path(data = method1_results1,
+                           mapping = ggplot2::aes(x = DCA1,
+                                                  y = DCA2,
+                                                  # group = Quadrat,
+                                                  group = c("Year", "Quadrat.Group")),
+                           arrow = grid::arrow())
+      
+      arrow_plot_data <- method1_results1 |>
+        dplyr::arrange(Quadrat) |>
+        dplyr::select("Year" = Year, 
+                      "Quadrat" = Quadrat, 
+                      "x" = DCA1, 
+                      "y" = DCA2) |>
+        dplyr::mutate("endX" = dplyr::lead(x),
+                      "endY" = dplyr::lead(y)) |>
+        dplyr::filter(!is.na(endX))    
+      
+      # assign(x = "method1_results1", value = method1_results1, envir = .GlobalEnv)
+      # assign(x = "arrow_plot_data", value = arrow_plot_data, envir = .GlobalEnv)
+      # assign(x = "arrow_plot_data1", value = arrow_plot_data1, envir = .GlobalEnv)
+      # assign(x = "arrow_plot", value = arrowTest_plot, envir = .GlobalEnv)
+      
       method1DCAPlot_plot <- ggplot2::ggplot() +
-        ggplot2::geom_polygon(data = method1_results2_hull, alpha = 0.2, 
-                              mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm, colour = NVC.Comm)) +
-        ggplot2::geom_point(data = method1_results,
-                            mapping = ggplot2::aes(color = NVC.Comm,
-                                                   label2 = Quadrat,
-                                                   x = DCA1,
-                                                   y = DCA2)) +
+        {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = method1_results2_hull, alpha = 0.2, 
+                                                                  mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm, colour = NVC.Comm))} +
+        {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = method1_results2,
+                                                                mapping = ggplot2::aes(color = NVC.Comm,
+                                                                                       Quadrat = Quadrat,
+                                                                                       x = DCA1,
+                                                                                       y = DCA2))} +
+        {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = method1_results1,
+                                                                mapping = ggplot2::aes(color = NVC.Comm,
+                                                                                       Quadrat = Quadrat,
+                                                                                       x = DCA1,
+                                                                                       y = DCA2))} +
+        {if("species" %in% dcaVars())ggplot2::geom_point(data = dca_results_m1_species,
+                                                         mapping = ggplot2::aes(x = DCA1, 
+                                                                                y = DCA2,
+                                                                                Species = Species))} +
+        # ggplot2::geom_path(data = method1_results1,
+        #                    mapping = ggplot2::aes(x = DCA1,
+        #                                           y = DCA2),
+        #                    arrow = grid::arrow()) +
       ggplot2::theme_minimal()
       
-      # method1DCAPlot_plot <- ggplot2::ggplot() +
-      #   ggplot2::geom_point(data = method1_results1,
-      #                       mapping = ggplot2::aes(color = NVC.Comm,
-      #                                              label2 = Quadrat,
-      #                                              x = DCA1,
-      #                                              y = DCA2)) +
-      #   ggplot2::geom_point(data = method1_results2,
-      #                       mapping = ggplot2::aes(color = NVC.Comm,
-      #                                              label2 = Quadrat,
-      #                                              x = DCA1,
-      #                                              y = DCA2))
-      #   ggplot2::theme_minimal()
+      if("arrows" %in% dcaVars()){
+        
+        method1DCAPlot_plotly <- plotly::ggplotly(p = method1DCAPlot_plot) |>
+          plotly::add_annotations(data = arrow_plot_data,
+                                  showarrow = TRUE,
+                                  text = "",
+                                  xref = "x", axref = "x",
+                                  yref = "y", ayref = "y",
+                                  x = ~endX,
+                                  ax = ~x,
+                                  y = ~endY,
+                                  ay = ~y)
+        
+      } else {
+        
+        method1DCAPlot_plotly <- plotly::ggplotly(p = method1DCAPlot_plot)
       
-      
-      # method1DCAPlot_plot <- ggplot2::ggplot() +
-      #   ggplot2::geom_point(data = method1_results1,
-      #                       mapping = ggplot2::aes(color = NVC.Comm,
-      #                                              label2 = Quadrat,
-      #                                              x = DCA1,
-      #                                              y = DCA2)) +
-      #   ggplot2::geom_point(data = method1_results2,
-      #                       mapping = ggplot2::aes(color = NVC.Comm,
-      #                                              label2 = Quadrat,
-      #                                              x = DCA1,
-      #                                              y = DCA2)) +
-      #   {if(length(unique(method1_results1$Year)) > 1)ggplot2::geom_path(data = method1_results1,
-      #                                                                    mapping = ggplot2::aes(x = DCA1, y = DCA2)
-      #                                                                    )
-      #     } +
-      #   ggplot2::theme_minimal()
-      
-      method1DCAPlot_plotly <- plotly::ggplotly(p = method1DCAPlot_plot)
+      }
       
       
       return(method1DCAPlot_plotly)  
@@ -318,6 +309,7 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
     
   }) |>
     bindEvent(runAnalysis(),
+              # dcaVars(),
               # surveyTablePrepped(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)

@@ -45,6 +45,8 @@ The Modular Analysis of Vegetation Information System (MAVIS) is a tool..
 \newpage
 # Results
 
+## Jaccard Similarity - Pseudo-quadrat Method
+
 ```{r nvcAverageSimTable, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
 nvcAverageSimTable <- nvcAverageSim
@@ -55,6 +57,15 @@ kableExtra::kbl(x = nvcAverageSimTable, format = "latex", booktabs = TRUE,
   kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
 
 ```
+
+\newpage
+## Habitat Correspondences
+
+\newpage
+## Composed Floristic Tables
+
+\newpage
+## Detrended Correspondence Analysis
 
 \newpage
 # Appendix

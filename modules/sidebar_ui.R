@@ -292,6 +292,32 @@ sidebarUI <- function(id){
       
       bslib::accordion_panel(
         
+        "DCA", 
+        
+        icon = bsicons::bs_icon("sliders"),
+        
+        bslib::layout_columns(
+          
+          col_widths = c(11, 1),
+          
+          shiny::checkboxGroupInput(inputId = ns("dcaVars"),
+                                    label = "Show DCA Scores",
+                                    choices = dcaVars_options,
+                                    selected = c("referenceSpace", "surveyQuadrats")),
+          
+          bslib::popover(
+            bsicons::bs_icon("info-circle"),
+            title = "DCA",
+            paste0(""),
+            placement = "bottom"
+          )
+          
+        )
+        
+      ),
+      
+      bslib::accordion_panel(
+        
         "Download Options", 
         
         icon = bsicons::bs_icon("download"),
