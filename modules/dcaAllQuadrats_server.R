@@ -1,4 +1,4 @@
-ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSim, sidebar_options) {
+dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, sidebar_options) {
   
   ns <- session$ns
   
@@ -14,8 +14,6 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
   
-  
-  dcaPSvsSamples_rval <- reactiveVal()
   
   observe({
     
@@ -261,7 +259,7 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
         #                    arrow = grid::arrow()) +
       ggplot2::theme_minimal()
       
-      if("arrows" %in% dcaVars()){
+      if("surveyQuadratChange" %in% dcaVars()){
         
         method1DCAPlot_plotly <- plotly::ggplotly(p = method1DCAPlot_plot) |>
           plotly::add_annotations(data = arrow_plot_data,
@@ -302,10 +300,9 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
       
     })
     
-    
-    # dcaPSvsSamples_rval(dcaPSvsSamples)
-    
     shinybusy::remove_modal_spinner()
+    
+    dca_results <- list()
     
   }) |>
     bindEvent(runAnalysis(),
@@ -314,6 +311,6 @@ ordinationAnalysis <- function(input, output, session, surveyTable, nvcAverageSi
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
-  # return(avgEIVsTable_rval)
+  # return(dca_results)
   
 }

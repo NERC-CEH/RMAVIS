@@ -301,7 +301,7 @@ sidebarUI <- function(id){
           col_widths = c(11, 1),
           
           shiny::checkboxGroupInput(inputId = ns("dcaVars"),
-                                    label = "Show DCA Scores",
+                                    label = "Axis Scores",
                                     choices = dcaVars_options,
                                     selected = c("referenceSpace", "surveyQuadrats")),
           

@@ -9,6 +9,7 @@ params:
     nvcAverageSim: NULL
     assignNVCResults: NULL
     sidebar_options: NULL
+    dcaFixedSpaceResults: NULL
 bibliography: Report.refs.bib
 link-citations: yes
 editor_options: 
@@ -35,6 +36,11 @@ surveyTablePrepped <- params$surveyTablePrepped
 nvcAverageSim <- params$nvcAverageSim
 assignNVCResults <- params$assignNVCResults
 sidebar_options <- params$sidebar_options
+dcaFixedSpaceResults <- params$dcaFixedSpaceResults
+selected_pquads_dca_results_species_final <- dcaFixedSpaceResults$selected_pquads_dca_results_species
+selected_pquads_dca_results_quadrats_final <- dcaFixedSpaceResults$selected_pquads_dca_results_quadrats_final
+surveyTable_dca_results_quadrats_final <- dcaFixedSpaceResults$surveyTable_dca_results_quadrats_final
+selected_pquads_dca_results_quadrats_final_hull <- dcaFixedSpaceResults$selected_pquads_dca_results_quadrats_final_hull
 
 ```
 
@@ -66,6 +72,39 @@ kableExtra::kbl(x = nvcAverageSimTable, format = "latex", booktabs = TRUE,
 
 \newpage
 ## Detrended Correspondence Analysis
+
+```{r dca, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+method1DCAPlot_plot <- ggplot2::ggplot() +
+  ggplot2::geom_polygon(data = selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2,
+                        mapping = ggplot2::aes(x = DCA1, 
+                                               y = DCA2, 
+                                               fill = NVC.Comm, 
+                                               colour = NVC.Comm)) +
+  # ggplot2::geom_point(data = selected_pquads_dca_results_quadrats_final,
+  #                     mapping = ggplot2::aes(color = NVC.Comm, 
+  #                                            Quadrat = Quadrat, 
+  #                                            x = DCA1,
+  #                                            y = DCA2)) +
+  ggplot2::geom_point(data = surveyTable_dca_results_quadrats_final,
+                      mapping = ggplot2::aes(color = NVC.Comm,
+                                             Quadrat = Quadrat,
+                                             x = DCA1,
+                                             y = DCA2)) +
+  # ggplot2::geom_point(data = selected_pquads_dca_results_species_final,
+  #                     mapping = ggplot2::aes(x = DCA1, 
+  #                                            y = DCA2,
+  #                                            Species = Species)) +
+  ggplot2::geom_path(data = surveyTable_dca_results_quadrats_final,
+                     mapping = ggplot2::aes(x = DCA1,
+                                            y = DCA2),
+                     arrow = grid::arrow()) +
+  ggplot2::theme_minimal()
+
+method1DCAPlot_plot
+
+```
+
 
 \newpage
 # Appendix

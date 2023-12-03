@@ -1,0 +1,243 @@
+dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, sidebar_options) {
+  
+  ns <- session$ns
+  
+  # Retrieve sidebar options ------------------------------------------------
+  runAnalysis <- reactiveVal()
+  dcaVars <- reactiveVal()
+  
+  observe({
+    
+    runAnalysis(sidebar_options()$runAnalysis)
+    dcaVars(sidebar_options()$dcaVars)
+    
+  }) |>
+    bindEvent(sidebar_options(), ignoreInit = TRUE)
+  
+  
+  dcaFixedSpaceResults <- reactiveVal()
+  
+  observe({
+    
+    # Require selected objects are not NULL
+    shiny::req(surveyTable())
+    shiny::req(nvcAverageSim())
+    
+    # Start busy spinner
+    shinybusy::show_modal_spinner(
+      spin = "fading-circle",
+      color = "#3F9280",
+      text = "Performing DCA Analysis"
+    )
+    
+    # Peform analysis in a reactive context without creating a reactive relationship
+    shiny::isolate({
+      
+      # Get all NVC communities and sub-communities from nvc assignment results
+      NVC_communities_all <- nvcAverageSim() |>
+        dplyr::pull(NVC.Code)
+      
+      # Get all NVC communities from community and sub-community codes
+      NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
+                                                         pattern = "(\\d)[^0-9]+$", 
+                                                         replace = "\\1") |>
+        unique()
+      
+      NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
+      
+      
+      # Create pattern to subset matrix rows
+      codes_regex <- c()
+      
+      for(code in NVC_communities_final){
+        
+        regex <- paste0("(", code, ")(?<=)P")
+        
+        codes_regex <- c(codes_regex, regex)
+        
+        codes_regex <- stringr::str_c(codes_regex, collapse = "|")
+        
+      }
+      
+      # Subset pseudo-quadrats for selected communities
+      selected_pquads <- nvc_pquads_final_wide[stringr::str_detect(string = row.names(nvc_pquads_final_wide), pattern = codes_regex), ]
+      
+      # Remove columns (species) that are absent in all selected communities
+      selected_pquads_prepped <- selected_pquads[, colSums(abs(selected_pquads)) != 0] |>
+        as.data.frame()
+      
+      # Perform a DCA on the selected pseudo-quadrats
+      selected_pquads_dca_results <- vegan::decorana(veg = selected_pquads_prepped)
+      # selected_pquads_dca_results <- nvc_pquad_dca_list
+      
+      
+
+      # Extract the DCA results species axis scores
+      selected_pquads_dca_results_species <- selected_pquads_dca_results$cproj |>
+        tibble::as_tibble(rownames = "Species")
+      
+      # Extract the DCA results quadrat axis scores
+      selected_pquads_dca_results_quadrats <- selected_pquads_dca_results$rproj|>
+        tibble::as_tibble(rownames = "Quadrat")
+      
+      selected_pquads_dca_results_quadrats_final <- selected_pquads_dca_results_quadrats  |>
+        dplyr::mutate(
+          "NVC.Comm" =
+            dplyr::case_when(
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"),
+              TRUE ~ as.character("Sample")
+            ),
+          .before  = "Quadrat"
+        ) |>
+        dplyr::mutate(
+          "Quadrat.Group" =
+            dplyr::case_when(
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = "^([A-Z]*)"),
+              TRUE ~ as.character("Sample")
+            ),
+          .before  = "Quadrat"
+        ) |>
+        dplyr::mutate(
+          "Year" =
+            dplyr::case_when(
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ "Reference",
+              TRUE ~ stringr::str_extract(string = Quadrat, pattern = "(\\d{4})")
+            ),
+          .before  = "Quadrat"
+        )
+      
+    
+      # surveyTable_dca_results
+      surveyTable_dca_results_quadrats <- surveyTable() |>
+        tibble::as_tibble() |>
+        dplyr::filter(!is.na(Cover)) |>
+        dplyr::select(-Cover) |>
+        dplyr::left_join(selected_pquads_dca_results_species, by = "Species") |>
+        tidyr::unite(col = "ID", c(Year, Site, Quadrat.Group, Quadrat), sep = " - ", remove = TRUE) |>
+        dplyr::group_by(ID) |>
+        dplyr::summarise("DCA1" = mean(DCA1, na.rm = TRUE),
+                         "DCA2" = mean(DCA2, na.rm = TRUE),
+                         "DCA3" = mean(DCA3, na.rm = TRUE),
+                         "DCA4" = mean(DCA4, na.rm = TRUE),
+                         .groups = "drop") |>
+        dplyr::rename("Quadrat" = "ID")
+      
+      
+      surveyTable_dca_results_quadrats_final <- surveyTable_dca_results_quadrats |>
+        dplyr::mutate(
+          "Year" =
+            dplyr::case_when(
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ "Reference",
+              TRUE ~ stringr::str_extract(string = Quadrat, pattern = "(\\d{4})")
+            ),
+          .before  = "Quadrat"
+        ) |>
+        dplyr::mutate(
+          "NVC.Comm" =
+            dplyr::case_when(
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"),
+              TRUE ~ as.character("Sample")
+            ),
+          .before  = "Quadrat"
+        ) |>
+        dplyr::mutate(
+          "Quadrat.Group" =
+            dplyr::case_when(
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = "^([A-Z]*)"),
+              TRUE ~ as.character("Sample")
+            ),
+          .before  = "Quadrat"
+        )
+      
+      
+      # method1_results_all <- dplyr::bind_rows(method1_results1, method1_results2)
+      
+      
+      # Create convex hulls around the pseudo-quadrat DCA points.
+      selected_pquads_dca_results_quadrats_final_hull <- selected_pquads_dca_results_quadrats_final |>
+        dplyr::group_by(NVC.Comm) |>
+        dplyr::slice(grDevices::chull(DCA1, DCA2))
+      
+      # Prepare the data required to draw arrows between points, ordered by Year
+      arrow_plot_data <- surveyTable_dca_results_quadrats_final |>
+        dplyr::arrange(Quadrat) |>
+        dplyr::select("Year" = Year, 
+                      "Quadrat" = Quadrat, 
+                      "x" = DCA1, 
+                      "y" = DCA2) |>
+        dplyr::mutate("endX" = dplyr::lead(x),
+                      "endY" = dplyr::lead(y)) |>
+        dplyr::filter(!is.na(endX))
+      
+    }) # close isolate
+    
+    # Create an interactive plot of the DCA results
+    output$dcaFixedSpacePlot <- plotly::renderPlotly({
+      
+      # Create ggplot2 plot
+      dcaFixedSpacePlot_plot <- ggplot2::ggplot() +
+        {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2, 
+                                                                  mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm, colour = NVC.Comm))} +
+        {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = selected_pquads_dca_results_quadrats_final,
+                                                                mapping = ggplot2::aes(color = NVC.Comm,
+                                                                                       Quadrat = Quadrat,
+                                                                                       x = DCA1,
+                                                                                       y = DCA2))} +
+        {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = surveyTable_dca_results_quadrats_final,
+                                                                mapping = ggplot2::aes(color = NVC.Comm,
+                                                                                       Quadrat = Quadrat,
+                                                                                       x = DCA1,
+                                                                                       y = DCA2))} +
+        {if("species" %in% dcaVars())ggplot2::geom_point(data = selected_pquads_dca_results_species,
+                                                         mapping = ggplot2::aes(x = DCA1, 
+                                                                                y = DCA2,
+                                                                                Species = Species))} +
+        ggplot2::theme_minimal()
+      
+      
+      if("surveyQuadratChange" %in% dcaVars()){
+        
+        dcaFixedSpacePlot_plotly <- plotly::ggplotly(p = dcaFixedSpacePlot_plot) |>
+          plotly::add_annotations(data = arrow_plot_data,
+                                  showarrow = TRUE,
+                                  text = "",
+                                  xref = "x", axref = "x",
+                                  yref = "y", ayref = "y",
+                                  x = ~endX,
+                                  ax = ~x,
+                                  y = ~endY,
+                                  ay = ~y)
+        
+      } else {
+        
+        dcaFixedSpacePlot_plotly <- plotly::ggplotly(p = dcaFixedSpacePlot_plot)
+      
+      }
+      
+      
+      return(dcaFixedSpacePlot_plotly)  
+      
+    })
+    
+    
+    # Stop busy spinner
+    shinybusy::remove_modal_spinner()
+    
+    
+    # Compose list of DCA results objects
+    dcaFixedSpaceResults_list <- list("selected_pquads_dca_results_species_final" = selected_pquads_dca_results_species,
+                                      "selected_pquads_dca_results_quadrats_final" = selected_pquads_dca_results_quadrats_final,
+                                      "surveyTable_dca_results_quadrats_final" = surveyTable_dca_results_quadrats_final,
+                                      "selected_pquads_dca_results_quadrats_final_hull" = selected_pquads_dca_results_quadrats_final_hull)
+    
+    dcaFixedSpaceResults(dcaFixedSpaceResults_list)
+    
+  }) |>
+    bindEvent(runAnalysis(),
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE)
+  
+  # Return list of DCA results objects
+  return(dcaFixedSpaceResults)
+  
+}

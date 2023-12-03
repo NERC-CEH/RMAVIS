@@ -115,13 +115,13 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
-        value = "communityVisualisation_panel",
+        value = "dca_panel",
         
-        bslib::card_header("Community Visualisation"),
+        bslib::card_header("DCA"),
         
-        # heatmapUI(id = "heatmap_id_1"),
+        shiny::h5("Detrended Correspondence Analysis"),
         
-        ordinationAnalysisUI(id = "ordinationAnalysis_id_1")
+        dcaFixedSpaceUI(id = "dcaFixedSpace_id_1")
         
       )
     )

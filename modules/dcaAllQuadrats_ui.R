@@ -1,4 +1,4 @@
-ordinationAnalysisUI <- function(id){
+dcaFixedSpaceUI <- function(id){
   
   ns <- NS(id)
   
