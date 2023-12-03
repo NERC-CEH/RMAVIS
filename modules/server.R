@@ -43,14 +43,6 @@ server <- function(input, output, session) {
              surveyTablePrepped = surveyTablePrepped,
              sidebar_options = sidebar_options)
   
-  callModule(module = report,
-             id = "sidebar_id_1",
-             surveyTable = surveyTable,
-             surveyTablePrepped = surveyTablePrepped,
-             nvcAverageSim = nvcAverageSim,
-             assignNVCResults = assignNVCResults,
-             sidebar_options = sidebar_options)
-  
   callModule(module = diversityAnalysis,
              id = "diversityAnalysis_id_1",
              surveyTable = surveyTable,
@@ -68,6 +60,23 @@ server <- function(input, output, session) {
                                      # surveyTablePrepped = surveyTablePrepped,
                                      nvcAverageSim = nvcAverageSim,
                                      sidebar_options = sidebar_options)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  callModule(module = report,
+             id = "sidebar_id_1",
+             surveyTable = surveyTable,
+             surveyTablePrepped = surveyTablePrepped,
+             nvcAverageSim = nvcAverageSim,
+             assignNVCResults = assignNVCResults,
+             dcaFixedSpaceResults = dcaFixedSpaceResults,
+             sidebar_options = sidebar_options)
   
   
   # observe({

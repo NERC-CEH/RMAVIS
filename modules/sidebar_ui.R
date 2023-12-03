@@ -20,7 +20,7 @@ sidebarUI <- function(id){
       
       bslib::accordion_panel(
         
-        "Input Data", 
+        "Survey Data", 
         
         icon = bsicons::bs_icon("wrench-adjustable"),
         
