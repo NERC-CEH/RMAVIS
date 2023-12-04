@@ -57,6 +57,7 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
         
       }
       
+      # Subset pseudo-quadrats for selected communities
       nvc_pquads_final_wide_trimmed <- nvc_pquads_final_wide[stringr::str_detect(string = row.names(nvc_pquads_final_wide), pattern = codes_regex), ]
       
       # Remove columns (species) that are absent in all selected communities
@@ -82,17 +83,26 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
                            values_from = Cover) |>
         tibble::column_to_rownames(var = "ID")
     
-      # Method 2
+      # Combine the pseudo-quadrats and survey data into a single matrix
       nvc_pquads_final_wide_prepped_wSurveyTable_prepped <- nvc_pquads_final_wide_prepped |>
         dplyr::bind_rows(surveyTable_prepped) |>
         dplyr::mutate_all(~replace(., is.na(.), 0)) |>
         as.matrix()
       
-      dca_results <- vegan::decorana(veg = nvc_pquads_final_wide_prepped_wSurveyTable_prepped)
+      # Perform a DCA on the combined pseudo-quadrat and survey data
+      pquads_surveyTable_dca_results <- vegan::decorana(veg = nvc_pquads_final_wide_prepped_wSurveyTable_prepped)
       
-      dca_results_psquad_axisScores <- dca_results$rproj |>
-        as.data.frame() |>
-        tibble::rownames_to_column(var = "Quadrat") |>
+      # Extract the DCA results species axis scores
+      pquads_surveyTable_dca_results_species <- pquads_surveyTable_dca_results$cproj |>
+        tibble::as_tibble(rownames = "Species")
+      
+      # Extract the DCA results quadrat axis scores
+      pquads_surveyTable_dca_results_quadrats <- pquads_surveyTable_dca_results$rproj |>
+        tibble::as_tibble(rownames = "Quadrat")
+      
+      assign(x = "pquads_surveyTable_dca_results_quadrats", value = pquads_surveyTable_dca_results_quadrats, envir = .GlobalEnv)
+      
+      pquads_surveyTable_dca_results_quadrats <- pquads_surveyTable_dca_results_quadrats |>
         dplyr::mutate(
           "Year" =
             dplyr::case_when(
@@ -112,29 +122,28 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
         dplyr::mutate(
           "Group" =
             dplyr::case_when(
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = "^([A-Z]*)"),
-              TRUE ~ as.character("Sample")
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) == TRUE ~ "Reference",
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) == FALSE ~ stringr::str_extract(string = Quadrat, pattern = "(?<=\\d{4}\\s-\\s)([[:alnum:]]*)"),
+              TRUE ~ as.character("")
             ),
           .before  = "Quadrat"
-        ) |>
-        print()
+        )
       
-      dca_results_psquad_axisScores_pquads <- dca_results_psquad_axisScores |>
+      
+      pquads_surveyTable_dca_results_quadrats_pquads <- pquads_surveyTable_dca_results_quadrats |>
         dplyr::filter(NVC.Comm != "Sample")
         
-      dca_results_psquad_axisScores_sample <- dca_results_psquad_axisScores |>
-        dplyr::filter(NVC.Comm == "Sample") |>
-        print()
-        
+      pquads_surveyTable_dca_results_quadrats_sample <- pquads_surveyTable_dca_results_quadrats |>
+        dplyr::filter(NVC.Comm == "Sample")
       
       
       # Create convex hulls around the pseudo-quadrat DCA points.
-      selected_pquads_dca_results_quadrats_final_hull <- dca_results_psquad_axisScores_pquads |>
+      pquads_surveyTable_dca_results_quadrats_hull <- pquads_surveyTable_dca_results_quadrats_pquads |>
         dplyr::group_by(NVC.Comm) |>
         dplyr::slice(grDevices::chull(DCA1, DCA2))
       
       # Prepare the data required to draw arrows between points, ordered by Year
-      arrow_plot_data <- dca_results_psquad_axisScores_sample |>
+      arrow_plot_data <- pquads_surveyTable_dca_results_quadrats_sample |>
         dplyr::arrange(Quadrat) |>
         dplyr::select("Year" = Year, 
                       "Quadrat" = Quadrat, 
@@ -150,26 +159,25 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
     output$dcaAllQuadratsPlot <- plotly::renderPlotly({
       
       dcaAllQuadratsPlot_plot <- ggplot2::ggplot() +
-        {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2, 
-                                                                  mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm, colour = NVC.Comm))} +
-        {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = dca_results_psquad_axisScores_pquads,
+        {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = pquads_surveyTable_dca_results_quadrats_hull, alpha = 0.2, 
+                                                                  mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm))} +
+        {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = pquads_surveyTable_dca_results_quadrats_pquads,
                                                                 mapping = ggplot2::aes(color = NVC.Comm,
                                                                                        Quadrat = Quadrat,
                                                                                        x = DCA1,
                                                                                        y = DCA2))} +
-        {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = dca_results_psquad_axisScores_sample,
-                                                                mapping = ggplot2::aes(color = NVC.Comm,
+        {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = pquads_surveyTable_dca_results_quadrats_sample,
+                                                                color = 'red',
+                                                                mapping = ggplot2::aes(Year = Year,
+                                                                                       Group = Group,
                                                                                        Quadrat = Quadrat,
                                                                                        x = DCA1,
                                                                                        y = DCA2))} +
-        # {if("species" %in% dcaVars())ggplot2::geom_point(data = dca_results_m1_species,
-        #                                                  mapping = ggplot2::aes(x = DCA1, 
-        #                                                                         y = DCA2,
-        #                                                                         Species = Species))} +
-        # ggplot2::geom_path(data = method1_results1,
-        #                    mapping = ggplot2::aes(x = DCA1,
-        #                                           y = DCA2),
-        #                    arrow = grid::arrow()) +
+        {if("species" %in% dcaVars())ggplot2::geom_point(data = pquads_surveyTable_dca_results_species,
+                                                         color = 'darkgreen',
+                                                         mapping = ggplot2::aes(x = DCA1,
+                                                                                y = DCA2,
+                                                                                Species = Species))} +
       ggplot2::theme_minimal()
       
       if("surveyQuadratChange" %in% dcaVars()){
@@ -199,10 +207,9 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
     shinybusy::remove_modal_spinner()
     
     # Compose list of DCA results objects
-    dcaAllQuadratsResults_list <- list(#"selected_pquads_dca_results_species_final" = selected_pquads_dca_results_species,
-                                       "selected_pquads_dca_results_quadrats_final" = dca_results_psquad_axisScores_pquads,
-                                       "surveyTable_dca_results_quadrats_final" = dca_results_psquad_axisScores_sample,
-                                       "selected_pquads_dca_results_quadrats_final_hull" = selected_pquads_dca_results_quadrats_final_hull)
+    dcaAllQuadratsResults_list <- list("pquads_surveyTable_dca_results_species" = pquads_surveyTable_dca_results_species,
+                                       "pquads_surveyTable_dca_results_quadrats" = pquads_surveyTable_dca_results_quadrats,
+                                       "pquads_surveyTable_dca_results_quadrats_hull" = pquads_surveyTable_dca_results_quadrats_hull)
     
     dcaAllQuadratsResults(dcaAllQuadratsResults_list)
     

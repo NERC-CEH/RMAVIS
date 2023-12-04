@@ -39,7 +39,7 @@ sidebar_options <- params$sidebar_options
 dcaFixedSpaceResults <- params$dcaFixedSpaceResults
 selected_pquads_dca_results_species_final <- dcaFixedSpaceResults$selected_pquads_dca_results_species
 selected_pquads_dca_results_quadrats_final <- dcaFixedSpaceResults$selected_pquads_dca_results_quadrats_final
-surveyTable_dca_results_quadrats_final <- dcaFixedSpaceResults$surveyTable_dca_results_quadrats_final
+surveyTable_dca_results_quadrats <- dcaFixedSpaceResults$surveyTable_dca_results_quadrats
 selected_pquads_dca_results_quadrats_final_hull <- dcaFixedSpaceResults$selected_pquads_dca_results_quadrats_final_hull
 
 ```
@@ -82,16 +82,16 @@ method1DCAPlot_plot <- ggplot2::ggplot() +
   ggplot2::geom_polygon(data = selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2,
                         mapping = ggplot2::aes(x = DCA1, 
                                                y = DCA2, 
-                                               fill = NVC.Comm#, 
-                                               # colour = NVC.Comm
+                                               fill = NVC.Comm
                                                )) +
   # ggplot2::geom_point(data = selected_pquads_dca_results_quadrats_final,
   #                     mapping = ggplot2::aes(color = NVC.Comm, 
   #                                            Quadrat = Quadrat, 
   #                                            x = DCA1,
   #                                            y = DCA2)) +
-  ggplot2::geom_point(data = surveyTable_dca_results_quadrats_final,
-                      mapping = ggplot2::aes(color = NVC.Comm,
+  ggplot2::geom_point(data = surveyTable_dca_results_quadrats,
+                      mapping = ggplot2::aes(Year = Year,
+                                             Group = Group,
                                              Quadrat = Quadrat,
                                              x = DCA1,
                                              y = DCA2)) +
