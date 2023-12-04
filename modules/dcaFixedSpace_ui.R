@@ -7,8 +7,18 @@ dcaFixedSpaceUI <- function(id){
       width = 12,
 
       shiny::div(
-        shiny::h5("Fixed Reference Space"),
+        
+        shiny::h5("Fixed Reference Space"),# |>
+          
+          # bslib::popover(
+          #   bsicons::bs_icon("info-circle"),
+          #   title = "Fixed Reference Space",
+          #   paste0(""),
+          #   placement = "bottom"
+          # ),
+        
         plotly::plotlyOutput(outputId = ns("dcaFixedSpacePlot"), height = "600px")
+        
       )
 
     )

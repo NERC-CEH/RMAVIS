@@ -100,8 +100,6 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
       pquads_surveyTable_dca_results_quadrats <- pquads_surveyTable_dca_results$rproj |>
         tibble::as_tibble(rownames = "Quadrat")
       
-      assign(x = "pquads_surveyTable_dca_results_quadrats", value = pquads_surveyTable_dca_results_quadrats, envir = .GlobalEnv)
-      
       pquads_surveyTable_dca_results_quadrats <- pquads_surveyTable_dca_results_quadrats |>
         dplyr::mutate(
           "Year" =
@@ -134,7 +132,11 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
         dplyr::filter(NVC.Comm != "Sample")
         
       pquads_surveyTable_dca_results_quadrats_sample <- pquads_surveyTable_dca_results_quadrats |>
-        dplyr::filter(NVC.Comm == "Sample")
+        dplyr::filter(NVC.Comm == "Sample") |>
+        dplyr::mutate("ID" = Quadrat, .before = "Year") |>
+        dplyr::mutate("Quadrat" = stringr::str_extract(string = Quadrat, pattern = "[[:alnum:]]*$"))
+        
+        
       
       
       # Create convex hulls around the pseudo-quadrat DCA points.
@@ -143,16 +145,27 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
         dplyr::slice(grDevices::chull(DCA1, DCA2))
       
       # Prepare the data required to draw arrows between points, ordered by Year
-      arrow_plot_data <- pquads_surveyTable_dca_results_quadrats_sample |>
-        dplyr::arrange(Quadrat) |>
-        dplyr::select("Year" = Year, 
-                      "Quadrat" = Quadrat, 
-                      "x" = DCA1, 
-                      "y" = DCA2) |>
-        dplyr::mutate("endX" = dplyr::lead(x),
-                      "endY" = dplyr::lead(y)) |>
-        dplyr::filter(!is.na(endX)) |>
-        print()
+      if(length(unique(pquads_surveyTable_dca_results_quadrats_sample$Year)) > 1){
+        
+        arrow_plot_data <- pquads_surveyTable_dca_results_quadrats_sample |>
+          dplyr::arrange(Year) |>
+          dplyr::select("Year" = Year, 
+                        "Group" = Group,
+                        "Quadrat" = Quadrat,
+                        "x" = DCA1, 
+                        "y" = DCA2) |>
+          dplyr::group_by(Group, Quadrat) |>
+          dplyr::mutate("endX" = dplyr::lead(x),
+                        "endY" = dplyr::lead(y)) |>
+          dplyr::filter(!is.na(endX)) |>
+          dplyr::ungroup() |>
+          print()
+        
+      } else {
+        
+        arrow_plot_data <- NULL
+        
+      }
       
     }) # Close isolate
     
@@ -180,7 +193,7 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
                                                                                 Species = Species))} +
       ggplot2::theme_minimal()
       
-      if("surveyQuadratChange" %in% dcaVars()){
+      if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data)){
         
         dcaAllQuadratsPlot_plotly <- plotly::ggplotly(p = dcaAllQuadratsPlot_plot) |>
           plotly::add_annotations(data = arrow_plot_data,

@@ -101,22 +101,36 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
                          .groups = "drop") |>
         dplyr::mutate("NVC.Comm" = "Sample", .before  = "Quadrat")
       
+      # print(surveyTable_dca_results_quadrats)
+      
       # Create convex hulls around the pseudo-quadrat DCA points.
       selected_pquads_dca_results_quadrats_final_hull <- selected_pquads_dca_results_quadrats_final |>
         dplyr::group_by(NVC.Comm) |>
         dplyr::slice(grDevices::chull(DCA1, DCA2))
       
       # Prepare the data required to draw arrows between points, ordered by Year
-      arrow_plot_data <- surveyTable_dca_results_quadrats |>
-        dplyr::arrange(Quadrat) |>
-        dplyr::select("Year" = Year, 
-                      "Quadrat" = Quadrat, 
-                      "x" = DCA1, 
-                      "y" = DCA2) |>
-        dplyr::mutate("endX" = dplyr::lead(x),
-                      "endY" = dplyr::lead(y)) |>
-        dplyr::filter(!is.na(endX)) |>
-        print()
+      
+      if(length(unique(surveyTable_dca_results_quadrats$Year)) > 1){
+        
+        arrow_plot_data <- surveyTable_dca_results_quadrats |>
+          dplyr::arrange(Year) |>
+          dplyr::select("Year" = Year, 
+                        "Group" = Group,
+                        "Quadrat" = Quadrat, 
+                        "x" = DCA1, 
+                        "y" = DCA2) |>
+          dplyr::group_by(Group, Quadrat) |>
+          dplyr::mutate("endX" = dplyr::lead(x),
+                        "endY" = dplyr::lead(y)) |>
+          dplyr::filter(!is.na(endX)) |>
+          dplyr::ungroup() |>
+          print()
+        
+      } else {
+        
+        arrow_plot_data <- NULL
+        
+      }
       
     }) # close isolate
     
@@ -146,8 +160,7 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
                                                                                 Species = Species))} +
         ggplot2::theme_minimal()
       
-      
-      if("surveyQuadratChange" %in% dcaVars()){
+      if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data)){
         
         dcaFixedSpacePlot_plotly <- plotly::ggplotly(p = dcaFixedSpacePlot_plot) |>
           plotly::add_annotations(data = arrow_plot_data,
