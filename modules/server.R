@@ -77,6 +77,7 @@ server <- function(input, output, session) {
              nvcAverageSim = nvcAverageSim,
              assignNVCResults = assignNVCResults,
              dcaFixedSpaceResults = dcaFixedSpaceResults,
+             dcaAllQuadratsResults = dcaAllQuadratsResults,
              sidebar_options = sidebar_options)
   
   

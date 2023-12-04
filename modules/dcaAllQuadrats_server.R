@@ -180,7 +180,7 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
                                                                                        x = DCA1,
                                                                                        y = DCA2))} +
         {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = pquads_surveyTable_dca_results_quadrats_sample,
-                                                                color = 'red',
+                                                                color = 'black',
                                                                 mapping = ggplot2::aes(Year = Year,
                                                                                        Group = Group,
                                                                                        Quadrat = Quadrat,
@@ -195,16 +195,21 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
       
       if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data)){
         
-        dcaAllQuadratsPlot_plotly <- plotly::ggplotly(p = dcaAllQuadratsPlot_plot) |>
-          plotly::add_annotations(data = arrow_plot_data,
-                                  showarrow = TRUE,
-                                  text = "",
-                                  xref = "x", axref = "x",
-                                  yref = "y", ayref = "y",
-                                  x = ~endX,
-                                  ax = ~x,
-                                  y = ~endY,
-                                  ay = ~y)
+        if(nrow(arrow_plot_data) > 0){
+          
+          dcaAllQuadratsPlot_plotly <- plotly::ggplotly(p = dcaAllQuadratsPlot_plot) |>
+            plotly::add_annotations(data = arrow_plot_data,
+                                    showarrow = TRUE,
+                                    text = "",
+                                    xref = "x", axref = "x",
+                                    yref = "y", ayref = "y",
+                                    x = ~endX,
+                                    ax = ~x,
+                                    y = ~endY,
+                                    ay = ~y)
+          
+          
+        }
         
       } else {
         
@@ -221,8 +226,10 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
     
     # Compose list of DCA results objects
     dcaAllQuadratsResults_list <- list("pquads_surveyTable_dca_results_species" = pquads_surveyTable_dca_results_species,
-                                       "pquads_surveyTable_dca_results_quadrats" = pquads_surveyTable_dca_results_quadrats,
-                                       "pquads_surveyTable_dca_results_quadrats_hull" = pquads_surveyTable_dca_results_quadrats_hull)
+                                       "pquads_surveyTable_dca_results_quadrats_sample" = pquads_surveyTable_dca_results_quadrats_sample,
+                                       "pquads_surveyTable_dca_results_quadrats_pquads" = pquads_surveyTable_dca_results_quadrats_pquads,
+                                       "pquads_surveyTable_dca_results_quadrats_hull" = pquads_surveyTable_dca_results_quadrats_hull,
+                                       "arrow_plot_data" = arrow_plot_data)
     
     dcaAllQuadratsResults(dcaAllQuadratsResults_list)
     

@@ -2,6 +2,7 @@ report <- function(input, output, session,
                    surveyTable, surveyTablePrepped, 
                    nvcAverageSim, assignNVCResults,
                    dcaFixedSpaceResults,
+                   dcaAllQuadratsResults,
                    sidebar_options) {
   
   ns <- session$ns
@@ -60,7 +61,8 @@ report <- function(input, output, session,
                           nvcAverageSim = nvcAverageSim(),
                           assignNVCResults = assignNVCResults(),
                           sidebar_options = sidebar_options(),
-                          dcaFixedSpaceResults = dcaFixedSpaceResults()
+                          dcaFixedSpaceResults = dcaFixedSpaceResults(),
+                          dcaAllQuadratsResults = dcaAllQuadratsResults()
                         ),
                         envir = new.env(parent = globalenv()))
       

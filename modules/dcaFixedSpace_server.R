@@ -147,7 +147,7 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
                                                                                        x = DCA1,
                                                                                        y = DCA2))} +
         {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = surveyTable_dca_results_quadrats,
-                                                                color = 'red',
+                                                                color = 'black',
                                                                 mapping = ggplot2::aes(Year = Year,
                                                                                        Group = Group,
                                                                                        Quadrat = Quadrat,
@@ -162,16 +162,20 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
       
       if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data)){
         
-        dcaFixedSpacePlot_plotly <- plotly::ggplotly(p = dcaFixedSpacePlot_plot) |>
-          plotly::add_annotations(data = arrow_plot_data,
-                                  showarrow = TRUE,
-                                  text = "",
-                                  xref = "x", axref = "x",
-                                  yref = "y", ayref = "y",
-                                  x = ~endX,
-                                  ax = ~x,
-                                  y = ~endY,
-                                  ay = ~y)
+        if(nrow(arrow_plot_data) > 0){
+          
+          dcaFixedSpacePlot_plotly <- plotly::ggplotly(p = dcaFixedSpacePlot_plot) |>
+            plotly::add_annotations(data = arrow_plot_data,
+                                    showarrow = TRUE,
+                                    text = "",
+                                    xref = "x", axref = "x",
+                                    yref = "y", ayref = "y",
+                                    x = ~endX,
+                                    ax = ~x,
+                                    y = ~endY,
+                                    ay = ~y)
+          
+        }
         
       } else {
         
@@ -193,7 +197,8 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
     dcaFixedSpaceResults_list <- list("selected_pquads_dca_results_species_final" = selected_pquads_dca_results_species,
                                       "selected_pquads_dca_results_quadrats_final" = selected_pquads_dca_results_quadrats_final,
                                       "surveyTable_dca_results_quadrats" = surveyTable_dca_results_quadrats,
-                                      "selected_pquads_dca_results_quadrats_final_hull" = selected_pquads_dca_results_quadrats_final_hull)
+                                      "selected_pquads_dca_results_quadrats_final_hull" = selected_pquads_dca_results_quadrats_final_hull,
+                                      "arrow_plot_data" = arrow_plot_data)
     
     dcaFixedSpaceResults(dcaFixedSpaceResults_list)
     

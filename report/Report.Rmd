@@ -10,6 +10,7 @@ params:
     assignNVCResults: NULL
     sidebar_options: NULL
     dcaFixedSpaceResults: NULL
+    dcaAllQuadratsResults: NULL
 bibliography: Report.refs.bib
 link-citations: yes
 editor_options: 
@@ -36,11 +37,23 @@ surveyTablePrepped <- params$surveyTablePrepped
 nvcAverageSim <- params$nvcAverageSim
 assignNVCResults <- params$assignNVCResults
 sidebar_options <- params$sidebar_options
+
+# dcaFixedSpaceResults
 dcaFixedSpaceResults <- params$dcaFixedSpaceResults
-selected_pquads_dca_results_species_final <- dcaFixedSpaceResults$selected_pquads_dca_results_species
-selected_pquads_dca_results_quadrats_final <- dcaFixedSpaceResults$selected_pquads_dca_results_quadrats_final
+# selected_pquads_dca_results_species_final <- dcaFixedSpaceResults$selected_pquads_dca_results_species
+# selected_pquads_dca_results_quadrats_final <- dcaFixedSpaceResults$selected_pquads_dca_results_quadrats_final
 surveyTable_dca_results_quadrats <- dcaFixedSpaceResults$surveyTable_dca_results_quadrats
 selected_pquads_dca_results_quadrats_final_hull <- dcaFixedSpaceResults$selected_pquads_dca_results_quadrats_final_hull
+arrow_plot_data <- dcaFixedSpaceResults$arrow_plot_data
+
+# dcaAllQuadratsResults
+dcaAllQuadratsResults <- params$dcaAllQuadratsResults
+# pquads_surveyTable_dca_results_species <- dcaAllQuadratsResults$pquads_surveyTable_dca_results_species
+pquads_surveyTable_dca_results_quadrats_sample <- dcaAllQuadratsResults$pquads_surveyTable_dca_results_quadrats_sample
+# pquads_surveyTable_dca_results_quadrats_pquads <- dcaAllQuadratsResults$pquads_surveyTable_dca_results_quadrats_pquads
+pquads_surveyTable_dca_results_quadrats_hull <- dcaAllQuadratsResults$pquads_surveyTable_dca_results_quadrats_hull
+arrow_plot_data <- dcaAllQuadratsResults$arrow_plot_data
+
 
 ```
 
@@ -76,9 +89,11 @@ kableExtra::kbl(x = nvcAverageSimTable, format = "latex", booktabs = TRUE,
 \newpage
 ## Detrended Correspondence Analysis
 
-```{r dca, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+### Fixed Reference Space
 
-method1DCAPlot_plot <- ggplot2::ggplot() +
+```{r dcaFixedSpace, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+dcaFixedSpacePlot <- ggplot2::ggplot() +
   ggplot2::geom_polygon(data = selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2,
                         mapping = ggplot2::aes(x = DCA1, 
                                                y = DCA2, 
@@ -95,19 +110,68 @@ method1DCAPlot_plot <- ggplot2::ggplot() +
                                              Quadrat = Quadrat,
                                              x = DCA1,
                                              y = DCA2)) +
-  # ggplot2::geom_point(data = selected_pquads_dca_results_species_final,
+  ggrepel::geom_text_repel(data = surveyTable_dca_results_quadrats,
+                           mapping = ggplot2::aes(label = Quadrat, # paste0(Year, Quadrat, collapse = "-"),
+                                                  # Group = Group,
+                                                  # Quadrat = Quadrat,
+                                                  x = DCA1,
+                                                  y = DCA2)) +
+  # ggplot2::geom_point(data = pquads_surveyTable_dca_results_species,
   #                     mapping = ggplot2::aes(x = DCA1, 
   #                                            y = DCA2,
   #                                            Species = Species)) +
-  ggplot2::geom_path(data = surveyTable_dca_results_quadrats_final,
-                     mapping = ggplot2::aes(x = DCA1,
-                                            y = DCA2),
-                     arrow = grid::arrow()) +
+  # ggplot2::geom_path(data = surveyTable_dca_results_quadrats_final,
+  #                    mapping = ggplot2::aes(x = DCA1,
+  #                                           y = DCA2),
+  #                    arrow = grid::arrow()) +
   ggplot2::theme_minimal()
 
-method1DCAPlot_plot
+dcaFixedSpacePlot
 
 ```
+
+
+### All Quadrats
+
+```{r dcaAllQuadrats, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+dcaAllQuadratsPlot <- ggplot2::ggplot() +
+  ggplot2::geom_polygon(data = pquads_surveyTable_dca_results_quadrats_hull, alpha = 0.2,
+                        mapping = ggplot2::aes(x = DCA1, 
+                                               y = DCA2, 
+                                               fill = NVC.Comm
+                                               )) +
+  # ggplot2::geom_point(data = pquads_surveyTable_dca_results_quadrats_pquads,
+  #                     mapping = ggplot2::aes(color = NVC.Comm, 
+  #                                            Quadrat = Quadrat, 
+  #                                            x = DCA1,
+  #                                            y = DCA2)) +
+  ggplot2::geom_point(data = pquads_surveyTable_dca_results_quadrats_sample,
+                      mapping = ggplot2::aes(Year = Year,
+                                             Group = Group,
+                                             Quadrat = Quadrat,
+                                             x = DCA1,
+                                             y = DCA2)) +
+    ggrepel::geom_text_repel(data = pquads_surveyTable_dca_results_quadrats_sample,
+                             mapping = ggplot2::aes(label = Quadrat, # paste0(Year, Quadrat, collapse = "-"),
+                                                    # Group = Group,
+                                                    # Quadrat = Quadrat,
+                                                    x = DCA1,
+                                                    y = DCA2)) +
+  # ggplot2::geom_point(data = pquads_surveyTable_dca_results_species,
+  #                     mapping = ggplot2::aes(x = DCA1, 
+  #                                            y = DCA2,
+  #                                            Species = Species)) +
+  # ggplot2::geom_path(data = surveyTable_dca_results_quadrats_final,
+  #                    mapping = ggplot2::aes(x = DCA1,
+  #                                           y = DCA2),
+  #                    arrow = grid::arrow()) +
+  ggplot2::theme_minimal()
+
+dcaAllQuadratsPlot
+
+```
+
 
 
 \newpage
