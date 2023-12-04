@@ -47,6 +47,9 @@ selected_pquads_dca_results_quadrats_final_hull <- dcaFixedSpaceResults$selected
 # Introduction
 The Modular Analysis of Vegetation Information System (MAVIS) is a tool..
 
+# Input Data Parameters
+
+
 
 \newpage
 # Results
@@ -79,8 +82,9 @@ method1DCAPlot_plot <- ggplot2::ggplot() +
   ggplot2::geom_polygon(data = selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2,
                         mapping = ggplot2::aes(x = DCA1, 
                                                y = DCA2, 
-                                               fill = NVC.Comm, 
-                                               colour = NVC.Comm)) +
+                                               fill = NVC.Comm#, 
+                                               # colour = NVC.Comm
+                                               )) +
   # ggplot2::geom_point(data = selected_pquads_dca_results_quadrats_final,
   #                     mapping = ggplot2::aes(color = NVC.Comm, 
   #                                            Quadrat = Quadrat, 

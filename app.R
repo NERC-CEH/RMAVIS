@@ -53,8 +53,11 @@ source("modules/diversityAnalysis_server.R", local = TRUE)
 source("modules/dcaFixedSpace_ui.R", local = TRUE)
 source("modules/dcaFixedSpace_server.R", local = TRUE)
 
-# source("modules/dcaAllQuadrats_ui.R", local = TRUE)
-# source("modules/dcaAllQuadrats_server.R", local = TRUE)
+source("modules/dcaAllQuadrats_ui.R", local = TRUE)
+source("modules/dcaAllQuadrats_server.R", local = TRUE)
+
+source("modules/dcaAllQuadrats_ui.R", local = TRUE)
+source("modules/dcaAllQuadrats_server.R", local = TRUE)
 
 # source("modules/report_ui.R", local = TRUE)
 source("modules/report_server.R", local = TRUE)

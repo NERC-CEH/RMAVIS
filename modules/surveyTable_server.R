@@ -28,8 +28,7 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
 # Initial survey table data -----------------------------------------------
 
   surveyTable_init <- data.frame("Year" = as.character(rep(as.numeric(format(Sys.Date(), "%Y")), 20)),
-                                 "Site" = as.character(rep("...", 20)),
-                                 "Quadrat.Group" = as.character(rep("A", 20)),
+                                 "Group" = as.character(rep("A", 20)),
                                  "Quadrat" = as.character(rep("1", 20)),
                                  "Species" = as.character(rep("", 20)),
                                  "Cover" = as.numeric(rep(0, 20)))
@@ -53,12 +52,7 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
         type = "numeric"
       ) |>
       rhandsontable::hot_col(
-        col = "Site",
-        readOnly = FALSE,
-        type = "text"
-      ) |>
-      rhandsontable::hot_col(
-        col = "Quadrat.Group",
+        col = "Group",
         readOnly = FALSE,
         type = "text"
       ) |>
@@ -108,10 +102,10 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
         surveyTable <- example_data_df |>
           dplyr::filter(Site == exampleData()) |>
           dplyr::mutate(Year = "2023") |>
-          dplyr::select(Year, Site, Quadrat.Group, Quadrat, Species, Cover)
+          dplyr::select(Year, Group, Quadrat, Species, Cover)
         
         # surveyTableWide <- surveyTable |>
-        #   # tidyr::unite(col = "ID", c(Year, Site, Quadrat.Group, Quadrat), sep = " - ", remove = TRUE) |>
+        #   # tidyr::unite(col = "ID", c(Year, Site, Group, Quadrat), sep = " - ", remove = TRUE) |>
         #   dplyr::select(Quadrat, Species, Cover) |>
         #   dplyr::filter(!is.na(Cover)) |>
         #   tidyr::pivot_wider(id_cols = Quadrat,
@@ -154,12 +148,7 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
           type = "numeric"
         ) |>
         rhandsontable::hot_col(
-          col = "Site",
-          readOnly = FALSE,
-          type = "text"
-        ) |>
-        rhandsontable::hot_col(
-          col = "Quadrat.Group",
+          col = "Group",
           readOnly = FALSE,
           type = "text"
         ) |>

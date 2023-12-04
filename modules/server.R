@@ -61,14 +61,15 @@ server <- function(input, output, session) {
                                      nvcAverageSim = nvcAverageSim,
                                      sidebar_options = sidebar_options)
   
+  dcaAllQuadratsResults <- callModule(module = dcaAllQuadrats,
+                                      id = "dcaAllQuadrats_id_1",
+                                      surveyTable = surveyTable,
+                                      # surveyTablePrepped = surveyTablePrepped,
+                                      nvcAverageSim = nvcAverageSim,
+                                      sidebar_options = sidebar_options)
   
-  
-  
-  
-  
-  
-  
-  
+
+# Report ------------------------------------------------------------------
   callModule(module = report,
              id = "sidebar_id_1",
              surveyTable = surveyTable,

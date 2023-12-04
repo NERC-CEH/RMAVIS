@@ -34,8 +34,7 @@ uploadData <- function(input, output, session) {
   uploadDataTable_rval <- reactiveVal()
   
   uploaded_data_init <- data.frame("Year" = character(),
-                                   "Site" = character(),
-                                   "Quadrat.Group" = character(),
+                                   "Group" = character(),
                                    "Quadrat" = character(),
                                    "Species" = character(),
                                    "Cover" = numeric())
@@ -75,9 +74,8 @@ uploadData <- function(input, output, session) {
                             values_to = "Cover",
                             values_transform = list(Cover = as.numeric)) |> # as.numeric
         dplyr::mutate("Year" = as.integer(format(Sys.Date(), "%Y")),
-                      "Site" = "...",
-                      "Quadrat.Group" = "A") |>
-        dplyr::select(Year, Site, Quadrat.Group, Quadrat, Species, Cover) |>
+                      "Group" = "A") |>
+        dplyr::select(Year, Group, Quadrat, Species, Cover) |>
         dplyr::filter(!is.na(Cover))
       
     }
@@ -106,7 +104,7 @@ uploadData <- function(input, output, session) {
     
     # First check that the column names are correct
     
-    columnNames_correct <- all(colnames(uploaded_data_raw) %in% c("Year", "Site", "Quadrat.Group", "Quadrat", "Species", "Cover"))
+    columnNames_correct <- all(colnames(uploaded_data_raw) %in% c("Year", "Group", "Quadrat", "Species", "Cover"))
     columnNames_correct(columnNames_correct)
     
     output$columnNames_correct_expression <- shiny::renderText({

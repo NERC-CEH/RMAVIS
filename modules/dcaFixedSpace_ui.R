@@ -8,7 +8,7 @@ dcaFixedSpaceUI <- function(id){
 
       shiny::div(
         shiny::h5("Fixed Reference Space"),
-        plotly::plotlyOutput(outputId = ns("dcaFixedSpacePlot"))
+        plotly::plotlyOutput(outputId = ns("dcaFixedSpacePlot"), height = "600px")
       )
 
     )

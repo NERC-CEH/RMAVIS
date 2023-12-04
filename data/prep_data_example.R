@@ -62,11 +62,11 @@ example_data_df_trimmed <- example_data_df_all |>
   dplyr::group_by(Site) |>
   dplyr::mutate("Site.Quadrat" = as.integer(factor(Quadrat))) |>
   dplyr::ungroup() |>
-  # Select only 5 quadrats per site as example data
+  # Select only 5 quadrats pdata:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAWElEQVR42mNgGPTAxsZmJsVqQApgmGw1yApwKcQiT7phRBuCzzCSDSHGMKINIeDNmWQlA2IigKJwIssQkHdINgxfmBBtGDEBS3KCxBc7pMQgMYE5c/AXPwAwSX4lV3pTWwAAAABJRU5ErkJggg==er site as example data
   dplyr::filter(Site.Quadrat <= 5) |>
   dplyr::select(-Site.Quadrat) |>
-  # Add Quadrat.Group
-  dplyr::mutate("Quadrat.Group" = "A")
+  # Add Group
+  dplyr::mutate("Group" = "A")
 
 saveRDS(object = exampleDataOptions, file = "./data/bundled_data/exampleDataOptions.rds")
 

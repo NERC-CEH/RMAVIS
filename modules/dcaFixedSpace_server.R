@@ -90,7 +90,7 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
           .before  = "Quadrat"
         ) |>
         dplyr::mutate(
-          "Quadrat.Group" =
+          "Group" =
             dplyr::case_when(
               stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = "^([A-Z]*)"),
               TRUE ~ as.character("Sample")
@@ -113,7 +113,7 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
         dplyr::filter(!is.na(Cover)) |>
         dplyr::select(-Cover) |>
         dplyr::left_join(selected_pquads_dca_results_species, by = "Species") |>
-        tidyr::unite(col = "ID", c(Year, Site, Quadrat.Group, Quadrat), sep = " - ", remove = TRUE) |>
+        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
         dplyr::group_by(ID) |>
         dplyr::summarise("DCA1" = mean(DCA1, na.rm = TRUE),
                          "DCA2" = mean(DCA2, na.rm = TRUE),
@@ -135,19 +135,19 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
         dplyr::mutate(
           "NVC.Comm" =
             dplyr::case_when(
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"),
               TRUE ~ as.character("Sample")
             ),
           .before  = "Quadrat"
         ) |>
         dplyr::mutate(
-          "Quadrat.Group" =
+          "Group" =
             dplyr::case_when(
               stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = "^([A-Z]*)"),
               TRUE ~ as.character("Sample")
             ),
           .before  = "Quadrat"
-        )
+        ) |>
+        print()
       
       
       # method1_results_all <- dplyr::bind_rows(method1_results1, method1_results2)

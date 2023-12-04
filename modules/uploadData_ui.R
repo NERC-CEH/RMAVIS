@@ -45,11 +45,10 @@ uploadDataUI <- function(id) {
         
         shiny::markdown(
           "
-          Long data must be structured as a six-column dataframe with the following columns.
+          Long data must be structured as a five-column dataframe with the following columns.
           
           - *Year:* Contains the year the quadrat was surveyed. Numeric.
-          - *Site:* Contains the name of the site containing the quadrat. String.
-          - *Quadrat.Group:* Contains the quadrat group. String.
+          - *Group:* Contains the quadrat group. String.
           - *Quadrat:* Contains the quadrat ID. String.
           - *Species:* Contains the species, please download the list of accepted species names using the button above. String.
           - *Cover:* Contains the species-quadrat cover estimates, with values between 0 and 1. Numeric.
@@ -69,7 +68,7 @@ uploadDataUI <- function(id) {
           "
           Wide data must be structured with rows as quadrat IDs and columns as species names, with values as species-quadrat cover estimates, with values between 0 and 1.
           
-          Once uploaded wide data will be converted into long format, with placeholder Year, Site, and Quadrat.Group values which the user may edit.
+          Once uploaded wide data will be converted into long format, with placeholder Year and Group values which the user may edit.
           
           Formatting checks are displayed below.
           

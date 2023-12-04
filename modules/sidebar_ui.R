@@ -138,7 +138,7 @@ sidebarUI <- function(id){
           shiny::selectizeInput(inputId = ns("groupMethod"), 
                                 label = "Grouping Method", 
                                 choices = groupMethod_options,
-                                selected = c("year", "site", "quadrat.group"), 
+                                selected = c("year", "group"), 
                                 multiple = TRUE),
           
           bslib::popover(
@@ -263,7 +263,7 @@ sidebarUI <- function(id){
           bslib::popover(
             bsicons::bs_icon("info-circle"),
             title = "Composed Table",
-            paste0("Select a year/site/quadrat ID to compose a floristic table."),
+            paste0("Select a year/group/quadrat ID to compose a floristic table."),
             placement = "bottom"
           )
           

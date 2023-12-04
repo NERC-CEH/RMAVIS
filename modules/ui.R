@@ -121,8 +121,15 @@ ui <- bslib::page_navbar(
         
         shiny::h5("Detrended Correspondence Analysis"),
         
-        dcaFixedSpaceUI(id = "dcaFixedSpace_id_1")
-        
+        bslib::layout_columns(
+          
+          col_widths = c(6, 6),
+          
+          dcaFixedSpaceUI(id = "dcaFixedSpace_id_1"),
+          
+          dcaAllQuadratsUI(id = "dcaAllQuadrats_id_1")
+          
+        )
       )
     )
   ),

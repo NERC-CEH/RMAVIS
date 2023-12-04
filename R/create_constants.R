@@ -11,8 +11,7 @@ assignmentMethod_options <- c("Pseudo-quadrat, per group" = "pseudoQuadratGroup"
 
 # Group Method Options ----------------------------------------------------
 groupMethod_options <- c("Year" = "year",
-                         "Site" = "site",
-                         "Quadrat.Group" = "quadrat.group",
+                         "Group" = "group",
                          "Quadrat" = "quadrat")
 
 # Data Entry Format Options -----------------------------------------------

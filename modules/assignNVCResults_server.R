@@ -37,7 +37,7 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
       
       surveyTable <- surveyTable()
       
-      groupMethod_cols <- c("Year", "Site", "Quadrat.Group", "Quadrat")
+      groupMethod_cols <- c("Year", "Group", "Quadrat")
       # groupMethod_cols <- names(groupMethod_options)[groupMethod_options %in% groupMethod()]
       
       surveyTable_prepped <- surveyTable |>
