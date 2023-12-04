@@ -326,7 +326,7 @@ sidebarUI <- function(id){
           outputId = ns("generateReport"),
           label = "Download Report",
           class = NULL,
-          icon = shiny::icon("book")
+          icon = NULL
         ),
         
         shiny::div(shiny::br()),
@@ -335,7 +335,7 @@ sidebarUI <- function(id){
           outputId = ns("downloadSpeciesData"),
           label = "Download Accepted Species",
           class = NULL,
-          icon = shiny::icon("book")
+          icon = NULL
         )
         
         # reportUI(id = ns("report_id_1"))

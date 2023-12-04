@@ -90,7 +90,7 @@ uploadDataUI <- function(id) {
       shiny::div(shiny::hr()),
       
       shiny::div(
-        rhandsontable::rHandsontableOutput(outputId = ns("uploadDataTable"), height = "500px")
+        rhandsontable::rHandsontableOutput(outputId = ns("uploadDataTable"), height = "300px")
       )
       
       

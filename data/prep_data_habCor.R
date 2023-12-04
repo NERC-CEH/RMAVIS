@@ -1,16 +1,16 @@
-raw_JNCC_habCor <- readxl::read_xls(path = "../data/raw_data/Habitat-correspondences-2008.xls",
+raw_JNCC_habCor <- readxl::read_xls(path = "./data/raw_data/Habitat-correspondences-2008.xls",
                                     sheet = "master table - sheet protected",
                                     col_types = c("text", "text", "text",
                                                   "text", "text", "text",
                                                   "text", "text", "text",
                                                   "text"))
 
-ukHab_habCor_raw <- readxl::read_xlsx(path = "../data/raw_data/UK Habitat Classification V1-1 including Correspondences_7 Sep 2020_ZMCleaned.xlsx",
+ukHab_habCor_raw <- readxl::read_xlsx(path = "./data/raw_data/UK Habitat Classification V1-1 including Correspondences_7 Sep 2020_ZMCleaned.xlsx",
                                       sheet = "NVC to UKHab",
                                       skip = 6,
                                       .name_repair = "minimal")
 
-ukHab_namesCodes_raw <- readxl::read_xlsx(path = "../data/raw_data/UK Habitat Classification V1-1 including Correspondences_7 Sep 2020_ZMCleaned.xlsx",
+ukHab_namesCodes_raw <- readxl::read_xlsx(path = "./data/raw_data/UK Habitat Classification V1-1 including Correspondences_7 Sep 2020_ZMCleaned.xlsx",
                                           sheet = "Professional Edition Hierarchy",
                                           skip = 0,
                                           .name_repair = "minimal")
@@ -90,17 +90,11 @@ ukHab_habCor_final <- ukHab_habCor_renamed |>
                                 pattern = stringr::fixed(".Code"))
   ) |>
   dplyr::distinct() |>
-  dplyr::mutate("Relationship" = "Associated with", .after = "NVC.Code") |>
+  dplyr::mutate("Relationship" = "associated with", .after = "NVC.Code") |>
   dplyr::mutate("Classification" = paste0("UKHab - ", Level), .keep = "unused") |>
   dplyr::left_join(ukHab_namesCodes, by = "Code") |>
   dplyr::select(-Level) |>
   dplyr::select(NVC.Code, Relationship, Code, Label, Classification)
-
-
-nvc_community_codes <- nvc_name_to_code |>
-  dplyr::pull("Community.or.sub.community.code")
-
-saveRDS(object = nvc_community_codes, file = "../data/bundled_data/nvc_community_codes.rds")
 
 tidied_JNCC_habCor_CLASSN1 <- raw_JNCC_habCor |>
   dplyr::filter(CLASSN1 == "National Vegetation Classification") |>
@@ -128,7 +122,7 @@ all_habCor_final <- rbind(
 
 
 
-saveRDS(object = all_habCor_final, file = "../data/bundled_data/all_habCor_final.rds")
+saveRDS(object = all_habCor_final, file = "./data/bundled_data/all_habCor_final.rds")
 
 
 all_habCor_classifications <- all_habCor_final |>
@@ -136,5 +130,5 @@ all_habCor_classifications <- all_habCor_final |>
   unique()
 
 
-saveRDS(object = all_habCor_classifications, file = "../data/bundled_data/all_habCor_classifications.rds")
+saveRDS(object = all_habCor_classifications, file = "./data/bundled_data/all_habCor_classifications.rds")
 

@@ -45,8 +45,6 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
       
       NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
       
-      assign(x = "NVC_communities_final", value = NVC_communities_final, envir = .GlobalEnv)
-      
       
       # Create pattern to subset matrix rows
       codes_regex <- c()
