@@ -3,7 +3,8 @@ report <- function(input, output, session,
                    nvcAverageSim, assignNVCResults,
                    dcaFixedSpaceResults,
                    dcaAllQuadratsResults,
-                   sidebar_options) {
+                   sidebar_options,
+                   floristicTables) {
   
   ns <- session$ns
   
@@ -62,10 +63,12 @@ report <- function(input, output, session,
                           assignNVCResults = assignNVCResults(),
                           sidebar_options = sidebar_options(),
                           dcaFixedSpaceResults = dcaFixedSpaceResults(),
-                          dcaAllQuadratsResults = dcaAllQuadratsResults()
+                          dcaAllQuadratsResults = dcaAllQuadratsResults(),
+                          floristicTables = floristicTables()
                         ),
                         envir = new.env(parent = globalenv()))
       
+      # Clean up temporary directories
       # rm(td)
       
       shinybusy::remove_modal_spinner()

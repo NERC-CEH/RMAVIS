@@ -53,9 +53,9 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
-        value = "results_panel",
+        value = "nvcAssignment_panel",
         
-        bslib::card_header("Results"),
+        bslib::card_header("NVC Assignment"),
         
         nvcAverageSimUI(id = "nvcAverageSim_id_1"),
         
@@ -147,7 +147,22 @@ ui <- bslib::page_navbar(
       documentationUI(id = "docs_id_1")
       
     )
-  )
+  )#,
+  
+  # bslib::nav_panel(
+  #   
+  #   "About",
+  #   
+  #   bslib::card(
+  #     
+  #     full_screen = TRUE,
+  #     
+  #     bslib::card_header("Documentation"),
+  #     
+  #     documentationUI(id = "docs_id_1")
+  #     
+  #   )
+  # )
 
   # )
 )

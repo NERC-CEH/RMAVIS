@@ -150,16 +150,15 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
         arrow_plot_data <- pquads_surveyTable_dca_results_quadrats_sample |>
           dplyr::arrange(Year) |>
           dplyr::select("Year" = Year, 
-                        "Group" = Group,
+                        # "Group" = Group,
                         "Quadrat" = Quadrat,
                         "x" = DCA1, 
                         "y" = DCA2) |>
-          dplyr::group_by(Group, Quadrat) |>
+          dplyr::group_by(Quadrat) |>
           dplyr::mutate("endX" = dplyr::lead(x),
                         "endY" = dplyr::lead(y)) |>
           dplyr::filter(!is.na(endX)) |>
-          dplyr::ungroup() |>
-          print()
+          dplyr::ungroup()
         
       } else {
         
@@ -188,7 +187,7 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
         {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = pquads_surveyTable_dca_results_quadrats_sample,
                                                                 color = 'black',
                                                                 mapping = ggplot2::aes(Year = Year,
-                                                                                       Group = Group,
+                                                                                       # Group = Group,
                                                                                        Quadrat = Quadrat,
                                                                                        x = DCA1,
                                                                                        y = DCA2))} +

@@ -33,10 +33,10 @@ server <- function(input, output, session) {
                        nvcAverageSim = nvcAverageSim,
                        sidebar_options = sidebar_options)
 
-  callModule(module = floristicTables,
-             id = "floristicTables_id_1",
-             surveyTable = surveyTable,
-             sidebar_options = sidebar_options)
+  floristicTables <- callModule(module = floristicTables,
+                                id = "floristicTables_id_1",
+                                surveyTable = surveyTable,
+                                sidebar_options = sidebar_options)
   
   callModule(module = calcAvgEIVs,
              id = "calcAvgEIVs_id_1",
@@ -78,7 +78,8 @@ server <- function(input, output, session) {
              assignNVCResults = assignNVCResults,
              dcaFixedSpaceResults = dcaFixedSpaceResults,
              dcaAllQuadratsResults = dcaAllQuadratsResults,
-             sidebar_options = sidebar_options)
+             sidebar_options = sidebar_options,
+             floristicTables = floristicTables)
   
   
   # observe({

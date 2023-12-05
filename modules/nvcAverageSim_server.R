@@ -101,7 +101,7 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
       htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot
-          $('a[data-value=\"results_panel\"').on('click', function(){
+          $('a[data-value=\"nvcAssignment_panel\"').on('click', function(){
             setTimeout(function() {hot.render();}, 0);
           })
         }")
@@ -133,7 +133,7 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
         htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot
-          $('a[data-value=\"results_panel\"').on('click', function(){
+          $('a[data-value=\"nvcAssignment_panel\"').on('click', function(){
             setTimeout(function() {hot.render();}, 0);
           })
         }")

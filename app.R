@@ -2,19 +2,19 @@
 
 # shinyOptions(bslib = TRUE)
 
-# Load constants into memory
+# Load constants into memory ----------------------------------------------
 source("R/create_constants.R", local = TRUE)
 
-# Load data into memory
+# Load data into memory ---------------------------------------------------
 source("R/load_data.R", local = TRUE)
 
-# Render documentation
+# Render documentation ----------------------------------------------------
 source("R/render_docs.R", local = TRUE)
 
-# Source functions
+# Source functions --------------------------------------------------------
 source("R/functions.R", local = TRUE) # Do I need to switch this to global to allow knitr access?
 
-# Source sub-modules
+# Source sub-modules ------------------------------------------------------
 source("modules/documentation_ui.R", local = TRUE)
 
 source("modules/sidebar_ui.R", local = TRUE)
@@ -59,9 +59,9 @@ source("modules/dcaAllQuadrats_server.R", local = TRUE)
 # source("modules/report_ui.R", local = TRUE)
 source("modules/report_server.R", local = TRUE)
 
-# Source main UI and Server modules
+# Source main UI and Server modules ---------------------------------------
 source("modules/ui.R", local = TRUE)
 source("modules/server.R", local = TRUE)
 
-# Run the application
+# Run the application -----------------------------------------------------
 shiny::shinyApp(ui = ui, server = server)
