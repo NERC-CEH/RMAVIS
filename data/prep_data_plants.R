@@ -3,12 +3,17 @@ concordance_all_trimmed <- concordance_all |>
   dplyr::select("proposedSpecies" = proposedSpecies,
                 "taxonId" = bsbiTaxonId)
 
-bsbiTaxonConcepts <- readr::read_delim("./data/raw_data/bsbi_checklist_BRC_taxonConcepts.csv",
+bsbiChecklistStace <- readr::read_delim("./data/raw_data/bsbi_checklist/bsbi_checklist_stace3.csv",
+                                        delim = "\t", escape_double = FALSE,
+                                        trim_ws = TRUE,
+                                        show_col_types = FALSE)
+
+bsbiTaxonConcepts <- readr::read_delim("./data/raw_data/bsbi_checklist/bsbi_checklist_BRC_taxonConcepts.csv",
                                        delim = "\t", escape_double = FALSE,
                                        trim_ws = TRUE,
                                        show_col_types = FALSE)
 
-HE_F <- readr::read_delim("./data/raw_data/bsbi_checklist_HE_F.csv", 
+HE_F <- readr::read_delim("./data/raw_data/bsbi_checklist/bsbi_checklist_HE_F.csv", 
                           delim = "\t", escape_double = FALSE, 
                           trim_ws = TRUE,
                           show_col_types = FALSE) |>
@@ -17,7 +22,7 @@ HE_F <- readr::read_delim("./data/raw_data/bsbi_checklist_HE_F.csv",
 
 length(HE_F$taxonId) == nrow(HE_F)
 
-HE_L <- readr::read_delim("./data/raw_data/bsbi_checklist_HE_L.csv", 
+HE_L <- readr::read_delim("./data/raw_data/bsbi_checklist/bsbi_checklist_HE_L.csv", 
                           delim = "\t", escape_double = FALSE, 
                           trim_ws = TRUE,
                           show_col_types = FALSE) |>
@@ -26,7 +31,7 @@ HE_L <- readr::read_delim("./data/raw_data/bsbi_checklist_HE_L.csv",
 
 length(HE_L$taxonId) == nrow(HE_L)
 
-HE_N <- readr::read_delim("./data/raw_data/bsbi_checklist_HE_N.csv", 
+HE_N <- readr::read_delim("./data/raw_data/bsbi_checklist/bsbi_checklist_HE_N.csv", 
                           delim = "\t", escape_double = FALSE, 
                           trim_ws = TRUE,
                           show_col_types = FALSE) |>
@@ -35,7 +40,7 @@ HE_N <- readr::read_delim("./data/raw_data/bsbi_checklist_HE_N.csv",
 
 length(HE_N$taxonId) == nrow(HE_N)
 
-HE_R <- readr::read_delim("./data/raw_data/bsbi_checklist_HE_R.csv", 
+HE_R <- readr::read_delim("./data/raw_data/bsbi_checklist/bsbi_checklist_HE_R.csv", 
                           delim = "\t", escape_double = FALSE, 
                           trim_ws = TRUE,
                           show_col_types = FALSE) |>
@@ -44,7 +49,7 @@ HE_R <- readr::read_delim("./data/raw_data/bsbi_checklist_HE_R.csv",
 
 length(HE_R$taxonId) == nrow(HE_R)
 
-HE_S <- readr::read_delim("./data/raw_data/bsbi_checklist_HE_S.csv", 
+HE_S <- readr::read_delim("./data/raw_data/bsbi_checklist/bsbi_checklist_HE_S.csv", 
                           delim = "\t", escape_double = FALSE, 
                           trim_ws = TRUE,
                           show_col_types = FALSE) |>
@@ -53,7 +58,7 @@ HE_S <- readr::read_delim("./data/raw_data/bsbi_checklist_HE_S.csv",
 
 length(HE_S$taxonId) == nrow(HE_S)
 
-rarityNewAtlas_GB <- readr::read_delim("./data/raw_data/bsbi_checklist_rarityNewAtlas_GB.csv", 
+rarityNewAtlas_GB <- readr::read_delim("./data/raw_data/bsbi_checklist/bsbi_checklist_rarityNewAtlas_GB.csv", 
                                        delim = "\t", escape_double = FALSE, 
                                        trim_ws = TRUE,
                                        show_col_types = FALSE) |>
@@ -62,7 +67,7 @@ rarityNewAtlas_GB <- readr::read_delim("./data/raw_data/bsbi_checklist_rarityNew
 
 length(rarityNewAtlas_GB$taxonId) == nrow(rarityNewAtlas_GB)
 
-rarityNewAtlas_Ireland <- readr::read_delim("./data/raw_data/bsbi_checklist_rarityNewAtlas_Ireland.csv", 
+rarityNewAtlas_Ireland <- readr::read_delim("./data/raw_data/bsbi_checklist/bsbi_checklist_rarityNewAtlas_Ireland.csv", 
                                             delim = "\t", escape_double = FALSE, 
                                             trim_ws = TRUE,
                                             show_col_types = FALSE) |>

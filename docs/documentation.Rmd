@@ -1,0 +1,139 @@
+---
+title: "MAVIS - Documentation"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    toc_collapsed: true
+    number_sections: true
+    mathjax: "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML.js"
+    self_contained: false
+bibliography: references.bib
+link-citations: yes
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+```{css, echo=FALSE}
+
+:root {
+  
+  --ceh-background-grey: #EBF0EE;
+  --ceh-main-green: #4DA43B;
+  --ceh-main-blue #2F7ECC:
+  --ceh-main-darkblue #306FAE:
+  --ceh-mid-1 #3889A3:
+  --ceh-mid-2 #3F9280;
+  --ceh-mid-3 #459A62;
+  --text-title-color: #575656;
+  
+}
+
+* {font-family: "Montserrat", sans-serif !important;}
+
+body .main-container {
+  max-width: 2800px !important;
+  width: 1400px !important;
+}
+
+body {
+  max-width: 2800px !important;
+}
+
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+  z-index: 2;
+  color: black;
+  background-color: var(--ceh-background-grey);
+  border-color: var(--ceh-background-grey);
+}
+
+```
+
+# Introduction
+The Modular Analysis of Vegetation Information System (MAVIS)...
+
+## Survey Data
+
+Three methods for entering data into MAVIS are provided; manual, upload, and example.
+
+The list of species available for entry is currently composed of:
+
+  - The vascular plants present in @stace2010new, retrieved from @bsbi2014stace.
+  - The bryophytes present in @blockeel2021.
+  - The lichens, charophytes, and Algae present in the NVC floristic tables.
+
+### Manual Entry
+
+### Upload
+
+### Example Data
+
+Three example datasets are bundled with MAVIS, which provide a means to explore
+the applications functionality.
+
+**Dataset 1**
+
+**Dataset 2**
+
+**Dataset 3**
+
+
+## NVC Assignment
+
+Two methods are available for assigning NVC
+
+1.  An R implementation of the Modular Analysis of Vegetation Information System 
+    (MAVIS). This method uses the Czekanowski index [@bloom1981] to 
+    quantify the similarity between NVC survey data and the NVC Floristic 
+    Tables.
+2.  An R implementation of the method outlined in @tipping2013.
+    This method calculates
+    the Jaccard similarity between user-inputted sample quadrats and 
+    pseudo-quadrats. This approach is noted as improving the accuracy of fit 
+    relative to the Czekanowski index for sample quadrats with poor species
+    richness [@tipping2013].
+
+## Habitat Correspondences
+
+Habitat correspondence data is drawn from the Joint Nature Conservation Committee 
+(JNCC) Spreadsheet of Habitat Correspondences [@jncc2008].
+
+Currently, habitat correspondence data for UKHab is drawn from UKHab V1.1.
+
+## Floristic Tables
+
+## Analysis Metrics
+
+... uses the results of the NVC Assignment module to calculate the following
+metrics:
+
+- Cover-weighted Hill-Ellenberg ecological indicator values:
+  - Nitrogen Score (N) [@bsbi2017ellenbergN]
+  - Moisture Score (F) [@bsbi2017ellenbergF]
+  - Reaction Score (R) [@bsbi2017ellenbergR]
+  - Salinity Score (S) [@bsbi2017ellenbergS]
+  - Light Score (L) [@bsbi2017ellenbergL]
+- 
+
+Data for bryophytes was taken from BRYOATT [@hill2007] and data for vascular plants
+was taken from.
+
+## Diversity
+
+Metrics assessed:
+
+- Total Species Richness
+- Simpson's Diversity Index [@simpson1949].
+
+## Detrended Correspondence Analysis
+
+## Download Options
+
+# References
