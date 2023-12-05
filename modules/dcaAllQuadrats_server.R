@@ -96,6 +96,15 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
       pquads_surveyTable_dca_results_species <- pquads_surveyTable_dca_results$cproj |>
         tibble::as_tibble(rownames = "Species")
       
+      # print(pquads_surveyTable_dca_results_species)
+      # print(colnames(surveyTable_prepped))
+      # print(colnames(nvc_pquads_final_wide_prepped))
+      
+      # print(setdiff(colnames(surveyTable_prepped), colnames(nvc_pquads_final_wide_prepped)))
+      
+      pquads_surveyTable_dca_results_species_unique <- pquads_surveyTable_dca_results_species |>
+        dplyr::filter(Species %in% setdiff(colnames(surveyTable_prepped), colnames(nvc_pquads_final_wide_prepped)))
+      
       # Extract the DCA results quadrat axis scores
       pquads_surveyTable_dca_results_quadrats <- pquads_surveyTable_dca_results$rproj |>
         tibble::as_tibble(rownames = "Quadrat")
@@ -193,6 +202,12 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
                                                                                          Quadrat = Quadrat,
                                                                                          x = DCA1,
                                                                                          y = DCA2))} +
+          {if("uniqSurveySpecies" %in% dcaVars())ggplot2::geom_point(data = pquads_surveyTable_dca_results_species_unique,
+                                                                     color = '#32a87d',
+                                                                     shape = 18,
+                                                                     mapping = ggplot2::aes(x = DCA1,
+                                                                                            y = DCA2,
+                                                                                            Species = Species))} +
           ggplot2::theme_minimal()
         
       )

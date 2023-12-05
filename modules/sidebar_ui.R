@@ -278,7 +278,7 @@ sidebarUI <- function(id){
         
         "DCA", 
         
-        icon = bsicons::bs_icon("sliders"),
+        icon = bsicons::bs_icon("arrows-angle-expand"),
         
         bslib::layout_columns(
           
