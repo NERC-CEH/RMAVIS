@@ -87,9 +87,14 @@ sidebarUI <- function(id){
             placement = "bottom"
           )
           
-        ),
+        )
+      ),
+      
+      bslib::accordion_panel(
         
-        shiny::div(shiny::br()),
+        "NVC Assignment", 
+        
+        icon = bsicons::bs_icon("clipboard2-data"),
         
         bslib::layout_columns(
           
@@ -148,28 +153,7 @@ sidebarUI <- function(id){
             paste0(""),
             placement = "bottom"
           )
-          
         )
-        
-        # shiny::actionButton(inputId = ns("resetTable"),
-        #                     label = "Reset Table"),
-        # shiny::selectizeInput(inputId = ns("assignmentMethods"),
-        #                       label = "NVC Assignment Methods",
-        #                       choices = assignmentMethod_options,
-        #                       selected = c("pseudoQuadratGroup", "pseudoQuadratQuadrat"),
-        #                       multiple = TRUE),
-        # shiny::selectizeInput(inputId = ns("coverMethod"), 
-        #                       label = "Cover Method", 
-        #                       choices = coverMethod_options, 
-        #                       selected = "directPercentage", 
-        #                       multiple = FALSE),
-        # shiny::selectizeInput(inputId = ns("nvcFittingMethod"), 
-        #                       label = "Method", 
-        #                       choices = c("Pseudo-Quadrat" = "pseudoQuadrat",
-        #                                   "Floristic Table" = "floristicTable"), 
-        #                       selected = "pseudoQuadrat", 
-        #                       multiple = FALSE),
-        
       ),
       
       bslib::accordion_panel(
