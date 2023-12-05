@@ -104,11 +104,6 @@ for(id in unique(floristicTables$ID)){
 
 }
 
-# kableExtra::kbl(x = floristicTables, format = "latex", booktabs = TRUE,
-#                 longtable = TRUE, linesep = "",
-#                 caption = paste0("Composed Floristic Table - ")) |>
-#     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
-
 ```
 
 

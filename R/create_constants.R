@@ -105,5 +105,6 @@ dcaVars_options <- c("Survey Quadrats" = "surveyQuadrats",
                      "Pseudo-Quadrats" = "pseudoQuadrats",
                      "Reference Space" = "referenceSpace",
                      "Species" = "species",
+                     "Unique Survey Species" = "uniqSurveySpecies",
                      "Hill-Ellenberg" = "hillEllenberg",
                      "Survey Quadrat Change" = "surveyQuadratChange") 

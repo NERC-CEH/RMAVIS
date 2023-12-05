@@ -134,29 +134,33 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
     # Create an interactive plot of the DCA results
     output$dcaFixedSpacePlot <- plotly::renderPlotly({
       
-      # Create ggplot2 plot
-      dcaFixedSpacePlot_plot <- ggplot2::ggplot() +
-        {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2, 
-                                                                  mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm))} +
-        {if("species" %in% dcaVars())ggplot2::geom_point(data = selected_pquads_dca_results_species,
-                                                         color = '#32a87d',
-                                                         shape = 18,
-                                                         mapping = ggplot2::aes(x = DCA1, 
-                                                                                y = DCA2,
-                                                                                Species = Species))} +
-        {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = selected_pquads_dca_results_quadrats_final,
-                                                                mapping = ggplot2::aes(color = NVC.Comm,
-                                                                                       Quadrat = Quadrat,
-                                                                                       x = DCA1,
-                                                                                       y = DCA2))} +
-        {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = surveyTable_dca_results_quadrats,
-                                                                color = 'black',
-                                                                mapping = ggplot2::aes(Year = Year,
-                                                                                       # Group = Group,
-                                                                                       Quadrat = Quadrat,
-                                                                                       x = DCA1,
-                                                                                       y = DCA2))} +
-        ggplot2::theme_minimal()
+      suppressWarnings(
+        
+        # Create ggplot2 plot
+        dcaFixedSpacePlot_plot <- ggplot2::ggplot() +
+          {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2, 
+                                                                    mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm))} +
+          {if("species" %in% dcaVars())ggplot2::geom_point(data = selected_pquads_dca_results_species,
+                                                           color = '#32a87d',
+                                                           shape = 18,
+                                                           mapping = ggplot2::aes(x = DCA1, 
+                                                                                  y = DCA2,
+                                                                                  Species = Species))} +
+          {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = selected_pquads_dca_results_quadrats_final,
+                                                                  mapping = ggplot2::aes(color = NVC.Comm,
+                                                                                         Quadrat = Quadrat,
+                                                                                         x = DCA1,
+                                                                                         y = DCA2))} +
+          {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = surveyTable_dca_results_quadrats,
+                                                                  color = 'black',
+                                                                  mapping = ggplot2::aes(Year = Year,
+                                                                                         # Group = Group,
+                                                                                         Quadrat = Quadrat,
+                                                                                         x = DCA1,
+                                                                                         y = DCA2))} +
+          ggplot2::theme_minimal()
+        
+      )
       
       if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data)){
         
