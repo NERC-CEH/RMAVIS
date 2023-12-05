@@ -140,7 +140,9 @@ ui <- bslib::page_navbar(
     
     bslib::card(
       
-      full_screen = TRUE,
+      full_screen = FALSE,
+      
+      fill = TRUE,
       
       bslib::card_header("Documentation"),
       

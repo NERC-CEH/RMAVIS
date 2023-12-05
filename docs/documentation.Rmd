@@ -134,6 +134,8 @@ Metrics assessed:
 
 ## Detrended Correspondence Analysis
 
+Detrended Correspondence Analysis (DCA) [@hill1980dca]
+
 ## Download Options
 
 # References
