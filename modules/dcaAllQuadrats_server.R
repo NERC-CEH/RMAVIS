@@ -49,7 +49,7 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
       
       for(code in NVC_communities_final){
         
-        regex <- paste0("(", code, ")(?<=)P")
+        regex <- paste0("^(", code, ")(?<=)P")
         
         codes_regex <- c(codes_regex, regex)
         

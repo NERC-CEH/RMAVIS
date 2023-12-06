@@ -31,7 +31,7 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
     )
     
     # Peform analysis in a reactive context without creating a reactive relationship
-    shiny::isolate({
+    # shiny::isolate({
       
       # Get all NVC communities and sub-communities from nvc assignment results
       NVC_communities_all <- nvcAverageSim() |>
@@ -51,7 +51,7 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
       
       for(code in NVC_communities_final){
         
-        regex <- paste0("(", code, ")(?<=)P")
+        regex <- paste0("^(", code, ")(?<=)P")
         
         codes_regex <- c(codes_regex, regex)
         
@@ -59,15 +59,23 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
         
       }
       
+      # assign(x = "codes_regex", value = codes_regex, envir = .GlobalEnv)
+      
       # Subset pseudo-quadrats for selected communities
       selected_pquads <- nvc_pquads_final_wide[stringr::str_detect(string = row.names(nvc_pquads_final_wide), pattern = codes_regex), ]
       
+      
+      # assign(x = "selected_pquads", value = selected_pquads, envir = .GlobalEnv)
+      
+      
       # Remove columns (species) that are absent in all selected communities
       selected_pquads_prepped <- selected_pquads[, colSums(abs(selected_pquads)) != 0] |>
-        as.data.frame()
+        tibble::as_tibble(rownames = NA)
       
       # assign(x = "selected_pquads_prepped", value = selected_pquads_prepped, envir = .GlobalEnv)
       
+      # foo <- selected_pquads_prepped["SM8P8",]
+      # foo <- foo[, colSums(abs(foo)) != 0]
       
       # Retieve the unweighted mean Hill-Ellenberg scores for the pseudo-quadrats
       nvc_pquads_mean_unweighted_eivs_prepped <- nvc_pquads_mean_unweighted_eivs |>
@@ -75,9 +83,12 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
         tibble::column_to_rownames(var = "Pid3")
       
       # assign(x = "nvc_pquads_mean_unweighted_eivs_prepped", value = nvc_pquads_mean_unweighted_eivs_prepped, envir = .GlobalEnv)
+  
       
       # Perform a CCA on the selected pseudo-quadrats using F, L, and N scores
-      selected_pquads_prepped_cca  <- vegan::cca(selected_pquads_prepped ~ `F` + `L` + `N`, data = nvc_pquads_mean_unweighted_eivs_prepped)
+      selected_pquads_prepped_cca  <- vegan::cca(selected_pquads_prepped ~ `F` + `L` + `N`, 
+                                                 data = nvc_pquads_mean_unweighted_eivs_prepped,
+                                                 na.action = na.exclude)
       
       # Extract CCA scores
       selected_pquads_prepped_cca_scores <- vegan::scores(selected_pquads_prepped_cca, display = "bp")
@@ -172,7 +183,7 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
         
       }
       
-    }) # close isolate
+    # }) # close isolate
     
     # Create an interactive plot of the DCA results
     output$dcaFixedSpacePlot <- plotly::renderPlotly({
@@ -211,10 +222,10 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
                                                                                           label = `Hill-Ellenberg`))} +
           {if("hillEllenberg" %in% dcaVars())ggplot2::geom_text(data = CCA_arrowData,
                                                                 color = 'black',
-                                                                position = ggplot2::position_dodge(width = 0.9),
+                                                                # position = ggplot2::position_dodge(width = 0.9),
                                                                 size = 5,
-                                                                mapping = ggplot2::aes(x = CCA1,
-                                                                                       y = CCA2,
+                                                                mapping = ggplot2::aes(x = CCA1 * 1.075,
+                                                                                       y = CCA2 * 1.075,
                                                                                        label = `Hill-Ellenberg`))} +
           ggplot2::theme_minimal()
         

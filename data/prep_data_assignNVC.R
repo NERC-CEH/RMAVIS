@@ -97,7 +97,9 @@ nvc_pquads_mean_unweighted_eivs <- nvc_pquads_final |>
                    "N" = mean(`N`, na.rm = TRUE),
                    "R" = mean(`R`, na.rm = TRUE),
                    "S" = mean(`S`, na.rm = TRUE)) |>
-  tibble::as_tibble()
+  tibble::as_tibble() |>
+  # Replace NaN's with NA's. Required in a limited number of cases where there are pseudo-quadrats without any species with Hill-Ellenberg values?
+  dplyr::mutate(dplyr::across(dplyr::everything(), ~tidyr::replace_na(.x, NA)))
 
 # Check all pseudo-quadrats are present
 nrow(nvc_pquads_mean_unweighted_eivs) == length(unique(nvc_pquads_final$Pid3))
