@@ -38,10 +38,10 @@ server <- function(input, output, session) {
                                 surveyTable = surveyTable,
                                 sidebar_options = sidebar_options)
   
-  callModule(module = calcAvgEIVs,
-             id = "calcAvgEIVs_id_1",
-             surveyTablePrepped = surveyTablePrepped,
-             sidebar_options = sidebar_options)
+  avgEIVs <- callModule(module = calcAvgEIVs,
+                        id = "calcAvgEIVs_id_1",
+                        surveyTablePrepped = surveyTablePrepped,
+                        sidebar_options = sidebar_options)
   
   callModule(module = diversityAnalysis,
              id = "diversityAnalysis_id_1",

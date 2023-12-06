@@ -66,16 +66,57 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
       selected_pquads_prepped <- selected_pquads[, colSums(abs(selected_pquads)) != 0] |>
         as.data.frame()
       
+      # assign(x = "selected_pquads_prepped", value = selected_pquads_prepped, envir = .GlobalEnv)
+      
+      
+      # Retieve the unweighted mean Hill-Ellenberg scores for the pseudo-quadrats
+      nvc_pquads_mean_unweighted_eivs_prepped <- nvc_pquads_mean_unweighted_eivs |>
+        dplyr::filter(Pid3 %in% rownames(selected_pquads_prepped)) |>
+        tibble::column_to_rownames(var = "Pid3")
+      
+      # assign(x = "nvc_pquads_mean_unweighted_eivs_prepped", value = nvc_pquads_mean_unweighted_eivs_prepped, envir = .GlobalEnv)
+      
+      # Perform a CCA on the selected pseudo-quadrats using F, L, and N scores
+      selected_pquads_prepped_cca  <- vegan::cca(selected_pquads_prepped ~ `F` + `L` + `N`, data = nvc_pquads_mean_unweighted_eivs_prepped)
+      
+      # Extract CCA scores
+      selected_pquads_prepped_cca_scores <- vegan::scores(selected_pquads_prepped_cca, display = "bp")
+      
+      # Extract CCA multiplier
+      selected_pquads_prepped_cca_multiplier <- vegan:::ordiArrowMul(selected_pquads_prepped_cca_scores)
+      
+      # print(selected_pquads_prepped_cca_multiplier)
+      
+      # Create CCA arrow data
+      CCA_arrowData <- selected_pquads_prepped_cca_scores #* selected_pquads_prepped_cca_multiplier
+      CCA_arrowData <- CCA_arrowData |>
+        tibble::as_tibble(rownames = NA) |>
+        tibble::rownames_to_column(var = "Hill-Ellenberg")
+      
+      # assign(x = "CCA_arrowData", value = CCA_arrowData, envir = .GlobalEnv)
+      
       # Perform a DCA on the selected pseudo-quadrats
       selected_pquads_dca_results <- vegan::decorana(veg = selected_pquads_prepped)
       
+      # assign(x = "selected_pquads_dca_results", value = selected_pquads_dca_results, envir = .GlobalEnv)
+      
       # Extract the DCA results species axis scores
-      selected_pquads_dca_results_species <- selected_pquads_dca_results$cproj |>
-        tibble::as_tibble(rownames = "Species")
+      selected_pquads_dca_results_species <- vegan::scores(selected_pquads_dca_results, tidy = TRUE) |>
+        dplyr::filter(score == "species") |>
+        dplyr::select(-score, -weight) |>
+        dplyr::rename("Species" = label)
       
       # Extract the DCA results quadrat axis scores
-      selected_pquads_dca_results_quadrats <- selected_pquads_dca_results$rproj |>
-        tibble::as_tibble(rownames = "Quadrat")
+      selected_pquads_dca_results_quadrats <- vegan::scores(selected_pquads_dca_results, tidy = TRUE) |>
+        dplyr::filter(score == "sites") |>
+        dplyr::select(-score, -weight) |>
+        dplyr::rename("Quadrat" = label)
+      
+      # print(vegan::scores(selected_pquads_dca_results))
+      # 
+      # print(selected_pquads_dca_results_quadrats)
+      
+      # assign(x = "foo", value = vegan::scores(selected_pquads_dca_results), envir = .GlobalEnv)
       
       # Prepare the pseudo-quadrat DCA results quadrat axis scores
       selected_pquads_dca_results_quadrats_final <- selected_pquads_dca_results_quadrats  |>
@@ -99,12 +140,14 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
                          .groups = "drop") |>
         dplyr::mutate("NVC.Comm" = "Sample", .before  = "Quadrat")
       
-      # print(surveyTable_dca_results_quadrats)
+      # assign(x = "surveyTable_dca_results_quadrats", value = surveyTable_dca_results_quadrats, envir = .GlobalEnv)
       
       # Create convex hulls around the pseudo-quadrat DCA points.
       selected_pquads_dca_results_quadrats_final_hull <- selected_pquads_dca_results_quadrats_final |>
         dplyr::group_by(NVC.Comm) |>
         dplyr::slice(grDevices::chull(DCA1, DCA2))
+      
+      # assign(x = "selected_pquads_dca_results_quadrats_final_hull", value = selected_pquads_dca_results_quadrats_final_hull, envir = .GlobalEnv)
       
       # Prepare the data required to draw arrows between points, ordered by Year
       
@@ -158,6 +201,21 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
                                                                                          Quadrat = Quadrat,
                                                                                          x = DCA1,
                                                                                          y = DCA2))} +
+          {if("hillEllenberg" %in% dcaVars())ggplot2::geom_segment(data = CCA_arrowData,
+                                                                   color = 'black',
+                                                                   arrow = grid::arrow(),
+                                                                   mapping = ggplot2::aes(x = 0,
+                                                                                          y = 0,
+                                                                                          xend = CCA1,
+                                                                                          yend = CCA2,
+                                                                                          label = `Hill-Ellenberg`))} +
+          {if("hillEllenberg" %in% dcaVars())ggplot2::geom_text(data = CCA_arrowData,
+                                                                color = 'black',
+                                                                position = ggplot2::position_dodge(width = 0.9),
+                                                                size = 5,
+                                                                mapping = ggplot2::aes(x = CCA1,
+                                                                                       y = CCA2,
+                                                                                       label = `Hill-Ellenberg`))} +
           ggplot2::theme_minimal()
         
       )

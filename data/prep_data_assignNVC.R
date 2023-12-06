@@ -87,3 +87,19 @@ nvc_community_namesCodes <- read.csv(file = "./data/raw_data/NVC-floristic-table
 
 saveRDS(object = nvc_community_namesCodes, file = "./data/bundled_data/nvc_community_namesCodes.rds")
 
+
+# Calculate mean unweighted Hill-Ellenberg values for selected pse --------
+nvc_pquads_mean_unweighted_eivs <- nvc_pquads_final |>
+  dplyr::left_join(master_data, by = "species") |>
+  dplyr::group_by(Pid3) |>
+  dplyr::summarise("F" = mean(`F`, na.rm = TRUE),
+                   "L" = mean(`L`, na.rm = TRUE),
+                   "N" = mean(`N`, na.rm = TRUE),
+                   "R" = mean(`R`, na.rm = TRUE),
+                   "S" = mean(`S`, na.rm = TRUE)) |>
+  tibble::as_tibble()
+
+# Check all pseudo-quadrats are present
+nrow(nvc_pquads_mean_unweighted_eivs) == length(unique(nvc_pquads_final$Pid3))
+
+saveRDS(object = nvc_pquads_mean_unweighted_eivs, file = "./data/bundled_data/nvc_pquads_mean_unweighted_eivs.rds")

@@ -199,7 +199,7 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
       
     })
     
-    avgUnweightedEIVsTable_rval(rhandsontable::hot_to_r(input$avgUnweightedEIVsTable))
+    avgUnweightedEIVsTable_rval(avgUnweightedEIVsTable)
     
   }) |>
     bindEvent(runAnalysis(),
@@ -207,6 +207,7 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
-  # return(avgEIVsTable_rval)
+  
+  return(avgUnweightedEIVsTable_rval)
   
 }

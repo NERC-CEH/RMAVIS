@@ -93,21 +93,19 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
       pquads_surveyTable_dca_results <- vegan::decorana(veg = nvc_pquads_final_wide_prepped_wSurveyTable_prepped)
       
       # Extract the DCA results species axis scores
-      pquads_surveyTable_dca_results_species <- pquads_surveyTable_dca_results$cproj |>
-        tibble::as_tibble(rownames = "Species")
-      
-      # print(pquads_surveyTable_dca_results_species)
-      # print(colnames(surveyTable_prepped))
-      # print(colnames(nvc_pquads_final_wide_prepped))
-      
-      # print(setdiff(colnames(surveyTable_prepped), colnames(nvc_pquads_final_wide_prepped)))
+      pquads_surveyTable_dca_results_species <- vegan::scores(pquads_surveyTable_dca_results, tidy = TRUE) |>
+        dplyr::filter(score == "species") |>
+        dplyr::select(-score, -weight) |>
+        dplyr::rename("Species" = label)
       
       pquads_surveyTable_dca_results_species_unique <- pquads_surveyTable_dca_results_species |>
         dplyr::filter(Species %in% setdiff(colnames(surveyTable_prepped), colnames(nvc_pquads_final_wide_prepped)))
       
       # Extract the DCA results quadrat axis scores
-      pquads_surveyTable_dca_results_quadrats <- pquads_surveyTable_dca_results$rproj |>
-        tibble::as_tibble(rownames = "Quadrat")
+      pquads_surveyTable_dca_results_quadrats <- vegan::scores(pquads_surveyTable_dca_results, tidy = TRUE) |>
+        dplyr::filter(score == "sites") |>
+        dplyr::select(-score, -weight) |>
+        dplyr::rename("Quadrat" = label)
       
       pquads_surveyTable_dca_results_quadrats <- pquads_surveyTable_dca_results_quadrats |>
         dplyr::mutate(
