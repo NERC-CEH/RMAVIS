@@ -284,6 +284,26 @@ sidebarUI <- function(id){
           
           col_widths = c(11, 1),
           
+          shiny::selectizeInput(inputId = ns("ccaVars"),
+                                label = "CCA Variables",
+                                choices = ccaVars_options,
+                                selected = c("F", "N", "L"),
+                                multiple = TRUE,
+                                options = list(maxItems = 3)),
+          
+          bslib::popover(
+            bsicons::bs_icon("info-circle"),
+            title = "CCA",
+            paste0(""),
+            placement = "bottom"
+          )
+          
+        ),
+        
+        bslib::layout_columns(
+          
+          col_widths = c(11, 1),
+          
           shiny::checkboxGroupInput(inputId = ns("dcaVars"),
                                     label = "Axis Scores",
                                     choices = dcaVars_options,

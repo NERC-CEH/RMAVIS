@@ -23,7 +23,8 @@ sidebar <- function(input, output, session, nvcAverageSim) {
       "crossTabulate" = input$crossTabulate,
       "restrictNVCFlorTablesOpts" = input$restrictNVCFlorTablesOpts,
       # "generateReport" = input$generateReport
-      "dcaVars" = input$dcaVars
+      "dcaVars" = input$dcaVars,
+      "ccaVars" = input$ccaVars
     )
     
     sidebar_options(sidebar_options_list)
@@ -40,6 +41,7 @@ sidebar <- function(input, output, session, nvcAverageSim) {
               input$restrictNVCFlorTablesOpts,
               # input$generateReport,
               input$dcaVars,
+              input$ccaVars,
               ignoreInit = TRUE)
 
 # Show/Hide inputMethod-related inputs ------------------------------------

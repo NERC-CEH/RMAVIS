@@ -5,11 +5,13 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
   # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
   dcaVars <- reactiveVal()
+  ccaVars <- reactiveVal()
   
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
     dcaVars(sidebar_options()$dcaVars)
+    ccaVars(sidebar_options()$ccaVars)
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -84,9 +86,9 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
       
       # assign(x = "nvc_pquads_mean_unweighted_eivs_prepped", value = nvc_pquads_mean_unweighted_eivs_prepped, envir = .GlobalEnv)
   
-      
+      # print(ccaVars())
       # Perform a CCA on the selected pseudo-quadrats using F, L, and N scores
-      selected_pquads_prepped_cca  <- vegan::cca(selected_pquads_prepped ~ `F` + `L` + `N`, 
+      selected_pquads_prepped_cca  <- vegan::cca(as.formula(paste0("selected_pquads_prepped ~ ", paste0(c(ccaVars()), collapse = " + "))), # selected_pquads_prepped ~ `F` + `L` + `N`
                                                  data = nvc_pquads_mean_unweighted_eivs_prepped,
                                                  na.action = na.exclude)
       

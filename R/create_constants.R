@@ -107,4 +107,12 @@ dcaVars_options <- c("Survey Quadrats" = "surveyQuadrats",
                      "Species" = "species",
                      "Unique Survey Species" = "uniqSurveySpecies",
                      "Hill-Ellenberg" = "hillEllenberg",
-                     "Survey Quadrat Change" = "surveyQuadratChange") 
+                     "Survey Quadrat Change" = "surveyQuadratChange")
+
+
+# CCA options -------------------------------------------------------------
+ccaVars_options <- c("Moisture" = "F",
+                     "Nitrogen" = "N",
+                     "Reaction" = "R",
+                     "Light" = "L",
+                     "Salinity" = "S")
