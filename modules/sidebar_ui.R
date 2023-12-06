@@ -287,9 +287,10 @@ sidebarUI <- function(id){
           shiny::selectizeInput(inputId = ns("ccaVars"),
                                 label = "CCA Variables",
                                 choices = ccaVars_options,
-                                selected = c("F", "N", "L"),
+                                selected = c("F", "N"),
                                 multiple = TRUE,
-                                options = list(maxItems = 3)),
+                                options = list(minItems = 1,
+                                               maxItems = 3)),
           
           bslib::popover(
             bsicons::bs_icon("info-circle"),
@@ -307,7 +308,7 @@ sidebarUI <- function(id){
           shiny::checkboxGroupInput(inputId = ns("dcaVars"),
                                     label = "Axis Scores",
                                     choices = dcaVars_options,
-                                    selected = c("referenceSpace", "surveyQuadrats")),
+                                    selected = c("referenceSpace", "surveyQuadrats", "hillEllenberg")),
           
           bslib::popover(
             bsicons::bs_icon("info-circle"),

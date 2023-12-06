@@ -111,8 +111,8 @@ dcaVars_options <- c("Survey Quadrats" = "surveyQuadrats",
 
 
 # CCA options -------------------------------------------------------------
-ccaVars_options <- c("Moisture" = "F",
-                     "Nitrogen" = "N",
-                     "Reaction" = "R",
-                     "Light" = "L",
-                     "Salinity" = "S")
+ccaVars_options <- c("Moisture (F)" = "F",
+                     "Nitrogen (N)" = "N",
+                     "Reaction (R)" = "R",
+                     "Light (L)" = "L",
+                     "Salinity (S)" = "S")
