@@ -9,7 +9,7 @@ documentationUI <- function(id) {
       shiny::div(
         htmltools::tags$iframe(src = "documentation.html",
                                width = '100%',
-                               height = 1000,
+                               height = "700px",
                                style = "border:none;")
         #, style = "margin-right: 5px !important;"
       )

@@ -4,9 +4,10 @@ inputMethod_options <- c("Manual" = "manual",
                          "Upload" = "upload")
 
 # NVC assignment method options -------------------------------------------
-assignmentMethod_options <- c("Pseudo-quadrat, per group" = "pseudoQuadratGroup",
-                              "Pseudo-quadrat, per quadrat" = "pseudoQuadratQuadrat",
-                              "Czekanowski" = "czekanowski")
+nvcAssignMethods_options <- c("Pseudo-quadrat, per site" = "pseudoQuadratSite",
+                              "Pseudo-quadrat, per group" = "pseudoQuadratGroup",
+                              "Pseudo-quadrat, per quadrat" = "pseudoQuadratQuadrat")
+# "Czekanowski" = "czekanowski"
 
 
 # Group Method Options ----------------------------------------------------
@@ -116,3 +117,16 @@ ccaVars_options <- c("Moisture (F)" = "F",
                      "Reaction (R)" = "R",
                      "Light (L)" = "L",
                      "Salinity (S)" = "S")
+
+
+# DCA Survey Quadrat Options ----------------------------------------------
+surveyQuadratSelection_options <- c("All" = "all",
+                                    "Select Years" = "selectYears",
+                                    "Select Groups" = "selectGroups",
+                                    "Select Quadrats" = "selectQuadrats")
+
+selectSurveyYears_options <- c()
+
+selectSurveyQuadrats_options <- c()
+
+selectSurveyGroups_options <- c()

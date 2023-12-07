@@ -5,11 +5,19 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
   # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
   dcaVars <- reactiveVal()
+  selectSurveyMethod <- reactiveVal()
+  selectSurveyYears <- reactiveVal()
+  selectSurveyQuadrats <- reactiveVal()
+  selectSurveyGroups <- reactiveVal()
   
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
     dcaVars(sidebar_options()$dcaVars)
+    selectSurveyMethod(sidebar_options()$selectSurveyMethod)
+    selectSurveyYears(sidebar_options()$selectSurveyYears)
+    selectSurveyQuadrats(sidebar_options()$selectSurveyQuadrats)
+    selectSurveyGroups(sidebar_options()$selectSurveyGroups)
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -157,7 +165,7 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
         arrow_plot_data <- pquads_surveyTable_dca_results_quadrats_sample |>
           dplyr::arrange(Year) |>
           dplyr::select("Year" = Year, 
-                        # "Group" = Group,
+                        "Group" = Group,
                         "Quadrat" = Quadrat,
                         "x" = DCA1, 
                         "y" = DCA2) |>
@@ -175,32 +183,87 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
       
     }) # Close isolate
     
+    shinybusy::remove_modal_spinner()
+    
+    # Compose list of DCA results objects
+    dcaAllQuadratsResults_list <- list("pquads_surveyTable_dca_results_species" = pquads_surveyTable_dca_results_species,
+                                       "pquads_surveyTable_dca_results_quadrats_sample" = pquads_surveyTable_dca_results_quadrats_sample,
+                                       "pquads_surveyTable_dca_results_quadrats_pquads" = pquads_surveyTable_dca_results_quadrats_pquads,
+                                       "pquads_surveyTable_dca_results_quadrats_hull" = pquads_surveyTable_dca_results_quadrats_hull,
+                                       "pquads_surveyTable_dca_results_species_unique" = pquads_surveyTable_dca_results_species_unique,
+                                       "arrow_plot_data" = arrow_plot_data)
+    
+    dcaAllQuadratsResults(dcaAllQuadratsResults_list)
+    
+  }) |>
+    bindEvent(runAnalysis(),
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE)
+  
+  
+  observe({
+    
+    dcaAllQuadratsResults <- dcaAllQuadratsResults()
+    
+    if(selectSurveyMethod() == "all"){
+      
+      pquads_surveyTable_dca_results_quadrats_sample_selected <- dcaAllQuadratsResults$pquads_surveyTable_dca_results_quadrats_sample
+      
+      arrow_plot_data_selected <- dcaAllQuadratsResults$arrow_plot_data
+      
+    } else if(selectSurveyMethod() == "selectYears"){
+      
+      pquads_surveyTable_dca_results_quadrats_sample_selected <- dcaAllQuadratsResults$pquads_surveyTable_dca_results_quadrats_sample |>
+        dplyr::filter(Year %in% selectSurveyYears())
+      
+      arrow_plot_data_selected <- dcaAllQuadratsResults$arrow_plot_data |>
+        dplyr::filter(Year %in% selectSurveyYears())
+      
+    } else if(selectSurveyMethod() == "selectGroups"){
+      
+      pquads_surveyTable_dca_results_quadrats_sample_selected <- dcaAllQuadratsResults$pquads_surveyTable_dca_results_quadrats_sample |>
+        dplyr::filter(Group %in% selectSurveyGroups())
+      
+      arrow_plot_data_selected <- dcaAllQuadratsResults$arrow_plot_data |>
+        dplyr::filter(Group %in% selectSurveyGroups())
+      
+    } else if(selectSurveyMethod() == "selectQuadrats"){
+      
+      pquads_surveyTable_dca_results_quadrats_sample_selected <- dcaAllQuadratsResults$pquads_surveyTable_dca_results_quadrats_sample |>
+        dplyr::filter(Quadrat %in% selectSurveyQuadrats())
+      
+      arrow_plot_data_selected <- dcaAllQuadratsResults$arrow_plot_data |>
+        dplyr::filter(Quadrat %in% selectSurveyQuadrats())
+      
+    }
+    
     output$dcaAllQuadratsPlot <- plotly::renderPlotly({
+      
       
       suppressWarnings(
         
         dcaAllQuadratsPlot_plot <- ggplot2::ggplot() +
-          {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = pquads_surveyTable_dca_results_quadrats_hull, alpha = 0.2, 
+          {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = dcaAllQuadratsResults$pquads_surveyTable_dca_results_quadrats_hull, alpha = 0.2, 
                                                                     mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm))} +
-          {if("species" %in% dcaVars())ggplot2::geom_point(data = pquads_surveyTable_dca_results_species,
+          {if("species" %in% dcaVars())ggplot2::geom_point(data = dcaAllQuadratsResults$pquads_surveyTable_dca_results_species,
                                                            color = '#32a87d',
                                                            shape = 18,
                                                            mapping = ggplot2::aes(x = DCA1,
                                                                                   y = DCA2,
                                                                                   Species = Species))} +
-          {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = pquads_surveyTable_dca_results_quadrats_pquads,
+          {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = dcaAllQuadratsResults$pquads_surveyTable_dca_results_quadrats_pquads,
                                                                   mapping = ggplot2::aes(color = NVC.Comm,
                                                                                          Quadrat = Quadrat,
                                                                                          x = DCA1,
                                                                                          y = DCA2))} +
-          {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = pquads_surveyTable_dca_results_quadrats_sample,
+          {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = pquads_surveyTable_dca_results_quadrats_sample_selected,
                                                                   color = 'black',
                                                                   mapping = ggplot2::aes(Year = Year,
                                                                                          # Group = Group,
                                                                                          Quadrat = Quadrat,
                                                                                          x = DCA1,
                                                                                          y = DCA2))} +
-          {if("uniqSurveySpecies" %in% dcaVars())ggplot2::geom_point(data = pquads_surveyTable_dca_results_species_unique,
+          {if("uniqSurveySpecies" %in% dcaVars())ggplot2::geom_point(data = dcaAllQuadratsResults$pquads_surveyTable_dca_results_species_unique,
                                                                      color = '#32a87d',
                                                                      shape = 18,
                                                                      mapping = ggplot2::aes(x = DCA1,
@@ -210,12 +273,12 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
         
       )
       
-      if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data)){
+      if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data_selected)){
         
-        if(nrow(arrow_plot_data) > 0){
+        if(nrow(arrow_plot_data_selected) > 0){
           
           dcaAllQuadratsPlot_plotly <- plotly::ggplotly(p = dcaAllQuadratsPlot_plot) |>
-            plotly::add_annotations(data = arrow_plot_data,
+            plotly::add_annotations(data = arrow_plot_data_selected,
                                     showarrow = TRUE,
                                     text = "",
                                     xref = "x", axref = "x",
@@ -231,7 +294,7 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
       } else {
         
         dcaAllQuadratsPlot_plotly <- plotly::ggplotly(p = dcaAllQuadratsPlot_plot)
-      
+        
       }
       
       
@@ -239,21 +302,13 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
       
     })
     
-    shinybusy::remove_modal_spinner()
-    
-    # Compose list of DCA results objects
-    dcaAllQuadratsResults_list <- list("pquads_surveyTable_dca_results_species" = pquads_surveyTable_dca_results_species,
-                                       "pquads_surveyTable_dca_results_quadrats_sample" = pquads_surveyTable_dca_results_quadrats_sample,
-                                       "pquads_surveyTable_dca_results_quadrats_pquads" = pquads_surveyTable_dca_results_quadrats_pquads,
-                                       "pquads_surveyTable_dca_results_quadrats_hull" = pquads_surveyTable_dca_results_quadrats_hull,
-                                       "arrow_plot_data" = arrow_plot_data)
-    
-    dcaAllQuadratsResults(dcaAllQuadratsResults_list)
-    
   }) |>
-    bindEvent(runAnalysis(),
-              # dcaVars(),
-              # surveyTablePrepped(),
+    bindEvent(dcaAllQuadratsResults(),
+              selectSurveyMethod(),
+              selectSurveyYears(),
+              selectSurveyGroups(),
+              selectSurveyQuadrats(),
+              dcaVars(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   

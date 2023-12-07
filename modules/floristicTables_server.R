@@ -57,21 +57,57 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     shiny::req(input$floristicTables_composed)
     shiny::req(input$floristicTables_nvc)
     shiny::req(surveyTable())
-    shiny::req(groupMethod())
+    # shiny::req(groupMethod())
 
     surveyTable <- surveyTable()
 
-    groupMethod_cols <- names(groupMethod_options)[groupMethod_options %in% groupMethod()]
+    # groupMethod_cols <- names(groupMethod_options)[groupMethod_options %in% groupMethod()]
+    # print(groupMethod_cols)
 
     surveyTable_prepped <- surveyTable |>
-      tidyr::unite(col = "ID", groupMethod_cols, sep = " - ", remove = TRUE)
+      tidyr::unite(col = "ID", c("Year", "Group"), sep = " - ", remove = TRUE)
 
-    pivot_col <- setdiff(c("Year", "Quadrat"), groupMethod_cols)
+    # pivot_col <- setdiff(c("Year", "Quadrat"), groupMethod_cols)
     
     floristicTables_composed_all <- data.frame("ID" = character(),
                                                "Species" = character(),
                                                "Constancy" = factor())
     
+    # assign(x = "surveyTable_prepped", value = surveyTable_prepped, envir = .GlobalEnv)
+
+# Create composed floristic tables across all groups ----------------------
+    floristicTables_composed <- surveyTable_prepped |>
+      dplyr::filter(!is.na(Cover)) |>
+      dplyr::mutate("ID" = stringr::str_extract(string = ID, pattern = "(\\d{4})")) |>
+      dplyr::select(-Cover) |>
+      dplyr::mutate("Present" = 1) |>
+      tidyr::pivot_wider(values_from = Present,
+                         names_from = Quadrat) |>
+      dplyr::rowwise() |>
+      dplyr::mutate("Sum" = sum(dplyr::c_across(dplyr::where(is.numeric)), na.rm = TRUE)) |>
+      dplyr::ungroup() |>
+      dplyr::mutate("Frequency" = Sum / (ncol(dplyr::pick(dplyr::everything())) - 3)) |> # -2
+      dplyr::mutate(
+        "Constancy" =
+          dplyr::case_when(
+            Frequency <= 0.2 ~ "I",
+            Frequency <= 0.4 ~ "II",
+            Frequency <= 0.6 ~ "III",
+            Frequency <= 0.8 ~ "IV",
+            Frequency <= 1.0 ~ "V",
+            TRUE ~ as.character(Frequency)
+          )
+      ) |>
+      dplyr::select(ID, Species, Constancy) |>
+      dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
+      dplyr::arrange(ID, Constancy, Species)
+
+    floristicTables_composed_all <- floristicTables_composed_all |>
+      dplyr::bind_rows(floristicTables_composed)
+
+    
+
+# Create composed floristic tables for groups -----------------------------
     for(id in unique(surveyTable_prepped$ID)){
       
       floristicTables_composed <- surveyTable_prepped |>
@@ -80,7 +116,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
         dplyr::select(-Cover) |>
         dplyr::mutate("Present" = 1) |>
         tidyr::pivot_wider(values_from = Present,
-                           names_from = pivot_col) |>
+                           names_from = Quadrat) |>
         dplyr::rowwise() |>
         dplyr::mutate("Sum" = sum(dplyr::c_across(dplyr::where(is.numeric)), na.rm = TRUE)) |>
         dplyr::ungroup() |>
@@ -108,10 +144,14 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     }
     
     floristicTables_composed_all_rval(floristicTables_composed_all)
+    
+    assign(x = "floristicTables_composed_all", value = floristicTables_composed_all, envir = .GlobalEnv)
 
   }) |>
     bindEvent(runAnalysis(),
               ignoreInit = TRUE, ignoreNULL = TRUE)
+  
+  
   
   
   observe({

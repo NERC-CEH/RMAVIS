@@ -1,4 +1,4 @@
-sidebar <- function(input, output, session, nvcAverageSim) {
+sidebar <- function(input, output, session, surveyTable, nvcAverageSim, floristicTables, dcaFixedSpaceResults) {
   
   ns <- session$ns
   
@@ -23,6 +23,10 @@ sidebar <- function(input, output, session, nvcAverageSim) {
       "crossTabulate" = input$crossTabulate,
       "restrictNVCFlorTablesOpts" = input$restrictNVCFlorTablesOpts,
       # "generateReport" = input$generateReport
+      "selectSurveyMethod" = input$selectSurveyMethod,
+      "selectSurveyYears" = input$selectSurveyYears,
+      "selectSurveyQuadrats" = input$selectSurveyQuadrats,
+      "selectSurveyGroups" = input$selectSurveyGroups,
       "dcaVars" = input$dcaVars,
       "ccaVars" = input$ccaVars
     )
@@ -40,6 +44,10 @@ sidebar <- function(input, output, session, nvcAverageSim) {
               input$nvcFloristicTable, input$crossTabulate,
               input$restrictNVCFlorTablesOpts,
               # input$generateReport,
+              input$selectSurveyMethod,
+              input$selectSurveyYears,
+              input$selectSurveyQuadrats,
+              input$selectSurveyGroups,
               input$dcaVars,
               input$ccaVars,
               ignoreInit = TRUE)
@@ -152,9 +160,9 @@ sidebar <- function(input, output, session, nvcAverageSim) {
 # Reactively update composedFloristicTable options ------------------------
   observe({
       
-    if(nrow(nvcAverageSim()) != 0){
+    if(nrow(floristicTables()) != 0){
       
-      uniq_IDs <- nvcAverageSim() |>
+      uniq_IDs <- floristicTables() |>
         dplyr::pull(ID) |>
         unique()
       
@@ -171,9 +179,177 @@ sidebar <- function(input, output, session, nvcAverageSim) {
     }
     
   }) |>
-    bindEvent(nvcAverageSim(),
+    bindEvent(floristicTables(),
               ignoreInit = TRUE)
 
+  
+# Reactively update DCA survey quadrat selection method -------------------
+  observe({
+    
+    if (input$selectSurveyMethod == "all") {
+      
+      shinyjs::hideElement(id = "selectSurveyYears")
+      shinyjs::hideElement(id = "selectSurveyQuadrats")
+      shinyjs::hideElement(id = "selectSurveyGroups")
+      
+    } else if (input$selectSurveyMethod == "selectYears") {
+      
+      shinyjs::showElement(id = "selectSurveyYears")
+      shinyjs::hideElement(id = "selectSurveyGroups")
+      shinyjs::hideElement(id = "selectSurveyQuadrats")
+      
+    } else if (input$selectSurveyMethod == "selectGroups") {
+      
+      shinyjs::hideElement(id = "selectSurveyYears")
+      shinyjs::showElement(id = "selectSurveyGroups")
+      shinyjs::hideElement(id = "selectSurveyQuadrats")
+      
+    } else if (input$selectSurveyMethod == "selectQuadrats") {
+      
+      shinyjs::hideElement(id = "selectSurveyYears")
+      shinyjs::hideElement(id = "selectSurveyGroups")
+      shinyjs::showElement(id = "selectSurveyQuadrats")
+      
+    }
+    
+  }) |>
+    bindEvent(input$selectSurveyMethod, ignoreInit = FALSE)
+  
+  
+# Reactively update DCA survey quadrat selection options ------------------
+  observe({
+    
+    # print(dcaFixedSpaceResults())
+
+    if(is.null(dcaFixedSpaceResults()) == FALSE){
+
+      uniq_years <- surveyTable() |>
+        dplyr::pull(Year) |>
+        unique()
+      
+      uniq_quadrats <- surveyTable() |>
+        dplyr::pull(Quadrat) |>
+        unique()
+      
+      uniq_groups <- surveyTable() |>
+        dplyr::pull(Group) |>
+        unique()
+      
+      if(input$selectSurveyMethod == "all"){
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "selectSurveyYears",
+          choices = uniq_years,
+          selected = uniq_years,
+          server = FALSE
+        )
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "selectSurveyGroups",
+          choices = uniq_groups,
+          selected = uniq_groups,
+          server = FALSE
+        )
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "selectSurveyQuadrats",
+          choices = uniq_quadrats,
+          selected = uniq_quadrats,
+          server = FALSE
+        )
+        
+        
+      } else if(input$selectSurveyMethod == "selectYears"){
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "selectSurveyYears",
+          choices = uniq_years,
+          selected = uniq_years[1],
+          server = FALSE
+        )
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "selectSurveyGroups",
+          choices = NULL,
+          selected = NULL,
+          server = FALSE
+        )
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "selectSurveyQuadrats",
+          choices = NULL,
+          selected = NULL,
+          server = FALSE
+        )
+        
+        
+      } else if(input$selectSurveyMethod == "selectGroups"){
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "selectSurveyYears",
+          choices = NULL,
+          selected = NULL,
+          server = FALSE
+        )
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "selectSurveyGroups",
+          choices = uniq_groups,
+          selected = uniq_groups[1],
+          server = FALSE
+        )
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "selectSurveyQuadrats",
+          choices = NULL,
+          selected = NULL,
+          server = FALSE
+        )
+        
+        
+      } else if(input$selectSurveyMethod == "selectQuadrats"){
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "selectSurveyYears",
+          choices = NULL,
+          selected = NULL,
+          server = FALSE
+        )
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "selectSurveyGroups",
+          choices = NULL,
+          selected = NULL,
+          server = FALSE
+        )
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "selectSurveyQuadrats",
+          choices = uniq_quadrats,
+          selected = uniq_quadrats[1],
+          server = FALSE
+        )
+      }
+    }
+
+  }) |>
+    bindEvent(input$selectSurveyMethod,
+              ignoreInit = TRUE)
+  
+
+# Return sidebar options --------------------------------------------------
   return(sidebar_options)
   
 }

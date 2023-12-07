@@ -88,23 +88,10 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTablePr
     
     isolate({
       
+      # Prepare Survey Table
       surveyTablePrepped <- surveyTablePrepped()
       
-      # Species richness, per ID - Quadrat
-      speciesRichness_idQuad <- surveyTablePrepped |>
-        tidyr::unite(col = "ID", c(ID, Quadrat), sep = " - ", remove = TRUE) |>
-        dplyr::group_by(ID) |>
-        dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
-        dplyr::ungroup()
-      
-      # Species richness, per ID
-      speciesRichness_id <- surveyTablePrepped |>
-        dplyr::group_by(ID) |>
-        dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
-        dplyr::ungroup()
-      
-      # Simpson Diversity, per ID - Quadrat
-      simpsonDiversity_idQuad_matrix <- surveyTablePrepped |>
+      surveyTablePrepped_id_wide <- surveyTablePrepped |>
         dplyr::group_by(ID, Quadrat) |>
         tidyr::pivot_wider(names_from = Species,
                            values_from = Cover) |>
@@ -112,21 +99,42 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTablePr
         tibble::column_to_rownames(var = "ID") |>
         dplyr::mutate_all(~replace(., is.na(.), 0)) |>
         as.matrix() 
+
+# Alpha Diversity ---------------------------------------------------------
       
-      # print(simpsonDiversity_idQuad_matrix)
+      speciesRichness_idQuad <- surveyTablePrepped |>
+        tidyr::unite(col = "ID", c(ID, Quadrat), sep = " - ", remove = TRUE) |>
+        dplyr::group_by(ID) |>
+        dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
+        dplyr::ungroup()
+
+
+# Beta Diversity ----------------------------------------------------------
       
-      simpsonDiversity_idQuad_results <- simpsonDiversity_idQuad_matrix |>
+      # surveyTablePrepped_betadisper <- vegan::betadiver(surveyTablePrepped_id_wide)
+      surveyTablePrepped_w <- vegan::betadiver(surveyTablePrepped_id_wide, method = "w")
+      
+
+# Gamma Diversity ---------------------------------------------------------
+      
+      speciesRichness_id <- surveyTablePrepped |>
+        dplyr::group_by(ID) |>
+        dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
+        dplyr::ungroup()
+
+
+# Simpsons Diversity ------------------------------------------------------
+
+      simpsonDiversity <- surveyTablePrepped_id_wide |>
         vegan::diversity(index = "simpson") |>
         tibble::as_tibble(rownames = "ID") |> # column_name = "Simpson.Diversity"
         dplyr::rename("Simpson.Diversity" = "value")
       
-      # print(simpsonDiversity_idQuad_results)
+
       
-      # Create metricsTableIDQuad_data
       metricsTableIDQuad_data <- speciesRichness_idQuad |>
-        dplyr::left_join(simpsonDiversity_idQuad_results, by = "ID")
+        dplyr::left_join(simpsonDiversity, by = "ID")
       
-      # print(metricsTableIDQuad_data)
       
     })
     

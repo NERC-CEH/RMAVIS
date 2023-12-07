@@ -6,12 +6,20 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
   runAnalysis <- reactiveVal()
   dcaVars <- reactiveVal()
   ccaVars <- reactiveVal()
+  selectSurveyMethod <- reactiveVal()
+  selectSurveyYears <- reactiveVal()
+  selectSurveyQuadrats <- reactiveVal()
+  selectSurveyGroups <- reactiveVal()
   
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
     dcaVars(sidebar_options()$dcaVars)
     ccaVars(sidebar_options()$ccaVars)
+    selectSurveyMethod(sidebar_options()$selectSurveyMethod)
+    selectSurveyYears(sidebar_options()$selectSurveyYears)
+    selectSurveyQuadrats(sidebar_options()$selectSurveyQuadrats)
+    selectSurveyGroups(sidebar_options()$selectSurveyGroups)
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -19,6 +27,7 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
   
   dcaFixedSpaceResults <- reactiveVal()
   
+# Run DCA and CCA ---------------------------------------------------------
   observe({
     
     # Require selected objects are not NULL
@@ -33,7 +42,7 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
     )
     
     # Peform analysis in a reactive context without creating a reactive relationship
-    # shiny::isolate({
+    shiny::isolate({
       
       # Get all NVC communities and sub-communities from nvc assignment results
       NVC_communities_all <- nvcAverageSim() |>
@@ -169,7 +178,7 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
         arrow_plot_data <- surveyTable_dca_results_quadrats |>
           dplyr::arrange(Year) |>
           dplyr::select("Year" = Year, 
-                        # "Group" = Group,
+                        "Group" = Group,
                         "Quadrat" = Quadrat, 
                         "x" = DCA1, 
                         "y" = DCA2) |>
@@ -185,100 +194,153 @@ dcaFixedSpace <- function(input, output, session, surveyTable, nvcAverageSim, si
         
       }
       
-    # }) # close isolate
-    
-    # Create an interactive plot of the DCA results
-    output$dcaFixedSpacePlot <- plotly::renderPlotly({
-      
-      suppressWarnings(
-        
-        # Create ggplot2 plot
-        dcaFixedSpacePlot_plot <- ggplot2::ggplot() +
-          {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2, 
-                                                                    mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm))} +
-          {if("species" %in% dcaVars())ggplot2::geom_point(data = selected_pquads_dca_results_species,
-                                                           color = '#32a87d',
-                                                           shape = 18,
-                                                           mapping = ggplot2::aes(x = DCA1, 
-                                                                                  y = DCA2,
-                                                                                  Species = Species))} +
-          {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = selected_pquads_dca_results_quadrats_final,
-                                                                  mapping = ggplot2::aes(color = NVC.Comm,
-                                                                                         Quadrat = Quadrat,
-                                                                                         x = DCA1,
-                                                                                         y = DCA2))} +
-          {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = surveyTable_dca_results_quadrats,
-                                                                  color = 'black',
-                                                                  mapping = ggplot2::aes(Year = Year,
-                                                                                         # Group = Group,
-                                                                                         Quadrat = Quadrat,
-                                                                                         x = DCA1,
-                                                                                         y = DCA2))} +
-          {if("hillEllenberg" %in% dcaVars())ggplot2::geom_segment(data = CCA_arrowData,
-                                                                   color = 'black',
-                                                                   arrow = grid::arrow(),
-                                                                   mapping = ggplot2::aes(x = 0,
-                                                                                          y = 0,
-                                                                                          xend = CCA1,
-                                                                                          yend = CCA2,
-                                                                                          label = `Hill-Ellenberg`))} +
-          {if("hillEllenberg" %in% dcaVars())ggplot2::geom_text(data = CCA_arrowData,
-                                                                color = 'black',
-                                                                # position = ggplot2::position_dodge(width = 0.9),
-                                                                size = 5,
-                                                                mapping = ggplot2::aes(x = CCA1 * 1.075,
-                                                                                       y = CCA2 * 1.075,
-                                                                                       label = `Hill-Ellenberg`))} +
-          ggplot2::theme_minimal()
-        
-      )
-      
-      if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data)){
-        
-        if(nrow(arrow_plot_data) > 0){
-          
-          dcaFixedSpacePlot_plotly <- plotly::ggplotly(p = dcaFixedSpacePlot_plot) |>
-            plotly::add_annotations(data = arrow_plot_data,
-                                    showarrow = TRUE,
-                                    text = "",
-                                    xref = "x", axref = "x",
-                                    yref = "y", ayref = "y",
-                                    x = ~endX,
-                                    ax = ~x,
-                                    y = ~endY,
-                                    ay = ~y)
-          
-        }
-        
-      } else {
-        
-        dcaFixedSpacePlot_plotly <- plotly::ggplotly(p = dcaFixedSpacePlot_plot)
-      
-      }
-      
-      
-      return(dcaFixedSpacePlot_plotly)  
-      
-    })
-    
-    
-    # Stop busy spinner
-    shinybusy::remove_modal_spinner()
-    
+    }) # close isolate
     
     # Compose list of DCA results objects
     dcaFixedSpaceResults_list <- list("selected_pquads_dca_results_species_final" = selected_pquads_dca_results_species,
                                       "selected_pquads_dca_results_quadrats_final" = selected_pquads_dca_results_quadrats_final,
                                       "surveyTable_dca_results_quadrats" = surveyTable_dca_results_quadrats,
                                       "selected_pquads_dca_results_quadrats_final_hull" = selected_pquads_dca_results_quadrats_final_hull,
-                                      "arrow_plot_data" = arrow_plot_data)
+                                      "arrow_plot_data" = arrow_plot_data,
+                                      "CCA_arrowData" = CCA_arrowData)
     
     dcaFixedSpaceResults(dcaFixedSpaceResults_list)
     
+    shinybusy::remove_modal_spinner()
+      
+      
   }) |>
     bindEvent(runAnalysis(),
+              # dcaVars(),
+              ccaVars(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
+  
+  
+  
+
+# Subset data and create plot ---------------------------------------------
+    observe({
+      
+      dcaFixedSpaceResults <- dcaFixedSpaceResults()
+      
+      if(selectSurveyMethod() == "all"){
+        
+        surveyTable_dca_results_quadrats_selected <- dcaFixedSpaceResults$surveyTable_dca_results_quadrats
+        
+        arrow_plot_data_selected <- dcaFixedSpaceResults$arrow_plot_data
+        
+      } else if(selectSurveyMethod() == "selectYears"){
+        
+        surveyTable_dca_results_quadrats_selected <- dcaFixedSpaceResults$surveyTable_dca_results_quadrats |>
+          dplyr::filter(Year %in% selectSurveyYears())
+        
+        arrow_plot_data_selected <- dcaFixedSpaceResults$arrow_plot_data |>
+          dplyr::filter(Year %in% selectSurveyYears())
+        
+      } else if(selectSurveyMethod() == "selectGroups"){
+        
+        surveyTable_dca_results_quadrats_selected <- dcaFixedSpaceResults$surveyTable_dca_results_quadrats |>
+          dplyr::filter(Group %in% selectSurveyGroups())
+        
+        arrow_plot_data_selected <- dcaFixedSpaceResults$arrow_plot_data |>
+          dplyr::filter(Group %in% selectSurveyGroups())
+        
+      } else if(selectSurveyMethod() == "selectQuadrats"){
+        
+        surveyTable_dca_results_quadrats_selected <- dcaFixedSpaceResults$surveyTable_dca_results_quadrats |>
+          dplyr::filter(Quadrat %in% selectSurveyQuadrats())
+        
+        arrow_plot_data_selected <- dcaFixedSpaceResults$arrow_plot_data |>
+          dplyr::filter(Quadrat %in% selectSurveyQuadrats())
+        
+      }
+      
+      # Create an interactive plot of the DCA results
+      output$dcaFixedSpacePlot <- plotly::renderPlotly({
+        
+        suppressWarnings(
+          
+          # Create ggplot2 plot
+          dcaFixedSpacePlot_plot <- ggplot2::ggplot() +
+            {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = dcaFixedSpaceResults$selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2, 
+                                                                      mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm))} +
+            {if("species" %in% dcaVars())ggplot2::geom_point(data = selected_pquads_dca_results_species,
+                                                             color = '#32a87d',
+                                                             shape = 18,
+                                                             mapping = ggplot2::aes(x = DCA1, 
+                                                                                    y = DCA2,
+                                                                                    Species = Species))} +
+            {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = dcaFixedSpaceResults$selected_pquads_dca_results_quadrats_final,
+                                                                    mapping = ggplot2::aes(color = NVC.Comm,
+                                                                                           Quadrat = Quadrat,
+                                                                                           x = DCA1,
+                                                                                           y = DCA2))} +
+            {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = surveyTable_dca_results_quadrats_selected,
+                                                                    color = 'black',
+                                                                    mapping = ggplot2::aes(Year = Year,
+                                                                                           Group = Group,
+                                                                                           Quadrat = Quadrat,
+                                                                                           x = DCA1,
+                                                                                           y = DCA2))} +
+            {if("hillEllenberg" %in% dcaVars())ggplot2::geom_segment(data = dcaFixedSpaceResults$CCA_arrowData,
+                                                                     color = 'black',
+                                                                     arrow = grid::arrow(),
+                                                                     mapping = ggplot2::aes(x = 0,
+                                                                                            y = 0,
+                                                                                            xend = CCA1,
+                                                                                            yend = CCA2,
+                                                                                            label = `Hill-Ellenberg`))} +
+            {if("hillEllenberg" %in% dcaVars())ggplot2::geom_text(data = dcaFixedSpaceResults$CCA_arrowData,
+                                                                  color = 'black',
+                                                                  # position = ggplot2::position_dodge(width = 0.9),
+                                                                  size = 5,
+                                                                  mapping = ggplot2::aes(x = CCA1 * 1.075,
+                                                                                         y = CCA2 * 1.075,
+                                                                                         label = `Hill-Ellenberg`))} +
+            ggplot2::theme_minimal()
+          
+        )
+        
+        if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data_selected)){
+          
+          if(nrow(arrow_plot_data_selected) > 0){
+            
+            dcaFixedSpacePlot_plotly <- plotly::ggplotly(p = dcaFixedSpacePlot_plot) |>
+              plotly::add_annotations(data = arrow_plot_data_selected,
+                                      showarrow = TRUE,
+                                      text = "",
+                                      xref = "x", axref = "x",
+                                      yref = "y", ayref = "y",
+                                      x = ~endX,
+                                      ax = ~x,
+                                      y = ~endY,
+                                      ay = ~y)
+            
+          }
+          
+        } else {
+          
+          dcaFixedSpacePlot_plotly <- plotly::ggplotly(p = dcaFixedSpacePlot_plot)
+          
+        }
+        
+        
+        return(dcaFixedSpacePlot_plotly)  
+      
+      
+      })
+      
+    }) |>
+    bindEvent(dcaFixedSpaceResults(),
+              dcaVars(),
+              selectSurveyMethod(),
+              selectSurveyYears(),
+              selectSurveyGroups(),
+              selectSurveyQuadrats(),
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE)
+    
   
   # Return list of DCA results objects
   return(dcaFixedSpaceResults)

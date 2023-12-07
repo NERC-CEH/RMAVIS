@@ -2,6 +2,8 @@
 example_data_df <- readRDS(file = "data/bundled_data/example_data_df.rds")
 exampleDataOptions <- readRDS(file = "data/bundled_data/exampleDataOptions.rds")
 
+exampleData_pd <- readRDS(file = "./data/bundled_data/exampleData_pd.rds")
+
 
 # NVC floristic tables and community codes --------------------------------
 nvc_floristic_tables <- readRDS(file = "data/bundled_data/nvc_floristic_tables.rds")

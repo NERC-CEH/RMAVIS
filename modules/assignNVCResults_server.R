@@ -8,6 +8,7 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
   habitatRestriction <- reactiveVal()
   nTopResults <- reactiveVal()
   groupMethod <- reactiveVal() # TRUE
+  nvcAssignMethods <- reactiveVal()
 
   observe({
 
@@ -16,6 +17,7 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
     habitatRestriction(sidebar_options()$habitatRestriction)
     nTopResults(sidebar_options()$nTopResults)
     groupMethod(sidebar_options()$groupMethod)
+    nvcAssignMethods(sidebar_options()$nvcAssignMethods)
 
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -25,6 +27,7 @@ assignNVCResults <- function(input, output, session, surveyTable, sidebar_option
   
   observe({
     
+    req("pseudoQuadratQuadrat" %in% nvcAssignMethods())
     req(isFALSE(runAnalysis() == 0))
     
     shinybusy::show_modal_spinner(

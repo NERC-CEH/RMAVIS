@@ -68,6 +68,12 @@ The list of species available for entry is currently composed of:
   - The vascular plants present in @stace2010new, retrieved from @bsbi2014stace.
   - The bryophytes present in @blockeel2021.
   - The lichens, charophytes, and Algae present in the NVC floristic tables.
+  
+### Requirements
+
+- Each species name must match a species present in the accepted species list.
+- Each quadrat name must be unique, even if in a separate group.
+
 
 ### Manual Entry
 
@@ -78,7 +84,8 @@ The list of species available for entry is currently composed of:
 Three example datasets are bundled with MAVIS, which provide a means to explore
 the applications functionality.
 
-**Dataset 1**
+**Parsonage Down**
+Calcareous grassland. Repeat quadrats in 1970, 1990, and 2016 [@ridding2020]
 
 **Dataset 2**
 
@@ -131,10 +138,17 @@ Metrics assessed:
 
 - Total Species Richness
 - Simpson's Diversity Index [@simpson1949].
+- Beta diversity [@koleff2003]
 
-## Detrended Correspondence Analysis
+## Ordination
+
+### Detrended Correspondence Analysis
 
 Detrended Correspondence Analysis (DCA) [@hill1980dca]
+
+### Canonical Correspondence Analysis
+
+[@terBraak1986]
 
 ## Download Options
 

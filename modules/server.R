@@ -3,7 +3,10 @@ server <- function(input, output, session) {
 
   sidebar_options <- callModule(module = sidebar,
                                 id = "sidebar_id_1",
-                                nvcAverageSim = nvcAverageSim)
+                                surveyTable = surveyTable,
+                                nvcAverageSim = nvcAverageSim,
+                                floristicTables = floristicTables,
+                                dcaFixedSpaceResults = dcaFixedSpaceResults)
   
   uploadDataTable <- callModule(module = uploadData,
                                 id = "uploadData_id_1")

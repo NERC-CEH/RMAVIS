@@ -47,6 +47,7 @@ dcaFixedSpaceResults <- params$dcaFixedSpaceResults
 surveyTable_dca_results_quadrats <- dcaFixedSpaceResults$surveyTable_dca_results_quadrats
 selected_pquads_dca_results_quadrats_final_hull <- dcaFixedSpaceResults$selected_pquads_dca_results_quadrats_final_hull
 arrow_plot_data <- dcaFixedSpaceResults$arrow_plot_data
+CCA_arrowData <- dcaFixedSpaceResults$CCA_arrowData
 
 # dcaAllQuadratsResults
 dcaAllQuadratsResults <- params$dcaAllQuadratsResults
@@ -137,6 +138,21 @@ dcaFixedSpacePlot <- ggplot2::ggplot() +
                                                   # Quadrat = Quadrat,
                                                   x = DCA1,
                                                   y = DCA2)) +
+  ggplot2::geom_segment(data = CCA_arrowData,
+                        color = 'black',
+                        arrow = grid::arrow(),
+                        mapping = ggplot2::aes(x = 0,
+                                               y = 0,
+                                               xend = CCA1,
+                                               yend = CCA2,
+                                               label = `Hill-Ellenberg`)) +
+  ggplot2::geom_text(data = CCA_arrowData,
+                     color = 'black',
+                     # position = ggplot2::position_dodge(width = 0.9),
+                     size = 5,
+                     mapping = ggplot2::aes(x = CCA1 * 1.075,
+                                            y = CCA2 * 1.075,
+                                            label = `Hill-Ellenberg`)) +
   # ggplot2::geom_point(data = pquads_surveyTable_dca_results_species,
   #                     mapping = ggplot2::aes(x = DCA1, 
   #                                            y = DCA2,

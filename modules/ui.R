@@ -33,7 +33,7 @@ ui <- bslib::page_navbar(
     
   bslib::nav_panel(
     
-    "Main",
+    "Application",
     
     bslib::navset_card_tab(
       
@@ -143,6 +143,8 @@ ui <- bslib::page_navbar(
       full_screen = FALSE,
       
       fill = TRUE,
+      
+      # fillable = TRUE,
       
       bslib::card_header("Documentation"),
       

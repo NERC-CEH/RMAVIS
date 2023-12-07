@@ -96,6 +96,12 @@ sidebarUI <- function(id){
         
         icon = bsicons::bs_icon("clipboard2-data"),
         
+        shiny::selectizeInput(inputId = ns("nvcAssignMethods"),
+                              label = "Methods",
+                              choices = nvcAssignMethods_options,
+                              selected = "pseudoQuadratSite",
+                              multiple = TRUE),
+        
         bslib::layout_columns(
           
           col_widths = c(11, 1),
@@ -123,7 +129,7 @@ sidebarUI <- function(id){
           shiny::selectizeInput(inputId = ns("nTopResults"), 
                                 label = "Number of Top Results", 
                                 choices = c(1:10), 
-                                selected = 3, 
+                                selected = 5, 
                                 multiple = FALSE),
           
           bslib::popover(
@@ -280,6 +286,33 @@ sidebarUI <- function(id){
         
         icon = bsicons::bs_icon("arrows-angle-expand"),
         
+        shiny::selectizeInput(inputId = ns("selectSurveyMethod"),
+                              label = "Survey Quadrat Selection",
+                              choices = surveyQuadratSelection_options,
+                              selected = NULL,
+                              multiple = FALSE),
+        
+        shiny::selectizeInput(inputId = ns("selectSurveyYears"),
+                              label = "Select Survey Years",
+                              choices = selectSurveyYears_options,
+                              selected = NULL,
+                              multiple = TRUE,
+                              options = list(minItems = 1)),
+        
+        shiny::selectizeInput(inputId = ns("selectSurveyQuadrats"),
+                              label = "Select Survey Quadrats",
+                              choices = selectSurveyQuadrats_options,
+                              selected = NULL,
+                              multiple = TRUE,
+                              options = list(minItems = 1)),
+        
+        shiny::selectizeInput(inputId = ns("selectSurveyGroups"),
+                              label = "Select Survey Groups",
+                              choices = selectSurveyGroups_options,
+                              selected = c("F", "N"),
+                              multiple = TRUE,
+                              options = list(minItems = 1)),
+        
         bslib::layout_columns(
           
           col_widths = c(11, 1),
@@ -289,7 +322,7 @@ sidebarUI <- function(id){
                                 choices = ccaVars_options,
                                 selected = c("F", "N"),
                                 multiple = TRUE,
-                                options = list(minItems = 1,
+                                options = list(minItems = 2,
                                                maxItems = 3)),
           
           bslib::popover(
