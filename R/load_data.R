@@ -32,7 +32,7 @@ concordance_all <- readRDS(file = "./data/bundled_data/concordance_all.rds")
 
 # Pseudo-quadrat DCA scores -----------------------------------------------
 nvc_pquads_final_wide <- readRDS(file = "./data/bundled_data/nvc_pquads_final_wide.rds")
-nvc_pquad_dca_list <- readRDS(file = "./data/bundled_data/nvc_pquad_dca_list.rds")
+# nvc_pquad_dca_list <- readRDS(file = "./data/bundled_data/nvc_pquad_dca_list.rds")
 nvc_pquad_dca_all <- readRDS(file = "./data/bundled_data/nvc_pquad_dca_all.rds")
 
 
