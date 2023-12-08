@@ -7,7 +7,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   coverMethod <- reactiveVal()
   habitatRestriction <- reactiveVal()
   nTopResults <- reactiveVal()
-  nvcAssignMethods <- reactiveVal()
+  # nvcAssignMethods <- reactiveVal()
 
   observe({
 
@@ -15,20 +15,19 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     coverMethod(sidebar_options()$coverMethod)
     habitatRestriction(sidebar_options()$habitatRestriction)
     nTopResults(sidebar_options()$nTopResults)
-    nvcAssignMethods(sidebar_options()$nvcAssignMethods)
+    # nvcAssignMethods(sidebar_options()$nvcAssignMethods)
 
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
   
 # Calculate nvcAssignment results by site ----------------------------------------
+  nvcAssignmentQuadrat_rval <- reactiveVal()
+  nvcAssignmentGroup_rval <- reactiveVal()
   nvcAssignmentSite_rval <- reactiveVal()
   
   observe({
     
-    print(nvcAssignMethods())
-    
     req(isFALSE(runAnalysis() == 0))
-    # req("pseudoQuadratSite" %in% nvcAssignMethods())
     
     shinybusy::show_modal_spinner(
       spin = "fading-circle",
@@ -40,10 +39,16 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
       
       surveyTable <- surveyTable()
       
+      # assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
+      
       surveyTable_prepped <- surveyTable |>
-        dplyr::select(Year, Species) |>
-        dplyr::mutate("ID" = Year, .before = "Year", .keep = "unused") |>
+        tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = FALSE) |>
         dplyr::rename("species" = "Species")
+      
+      # Create a concordance to join back on to the results of nva_average_sim
+      surveyTable_IDs <- surveyTable_prepped |>
+        dplyr::select(ID, Year, Group, Quadrat) |>
+        dplyr::distinct()
       
       pquads_to_use <- nvc_pquads_final
       
@@ -51,38 +56,79 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
         pquads_to_use <- nvc_pquads_final |>
           dplyr::filter(stringr::str_detect(NVC, (stringr::str_c(habitatRestriction(), collapse = "|"))))
       }
-      
-      nvcAssignmentSite <- assignNVC::nvc_average_sim(samp_df = surveyTable_prepped,
-                                                      comp_df = pquads_to_use, # 
-                                                      spp_col = "species",
-                                                      samp_id = "ID",
-                                                      comp_id = "Pid3") |>
+
+      # Calculate NVC Similarity by Quadrat
+      nvcAssignmentQuadrat <- assignNVC::nvc_average_sim(samp_df = surveyTable_prepped,
+                                                         comp_df = pquads_to_use,
+                                                         spp_col = "species",
+                                                         samp_id = "ID",
+                                                         comp_id = "Pid3") |>
         dplyr::select("ID" = FOCAL_ID,
                       "Mean.Similarity" = MEAN_SIM, 
-                      "Standard.Deviation" = SD,
+                      # "Standard.Deviation" = SD,
                       "NVC.Code" = NVC) |>
         dplyr::group_by(ID) |>
-        dplyr::arrange(dplyr::desc(Mean.Similarity)) |>
         dplyr::slice(1:as.numeric(nTopResults())) |>
         dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
+        dplyr::ungroup() |>
+        dplyr::left_join(surveyTable_IDs, by = "ID")
+      
+      assign(x = "nvcAssignmentQuadrat", value = nvcAssignmentQuadrat, envir = .GlobalEnv)
+      
+      nvcAssignmentQuadrat_prepped <- nvcAssignmentQuadrat |>
+        tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = TRUE) |>
+        dplyr::select(ID, NVC.Code, Mean.Similarity) |>
+        dplyr::arrange(ID, dplyr::desc(Mean.Similarity))
+        
+      nvcAssignmentQuadrat_rval(nvcAssignmentQuadrat_prepped)
+      
+
+      # Calculate NVC Similarity by Group
+      nvcAssignmentGroup <- nvcAssignmentQuadrat |>
+        dplyr::select(-ID) |>
+        dplyr::group_by(Year, Group, NVC.Code) |>
+        dplyr::summarise("Mean.Similarity" = mean(Mean.Similarity), .groups = "drop") |>
+        dplyr::group_by(Year, Group) |>
+        dplyr::slice(1:as.numeric(nTopResults())) |>
         dplyr::ungroup()
       
-      nvcAssignmentSite_rval(nvcAssignmentSite)
+      nvcAssignmentGroup_prepped <- nvcAssignmentGroup |>
+        tidyr::unite(col = "ID", c("Year", "Group"), sep = " - ", remove = TRUE) |>
+        dplyr::select(ID, NVC.Code, Mean.Similarity) |>
+        dplyr::arrange(ID, dplyr::desc(Mean.Similarity))
+      
+      nvcAssignmentGroup_rval(nvcAssignmentGroup_prepped)
+
+
+      # Calculate NVC Similarity by Site
+      nvcAssignmentSite <- nvcAssignmentQuadrat |> #nvcAssignmentGroup |>
+        dplyr::group_by(Year, NVC.Code) |>
+        dplyr::summarise("Mean.Similarity" = mean(Mean.Similarity), .groups = "drop") |>
+        dplyr::group_by(Year) |>
+        dplyr::slice(1:as.numeric(nTopResults())) |>
+        dplyr::ungroup()
+      
+      nvcAssignmentSite_prepped <- nvcAssignmentSite |>
+        dplyr::mutate("ID" = Year, .keep = "unused") |>
+        dplyr::select(ID, NVC.Code, Mean.Similarity) |>
+        dplyr::arrange(ID, dplyr::desc(Mean.Similarity))
+      
+      nvcAssignmentSite_rval(nvcAssignmentSite_prepped)
+            
       
     })
-    
-    print(nvcAssignmentSite)
     
     shinybusy::remove_modal_spinner()
     
   }) |>
     bindEvent(runAnalysis(),
-              # nTopResults(), 
               ignoreInit = TRUE)
   
+  
+
+# NVC Assignment Site Table -----------------------------------------------
   nvcAssignmentSiteTable_init <- data.frame("ID" = character(),
                                             "Mean.Similarity" = numeric(),
-                                            "Standard.Deviation" = numeric(),
                                             "NVC.Code" = character()
   )
   
@@ -147,86 +193,24 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   
   outputOptions(output, "nvcAssignmentSiteTable", suspendWhenHidden = FALSE)
   
+
+# NVC Assignment Group Table ----------------------------------------------
+  nvcAssignmentGroupTable_init <- data.frame("ID" = character(),
+                                              "Mean.Similarity" = numeric(),
+                                              "NVC.Code" = character()
+                                              )
   
-# Calculate nvcAssignment results by group ----------------------------------------
-  nvcAssignment <- reactiveVal()
+  nvcAssignmentGroupTable_rval <- reactiveVal(nvcAssignmentGroupTable_init)
   
-  observe({
+  output$nvcAssignmentGroupTable <- rhandsontable::renderRHandsontable({
     
-    req(isFALSE(runAnalysis() == 0))
-    # req("pseudoQuadratGroup" %in% nvcAssignMethods())
-    
-    shinybusy::show_modal_spinner(
-      spin = "fading-circle",
-      color = "#3F9280",
-      text = "Calculating NVC Community Similarity"
-    )
-    
-    shiny::isolate({
-      
-      surveyTable <- surveyTable()
-      
-      # surveyTable_prepped <- surveyTable |>
-      #   dplyr::select(Year, Group, Quadrat, Species, Cover) |>
-      #   tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = FALSE) |>
-      #   dplyr::rename("species" = "Species")
-      
-      surveyTable_prepped <- surveyTable |>
-        dplyr::select(Year, Group, Quadrat, Species, Cover) |>
-        tidyr::unite(col = "ID", c("Year", "Group"), sep = " - ", remove = FALSE) |>
-        dplyr::select(-Quadrat) |>
-        dplyr::rename("species" = "Species")
-      
-      pquads_to_use <- nvc_pquads_final
-      
-      if(!is.null(habitatRestriction())){
-        pquads_to_use <- nvc_pquads_final |>
-          dplyr::filter(stringr::str_detect(NVC, (stringr::str_c(habitatRestriction(), collapse = "|"))))
-      }
-      
-      fitted_nvc <- assignNVC::nvc_average_sim(samp_df = surveyTable_prepped,
-                                               comp_df = pquads_to_use, # 
-                                               spp_col = "species",
-                                               samp_id = "ID",
-                                               comp_id = "Pid3") |>
-        dplyr::select("ID" = FOCAL_ID,
-                      "Mean.Similarity" = MEAN_SIM, 
-                      "Standard.Deviation" = SD,
-                      "NVC.Code" = NVC) |>
-        dplyr::group_by(ID) |>
-        dplyr::arrange(dplyr::desc(Mean.Similarity)) |>
-        dplyr::slice(1:as.numeric(nTopResults())) |>
-        dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
-        dplyr::ungroup()
-      
-      nvcAssignment(fitted_nvc)
-      
-    })
-    
-    shinybusy::remove_modal_spinner()
-    
-  }) |>
-    bindEvent(runAnalysis(),
-              # nTopResults(), 
-              ignoreInit = TRUE)
-  
-  nvcAssignmentTable_init <- data.frame("ID" = character(),
-                                        "Mean.Similarity" = numeric(),
-                                        "Standard.Deviation" = numeric(),
-                                        "NVC.Code" = character()
-                                        )
-  
-  nvcAssignmentTable_rval <- reactiveVal(nvcAssignmentTable_init)
-  
-  output$nvcAssignmentTable <- rhandsontable::renderRHandsontable({
-    
-    nvcAssignmentTable <- rhandsontable::rhandsontable(data = nvcAssignmentTable_init,
-                                                       rowHeaders = NULL,
-                                                       width = "100%"#,
-                                                       # overflow = "visible",
-                                                       # stretchH = "all"
-    ) |>
-      rhandsontable::hot_col(col = colnames(nvcAssignmentTable_init), halign = "htCenter", readOnly = TRUE) |>
+    nvcAssignmentGroupTable <- rhandsontable::rhandsontable(data = nvcAssignmentGroupTable_init,
+                                                            rowHeaders = NULL,
+                                                            width = "100%"#,
+                                                            # overflow = "visible",
+                                                            # stretchH = "all"
+                                                            ) |>
+      rhandsontable::hot_col(col = colnames(nvcAssignmentGroupTable_init), halign = "htCenter", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
@@ -237,28 +221,24 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
           })
         }")
     
-    return(nvcAssignmentTable)
+    return(nvcAssignmentGroupTable)
     
   })
   
   observe({
     
-    req(input$nvcAssignmentTable)
+    req(input$nvcAssignmentGroupTable)
     
-    shiny::isolate({
-      
-      nvcAssignment <- nvcAssignment()
-
-    })
+    nvcAssignmentGroup <- nvcAssignmentGroup_rval()
     
-    output$nvcAssignmentTable <- rhandsontable::renderRHandsontable({
+    output$nvcAssignmentGroupTable <- rhandsontable::renderRHandsontable({
       
-      nvcAssignmentTable <- rhandsontable::rhandsontable(data = nvcAssignment,
-                                                         rowHeaders = NULL#,
-                                                         # overflow = "visible",
-                                                         # stretchH = "all"
-      ) |>
-        rhandsontable::hot_col(col = colnames(nvcAssignment), halign = "htCenter", readOnly = TRUE) |>
+      nvcAssignmentGroupTable <- rhandsontable::rhandsontable(data = nvcAssignmentGroup,
+                                                              rowHeaders = NULL#,
+                                                              # overflow = "visible",
+                                                              # stretchH = "all"
+                                                              ) |>
+        rhandsontable::hot_col(col = colnames(nvcAssignmentGroup), halign = "htCenter", readOnly = TRUE) |>
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
         htmlwidgets::onRender("
@@ -269,17 +249,89 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
           })
         }")
       
-      return(nvcAssignmentTable)
+      return(nvcAssignmentGroupTable)
       
     })
     
   }) |>
-    bindEvent(nvcAssignment(), ignoreInit = TRUE, ignoreNULL = TRUE)
+    bindEvent(nvcAssignmentGroup_rval(), 
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE)
   
   
-  outputOptions(output, "nvcAssignmentTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "nvcAssignmentGroupTable", suspendWhenHidden = FALSE)
+  
+
+  # NVC Assignment Quadrat Table ----------------------------------------------
+  nvcAssignmentQuadratTable_init <- data.frame("ID" = character(),
+                                               "Mean.Similarity" = numeric(),
+                                               "NVC.Code" = character()
+  )
+  
+  nvcAssignmentQuadratTable_rval <- reactiveVal(nvcAssignmentQuadratTable_init)
+  
+  output$nvcAssignmentQuadratTable <- rhandsontable::renderRHandsontable({
+    
+    nvcAssignmentQuadratTable <- rhandsontable::rhandsontable(data = nvcAssignmentQuadratTable_init,
+                                                              rowHeaders = NULL,
+                                                              width = "100%"#,
+                                                              # overflow = "visible",
+                                                              # stretchH = "all"
+                                                              ) |>
+      rhandsontable::hot_col(col = colnames(nvcAssignmentQuadratTable_init), halign = "htCenter", readOnly = TRUE) |>
+      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+      htmlwidgets::onRender("
+        function(el, x) {
+          var hot = this.hot
+          $('a[data-value=\"nvcAssignment_panel\"').on('click', function(){
+            setTimeout(function() {hot.render();}, 0);
+          })
+        }")
+    
+    return(nvcAssignmentQuadratTable)
+    
+  })
+  
+  observe({
+    
+    req(input$nvcAssignmentQuadratTable)
+    
+    nvcAssignmentQuadrat <- nvcAssignmentQuadrat_rval()
+    
+    output$nvcAssignmentQuadratTable <- rhandsontable::renderRHandsontable({
+      
+      nvcAssignmentQuadratTable <- rhandsontable::rhandsontable(data = nvcAssignmentQuadrat,
+                                                                rowHeaders = NULL#,
+                                                                # overflow = "visible",
+                                                                # stretchH = "all"
+                                                                ) |>
+        rhandsontable::hot_col(col = colnames(nvcAssignmentQuadrat), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+        function(el, x) {
+          var hot = this.hot
+          $('a[data-value=\"nvcAssignment_panel\"').on('click', function(){
+            setTimeout(function() {hot.render();}, 0);
+          })
+        }")
+      
+      return(nvcAssignmentQuadratTable)
+      
+    })
+    
+  }) |>
+    bindEvent(nvcAssignmentQuadrat_rval(), 
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE)
   
   
-  return(nvcAssignment)
+  outputOptions(output, "nvcAssignmentQuadratTable", suspendWhenHidden = FALSE)
+  
+  
+
+# Return nvcAssignmentSiteTable data (nvcAssignmentSite_rval) -------------
+  return(nvcAssignmentSite_rval)
   
 }

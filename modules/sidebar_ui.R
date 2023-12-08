@@ -96,11 +96,11 @@ sidebarUI <- function(id){
         
         icon = bsicons::bs_icon("clipboard2-data"),
         
-        shiny::selectizeInput(inputId = ns("nvcAssignMethods"),
-                              label = "Methods",
-                              choices = nvcAssignMethods_options,
-                              selected = "pseudoQuadratSite",
-                              multiple = TRUE),
+        # shiny::selectizeInput(inputId = ns("nvcAssignMethods"),
+        #                       label = "Methods",
+        #                       choices = nvcAssignMethods_options,
+        #                       selected = "pseudoQuadratSite",
+        #                       multiple = TRUE),
         
         bslib::layout_columns(
           
