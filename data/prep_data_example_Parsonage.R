@@ -31,9 +31,12 @@ pd_1970_prepped <- pd_1970_raw |>
   dplyr::filter(Domin != "") |>
   dplyr::left_join(dominCoverMidPointPerc_df, by = "Domin") |>
   dplyr::select(-Domin) |>
-  dplyr::mutate("Year" = 1970, .before = "Group") |>
+  dplyr::mutate("Year" = as.integer(1970), .before = "Group") |>
   # Add transect prefix to quadrat name to ensure each quadratID is unique
-  dplyr::mutate("Quadrat" = paste0(Quadrat, ".", Group))
+  dplyr::mutate("Quadrat" = paste0(Quadrat, ".", Group)) |>
+  dplyr::mutate("Group" = paste0("Transect ", Group)) |>
+  # Remove records which aren't species
+  dplyr::filter(!(Species %in% c("Bare ground", "Litter", "Dung")))
 
 
 # Prep 1990 ---------------------------------------------------------------
@@ -50,9 +53,12 @@ pd_1990_prepped <- pd_1990_raw |>
   dplyr::filter(Domin != "") |>
   dplyr::left_join(dominCoverMidPointPerc_df, by = "Domin") |>
   dplyr::select(-Domin) |>
-  dplyr::mutate("Year" = 1990, .before = "Group") |>
+  dplyr::mutate("Year" = as.integer(1990), .before = "Group") |>
   # Add transect prefix to quadrat name to ensure each quadratID is unique
-  dplyr::mutate("Quadrat" = paste0(Quadrat, ".", Group))
+  dplyr::mutate("Quadrat" = paste0(Quadrat, ".", Group)) |>
+  dplyr::mutate("Group" = paste0("Transect ", Group)) |>
+  # Remove records which aren't species
+  dplyr::filter(!(Species %in% c("Bare ground", "Litter", "Dung")))
 
 # Prep 2016 ---------------------------------------------------------------
 pd_2016_prepped <- pd_2016_raw |>
@@ -68,9 +74,12 @@ pd_2016_prepped <- pd_2016_raw |>
   dplyr::filter(Domin != "") |>
   dplyr::left_join(dominCoverMidPointPerc_df, by = "Domin") |>
   dplyr::select(-Domin) |>
-  dplyr::mutate("Year" = 2016, .before = "Group") |>
+  dplyr::mutate("Year" = as.integer(2016), .before = "Group") |>
   # Add transect prefix to quadrat name to ensure each quadratID is unique
-  dplyr::mutate("Quadrat" = paste0(Quadrat, ".", Group))
+  dplyr::mutate("Quadrat" = paste0(Quadrat, ".", Group)) |>
+  dplyr::mutate("Group" = paste0("Transect ", Group)) |>
+  # Remove records which aren't species
+  dplyr::filter(!(Species %in% c("Bare ground", "Litter", "Dung")))
 
 
 # Clean Species Names -----------------------------------------------------

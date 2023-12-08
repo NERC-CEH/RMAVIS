@@ -1,7 +1,7 @@
 report <- function(input, output, session, 
-                   surveyTable, surveyTablePrepped, 
-                   nvcAverageSim, assignNVCResults,
-                   dcaFixedSpaceResults,
+                   surveyTable,
+                   nvcAverageSim,
+                   dcaSubsetNVCResults,
                    dcaAllQuadratsResults,
                    sidebar_options,
                    floristicTables) {
@@ -58,11 +58,9 @@ report <- function(input, output, session,
                         output_file = file,
                         params = list(
                           surveyTable = surveyTable(),
-                          surveyTablePrepped = surveyTablePrepped(),
                           nvcAverageSim = nvcAverageSim(),
-                          assignNVCResults = assignNVCResults(),
                           sidebar_options = sidebar_options(),
-                          dcaFixedSpaceResults = dcaFixedSpaceResults(),
+                          dcaSubsetNVCResults = dcaSubsetNVCResults(),
                           dcaAllQuadratsResults = dcaAllQuadratsResults(),
                           floristicTables = floristicTables()
                         ),

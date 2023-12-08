@@ -1,4 +1,4 @@
-calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_options) {
+calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
   
   ns <- session$ns
 
@@ -14,7 +14,8 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
   
 
 # Cover-weighted mean Hill-Ellenberg values -------------------------------
-  avgWeightedEIVsTable_init <- data.frame("ID" = character(),
+  avgWeightedEIVsTable_init <- data.frame("Year" = integer(),
+                                          "Group" = character(),
                                           "Quadrat" = character(),
                                           "Moisture.F" = double(),
                                           "Light.L" = double(),
@@ -51,32 +52,31 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
   observe({
     
     # shiny::req(input$avgEIVsTable) # Why do I not need this???????????????
-    shiny::req(surveyTablePrepped())
-    
-    # print(surveyTablePrepped())
+    shiny::req(surveyTable())
     
     # # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
       
-      surveyTablePrepped <- surveyTablePrepped()
+      surveyTable <- surveyTable()
       
-      avgWeightedEIVsTable <- surveyTablePrepped |>
+      avgWeightedEIVsTable <- surveyTable |>
         dplyr::rename("species" = "Species") |>
         dplyr::left_join(master_data, by = "species",
                          relationship = "many-to-many") |>
-        dplyr::select(ID, Quadrat, Cover, `F`, L, N, R, S) |>
+        dplyr::select(Year, Group, Quadrat, Cover, `F`, L, N, R, S) |>
         dplyr::mutate("F" = `F` * Cover,
                       "L" = L * Cover, 
                       "N" = N * Cover, 
                       "R" = R * Cover, 
                       "S" = S * Cover) |>
-        dplyr::group_by(ID, Quadrat) |>
+        dplyr::group_by(Year, Group, Quadrat) |>
         dplyr::summarise("Moisture.F" = sum(`F`, na.rm = TRUE),
                          "Light.L" = sum(L, na.rm = TRUE), 
                          "Nitrogen.N" = sum(N, na.rm = TRUE), 
                          "Reaction.R" = sum(R, na.rm = TRUE), 
                          "Salinity.S" = sum(S, na.rm = TRUE), .groups = "drop") |>
-        dplyr::ungroup()
+        dplyr::ungroup() |>
+        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE)
         
       
     })
@@ -108,13 +108,13 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
     
   }) |>
     bindEvent(runAnalysis(),
-              # surveyTablePrepped(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
 
 # Unweighted mean Hill-Ellenberg values -------------------------------
-  avgUnweightedEIVsTable_init <- data.frame("ID" = character(),
+  avgUnweightedEIVsTable_init <- data.frame("Year" = integer(),
+                                            "Group" = character(),
                                             "Quadrat" = character(),
                                             "Moisture.F" = double(),
                                             "Light.L" = double(),
@@ -151,27 +151,26 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
   observe({
     
     # shiny::req(input$avgEIVsTable) # Why do I not need this???????????????
-    shiny::req(surveyTablePrepped())
-    
-    # print(surveyTablePrepped())
+    shiny::req(surveyTable())
     
     # # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
       
-      surveyTablePrepped <- surveyTablePrepped()
+      surveyTable <- surveyTable()
       
-      avgUnweightedEIVsTable <- surveyTablePrepped |>
+      avgUnweightedEIVsTable <- surveyTable |>
         dplyr::rename("species" = "Species") |>
         dplyr::left_join(master_data, by = "species",
                          relationship = "many-to-many") |>
-        dplyr::select(ID, Quadrat, Cover, `F`, L, N, R, S) |>
-        dplyr::group_by(ID, Quadrat) |>
+        dplyr::select(Year, Group, Quadrat, Cover, `F`, L, N, R, S) |>
+        dplyr::group_by(Year, Group, Quadrat) |>
         dplyr::summarise("Moisture.F" = mean(`F`, na.rm = TRUE),
                          "Light.L" = mean(L, na.rm = TRUE), 
                          "Nitrogen.N" = mean(N, na.rm = TRUE), 
                          "Reaction.R" = mean(R, na.rm = TRUE), 
                          "Salinity.S" = mean(S, na.rm = TRUE), .groups = "drop") |>
-        dplyr::ungroup()
+        dplyr::ungroup() |>
+        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE)
       
       
     })
@@ -203,7 +202,6 @@ calcAvgEIVs <- function(input, output, session, surveyTablePrepped, sidebar_opti
     
   }) |>
     bindEvent(runAnalysis(),
-              # surveyTablePrepped(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   

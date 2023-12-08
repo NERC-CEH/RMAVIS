@@ -4,7 +4,6 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   
 # Retrieve sidebar options ------------------------------------------------
   
-  groupMethod <- reactiveVal()
   composedFloristicTable <- reactiveVal()
   nvcFloristicTable <- reactiveVal()
   crossTabulate <- reactiveVal()
@@ -12,7 +11,6 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
 
   observe({
 
-    groupMethod(sidebar_options()$groupMethod)
     composedFloristicTable(sidebar_options()$composedFloristicTable)
     nvcFloristicTable(sidebar_options()$nvcFloristicTable)
     crossTabulate(sidebar_options()$crossTabulate)
@@ -57,17 +55,11 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     shiny::req(input$floristicTables_composed)
     shiny::req(input$floristicTables_nvc)
     shiny::req(surveyTable())
-    # shiny::req(groupMethod())
 
     surveyTable <- surveyTable()
 
-    # groupMethod_cols <- names(groupMethod_options)[groupMethod_options %in% groupMethod()]
-    # print(groupMethod_cols)
-
     surveyTable_prepped <- surveyTable |>
       tidyr::unite(col = "ID", c("Year", "Group"), sep = " - ", remove = TRUE)
-
-    # pivot_col <- setdiff(c("Year", "Quadrat"), groupMethod_cols)
     
     floristicTables_composed_all <- data.frame("ID" = character(),
                                                "Species" = character(),
@@ -145,7 +137,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     
     floristicTables_composed_all_rval(floristicTables_composed_all)
     
-    assign(x = "floristicTables_composed_all", value = floristicTables_composed_all, envir = .GlobalEnv)
+    # assign(x = "floristicTables_composed_all", value = floristicTables_composed_all, envir = .GlobalEnv)
 
   }) |>
     bindEvent(runAnalysis(),

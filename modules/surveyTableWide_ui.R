@@ -1,4 +1,4 @@
-surveyTablePreppedUI <- function(id){
+surveyTableWideUI <- function(id){
   
   ns <- NS(id)
   
@@ -6,7 +6,7 @@ surveyTablePreppedUI <- function(id){
     shiny::column(
       width = 12,
       shiny::div(
-        # rhandsontable::rHandsontableOutput(outputId = ns("surveyTablePrepped"))
+        # rhandsontable::rHandsontableOutput(outputId = ns("surveyTableWide"))
         #, style = "margin-right: 5px !important;"
       )
     )

@@ -26,11 +26,8 @@ source("modules/uploadData_server.R", local = TRUE)
 source("modules/surveyTable_ui.R", local = TRUE)
 source("modules/surveyTable_server.R", local = TRUE)
 
-source("modules/surveyTablePrepped_ui.R", local = TRUE)
-source("modules/surveyTablePrepped_server.R", local = TRUE)
-
-source("modules/assignNVCResults_ui.R", local = TRUE)
-source("modules/assignNVCResults_server.R", local = TRUE)
+source("modules/surveyTableWide_ui.R", local = TRUE)
+source("modules/surveyTableWide_server.R", local = TRUE)
 
 source("modules/nvcAverageSim_ui.R", local = TRUE)
 source("modules/nvcAverageSim_server.R", local = TRUE)
@@ -47,11 +44,11 @@ source("modules/calcAvgEIVs_server.R", local = TRUE)
 source("modules/diversityAnalysis_ui.R", local = TRUE)
 source("modules/diversityAnalysis_server.R", local = TRUE)
 
-# source("modules/heatmap_ui.R", local = TRUE)
-# source("modules/heatmap_server.R", local = TRUE)
+source("modules/mvaAllNVC_ui.R", local = TRUE)
+source("modules/mvaAllNVC_server.R", local = TRUE)
 
-source("modules/dcaFixedSpace_ui.R", local = TRUE)
-source("modules/dcaFixedSpace_server.R", local = TRUE)
+source("modules/dcaSubsetNVC_ui.R", local = TRUE)
+source("modules/dcaSubsetNVC_server.R", local = TRUE)
 
 source("modules/dcaAllQuadrats_ui.R", local = TRUE)
 source("modules/dcaAllQuadrats_server.R", local = TRUE)

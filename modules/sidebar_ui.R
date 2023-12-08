@@ -139,26 +139,6 @@ sidebarUI <- function(id){
             paste0(""),
             placement = "bottom"
           )
-          
-        ),
-        
-        bslib::layout_columns(
-          
-          col_widths = c(11, 1),
-          
-          shiny::selectizeInput(inputId = ns("groupMethod"), 
-                                label = "Grouping Method", 
-                                choices = groupMethod_options,
-                                selected = c("year", "group"), 
-                                multiple = TRUE),
-          
-          bslib::popover(
-            bsicons::bs_icon("info-circle"),
-            title = "Grouping Method",
-            id = ns("groupMethodInfo"),
-            paste0(""),
-            placement = "bottom"
-          )
         )
       ),
       
@@ -282,7 +262,7 @@ sidebarUI <- function(id){
       
       bslib::accordion_panel(
         
-        "DCA", 
+        "Multivariate Analysis", 
         
         icon = bsicons::bs_icon("arrows-angle-expand"),
         

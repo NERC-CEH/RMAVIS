@@ -1,4 +1,4 @@
-dcaFixedSpaceUI <- function(id){
+dcaSubsetNVCUI <- function(id){
   
   ns <- NS(id)
   
@@ -17,7 +17,7 @@ dcaFixedSpaceUI <- function(id){
           #   placement = "bottom"
           # ),
         
-        plotly::plotlyOutput(outputId = ns("dcaFixedSpacePlot"), height = "600px")
+        plotly::plotlyOutput(outputId = ns("dcaSubsetNVCPlot"), height = "600px")
         
       )
 

@@ -1,7 +1,5 @@
 # Base R or tidyverse?
 
-# Convert surveyTable to surveyTablePrepped
-
 # Convert surveyTable to surveyTableWide
 
 # Calculate DCA using surveyTableWide and selected nvc_pquad_dca_list DCA results

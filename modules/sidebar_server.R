@@ -1,4 +1,4 @@
-sidebar <- function(input, output, session, surveyTable, nvcAverageSim, floristicTables, dcaFixedSpaceResults) {
+sidebar <- function(input, output, session, surveyTable, nvcAverageSim, floristicTables, dcaSubsetNVCResults) {
   
   ns <- session$ns
   
@@ -16,7 +16,6 @@ sidebar <- function(input, output, session, surveyTable, nvcAverageSim, floristi
       # "coverMethod" = input$coverMethod,
       "habitatRestriction" = input$habitatRestriction,
       "nTopResults" = input$nTopResults,
-      "groupMethod" = input$groupMethod,
       "habCorClass" = input$habCorClass,
       "composedFloristicTable" = input$composedFloristicTable,
       "nvcFloristicTable" = input$nvcFloristicTable,
@@ -39,7 +38,7 @@ sidebar <- function(input, output, session, surveyTable, nvcAverageSim, floristi
               input$exampleData, 
               input$runAnalysis, 
               # input$coverMethod, 
-              input$habitatRestriction, input$nTopResults, input$groupMethod,
+              input$habitatRestriction, input$nTopResults,
               input$habCorClass, input$composedFloristicTable,
               input$nvcFloristicTable, input$crossTabulate,
               input$restrictNVCFlorTablesOpts,
@@ -219,9 +218,9 @@ sidebar <- function(input, output, session, surveyTable, nvcAverageSim, floristi
 # Reactively update DCA survey quadrat selection options ------------------
   observe({
     
-    # print(dcaFixedSpaceResults())
+    # print(dcaSubsetNVCResults())
 
-    if(is.null(dcaFixedSpaceResults()) == FALSE){
+    if(is.null(dcaSubsetNVCResults()) == FALSE){
 
       uniq_years <- surveyTable() |>
         dplyr::pull(Year) |>

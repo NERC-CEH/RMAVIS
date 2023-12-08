@@ -5,12 +5,10 @@ output:
       in_header: "Report.preamble.tex"
 params: 
     surveyTable: NULL
-    surveyTablePrepped: NULL
     nvcAverageSim: NULL
-    assignNVCResults: NULL
     floristicTables: NULL
     sidebar_options: NULL
-    dcaFixedSpaceResults: NULL
+    dcaSubsetNVCResults: NULL
     dcaAllQuadratsResults: NULL
 bibliography: Report.refs.bib
 link-citations: yes
@@ -34,20 +32,18 @@ library(kableExtra)
 # sys.source("./create_constants.R", envir = knitr::knit_global())
 
 surveyTable <- params$surveyTable
-surveyTablePrepped <- params$surveyTablePrepped
 nvcAverageSim <- params$nvcAverageSim
-assignNVCResults <- params$assignNVCResults
 sidebar_options <- params$sidebar_options
 floristicTables <- params$floristicTables
 
-# dcaFixedSpaceResults
-dcaFixedSpaceResults <- params$dcaFixedSpaceResults
-# selected_pquads_dca_results_species_final <- dcaFixedSpaceResults$selected_pquads_dca_results_species
-# selected_pquads_dca_results_quadrats_final <- dcaFixedSpaceResults$selected_pquads_dca_results_quadrats_final
-surveyTable_dca_results_quadrats <- dcaFixedSpaceResults$surveyTable_dca_results_quadrats
-selected_pquads_dca_results_quadrats_final_hull <- dcaFixedSpaceResults$selected_pquads_dca_results_quadrats_final_hull
-arrow_plot_data <- dcaFixedSpaceResults$arrow_plot_data
-CCA_arrowData <- dcaFixedSpaceResults$CCA_arrowData
+# dcaSubsetNVCResults
+dcaSubsetNVCResults <- params$dcaSubsetNVCResults
+# selected_pquads_dca_results_species_final <- dcaSubsetNVCResults$selected_pquads_dca_results_species
+# selected_pquads_dca_results_quadrats_final <- dcaSubsetNVCResults$selected_pquads_dca_results_quadrats_final
+surveyTable_dca_results_quadrats <- dcaSubsetNVCResults$surveyTable_dca_results_quadrats
+selected_pquads_dca_results_quadrats_final_hull <- dcaSubsetNVCResults$selected_pquads_dca_results_quadrats_final_hull
+arrow_plot_data <- dcaSubsetNVCResults$arrow_plot_data
+CCA_arrowData <- dcaSubsetNVCResults$CCA_arrowData
 
 # dcaAllQuadratsResults
 dcaAllQuadratsResults <- params$dcaAllQuadratsResults
@@ -113,9 +109,9 @@ for(id in unique(floristicTables$ID)){
 
 ### Fixed Reference Space
 
-```{r dcaFixedSpace, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r dcaSubsetNVC, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-dcaFixedSpacePlot <- ggplot2::ggplot() +
+dcaSubsetNVCPlot <- ggplot2::ggplot() +
   ggplot2::geom_polygon(data = selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2,
                         mapping = ggplot2::aes(x = DCA1, 
                                                y = DCA2, 
@@ -163,7 +159,7 @@ dcaFixedSpacePlot <- ggplot2::ggplot() +
   #                    arrow = grid::arrow()) +
   ggplot2::theme_minimal()
 
-dcaFixedSpacePlot
+dcaSubsetNVCPlot
 
 ```
 
@@ -218,8 +214,8 @@ dcaAllQuadratsPlot
 
 ```{r samplesTable, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-samplesTable <- surveyTablePrepped |>
-  dplyr::select(ID) |>
+samplesTable <- surveyTable |>
+  dplyr::select(Year, Group, Quadrat) |>
   dplyr::distinct()
 
 kableExtra::kbl(x = samplesTable, format = "latex", booktabs = TRUE,

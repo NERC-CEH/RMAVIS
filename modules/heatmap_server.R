@@ -68,7 +68,6 @@ heatmap <- function(input, output, session, surveyTable, sidebar_options) {
     
   }) |>
     bindEvent(runAnalysis(),
-              # surveyTablePrepped(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   

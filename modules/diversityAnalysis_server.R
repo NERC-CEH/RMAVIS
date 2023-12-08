@@ -1,8 +1,8 @@
-diversityAnalysis <- function(input, output, session, surveyTable, surveyTablePrepped, sidebar_options) {
+diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWide, sidebar_options) {
   
   ns <- session$ns
   
-  # Retrieve sidebar options ------------------------------------------------
+# Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
   
   observe({
@@ -11,24 +11,25 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTablePr
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
+
+
+# Initialise Alpha Diversity Quadrat Table --------------------------------
+  alphaDiversityQuadratTable_init <- data.frame("Year" = integer(),
+                                                "Group" = character(),
+                                                "Quadrat" = character(),
+                                                "Richness" = double())
   
-  
-  metricsTableIDQuad_init <- data.frame("ID" = character(),
-                                        "Richness" = double(),
-                                        "Simpson.Diversity" = double()
-  )
+  alphaDiversityQuadratTable_rval <- reactiveVal(alphaDiversityQuadratTable_init)
 
-  metricsTableIDQuad_rval <- reactiveVal(metricsTableIDQuad_init)
+  output$alphaDiversityQuadratTable <- rhandsontable::renderRHandsontable({
 
-  output$metricsTableIDQuad <- rhandsontable::renderRHandsontable({
-
-    metricsTableIDQuad <- rhandsontable::rhandsontable(data = metricsTableIDQuad_init,
-                                                       rowHeaders = NULL,
-                                                       width = "100%"#,
-                                                       # overflow = "visible",
-                                                       # stretchH = "all"
-                                                       ) |>
-      rhandsontable::hot_col(col = colnames(metricsTableIDQuad_init), halign = "htCenter", readOnly = TRUE) |>
+    alphaDiversityQuadratTable <- rhandsontable::rhandsontable(data = alphaDiversityQuadratTable_init,
+                                                               rowHeaders = NULL,
+                                                               width = "100%"#,
+                                                               # overflow = "visible",
+                                                               # stretchH = "all"
+                                                               ) |>
+      rhandsontable::hot_col(col = colnames(alphaDiversityQuadratTable_init), halign = "htCenter", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
@@ -39,25 +40,36 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTablePr
         })
       }")
 
-    return(metricsTableIDQuad)
+    return(alphaDiversityQuadratTable)
 
   })
   
-  metricsTableID_init <- data.frame("ID" = character(),
-                                    "Richness" = double()
+  
+# Initialise Alpha Diversity Group Table --------------------------------
+
+  
+# Initialise Beta Diversity Quadrat Table ---------------------------------
+
+
+# Initialise Beta Diversity Group Table -----------------------------------
+  
+
+# Initialise Gamma Diversity Site Table -----------------------------------
+  gammaDiversitySiteTable_init <- data.frame("Year" = integer(),
+                                             "Richness" = double()
   )
   
-  metricsTableID_rval <- reactiveVal(metricsTableID_init)
+  gammaDiversitySiteTable_rval <- reactiveVal(gammaDiversitySiteTable_init)
   
-  output$metricsTableID <- rhandsontable::renderRHandsontable({
+  output$gammaDiversitySiteTable <- rhandsontable::renderRHandsontable({
     
-    metricsTableID <- rhandsontable::rhandsontable(data = metricsTableID_init,
-                                                 rowHeaders = NULL,
-                                                 width = "100%"#,
-                                                 # overflow = "visible",
-                                                 # stretchH = "all"
-                                                 ) |>
-      rhandsontable::hot_col(col = colnames(metricsTableID_init), halign = "htCenter", readOnly = TRUE) |>
+    gammaDiversitySiteTable <- rhandsontable::rhandsontable(data = gammaDiversitySiteTable_init,
+                                                            rowHeaders = NULL,
+                                                            width = "100%"#,
+                                                            # overflow = "visible",
+                                                            # stretchH = "all"
+                                                            ) |>
+      rhandsontable::hot_col(col = colnames(gammaDiversitySiteTable_init), halign = "htCenter", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
@@ -68,11 +80,13 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTablePr
         })
       }")
     
-    return(metricsTableID)
+    return(gammaDiversitySiteTable)
     
   })
   
   
+
+# Calculate Diversity Metrics, Update Tables ------------------------------
   observe({
     
     shinybusy::show_modal_spinner(
@@ -81,119 +95,112 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTablePr
       text = "Calculating Diversity Metrics"
     )
     
-    shiny::req(surveyTablePrepped())
+    shiny::req(surveyTableWide())
     
     # shiny::req(input$metricsTableIDQuad)
     # shiny::req(input$metricsTableID)
     
     isolate({
       
-      # Prepare Survey Table
-      surveyTablePrepped <- surveyTablePrepped()
-      
-      surveyTablePrepped_id_wide <- surveyTablePrepped |>
-        dplyr::group_by(ID, Quadrat) |>
-        tidyr::pivot_wider(names_from = Species,
-                           values_from = Cover) |>
-        tidyr::unite(col = "ID", c(ID, Quadrat), sep = " - ", remove = TRUE) |>
-        tibble::column_to_rownames(var = "ID") |>
-        dplyr::mutate_all(~replace(., is.na(.), 0)) |>
-        as.matrix() 
+      surveyTable <- surveyTable()
+      surveyTableWide <- surveyTableWide()
 
 # Alpha Diversity ---------------------------------------------------------
       
-      speciesRichness_idQuad <- surveyTablePrepped |>
-        tidyr::unite(col = "ID", c(ID, Quadrat), sep = " - ", remove = TRUE) |>
-        dplyr::group_by(ID) |>
+      alphaDiversity_quadrat <- surveyTable |>
+        dplyr::group_by(Year, Group, Quadrat) |>
         dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
-        dplyr::ungroup()
+        dplyr::ungroup() |>
+        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE)
+      
+      alphaDiversity_group <- surveyTable |>
+        dplyr::group_by(Year, Group) |>
+        dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
+        dplyr::ungroup() |>
+        tidyr::unite(col = "ID", c(Year, Group), sep = " - ", remove = TRUE)
+      
+      output$alphaDiversityQuadratTable <- rhandsontable::renderRHandsontable({
+        
+        alphaDiversityQuadratTable <- rhandsontable::rhandsontable(data = alphaDiversity_quadrat,
+                                                                   rowHeaders = NULL,
+                                                                   width = "100%"#,
+                                                                   # overflow = "visible",
+                                                                   # stretchH = "all"
+        ) |>
+          rhandsontable::hot_col(col = colnames(alphaDiversity_quadrat), halign = "htCenter", readOnly = TRUE) |>
+          rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+          rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+          htmlwidgets::onRender("
+          function(el, x) {
+            var hot = this.hot
+            $('a[data-value=\"diversity_panel\"').on('click', function(){
+              setTimeout(function() {hot.render();}, 0);
+            })
+          }")
+        
+        return(alphaDiversityQuadratTable)
+        
+      })
+      
+      alphaDiversityQuadratTable_rval(rhandsontable::hot_to_r(input$alphaDiversityQuadratTable))
 
 
 # Beta Diversity ----------------------------------------------------------
       
-      # surveyTablePrepped_betadisper <- vegan::betadiver(surveyTablePrepped_id_wide)
-      surveyTablePrepped_w <- vegan::betadiver(surveyTablePrepped_id_wide, method = "w")
+      # surveyTableWide_betadisper <- vegan::betadiver(surveyTableWide_id_wide)
+      # surveyTableWide_w <- vegan::betadiver(surveyTableWide_id_wide, method = "w")
       
 
 # Gamma Diversity ---------------------------------------------------------
       
-      speciesRichness_id <- surveyTablePrepped |>
-        dplyr::group_by(ID) |>
+      gammaDiversity_site <- surveyTable |>
+        dplyr::group_by(Year) |>
         dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
-        dplyr::ungroup()
+        dplyr::ungroup() |>
+        dplyr::mutate("ID" = Year, .before = "Year", .keep = "unused")
+      
+      output$gammaDiversitySiteTable <- rhandsontable::renderRHandsontable({
+        
+        gammaDiversitySiteTable <- rhandsontable::rhandsontable(data = gammaDiversity_site,
+                                                                rowHeaders = NULL,
+                                                                width = "100%"#,
+                                                                # overflow = "visible",
+                                                                # stretchH = "all"
+        ) |>
+          rhandsontable::hot_col(col = colnames(gammaDiversity_site), halign = "htCenter", readOnly = TRUE) |>
+          rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+          rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+          htmlwidgets::onRender("
+          function(el, x) {
+            var hot = this.hot
+            $('a[data-value=\"diversity_panel\"').on('click', function(){
+              setTimeout(function() {hot.render();}, 0);
+            })
+          }")
+        
+        return(gammaDiversitySiteTable)
+        
+      })
+      
+      gammaDiversitySiteTable_rval(rhandsontable::hot_to_r(input$gammaDiversitySiteTable))
 
 
 # Simpsons Diversity ------------------------------------------------------
 
-      simpsonDiversity <- surveyTablePrepped_id_wide |>
+      simpsonDiversity <- surveyTableWide |>
         vegan::diversity(index = "simpson") |>
-        tibble::as_tibble(rownames = "ID") |> # column_name = "Simpson.Diversity"
+        tibble::as_tibble(rownames = "ID") |>
         dplyr::rename("Simpson.Diversity" = "value")
       
-
-      
-      metricsTableIDQuad_data <- speciesRichness_idQuad |>
-        dplyr::left_join(simpsonDiversity, by = "ID")
-      
       
     })
     
-    output$metricsTableIDQuad <- rhandsontable::renderRHandsontable({
-      
-      metricsTableIDQuad <- rhandsontable::rhandsontable(data = metricsTableIDQuad_data,
-                                                         rowHeaders = NULL,
-                                                         width = "100%"#,
-                                                         # overflow = "visible",
-                                                         # stretchH = "all"
-      ) |>
-        rhandsontable::hot_col(col = colnames(metricsTableIDQuad_data), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-          function(el, x) {
-            var hot = this.hot
-            $('a[data-value=\"diversity_panel\"').on('click', function(){
-              setTimeout(function() {hot.render();}, 0);
-            })
-          }")
-      
-      return(metricsTableIDQuad)
-      
-    })
     
-    metricsTableIDQuad_rval(rhandsontable::hot_to_r(input$metricsTableIDQuad))
-    
-    
-    output$metricsTableID <- rhandsontable::renderRHandsontable({
-      
-      metricsTableID <- rhandsontable::rhandsontable(data = speciesRichness_id,
-                                                     rowHeaders = NULL,
-                                                     width = "100%"#,
-                                                     # overflow = "visible",
-                                                     # stretchH = "all"
-                                                     ) |>
-        rhandsontable::hot_col(col = colnames(speciesRichness_id), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-          function(el, x) {
-            var hot = this.hot
-            $('a[data-value=\"diversity_panel\"').on('click', function(){
-              setTimeout(function() {hot.render();}, 0);
-            })
-          }")
-      
-      return(metricsTableID)
-      
-    })
-    
-    metricsTableID_rval(rhandsontable::hot_to_r(input$metricsTableID))
     
     shinybusy::remove_modal_spinner()
     
   }) |>
     bindEvent(runAnalysis(),
-              # surveyTablePrepped(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   

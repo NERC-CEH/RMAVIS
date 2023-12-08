@@ -10,11 +10,6 @@ nvcAssignMethods_options <- c("Pseudo-quadrat, per site" = "pseudoQuadratSite",
 # "Czekanowski" = "czekanowski"
 
 
-# Group Method Options ----------------------------------------------------
-groupMethod_options <- c("Year" = "year",
-                         "Group" = "group",
-                         "Quadrat" = "quadrat")
-
 # Data Entry Format Options -----------------------------------------------
 dataEntryFormat_options <- c("Long" = "long",
                              "Wide" = "wide")

@@ -157,7 +157,8 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
       # Create convex hulls around the pseudo-quadrat DCA points.
       pquads_surveyTable_dca_results_quadrats_hull <- pquads_surveyTable_dca_results_quadrats_pquads |>
         dplyr::group_by(NVC.Comm) |>
-        dplyr::slice(grDevices::chull(DCA1, DCA2))
+        dplyr::slice(grDevices::chull(DCA1, DCA2)) |>
+        dplyr::ungroup()
       
       # Prepare the data required to draw arrows between points, ordered by Year
       if(length(unique(pquads_surveyTable_dca_results_quadrats_sample$Year)) > 1){

@@ -57,9 +57,7 @@ ui <- bslib::page_navbar(
         
         bslib::card_header("NVC Assignment"),
         
-        nvcAverageSimUI(id = "nvcAverageSim_id_1"),
-        
-        assignNVCResultsUI(id = "assignNVCResults_id_1")
+        nvcAverageSimUI(id = "nvcAverageSim_id_1")
         
       ),
       
@@ -117,17 +115,17 @@ ui <- bslib::page_navbar(
         
         value = "dca_panel",
         
-        bslib::card_header("DCA"),
-        
-        shiny::h5("Detrended Correspondence Analysis"),
+        bslib::card_header("Multivariate Analysis"),
         
         bslib::layout_columns(
           
           col_widths = c(6, 6),
           
-          dcaFixedSpaceUI(id = "dcaFixedSpace_id_1"),
+          mvaAllNVCUI(id = "mvaAllNVC_id_1"),
           
-          dcaAllQuadratsUI(id = "dcaAllQuadrats_id_1")
+          dcaSubsetNVCUI(id = "dcaSubsetNVC_id_1")#,
+          
+          # dcaAllQuadratsUI(id = "dcaAllQuadrats_id_1")
           
         )
       )

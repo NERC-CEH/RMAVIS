@@ -27,7 +27,7 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
 
 # Initial survey table data -----------------------------------------------
 
-  surveyTable_init <- data.frame("Year" = as.character(rep(as.numeric(format(Sys.Date(), "%Y")), 20)),
+  surveyTable_init <- data.frame("Year" = as.integer(rep(as.numeric(format(Sys.Date(), "%Y")), 20)),
                                  "Group" = as.character(rep("A", 20)),
                                  "Quadrat" = as.character(rep("1", 20)),
                                  "Species" = as.character(rep("", 20)),
@@ -106,7 +106,7 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
         
         surveyTable <- exampleData_pd
         
-        # surveyTableWide <- surveyTable |>
+        # surveyTable <- surveyTable |>
         #   # tidyr::unite(col = "ID", c(Year, Site, Group, Quadrat), sep = " - ", remove = TRUE) |>
         #   dplyr::select(Quadrat, Species, Cover) |>
         #   dplyr::filter(!is.na(Cover)) |>
@@ -117,7 +117,7 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
         #   tibble::column_to_rownames(var = "Quadrat")
         # 
         # write.csv(x = surveyTable, file = "./data/bundled_data/example_data_long.csv", row.names = FALSE)
-        # write.csv(x = surveyTableWide, file = "./data/bundled_data/example_data_wide.csv", row.names = TRUE)
+        # write.csv(x = surveyTable, file = "./data/bundled_data/example_data_wide.csv", row.names = TRUE)
         
       } else if(inputMethod() == "upload"){
         

@@ -59,7 +59,27 @@ body {
 # Introduction
 The Modular Analysis of Vegetation Information System (MAVIS)...
 
+## Aims
+
+MAVIS aims to...
+
+1. Assist in the assignment of a set of sample quadrats to the closest NVC communities.
+2. Assist in the identification of site properties.
+3. ... This element of MAVIS is intended as an exploratory tool, not ....
+
+## Scope
+
+MAVIS is designed to analyse vegetation survey data for a single site...
+
+# Instructions and Methodology
+
 ## Survey Data
+
+### Requirements
+
+- Each species value must match a species present in the accepted species list.
+- Each quadrat value must be unique, even if in a separate group.
+- Each year value must be a four digit integer.
 
 Three methods for entering data into MAVIS are provided; manual, upload, and example.
 
@@ -68,11 +88,6 @@ The list of species available for entry is currently composed of:
   - The vascular plants present in @stace2010new, retrieved from @bsbi2014stace.
   - The bryophytes present in @blockeel2021.
   - The lichens, charophytes, and Algae present in the NVC floristic tables.
-  
-### Requirements
-
-- Each species name must match a species present in the accepted species list.
-- Each quadrat name must be unique, even if in a separate group.
 
 
 ### Manual Entry
@@ -85,16 +100,17 @@ Three example datasets are bundled with MAVIS, which provide a means to explore
 the applications functionality.
 
 **Parsonage Down**
-Calcareous grassland. Repeat quadrats in 1970, 1990, and 2016 [@ridding2020]
+Calcareous grassland. Transect Survey. Repeat quadrats in 1970, 1990, and 2016 [@ridding2020]
 
 **Dataset 2**
+Bunce woodland Survey.
 
 **Dataset 3**
 
 
 ## NVC Assignment
 
-Two methods are available for assigning NVC
+Two methods are available for the assignment of NVC communities.
 
 1.  An R implementation of the Modular Analysis of Vegetation Information System 
     (MAVIS). This method uses the Czekanowski index [@bloom1981] to 
@@ -112,9 +128,12 @@ Two methods are available for assigning NVC
 Habitat correspondence data is drawn from the Joint Nature Conservation Committee 
 (JNCC) Spreadsheet of Habitat Correspondences [@jncc2008].
 
-Currently, habitat correspondence data for UKHab is drawn from UKHab V1.1.
+Currently, habitat correspondence data for UKHab is drawn from UKHab V1.1 [@butcher2020].
 
 ## Floristic Tables
+
+To aid in the NVC assignment process and as an exploratory tool the Floristic Tables
+section of MAVIS allows the user to view a composed floristic table for...
 
 ## Analysis Metrics
 
@@ -142,6 +161,8 @@ Metrics assessed:
 
 ## Ordination
 
+The ordination section of MAVIS aims to allow the user to explore...
+
 ### Detrended Correspondence Analysis
 
 Detrended Correspondence Analysis (DCA) [@hill1980dca]
@@ -151,5 +172,27 @@ Detrended Correspondence Analysis (DCA) [@hill1980dca]
 [@terBraak1986]
 
 ## Download Options
+
+# Acknowledgements
+
+# Author Contribution
+
+Contributions towards the development of the application, in accordance with [CRediT (Contributor Roles Taxonomy)](https://credit.niso.org/), are:
+
+**Zeke Marshall:**
+**Simon Smart:**
+**Colin Harrower:**
+
+
+# Reccomended Citation
+
+```{bash bibtexRef}
+
+
+
+```
+
+
+
 
 # References
