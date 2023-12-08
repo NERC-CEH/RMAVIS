@@ -8,7 +8,7 @@ dcaAllQuadratsUI <- function(id){
       
       shiny::div(
         
-        shiny::h5("All Quadrats"),
+        shiny::h5("Local Reference (Unrestricted)"),
         
         plotly::plotlyOutput(outputId = ns("dcaAllQuadratsPlot"), height = "600px")
         

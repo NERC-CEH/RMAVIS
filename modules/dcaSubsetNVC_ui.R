@@ -8,7 +8,7 @@ dcaSubsetNVCUI <- function(id){
 
       shiny::div(
         
-        shiny::h5("Local Reference"),# |>
+        shiny::h5("Local Reference (Restricted)"),# |>
           
           # bslib::popover(
           #   bsicons::bs_icon("info-circle"),

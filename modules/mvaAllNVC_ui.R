@@ -8,7 +8,7 @@ mvaAllNVCUI <- function(id){
 
       shiny::div(
         
-        shiny::h5("Global Reference"),
+        shiny::h5("National Reference"),
         
         plotly::plotlyOutput(outputId = ns("mvaAllNVCPlot"), height = "600px")
         
