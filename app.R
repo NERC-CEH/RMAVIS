@@ -2,11 +2,11 @@
 
 # shinyOptions(bslib = TRUE)
 
-# Load constants into memory ----------------------------------------------
-source("R/create_constants.R", local = TRUE)
-
 # Load data into memory ---------------------------------------------------
 source("R/load_data.R", local = TRUE)
+
+# Load constants into memory ----------------------------------------------
+source("R/create_constants.R", local = TRUE)
 
 # Render documentation ----------------------------------------------------
 source("R/render_docs.R", local = TRUE)
@@ -17,6 +17,9 @@ source("R/functions.R", local = TRUE) # Do I need to switch this to global to al
 # Source sub-modules ------------------------------------------------------
 source("modules/documentation_ui.R", local = TRUE)
 
+source("modules/nvcInfo_ui.R", local = TRUE)
+source("modules/nvcInfo_server.R", local = TRUE)
+
 source("modules/sidebar_ui.R", local = TRUE)
 source("modules/sidebar_server.R", local = TRUE)
 
@@ -25,6 +28,9 @@ source("modules/uploadData_server.R", local = TRUE)
 
 source("modules/surveyTable_ui.R", local = TRUE)
 source("modules/surveyTable_server.R", local = TRUE)
+
+# source("modules/surveyTableSummary_ui.R", local = TRUE)
+# source("modules/surveyTableSummary_server.R", local = TRUE)
 
 source("modules/surveyTableWide_ui.R", local = TRUE)
 source("modules/surveyTableWide_server.R", local = TRUE)

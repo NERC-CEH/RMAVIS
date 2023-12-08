@@ -6,6 +6,7 @@ mvaAllNVC <- function(input, output, session, surveyTable, nvcAverageSim, sideba
   runAnalysis <- reactiveVal()
   dcaVars <- reactiveVal()
   ccaVars <- reactiveVal()
+  globalReferenceSpaces <- reactiveVal()
   selectSurveyMethod <- reactiveVal()
   selectSurveyYears <- reactiveVal()
   selectSurveyQuadrats <- reactiveVal()
@@ -16,6 +17,7 @@ mvaAllNVC <- function(input, output, session, surveyTable, nvcAverageSim, sideba
     runAnalysis(sidebar_options()$runAnalysis)
     dcaVars(sidebar_options()$dcaVars)
     ccaVars(sidebar_options()$ccaVars)
+    globalReferenceSpaces(sidebar_options()$globalReferenceSpaces)
     selectSurveyMethod(sidebar_options()$selectSurveyMethod)
     selectSurveyYears(sidebar_options()$selectSurveyYears)
     selectSurveyQuadrats(sidebar_options()$selectSurveyQuadrats)
@@ -199,6 +201,9 @@ mvaAllNVC <- function(input, output, session, surveyTable, nvcAverageSim, sideba
         
       }
       
+      nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls |>
+        dplyr::filter(NVC %in% globalReferenceSpaces())
+      
       # Create an interactive plot of the DCA results
       output$mvaAllNVCPlot <- plotly::renderPlotly({
         
@@ -206,19 +211,14 @@ mvaAllNVC <- function(input, output, session, surveyTable, nvcAverageSim, sideba
           
           # Create ggplot2 plot
           mvaAllNVCPlot_plot <- ggplot2::ggplot() +
-            {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = nvc_pquad_dca_all_hulls_habitat, alpha = 0.2, 
-                                                                      mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Habitat))} + #NVC.Comm))} +
+            {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = nvc_pquad_dca_all_hulls_selected, alpha = 0.2, 
+                                                                      mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC))} +
             {if("species" %in% dcaVars())ggplot2::geom_point(data = selected_pquads_dca_results_species,
                                                              color = '#32a87d',
                                                              shape = 18,
                                                              mapping = ggplot2::aes(x = DCA1, 
                                                                                     y = DCA2,
                                                                                     Species = Species))} +
-            # {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = mvaAllNVCResults$selected_pquads_dca_results_quadrats_final,
-            #                                                         mapping = ggplot2::aes(color = NVC.Comm,
-            #                                                                                Quadrat = Quadrat,
-            #                                                                                x = DCA1,
-            #                                                                                y = DCA2))} +
             {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = surveyTable_dca_results_quadrats_selected,
                                                                     color = 'black',
                                                                     mapping = ggplot2::aes(Year = Year,
@@ -277,6 +277,7 @@ mvaAllNVC <- function(input, output, session, surveyTable, nvcAverageSim, sideba
     }) |>
     bindEvent(mvaAllNVCResults(),
               dcaVars(),
+              globalReferenceSpaces(),
               selectSurveyMethod(),
               selectSurveyYears(),
               selectSurveyGroups(),

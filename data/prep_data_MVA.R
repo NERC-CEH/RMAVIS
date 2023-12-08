@@ -104,8 +104,8 @@ nvc_pquad_dca_all_hulls_subComm <- vegan::scores(nvc_pquad_dca_all, tidy = TRUE)
   dplyr::filter(score == "sites") |>
   dplyr::select(-score, -weight) |>
   dplyr::rename("Quadrat" = label) |>
-  dplyr::mutate("NVC.SubComm" = stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)")) |>
-  dplyr::group_by(NVC.SubComm) |>
+  dplyr::mutate("NVC" = stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)")) |>
+  dplyr::group_by(NVC) |>
   dplyr::slice(grDevices::chull(DCA1, DCA2)) |>
   dplyr::ungroup()
 
@@ -114,42 +114,50 @@ nvc_pquad_dca_all_hulls_subComm <- vegan::scores(nvc_pquad_dca_all, tidy = TRUE)
 #                         mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.SubComm)) +
 #   ggplot2::theme_minimal()
 
-saveRDS(object = nvc_pquad_dca_all_hulls_subComm, file = "./data/bundled_data/nvc_pquad_dca_all_hulls_subComm.rds")
+# saveRDS(object = nvc_pquad_dca_all_hulls_subComm, file = "./data/bundled_data/nvc_pquad_dca_all_hulls_subComm.rds")
 
 # Produce hulls for each Community ----------------------------------------
 nvc_pquad_dca_all_hulls_Comm <- vegan::scores(nvc_pquad_dca_all, tidy = TRUE) |>
   dplyr::filter(score == "sites") |>
   dplyr::select(-score, -weight) |>
   dplyr::rename("Quadrat" = label) |>
-  dplyr::mutate("NVC.Comm" = stringr::str_extract(string = Quadrat, pattern = "^[A-Z]{1,}\\d{1,}+(?![a-z*][P])")) |>
-  dplyr::group_by(NVC.Comm) |>
+  dplyr::mutate("NVC" = stringr::str_extract(string = Quadrat, pattern = "^[A-Z]{1,}\\d{1,}+(?![a-z*][P])")) |>
+  dplyr::group_by(NVC) |>
   dplyr::slice(grDevices::chull(DCA1, DCA2)) |>
-  dplyr::filter(!is.na(NVC.Comm))
+  dplyr::filter(!is.na(NVC))
 
-ggplot2::ggplot() +
-  ggplot2::geom_polygon(data = nvc_pquad_dca_all_hulls_Comm, alpha = 0.2, 
-                        mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm)) +
-  ggplot2::theme_minimal()
+# ggplot2::ggplot() +
+#   ggplot2::geom_polygon(data = nvc_pquad_dca_all_hulls_Comm, alpha = 0.2, 
+#                         mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm)) +
+#   ggplot2::theme_minimal()
 
-saveRDS(object = nvc_pquad_dca_all_hulls_Comm, file = "./data/bundled_data/nvc_pquad_dca_all_hulls_Comm.rds")
+# saveRDS(object = nvc_pquad_dca_all_hulls_Comm, file = "./data/bundled_data/nvc_pquad_dca_all_hulls_Comm.rds")
 
 # Produce hulls for each broad habitat ------------------------------------
 nvc_pquad_dca_all_hulls_habitat <- vegan::scores(nvc_pquad_dca_all, tidy = TRUE) |>
   dplyr::filter(score == "sites") |>
   dplyr::select(-score, -weight) |>
   dplyr::rename("Quadrat" = label) |>
-  dplyr::mutate("NVC.Habitat" = stringr::str_extract(string = Quadrat, pattern = ".+?(?=\\d)")) |>
-  dplyr::group_by(NVC.Habitat) |>
+  dplyr::mutate("NVC" = stringr::str_extract(string = Quadrat, pattern = ".+?(?=\\d)")) |>
+  dplyr::group_by(NVC) |>
   dplyr::slice(grDevices::chull(DCA1, DCA2)) |>
   dplyr::ungroup()
 
-ggplot2::ggplot() +
-  ggplot2::geom_polygon(data = nvc_pquad_dca_all_hulls_habitat, alpha = 0.2, 
-                        mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Habitat)) +
-  ggplot2::theme_minimal()
+# ggplot2::ggplot() +
+#   ggplot2::geom_polygon(data = nvc_pquad_dca_all_hulls_habitat, alpha = 0.2, 
+#                         mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Habitat)) +
+#   ggplot2::theme_minimal()
 
-saveRDS(object = nvc_pquad_dca_all_hulls_habitat, file = "./data/bundled_data/nvc_pquad_dca_all_hulls_habitat.rds")
+# saveRDS(object = nvc_pquad_dca_all_hulls_habitat, file = "./data/bundled_data/nvc_pquad_dca_all_hulls_habitat.rds")
 
+
+# Compile all hulls -------------------------------------------------------
+
+nvc_pquad_dca_all_hulls <- rbind(nvc_pquad_dca_all_hulls_subComm,
+                                 nvc_pquad_dca_all_hulls_Comm,
+                                 nvc_pquad_dca_all_hulls_habitat)
+
+saveRDS(object = nvc_pquad_dca_all_hulls, file = "./data/bundled_data/nvc_pquad_dca_all_hulls.rds")
 
 # Pre-calculate CCA axis scores for all pseudo-quadrats -------------------
 

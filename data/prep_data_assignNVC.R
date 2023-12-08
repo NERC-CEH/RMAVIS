@@ -80,10 +80,11 @@ nvc_community_codes <- nvc_communities_final |>
 saveRDS(object = nvc_community_codes, file = "./data/bundled_data/nvc_community_codes.rds")
 
 
-nvc_community_namesCodes <- read.csv(file = "./data/raw_data/NVC-floristic-tables.csv") |>
-  dplyr::select("NVC.Code" = Community.or.sub.community.code, 
-                "NVC.Name" = Community.or.sub.community.name) |>
-  dplyr::distinct()
+# NVC Name-Code Information -----------------------------------------------
+nvc_community_namesCodes <- read.csv(file = "./data/raw_data/NVC-names-codes.csv") |>
+  dplyr::select("NVC.Code" = code, 
+                "NVC.Name" = community.sub.community.name, 
+                "Rodwell.Synonym" = Synonym.or.shortened.community.name.as.used.in.British.Plant.Communities.Volumes)
 
 saveRDS(object = nvc_community_namesCodes, file = "./data/bundled_data/nvc_community_namesCodes.rds")
 

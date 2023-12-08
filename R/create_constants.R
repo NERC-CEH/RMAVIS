@@ -114,6 +114,11 @@ ccaVars_options <- c("Moisture (F)" = "F",
                      "Salinity (S)" = "S")
 
 
+
+# Global Reference DCA Space Options --------------------------------------
+globalReferenceSpaces_options <- sort(c(c("A", "CG", "H", "M", "MC", "MG", "OV", "S", "SD", "SM", "U", "W"), setdiff(nvc_community_codes, c("SM1", "SM1a", "SM1b"))))
+
+
 # DCA Survey Quadrat Options ----------------------------------------------
 surveyQuadratSelection_options <- c("All" = "all",
                                     "Select Years" = "selectYears",

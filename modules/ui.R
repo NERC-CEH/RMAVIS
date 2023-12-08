@@ -3,7 +3,8 @@ ui <- bslib::page_navbar(
 
   title = bslib::layout_columns(
     bslib::card_image(file = "www/ukceh_logo_long_720x170_rgb.png", fill = FALSE, width = "320px"),
-    shiny::h1("MAVIS", 
+    # shiny::HTML(paste(shiny::h2(shiny::em("pseudo")), shiny::h1("MAVIS")))
+    shiny::h1(shiny::div(shiny::em("pseudo"), "MAVIS"),
               id = "title")
     ),
   
@@ -46,6 +47,16 @@ ui <- bslib::page_navbar(
         value = "surveyData_panel",
         
         surveyTableUI(id = "surveyTable_id_1")
+        
+      ),
+      
+      bslib::nav_panel(
+        
+        full_screen = TRUE,
+        
+        bslib::card_header("Survey Data Summary"),
+        
+        value = "surveyDataSummary_panel"
         
       ),
       
@@ -131,6 +142,25 @@ ui <- bslib::page_navbar(
       )
     )
   ),
+  
+  bslib::nav_panel(
+    
+    "NVC Information",
+    
+    value = "nvcInfo",
+    
+    bslib::card(
+      
+      full_screen = FALSE,
+      
+      fill = TRUE,
+      
+      bslib::card_header("NVC Lookup"),
+      
+      nvcInfoUI(id = "nvcInfo_id_1")
+      
+    )
+  ),
     
   bslib::nav_panel(
     
@@ -149,22 +179,5 @@ ui <- bslib::page_navbar(
       documentationUI(id = "docs_id_1")
       
     )
-  )#,
-  
-  # bslib::nav_panel(
-  #   
-  #   "About",
-  #   
-  #   bslib::card(
-  #     
-  #     full_screen = TRUE,
-  #     
-  #     bslib::card_header("Documentation"),
-  #     
-  #     documentationUI(id = "docs_id_1")
-  #     
-  #   )
-  # )
-
-  # )
+  )
 )

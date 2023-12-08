@@ -99,10 +99,9 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
         
       } else if(inputMethod() == "example"){
         
-        # surveyTable <- example_data_df |>
-        #   dplyr::filter(Site == exampleData()) |>
-        #   dplyr::mutate(Year = "2023") |>
-        #   dplyr::select(Year, Group, Quadrat, Species, Cover)
+        surveyTable <- example_data_all |>
+          dplyr::filter(Site == exampleData()) |>
+          dplyr::select(-Site)
         
         surveyTable <- exampleData_pd
         

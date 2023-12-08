@@ -1,13 +1,14 @@
 # Example data ------------------------------------------------------------
-example_data_df <- readRDS(file = "data/bundled_data/example_data_df.rds")
-exampleDataOptions <- readRDS(file = "data/bundled_data/exampleDataOptions.rds")
+example_data_all <- readRDS(file = "./data/bundled_data/example_data_all.rds")
+exampleDataOptions <- readRDS(file = "./data/bundled_data/exampleDataOptions.rds")
 
-exampleData_pd <- readRDS(file = "./data/bundled_data/exampleData_pd.rds")
+# exampleData_pd <- readRDS(file = "./data/bundled_data/exampleData_pd.rds")
 
 
 # NVC floristic tables and community codes --------------------------------
-nvc_floristic_tables <- readRDS(file = "data/bundled_data/nvc_floristic_tables.rds")
-nvc_community_codes <- readRDS(file = "data/bundled_data/nvc_community_codes.rds")
+nvc_floristic_tables <- readRDS(file = "./data/bundled_data/nvc_floristic_tables.rds")
+nvc_community_codes <- readRDS(file = "./data/bundled_data/nvc_community_codes.rds")
+nvc_community_namesCodes <- readRDS("./data/bundled_data/nvc_community_namesCodes.rds")
 
 
 # Habitat Correspondence --------------------------------------------------
@@ -38,9 +39,7 @@ nvc_pquad_dca_all <- readRDS(file = "./data/bundled_data/nvc_pquad_dca_all.rds")
 
 
 # Pseudo-quadrat hulls ----------------------------------------------------
-nvc_pquad_dca_all_hulls_subComm <- readRDS(file = "./data/bundled_data/nvc_pquad_dca_all_hulls_subComm.rds")
-nvc_pquad_dca_all_hulls_Comm <- readRDS(file = "./data/bundled_data/nvc_pquad_dca_all_hulls_Comm.rds")
-nvc_pquad_dca_all_hulls_habitat <- readRDS(file = "./data/bundled_data/nvc_pquad_dca_all_hulls_habitat.rds")
+nvc_pquad_dca_all_hulls <- readRDS(file = "./data/bundled_data/nvc_pquad_dca_all_hulls.rds")
 
 
 # Pseudo-quadrat mean unweighted EIVs -------------------------------------

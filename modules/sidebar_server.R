@@ -21,7 +21,7 @@ sidebar <- function(input, output, session, surveyTable, nvcAverageSim, floristi
       "nvcFloristicTable" = input$nvcFloristicTable,
       "crossTabulate" = input$crossTabulate,
       "restrictNVCFlorTablesOpts" = input$restrictNVCFlorTablesOpts,
-      # "generateReport" = input$generateReport
+      "globalReferenceSpaces" = input$globalReferenceSpaces,
       "selectSurveyMethod" = input$selectSurveyMethod,
       "selectSurveyYears" = input$selectSurveyYears,
       "selectSurveyQuadrats" = input$selectSurveyQuadrats,
@@ -42,7 +42,7 @@ sidebar <- function(input, output, session, surveyTable, nvcAverageSim, floristi
               input$habCorClass, input$composedFloristicTable,
               input$nvcFloristicTable, input$crossTabulate,
               input$restrictNVCFlorTablesOpts,
-              # input$generateReport,
+              input$globalReferenceSpaces,
               input$selectSurveyMethod,
               input$selectSurveyYears,
               input$selectSurveyQuadrats,
@@ -214,6 +214,32 @@ sidebar <- function(input, output, session, surveyTable, nvcAverageSim, floristi
   }) |>
     bindEvent(input$selectSurveyMethod, ignoreInit = FALSE)
   
+
+# Reactively update global reference DCA space selection ------------------
+
+  observe({
+    
+    # Get all NVC communities and sub-communities from nvc assignment results
+    NVC_communities_all <- nvcAverageSim() |> # nvcAverageSim()
+      dplyr::pull(NVC.Code)
+    
+    # Get all NVC communities from community and sub-community codes
+    NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
+                                                       pattern = "(\\d)[^0-9]+$", 
+                                                       replace = "\\1") |>
+      unique()
+    
+    NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
+    
+    shinyWidgets::updatePickerInput(
+      session = session,
+      inputId = "globalReferenceSpaces",
+      selected = NVC_communities_final
+    )
+    
+  }) |>
+    bindEvent(nvcAverageSim(),
+              ignoreInit = TRUE)
   
 # Reactively update DCA survey quadrat selection options ------------------
   observe({

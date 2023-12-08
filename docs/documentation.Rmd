@@ -186,7 +186,7 @@ Contributions towards the development of the application, in accordance with [CR
 
 # Reccomended Citation
 
-```{bash bibtexRef}
+```{r bibtexRef}
 
 
 

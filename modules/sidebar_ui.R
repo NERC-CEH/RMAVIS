@@ -266,6 +266,13 @@ sidebarUI <- function(id){
         
         icon = bsicons::bs_icon("arrows-angle-expand"),
         
+        shinyWidgets::pickerInput(inputId = ns("globalReferenceSpaces"),
+                                  label = "Global Reference Spaces",
+                                  choices = globalReferenceSpaces_options,
+                                  selected = NULL,
+                                  multiple = TRUE,
+                                  options = shinyWidgets::pickerOptions(dropupAuto = FALSE)),
+        
         shiny::selectizeInput(inputId = ns("selectSurveyMethod"),
                               label = "Survey Quadrat Selection",
                               choices = surveyQuadratSelection_options,
