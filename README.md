@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# MAVISApp
+# pseudoMAVIS
 
 <!-- badges: start -->
 
@@ -15,16 +15,16 @@ The MAVIS R shiny web application is a tool for……….
 
 ## Running the app
 
-You can run MAVISApp from
-[GitHub](https://github.com/ZekeMarshall/MAVISApp) by cloning the
+You can run pseudoMAVIS from
+[GitHub](https://github.com/ZekeMarshall/pseudoMAVIS) by cloning the
 repository, calling `renv::restore()`, and then calling
 `shiny::runApp("app.R")`.
 
-Future developments may support the release of MAVISApp as an R package.
+Future developments may support the release of pseudoMAVIS as an R package.
 
 ## Hosting
 
-MAVISApp is configured to be built with
+pseudoMAVIS is configured to be built with
 [Docker](https://www.docker.com/).
 
 To build and deploy the app on a linux server with Docker pre-installed
@@ -33,25 +33,25 @@ two approaches may be taken:
 ### Using Docker Manually
 
 1.  Build the app locally with
-    `docker build --no-cache -t <container registry url>/mavisapp:<version> .`.
+    `docker build --no-cache -t <container registry url>/pseudomavis:<version> .`.
 2.  Log in to the container registry with
     `docker login <container registry url>`, using a API key.
 3.  Push the image to the container registry with
-    `docker push <container registry url>/mavisapp:<version>`. One of:
+    `docker push <container registry url>/pseudomavis:<version>`. One of:
     4a. Log into a container registry UI through a web browser, and
     navigate to a console button which opens a terminal to the server.
     4b. ssh into the server from a local terminal.
 4.  In the server, log in to the container registry with
     `docker login registry.digitalocean.com`, using a API key.
 5.  Pull the image from the container registry with
-    `docker pull <container registry url>/mavisapp:<version>`.
+    `docker pull <container registry url>/pseudomavis:<version>`.
 6.  Check that the image has been successfully retrieved with
     `docker images`.
 7.  Check whether there is a container currently running with
     `docker ps -a`.
 8.  Stop and remove this instance with `docker rm -f <instance name>`.
 9.  Run the Docker container in a new instance with
-    `docker run -d -p 8001:8001 --privileged=true --name <instance name> <container registry url>/mavisapp:<version>`.
+    `docker run -d -p 8001:8001 --privileged=true --name <instance name> <container registry url>/pseudomavis:<version>`.
 
 ### Using Docker Compose
 

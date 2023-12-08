@@ -2,7 +2,7 @@
 FROM rocker/shiny:latest
 
 # Install linux packages
-# This needs revising if MAVISApp does not need spatial libraries
+# This needs revising if pseudoMAVIS does not need spatial libraries
 RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libssl-dev \
     libxml2-dev \
