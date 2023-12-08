@@ -1,21 +1,24 @@
-raw_JNCC_habCor <- readxl::read_xls(path = "./data/raw_data/Habitat-correspondences-2008.xls",
+# Load raw habitat correspondence data ------------------------------------
+raw_JNCC_habCor <- readxl::read_xls(path = "./data/raw_data/habitat_correspondence/Habitat-correspondences-2008.xls",
                                     sheet = "master table - sheet protected",
                                     col_types = c("text", "text", "text",
                                                   "text", "text", "text",
                                                   "text", "text", "text",
                                                   "text"))
 
-ukHab_habCor_raw <- readxl::read_xlsx(path = "./data/raw_data/UK Habitat Classification V1-1 including Correspondences_7 Sep 2020_ZMCleaned.xlsx",
+ukHab_habCor_raw <- readxl::read_xlsx(path = "./data/raw_data/habitat_correspondence/UK Habitat Classification V1-1 including Correspondences_7 Sep 2020_ZMCleaned.xlsx",
                                       sheet = "NVC to UKHab",
                                       skip = 6,
                                       .name_repair = "minimal")
 
-ukHab_namesCodes_raw <- readxl::read_xlsx(path = "./data/raw_data/UK Habitat Classification V1-1 including Correspondences_7 Sep 2020_ZMCleaned.xlsx",
+ukHab_namesCodes_raw <- readxl::read_xlsx(path = "./data/raw_data/habitat_correspondence/UK Habitat Classification V1-1 including Correspondences_7 Sep 2020_ZMCleaned.xlsx",
                                           sheet = "Professional Edition Hierarchy",
                                           skip = 0,
                                           .name_repair = "minimal")
 
+npms_habCor_raw <- read.csv("./data/raw_data/habitat_correspondence/pone.0215891.s003_prepped.csv")
 
+# Prepare UKHab correspondence data ---------------------------------------
 ukHab_namesCodes_level2 <- ukHab_namesCodes_raw |>
   dplyr::select(`Level 2 code`, `Level 2 Label`) |>
   dplyr::rename("Code" = "Level 2 code", "Label" = "Level 2 Label") |>
@@ -96,6 +99,9 @@ ukHab_habCor_final <- ukHab_habCor_renamed |>
   dplyr::select(-Level) |>
   dplyr::select(NVC.Code, Relationship, Code, Label, Classification)
 
+
+
+# Prepare JNCC correspondence data ----------------------------------------
 tidied_JNCC_habCor_CLASSN1 <- raw_JNCC_habCor |>
   dplyr::filter(CLASSN1 == "National Vegetation Classification") |>
   dplyr::select(-BIOTOPE_SHORT_TERM1,
@@ -115,20 +121,62 @@ jncc_habCor_final <- tidied_JNCC_habCor_CLASSN1 |>
                 "Label" = "BIOTOPE_FULL_TERM2",
                 "Classification" = "CLASSN2")
 
+
+
+# Prepare NPMS correspondence data ----------------------------------------
+
+npms_habCor_broad <- npms_habCor_raw |>
+  tibble::as_tibble() |>
+  dplyr::select(NPMS.Broad.Habitat, NVC.communities.included) |>
+  dplyr::mutate("Relationship" = "is included in",
+                "Code" = NA,
+                "Classification" = "NPMS Broad") |>
+  dplyr::select("NVC.Code" = NVC.communities.included,
+                "Relationship" = Relationship,
+                "Code" = Code,
+                "Label" = NPMS.Broad.Habitat,
+                "Classification" = Classification)
+
+npms_habCor_fine <- npms_habCor_raw |>
+  tibble::as_tibble() |>
+  dplyr::select(NPMS.Fine.Habitat, NVC.communities.included) |>
+  dplyr::mutate("Relationship" = "is included in",
+                "Code" = NA,
+                "Classification" = "NPMS Fine") |>
+  dplyr::select("NVC.Code" = NVC.communities.included,
+                "Relationship" = Relationship,
+                "Code" = Code,
+                "Label" = NPMS.Fine.Habitat,
+                "Classification" = Classification)
+
+npms_habCor_final <- rbind(npms_habCor_broad, npms_habCor_fine)
+
+# Check for missing NVC.Codes
+npms_habCor_final_nvcCodes <- npms_habCor_final$NVC.Code |> unique()
+nvc_community_codes <- readRDS(file = "./data/bundled_data/nvc_community_codes.rds")
+nvc_community_codes_commOnly <- stringr::str_subset(string = nvc_community_codes, pattern = "^[A-Z]{1,}\\d{1,}+(?![a-z*])")
+
+length(npms_habCor_final_nvcCodes) == length(nvc_community_codes)
+length(npms_habCor_final_nvcCodes) == length(nvc_community_codes_commOnly)
+
+setdiff(nvc_community_codes, npms_habCor_final_nvcCodes)
+setdiff(nvc_community_codes_commOnly, npms_habCor_final_nvcCodes)
+
+# Create final habitat correspondence -------------------------------------
 all_habCor_final <- rbind(
   ukHab_habCor_final,
-  jncc_habCor_final
+  jncc_habCor_final,
+  npms_habCor_final
 )
-
-
 
 saveRDS(object = all_habCor_final, file = "./data/bundled_data/all_habCor_final.rds")
 
 
+
+# Create habitat correspondence names -------------------------------------
 all_habCor_classifications <- all_habCor_final |>
   dplyr::pull(Classification) |>
   unique()
-
 
 saveRDS(object = all_habCor_classifications, file = "./data/bundled_data/all_habCor_classifications.rds")
 
