@@ -77,7 +77,7 @@ exampleData_pd_prepped <- exampleData_pd |>
 
 example_data_all <- rbind(exampleData_pd_prepped)
 
-exampleDataOptions <- example_data_all$Site |> unique()
+exampleDataOptions <- c("None" = "none", example_data_all$Site |> unique())
 
 saveRDS(object = exampleDataOptions, file = "./data/bundled_data/exampleDataOptions.rds")
 

@@ -103,8 +103,6 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
           dplyr::filter(Site == exampleData()) |>
           dplyr::select(-Site)
         
-        surveyTable <- exampleData_pd
-        
         # surveyTable <- surveyTable |>
         #   # tidyr::unite(col = "ID", c(Year, Site, Group, Quadrat), sep = " - ", remove = TRUE) |>
         #   dplyr::select(Quadrat, Species, Cover) |>
