@@ -68,7 +68,7 @@ ui <- bslib::page_navbar(
         
         bslib::card_header("NVC Assignment"),
         
-        nvcAverageSimUI(id = "nvcAverageSim_id_1")
+        nvcAssignmentUI(id = "nvcAssignment_id_1")
         
       ),
       

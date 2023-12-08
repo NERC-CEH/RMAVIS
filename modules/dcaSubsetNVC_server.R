@@ -1,4 +1,4 @@
-dcaSubsetNVC <- function(input, output, session, surveyTable, nvcAverageSim, sidebar_options) {
+dcaSubsetNVC <- function(input, output, session, surveyTable, nvcAssignment, sidebar_options) {
   
   ns <- session$ns
   
@@ -32,7 +32,7 @@ dcaSubsetNVC <- function(input, output, session, surveyTable, nvcAverageSim, sid
     
     # Require selected objects are not NULL
     shiny::req(surveyTable())
-    shiny::req(nvcAverageSim())
+    shiny::req(nvcAssignment())
     
     # Start busy spinner
     shinybusy::show_modal_spinner(
@@ -45,7 +45,7 @@ dcaSubsetNVC <- function(input, output, session, surveyTable, nvcAverageSim, sid
     shiny::isolate({
       
       # Get all NVC communities and sub-communities from nvc assignment results
-      NVC_communities_all <- nvcAverageSim() |>
+      NVC_communities_all <- nvcAssignment() |>
         dplyr::pull(NVC.Code)
       
       # Get all NVC communities from community and sub-community codes

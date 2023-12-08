@@ -1,4 +1,4 @@
-nvcAverageSimUI <- function(id){
+nvcAssignmentUI <- function(id){
   
   ns <- NS(id)
   
@@ -9,7 +9,7 @@ nvcAverageSimUI <- function(id){
       shiny::h5("Site Similarities"),
       
       shiny::div(
-        rhandsontable::rHandsontableOutput(outputId = ns("nvcAverageSimSiteTable"))
+        rhandsontable::rHandsontableOutput(outputId = ns("nvcAssignmentSiteTable"))
         #, style = "margin-right: 5px !important;"
       ),
       
@@ -18,7 +18,7 @@ nvcAverageSimUI <- function(id){
       shiny::h5("Group Similarities"),
       
       shiny::div(
-        rhandsontable::rHandsontableOutput(outputId = ns("nvcAverageSimTable"))
+        rhandsontable::rHandsontableOutput(outputId = ns("nvcAssignmentTable"))
         #, style = "margin-right: 5px !important;"
       )
     )

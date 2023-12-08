@@ -35,8 +35,8 @@ source("modules/surveyTable_server.R", local = TRUE)
 source("modules/surveyTableWide_ui.R", local = TRUE)
 source("modules/surveyTableWide_server.R", local = TRUE)
 
-source("modules/nvcAverageSim_ui.R", local = TRUE)
-source("modules/nvcAverageSim_server.R", local = TRUE)
+source("modules/nvcAssignment_ui.R", local = TRUE)
+source("modules/nvcAssignment_server.R", local = TRUE)
 
 source("modules/habCor_ui.R", local = TRUE)
 source("modules/habCor_server.R", local = TRUE)

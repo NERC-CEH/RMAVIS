@@ -4,7 +4,7 @@ server <- function(input, output, session) {
   sidebar_options <- shiny::callModule(module = sidebar,
                                        id = "sidebar_id_1",
                                        surveyTable = surveyTable,
-                                       nvcAverageSim = nvcAverageSim,
+                                       nvcAssignment = nvcAssignment,
                                        floristicTables = floristicTables,
                                        dcaSubsetNVCResults = dcaSubsetNVCResults)
   
@@ -24,14 +24,14 @@ server <- function(input, output, session) {
                                        surveyTable = surveyTable,
                                        sidebar_options = sidebar_options)
   
-  nvcAverageSim <- shiny::callModule(module = nvcAverageSim,
-                                     id = "nvcAverageSim_id_1",
+  nvcAssignment <- shiny::callModule(module = nvcAssignment,
+                                     id = "nvcAssignment_id_1",
                                      surveyTable = surveyTable,
                                      sidebar_options = sidebar_options)
 
   habCor <- shiny::callModule(module = habCor,
                               id = "habCor_id_1",
-                              nvcAverageSim = nvcAverageSim,
+                              nvcAssignment = nvcAssignment,
                               sidebar_options = sidebar_options)
 
   floristicTables <- shiny::callModule(module = floristicTables,
@@ -54,21 +54,21 @@ server <- function(input, output, session) {
                                         id = "mvaAllNVC_id_1",
                                         surveyTable = surveyTable,
                                         # surveyTableWide = surveyTableWide,
-                                        nvcAverageSim = nvcAverageSim,
+                                        nvcAssignment = nvcAssignment,
                                         sidebar_options = sidebar_options)
   
   dcaSubsetNVCResults <- shiny::callModule(module = dcaSubsetNVC,
                                            id = "dcaSubsetNVC_id_1",
                                            surveyTable = surveyTable,
                                            # surveyTableWide = surveyTableWide,
-                                           nvcAverageSim = nvcAverageSim,
+                                           nvcAssignment = nvcAssignment,
                                            sidebar_options = sidebar_options)
   
   dcaAllQuadratsResults <- shiny::callModule(module = dcaAllQuadrats,
                                              id = "dcaAllQuadrats_id_1",
                                              surveyTable = surveyTable,
                                              # surveyTableWide = surveyTableWide,
-                                             nvcAverageSim = nvcAverageSim,
+                                             nvcAssignment = nvcAssignment,
                                              sidebar_options = sidebar_options)
   
 
@@ -76,7 +76,7 @@ server <- function(input, output, session) {
   shiny::callModule(module = report,
                     id = "sidebar_id_1",
                     surveyTable = surveyTable,
-                    nvcAverageSim = nvcAverageSim,
+                    nvcAssignment = nvcAssignment,
                     dcaSubsetNVCResults = dcaSubsetNVCResults,
                     dcaAllQuadratsResults = dcaAllQuadratsResults,
                     sidebar_options = sidebar_options,
@@ -88,7 +88,7 @@ server <- function(input, output, session) {
   #   assign(x = "sidebar_options", value = sidebar_options(), envir = .GlobalEnv)
   #   assign(x = "surveyTable", value = surveyTable(), envir = .GlobalEnv)
   #   assign(x = "surveyTableWide", value = surveyTableWide(), envir = .GlobalEnv)
-  #   assign(x = "nvcAverageSim", value = nvcAverageSim(), envir = .GlobalEnv)
+  #   assign(x = "nvcAssignment", value = nvcAssignment(), envir = .GlobalEnv)
   #   assign(x = "habCor", value = habCor(), envir = .GlobalEnv)
   #   
   # })

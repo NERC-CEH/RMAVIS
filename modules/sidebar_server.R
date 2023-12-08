@@ -1,4 +1,4 @@
-sidebar <- function(input, output, session, surveyTable, nvcAverageSim, floristicTables, dcaSubsetNVCResults) {
+sidebar <- function(input, output, session, surveyTable, nvcAssignment, floristicTables, dcaSubsetNVCResults) {
   
   ns <- session$ns
   
@@ -117,7 +117,7 @@ sidebar <- function(input, output, session, surveyTable, nvcAverageSim, floristi
   observe({
     
     # Get all NVC communities and sub-communities from nvc assignment results
-    NVC_communities_all <- nvcAverageSim() |> # nvcAverageSim()
+    NVC_communities_all <- nvcAssignment() |> # nvcAssignment()
       dplyr::pull(NVC.Code)
     
     # Get all NVC communities from community and sub-community codes
@@ -152,7 +152,7 @@ sidebar <- function(input, output, session, surveyTable, nvcAverageSim, floristi
 
   }) |>
     bindEvent(input$restrictNVCFlorTablesOpts,
-              nvcAverageSim(),
+              nvcAssignment(),
               ignoreInit = TRUE)
 
 
@@ -220,7 +220,7 @@ sidebar <- function(input, output, session, surveyTable, nvcAverageSim, floristi
   observe({
     
     # Get all NVC communities and sub-communities from nvc assignment results
-    NVC_communities_all <- nvcAverageSim() |> # nvcAverageSim()
+    NVC_communities_all <- nvcAssignment() |> # nvcAssignment()
       dplyr::pull(NVC.Code)
     
     # Get all NVC communities from community and sub-community codes
@@ -238,7 +238,7 @@ sidebar <- function(input, output, session, surveyTable, nvcAverageSim, floristi
     )
     
   }) |>
-    bindEvent(nvcAverageSim(),
+    bindEvent(nvcAssignment(),
               ignoreInit = TRUE)
   
 # Reactively update DCA survey quadrat selection options ------------------

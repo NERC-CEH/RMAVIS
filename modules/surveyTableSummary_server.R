@@ -36,13 +36,13 @@ surveyTableSummary <- function(input, output, session, surveyTable) {
   observe({
     
     shiny::req(input$habCorTable)
-    shiny::req(nvcAverageSim())
+    shiny::req(nvcAssignment())
     
     # # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
       
       # Get all NVC communities and sub-communities from nvc assignment results
-      NVC_communities_all <- nvcAverageSim() |> # nvcAverageSim()
+      NVC_communities_all <- nvcAssignment() |> # nvcAssignment()
         dplyr::pull(NVC.Code)
       
       # Get all NVC communities from community and sub-community codes
@@ -91,7 +91,7 @@ surveyTableSummary <- function(input, output, session, surveyTable) {
     habCorTable_rval(rhandsontable::hot_to_r(input$habCorTable))
     
   }) |>
-    bindEvent(nvcAverageSim(),
+    bindEvent(nvcAssignment(),
               habCorClass(), 
               ignoreInit = TRUE, 
               ignoreNULL = TRUE

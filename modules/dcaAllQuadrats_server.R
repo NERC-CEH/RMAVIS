@@ -1,4 +1,4 @@
-dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, sidebar_options) {
+dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAssignment, sidebar_options) {
   
   ns <- session$ns
   
@@ -28,7 +28,7 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
   observe({
     
     shiny::req(surveyTable())
-    shiny::req(nvcAverageSim())
+    shiny::req(nvcAssignment())
     
     shinybusy::show_modal_spinner(
       spin = "fading-circle",
@@ -40,7 +40,7 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAverageSim, s
     shiny::isolate({
       
       # Get all NVC communities and sub-communities from nvc assignment results
-      NVC_communities_all <- nvcAverageSim() |>
+      NVC_communities_all <- nvcAssignment() |>
         dplyr::pull(NVC.Code)
       
       # Get all NVC communities from community and sub-community codes

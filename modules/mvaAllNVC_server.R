@@ -1,4 +1,4 @@
-mvaAllNVC <- function(input, output, session, surveyTable, nvcAverageSim, sidebar_options) {
+mvaAllNVC <- function(input, output, session, surveyTable, nvcAssignment, sidebar_options) {
   
   ns <- session$ns
   
@@ -34,12 +34,13 @@ mvaAllNVC <- function(input, output, session, surveyTable, nvcAverageSim, sideba
     
     # Require selected objects are not NULL
     shiny::req(surveyTable())
-    shiny::req(nvcAverageSim())
+    shiny::req(nvcAssignment())
     
     # Start busy spinner
-    shinybusy::show_modal_progress_circle(
+    shinybusy::show_modal_spinner(
+      spin = "fading-circle",
       color = "#3F9280",
-      text = "Performing MVA Analysis Using All Pseudo-quadrats"
+      text = "Calculating National Reference DCA"
     )
     
     # Peform analysis in a reactive context without creating a reactive relationship
@@ -52,9 +53,6 @@ mvaAllNVC <- function(input, output, session, surveyTable, nvcAverageSim, sideba
       nvc_pquads_mean_unweighted_eivs_prepped <- nvc_pquads_mean_unweighted_eivs |>
         dplyr::filter(Pid3 %in% rownames(selected_pquads_prepped)) |>
         tibble::column_to_rownames(var = "Pid3")
-      
-      # shinybusy::update_modal_progress(value = 10,
-      #                                  text = "Performing CCA")
       
       # # Perform a CCA on the selected pseudo-quadrats 
       # selected_pquads_prepped_cca  <- vegan::cca(as.formula(paste0("selected_pquads_prepped ~ ", paste0(c(ccaVars()), collapse = " + "))),
@@ -151,7 +149,7 @@ mvaAllNVC <- function(input, output, session, surveyTable, nvcAverageSim, sideba
     
     mvaAllNVCResults(mvaAllNVCResults_list)
     
-    shinybusy::remove_modal_progress()
+    shinybusy::remove_modal_spinner()
       
       
   }) |>

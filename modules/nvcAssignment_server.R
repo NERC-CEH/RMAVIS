@@ -1,4 +1,4 @@
-nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) {
+nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) {
   
   ns <- session$ns
   
@@ -20,8 +20,8 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
   
-# Calculate nvcAverageSim results by site ----------------------------------------
-  nvcAverageSimSite_rval <- reactiveVal()
+# Calculate nvcAssignment results by site ----------------------------------------
+  nvcAssignmentSite_rval <- reactiveVal()
   
   observe({
     
@@ -52,7 +52,7 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
           dplyr::filter(stringr::str_detect(NVC, (stringr::str_c(habitatRestriction(), collapse = "|"))))
       }
       
-      nvcAverageSimSite <- assignNVC::nvc_average_sim(samp_df = surveyTable_prepped,
+      nvcAssignmentSite <- assignNVC::nvc_average_sim(samp_df = surveyTable_prepped,
                                                       comp_df = pquads_to_use, # 
                                                       spp_col = "species",
                                                       samp_id = "ID",
@@ -67,11 +67,11 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
         dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
         dplyr::ungroup()
       
-      nvcAverageSimSite_rval(nvcAverageSimSite)
+      nvcAssignmentSite_rval(nvcAssignmentSite)
       
     })
     
-    print(nvcAverageSimSite)
+    print(nvcAssignmentSite)
     
     shinybusy::remove_modal_spinner()
     
@@ -80,23 +80,23 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
               # nTopResults(), 
               ignoreInit = TRUE)
   
-  nvcAverageSimSiteTable_init <- data.frame("ID" = character(),
+  nvcAssignmentSiteTable_init <- data.frame("ID" = character(),
                                             "Mean.Similarity" = numeric(),
                                             "Standard.Deviation" = numeric(),
                                             "NVC.Code" = character()
   )
   
-  nvcAverageSimSiteTable_rval <- reactiveVal(nvcAverageSimSiteTable_init)
+  nvcAssignmentSiteTable_rval <- reactiveVal(nvcAssignmentSiteTable_init)
   
-  output$nvcAverageSimSiteTable <- rhandsontable::renderRHandsontable({
+  output$nvcAssignmentSiteTable <- rhandsontable::renderRHandsontable({
     
-    nvcAverageSimSiteTable <- rhandsontable::rhandsontable(data = nvcAverageSimSiteTable_init,
+    nvcAssignmentSiteTable <- rhandsontable::rhandsontable(data = nvcAssignmentSiteTable_init,
                                                            rowHeaders = NULL,
                                                            width = "100%"#,
                                                            # overflow = "visible",
                                                            # stretchH = "all"
                                                            ) |>
-      rhandsontable::hot_col(col = colnames(nvcAverageSimSiteTable_init), halign = "htCenter", readOnly = TRUE) |>
+      rhandsontable::hot_col(col = colnames(nvcAssignmentSiteTable_init), halign = "htCenter", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
@@ -107,24 +107,24 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
           })
         }")
     
-    return(nvcAverageSimSiteTable)
+    return(nvcAssignmentSiteTable)
     
   })
   
   observe({
     
-    req(input$nvcAverageSimSiteTable)
+    req(input$nvcAssignmentSiteTable)
     
-    nvcAverageSimSite <- nvcAverageSimSite_rval()
+    nvcAssignmentSite <- nvcAssignmentSite_rval()
     
-    output$nvcAverageSimSiteTable <- rhandsontable::renderRHandsontable({
+    output$nvcAssignmentSiteTable <- rhandsontable::renderRHandsontable({
       
-      nvcAverageSimSiteTable <- rhandsontable::rhandsontable(data = nvcAverageSimSite,
+      nvcAssignmentSiteTable <- rhandsontable::rhandsontable(data = nvcAssignmentSite,
                                                              rowHeaders = NULL#,
                                                              # overflow = "visible",
                                                              # stretchH = "all"
                                                              ) |>
-        rhandsontable::hot_col(col = colnames(nvcAverageSimSite), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_col(col = colnames(nvcAssignmentSite), halign = "htCenter", readOnly = TRUE) |>
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
         htmlwidgets::onRender("
@@ -135,21 +135,21 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
           })
         }")
       
-      return(nvcAverageSimSiteTable)
+      return(nvcAssignmentSiteTable)
       
     })
     
   }) |>
-    bindEvent(nvcAverageSimSite_rval(), 
+    bindEvent(nvcAssignmentSite_rval(), 
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
   
-  outputOptions(output, "nvcAverageSimSiteTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "nvcAssignmentSiteTable", suspendWhenHidden = FALSE)
   
   
-# Calculate nvcAverageSim results by group ----------------------------------------
-  nvcAverageSim <- reactiveVal()
+# Calculate nvcAssignment results by group ----------------------------------------
+  nvcAssignment <- reactiveVal()
   
   observe({
     
@@ -199,7 +199,7 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
         dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
         dplyr::ungroup()
       
-      nvcAverageSim(fitted_nvc)
+      nvcAssignment(fitted_nvc)
       
     })
     
@@ -210,23 +210,23 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
               # nTopResults(), 
               ignoreInit = TRUE)
   
-  nvcAverageSimTable_init <- data.frame("ID" = character(),
+  nvcAssignmentTable_init <- data.frame("ID" = character(),
                                         "Mean.Similarity" = numeric(),
                                         "Standard.Deviation" = numeric(),
                                         "NVC.Code" = character()
                                         )
   
-  nvcAverageSimTable_rval <- reactiveVal(nvcAverageSimTable_init)
+  nvcAssignmentTable_rval <- reactiveVal(nvcAssignmentTable_init)
   
-  output$nvcAverageSimTable <- rhandsontable::renderRHandsontable({
+  output$nvcAssignmentTable <- rhandsontable::renderRHandsontable({
     
-    nvcAverageSimTable <- rhandsontable::rhandsontable(data = nvcAverageSimTable_init,
+    nvcAssignmentTable <- rhandsontable::rhandsontable(data = nvcAssignmentTable_init,
                                                        rowHeaders = NULL,
                                                        width = "100%"#,
                                                        # overflow = "visible",
                                                        # stretchH = "all"
     ) |>
-      rhandsontable::hot_col(col = colnames(nvcAverageSimTable_init), halign = "htCenter", readOnly = TRUE) |>
+      rhandsontable::hot_col(col = colnames(nvcAssignmentTable_init), halign = "htCenter", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
@@ -237,28 +237,28 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
           })
         }")
     
-    return(nvcAverageSimTable)
+    return(nvcAssignmentTable)
     
   })
   
   observe({
     
-    req(input$nvcAverageSimTable)
+    req(input$nvcAssignmentTable)
     
     shiny::isolate({
       
-      nvcAverageSim <- nvcAverageSim()
+      nvcAssignment <- nvcAssignment()
 
     })
     
-    output$nvcAverageSimTable <- rhandsontable::renderRHandsontable({
+    output$nvcAssignmentTable <- rhandsontable::renderRHandsontable({
       
-      nvcAverageSimTable <- rhandsontable::rhandsontable(data = nvcAverageSim,
+      nvcAssignmentTable <- rhandsontable::rhandsontable(data = nvcAssignment,
                                                          rowHeaders = NULL#,
                                                          # overflow = "visible",
                                                          # stretchH = "all"
       ) |>
-        rhandsontable::hot_col(col = colnames(nvcAverageSim), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_col(col = colnames(nvcAssignment), halign = "htCenter", readOnly = TRUE) |>
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
         htmlwidgets::onRender("
@@ -269,17 +269,17 @@ nvcAverageSim <- function(input, output, session, surveyTable, sidebar_options) 
           })
         }")
       
-      return(nvcAverageSimTable)
+      return(nvcAssignmentTable)
       
     })
     
   }) |>
-    bindEvent(nvcAverageSim(), ignoreInit = TRUE, ignoreNULL = TRUE)
+    bindEvent(nvcAssignment(), ignoreInit = TRUE, ignoreNULL = TRUE)
   
   
-  outputOptions(output, "nvcAverageSimTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "nvcAssignmentTable", suspendWhenHidden = FALSE)
   
   
-  return(nvcAverageSim)
+  return(nvcAssignment)
   
 }

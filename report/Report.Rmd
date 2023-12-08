@@ -5,7 +5,7 @@ output:
       in_header: "Report.preamble.tex"
 params: 
     surveyTable: NULL
-    nvcAverageSim: NULL
+    nvcAssignment: NULL
     floristicTables: NULL
     sidebar_options: NULL
     dcaSubsetNVCResults: NULL
@@ -32,7 +32,7 @@ library(kableExtra)
 # sys.source("./create_constants.R", envir = knitr::knit_global())
 
 surveyTable <- params$surveyTable
-nvcAverageSim <- params$nvcAverageSim
+nvcAssignment <- params$nvcAssignment
 sidebar_options <- params$sidebar_options
 floristicTables <- params$floristicTables
 
@@ -68,11 +68,11 @@ The Modular Analysis of Vegetation Information System (MAVIS) is a tool..
 
 ## Jaccard Similarity - Pseudo-quadrat Method
 
-```{r nvcAverageSimTable, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r nvcAssignmentTable, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-nvcAverageSimTable <- nvcAverageSim
+nvcAssignmentTable <- nvcAssignment
 
-kableExtra::kbl(x = nvcAverageSimTable, format = "latex", booktabs = TRUE,
+kableExtra::kbl(x = nvcAssignmentTable, format = "latex", booktabs = TRUE,
                 longtable = TRUE, linesep = "",
                 caption = "The top N NVC communities fitted using the pseudo-quadrat method.") |>
   kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
