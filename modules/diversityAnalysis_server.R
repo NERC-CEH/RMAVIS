@@ -4,30 +4,96 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
   
 # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
+  resultsViewDiversity <- reactiveVal()
   
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
+    resultsViewDiversity(sidebar_options()$resultsViewDiversity)
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
 
+  
+
+# Show/Hide Results -------------------------------------------------------
+
+  
+  observe({
+    
+    shinyjs::show(id = "speciesRichnessSiteTable_div")
+    shinyjs::show(id = "speciesRecordedOneYearOnlyTable_div")
+    shinyjs::show(id = "speciesRichnessGroupTable_div")
+    shinyjs::show(id = "speciesRichnessQuadratTable_div")
+    
+  }) |>
+    bindEvent(resultsViewDiversity(),
+              ignoreNULL = FALSE,
+              ignoreInit = FALSE,
+              once = TRUE)
+  
+  observe({
+    
+    # speciesRichnessSiteTable
+    if("speciesRichnessSite" %in% resultsViewDiversity()){
+      shinyjs::show(id = "speciesRichnessSiteTable_div")
+    } else {
+      shinyjs::hide(id = "speciesRichnessSiteTable_div")
+    }
+    
+    # speciesRecordedOneYearOnlyTable
+    if("speciesRecordedOneYearOnly" %in% resultsViewDiversity()){
+      shinyjs::show(id = "speciesRecordedOneYearOnlyTable_div")
+    } else {
+      shinyjs::hide(id = "speciesRecordedOneYearOnlyTable_div")
+    }
+    
+    # speciesRichnessGroupTable
+    if("speciesRichnessGroup" %in% resultsViewDiversity()){
+      shinyjs::show(id = "speciesRichnessGroupTable_div")
+    } else {
+      shinyjs::hide(id = "speciesRichnessGroupTable_div")
+    }
+    
+    # speciesRichnessQuadratTable
+    if("speciesRichnessQuadrat" %in% resultsViewDiversity()){
+      shinyjs::show(id = "speciesRichnessQuadratTable_div")
+    } else {
+      shinyjs::hide(id = "speciesRichnessQuadratTable_div")
+    }
+
+    
+  }) |>
+    bindEvent(resultsViewDiversity(),
+              ignoreInit = FALSE,
+              ignoreNULL = FALSE)
+
+  observe({
+    
+    shinyjs::show(id = "speciesRichnessSiteTable_div")
+  
+  }) |>
+    bindEvent(resultsViewDiversity(),
+              ignoreNULL = FALSE,
+              ignoreInit = FALSE,
+              once = TRUE)
+  
 
 # Initialise species unique to year table ---------------------------------
-  speciesUniqueToYearTable_init <- data.frame("Year" = integer(),
+  speciesRecordedOneYearOnlyTable_init <- data.frame("Year" = integer(),
                                               "Species" = character())
   
-  speciesUniqueToYearTable_rval <- reactiveVal(speciesUniqueToYearTable_init)
+  speciesRecordedOneYearOnlyTable_rval <- reactiveVal(speciesRecordedOneYearOnlyTable_init)
   
-  output$speciesUniqueToYearTable <- rhandsontable::renderRHandsontable({
+  output$speciesRecordedOneYearOnlyTable <- rhandsontable::renderRHandsontable({
     
-    speciesUniqueToYearTable <- rhandsontable::rhandsontable(data = speciesUniqueToYearTable_init,
-                                                             rowHeaders = NULL,
-                                                             width = "100%"#,
-                                                             # overflow = "visible",
-                                                             # stretchH = "all"
-                                                             ) |>
-      rhandsontable::hot_col(col = colnames(speciesUniqueToYearTable_init), halign = "htCenter", readOnly = TRUE) |>
+    speciesRecordedOneYearOnlyTable <- rhandsontable::rhandsontable(data = speciesRecordedOneYearOnlyTable_init,
+                                                                    rowHeaders = NULL,
+                                                                    width = "100%"#,
+                                                                    # overflow = "visible",
+                                                                    # stretchH = "all"
+                                                                    ) |>
+      rhandsontable::hot_col(col = colnames(speciesRecordedOneYearOnlyTable_init), halign = "htCenter", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
@@ -38,7 +104,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
         })
       }")
     
-    return(speciesUniqueToYearTable)
+    return(speciesRecordedOneYearOnlyTable)
     
   })
 
@@ -185,9 +251,9 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
         
       }
       
-      output$speciesUniqueToYearTable <- rhandsontable::renderRHandsontable({
+      output$speciesRecordedOneYearOnlyTable <- rhandsontable::renderRHandsontable({
         
-        speciesUniqueToYearTable <- rhandsontable::rhandsontable(data = species_uniq_to_year,
+        speciesRecordedOneYearOnlyTable <- rhandsontable::rhandsontable(data = species_uniq_to_year,
                                                                  rowHeaders = NULL#,
                                                                  # width = "100%"#,
                                                                  # overflow = "visible",
@@ -204,11 +270,11 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
             })
           }")
         
-        return(speciesUniqueToYearTable)
+        return(speciesRecordedOneYearOnlyTable)
         
       })
       
-      speciesUniqueToYearTable_rval <- reactiveVal(rhandsontable::hot_to_r(input$speciesUniqueToYearTable))
+      speciesRecordedOneYearOnlyTable_rval <- reactiveVal(rhandsontable::hot_to_r(input$speciesRecordedOneYearOnlyTable))
 
 # Species Richness --------------------------------------------------------
       
@@ -374,7 +440,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
               ignoreNULL = TRUE)
   
   
-  outputOptions(output, "speciesUniqueToYearTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "speciesRecordedOneYearOnlyTable", suspendWhenHidden = FALSE)
   outputOptions(output, "speciesRichnessSiteTable", suspendWhenHidden = FALSE)
   outputOptions(output, "speciesRichnessGroupTable", suspendWhenHidden = FALSE)
   outputOptions(output, "speciesRichnessQuadratTable", suspendWhenHidden = FALSE)

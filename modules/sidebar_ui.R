@@ -279,7 +279,7 @@ sidebarUI <- function(id){
         shiny::selectizeInput(inputId = ns("resultsViewEIVs"),
                                            label = "Results to View",
                                            choices = resultsViewEIVs_options,
-                                           selected = NULL,
+                                           selected = c("unweightedMeanHillEllenbergValuesSite"),
                                            multiple = TRUE),
         
         
@@ -294,7 +294,7 @@ sidebarUI <- function(id){
         shiny::selectizeInput(inputId = ns("resultsViewDiversity"),
                                            label = "Results to View",
                                            choices = resultsViewDiversity_options,
-                                           selected = NULL,
+                                           selected = c("speciesRichnessSite"),
                                            multiple = TRUE),
         
         
