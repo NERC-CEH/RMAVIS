@@ -1,4 +1,4 @@
-dcaSubsetNVCUI <- function(id){
+mvaLocalRefRestrictedUI <- function(id){
   
   ns <- NS(id)
   
@@ -17,7 +17,7 @@ dcaSubsetNVCUI <- function(id){
           #   placement = "bottom"
           # ),
         
-        plotly::plotlyOutput(outputId = ns("dcaSubsetNVCPlot"), height = "600px")
+        plotly::plotlyOutput(outputId = ns("mvaLocalRefRestrictedPlot"), height = "600px")
         
       )
 

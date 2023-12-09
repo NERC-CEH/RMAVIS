@@ -1,4 +1,4 @@
-mvaAllNVCUI <- function(id){
+mvaNationalRefUI <- function(id){
   
   ns <- NS(id)
   
@@ -10,7 +10,7 @@ mvaAllNVCUI <- function(id){
         
         shiny::h5("National Reference"),
         
-        plotly::plotlyOutput(outputId = ns("mvaAllNVCPlot"), height = "600px")
+        plotly::plotlyOutput(outputId = ns("mvaNationalRefPlot"), height = "600px")
         
       )
 

@@ -1,4 +1,4 @@
-dcaSubsetNVC <- function(input, output, session, surveyTable, nvcAssignment, sidebar_options) {
+mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssignment, sidebar_options) {
   
   ns <- session$ns
   
@@ -25,7 +25,7 @@ dcaSubsetNVC <- function(input, output, session, surveyTable, nvcAssignment, sid
     bindEvent(sidebar_options(), ignoreInit = TRUE)
   
   
-  dcaSubsetNVCResults <- reactiveVal()
+  mvaLocalRefRestrictedResults <- reactiveVal()
   
 # Run DCA and CCA ---------------------------------------------------------
   observe({
@@ -197,14 +197,14 @@ dcaSubsetNVC <- function(input, output, session, surveyTable, nvcAssignment, sid
     }) # close isolate
     
     # Compose list of DCA results objects
-    dcaSubsetNVCResults_list <- list("selected_pquads_dca_results_species_final" = selected_pquads_dca_results_species,
-                                      "selected_pquads_dca_results_quadrats_final" = selected_pquads_dca_results_quadrats_final,
-                                      "surveyTable_dca_results_quadrats" = surveyTable_dca_results_quadrats,
-                                      "selected_pquads_dca_results_quadrats_final_hull" = selected_pquads_dca_results_quadrats_final_hull,
-                                      "arrow_plot_data" = arrow_plot_data,
-                                      "CCA_arrowData" = CCA_arrowData)
+    mvaLocalRefRestrictedResults_list <- list("selected_pquads_dca_results_species_final" = selected_pquads_dca_results_species,
+                                              "selected_pquads_dca_results_quadrats_final" = selected_pquads_dca_results_quadrats_final,
+                                              "surveyTable_dca_results_quadrats" = surveyTable_dca_results_quadrats,
+                                              "selected_pquads_dca_results_quadrats_final_hull" = selected_pquads_dca_results_quadrats_final_hull,
+                                              "arrow_plot_data" = arrow_plot_data,
+                                              "CCA_arrowData" = CCA_arrowData)
     
-    dcaSubsetNVCResults(dcaSubsetNVCResults_list)
+    mvaLocalRefRestrictedResults(mvaLocalRefRestrictedResults_list)
     
     shinybusy::remove_modal_spinner()
       
@@ -222,56 +222,56 @@ dcaSubsetNVC <- function(input, output, session, surveyTable, nvcAssignment, sid
 # Subset data and create plot ---------------------------------------------
     observe({
       
-      dcaSubsetNVCResults <- dcaSubsetNVCResults()
+      mvaLocalRefRestrictedResults <- mvaLocalRefRestrictedResults()
       
       if(selectSurveyMethod() == "all"){
         
-        surveyTable_dca_results_quadrats_selected <- dcaSubsetNVCResults$surveyTable_dca_results_quadrats
+        surveyTable_dca_results_quadrats_selected <- mvaLocalRefRestrictedResults$surveyTable_dca_results_quadrats
         
-        arrow_plot_data_selected <- dcaSubsetNVCResults$arrow_plot_data
+        arrow_plot_data_selected <- mvaLocalRefRestrictedResults$arrow_plot_data
         
       } else if(selectSurveyMethod() == "selectYears"){
         
-        surveyTable_dca_results_quadrats_selected <- dcaSubsetNVCResults$surveyTable_dca_results_quadrats |>
+        surveyTable_dca_results_quadrats_selected <- mvaLocalRefRestrictedResults$surveyTable_dca_results_quadrats |>
           dplyr::filter(Year %in% selectSurveyYears())
         
-        arrow_plot_data_selected <- dcaSubsetNVCResults$arrow_plot_data |>
+        arrow_plot_data_selected <- mvaLocalRefRestrictedResults$arrow_plot_data |>
           dplyr::filter(Year %in% selectSurveyYears())
         
       } else if(selectSurveyMethod() == "selectGroups"){
         
-        surveyTable_dca_results_quadrats_selected <- dcaSubsetNVCResults$surveyTable_dca_results_quadrats |>
+        surveyTable_dca_results_quadrats_selected <- mvaLocalRefRestrictedResults$surveyTable_dca_results_quadrats |>
           dplyr::filter(Group %in% selectSurveyGroups())
         
-        arrow_plot_data_selected <- dcaSubsetNVCResults$arrow_plot_data |>
+        arrow_plot_data_selected <- mvaLocalRefRestrictedResults$arrow_plot_data |>
           dplyr::filter(Group %in% selectSurveyGroups())
         
       } else if(selectSurveyMethod() == "selectQuadrats"){
         
-        surveyTable_dca_results_quadrats_selected <- dcaSubsetNVCResults$surveyTable_dca_results_quadrats |>
+        surveyTable_dca_results_quadrats_selected <- mvaLocalRefRestrictedResults$surveyTable_dca_results_quadrats |>
           dplyr::filter(Quadrat %in% selectSurveyQuadrats())
         
-        arrow_plot_data_selected <- dcaSubsetNVCResults$arrow_plot_data |>
+        arrow_plot_data_selected <- mvaLocalRefRestrictedResults$arrow_plot_data |>
           dplyr::filter(Quadrat %in% selectSurveyQuadrats())
         
       }
       
       # Create an interactive plot of the DCA results
-      output$dcaSubsetNVCPlot <- plotly::renderPlotly({
+      output$mvaLocalRefRestrictedPlot <- plotly::renderPlotly({
         
         suppressWarnings(
           
           # Create ggplot2 plot
-          dcaSubsetNVCPlot_plot <- ggplot2::ggplot() +
-            {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = dcaSubsetNVCResults$selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2, 
+          mvaLocalRefRestrictedPlot_plot <- ggplot2::ggplot() +
+            {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = mvaLocalRefRestrictedResults$selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2, 
                                                                       mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm))} +
-            {if("species" %in% dcaVars())ggplot2::geom_point(data = selected_pquads_dca_results_species,
+            {if("species" %in% dcaVars())ggplot2::geom_point(data = mvaLocalRefRestrictedResults$selected_pquads_dca_results_species,
                                                              color = '#32a87d',
                                                              shape = 18,
                                                              mapping = ggplot2::aes(x = DCA1, 
                                                                                     y = DCA2,
                                                                                     Species = Species))} +
-            {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = dcaSubsetNVCResults$selected_pquads_dca_results_quadrats_final,
+            {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = mvaLocalRefRestrictedResults$selected_pquads_dca_results_quadrats_final,
                                                                     mapping = ggplot2::aes(color = NVC.Comm,
                                                                                            Quadrat = Quadrat,
                                                                                            x = DCA1,
@@ -283,7 +283,7 @@ dcaSubsetNVC <- function(input, output, session, surveyTable, nvcAssignment, sid
                                                                                            Quadrat = Quadrat,
                                                                                            x = DCA1,
                                                                                            y = DCA2))} +
-            {if("hillEllenberg" %in% dcaVars())ggplot2::geom_segment(data = dcaSubsetNVCResults$CCA_arrowData,
+            {if("hillEllenberg" %in% dcaVars())ggplot2::geom_segment(data = mvaLocalRefRestrictedResults$CCA_arrowData,
                                                                      color = 'black',
                                                                      arrow = grid::arrow(),
                                                                      mapping = ggplot2::aes(x = 0,
@@ -291,7 +291,7 @@ dcaSubsetNVC <- function(input, output, session, surveyTable, nvcAssignment, sid
                                                                                             xend = CCA1,
                                                                                             yend = CCA2,
                                                                                             label = `Hill-Ellenberg`))} +
-            {if("hillEllenberg" %in% dcaVars())ggplot2::geom_text(data = dcaSubsetNVCResults$CCA_arrowData,
+            {if("hillEllenberg" %in% dcaVars())ggplot2::geom_text(data = mvaLocalRefRestrictedResults$CCA_arrowData,
                                                                   color = 'black',
                                                                   # position = ggplot2::position_dodge(width = 0.9),
                                                                   size = 5,
@@ -306,7 +306,7 @@ dcaSubsetNVC <- function(input, output, session, surveyTable, nvcAssignment, sid
           
           if(nrow(arrow_plot_data_selected) > 0){
             
-            dcaSubsetNVCPlot_plotly <- plotly::ggplotly(p = dcaSubsetNVCPlot_plot) |>
+            mvaLocalRefRestrictedPlot_plotly <- plotly::ggplotly(p = mvaLocalRefRestrictedPlot_plot) |>
               plotly::add_annotations(data = arrow_plot_data_selected,
                                       showarrow = TRUE,
                                       text = "",
@@ -321,18 +321,18 @@ dcaSubsetNVC <- function(input, output, session, surveyTable, nvcAssignment, sid
           
         } else {
           
-          dcaSubsetNVCPlot_plotly <- plotly::ggplotly(p = dcaSubsetNVCPlot_plot)
+          mvaLocalRefRestrictedPlot_plotly <- plotly::ggplotly(p = mvaLocalRefRestrictedPlot_plot)
           
         }
         
         
-        return(dcaSubsetNVCPlot_plotly)  
+        return(mvaLocalRefRestrictedPlot_plotly)  
       
       
       })
       
     }) |>
-    bindEvent(dcaSubsetNVCResults(),
+    bindEvent(mvaLocalRefRestrictedResults(),
               dcaVars(),
               selectSurveyMethod(),
               selectSurveyYears(),
@@ -343,6 +343,6 @@ dcaSubsetNVC <- function(input, output, session, surveyTable, nvcAssignment, sid
     
   
   # Return list of DCA results objects
-  return(dcaSubsetNVCResults)
+  return(mvaLocalRefRestrictedResults)
   
 }

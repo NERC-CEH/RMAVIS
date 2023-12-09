@@ -1,4 +1,4 @@
-dcaAllQuadratsUI <- function(id){
+mvaLocalRefUnrestrictedUI <- function(id){
   
   ns <- NS(id)
   
@@ -10,7 +10,7 @@ dcaAllQuadratsUI <- function(id){
         
         shiny::h5("Local Reference (Unrestricted)"),
         
-        plotly::plotlyOutput(outputId = ns("dcaAllQuadratsPlot"), height = "600px")
+        plotly::plotlyOutput(outputId = ns("mvaLocalRefUnrestrictedPlot"), height = "600px")
         
       )
       

@@ -1,8 +1,8 @@
 report <- function(input, output, session, 
                    surveyTable,
                    nvcAssignment,
-                   dcaSubsetNVCResults,
-                   dcaAllQuadratsResults,
+                   mvaLocalRefRestrictedResults,
+                   mvaLocalRefUnrestrictedResults,
                    sidebar_options,
                    floristicTables) {
   
@@ -60,8 +60,8 @@ report <- function(input, output, session,
                           surveyTable = surveyTable(),
                           nvcAssignment = nvcAssignment(),
                           sidebar_options = sidebar_options(),
-                          dcaSubsetNVCResults = dcaSubsetNVCResults(),
-                          dcaAllQuadratsResults = dcaAllQuadratsResults(),
+                          mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults(),
+                          mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults(),
                           floristicTables = floristicTables()
                         ),
                         envir = new.env(parent = globalenv()))

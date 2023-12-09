@@ -6,7 +6,7 @@ server <- function(input, output, session) {
                                        surveyTable = surveyTable,
                                        nvcAssignment = nvcAssignment,
                                        floristicTables = floristicTables,
-                                       dcaSubsetNVCResults = dcaSubsetNVCResults)
+                                       mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults)
   
   shiny::callModule(module = nvcInfo,
                     id = "nvcInfo_id_1")
@@ -50,26 +50,26 @@ server <- function(input, output, session) {
                     surveyTableWide = surveyTableWide,
                     sidebar_options = sidebar_options)
   
-  mvaAllNVCResults <- shiny::callModule(module = mvaAllNVC,
-                                        id = "mvaAllNVC_id_1",
-                                        surveyTable = surveyTable,
-                                        # surveyTableWide = surveyTableWide,
-                                        nvcAssignment = nvcAssignment,
-                                        sidebar_options = sidebar_options)
-  
-  dcaSubsetNVCResults <- shiny::callModule(module = dcaSubsetNVC,
-                                           id = "dcaSubsetNVC_id_1",
-                                           surveyTable = surveyTable,
-                                           # surveyTableWide = surveyTableWide,
-                                           nvcAssignment = nvcAssignment,
-                                           sidebar_options = sidebar_options)
-  
-  dcaAllQuadratsResults <- shiny::callModule(module = dcaAllQuadrats,
-                                             id = "dcaAllQuadrats_id_1",
+  mvaNationalRefResults <- shiny::callModule(module = mvaNationalRef,
+                                             id = "mvaNationalRef_id_1",
                                              surveyTable = surveyTable,
                                              # surveyTableWide = surveyTableWide,
                                              nvcAssignment = nvcAssignment,
                                              sidebar_options = sidebar_options)
+  
+  mvaLocalRefRestrictedResults <- shiny::callModule(module = mvaLocalRefRestricted,
+                                                    id = "mvaLocalRefRestricted_id_1",
+                                                    surveyTable = surveyTable,
+                                                    # surveyTableWide = surveyTableWide,
+                                                    nvcAssignment = nvcAssignment,
+                                                    sidebar_options = sidebar_options)
+  
+  mvaLocalRefUnrestrictedResults <- shiny::callModule(module = mvaLocalRefUnrestricted,
+                                                      id = "mvaLocalRefUnrestricted_id_1",
+                                                      surveyTable = surveyTable,
+                                                      # surveyTableWide = surveyTableWide,
+                                                      nvcAssignment = nvcAssignment,
+                                                      sidebar_options = sidebar_options)
   
 
 # Report ------------------------------------------------------------------
@@ -77,8 +77,8 @@ server <- function(input, output, session) {
                     id = "sidebar_id_1",
                     surveyTable = surveyTable,
                     nvcAssignment = nvcAssignment,
-                    dcaSubsetNVCResults = dcaSubsetNVCResults,
-                    dcaAllQuadratsResults = dcaAllQuadratsResults,
+                    mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults,
+                    mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults,
                     sidebar_options = sidebar_options,
                     floristicTables = floristicTables)
   

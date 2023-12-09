@@ -3,11 +3,11 @@ inputMethod_options <- c("Manual" = "manual",
                          "Example" = "example",
                          "Upload" = "upload")
 
-# NVC assignment method options -------------------------------------------
-nvcAssignMethods_options <- c("Pseudo-quadrat, per site" = "pseudoQuadratSite",
-                              "Pseudo-quadrat, per group" = "pseudoQuadratGroup",
-                              "Pseudo-quadrat, per quadrat" = "pseudoQuadratQuadrat")
-# "Czekanowski" = "czekanowski"
+
+# Example data options ----------------------------------------------------
+example_data_options <- c("None" = "none", 
+                          "Parsonage Down" = "Parsonage Down")
+
 
 
 # Data Entry Format Options -----------------------------------------------

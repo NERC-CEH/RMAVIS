@@ -1,4 +1,4 @@
-dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAssignment, sidebar_options) {
+mvaLocalRefUnrestricted <- function(input, output, session, surveyTable, nvcAssignment, sidebar_options) {
   
   ns <- session$ns
   
@@ -7,8 +7,8 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAssignment, s
   dcaVars <- reactiveVal()
   selectSurveyMethod <- reactiveVal()
   selectSurveyYears <- reactiveVal()
-  selectSurveyQuadrats <- reactiveVal()
   selectSurveyGroups <- reactiveVal()
+  selectSurveyQuadrats <- reactiveVal()
   
   observe({
     
@@ -16,14 +16,14 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAssignment, s
     dcaVars(sidebar_options()$dcaVars)
     selectSurveyMethod(sidebar_options()$selectSurveyMethod)
     selectSurveyYears(sidebar_options()$selectSurveyYears)
-    selectSurveyQuadrats(sidebar_options()$selectSurveyQuadrats)
     selectSurveyGroups(sidebar_options()$selectSurveyGroups)
+    selectSurveyQuadrats(sidebar_options()$selectSurveyQuadrats)
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
   
   
-  dcaAllQuadratsResults <- reactiveVal()
+  mvaLocalRefUnrestrictedResults <- reactiveVal()
   
   observe({
     
@@ -187,14 +187,14 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAssignment, s
     shinybusy::remove_modal_spinner()
     
     # Compose list of DCA results objects
-    dcaAllQuadratsResults_list <- list("pquads_surveyTable_dca_results_species" = pquads_surveyTable_dca_results_species,
+    mvaLocalRefUnrestrictedResults_list <- list("pquads_surveyTable_dca_results_species" = pquads_surveyTable_dca_results_species,
                                        "pquads_surveyTable_dca_results_quadrats_sample" = pquads_surveyTable_dca_results_quadrats_sample,
                                        "pquads_surveyTable_dca_results_quadrats_pquads" = pquads_surveyTable_dca_results_quadrats_pquads,
                                        "pquads_surveyTable_dca_results_quadrats_hull" = pquads_surveyTable_dca_results_quadrats_hull,
                                        "pquads_surveyTable_dca_results_species_unique" = pquads_surveyTable_dca_results_species_unique,
                                        "arrow_plot_data" = arrow_plot_data)
     
-    dcaAllQuadratsResults(dcaAllQuadratsResults_list)
+    mvaLocalRefUnrestrictedResults(mvaLocalRefUnrestrictedResults_list)
     
   }) |>
     bindEvent(runAnalysis(),
@@ -204,55 +204,55 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAssignment, s
   
   observe({
     
-    dcaAllQuadratsResults <- dcaAllQuadratsResults()
+    mvaLocalRefUnrestrictedResults <- mvaLocalRefUnrestrictedResults()
     
     if(selectSurveyMethod() == "all"){
       
-      pquads_surveyTable_dca_results_quadrats_sample_selected <- dcaAllQuadratsResults$pquads_surveyTable_dca_results_quadrats_sample
+      pquads_surveyTable_dca_results_quadrats_sample_selected <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample
       
-      arrow_plot_data_selected <- dcaAllQuadratsResults$arrow_plot_data
+      arrow_plot_data_selected <- mvaLocalRefUnrestrictedResults$arrow_plot_data
       
     } else if(selectSurveyMethod() == "selectYears"){
       
-      pquads_surveyTable_dca_results_quadrats_sample_selected <- dcaAllQuadratsResults$pquads_surveyTable_dca_results_quadrats_sample |>
+      pquads_surveyTable_dca_results_quadrats_sample_selected <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample |>
         dplyr::filter(Year %in% selectSurveyYears())
       
-      arrow_plot_data_selected <- dcaAllQuadratsResults$arrow_plot_data |>
+      arrow_plot_data_selected <- mvaLocalRefUnrestrictedResults$arrow_plot_data |>
         dplyr::filter(Year %in% selectSurveyYears())
       
     } else if(selectSurveyMethod() == "selectGroups"){
       
-      pquads_surveyTable_dca_results_quadrats_sample_selected <- dcaAllQuadratsResults$pquads_surveyTable_dca_results_quadrats_sample |>
+      pquads_surveyTable_dca_results_quadrats_sample_selected <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample |>
         dplyr::filter(Group %in% selectSurveyGroups())
       
-      arrow_plot_data_selected <- dcaAllQuadratsResults$arrow_plot_data |>
+      arrow_plot_data_selected <- mvaLocalRefUnrestrictedResults$arrow_plot_data |>
         dplyr::filter(Group %in% selectSurveyGroups())
       
     } else if(selectSurveyMethod() == "selectQuadrats"){
       
-      pquads_surveyTable_dca_results_quadrats_sample_selected <- dcaAllQuadratsResults$pquads_surveyTable_dca_results_quadrats_sample |>
+      pquads_surveyTable_dca_results_quadrats_sample_selected <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample |>
         dplyr::filter(Quadrat %in% selectSurveyQuadrats())
       
-      arrow_plot_data_selected <- dcaAllQuadratsResults$arrow_plot_data |>
+      arrow_plot_data_selected <- mvaLocalRefUnrestrictedResults$arrow_plot_data |>
         dplyr::filter(Quadrat %in% selectSurveyQuadrats())
       
     }
     
-    output$dcaAllQuadratsPlot <- plotly::renderPlotly({
+    output$mvaLocalRefUnrestrictedPlot <- plotly::renderPlotly({
       
       
       suppressWarnings(
         
-        dcaAllQuadratsPlot_plot <- ggplot2::ggplot() +
-          {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = dcaAllQuadratsResults$pquads_surveyTable_dca_results_quadrats_hull, alpha = 0.2, 
+        mvaLocalRefUnrestrictedPlot_plot <- ggplot2::ggplot() +
+          {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_hull, alpha = 0.2, 
                                                                     mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm))} +
-          {if("species" %in% dcaVars())ggplot2::geom_point(data = dcaAllQuadratsResults$pquads_surveyTable_dca_results_species,
+          {if("species" %in% dcaVars())ggplot2::geom_point(data = mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_species,
                                                            color = '#32a87d',
                                                            shape = 18,
                                                            mapping = ggplot2::aes(x = DCA1,
                                                                                   y = DCA2,
                                                                                   Species = Species))} +
-          {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = dcaAllQuadratsResults$pquads_surveyTable_dca_results_quadrats_pquads,
+          {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_pquads,
                                                                   mapping = ggplot2::aes(color = NVC.Comm,
                                                                                          Quadrat = Quadrat,
                                                                                          x = DCA1,
@@ -264,7 +264,7 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAssignment, s
                                                                                          Quadrat = Quadrat,
                                                                                          x = DCA1,
                                                                                          y = DCA2))} +
-          {if("uniqSurveySpecies" %in% dcaVars())ggplot2::geom_point(data = dcaAllQuadratsResults$pquads_surveyTable_dca_results_species_unique,
+          {if("uniqSurveySpecies" %in% dcaVars())ggplot2::geom_point(data = mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_species_unique,
                                                                      color = '#32a87d',
                                                                      shape = 18,
                                                                      mapping = ggplot2::aes(x = DCA1,
@@ -278,7 +278,7 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAssignment, s
         
         if(nrow(arrow_plot_data_selected) > 0){
           
-          dcaAllQuadratsPlot_plotly <- plotly::ggplotly(p = dcaAllQuadratsPlot_plot) |>
+          mvaLocalRefUnrestrictedPlot_plotly <- plotly::ggplotly(p = mvaLocalRefUnrestrictedPlot_plot) |>
             plotly::add_annotations(data = arrow_plot_data_selected,
                                     showarrow = TRUE,
                                     text = "",
@@ -294,17 +294,17 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAssignment, s
         
       } else {
         
-        dcaAllQuadratsPlot_plotly <- plotly::ggplotly(p = dcaAllQuadratsPlot_plot)
+        mvaLocalRefUnrestrictedPlot_plotly <- plotly::ggplotly(p = mvaLocalRefUnrestrictedPlot_plot)
         
       }
       
       
-      return(dcaAllQuadratsPlot_plotly)  
+      return(mvaLocalRefUnrestrictedPlot_plotly)  
       
     })
     
   }) |>
-    bindEvent(dcaAllQuadratsResults(),
+    bindEvent(mvaLocalRefUnrestrictedResults(),
               selectSurveyMethod(),
               selectSurveyYears(),
               selectSurveyGroups(),
@@ -313,6 +313,6 @@ dcaAllQuadrats <- function(input, output, session, surveyTable, nvcAssignment, s
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
-  return(dcaAllQuadratsResults)
+  return(mvaLocalRefUnrestrictedResults)
   
 }

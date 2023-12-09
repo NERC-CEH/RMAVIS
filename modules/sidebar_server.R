@@ -1,4 +1,4 @@
-sidebar <- function(input, output, session, surveyTable, nvcAssignment, floristicTables, dcaSubsetNVCResults) {
+sidebar <- function(input, output, session, surveyTable, nvcAssignment, floristicTables, mvaLocalRefRestrictedResults) {
   
   ns <- session$ns
   
@@ -82,6 +82,31 @@ sidebar <- function(input, output, session, surveyTable, nvcAssignment, floristi
     
   }) |>
     bindEvent(input$inputMethod, ignoreInit = FALSE)
+
+
+# Update habitat restriction if example is used ---------------------------
+  
+  observe({
+    
+    if(input$inputMethod == "example"){
+      
+      if(input$exampleData == "Parsonage Down"){
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "habitatRestriction",
+          selected = "CG"
+        )
+        
+      }
+      
+    }
+    
+  }) |>
+    bindEvent(input$inputMethod,
+              input$exampleData,
+              ignoreInit = TRUE)
+
 
 
 # Upload Data Modal Popup -------------------------------------------------
@@ -244,9 +269,9 @@ sidebar <- function(input, output, session, surveyTable, nvcAssignment, floristi
 # Reactively update DCA survey quadrat selection options ------------------
   observe({
     
-    # print(dcaSubsetNVCResults())
+    # print(mvaLocalRefRestrictedResults())
 
-    if(is.null(dcaSubsetNVCResults()) == FALSE){
+    if(is.null(mvaLocalRefRestrictedResults()) == FALSE){
 
       uniq_years <- surveyTable() |>
         dplyr::pull(Year) |>

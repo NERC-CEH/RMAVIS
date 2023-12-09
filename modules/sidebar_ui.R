@@ -50,7 +50,7 @@ sidebarUI <- function(id){
           
           shiny::selectizeInput(inputId = ns("exampleData"), 
                                 label = "Example Data", 
-                                choices = exampleDataOptions, 
+                                choices = example_data_options, 
                                 selected = "none", 
                                 multiple = FALSE),
             

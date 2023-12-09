@@ -138,6 +138,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     
     nvcAssignmentSiteTable <- rhandsontable::rhandsontable(data = nvcAssignmentSiteTable_init,
                                                            rowHeaders = NULL,
+                                                           search = TRUE,
                                                            width = "100%"#,
                                                            # overflow = "visible",
                                                            # stretchH = "all"
@@ -166,7 +167,9 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     output$nvcAssignmentSiteTable <- rhandsontable::renderRHandsontable({
       
       nvcAssignmentSiteTable <- rhandsontable::rhandsontable(data = nvcAssignmentSite,
-                                                             rowHeaders = NULL#,
+                                                             rowHeaders = NULL,
+                                                             search = TRUE,
+                                                             width = "100%"#,
                                                              # overflow = "visible",
                                                              # stretchH = "all"
                                                              ) |>
@@ -206,6 +209,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     
     nvcAssignmentGroupTable <- rhandsontable::rhandsontable(data = nvcAssignmentGroupTable_init,
                                                             rowHeaders = NULL,
+                                                            search = TRUE,
                                                             width = "100%"#,
                                                             # overflow = "visible",
                                                             # stretchH = "all"
@@ -234,7 +238,9 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     output$nvcAssignmentGroupTable <- rhandsontable::renderRHandsontable({
       
       nvcAssignmentGroupTable <- rhandsontable::rhandsontable(data = nvcAssignmentGroup,
-                                                              rowHeaders = NULL#,
+                                                              rowHeaders = NULL,
+                                                              search = TRUE,
+                                                              width = "100%"#,
                                                               # overflow = "visible",
                                                               # stretchH = "all"
                                                               ) |>
@@ -274,6 +280,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     
     nvcAssignmentQuadratTable <- rhandsontable::rhandsontable(data = nvcAssignmentQuadratTable_init,
                                                               rowHeaders = NULL,
+                                                              search = TRUE,
                                                               width = "100%"#,
                                                               # overflow = "visible",
                                                               # stretchH = "all"
@@ -302,7 +309,10 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     output$nvcAssignmentQuadratTable <- rhandsontable::renderRHandsontable({
       
       nvcAssignmentQuadratTable <- rhandsontable::rhandsontable(data = nvcAssignmentQuadrat,
-                                                                rowHeaders = NULL#,
+                                                                rowHeaders = NULL,
+                                                                search = FALSE,
+                                                                width = "100%",
+                                                                readOnly = TRUE
                                                                 # overflow = "visible",
                                                                 # stretchH = "all"
                                                                 ) |>

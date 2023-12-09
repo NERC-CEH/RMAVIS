@@ -33,7 +33,7 @@ uploadData <- function(input, output, session) {
   
   uploadDataTable_rval <- reactiveVal()
   
-  uploaded_data_init <- data.frame("Year" = character(),
+  uploaded_data_init <- data.frame("Year" = integer(),
                                    "Group" = character(),
                                    "Quadrat" = character(),
                                    "Species" = character(),

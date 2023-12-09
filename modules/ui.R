@@ -4,8 +4,8 @@ ui <- bslib::page_navbar(
   title = bslib::layout_columns(
     bslib::card_image(file = "www/ukceh_logo_long_720x170_rgb.png", fill = FALSE, width = "320px"),
     # shiny::HTML(paste(shiny::h2(shiny::em("pseudo")), shiny::h1("MAVIS")))
-    shiny::h1(shiny::div(shiny::em("pseudo"), "MAVIS"),
-              id = "title")
+    shiny::h1(shiny::div(shiny::em("pseudo"), "MAVIS"), id = "title")#,
+    # bslib::card_image(file = "www/nationalReference.png", fill = FALSE, width = "200px"),
     ),
   
   id = "nav",
@@ -130,13 +130,19 @@ ui <- bslib::page_navbar(
         
         bslib::layout_columns(
           
-          col_widths = c(6, 6),
+          col_widths = c(6, 6, 6),
           
-          mvaAllNVCUI(id = "mvaAllNVC_id_1"),
+          row_heights = c(1, 1),
           
-          dcaSubsetNVCUI(id = "dcaSubsetNVC_id_1")#,
+          fill = FALSE,
           
-          # dcaAllQuadratsUI(id = "dcaAllQuadrats_id_1")
+          fillable = TRUE,
+          
+          mvaNationalRefUI(id = "mvaNationalRef_id_1"),
+          
+          mvaLocalRefRestrictedUI(id = "mvaLocalRefRestricted_id_1"),
+          
+          mvaLocalRefUnrestrictedUI(id = "mvaLocalRefUnrestricted_id_1")
           
         )
       )
