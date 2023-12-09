@@ -2,7 +2,7 @@
 ui <- bslib::page_navbar(
 
   title = bslib::layout_columns(
-    bslib::card_image(file = "www/ukceh_logo_long_720x170_rgb.png", fill = FALSE, width = "320px"),
+    bslib::card_image(file = "www/ukceh_logo_long_720x170_rgb.png", fill = FALSE, width = "300px"),
     # shiny::HTML(paste(shiny::h2(shiny::em("pseudo")), shiny::h1("MAVIS")))
     shiny::h1(shiny::div(shiny::em("pseudo"), "MAVIS"), id = "title")#,
     # bslib::card_image(file = "www/nationalReference.png", fill = FALSE, width = "200px"),

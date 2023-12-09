@@ -96,6 +96,23 @@ crossTabulate_options <- c("No" = "No",
                            "NVC to Composed" = "NVCToComp")
 
 
+# Results to View EIVs ----------------------------------------------------
+resultsViewEIVs_options <- c("Weighted Mean Hill-Ellenberg Values, by Site" = "weightedMeanHillEllenbergValuesSite",
+                             "Unweighted Mean Hill-Ellenberg Values, by Site" = "unweightedMeanHillEllenbergValuesSite",
+                             "Weighted Mean Hill-Ellenberg Values, by Group" = "weightedMeanHillEllenbergValuesGroup",
+                             "Unweighted Mean Hill-Ellenberg Values, by Group" = "unweightedMeanHillEllenbergValuesGroup",
+                             "Weighted Mean Hill-Ellenberg Values, by Quadrat" = "weightedMeanHillEllenbergValuesQuadrat",
+                             "Unweighted Mean Hill-Ellenberg Values, by Quadrat" = "unweightedMeanHillEllenbergValuesQuadrat"
+                             )
+
+
+# Results to View Diversity -----------------------------------------------
+resultsViewDiversity_options <- c("Species Richness, by Site" = "speciesRichnessSite",
+                                  "Species Recorded In One Year Only" = "speciesRecordedOneYearOnly",
+                                  "Species Richness, by Group" = "speciesRichnessGroup",
+                                  "Species Richness, by Quadrat" = "speciesRichnessQuadrat")
+
+
 # DCA Variable Options To Show --------------------------------------------
 dcaVars_options <- c("Survey Quadrats" = "surveyQuadrats",
                      "Pseudo-Quadrats" = "pseudoQuadrats",

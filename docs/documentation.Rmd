@@ -125,10 +125,11 @@ Two methods are available for the assignment of NVC communities.
 
 ## Habitat Correspondences
 
-Habitat correspondence data is drawn from the Joint Nature Conservation Committee 
-(JNCC) Spreadsheet of Habitat Correspondences [@jncc2008].
+Habitat correspondence data is drawn from three sources:
 
-Currently, habitat correspondence data for UKHab is drawn from UKHab V1.1 [@butcher2020].
+1. The Joint Nature Conservation Committee (JNCC) Spreadsheet of Habitat Correspondences [@jncc2008].
+2. For UKHab is drawn from UKHab V1.1 [@butcher2020].
+3. For the National Plant Monitoring Scheme (NPMS) data is drawn from [@pescott2019]
 
 ## Floristic Tables
 

@@ -209,7 +209,6 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     
     nvcAssignmentGroupTable <- rhandsontable::rhandsontable(data = nvcAssignmentGroupTable_init,
                                                             rowHeaders = NULL,
-                                                            search = TRUE,
                                                             width = "100%"#,
                                                             # overflow = "visible",
                                                             # stretchH = "all"
@@ -239,7 +238,6 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
       
       nvcAssignmentGroupTable <- rhandsontable::rhandsontable(data = nvcAssignmentGroup,
                                                               rowHeaders = NULL,
-                                                              search = TRUE,
                                                               width = "100%"#,
                                                               # overflow = "visible",
                                                               # stretchH = "all"
@@ -280,7 +278,6 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     
     nvcAssignmentQuadratTable <- rhandsontable::rhandsontable(data = nvcAssignmentQuadratTable_init,
                                                               rowHeaders = NULL,
-                                                              search = TRUE,
                                                               width = "100%"#,
                                                               # overflow = "visible",
                                                               # stretchH = "all"
@@ -310,7 +307,6 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
       
       nvcAssignmentQuadratTable <- rhandsontable::rhandsontable(data = nvcAssignmentQuadrat,
                                                                 rowHeaders = NULL,
-                                                                search = FALSE,
                                                                 width = "100%",
                                                                 readOnly = TRUE
                                                                 # overflow = "visible",

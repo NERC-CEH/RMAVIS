@@ -6,7 +6,7 @@ floristicTablesUI <- function(id){
     shiny::column(
       width = 6,
       
-      shiny::h5("Floristic Tables - Composed"),
+      shiny::h5("Composed Floristic Table"),
       
       shiny::div(
         rhandsontable::rHandsontableOutput(outputId = ns("floristicTables_composed"))
@@ -17,7 +17,7 @@ floristicTablesUI <- function(id){
     shiny::column(
       width = 6,
       
-      shiny::h5("Floristic Tables - NVC"),
+      shiny::h5("NVC Floristic Table"),
       
       shiny::div(
         rhandsontable::rHandsontableOutput(outputId = ns("floristicTables_nvc"))

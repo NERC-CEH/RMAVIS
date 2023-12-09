@@ -41,21 +41,21 @@ nvcInfo <- function(input, output, session, sidebar_options) {
   })
   
   # observe({
-  #   
-  #   shiny::isolate({
   # 
+  #   # shiny::isolate({
+  #   # 
+  #   # 
+  #   # })
   # 
-  #   })
-  #   
-  #   output$surveyTable <- rhandsontable::renderRHandsontable({
-  #     
-  #     surveyTable <- rhandsontable::rhandsontable(data = surveyTable,
-  #                                                 rowHeaders = NULL,
-  #                                                 width = "100%"#,
-  #                                                 # overflow = "visible",
-  #                                                 # stretchH = "all"
-  #                                                 ) |>
-  #       rhandsontable::hot_col(col = colnames(surveyTable), halign = "htCenter") |>
+  #   output$nvcInfoLookupTable <- rhandsontable::renderRHandsontable({
+  # 
+  #     nvcInfoLookupTable <- rhandsontable::rhandsontable(data = nvcInfoLookupTable,
+  #                                                        rowHeaders = NULL,
+  #                                                        width = "100%"#,
+  #                                                        # overflow = "visible",
+  #                                                        # stretchH = "all"
+  #                                                        ) |>
+  #       rhandsontable::hot_col(col = colnames(nvcInfoLookupTable), halign = "htCenter") |>
   #       rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE) |>
   #       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
   #       htmlwidgets::onRender("
@@ -65,22 +65,14 @@ nvcInfo <- function(input, output, session, sidebar_options) {
   #           setTimeout(function() {hot.render();}, 0);
   #         })
   #       }")
-  #     
+  # 
   #     return(nvcInfoLookupTable)
-  #     
+  # 
   #   })
-  #   
+  # 
   #   nvcInfoLookupTable_rval(rhandsontable::hot_to_r(input$nvcInfoLookupTable))
-  #   
+  # 
   # })
-  
-  
-  observe({
-    
-    nvcInfoLookupTable_rval(rhandsontable::hot_to_r(input$nvcInfoLookupTable))
-    
-  }) |>
-    bindEvent(input$nvcInfoLookupTable, ignoreInit = TRUE)
   
   
   outputOptions(output, "nvcInfoLookupTable", suspendWhenHidden = FALSE)

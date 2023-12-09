@@ -6,7 +6,7 @@ sidebarUI <- function(id){
     
     width = 320,
     
-    shiny::h5("Model Options"),
+    shiny::h5("Options"),
     # shiny::hr(),
     shiny::actionButton(inputId = ns("runAnalysis"),
                         label = "Run Analysis"),
@@ -22,7 +22,7 @@ sidebarUI <- function(id){
         
         "Survey Data", 
         
-        icon = bsicons::bs_icon("wrench-adjustable"),
+        icon = bsicons::bs_icon("clipboard-data"),
         
         bslib::layout_columns(
           
@@ -94,7 +94,7 @@ sidebarUI <- function(id){
         
         "NVC Assignment", 
         
-        icon = bsicons::bs_icon("clipboard2-data"),
+        icon = bsicons::bs_icon("ui-checks-grid"),
         
         # shiny::selectizeInput(inputId = ns("nvcAssignMethods"),
         #                       label = "Methods",
@@ -105,12 +105,20 @@ sidebarUI <- function(id){
         bslib::layout_columns(
           
           col_widths = c(11, 1),
-          
-          shiny::selectizeInput(inputId = ns("habitatRestriction"), 
-                                label = "Restrict Habitat", 
-                                choices = habitatRestriction_options, 
-                                selected = NA, 
-                                multiple = TRUE),
+
+          shiny::selectizeInput(inputId = ns("habitatRestriction"),
+                                label = "Restrict Habitat",
+                                choices = habitatRestriction_options,
+                                selected = NULL,
+                                multiple = TRUE
+                                ),
+                    
+          # shinyWidgets::pickerInput(inputId = ns("habitatRestriction"),
+          #                           label = "Restrict Habitat",
+          #                           choices = habitatRestriction_options,
+          #                           selected = NULL,
+          #                           multiple = TRUE,
+          #                           options = shinyWidgets::pickerOptions(dropupAuto = FALSE)),
           
           bslib::popover(
             bsicons::bs_icon("info-circle"),
@@ -121,6 +129,8 @@ sidebarUI <- function(id){
           )
           
         ),
+        
+        shiny::div(shiny::br()),
         
         bslib::layout_columns(
           
@@ -202,7 +212,7 @@ sidebarUI <- function(id){
           col_widths = c(11, 1),
           
           shiny::selectizeInput(inputId = ns("nvcFloristicTable"), 
-                                label = "NVC Community", 
+                                label = "NVC Table", 
                                 choices = nvc_community_codes, 
                                 selected = "A1", 
                                 multiple = FALSE),
@@ -262,16 +272,52 @@ sidebarUI <- function(id){
       
       bslib::accordion_panel(
         
+        "EIVs", 
+        
+        icon = bsicons::bs_icon("water"),
+        
+        shiny::selectizeInput(inputId = ns("resultsViewEIVs"),
+                                           label = "Results to View",
+                                           choices = resultsViewEIVs_options,
+                                           selected = NULL,
+                                           multiple = TRUE),
+        
+        
+      ),
+      
+      bslib::accordion_panel(
+        
+        "Diversity", 
+        
+        icon = bsicons::bs_icon("tree"),
+        
+        shiny::selectizeInput(inputId = ns("resultsViewDiversity"),
+                                           label = "Results to View",
+                                           choices = resultsViewDiversity_options,
+                                           selected = NULL,
+                                           multiple = TRUE),
+        
+        
+      ),
+      
+      bslib::accordion_panel(
+        
         "Multivariate Analysis", 
         
         icon = bsicons::bs_icon("arrows-angle-expand"),
         
-        shinyWidgets::pickerInput(inputId = ns("globalReferenceSpaces"),
-                                  label = "Global Reference Spaces",
-                                  choices = globalReferenceSpaces_options,
-                                  selected = NULL,
-                                  multiple = TRUE,
-                                  options = shinyWidgets::pickerOptions(dropupAuto = FALSE)),
+        # shinyWidgets::pickerInput(inputId = ns("globalReferenceSpaces"),
+        #                           label = "Global Reference Spaces",
+        #                           choices = globalReferenceSpaces_options,
+        #                           selected = NULL,
+        #                           multiple = TRUE,
+        #                           options = shinyWidgets::pickerOptions(dropupAuto = FALSE)),
+        
+        shiny::selectizeInput(inputId = ns("globalReferenceSpaces"),
+                              label = "Global Reference Spaces",
+                              choices = globalReferenceSpaces_options,
+                              selected = NULL,
+                              multiple = TRUE),
         
         shiny::selectizeInput(inputId = ns("selectSurveyMethod"),
                               label = "Survey Quadrat Selection",
@@ -365,7 +411,7 @@ sidebarUI <- function(id){
         
         # reportUI(id = ns("report_id_1"))
         
-        )
+      )
     )
   )
   

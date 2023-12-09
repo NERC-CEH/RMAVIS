@@ -21,6 +21,8 @@ sidebar <- function(input, output, session, surveyTable, nvcAssignment, floristi
       "nvcFloristicTable" = input$nvcFloristicTable,
       "crossTabulate" = input$crossTabulate,
       "restrictNVCFlorTablesOpts" = input$restrictNVCFlorTablesOpts,
+      "resultsViewEIVs"  = input$resultsViewEIVs,
+      "resultsViewDiversity"  = input$resultsViewDiversity,
       "globalReferenceSpaces" = input$globalReferenceSpaces,
       "selectSurveyMethod" = input$selectSurveyMethod,
       "selectSurveyYears" = input$selectSurveyYears,
@@ -38,10 +40,15 @@ sidebar <- function(input, output, session, surveyTable, nvcAssignment, floristi
               input$exampleData, 
               input$runAnalysis, 
               # input$coverMethod, 
-              input$habitatRestriction, input$nTopResults,
-              input$habCorClass, input$composedFloristicTable,
-              input$nvcFloristicTable, input$crossTabulate,
+              input$habitatRestriction, 
+              input$nTopResults,
+              input$habCorClass, 
+              input$composedFloristicTable,
+              input$nvcFloristicTable, 
+              input$crossTabulate,
               input$restrictNVCFlorTablesOpts,
+              input$resultsViewEIVs,
+              input$resultsViewDiversity,
               input$globalReferenceSpaces,
               input$selectSurveyMethod,
               input$selectSurveyYears,
@@ -91,7 +98,7 @@ sidebar <- function(input, output, session, surveyTable, nvcAssignment, floristi
     if(input$inputMethod == "example"){
       
       if(input$exampleData == "Parsonage Down"){
-        
+        # shinyWidgets::updatePickerInput(
         shiny::updateSelectizeInput(
           session = session,
           inputId = "habitatRestriction",
@@ -256,7 +263,8 @@ sidebar <- function(input, output, session, surveyTable, nvcAssignment, floristi
     
     NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
     
-    shinyWidgets::updatePickerInput(
+    # shinyWidgets::updatePickerInput(
+    shiny::updateSelectizeInput(
       session = session,
       inputId = "globalReferenceSpaces",
       selected = NVC_communities_final

@@ -6,18 +6,42 @@ diversityAnalysisUI <- function(id){
     shiny::column(
       width = 12,
       
-      shiny::h5("Alpha Diversity"),
+      shiny::h5("Species Richness - by Site (Gamma Diversity)"),
       
       shiny::div(
-        rhandsontable::rHandsontableOutput(outputId = ns("alphaDiversityQuadratTable"))
+        rhandsontable::rHandsontableOutput(outputId = ns("speciesRichnessSiteTable"))
       ),
       
-      shiny::h5("Beta Diversity"),
+      shiny::div(shiny::br()),
       
-      shiny::h5("Gamma Diversity"),
+      shiny::h5("Species Recorded In One Year Only"),
       
       shiny::div(
-        rhandsontable::rHandsontableOutput(outputId = ns("gammaDiversitySiteTable"))
+        rhandsontable::rHandsontableOutput(outputId = ns("speciesUniqueToYearTable"))
+      ),
+      
+      # shiny::div(shiny::br()),
+      # 
+      # shiny::h5("Beta Diversity"),
+      # 
+      # shiny::div(
+      #   rhandsontable::rHandsontableOutput(outputId = ns(""))
+      # ),
+      
+      shiny::div(shiny::br()),
+      
+      shiny::h5("Species Richness - by Group"),
+      
+      shiny::div(
+        rhandsontable::rHandsontableOutput(outputId = ns("speciesRichnessGroupTable"))
+      ),
+      
+      shiny::div(shiny::br()),
+      
+      shiny::h5("Species Richness - by Quadrat (Alpha Diversity)"),
+      
+      shiny::div(
+        rhandsontable::rHandsontableOutput(outputId = ns("speciesRichnessQuadratTable"))
       )
       
     )

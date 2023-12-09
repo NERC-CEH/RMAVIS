@@ -13,23 +13,53 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
     bindEvent(sidebar_options(), ignoreInit = TRUE)
 
 
-# Initialise Alpha Diversity Quadrat Table --------------------------------
-  alphaDiversityQuadratTable_init <- data.frame("Year" = integer(),
-                                                "Group" = character(),
-                                                "Quadrat" = character(),
-                                                "Richness" = double())
+# Initialise species unique to year table ---------------------------------
+  speciesUniqueToYearTable_init <- data.frame("Year" = integer(),
+                                              "Species" = character())
   
-  alphaDiversityQuadratTable_rval <- reactiveVal(alphaDiversityQuadratTable_init)
+  speciesUniqueToYearTable_rval <- reactiveVal(speciesUniqueToYearTable_init)
+  
+  output$speciesUniqueToYearTable <- rhandsontable::renderRHandsontable({
+    
+    speciesUniqueToYearTable <- rhandsontable::rhandsontable(data = speciesUniqueToYearTable_init,
+                                                             rowHeaders = NULL,
+                                                             width = "100%"#,
+                                                             # overflow = "visible",
+                                                             # stretchH = "all"
+                                                             ) |>
+      rhandsontable::hot_col(col = colnames(speciesUniqueToYearTable_init), halign = "htCenter", readOnly = TRUE) |>
+      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+      htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"diversity_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+    
+    return(speciesUniqueToYearTable)
+    
+  })
 
-  output$alphaDiversityQuadratTable <- rhandsontable::renderRHandsontable({
+  
+# Initialise Species Richness Quadrat Table -------------------------------
+  speciesRichnessQuadratTable_init <- data.frame("Year" = integer(),
+                                                 "Group" = character(),
+                                                 "Quadrat" = character(),
+                                                 "Richness" = double())
+  
+  speciesRichnessQuadratTable_rval <- reactiveVal(speciesRichnessQuadratTable_init)
 
-    alphaDiversityQuadratTable <- rhandsontable::rhandsontable(data = alphaDiversityQuadratTable_init,
-                                                               rowHeaders = NULL,
-                                                               width = "100%"#,
-                                                               # overflow = "visible",
-                                                               # stretchH = "all"
-                                                               ) |>
-      rhandsontable::hot_col(col = colnames(alphaDiversityQuadratTable_init), halign = "htCenter", readOnly = TRUE) |>
+  output$speciesRichnessQuadratTable <- rhandsontable::renderRHandsontable({
+
+    speciesRichnessQuadratTable <- rhandsontable::rhandsontable(data = speciesRichnessQuadratTable_init,
+                                                                rowHeaders = NULL,
+                                                                width = "100%"#,
+                                                                # overflow = "visible",
+                                                                # stretchH = "all"
+                                                                ) |>
+      rhandsontable::hot_col(col = colnames(speciesRichnessQuadratTable_init), halign = "htCenter", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
@@ -40,36 +70,27 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
         })
       }")
 
-    return(alphaDiversityQuadratTable)
+    return(speciesRichnessQuadratTable)
 
   })
   
-  
-# Initialise Alpha Diversity Group Table --------------------------------
 
+# Initialise Species Richness Group Table ---------------------------------
+  speciesRichnessGroupTable_init <- data.frame("Year" = integer(),
+                                               "Group" = character(),
+                                               "Richness" = double())
   
-# Initialise Beta Diversity Quadrat Table ---------------------------------
-
-
-# Initialise Beta Diversity Group Table -----------------------------------
+  speciesRichnessGroupTable_rval <- reactiveVal(speciesRichnessGroupTable_init)
   
-
-# Initialise Gamma Diversity Site Table -----------------------------------
-  gammaDiversitySiteTable_init <- data.frame("Year" = integer(),
-                                             "Richness" = double()
-  )
-  
-  gammaDiversitySiteTable_rval <- reactiveVal(gammaDiversitySiteTable_init)
-  
-  output$gammaDiversitySiteTable <- rhandsontable::renderRHandsontable({
+  output$speciesRichnessGroupTable <- rhandsontable::renderRHandsontable({
     
-    gammaDiversitySiteTable <- rhandsontable::rhandsontable(data = gammaDiversitySiteTable_init,
-                                                            rowHeaders = NULL,
-                                                            width = "100%"#,
-                                                            # overflow = "visible",
-                                                            # stretchH = "all"
-                                                            ) |>
-      rhandsontable::hot_col(col = colnames(gammaDiversitySiteTable_init), halign = "htCenter", readOnly = TRUE) |>
+    speciesRichnessGroupTable <- rhandsontable::rhandsontable(data = speciesRichnessGroupTable_init,
+                                                              rowHeaders = NULL,
+                                                              width = "100%"#,
+                                                              # overflow = "visible",
+                                                              # stretchH = "all"
+    ) |>
+      rhandsontable::hot_col(col = colnames(speciesRichnessGroupTable_init), halign = "htCenter", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
@@ -80,7 +101,37 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
         })
       }")
     
-    return(gammaDiversitySiteTable)
+    return(speciesRichnessGroupTable)
+    
+  })
+
+
+# Initialise Species Richness Site Table ----------------------------------
+  speciesRichnessSiteTable_init <- data.frame("Year" = integer(),
+                                              "Richness" = double())
+  
+  speciesRichnessSiteTable_rval <- reactiveVal(speciesRichnessSiteTable_init)
+  
+  output$speciesRichnessSiteTable <- rhandsontable::renderRHandsontable({
+    
+    speciesRichnessSiteTable <- rhandsontable::rhandsontable(data = speciesRichnessSiteTable_init,
+                                                             rowHeaders = NULL,
+                                                             width = "100%"#,
+                                                             # overflow = "visible",
+                                                             # stretchH = "all"
+                                                             ) |>
+      rhandsontable::hot_col(col = colnames(speciesRichnessSiteTable_init), halign = "htCenter", readOnly = TRUE) |>
+      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+      htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"diversity_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+    
+    return(speciesRichnessSiteTable)
     
   })
   
@@ -95,39 +146,54 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       text = "Calculating Diversity Metrics"
     )
     
+    shiny::req(surveyTable())
     shiny::req(surveyTableWide())
     
-    # shiny::req(input$metricsTableIDQuad)
-    # shiny::req(input$metricsTableID)
+    surveyTable <- surveyTable()
+    surveyTableWide <- surveyTableWide()
     
     isolate({
-      
-      surveyTable <- surveyTable()
-      surveyTableWide <- surveyTableWide()
 
-# Alpha Diversity ---------------------------------------------------------
+# Species unique to year --------------------------------------------------
+      surveyTable_species_all <- surveyTable |>
+        dplyr::select(Year, Species) |>
+        dplyr::distinct()
       
-      alphaDiversity_quadrat <- surveyTable |>
-        dplyr::group_by(Year, Group, Quadrat) |>
-        dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
-        dplyr::ungroup() |>
-        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE)
+      species_uniq_to_year <- tibble::tibble()
       
-      alphaDiversity_group <- surveyTable |>
-        dplyr::group_by(Year, Group) |>
-        dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
-        dplyr::ungroup() |>
-        tidyr::unite(col = "ID", c(Year, Group), sep = " - ", remove = TRUE)
-      
-      output$alphaDiversityQuadratTable <- rhandsontable::renderRHandsontable({
+      for (year in unique(surveyTable_species_all$Year)) {
         
-        alphaDiversityQuadratTable <- rhandsontable::rhandsontable(data = alphaDiversity_quadrat,
-                                                                   rowHeaders = NULL,
-                                                                   width = "100%"#,
-                                                                   # overflow = "visible",
-                                                                   # stretchH = "all"
-        ) |>
-          rhandsontable::hot_col(col = colnames(alphaDiversity_quadrat), halign = "htCenter", readOnly = TRUE) |>
+        surveyTable_species_year <- surveyTable_species_all |>
+          dplyr::filter(Year == year) |>
+          dplyr::pull(Species)
+        
+
+        surveyTable_species_notYear <- surveyTable_species_all |>
+          dplyr::filter(Year != year) |>
+          dplyr::pull(Species)       
+        
+        surveyTable_species_diff <- setdiff(surveyTable_species_year, surveyTable_species_notYear)
+        
+        surveyTable_species_diff_df <- tibble::tibble("Year" = year,
+                                                      "Species" = surveyTable_species_diff) |>
+          dplyr::group_by(Year) |>
+          dplyr::summarise(Species = toString(Species)) |>
+          dplyr::ungroup()
+        
+        species_uniq_to_year <- species_uniq_to_year |>
+          dplyr::bind_rows(surveyTable_species_diff_df)
+        
+      }
+      
+      output$speciesUniqueToYearTable <- rhandsontable::renderRHandsontable({
+        
+        speciesUniqueToYearTable <- rhandsontable::rhandsontable(data = species_uniq_to_year,
+                                                                 rowHeaders = NULL#,
+                                                                 # width = "100%"#,
+                                                                 # overflow = "visible",
+                                                                 # stretchH = "all"
+                                                                 ) |>
+          rhandsontable::hot_col(col = colnames(species_uniq_to_year), halign = "htCenter", readOnly = TRUE) |>
           rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
           rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
           htmlwidgets::onRender("
@@ -138,63 +204,166 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
             })
           }")
         
-        return(alphaDiversityQuadratTable)
+        return(speciesUniqueToYearTable)
         
       })
       
-      alphaDiversityQuadratTable_rval(rhandsontable::hot_to_r(input$alphaDiversityQuadratTable))
+      speciesUniqueToYearTable_rval <- reactiveVal(rhandsontable::hot_to_r(input$speciesUniqueToYearTable))
+
+# Species Richness --------------------------------------------------------
+      
+      assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
+  
+      # Species Richness - Quadrat
+      speciesRichness_quadrat <- surveyTable |>
+        dplyr::group_by(Year, Group, Quadrat) |>
+        dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
+        dplyr::ungroup()
+      
+      speciesRichness_quadrat_wide <- speciesRichness_quadrat |>
+        tidyr::pivot_wider(id_cols = c(Group, Quadrat),
+                           names_from = Year,
+                           values_from = Richness)
+      
+      speciesRichness_quadrat_long <- speciesRichness_quadrat |>
+        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE)
+      
+      
+      # Species Richness - Group
+      speciesRichness_group <- surveyTable |>
+        dplyr::group_by(Year, Group) |>
+        dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
+        dplyr::ungroup()
+      
+      speciesRichness_group_wide <- speciesRichness_group |>
+        tidyr::pivot_wider(id_cols = c(Group),
+                           names_from = Year,
+                           values_from = Richness)
+      
+      speciesRichness_quadrat_long <- speciesRichness_group |>
+        tidyr::unite(col = "ID", c(Year, Group), sep = " - ", remove = TRUE)
+      
+      # Species Richness - Site
+      speciesRichness_site <- surveyTable |>
+        dplyr::group_by(Year) |>
+        dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
+        dplyr::ungroup()
+      
+      speciesRichness_site_wide <- speciesRichness_site |>
+        dplyr::mutate("Site" = "Site", .before = "Year") |>
+        tidyr::pivot_wider(id_cols = Site,
+                           names_from = Year,
+                           values_from = Richness)
+      
+      speciesRichness_site_long <- speciesRichness_site
+      
+      
+    }) # Close isolate
+    
+    # Update speciesRichnessSiteTable
+    output$speciesRichnessSiteTable <- rhandsontable::renderRHandsontable({
+      
+      speciesRichnessSiteTable <- rhandsontable::rhandsontable(data = speciesRichness_site_wide,
+                                                                  rowHeaders = NULL,
+                                                                  width = "100%"#,
+                                                                  # overflow = "visible",
+                                                                  # stretchH = "all"
+                                                                  ) |>
+        rhandsontable::hot_col(col = colnames(speciesRichness_site_wide), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+        function(el, x) {
+          var hot = this.hot
+          $('a[data-value=\"diversity_panel\"').on('click', function(){
+            setTimeout(function() {hot.render();}, 0);
+          })
+        }")
+      
+      return(speciesRichnessSiteTable)
+      
+    })
+    
+    speciesRichnessSiteTable_rval(rhandsontable::hot_to_r(input$speciesRichnessSiteTable))
+    
+    
+    
+    # Update speciesRichnessGroupTable
+    output$speciesRichnessGroupTable <- rhandsontable::renderRHandsontable({
+      
+      speciesRichnessGroupTable <- rhandsontable::rhandsontable(data = speciesRichness_group_wide,
+                                                                  rowHeaders = NULL,
+                                                                  width = "100%"#,
+                                                                  # overflow = "visible",
+                                                                  # stretchH = "all"
+      ) |>
+        rhandsontable::hot_col(col = colnames(speciesRichness_group_wide), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+        function(el, x) {
+          var hot = this.hot
+          $('a[data-value=\"diversity_panel\"').on('click', function(){
+            setTimeout(function() {hot.render();}, 0);
+          })
+        }")
+      
+      return(speciesRichnessGroupTable)
+      
+    })
+    
+    speciesRichnessGroupTable_rval(rhandsontable::hot_to_r(input$speciesRichnessGroupTable))
+    
+    
+    
+    # Update speciesRichnessQuadratTable
+    output$speciesRichnessQuadratTable <- rhandsontable::renderRHandsontable({
+      
+      speciesRichnessQuadratTable <- rhandsontable::rhandsontable(data = speciesRichness_quadrat_wide,
+                                                                  rowHeaders = NULL,
+                                                                  width = "100%"#,
+                                                                  # overflow = "visible",
+                                                                  # stretchH = "all"
+      ) |>
+        rhandsontable::hot_col(col = colnames(speciesRichness_quadrat_wide), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+        function(el, x) {
+          var hot = this.hot
+          $('a[data-value=\"diversity_panel\"').on('click', function(){
+            setTimeout(function() {hot.render();}, 0);
+          })
+        }")
+      
+      return(speciesRichnessQuadratTable)
+      
+    })
+    
+    speciesRichnessQuadratTable_rval(rhandsontable::hot_to_r(input$speciesRichnessQuadratTable))
 
 
 # Beta Diversity ----------------------------------------------------------
       
-      # surveyTableWide_betadisper <- vegan::betadiver(surveyTableWide_id_wide)
-      # surveyTableWide_w <- vegan::betadiver(surveyTableWide_id_wide, method = "w")
+    isolate({
       
-
-# Gamma Diversity ---------------------------------------------------------
+      # betaDiversity_w <- vegan::betadiver(surveyTableWide, method = "w")
+      # 
+      # betaDiversity_w_mat <- as.matrix(betaDiversity_w)
+      # 
+      # assign(x = "surveyTableWide", value = surveyTableWide, envir = .GlobalEnv)
+      # assign(x = "betaDiversity_w", value = betaDiversity_w, envir = .GlobalEnv)
       
-      gammaDiversity_site <- surveyTable |>
-        dplyr::group_by(Year) |>
-        dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
-        dplyr::ungroup() |>
-        dplyr::mutate("ID" = Year, .before = "Year", .keep = "unused")
-      
-      output$gammaDiversitySiteTable <- rhandsontable::renderRHandsontable({
-        
-        gammaDiversitySiteTable <- rhandsontable::rhandsontable(data = gammaDiversity_site,
-                                                                rowHeaders = NULL,
-                                                                width = "100%"#,
-                                                                # overflow = "visible",
-                                                                # stretchH = "all"
-        ) |>
-          rhandsontable::hot_col(col = colnames(gammaDiversity_site), halign = "htCenter", readOnly = TRUE) |>
-          rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-          rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-          htmlwidgets::onRender("
-          function(el, x) {
-            var hot = this.hot
-            $('a[data-value=\"diversity_panel\"').on('click', function(){
-              setTimeout(function() {hot.render();}, 0);
-            })
-          }")
-        
-        return(gammaDiversitySiteTable)
-        
-      })
-      
-      gammaDiversitySiteTable_rval(rhandsontable::hot_to_r(input$gammaDiversitySiteTable))
+    })
 
 
 # Simpsons Diversity ------------------------------------------------------
 
-      simpsonDiversity <- surveyTableWide |>
-        vegan::diversity(index = "simpson") |>
-        tibble::as_tibble(rownames = "ID") |>
-        dplyr::rename("Simpson.Diversity" = "value")
+    simpsonDiversity <- surveyTableWide |>
+      vegan::diversity(index = "simpson") |>
+      tibble::as_tibble(rownames = "ID") |>
+      dplyr::rename("Simpson.Diversity" = "value")
       
-      
-    })
-    
     
     
     shinybusy::remove_modal_spinner()
@@ -203,5 +372,13 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
     bindEvent(runAnalysis(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
+  
+  
+  outputOptions(output, "speciesUniqueToYearTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "speciesRichnessSiteTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "speciesRichnessGroupTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "speciesRichnessQuadratTable", suspendWhenHidden = FALSE)
+  
+  # return()
   
 }

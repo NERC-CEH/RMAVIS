@@ -116,3 +116,12 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
 .handsontable thead th.ht__highlight {
   background-color: var(--ceh-background-grey) !important;
 }
+
+/*#diversityAnalysis_id_1-speciesUniqueToYearTable * {word-wrap: break-word !important;}
+
+.handsontable .wraptext {
+    overflow-wrap: break-word !important;
+    white-space: pre-line !important;
+    /*max-width: 20px;*/
+}
+*/
