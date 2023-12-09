@@ -72,8 +72,10 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
       #   tibble::as_tibble(rownames = NA) |>
       #   tibble::rownames_to_column(var = "Hill-Ellenberg")
       
-      # Perform a DCA on the selected pseudo-quadrats
+      # Retrieve pre-calc
       selected_pquads_dca_results <- nvc_pquad_dca_all
+      
+      # assign(x = "selected_pquads_dca_results", value = selected_pquads_dca_results, envir = .GlobalEnv)
       
       # Extract the DCA results species axis scores
       selected_pquads_dca_results_species <- vegan::scores(selected_pquads_dca_results, tidy = TRUE) |>
@@ -81,11 +83,15 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
         dplyr::select(-score, -weight) |>
         dplyr::rename("Species" = label)
       
+      # assign(x = "selected_pquads_dca_results_species", value = selected_pquads_dca_results_species, envir = .GlobalEnv)
+      
       # Extract the DCA results quadrat axis scores
       selected_pquads_dca_results_quadrats <- vegan::scores(selected_pquads_dca_results, tidy = TRUE) |>
         dplyr::filter(score == "sites") |>
         dplyr::select(-score, -weight) |>
         dplyr::rename("Quadrat" = label)
+      
+      # assign(x = "selected_pquads_dca_results_quadrats", value = selected_pquads_dca_results_quadrats, envir = .GlobalEnv)
       
       # Prepare the pseudo-quadrat DCA results quadrat axis scores
       selected_pquads_dca_results_quadrats_final <- selected_pquads_dca_results_quadrats  |>
@@ -94,10 +100,11 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
         dplyr::mutate("NVC.Comm" = stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"), .before  = "Quadrat")
       
     
+      # assign(x = "selected_pquads_dca_results_quadrats_final", value = selected_pquads_dca_results_quadrats_final, envir = .GlobalEnv)
+      
       # Calculate the surveyTable DCA results using the pseudo-quadrat species scores
-      surveyTable_dca_results_quadrats <- surveyTable() |>
+      surveyTable_dca_results_quadrats <- surveyTable() |> #()
         tibble::as_tibble() |>
-        dplyr::filter(!is.na(Cover)) |>
         dplyr::select(-Cover) |>
         dplyr::left_join(selected_pquads_dca_results_species, by = "Species") |>
         tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = FALSE) |>
@@ -108,6 +115,10 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
                          "DCA4" = mean(DCA4, na.rm = TRUE),
                          .groups = "drop") |>
         dplyr::mutate("NVC.Comm" = "Sample", .before  = "Quadrat")
+      
+      # assign(x = "surveyTable", value = surveyTable(), envir = .GlobalEnv)
+      
+      # assign(x = "surveyTable_dca_results_quadrats", value = surveyTable_dca_results_quadrats, envir = .GlobalEnv)
       
       # Create convex hulls around the pseudo-quadrat DCA points.
       # selected_pquads_dca_results_quadrats_final_hull <- surveyTable_dca_results_quadrats |>
@@ -170,6 +181,8 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
       if(selectSurveyMethod() == "all"){
         
         surveyTable_dca_results_quadrats_selected <- mvaNationalRefResults$surveyTable_dca_results_quadrats
+        
+        # print(surveyTable_dca_results_quadrats_selected)
         
         arrow_plot_data_selected <- mvaNationalRefResults$arrow_plot_data
         

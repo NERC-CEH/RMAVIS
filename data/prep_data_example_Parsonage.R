@@ -119,8 +119,15 @@ quadratGroup_2016 <- pd_2016_prepped |>
   dplyr::select(Year, Group, Quadrat) |>
   dplyr::distinct()
 
+
+# Clean Names -------------------------------------------------------------
+
+
+
 # Compile Data ------------------------------------------------------------
-exampleData_pd <- rbind(pd_1970_prepped, pd_1990_prepped, pd_2016_prepped)
+exampleData_pd <- rbind(pd_1970_prepped, pd_1990_prepped, pd_2016_prepped) |>
+  dplyr::mutate("Site" = "Parsonage Down") |>
+  dplyr::select(Site, Year, Group, Quadrat, Species, Cover)
 
 # Save Data ---------------------------------------------------------------
 saveRDS(object = exampleData_pd, file = "./data/bundled_data/exampleData_pd.rds")

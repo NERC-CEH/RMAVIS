@@ -68,7 +68,6 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
                       # "Standard.Deviation" = SD,
                       "NVC.Code" = NVC) |>
         dplyr::group_by(ID) |>
-        dplyr::slice(1:as.numeric(nTopResults())) |>
         dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
         dplyr::ungroup() |>
         dplyr::left_join(surveyTable_IDs, by = "ID")
@@ -77,7 +76,10 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
       
       nvcAssignmentQuadrat_prepped <- nvcAssignmentQuadrat |>
         tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = TRUE) |>
-        dplyr::select(ID, NVC.Code, Mean.Similarity) |>
+        dplyr::select(ID, NVC.Code, Mean.Similarity)|>
+        dplyr::group_by(ID) |>
+        dplyr::slice(1:as.numeric(nTopResults())) |>
+        dplyr::ungroup() |>
         dplyr::arrange(ID, dplyr::desc(Mean.Similarity))
         
       nvcAssignmentQuadrat_rval(nvcAssignmentQuadrat_prepped)
@@ -89,6 +91,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
         dplyr::group_by(Year, Group, NVC.Code) |>
         dplyr::summarise("Mean.Similarity" = mean(Mean.Similarity), .groups = "drop") |>
         dplyr::group_by(Year, Group) |>
+        dplyr::arrange(Year, Group, dplyr::desc(Mean.Similarity)) |> #
         dplyr::slice(1:as.numeric(nTopResults())) |>
         dplyr::ungroup()
       
@@ -105,6 +108,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
         dplyr::group_by(Year, NVC.Code) |>
         dplyr::summarise("Mean.Similarity" = mean(Mean.Similarity), .groups = "drop") |>
         dplyr::group_by(Year) |>
+        dplyr::arrange(Year, dplyr::desc(Mean.Similarity)) |>
         dplyr::slice(1:as.numeric(nTopResults())) |>
         dplyr::ungroup()
       

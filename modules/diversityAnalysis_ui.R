@@ -22,12 +22,12 @@ diversityAnalysisUI <- function(id){
       
       shiny::div(
         
-        id = ns("speciesRecordedOneYearOnlyTable_div"),
+        id = ns("speciesFrequencyTable_div"),
         
-        shiny::h5("Species Recorded In One Year Only"),
+        shiny::h5("Species Frequency"),
         
         shiny::div(
-          rhandsontable::rHandsontableOutput(outputId = ns("speciesRecordedOneYearOnlyTable"))
+          rhandsontable::rHandsontableOutput(outputId = ns("speciesFrequencyTable"))
         )
         
       ),

@@ -22,7 +22,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
   observe({
     
     shinyjs::show(id = "speciesRichnessSiteTable_div")
-    shinyjs::show(id = "speciesRecordedOneYearOnlyTable_div")
+    shinyjs::show(id = "speciesFrequencyTable_div")
     shinyjs::show(id = "speciesRichnessGroupTable_div")
     shinyjs::show(id = "speciesRichnessQuadratTable_div")
     
@@ -41,11 +41,11 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       shinyjs::hide(id = "speciesRichnessSiteTable_div")
     }
     
-    # speciesRecordedOneYearOnlyTable
-    if("speciesRecordedOneYearOnly" %in% resultsViewDiversity()){
-      shinyjs::show(id = "speciesRecordedOneYearOnlyTable_div")
+    # speciesFrequencyTable
+    if("speciesFrequency" %in% resultsViewDiversity()){
+      shinyjs::show(id = "speciesFrequencyTable_div")
     } else {
-      shinyjs::hide(id = "speciesRecordedOneYearOnlyTable_div")
+      shinyjs::hide(id = "speciesFrequencyTable_div")
     }
     
     # speciesRichnessGroupTable
@@ -80,20 +80,20 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
   
 
 # Initialise species unique to year table ---------------------------------
-  speciesRecordedOneYearOnlyTable_init <- data.frame("Year" = integer(),
-                                              "Species" = character())
+  speciesFrequencyTable_init <- data.frame("Year" = integer(),
+                                           "Species" = character())
   
-  speciesRecordedOneYearOnlyTable_rval <- reactiveVal(speciesRecordedOneYearOnlyTable_init)
+  speciesFrequencyTable_rval <- reactiveVal(speciesFrequencyTable_init)
   
-  output$speciesRecordedOneYearOnlyTable <- rhandsontable::renderRHandsontable({
+  output$speciesFrequencyTable <- rhandsontable::renderRHandsontable({
     
-    speciesRecordedOneYearOnlyTable <- rhandsontable::rhandsontable(data = speciesRecordedOneYearOnlyTable_init,
-                                                                    rowHeaders = NULL,
-                                                                    width = "100%"#,
-                                                                    # overflow = "visible",
-                                                                    # stretchH = "all"
-                                                                    ) |>
-      rhandsontable::hot_col(col = colnames(speciesRecordedOneYearOnlyTable_init), halign = "htCenter", readOnly = TRUE) |>
+    speciesFrequencyTable <- rhandsontable::rhandsontable(data = speciesFrequencyTable_init,
+                                                          rowHeaders = NULL,
+                                                          width = "100%"#,
+                                                          # overflow = "visible",
+                                                          # stretchH = "all"
+                                                          ) |>
+      rhandsontable::hot_col(col = colnames(speciesFrequencyTable_init), halign = "htCenter", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
@@ -104,7 +104,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
         })
       }")
     
-    return(speciesRecordedOneYearOnlyTable)
+    return(speciesFrequencyTable)
     
   })
 
@@ -220,46 +220,82 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
     
     isolate({
 
-# Species unique to year --------------------------------------------------
-      surveyTable_species_all <- surveyTable |>
-        dplyr::select(Year, Species) |>
-        dplyr::distinct()
-      
-      species_uniq_to_year <- tibble::tibble()
-      
-      for (year in unique(surveyTable_species_all$Year)) {
-        
-        surveyTable_species_year <- surveyTable_species_all |>
-          dplyr::filter(Year == year) |>
-          dplyr::pull(Species)
-        
 
-        surveyTable_species_notYear <- surveyTable_species_all |>
-          dplyr::filter(Year != year) |>
-          dplyr::pull(Species)       
-        
-        surveyTable_species_diff <- setdiff(surveyTable_species_year, surveyTable_species_notYear)
-        
-        surveyTable_species_diff_df <- tibble::tibble("Year" = year,
-                                                      "Species" = surveyTable_species_diff) |>
-          dplyr::group_by(Year) |>
-          dplyr::summarise(Species = toString(Species)) |>
-          dplyr::ungroup()
-        
-        species_uniq_to_year <- species_uniq_to_year |>
-          dplyr::bind_rows(surveyTable_species_diff_df)
-        
-      }
+# Species Frequency -------------------------------------------------------
+      # surveyTable_species_all <- surveyTable |>
+      #   dplyr::select(Year, Species) |>
+      #   dplyr::distinct()
+      # 
+      # species_uniq_to_year <- tibble::tibble()
+      # 
+      # for (year in unique(surveyTable_species_all$Year)) {
+      #   
+      #   surveyTable_species_year <- surveyTable_species_all |>
+      #     dplyr::filter(Year == year) |>
+      #     dplyr::pull(Species)
+      #   
+      # 
+      #   surveyTable_species_notYear <- surveyTable_species_all |>
+      #     dplyr::filter(Year != year) |>
+      #     dplyr::pull(Species)       
+      #   
+      #   surveyTable_species_diff <- setdiff(surveyTable_species_year, surveyTable_species_notYear)
+      #   
+      #   surveyTable_species_diff_df <- tibble::tibble("Year" = year,
+      #                                                 "Species" = surveyTable_species_diff) |>
+      #     dplyr::group_by(Year) |>
+      #     dplyr::summarise(Species = toString(Species)) |>
+      #     dplyr::ungroup()
+      #   
+      #   species_uniq_to_year <- species_uniq_to_year |>
+      #     dplyr::bind_rows(surveyTable_species_diff_df)
+      #   
+      # }
+      # assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
       
-      output$speciesRecordedOneYearOnlyTable <- rhandsontable::renderRHandsontable({
+      # I need to find a better way to do this with tidy select
+      max_year <- max(surveyTable$Year) |>
+        as.character()
+      min_year <- min(surveyTable$Year) |>
+        as.character()
+      
+      speciesFrequency <- surveyTable |>
+        dplyr::group_by(Year, Species) |>
+        dplyr::summarise(Frequency = dplyr::n()) |>
+        tidyr::pivot_wider(id_cols = Species,
+                           names_from = Year,
+                           values_from = Frequency) |>
+        dplyr::mutate(
+          "Difference" = 
+            dplyr::case_when(
+              is.na(get(min_year)) ~ as.numeric(get(max_year)),
+              is.na(get(max_year)) ~ as.numeric(get(min_year)) * -1,
+              !is.na(get(min_year)) & !is.na(get(max_year)) ~ as.numeric(get(max_year)) - as.numeric(get(min_year)),
+              TRUE ~ NA
+            )
+          ) |>
+        dplyr::mutate(
+          "Change" = 
+            dplyr::case_when(
+              is.na(get(min_year)) & !is.na(get(max_year)) ~ "Gain",
+              is.na(get(max_year)) & !is.na(get(min_year))~ "Loss",
+              Difference > 0 ~ "Increase",
+              Difference < 0 ~ "Decrease",
+              Difference == 0 ~ "No Change",
+              TRUE ~ NA
+            )
+        )
+                
+      
+      output$speciesFrequencyTable <- rhandsontable::renderRHandsontable({
         
-        speciesRecordedOneYearOnlyTable <- rhandsontable::rhandsontable(data = species_uniq_to_year,
-                                                                 rowHeaders = NULL#,
-                                                                 # width = "100%"#,
-                                                                 # overflow = "visible",
-                                                                 # stretchH = "all"
-                                                                 ) |>
-          rhandsontable::hot_col(col = colnames(species_uniq_to_year), halign = "htCenter", readOnly = TRUE) |>
+        speciesFrequencyTable <- rhandsontable::rhandsontable(data = speciesFrequency,
+                                                              rowHeaders = NULL#,
+                                                              # width = "100%"#,
+                                                              # overflow = "visible",
+                                                              # stretchH = "all"
+                                                              ) |>
+          rhandsontable::hot_col(col = colnames(speciesFrequency), halign = "htCenter", readOnly = TRUE) |>
           rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
           rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
           htmlwidgets::onRender("
@@ -270,11 +306,11 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
             })
           }")
         
-        return(speciesRecordedOneYearOnlyTable)
+        return(speciesFrequencyTable)
         
       })
       
-      speciesRecordedOneYearOnlyTable_rval <- reactiveVal(rhandsontable::hot_to_r(input$speciesRecordedOneYearOnlyTable))
+      speciesFrequencyTable_rval <- reactiveVal(rhandsontable::hot_to_r(input$speciesFrequencyTable))
 
 # Species Richness --------------------------------------------------------
       
@@ -440,7 +476,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
               ignoreNULL = TRUE)
   
   
-  outputOptions(output, "speciesRecordedOneYearOnlyTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "speciesFrequencyTable", suspendWhenHidden = FALSE)
   outputOptions(output, "speciesRichnessSiteTable", suspendWhenHidden = FALSE)
   outputOptions(output, "speciesRichnessGroupTable", suspendWhenHidden = FALSE)
   outputOptions(output, "speciesRichnessQuadratTable", suspendWhenHidden = FALSE)

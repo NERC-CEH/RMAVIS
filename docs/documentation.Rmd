@@ -100,12 +100,15 @@ Three example datasets are bundled with MAVIS, which provide a means to explore
 the applications functionality.
 
 **Parsonage Down**
-Calcareous grassland. Transect Survey. Repeat quadrats in 1970, 1990, and 2016 [@ridding2020]
+CG. Calcareous grassland. Transect Survey. Repeat quadrats in 1970, 1990, and 2016 [@ridding2020]
 
 **Dataset 2**
-Bunce woodland Survey.
+W. Bunce woodland Survey. Storm Track. Repeat quadrats 1971, 2001, and 2021 [@smart2014]
 
-**Dataset 3**
+**Whitwell Common**
+M. Norfolk Mires. Repeat quadrats 1994 and 1997. [@smart2000]
+
+**Sand Dune**
 
 
 ## NVC Assignment

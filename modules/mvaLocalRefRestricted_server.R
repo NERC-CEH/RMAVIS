@@ -150,7 +150,6 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
       # Calculate the surveyTable DCA results using the pseudo-quadrat species scores
       surveyTable_dca_results_quadrats <- surveyTable() |>
         tibble::as_tibble() |>
-        dplyr::filter(!is.na(Cover)) |>
         dplyr::select(-Cover) |>
         dplyr::left_join(selected_pquads_dca_results_species, by = "Species") |>
         tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = FALSE) |>

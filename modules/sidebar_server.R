@@ -98,11 +98,19 @@ sidebar <- function(input, output, session, surveyTable, nvcAssignment, floristi
     if(input$inputMethod == "example"){
       
       if(input$exampleData == "Parsonage Down"){
-        # shinyWidgets::updatePickerInput(
+        
         shiny::updateSelectizeInput(
           session = session,
           inputId = "habitatRestriction",
           selected = "CG"
+        )
+        
+      } else if(input$exampleData == "Whitwell Common"){
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "habitatRestriction",
+          selected = "M"
         )
         
       }

@@ -72,10 +72,13 @@ source("R/create_constants.R")
 # 
 # saveRDS(object = example_data_df_trimmed, file = "./data/bundled_data/example_data_df.rds")
 
-exampleData_pd_prepped <- exampleData_pd |>
-  dplyr::mutate("Site" = "Parsonage Down")
 
-example_data_all <- rbind(exampleData_pd_prepped)
+
+
+exampleData_pd <- readRDS(file = "./data/bundled_data/exampleData_pd.rds")
+exampleData_whitwell <- readRDS(file = "./data/bundled_data/exampleData_whitwell.rds")
+
+example_data_all <- rbind(exampleData_pd, exampleData_whitwell)
 
 saveRDS(object = example_data_all, file = "./data/bundled_data/example_data_all.rds")
 
