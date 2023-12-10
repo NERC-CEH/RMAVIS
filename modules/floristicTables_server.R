@@ -19,7 +19,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
 
-# Composed Floristic Tables -----------------------------------------------
+# Initialise Composed Floristic Tables ------------------------------------
   floristicTables_composed_init <- data.frame("Species" = character(),
                                               "Constancy" = character())
   
@@ -69,7 +69,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
 
 # Create composed floristic tables across all groups ----------------------
     floristicTables_composed <- surveyTable_prepped |>
-      dplyr::filter(!is.na(Cover)) |>
+      # dplyr::filter(!is.na(Cover)) |>
       dplyr::mutate("ID" = stringr::str_extract(string = ID, pattern = "(\\d{4})")) |>
       dplyr::select(-Cover) |>
       dplyr::mutate("Present" = 1) |>
@@ -104,7 +104,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
       
       floristicTables_composed <- surveyTable_prepped |>
         dplyr::filter(ID == id) |>
-        dplyr::filter(!is.na(Cover)) |>
+        # dplyr::filter(!is.na(Cover)) |>
         dplyr::select(-Cover) |>
         dplyr::mutate("Present" = 1) |>
         tidyr::pivot_wider(values_from = Present,

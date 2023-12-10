@@ -1,4 +1,4 @@
-mvaLocalRefUnrestrictedUI <- function(id){
+mvaRDAUI <- function(id){
   
   ns <- NS(id)
   
@@ -16,21 +16,23 @@ mvaLocalRefUnrestrictedUI <- function(id){
         
         shiny::div(
           
-          shiny::h5("Local Reference (Unrestricted)"),
+          shiny::h5("Redundancy Analysis"),
           
-          plotly::plotlyOutput(outputId = ns("mvaLocalRefUnrestrictedPlot"), height = "600px")
+          plotly::plotlyOutput(outputId = ns("mvaRDAPlot"), height = "600px")
           
         ),
         
         shiny::div(
           
-          shiny::h5(" "),
+          # shiny::h5(" "),
+          shiny::div(shiny::br()),
+          shiny::div(shiny::br()),
           
-          # rhandsontable::rHandsontableOutput(outputId = ns("rdaAnovaTable"))
+          rhandsontable::rHandsontableOutput(outputId = ns("rdaAnovaTable"))
           
         )
+        
       )
-      
     )
   )
 }

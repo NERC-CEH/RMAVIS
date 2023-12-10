@@ -5,13 +5,30 @@ mvaNationalRefUI <- function(id){
   shiny::fluidRow(
     shiny::column(
       width = 12,
-
-      shiny::div(
+      
+      bslib::layout_columns(
         
-        shiny::h5("National Reference"),
+        col_widths = c(6, 6),
         
-        plotly::plotlyOutput(outputId = ns("mvaNationalRefPlot"), height = "600px")
+        fill = FALSE,
         
+        fillable = TRUE,
+        
+        shiny::div(
+          
+          shiny::h5("National Reference"),
+          
+          plotly::plotlyOutput(outputId = ns("mvaNationalRefPlot"), height = "600px")
+          
+        ),
+        
+        shiny::div(
+          
+          shiny::h5(" "),
+          
+          # rhandsontable::rHandsontableOutput(outputId = ns("rdaAnovaTable"))
+          
+        )
       )
 
     )

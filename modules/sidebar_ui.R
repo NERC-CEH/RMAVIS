@@ -294,7 +294,7 @@ sidebarUI <- function(id){
         shiny::selectizeInput(inputId = ns("resultsViewDiversity"),
                                            label = "Results to View",
                                            choices = resultsViewDiversity_options,
-                                           selected = c("speciesRichnessSite"),
+                                           selected = c("speciesRichnessSite", "speciesFrequency"),
                                            multiple = TRUE),
         
         

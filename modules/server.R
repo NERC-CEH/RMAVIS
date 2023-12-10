@@ -71,6 +71,13 @@ server <- function(input, output, session) {
   #                                                     nvcAssignment = nvcAssignment,
   #                                                     sidebar_options = sidebar_options)
   
+  mvaRDAResults <- shiny::callModule(module = mvaRDA,
+                                     id = "mvaRDA_id_1",
+                                     surveyTable = surveyTable,
+                                     surveyTableWide = surveyTableWide,
+                                     avgEIVs = avgEIVs,
+                                     sidebar_options = sidebar_options)
+  
 
 # Report ------------------------------------------------------------------
   shiny::callModule(module = report,

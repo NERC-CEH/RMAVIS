@@ -124,15 +124,15 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
-        value = "dca_panel",
+        value = "mva_panel",
         
         bslib::card_header("Multivariate Analysis"),
         
         bslib::layout_columns(
           
-          col_widths = c(6, 6, 6),
+          col_widths = c(12, 12, 12, 12),
           
-          row_heights = c(1, 1),
+          row_heights = c(1, 1, 1, 1),
           
           fill = FALSE,
           
@@ -142,7 +142,9 @@ ui <- bslib::page_navbar(
           
           mvaLocalRefRestrictedUI(id = "mvaLocalRefRestricted_id_1"),
           
-          mvaLocalRefUnrestrictedUI(id = "mvaLocalRefUnrestricted_id_1")
+          mvaLocalRefUnrestrictedUI(id = "mvaLocalRefUnrestricted_id_1"),
+          
+          mvaRDAUI(id = "mvaRDA_id_1")
           
         )
       )

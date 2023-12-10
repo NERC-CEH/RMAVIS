@@ -20,8 +20,8 @@ nvcInfo <- function(input, output, session, sidebar_options) {
   output$nvcInfoLookupTable <- rhandsontable::renderRHandsontable({
     
     nvcInfoLookupTable <- rhandsontable::rhandsontable(data = nvcInfoLookupTable_init,
-                                                       rowHeaders = NULL,
-                                                       width = "100%"#,
+                                                       rowHeaders = NULL#,
+                                                       # width = "100%"#,
                                                        # overflow = "visible"
                                                        # stretchH = "all"
                                                        ) |>

@@ -59,6 +59,9 @@ source("modules/mvaLocalRefRestricted_server.R", local = TRUE)
 source("modules/mvaLocalRefUnrestricted_ui.R", local = TRUE)
 source("modules/mvaLocalRefUnrestricted_server.R", local = TRUE)
 
+source("modules/mvaRDA_ui.R", local = TRUE)
+source("modules/mvaRDA_server.R", local = TRUE)
+
 # source("modules/report_ui.R", local = TRUE)
 source("modules/report_server.R", local = TRUE)
 

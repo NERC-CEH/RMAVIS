@@ -222,36 +222,6 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
 
 
 # Species Frequency -------------------------------------------------------
-      # surveyTable_species_all <- surveyTable |>
-      #   dplyr::select(Year, Species) |>
-      #   dplyr::distinct()
-      # 
-      # species_uniq_to_year <- tibble::tibble()
-      # 
-      # for (year in unique(surveyTable_species_all$Year)) {
-      #   
-      #   surveyTable_species_year <- surveyTable_species_all |>
-      #     dplyr::filter(Year == year) |>
-      #     dplyr::pull(Species)
-      #   
-      # 
-      #   surveyTable_species_notYear <- surveyTable_species_all |>
-      #     dplyr::filter(Year != year) |>
-      #     dplyr::pull(Species)       
-      #   
-      #   surveyTable_species_diff <- setdiff(surveyTable_species_year, surveyTable_species_notYear)
-      #   
-      #   surveyTable_species_diff_df <- tibble::tibble("Year" = year,
-      #                                                 "Species" = surveyTable_species_diff) |>
-      #     dplyr::group_by(Year) |>
-      #     dplyr::summarise(Species = toString(Species)) |>
-      #     dplyr::ungroup()
-      #   
-      #   species_uniq_to_year <- species_uniq_to_year |>
-      #     dplyr::bind_rows(surveyTable_species_diff_df)
-      #   
-      # }
-      # assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
       
       # I need to find a better way to do this with tidy select
       max_year <- max(surveyTable$Year) |>
@@ -271,7 +241,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
               is.na(get(min_year)) ~ as.numeric(get(max_year)),
               is.na(get(max_year)) ~ as.numeric(get(min_year)) * -1,
               !is.na(get(min_year)) & !is.na(get(max_year)) ~ as.numeric(get(max_year)) - as.numeric(get(min_year)),
-              TRUE ~ NA
+              TRUE ~ 0
             )
           ) |>
         dplyr::mutate(
@@ -279,12 +249,28 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
             dplyr::case_when(
               is.na(get(min_year)) & !is.na(get(max_year)) ~ "Gain",
               is.na(get(max_year)) & !is.na(get(min_year))~ "Loss",
-              Difference > 0 ~ "Increase",
-              Difference < 0 ~ "Decrease",
-              Difference == 0 ~ "No Change",
-              TRUE ~ NA
+              Difference > 0 ~ "Net Increase",
+              Difference < 0 ~ "Net Decrease",
+              Difference == 0 ~ "No Net Difference",
+              TRUE ~ "Gain then Loss"
             )
         )
+      
+      text_renderer <- "
+      function (instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        # This is the column which you want to check for coloring
+        var col_value = instance.getData()[row][4]
+        if (col_value == 'Gain') {
+          td.style.background = 'lightgreen';
+        } else if (col_value == 'Net Increase') {
+          td.style.background = 'lightgreen';
+        } else if (col_value == 'Loss') {
+          td.style.background = 'lightred';
+        } else if (col_value == 'Net Decrease') {
+          td.style.background = 'lightred';
+        }
+      }"
                 
       
       output$speciesFrequencyTable <- rhandsontable::renderRHandsontable({
@@ -295,8 +281,9 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
                                                               # overflow = "visible",
                                                               # stretchH = "all"
                                                               ) |>
-          rhandsontable::hot_col(col = colnames(speciesFrequency), halign = "htCenter", readOnly = TRUE) |>
           rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+          rhandsontable::hot_col(col = colnames(speciesFrequency), halign = "htCenter", readOnly = TRUE) |>
+          # rhandsontable::hot_col(col = "Change", renderer = text_renderer) |>
           rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
           htmlwidgets::onRender("
           function(el, x) {
@@ -315,6 +302,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
 # Species Richness --------------------------------------------------------
       
       assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
+      assign(x = "surveyTableWide", value = surveyTableWide, envir = .GlobalEnv)
   
       # Species Richness - Quadrat
       speciesRichness_quadrat <- surveyTable |>

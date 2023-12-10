@@ -198,13 +198,24 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
       
     })
     
+    # assign(x = "avgUnweightedEIVsTable", value = avgUnweightedEIVsTable, envir = .GlobalEnv)
+    
     avgUnweightedEIVsTable_rval(avgUnweightedEIVsTable)
+    
+    # print(avgUnweightedEIVsTable())
+    # print(avgUnweightedEIVsTable)
+    
+    # print(avgUnweightedEIVsTable_rval)
     
   }) |>
     bindEvent(runAnalysis(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
+  
+  
+  outputOptions(output, "avgWeightedEIVsTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "avgUnweightedEIVsTable", suspendWhenHidden = FALSE)
   
   return(avgUnweightedEIVsTable_rval)
   

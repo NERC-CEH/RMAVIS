@@ -5,22 +5,32 @@ mvaLocalRefRestrictedUI <- function(id){
   shiny::fluidRow(
     shiny::column(
       width = 12,
-
-      shiny::div(
+      
+      bslib::layout_columns(
         
-        shiny::h5("Local Reference (Restricted)"),# |>
+        col_widths = c(6, 6),
+        
+        fill = FALSE,
+        
+        fillable = TRUE,
+        
+        shiny::div(
           
-          # bslib::popover(
-          #   bsicons::bs_icon("info-circle"),
-          #   title = "Fixed Reference Space",
-          #   paste0(""),
-          #   placement = "bottom"
-          # ),
+          shiny::h5("Local Reference (Restricted)"),
+          
+          plotly::plotlyOutput(outputId = ns("mvaLocalRefRestrictedPlot"), height = "600px")
+          
+        ),
         
-        plotly::plotlyOutput(outputId = ns("mvaLocalRefRestrictedPlot"), height = "600px")
-        
+        shiny::div(
+          
+          shiny::h5(" "),
+          
+          # rhandsontable::rHandsontableOutput(outputId = ns("rdaAnovaTable"))
+          
+        )
       )
-
+      
     )
   )
 }
