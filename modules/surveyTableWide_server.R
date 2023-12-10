@@ -3,11 +3,15 @@ surveyTableWide <- function(input, output, session, surveyTable, sidebar_options
   ns <- session$ns
   
 # Retrieve sidebar options ------------------------------------------------
-  # observe({
-  #   
-  #   
-  # }) |>
-  #   bindEvent(sidebar_options(), ignoreInit = FALSE)
+  
+  runAnalysis <- reactiveVal()
+  
+  observe({
+
+    runAnalysis(sidebar_options()$runAnalysis)
+
+  }) |>
+    bindEvent(sidebar_options(), ignoreInit = FALSE)
   
 # Prepare surveyTable -----------------------------------------------------
   
@@ -16,6 +20,8 @@ surveyTableWide <- function(input, output, session, surveyTable, sidebar_options
   observe({
     
     shiny::isolate({
+      
+      req(all(!is.na(surveyTable()$Species)) == TRUE)
       
       surveyTable <- surveyTable()
       
@@ -53,7 +59,7 @@ surveyTableWide <- function(input, output, session, surveyTable, sidebar_options
     surveyTableWide_rval(surveyTableWide)
     
   }) |>
-    bindEvent(surveyTable(),
+    bindEvent(runAnalysis           (),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   

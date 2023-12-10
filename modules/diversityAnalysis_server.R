@@ -17,7 +17,6 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
   
 
 # Show/Hide Results -------------------------------------------------------
-
   
   observe({
     

@@ -4,13 +4,86 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
 
 # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
+  resultsViewEIVs <- reactiveVal()
   
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
+    resultsViewEIVs(sidebar_options()$resultsViewEIVs)
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
+  
+  # Show/Hide Results -------------------------------------------------------
+  
+  observe({
+    
+    shinyjs::show(id = "weightedMeanHillEllenbergValuesSite")
+    shinyjs::show(id = "unweightedMeanHillEllenbergValuesSite")
+    shinyjs::show(id = "weightedMeanHillEllenbergValuesGroup")
+    shinyjs::show(id = "unweightedMeanHillEllenbergValuesGroup")
+    shinyjs::show(id = "weightedMeanHillEllenbergValuesQuadrat")
+    shinyjs::show(id = "unweightedMeanHillEllenbergValuesQuadrat")
+    
+  }) |>
+    bindEvent(resultsViewEIVs(),
+              ignoreNULL = FALSE,
+              ignoreInit = FALSE,
+              once = TRUE)
+  
+  observe({
+    
+    if("weightedMeanHillEllenbergValuesSite" %in% resultsViewEIVs()){
+      shinyjs::show(id = "weightedMeanHillEllenbergValuesSite_div")
+    } else {
+      shinyjs::hide(id = "weightedMeanHillEllenbergValuesSite_div")
+    }
+    
+    if("unweightedMeanHillEllenbergValuesSite" %in% resultsViewEIVs()){
+      shinyjs::show(id = "unweightedMeanHillEllenbergValuesSite_div")
+    } else {
+      shinyjs::hide(id = "unweightedMeanHillEllenbergValuesSite_div")
+    }
+    
+    if("weightedMeanHillEllenbergValuesGroup" %in% resultsViewEIVs()){
+      shinyjs::show(id = "weightedMeanHillEllenbergValuesGroup_div")
+    } else {
+      shinyjs::hide(id = "weightedMeanHillEllenbergValuesGroup_div")
+    }
+    
+    if("unweightedMeanHillEllenbergValuesGroup" %in% resultsViewEIVs()){
+      shinyjs::show(id = "unweightedMeanHillEllenbergValuesGroup_div")
+    } else {
+      shinyjs::hide(id = "unweightedMeanHillEllenbergValuesGroup_div")
+    }
+    
+    if("weightedMeanHillEllenbergValuesQuadrat" %in% resultsViewEIVs()){
+      shinyjs::show(id = "weightedMeanHillEllenbergValuesQuadrat_div")
+    } else {
+      shinyjs::hide(id = "weightedMeanHillEllenbergValuesQuadrat_div")
+    }
+    
+    if("unweightedMeanHillEllenbergValuesQuadrat" %in% resultsViewEIVs()){
+      shinyjs::show(id = "unweightedMeanHillEllenbergValuesQuadrat_div")
+    } else {
+      shinyjs::hide(id = "unweightedMeanHillEllenbergValuesQuadrat_div")
+    }
+    
+    
+  }) |>
+    bindEvent(resultsViewEIVs(),
+              ignoreInit = FALSE,
+              ignoreNULL = FALSE)
+  
+  observe({
+    
+    shinyjs::show(id = "unweightedMeanHillEllenbergValuesSite_div")
+    
+  }) |>
+    bindEvent(resultsViewEIVs(),
+              ignoreNULL = FALSE,
+              ignoreInit = FALSE,
+              once = TRUE)
   
 
 # Cover-weighted mean Hill-Ellenberg values -------------------------------
@@ -198,14 +271,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
       
     })
     
-    # assign(x = "avgUnweightedEIVsTable", value = avgUnweightedEIVsTable, envir = .GlobalEnv)
-    
     avgUnweightedEIVsTable_rval(avgUnweightedEIVsTable)
-    
-    # print(avgUnweightedEIVsTable())
-    # print(avgUnweightedEIVsTable)
-    
-    # print(avgUnweightedEIVsTable_rval)
     
   }) |>
     bindEvent(runAnalysis(),

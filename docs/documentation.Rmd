@@ -12,7 +12,7 @@ bibliography: references.bib
 link-citations: yes
 editor_options: 
   markdown: 
-    wrap: 72
+    wrap: 80
 ---
 
 ```{r setup, include=FALSE}
@@ -57,7 +57,8 @@ body {
 ```
 
 # Introduction
-The Modular Analysis of Vegetation Information System (MAVIS)...
+The Modular Analysis of Vegetation Information System (MAVIS), originally developed by
+
 
 ## Aims
 
@@ -69,7 +70,8 @@ MAVIS aims to...
 
 ## Scope
 
-MAVIS is designed to analyse vegetation survey data for a single site...
+MAVIS is designed to analyse vegetation survey data in the form of grouped or
+ungrouped quadrats, for a single site, with or without cover estimates.
 
 # Instructions and Methodology
 
@@ -136,8 +138,10 @@ Habitat correspondence data is drawn from three sources:
 
 ## Floristic Tables
 
-To aid in the NVC assignment process and as an exploratory tool the Floristic Tables
-section of MAVIS allows the user to view a composed floristic table for...
+To aid in the NVC assignment process and as an exploratory tool the **Floristic Tables**
+section of MAVIS allows the user to compare a composed floristic table
+
+
 
 ## Analysis Metrics
 
