@@ -188,11 +188,11 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTable, nvcAssi
     
     # Compose list of DCA results objects
     mvaLocalRefUnrestrictedResults_list <- list("pquads_surveyTable_dca_results_species" = pquads_surveyTable_dca_results_species,
-                                       "pquads_surveyTable_dca_results_quadrats_sample" = pquads_surveyTable_dca_results_quadrats_sample,
-                                       "pquads_surveyTable_dca_results_quadrats_pquads" = pquads_surveyTable_dca_results_quadrats_pquads,
-                                       "pquads_surveyTable_dca_results_quadrats_hull" = pquads_surveyTable_dca_results_quadrats_hull,
-                                       "pquads_surveyTable_dca_results_species_unique" = pquads_surveyTable_dca_results_species_unique,
-                                       "arrow_plot_data" = arrow_plot_data)
+                                                "pquads_surveyTable_dca_results_quadrats_sample" = pquads_surveyTable_dca_results_quadrats_sample,
+                                                "pquads_surveyTable_dca_results_quadrats_pquads" = pquads_surveyTable_dca_results_quadrats_pquads,
+                                                "pquads_surveyTable_dca_results_quadrats_hull" = pquads_surveyTable_dca_results_quadrats_hull,
+                                                "pquads_surveyTable_dca_results_species_unique" = pquads_surveyTable_dca_results_species_unique,
+                                                "arrow_plot_data" = arrow_plot_data)
     
     mvaLocalRefUnrestrictedResults(mvaLocalRefUnrestrictedResults_list)
     

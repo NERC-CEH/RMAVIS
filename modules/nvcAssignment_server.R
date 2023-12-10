@@ -52,9 +52,24 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
       
       pquads_to_use <- nvc_pquads_final
       
+      codes_regex <- c()
+
+      for(code in habitatRestriction()){
+
+        regex <- paste0("^", code, "\\d{1,}.+(?![a-z*][P])") #
+
+        codes_regex <- c(codes_regex, regex)
+
+        codes_regex <- stringr::str_c(codes_regex, collapse = "|")
+
+      }
+      
+      
       if(!is.null(habitatRestriction())){
+        
         pquads_to_use <- nvc_pquads_final |>
-          dplyr::filter(stringr::str_detect(NVC, (stringr::str_c(habitatRestriction(), collapse = "|"))))
+          dplyr::filter(stringr::str_detect(string = Pid3, pattern = codes_regex))
+        
       }
 
       # Calculate NVC Similarity by Quadrat
