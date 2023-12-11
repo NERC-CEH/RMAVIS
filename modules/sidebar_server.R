@@ -113,6 +113,14 @@ sidebar <- function(input, output, session, surveyTable, nvcAssignment, floristi
           selected = "M"
         )
         
+      } else if(input$exampleData == "Leith Hill Place Wood"){
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "habitatRestriction",
+          selected = "W"
+        )
+        
       }
       
     }
@@ -123,6 +131,33 @@ sidebar <- function(input, output, session, surveyTable, nvcAssignment, floristi
               ignoreInit = TRUE)
 
 
+# Validate Survey Table Data Modal Popup ----------------------------------
+  
+  observe({
+    
+    shiny::showModal(
+      
+      session = session,
+      
+      shiny::modalDialog(
+        
+        title = "Validate Survey Table Data",
+        id = "validateSurveyTableDataModal",
+        footer = shiny::tagList(
+          shiny::modalButton("Close")
+        ),
+        size = "xl",
+        easyClose = FALSE,
+        fade = TRUE,
+        
+        surveyTableValidatorUI(id = "surveyTableValidator_id_1")
+        
+      )
+    )
+    
+  }) |>
+    bindEvent(input$validateSurveyTable,
+              ignoreInit = TRUE)
 
 # Upload Data Modal Popup -------------------------------------------------
 

@@ -29,8 +29,8 @@ source("modules/uploadData_server.R", local = TRUE)
 source("modules/surveyTable_ui.R", local = TRUE)
 source("modules/surveyTable_server.R", local = TRUE)
 
-# source("modules/surveyTableSummary_ui.R", local = TRUE)
-# source("modules/surveyTableSummary_server.R", local = TRUE)
+source("modules/surveyTableValidator_ui.R", local = TRUE)
+source("modules/surveyTableValidator_server.R", local = TRUE)
 
 source("modules/surveyTableWide_ui.R", local = TRUE)
 source("modules/surveyTableWide_server.R", local = TRUE)
@@ -43,6 +43,9 @@ source("modules/habCor_server.R", local = TRUE)
 
 source("modules/floristicTables_ui.R", local = TRUE)
 source("modules/floristicTables_server.R", local = TRUE)
+
+source("modules/speciesFreq_ui.R", local = TRUE)
+source("modules/speciesFreq_server.R", local = TRUE)
 
 source("modules/calcAvgEIVs_ui.R", local = TRUE)
 source("modules/calcAvgEIVs_server.R", local = TRUE)
@@ -58,9 +61,6 @@ source("modules/mvaLocalRefRestricted_server.R", local = TRUE)
 
 source("modules/mvaLocalRefUnrestricted_ui.R", local = TRUE)
 source("modules/mvaLocalRefUnrestricted_server.R", local = TRUE)
-
-source("modules/mvaRDA_ui.R", local = TRUE)
-source("modules/mvaRDA_server.R", local = TRUE)
 
 # source("modules/report_ui.R", local = TRUE)
 source("modules/report_server.R", local = TRUE)

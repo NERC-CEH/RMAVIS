@@ -18,20 +18,6 @@ diversityAnalysisUI <- function(id){
         
       ),
       
-      shiny::div(shiny::br()),
-      
-      shiny::div(
-        
-        id = ns("speciesFrequencyTable_div"),
-        
-        shiny::h5("Species Frequency"),
-        
-        shiny::div(
-          rhandsontable::rHandsontableOutput(outputId = ns("speciesFrequencyTable"))
-        )
-        
-      ),
-      
       # shiny::div(shiny::br()),
       # 
       # shiny::h5("Beta Diversity"),

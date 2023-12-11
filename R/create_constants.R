@@ -7,7 +7,8 @@ inputMethod_options <- c("Manual" = "manual",
 # Example data options ----------------------------------------------------
 example_data_options <- c("None" = "none", 
                           "Parsonage Down (CG)" = "Parsonage Down",
-                          "Whitwell Common (M)" = "Whitwell Common")
+                          "Whitwell Common (M)" = "Whitwell Common",
+                          "Leith Hill Place Wood (W)" = "Leith Hill Place Wood")
 
 
 
@@ -109,7 +110,6 @@ resultsViewEIVs_options <- c("Weighted Mean Hill-Ellenberg Values, by Site" = "w
 
 # Results to View Diversity -----------------------------------------------
 resultsViewDiversity_options <- c("Species Richness, by Site" = "speciesRichnessSite",
-                                  "Species Frequency" = "speciesFrequency",
                                   "Species Richness, by Group" = "speciesRichnessGroup",
                                   "Species Richness, by Quadrat" = "speciesRichnessQuadrat")
 

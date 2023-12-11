@@ -19,6 +19,11 @@ server <- function(input, output, session) {
                                    uploadDataTable = uploadDataTable,
                                    sidebar_options = sidebar_options)
   
+  surveyTableValidator <- shiny::callModule(module = surveyTableValidator,
+                                            id = "surveyTableValidator_id_1",
+                                            surveyTable = surveyTable,
+                                            sidebar_options = sidebar_options)
+  
   surveyTableWide <- shiny::callModule(module = surveyTableWide,
                                        id = "surveyTableWide_id_1",
                                        surveyTable = surveyTable,
@@ -38,6 +43,12 @@ server <- function(input, output, session) {
                                        id = "floristicTables_id_1",
                                        surveyTable = surveyTable,
                                        sidebar_options = sidebar_options)
+  
+  speciesFreq <- shiny::callModule(module = speciesFreq,
+                                   id = "speciesFreq_id_1",
+                                   surveyTable = surveyTable,
+                                   surveyTableWide = surveyTableWide,
+                                   sidebar_options = sidebar_options)
   
   avgEIVs <- shiny::callModule(module = calcAvgEIVs,
                                id = "calcAvgEIVs_id_1",
@@ -70,13 +81,6 @@ server <- function(input, output, session) {
   #                                                     # surveyTableWide = surveyTableWide,
   #                                                     nvcAssignment = nvcAssignment,
   #                                                     sidebar_options = sidebar_options)
-  
-  mvaRDAResults <- shiny::callModule(module = mvaRDA,
-                                     id = "mvaRDA_id_1",
-                                     surveyTable = surveyTable,
-                                     surveyTableWide = surveyTableWide,
-                                     avgEIVs = avgEIVs,
-                                     sidebar_options = sidebar_options)
   
 
 # Report ------------------------------------------------------------------

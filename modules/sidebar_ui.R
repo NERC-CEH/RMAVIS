@@ -68,6 +68,23 @@ sidebarUI <- function(id){
           
           col_widths = c(11, 1),
           
+          shiny::actionButton(inputId = ns("validateSurveyTable"),
+                              label = "Validate Survey Data"),
+          
+          bslib::popover(
+            bsicons::bs_icon("info-circle"),
+            title = "Validate Survey Table Data",
+            id = ns("validateSurveyTableInfo"),
+            paste0(""),
+            placement = "bottom"
+          )
+          
+        ),
+        
+        bslib::layout_columns(
+          
+          col_widths = c(11, 1),
+          
           shiny::actionButton(inputId = ns("uploadData"),
                               label = "Upload Data"),
           
@@ -294,7 +311,7 @@ sidebarUI <- function(id){
         shiny::selectizeInput(inputId = ns("resultsViewDiversity"),
                                            label = "Results to View",
                                            choices = resultsViewDiversity_options,
-                                           selected = c("speciesRichnessSite", "speciesFrequency"),
+                                           selected = c("speciesRichnessSite"),
                                            multiple = TRUE),
         
         
@@ -302,7 +319,7 @@ sidebarUI <- function(id){
       
       bslib::accordion_panel(
         
-        "Multivariate Analysis", 
+        "MVA", 
         
         icon = bsicons::bs_icon("arrows-angle-expand"),
         

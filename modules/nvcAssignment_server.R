@@ -27,7 +27,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   
   observe({
     
-    req(isFALSE(runAnalysis() == 0))
+    # req(isFALSE(runAnalysis() == 0))
     
     shinybusy::show_modal_spinner(
       spin = "fading-circle",
@@ -38,6 +38,8 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     shiny::isolate({
       
       surveyTable <- surveyTable()
+      
+      print(head(surveyTable))
       
       # assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
       
@@ -134,6 +136,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
       
       nvcAssignmentSite_rval(nvcAssignmentSite_prepped)
             
+      print(head(nvcAssignmentSite_rval()))
       
     })
     

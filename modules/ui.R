@@ -50,15 +50,17 @@ ui <- bslib::page_navbar(
         
       ),
       
-      bslib::nav_panel(
-        
-        full_screen = TRUE,
-        
-        bslib::card_header("Survey Data Summary"),
-        
-        value = "surveyDataSummary_panel"
-        
-      ),
+      # bslib::nav_panel(
+      #   
+      #   full_screen = TRUE,
+      #   
+      #   bslib::card_header("Survey Data Validation"),
+      #   
+      #   value = "surveyDataValidation_panel",
+      #   
+      #   surveyTableValidatorUI(id = "surveyTableValidator_id_1")
+      #   
+      # ),
       
       bslib::nav_panel(
         
@@ -100,6 +102,18 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
+        value = "speciesFreq_panel",
+        
+        bslib::card_header("Frequency"),
+        
+        speciesFreqUI(id = "speciesFreq_id_1")
+        
+      ),
+      
+      bslib::nav_panel(
+        
+        full_screen = TRUE,
+        
         value = "eivs_panel",
         
         bslib::card_header("EIVs"),
@@ -126,7 +140,7 @@ ui <- bslib::page_navbar(
         
         value = "mva_panel",
         
-        bslib::card_header("Multivariate Analysis"),
+        bslib::card_header("MVA"),
         
         bslib::layout_columns(
           
@@ -142,9 +156,7 @@ ui <- bslib::page_navbar(
           
           mvaLocalRefRestrictedUI(id = "mvaLocalRefRestricted_id_1"),
           
-          mvaLocalRefUnrestrictedUI(id = "mvaLocalRefUnrestricted_id_1"),
-          
-          mvaRDAUI(id = "mvaRDA_id_1")
+          mvaLocalRefUnrestrictedUI(id = "mvaLocalRefUnrestricted_id_1")
           
         )
       )

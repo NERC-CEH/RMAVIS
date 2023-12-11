@@ -8,9 +8,7 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
   inputMethod <- reactiveVal()
   exampleData <- reactiveVal()
   runAnalysis <- reactiveVal()
-  coverMethod <- reactiveVal()
-  habitatRestriction <- reactiveVal()
-  nTopResults <- reactiveVal()
+  # coverMethod <- reactiveVal()
 
   observe({
     
@@ -18,9 +16,7 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
     inputMethod(sidebar_options()$inputMethod)
     exampleData(sidebar_options()$exampleData)
     runAnalysis(sidebar_options()$runAnalysis)
-    coverMethod(sidebar_options()$coverMethod)
-    habitatRestriction(sidebar_options()$habitatRestriction)
-    nTopResults(sidebar_options()$nTopResults)
+    # coverMethod(sidebar_options()$coverMethod)
 
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -101,7 +97,8 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
         
         surveyTable <- example_data_all |>
           dplyr::filter(Site == exampleData()) |>
-          dplyr::select(-Site)
+          dplyr::select(-Site) |>
+          dplyr::arrange(Year, Group, Quadrat)
         
         # surveyTable <- surveyTable |>
         #   # tidyr::unite(col = "ID", c(Year, Site, Group, Quadrat), sep = " - ", remove = TRUE) |>
@@ -185,6 +182,8 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
     })
       
     # surveyTable_rval(rhandsontable::hot_to_r(input$surveyTable))
+    # 
+    # print(head(surveyTable_rval()))
       
   }) |>
     bindEvent(inputMethod(),
@@ -196,10 +195,18 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
   
   observe({
 
+    # req(nrow(surveyTable_rval()) > 0)
+
+    # print(surveyTable_rval())
+
     surveyTable_rval(rhandsontable::hot_to_r(input$surveyTable))
+    
+    # print(surveyTable_rval())
 
   }) |>
-    bindEvent(input$surveyTable, ignoreInit = TRUE)
+    bindEvent(input$surveyTable,
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
     
   
   outputOptions(output, "surveyTable", suspendWhenHidden = FALSE)

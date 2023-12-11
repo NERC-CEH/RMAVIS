@@ -12,7 +12,7 @@ bibliography: references.bib
 link-citations: yes
 editor_options: 
   markdown: 
-    wrap: 80
+    wrap: 72
 ---
 
 ```{r setup, include=FALSE}
@@ -115,12 +115,14 @@ M. Norfolk Mires. Repeat quadrats 1994 and 1997. [@smart2000]
 
 ## NVC Assignment
 
-Two methods are available for the assignment of NVC communities.
+
 
 1.  An R implementation of the Modular Analysis of Vegetation Information System 
     (MAVIS). This method uses the Czekanowski index [@bloom1981] to 
-    quantify the similarity between NVC survey data and the NVC Floristic 
+    quantify the similarity between a floristic table composed from survey data 
+    (with a minimum of five samples recommended) and the NVC Floristic 
     Tables.
+    
 2.  An R implementation of the method outlined in @tipping2013.
     This method calculates
     the Jaccard similarity between user-inputted sample quadrats and 

@@ -21,7 +21,6 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
   observe({
     
     shinyjs::show(id = "speciesRichnessSiteTable_div")
-    shinyjs::show(id = "speciesFrequencyTable_div")
     shinyjs::show(id = "speciesRichnessGroupTable_div")
     shinyjs::show(id = "speciesRichnessQuadratTable_div")
     
@@ -38,13 +37,6 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       shinyjs::show(id = "speciesRichnessSiteTable_div")
     } else {
       shinyjs::hide(id = "speciesRichnessSiteTable_div")
-    }
-    
-    # speciesFrequencyTable
-    if("speciesFrequency" %in% resultsViewDiversity()){
-      shinyjs::show(id = "speciesFrequencyTable_div")
-    } else {
-      shinyjs::hide(id = "speciesFrequencyTable_div")
     }
     
     # speciesRichnessGroupTable
@@ -76,36 +68,6 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
               ignoreNULL = FALSE,
               ignoreInit = FALSE,
               once = TRUE)
-  
-
-# Initialise species unique to year table ---------------------------------
-  speciesFrequencyTable_init <- data.frame("Year" = integer(),
-                                           "Species" = character())
-  
-  speciesFrequencyTable_rval <- reactiveVal(speciesFrequencyTable_init)
-  
-  output$speciesFrequencyTable <- rhandsontable::renderRHandsontable({
-    
-    speciesFrequencyTable <- rhandsontable::rhandsontable(data = speciesFrequencyTable_init,
-                                                          rowHeaders = NULL,
-                                                          width = "100%"#,
-                                                          # overflow = "visible",
-                                                          # stretchH = "all"
-                                                          ) |>
-      rhandsontable::hot_col(col = colnames(speciesFrequencyTable_init), halign = "htCenter", readOnly = TRUE) |>
-      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"diversity_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
-    
-    return(speciesFrequencyTable)
-    
-  })
 
   
 # Initialise Species Richness Quadrat Table -------------------------------
@@ -218,85 +180,6 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
     surveyTableWide <- surveyTableWide()
     
     isolate({
-
-
-# Species Frequency -------------------------------------------------------
-      
-      # I need to find a better way to do this with tidy select
-      max_year <- max(surveyTable$Year) |>
-        as.character()
-      min_year <- min(surveyTable$Year) |>
-        as.character()
-      
-      speciesFrequency <- surveyTable |>
-        dplyr::group_by(Year, Species) |>
-        dplyr::summarise(Frequency = dplyr::n()) |>
-        tidyr::pivot_wider(id_cols = Species,
-                           names_from = Year,
-                           values_from = Frequency) |>
-        dplyr::mutate(
-          "Difference" = 
-            dplyr::case_when(
-              is.na(get(min_year)) ~ as.numeric(get(max_year)),
-              is.na(get(max_year)) ~ as.numeric(get(min_year)) * -1,
-              !is.na(get(min_year)) & !is.na(get(max_year)) ~ as.numeric(get(max_year)) - as.numeric(get(min_year)),
-              TRUE ~ 0
-            )
-          ) |>
-        dplyr::mutate(
-          "Change" = 
-            dplyr::case_when(
-              is.na(get(min_year)) & !is.na(get(max_year)) ~ "Gain",
-              is.na(get(max_year)) & !is.na(get(min_year))~ "Loss",
-              Difference > 0 ~ "Net Increase",
-              Difference < 0 ~ "Net Decrease",
-              Difference == 0 ~ "No Net Difference",
-              TRUE ~ "Gain then Loss"
-            )
-        )
-      
-      text_renderer <- "
-      function (instance, td, row, col, prop, value, cellProperties) {
-        Handsontable.renderers.TextRenderer.apply(this, arguments);
-        # This is the column which you want to check for coloring
-        var col_value = instance.getData()[row][4]
-        if (col_value == 'Gain') {
-          td.style.background = 'lightgreen';
-        } else if (col_value == 'Net Increase') {
-          td.style.background = 'lightgreen';
-        } else if (col_value == 'Loss') {
-          td.style.background = 'lightred';
-        } else if (col_value == 'Net Decrease') {
-          td.style.background = 'lightred';
-        }
-      }"
-                
-      
-      output$speciesFrequencyTable <- rhandsontable::renderRHandsontable({
-        
-        speciesFrequencyTable <- rhandsontable::rhandsontable(data = speciesFrequency,
-                                                              rowHeaders = NULL#,
-                                                              # width = "100%"#,
-                                                              # overflow = "visible",
-                                                              # stretchH = "all"
-                                                              ) |>
-          rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-          rhandsontable::hot_col(col = colnames(speciesFrequency), halign = "htCenter", readOnly = TRUE) |>
-          # rhandsontable::hot_col(col = "Change", renderer = text_renderer) |>
-          rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-          htmlwidgets::onRender("
-          function(el, x) {
-            var hot = this.hot
-            $('a[data-value=\"diversity_panel\"').on('click', function(){
-              setTimeout(function() {hot.render();}, 0);
-            })
-          }")
-        
-        return(speciesFrequencyTable)
-        
-      })
-      
-      speciesFrequencyTable_rval <- reactiveVal(rhandsontable::hot_to_r(input$speciesFrequencyTable))
 
 # Species Richness --------------------------------------------------------
       
@@ -448,10 +331,10 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
 
 # Simpsons Diversity ------------------------------------------------------
 
-    simpsonDiversity <- surveyTableWide |>
-      vegan::diversity(index = "simpson") |>
-      tibble::as_tibble(rownames = "ID") |>
-      dplyr::rename("Simpson.Diversity" = "value")
+    # simpsonDiversity <- surveyTableWide |>
+    #   vegan::diversity(index = "simpson") |>
+    #   tibble::as_tibble(rownames = "ID") |>
+    #   dplyr::rename("Simpson.Diversity" = "value")
       
     
     
@@ -463,7 +346,6 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
               ignoreNULL = TRUE)
   
   
-  outputOptions(output, "speciesFrequencyTable", suspendWhenHidden = FALSE)
   outputOptions(output, "speciesRichnessSiteTable", suspendWhenHidden = FALSE)
   outputOptions(output, "speciesRichnessGroupTable", suspendWhenHidden = FALSE)
   outputOptions(output, "speciesRichnessQuadratTable", suspendWhenHidden = FALSE)
