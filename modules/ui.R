@@ -1,12 +1,27 @@
 # UI
 ui <- bslib::page_navbar(
+    
+  # Note using bslib::layout_columns() leads to additional bslib text in the tab title
+  title = shiny::div(
 
-  title = bslib::layout_columns(
-    bslib::card_image(file = "www/ukceh_logo_long_720x170_rgb.png", fill = FALSE, width = "300px"),
-    # shiny::HTML(paste(shiny::h2(shiny::em("pseudo")), shiny::h1("MAVIS")))
-    shiny::h1(shiny::div(shiny::em("pseudo"), "MAVIS"), id = "title")#,
-    # bslib::card_image(file = "www/nationalReference.png", fill = FALSE, width = "200px"),
+    shiny::splitLayout(
+
+      # CEH Logo
+      bslib::card_image(file = "www/ukceh_logo_long_720x170_rgb.png", fill = FALSE, width = "300px"),
+
+      # App Title
+      shiny::div(shiny::h1("pseudoMAVIS")),
+      
+      # Align cell contents in the middle vertically
+      cellArgs = list(style = "vertical-align: middle !important;")
+
     ),
+
+     # Tab Title
+      shiny::tagList(tags$head(tags$title(paste0(" | UK Centre for Ecology & Hydrology")),
+                       tags$link(rel = "shortcut icon", href = "https://brandroom.ceh.ac.uk/themes/custom/ceh/favicon.ico")))
+  
+   ),
   
   id = "nav",
   
@@ -49,18 +64,6 @@ ui <- bslib::page_navbar(
         surveyTableUI(id = "surveyTable_id_1")
         
       ),
-      
-      # bslib::nav_panel(
-      #   
-      #   full_screen = TRUE,
-      #   
-      #   bslib::card_header("Survey Data Validation"),
-      #   
-      #   value = "surveyDataValidation_panel",
-      #   
-      #   surveyTableValidatorUI(id = "surveyTableValidator_id_1")
-      #   
-      # ),
       
       bslib::nav_panel(
         

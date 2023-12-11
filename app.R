@@ -2,6 +2,9 @@
 
 # shinyOptions(bslib = TRUE)
 
+# https://github.com/NERC-CEH/UKCEH_shiny_theming
+# devtools::source_url("https://github.com/NERC-CEH/UKCEH_shiny_theming/blob/main/theme_elements.R?raw=TRUE")
+
 # Load data into memory ---------------------------------------------------
 source("R/load_data.R", local = TRUE)
 

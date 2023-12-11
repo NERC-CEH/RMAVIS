@@ -31,7 +31,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
       htmlwidgets::onRender("
       function(el, x) {
         var hot = this.hot
-        $('a[data-value=\"speciesFreq_panel\"').on('click', function(){
+        $('a[data-value=\"validateSurveyTableDataModal\"').on('click', function(){
           setTimeout(function() {hot.render();}, 0);
         })
       }")
@@ -169,7 +169,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
           htmlwidgets::onRender("
           function(el, x) {
             var hot = this.hot
-            $('a[data-value=\"speciesFreq_panel\"').on('click', function(){
+            $('a[data-value=\"validateSurveyTableDataModal\"').on('click', function(){
               setTimeout(function() {hot.render();}, 0);
             })
           }")
@@ -371,8 +371,9 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     bindEvent(surveyTableValidation_rval(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
+  
 
-
+  outputOptions(output, "speciesCorrectionTable", suspendWhenHidden = FALSE)
   
   # return()
   
