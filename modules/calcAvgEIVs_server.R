@@ -13,17 +13,16 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
-  
-  # Show/Hide Results -------------------------------------------------------
-  
+
+# Show/Hide Results -------------------------------------------------------
   observe({
     
-    shinyjs::show(id = "weightedMeanHillEllenbergValuesSite")
-    shinyjs::show(id = "unweightedMeanHillEllenbergValuesSite")
-    shinyjs::show(id = "weightedMeanHillEllenbergValuesGroup")
-    shinyjs::show(id = "unweightedMeanHillEllenbergValuesGroup")
-    shinyjs::show(id = "weightedMeanHillEllenbergValuesQuadrat")
-    shinyjs::show(id = "unweightedMeanHillEllenbergValuesQuadrat")
+    shinyjs::show(id = "weightedMeanHEValuesSite")
+    shinyjs::show(id = "unweightedMeanHEValuesSite")
+    shinyjs::show(id = "weightedMeanHEValuesGroup")
+    shinyjs::show(id = "unweightedMeanHEValuesGroup")
+    shinyjs::show(id = "weightedMeanHEValuesQuadrat")
+    shinyjs::show(id = "unweightedMeanHEValuesQuadrat")
     
   }) |>
     bindEvent(resultsViewEIVs(),
@@ -33,40 +32,40 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
   
   observe({
     
-    if("weightedMeanHillEllenbergValuesSite" %in% resultsViewEIVs()){
-      shinyjs::show(id = "weightedMeanHillEllenbergValuesSite_div")
+    if("weightedMeanHEValuesSite" %in% resultsViewEIVs()){
+      shinyjs::show(id = "weightedMeanHEValuesSite_div")
     } else {
-      shinyjs::hide(id = "weightedMeanHillEllenbergValuesSite_div")
+      shinyjs::hide(id = "weightedMeanHEValuesSite_div")
     }
     
-    if("unweightedMeanHillEllenbergValuesSite" %in% resultsViewEIVs()){
-      shinyjs::show(id = "unweightedMeanHillEllenbergValuesSite_div")
+    if("unweightedMeanHEValuesSite" %in% resultsViewEIVs()){
+      shinyjs::show(id = "unweightedMeanHEValuesSite_div")
     } else {
-      shinyjs::hide(id = "unweightedMeanHillEllenbergValuesSite_div")
+      shinyjs::hide(id = "unweightedMeanHEValuesSite_div")
     }
     
-    if("weightedMeanHillEllenbergValuesGroup" %in% resultsViewEIVs()){
-      shinyjs::show(id = "weightedMeanHillEllenbergValuesGroup_div")
+    if("weightedMeanHEValuesGroup" %in% resultsViewEIVs()){
+      shinyjs::show(id = "weightedMeanHEValuesGroup_div")
     } else {
-      shinyjs::hide(id = "weightedMeanHillEllenbergValuesGroup_div")
+      shinyjs::hide(id = "weightedMeanHEValuesGroup_div")
     }
     
-    if("unweightedMeanHillEllenbergValuesGroup" %in% resultsViewEIVs()){
-      shinyjs::show(id = "unweightedMeanHillEllenbergValuesGroup_div")
+    if("unweightedMeanHEValuesGroup" %in% resultsViewEIVs()){
+      shinyjs::show(id = "unweightedMeanHEValuesGroup_div")
     } else {
-      shinyjs::hide(id = "unweightedMeanHillEllenbergValuesGroup_div")
+      shinyjs::hide(id = "unweightedMeanHEValuesGroup_div")
     }
     
-    if("weightedMeanHillEllenbergValuesQuadrat" %in% resultsViewEIVs()){
-      shinyjs::show(id = "weightedMeanHillEllenbergValuesQuadrat_div")
+    if("weightedMeanHEValuesQuadrat" %in% resultsViewEIVs()){
+      shinyjs::show(id = "weightedMeanHEValuesQuadrat_div")
     } else {
-      shinyjs::hide(id = "weightedMeanHillEllenbergValuesQuadrat_div")
+      shinyjs::hide(id = "weightedMeanHEValuesQuadrat_div")
     }
     
-    if("unweightedMeanHillEllenbergValuesQuadrat" %in% resultsViewEIVs()){
-      shinyjs::show(id = "unweightedMeanHillEllenbergValuesQuadrat_div")
+    if("unweightedMeanHEValuesQuadrat" %in% resultsViewEIVs()){
+      shinyjs::show(id = "unweightedMeanHEValuesQuadrat_div")
     } else {
-      shinyjs::hide(id = "unweightedMeanHillEllenbergValuesQuadrat_div")
+      shinyjs::hide(id = "unweightedMeanHEValuesQuadrat_div")
     }
     
     
@@ -77,7 +76,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
   
   observe({
     
-    shinyjs::show(id = "unweightedMeanHillEllenbergValuesSite_div")
+    shinyjs::show(id = "unweightedMeanHEValuesSite_div")
     
   }) |>
     bindEvent(resultsViewEIVs(),
@@ -86,28 +85,33 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
               once = TRUE)
   
 
-# Cover-weighted mean Hill-Ellenberg values -------------------------------
-  avgWeightedEIVsTable_init <- data.frame("Year" = integer(),
-                                          "Group" = character(),
-                                          "Quadrat" = character(),
-                                          "Moisture.F" = double(),
-                                          "Light.L" = double(),
-                                          "Nitrogen.N" = double(),
-                                          "Reaction.R" = double(),
-                                          "Salinity.S" = double()
-                                          )
+# Initialise Results Tables -----------------------------------------------
+  meanHEValuesTable_init <- data.frame("ID" = character(),
+                                       "Moisture.F" = double(),
+                                       "Light.L" = double(),
+                                       "Nitrogen.N" = double(),
+                                       "Reaction.R" = double(),
+                                       "Salinity.S" = double()
+                                       )
   
-  avgWeightedEIVsTable_rval <- reactiveVal(avgWeightedEIVsTable_init)
+# Initialise reactive objects to hold table data --------------------------
+  weightedMeanHEValuesSite_rval <- reactiveVal(meanHEValuesTable_init)
+  unweightedMeanHEValuesSite_rval <- reactiveVal(meanHEValuesTable_init)
+  weightedMeanHEValuesGroup_rval <- reactiveVal(meanHEValuesTable_init)
+  unweightedMeanHEValuesGroup_rval <- reactiveVal(meanHEValuesTable_init)
+  weightedMeanHEValuesQuadrat_rval <- reactiveVal(meanHEValuesTable_init)
+  unweightedMeanHEValuesQuadrat_rval <- reactiveVal(meanHEValuesTable_init)
   
-  output$avgWeightedEIVsTable <- rhandsontable::renderRHandsontable({
+# Initialise Weighted Mean HE Values by Site ------------------------------
+  output$weightedMeanHEValuesSiteTable <- rhandsontable::renderRHandsontable({
     
-    avgWeightedEIVsTable <- rhandsontable::rhandsontable(data = avgWeightedEIVsTable_init,
-                                                         rowHeaders = NULL,
-                                                         width = "100%"#,
-                                                         # overflow = "visible",
-                                                         # stretchH = "all"
-                                                         ) |>
-      rhandsontable::hot_col(col = colnames(avgWeightedEIVsTable_init), halign = "htCenter", readOnly = TRUE) |>
+    weightedMeanHEValuesSiteTable <- rhandsontable::rhandsontable(data = meanHEValuesTable_init,
+                                                                  rowHeaders = NULL,
+                                                                  width = "100%"#,
+                                                                  # overflow = "visible",
+                                                                  # stretchH = "all"
+                                                                  ) |>
+      rhandsontable::hot_col(col = colnames(meanHEValuesTable_init), halign = "htCenter", readOnly = TRUE) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
@@ -118,21 +122,156 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
         })
       }")
     
-    return(avgWeightedEIVsTable)
+    return(weightedMeanHEValuesSiteTable)
+    
+  })
+
+  
+# Initialise Unweighted Mean HE Values by Site ----------------------------
+  output$unweightedMeanHEValuesSiteTable <- rhandsontable::renderRHandsontable({
+    
+    unweightedMeanHEValuesSiteTable <- rhandsontable::rhandsontable(data = meanHEValuesTable_init,
+                                                                    rowHeaders = NULL,
+                                                                    width = "100%"#,
+                                                                    # overflow = "visible",
+                                                                    # stretchH = "all"
+                                                                    ) |>
+    rhandsontable::hot_col(col = colnames(meanHEValuesTable_init), halign = "htCenter", readOnly = TRUE) |>
+    rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+    rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+    htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"eivs_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+  
+  return(unweightedMeanHEValuesSiteTable)
+    
+  })
+
+
+# Initialise Weighted Mean HE Values by Group -----------------------------
+  output$weightedMeanHEValuesGroupTable <- rhandsontable::renderRHandsontable({
+    
+    weightedMeanHEValuesGroupTable <- rhandsontable::rhandsontable(data = meanHEValuesTable_init,
+                                                                   rowHeaders = NULL,
+                                                                   width = "100%"#,
+                                                                   # overflow = "visible",
+                                                                   # stretchH = "all"
+                                                                   ) |>
+    rhandsontable::hot_col(col = colnames(meanHEValuesTable_init), halign = "htCenter", readOnly = TRUE) |>
+    rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+    rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+    htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"eivs_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+  
+  return(weightedMeanHEValuesGroupTable)
+    
+  })
+
+
+# Initialise Unweighted Mean HE Values by Group ---------------------------
+  output$unweightedMeanHEValuesGroupTable <- rhandsontable::renderRHandsontable({
+    
+    unweightedMeanHEValuesGroupTable<- rhandsontable::rhandsontable(data = meanHEValuesTable_init,
+                                                                    rowHeaders = NULL,
+                                                                    width = "100%"#,
+                                                                    # overflow = "visible",
+                                                                    # stretchH = "all"
+                                                                    ) |>
+    rhandsontable::hot_col(col = colnames(meanHEValuesTable_init), halign = "htCenter", readOnly = TRUE) |>
+    rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+    rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+    htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"eivs_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+  
+  return(unweightedMeanHEValuesGroupTable)
     
   })
   
+
+# Initialise Weighted Mean HE Values by Quadrat ---------------------------
+  output$weightedMeanHEValuesQuadratTable <- rhandsontable::renderRHandsontable({
+    
+    weightedMeanHEValuesQuadratTable <- rhandsontable::rhandsontable(data = meanHEValuesTable_init,
+                                                                     rowHeaders = NULL,
+                                                                     width = "100%"#,
+                                                                     # overflow = "visible",
+                                                                     # stretchH = "all"
+                                                                     ) |>
+    rhandsontable::hot_col(col = colnames(meanHEValuesTable_init), halign = "htCenter", readOnly = TRUE) |>
+    rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+    rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+    htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"eivs_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+  
+  return(weightedMeanHEValuesQuadratTable)
+    
+  })
+
+# Initialise Unweighted Mean HE Values by Quadrat -------------------------
+  output$unweightedMeanHEValuesQuadratTable <- rhandsontable::renderRHandsontable({
+    
+    unweightedMeanHEValuesQuadratTable <- rhandsontable::rhandsontable(data = meanHEValuesTable_init,
+                                                                       rowHeaders = NULL,
+                                                                       width = "100%"#,
+                                                                       # overflow = "visible",
+                                                                       # stretchH = "all"
+                                                                       ) |>
+    rhandsontable::hot_col(col = colnames(meanHEValuesTable_init), halign = "htCenter", readOnly = TRUE) |>
+    rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+    rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+    htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"eivs_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+  
+  return(unweightedMeanHEValuesQuadratTable)
+    
+  })
+  
+
+# Update tables -----------------------------------------------------------
   observe({
     
-    # shiny::req(input$avgEIVsTable) # Why do I not need this???????????????
     shiny::req(surveyTable())
     
-    # # Retrieve the table, optionally modify the table without triggering recursion.
+    shinybusy::show_modal_spinner(
+      spin = "fading-circle",
+      color = "#3F9280",
+      text = "Calculating Mean Hill-Ellenberg Values"
+    )
+    
+    # Isolate reactive objects
     shiny::isolate({
       
       surveyTable <- surveyTable()
       
-      avgWeightedEIVsTable <- surveyTable |>
+
+# Calculate Weighted Mean HE Values ---------------------------------------
+      
+      # By Quadrat
+      weightedMeanHEValuesQuadrat <- surveyTable |>
         dplyr::rename("species" = "Species") |>
         dplyr::left_join(master_data, by = "species",
                          relationship = "many-to-many") |>
@@ -149,89 +288,45 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                          "Reaction.R" = sum(R, na.rm = TRUE), 
                          "Salinity.S" = sum(S, na.rm = TRUE), .groups = "drop") |>
         dplyr::ungroup() |>
+        dplyr::arrange(Year, Group, Quadrat)
+      
+      weightedMeanHEValuesQuadrat_prepped <- weightedMeanHEValuesQuadrat |>
         tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE)
-        
       
-    })
-    
-    output$avgWeightedEIVsTable <- rhandsontable::renderRHandsontable({
       
-      avgWeightedEIVsTable <- rhandsontable::rhandsontable(data = avgWeightedEIVsTable,
-                                                           rowHeaders = NULL,
-                                                           width = "100%"#,
-                                                           # overflow = "visible",
-                                                           # stretchH = "all"
-      ) |>
-        rhandsontable::hot_col(col = colnames(avgWeightedEIVsTable), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"eivs_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+      # By Group
+      weightedMeanHEValuesGroup <- weightedMeanHEValuesQuadrat |>
+        dplyr::group_by(Year, Group) |>
+        dplyr::summarise("Moisture.F" = mean(`Moisture.F`, na.rm = TRUE),
+                         "Light.L" = mean(Light.L, na.rm = TRUE), 
+                         "Nitrogen.N" = mean(Nitrogen.N, na.rm = TRUE), 
+                         "Reaction.R" = mean(Reaction.R, na.rm = TRUE), 
+                         "Salinity.S" = mean(Salinity.S, na.rm = TRUE), .groups = "drop")|>
+        dplyr::ungroup() |>
+        dplyr::arrange(Year, Group)
       
-      return(avgWeightedEIVsTable)
+      weightedMeanHEValuesGroup_prepped <- weightedMeanHEValuesGroup  |>
+        tidyr::unite(col = "ID", c(Year, Group), sep = " - ", remove = TRUE)
       
-    })
-    
-    avgWeightedEIVsTable_rval(rhandsontable::hot_to_r(input$avgWeightedEIVsTable))
-    
-  }) |>
-    bindEvent(runAnalysis(),
-              ignoreInit = TRUE, 
-              ignoreNULL = TRUE)
-  
+      # By Site
+      weightedMeanHEValuesSite <- weightedMeanHEValuesQuadrat |>
+        dplyr::group_by(Year) |>
+        dplyr::summarise("Moisture.F" = mean(`Moisture.F`, na.rm = TRUE),
+                         "Light.L" = mean(Light.L, na.rm = TRUE), 
+                         "Nitrogen.N" = mean(Nitrogen.N, na.rm = TRUE), 
+                         "Reaction.R" = mean(Reaction.R, na.rm = TRUE), 
+                         "Salinity.S" = mean(Salinity.S, na.rm = TRUE), .groups = "drop")|>
+        dplyr::ungroup() |>
+        dplyr::arrange(Year)
+      
+      weightedMeanHEValuesSite_prepped <- weightedMeanHEValuesSite |>
+        dplyr::rename("ID" = "Year")
+      
 
-# Unweighted mean Hill-Ellenberg values -------------------------------
-  avgUnweightedEIVsTable_init <- data.frame("Year" = integer(),
-                                            "Group" = character(),
-                                            "Quadrat" = character(),
-                                            "Moisture.F" = double(),
-                                            "Light.L" = double(),
-                                            "Nitrogen.N" = double(),
-                                            "Reaction.R" = double(),
-                                            "Salinity.S" = double()
-  )
-  
-  avgUnweightedEIVsTable_rval <- reactiveVal(avgUnweightedEIVsTable_init)
-  
-  output$avgUnweightedEIVsTable <- rhandsontable::renderRHandsontable({
-    
-    avgUnweightedEIVsTable <- rhandsontable::rhandsontable(data = avgUnweightedEIVsTable_init,
-                                                           rowHeaders = NULL,
-                                                           width = "100%"#,
-                                                           # overflow = "visible",
-                                                           # stretchH = "all"
-    ) |>
-      rhandsontable::hot_col(col = colnames(avgUnweightedEIVsTable_init), halign = "htCenter", readOnly = TRUE) |>
-      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"eivs_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
-    
-    return(avgUnweightedEIVsTable)
-    
-  })
-  
-  observe({
-    
-    # shiny::req(input$avgEIVsTable) # Why do I not need this???????????????
-    shiny::req(surveyTable())
-    
-    # # Retrieve the table, optionally modify the table without triggering recursion.
-    shiny::isolate({
+# Calculate Unweighted Mean HE Values -------------------------------------
       
-      surveyTable <- surveyTable()
-      
-      avgUnweightedEIVsTable <- surveyTable |>
+      # By Quadrat
+      unweightedMeanHEValuesQuadrat <- surveyTable |>
         dplyr::rename("species" = "Species") |>
         dplyr::left_join(master_data, by = "species",
                          relationship = "many-to-many") |>
@@ -243,46 +338,215 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                          "Reaction.R" = mean(R, na.rm = TRUE), 
                          "Salinity.S" = mean(S, na.rm = TRUE), .groups = "drop") |>
         dplyr::ungroup() |>
+        dplyr::arrange(Year, Group, Quadrat)
+      
+      unweightedMeanHEValuesQuadrat_prepped <- unweightedMeanHEValuesQuadrat |>
         tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE)
       
       
+      # By Group
+      unweightedMeanHEValuesGroup <- unweightedMeanHEValuesQuadrat |>
+        dplyr::group_by(Year, Group) |>
+        dplyr::summarise("Moisture.F" = mean(`Moisture.F`, na.rm = TRUE),
+                         "Light.L" = mean(Light.L, na.rm = TRUE), 
+                         "Nitrogen.N" = mean(Nitrogen.N, na.rm = TRUE), 
+                         "Reaction.R" = mean(Reaction.R, na.rm = TRUE), 
+                         "Salinity.S" = mean(Salinity.S, na.rm = TRUE), .groups = "drop")|>
+        dplyr::ungroup() |>
+        dplyr::arrange(Year, Group)
+      
+      unweightedMeanHEValuesGroup_prepped <- unweightedMeanHEValuesGroup  |>
+        tidyr::unite(col = "ID", c(Year, Group), sep = " - ", remove = TRUE)
+      
+      # By Site
+      unweightedMeanHEValuesSite <- unweightedMeanHEValuesQuadrat |>
+        dplyr::group_by(Year) |>
+        dplyr::summarise("Moisture.F" = mean(`Moisture.F`, na.rm = TRUE),
+                         "Light.L" = mean(Light.L, na.rm = TRUE), 
+                         "Nitrogen.N" = mean(Nitrogen.N, na.rm = TRUE), 
+                         "Reaction.R" = mean(Reaction.R, na.rm = TRUE), 
+                         "Salinity.S" = mean(Salinity.S, na.rm = TRUE), .groups = "drop")|>
+        dplyr::ungroup() |>
+        dplyr::arrange(Year)
+      
+      unweightedMeanHEValuesSite_prepped <- unweightedMeanHEValuesSite |>
+        dplyr::rename("ID" = "Year")
+        
+      
     })
     
-    output$avgUnweightedEIVsTable <- rhandsontable::renderRHandsontable({
+
+# Update Tables -----------------------------------------------------------
+
+# Update Weighted Mean HE Values by Site ------------------------------
+    output$weightedMeanHEValuesSiteTable <- rhandsontable::renderRHandsontable({
       
-      avgUnweightedEIVsTable <- rhandsontable::rhandsontable(data = avgUnweightedEIVsTable,
-                                                             rowHeaders = NULL,
-                                                             width = "100%"#,
-                                                             # overflow = "visible",
-                                                             # stretchH = "all"
+      weightedMeanHEValuesSiteTable <- rhandsontable::rhandsontable(data = weightedMeanHEValuesSite_prepped,
+                                                                    rowHeaders = NULL,
+                                                                    width = "100%"#,
+                                                                    # overflow = "visible",
+                                                                    # stretchH = "all"
       ) |>
-        rhandsontable::hot_col(col = colnames(avgUnweightedEIVsTable), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_col(col = colnames(weightedMeanHEValuesSite_prepped), halign = "htCenter", readOnly = TRUE) |>
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
         htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"eivs_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"eivs_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
       
-      return(avgUnweightedEIVsTable)
+      return(weightedMeanHEValuesSiteTable)
       
     })
     
-    avgUnweightedEIVsTable_rval(avgUnweightedEIVsTable)
+# Update Unweighted Mean HE Values by Site ----------------------------
+    output$unweightedMeanHEValuesSiteTable <- rhandsontable::renderRHandsontable({
+      
+      unweightedMeanHEValuesSiteTable <- rhandsontable::rhandsontable(data = unweightedMeanHEValuesSite_prepped,
+                                                                      rowHeaders = NULL,
+                                                                      width = "100%"#,
+                                                                      # overflow = "visible",
+                                                                      # stretchH = "all"
+      ) |>
+        rhandsontable::hot_col(col = colnames(unweightedMeanHEValuesSite_prepped), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"eivs_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+      
+      return(unweightedMeanHEValuesSiteTable)
+      
+    })
+    
+# Update Weighted Mean HE Values by Group -----------------------------
+    output$weightedMeanHEValuesGroupTable <- rhandsontable::renderRHandsontable({
+      
+      weightedMeanHEValuesGroupTable <- rhandsontable::rhandsontable(data = weightedMeanHEValuesGroup_prepped,
+                                                                     rowHeaders = NULL,
+                                                                     width = "100%"#,
+                                                                     # overflow = "visible",
+                                                                     # stretchH = "all"
+      ) |>
+        rhandsontable::hot_col(col = colnames(weightedMeanHEValuesGroup_prepped), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"eivs_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+      
+      return(weightedMeanHEValuesGroupTable)
+      
+    })
+    
+# Update Unweighted Mean HE Values by Group ---------------------------
+    output$unweightedMeanHEValuesGroupTable <- rhandsontable::renderRHandsontable({
+      
+      unweightedMeanHEValuesGroupTable<- rhandsontable::rhandsontable(data = unweightedMeanHEValuesGroup_prepped,
+                                                                      rowHeaders = NULL,
+                                                                      width = "100%"#,
+                                                                      # overflow = "visible",
+                                                                      # stretchH = "all"
+      ) |>
+        rhandsontable::hot_col(col = colnames(unweightedMeanHEValuesGroup_prepped), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"eivs_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+      
+      return(unweightedMeanHEValuesGroupTable)
+      
+    })
+    
+# Update Weighted Mean HE Values by Quadrat ---------------------------
+    output$weightedMeanHEValuesQuadratTable <- rhandsontable::renderRHandsontable({
+      
+      weightedMeanHEValuesQuadratTable <- rhandsontable::rhandsontable(data = weightedMeanHEValuesQuadrat_prepped,
+                                                                       rowHeaders = NULL,
+                                                                       width = "100%"#,
+                                                                       # overflow = "visible",
+                                                                       # stretchH = "all"
+                                                                       ) |>
+        rhandsontable::hot_col(col = colnames(weightedMeanHEValuesQuadrat_prepped), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"eivs_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+      
+      return(weightedMeanHEValuesQuadratTable)
+      
+    })
+    
+# Update Unweighted Mean HE Values by Quadrat -------------------------
+    output$unweightedMeanHEValuesQuadratTable <- rhandsontable::renderRHandsontable({
+      
+      unweightedMeanHEValuesQuadratTable <- rhandsontable::rhandsontable(data = unweightedMeanHEValuesQuadrat_prepped,
+                                                                         rowHeaders = NULL,
+                                                                         width = "100%"#,
+                                                                         # overflow = "visible",
+                                                                         # stretchH = "all"
+                                                                         ) |>
+        rhandsontable::hot_col(col = colnames(unweightedMeanHEValuesQuadrat_prepped), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"eivs_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+      
+      return(unweightedMeanHEValuesQuadratTable)
+      
+    })
+    
+    # weightedMeanHEValuesSite_rval()
+    # unweightedMeanHEValuesSite_rval()
+    # weightedMeanHEValuesGroup_rval()
+    # unweightedMeanHEValuesGroup_rval()
+    # weightedMeanHEValuesQuadrat_rval()
+    # unweightedMeanHEValuesQuadrat_rval()
+    
+    shinybusy::remove_modal_spinner()
     
   }) |>
     bindEvent(runAnalysis(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
+
+# Ensure tables are not suspended when hidden -----------------------------
+  outputOptions(output, "weightedMeanHEValuesSiteTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "unweightedMeanHEValuesSiteTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "weightedMeanHEValuesGroupTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "unweightedMeanHEValuesGroupTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "weightedMeanHEValuesQuadratTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "unweightedMeanHEValuesQuadratTable", suspendWhenHidden = FALSE)
   
-  
-  outputOptions(output, "avgWeightedEIVsTable", suspendWhenHidden = FALSE)
-  outputOptions(output, "avgUnweightedEIVsTable", suspendWhenHidden = FALSE)
-  
-  return(avgUnweightedEIVsTable_rval)
+
+# Return data -------------------------------------------------------------
+  # return()
   
 }

@@ -96,21 +96,21 @@ speciesFreq <- function(input, output, session, surveyTable, surveyTableWide, si
             )
         )
       
-      text_renderer <- "
-      function (instance, td, row, col, prop, value, cellProperties) {
-        Handsontable.renderers.TextRenderer.apply(this, arguments);
-        # This is the column which you want to check for coloring
-        var col_value = instance.getData()[row][4]
-        if (col_value == 'Gain') {
-          td.style.background = 'lightgreen';
-        } else if (col_value == 'Net Increase') {
-          td.style.background = 'lightgreen';
-        } else if (col_value == 'Loss') {
-          td.style.background = 'lightred';
-        } else if (col_value == 'Net Decrease') {
-          td.style.background = 'lightred';
-        }
-      }"
+      # text_renderer <- "
+      # function (instance, td, row, col, prop, value, cellProperties) {
+      #   Handsontable.renderers.TextRenderer.apply(this, arguments);
+      #   # This is the column which you want to check for coloring
+      #   var col_value = instance.getData()[row][4]
+      #   if (col_value == 'Gain') {
+      #     td.style.background = 'lightgreen';
+      #   } else if (col_value == 'Net Increase') {
+      #     td.style.background = 'lightgreen';
+      #   } else if (col_value == 'Loss') {
+      #     td.style.background = 'lightred';
+      #   } else if (col_value == 'Net Decrease') {
+      #     td.style.background = 'lightred';
+      #   }
+      # }"
       
     })
       
@@ -118,7 +118,7 @@ speciesFreq <- function(input, output, session, surveyTable, surveyTableWide, si
       output$speciesFrequencyTable <- rhandsontable::renderRHandsontable({
         
         speciesFrequencyTable <- rhandsontable::rhandsontable(data = speciesFrequency,
-                                                              rowHeaders = NULL#,
+                                                              rowHeaders = NULL
                                                               # width = "100%"#,
                                                               # overflow = "visible",
                                                               # stretchH = "all"
@@ -126,7 +126,7 @@ speciesFreq <- function(input, output, session, surveyTable, surveyTableWide, si
           rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
           rhandsontable::hot_col(col = colnames(speciesFrequency), halign = "htCenter", readOnly = TRUE) |>
           # rhandsontable::hot_col(col = "Change", renderer = text_renderer) |>
-          rhandsontable::hot_cols(columnSorting = TRUE) |>
+          # rhandsontable::hot_cols(columnSorting = TRUE) |>
           rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
           htmlwidgets::onRender("
           function(el, x) {

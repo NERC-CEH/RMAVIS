@@ -4,6 +4,7 @@ server <- function(input, output, session) {
   sidebar_options <- shiny::callModule(module = sidebar,
                                        id = "sidebar_id_1",
                                        surveyTable = surveyTable,
+                                       surveyTableValidator = surveyTableValidator,
                                        nvcAssignment = nvcAssignment,
                                        floristicTables = floristicTables,
                                        mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults)

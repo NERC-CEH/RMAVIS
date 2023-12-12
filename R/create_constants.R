@@ -99,12 +99,12 @@ crossTabulate_options <- c("No" = "No",
 
 
 # Results to View EIVs ----------------------------------------------------
-resultsViewEIVs_options <- c("Weighted Mean Hill-Ellenberg Values, by Site" = "weightedMeanHillEllenbergValuesSite",
-                             "Unweighted Mean Hill-Ellenberg Values, by Site" = "unweightedMeanHillEllenbergValuesSite",
-                             "Weighted Mean Hill-Ellenberg Values, by Group" = "weightedMeanHillEllenbergValuesGroup",
-                             "Unweighted Mean Hill-Ellenberg Values, by Group" = "unweightedMeanHillEllenbergValuesGroup",
-                             "Weighted Mean Hill-Ellenberg Values, by Quadrat" = "weightedMeanHillEllenbergValuesQuadrat",
-                             "Unweighted Mean Hill-Ellenberg Values, by Quadrat" = "unweightedMeanHillEllenbergValuesQuadrat"
+resultsViewEIVs_options <- c("Weighted Mean Hill-Ellenberg Values, by Site" = "weightedMeanHEValuesSite",
+                             "Unweighted Mean Hill-Ellenberg Values, by Site" = "unweightedMeanHEValuesSite",
+                             "Weighted Mean Hill-Ellenberg Values, by Group" = "weightedMeanHEValuesGroup",
+                             "Unweighted Mean Hill-Ellenberg Values, by Group" = "unweightedMeanHEValuesGroup",
+                             "Weighted Mean Hill-Ellenberg Values, by Quadrat" = "weightedMeanHEValuesQuadrat",
+                             "Unweighted Mean Hill-Ellenberg Values, by Quadrat" = "unweightedMeanHEValuesQuadrat"
                              )
 
 

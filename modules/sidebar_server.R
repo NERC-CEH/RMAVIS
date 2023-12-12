@@ -1,4 +1,4 @@
-sidebar <- function(input, output, session, surveyTable, nvcAssignment, floristicTables, mvaLocalRefRestrictedResults) {
+sidebar <- function(input, output, session, surveyTable, surveyTableValidator, nvcAssignment, floristicTables, mvaLocalRefRestrictedResults) {
   
   ns <- session$ns
   
@@ -158,6 +158,30 @@ sidebar <- function(input, output, session, surveyTable, nvcAssignment, floristi
   }) |>
     bindEvent(input$validateSurveyTable,
               ignoreInit = TRUE)
+
+
+# Disable Run Analysis ActionButton if okToProceed == FALSE ---------------
+
+  # observe({
+  #   
+  #   surveyTableValidator <- surveyTableValidator()
+  #   
+  #   okToProceed <- surveyTableValidator$okToProceed
+  #   
+  #   if(okToProceed == TRUE){
+  #     
+  #     shinyjs::enable(id = "runAnalysis")
+  #     
+  #   } else if(okToProceed == FALSE){
+  #     
+  #     shinyjs::disable(id = "runAnalysis")
+  #     
+  #   }
+  #   
+  # }) |>
+  #   bindEvent(surveyTableValidator(),
+  #             ignoreInit = TRUE,
+  #             ignoreNULL = TRUE)
 
 # Upload Data Modal Popup -------------------------------------------------
 

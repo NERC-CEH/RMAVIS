@@ -5,7 +5,8 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 # Initialise Table to Replace Species Not In Accepted List ----------------
   
   speciesCorrectionTable_init <- data.frame("Species.Submitted" = character(),
-                                            "Species.Corrected" = character())
+                                            "Species.Corrected" = character(),
+                                            "Species.Ignore" = logical())
   
   speciesCorrectionTable_rval <- reactiveVal(speciesCorrectionTable_init)
   
@@ -17,7 +18,11 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
                                                            # overflow = "visible",
                                                            # stretchH = "all"
                                                            ) |>
-      rhandsontable::hot_col(col = colnames(speciesCorrectionTable_init), halign = "htCenter", readOnly = TRUE) |>
+      rhandsontable::hot_col(col = colnames(speciesCorrectionTable_init), halign = "htCenter") |>
+      rhandsontable::hot_col(
+        col = "Species.Submitted",
+        readOnly = TRUE,
+      ) |>
       rhandsontable::hot_col(
         col = "Species.Corrected",
         readOnly = FALSE,
@@ -31,7 +36,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
       htmlwidgets::onRender("
       function(el, x) {
         var hot = this.hot
-        $('a[data-value=\"validateSurveyTableDataModal\"').on('click', function(){
+        $('a[data-value=\"shiny-modal\"').on('click', function(){
           setTimeout(function() {hot.render();}, 0);
         })
       }")
@@ -144,7 +149,8 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     if(length(surveyTableValidation$speciesNotAccepted) > 0){
       
       speciesCorrectionTable <- data.frame("Species.Submitted" = surveyTableValidation$speciesNotAccepted,
-                                           "Species.Corrected" = as.character(NA_character_))
+                                           "Species.Corrected" = as.character(NA_character_),
+                                           "Species.Ignore" = FALSE)
       
       output$speciesCorrectionTable <- rhandsontable::renderRHandsontable({
         
@@ -154,7 +160,11 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
                                                                # overflow = "visible",
                                                                # stretchH = "all"
         ) |>
-          rhandsontable::hot_col(col = colnames(speciesCorrectionTable), halign = "htCenter", readOnly = TRUE) |>
+          rhandsontable::hot_col(col = colnames(speciesCorrectionTable), halign = "htCenter") |>
+          rhandsontable::hot_col(
+            col = "Species.Submitted",
+            readOnly = TRUE,
+          ) |>
           rhandsontable::hot_col(
             col = "Species.Corrected",
             readOnly = FALSE,
@@ -169,7 +179,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
           htmlwidgets::onRender("
           function(el, x) {
             var hot = this.hot
-            $('a[data-value=\"validateSurveyTableDataModal\"').on('click', function(){
+            $('a[data-value=\"shiny-modal\"').on('click', function(){
               setTimeout(function() {hot.render();}, 0);
             })
           }")
@@ -375,6 +385,6 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 
   outputOptions(output, "speciesCorrectionTable", suspendWhenHidden = FALSE)
   
-  # return()
+  return(surveyTableValidation_rval)
   
 }

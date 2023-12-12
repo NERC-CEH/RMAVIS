@@ -1,5 +1,7 @@
 # UI
 ui <- bslib::page_navbar(
+  
+  shinyjs::useShinyjs(),
     
   # Note using bslib::layout_columns() leads to additional bslib text in the tab title
   title = shiny::div(
@@ -17,7 +19,7 @@ ui <- bslib::page_navbar(
 
     ),
 
-     # Tab Title
+      # Tab Title
       shiny::tagList(tags$head(tags$title(paste0(" | UK Centre for Ecology & Hydrology")),
                        tags$link(rel = "shortcut icon", href = "https://brandroom.ceh.ac.uk/themes/custom/ceh/favicon.ico")))
   
@@ -30,15 +32,10 @@ ui <- bslib::page_navbar(
   # sidebar = bslib::sidebar(
   # 
   #   shiny::conditionalPanel(
-  #     "input.nav === 'Main'",
+  #     condition = "input.nav === 'Application'",
   #     sidebarUI(id = "sidebar_id_1")
-  #   ),
-  # 
-  #   shiny::conditionalPanel(
-  #     "input.nav === 'Documentation'",
-  #     NULL
   #   )
-  # 
+  #   
   # ),
 
   tags$head(includeCSS("www/style.css")),
@@ -168,7 +165,7 @@ ui <- bslib::page_navbar(
   
   bslib::nav_panel(
     
-    "NVC Information",
+    "NVC Lookup",
     
     value = "nvcInfo",
     

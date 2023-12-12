@@ -39,8 +39,6 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
       
       surveyTable <- surveyTable()
       
-      print(head(surveyTable))
-      
       # assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
       
       surveyTable_prepped <- surveyTable |>
@@ -135,8 +133,6 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
         dplyr::arrange(ID, dplyr::desc(Mean.Similarity))
       
       nvcAssignmentSite_rval(nvcAssignmentSite_prepped)
-            
-      print(head(nvcAssignmentSite_rval()))
       
     })
     

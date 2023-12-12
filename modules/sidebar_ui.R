@@ -75,7 +75,9 @@ sidebarUI <- function(id){
             bsicons::bs_icon("info-circle"),
             title = "Validate Survey Table Data",
             id = ns("validateSurveyTableInfo"),
-            paste0(""),
+            paste0("Open a popup window to validate the data present in the Survey Data Table.
+                    All validation checks must pass before the 'Run Analysis' button is enabled
+                    and pseudoMAVIS is ok to proceed."),
             placement = "bottom"
           )
           
@@ -296,7 +298,7 @@ sidebarUI <- function(id){
         shiny::selectizeInput(inputId = ns("resultsViewEIVs"),
                                            label = "Results to View",
                                            choices = resultsViewEIVs_options,
-                                           selected = c("unweightedMeanHillEllenbergValuesSite"),
+                                           selected = c("unweightedMeanHEValuesSite"),
                                            multiple = TRUE),
         
         
