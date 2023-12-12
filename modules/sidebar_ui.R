@@ -64,6 +64,8 @@ sidebarUI <- function(id){
           
         ),
         
+        shiny::div(shiny::h5("Validation")),
+        
         bslib::layout_columns(
           
           col_widths = c(11, 1),
@@ -131,13 +133,6 @@ sidebarUI <- function(id){
                                 selected = NULL,
                                 multiple = TRUE
                                 ),
-                    
-          # shinyWidgets::pickerInput(inputId = ns("habitatRestriction"),
-          #                           label = "Restrict Habitat",
-          #                           choices = habitatRestriction_options,
-          #                           selected = NULL,
-          #                           multiple = TRUE,
-          #                           options = shinyWidgets::pickerOptions(dropupAuto = FALSE)),
           
           bslib::popover(
             bsicons::bs_icon("info-circle"),
@@ -273,7 +268,7 @@ sidebarUI <- function(id){
           col_widths = c(11, 1),
           
           shiny::selectizeInput(inputId = ns("crossTabulate"), 
-                                label = "Cross Tabulate",
+                                label = "Match Species",
                                 choices = crossTabulate_options, 
                                 selected = "", 
                                 multiple = FALSE),
@@ -313,7 +308,7 @@ sidebarUI <- function(id){
         shiny::selectizeInput(inputId = ns("resultsViewDiversity"),
                                            label = "Results to View",
                                            choices = resultsViewDiversity_options,
-                                           selected = c("speciesRichnessSite"),
+                                           selected = c("diversitySummaryTable", "diversityIndicesTable"),
                                            multiple = TRUE),
         
         

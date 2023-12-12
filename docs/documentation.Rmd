@@ -1,5 +1,6 @@
 ---
-title: "MAVIS - Documentation"
+title: "pseudoMAVIS - Documentation"
+subtitle: "v0.9"
 output: 
   html_document:
     toc: true
@@ -104,7 +105,7 @@ the applications functionality.
 **Parsonage Down**
 CG. Calcareous grassland. Transect Survey. Repeat quadrats in 1970, 1990, and 2016 [@ridding2020]
 
-**Dataset 2**
+**Leith**
 W. Bunce woodland Survey. Storm Track. Repeat quadrats 1971, 2001, and 2021 [@smart2014]
 
 **Whitwell Common**

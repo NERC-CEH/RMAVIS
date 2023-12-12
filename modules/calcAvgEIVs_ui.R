@@ -7,30 +7,30 @@ calcAvgEIVsUI <- function(id){
       width = 12,
       
       shiny::div(
-        id = ns("weightedMeanHEValuesSite_div"),
-        
-        shiny::h5("Weighted Mean Hill-Ellenberg Values, by Site"),
-        
-        shiny::div(
-          rhandsontable::rHandsontableOutput(outputId = ns("weightedMeanHEValuesSiteTable"))
-        )
-        
-      ),
-      
-      shiny::div(shiny::br()),
-      
-      shiny::div(
         id = ns("unweightedMeanHEValuesSite_div"),
         
         shiny::h5("Unweighted Mean Hill-Ellenberg Values, by Site"),
         
         shiny::div(
           rhandsontable::rHandsontableOutput(outputId = ns("unweightedMeanHEValuesSiteTable"))
-        )
+        ),
+        
+        shiny::div(shiny::br())
         
       ),
       
-      shiny::div(shiny::br()),
+      shiny::div(
+        id = ns("weightedMeanHEValuesSite_div"),
+        
+        shiny::h5("Weighted Mean Hill-Ellenberg Values, by Site"),
+        
+        shiny::div(
+          rhandsontable::rHandsontableOutput(outputId = ns("weightedMeanHEValuesSiteTable"))
+        ),
+        
+        shiny::div(shiny::br())
+      
+      ),
       
       shiny::div(
         id = ns("weightedMeanHEValuesGroup_div"),
@@ -39,11 +39,11 @@ calcAvgEIVsUI <- function(id){
         
         shiny::div(
           rhandsontable::rHandsontableOutput(outputId = ns("weightedMeanHEValuesGroupTable"))
-        )
+        ),
+        
+        shiny::div(shiny::br())
         
       ),
-      
-      shiny::div(shiny::br()),
       
       shiny::div(
         id = ns("unweightedMeanHEValuesGroup_div"),
@@ -52,11 +52,11 @@ calcAvgEIVsUI <- function(id){
         
         shiny::div(
           rhandsontable::rHandsontableOutput(outputId = ns("unweightedMeanHEValuesGroupTable"))
-        )
+        ),
+        
+        shiny::div(shiny::br())
         
       ),
-      
-      shiny::div(shiny::br()),
       
       shiny::div(
         id = ns("weightedMeanHEValuesQuadrat_div"),
@@ -65,11 +65,11 @@ calcAvgEIVsUI <- function(id){
         
         shiny::div(
           rhandsontable::rHandsontableOutput(outputId = ns("weightedMeanHEValuesQuadratTable"))
-        )
+        ),
+        
+        shiny::div(shiny::br())
         
       ),
-      
-      shiny::div(shiny::br()),
       
       shiny::div(
         id = ns("unweightedMeanHEValuesQuadrat_div"),
@@ -78,7 +78,9 @@ calcAvgEIVsUI <- function(id){
         
         shiny::div(
           rhandsontable::rHandsontableOutput(outputId = ns("unweightedMeanHEValuesQuadratTable"))
-        )
+        ),
+        
+        shiny::div(shiny::br())
         
       )
     )

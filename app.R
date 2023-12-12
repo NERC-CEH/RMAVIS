@@ -2,9 +2,6 @@
 
 # shinyOptions(bslib = TRUE)
 
-# https://github.com/NERC-CEH/UKCEH_shiny_theming
-# devtools::source_url("https://github.com/NERC-CEH/UKCEH_shiny_theming/blob/main/theme_elements.R?raw=TRUE")
-
 # Load data into memory ---------------------------------------------------
 source("R/load_data.R", local = TRUE)
 
@@ -19,6 +16,8 @@ source("R/functions.R", local = TRUE) # Do I need to switch this to global to al
 
 # Source sub-modules ------------------------------------------------------
 source("modules/documentation_ui.R", local = TRUE)
+
+source("modules/releaseLog_ui.R", local = TRUE)
 
 source("modules/nvcInfo_ui.R", local = TRUE)
 source("modules/nvcInfo_server.R", local = TRUE)

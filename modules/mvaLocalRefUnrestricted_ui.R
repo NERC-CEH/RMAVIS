@@ -5,30 +5,13 @@ mvaLocalRefUnrestrictedUI <- function(id){
   shiny::fluidRow(
     shiny::column(
       width = 12,
-      
-      bslib::layout_columns(
         
-        col_widths = c(6, 6),
+      shiny::div(
         
-        fill = FALSE,
+        shiny::h5("Local Reference (Unrestricted)"),
         
-        fillable = TRUE,
+        plotly::plotlyOutput(outputId = ns("mvaLocalRefUnrestrictedPlot"), height = "600px")
         
-        shiny::div(
-          
-          shiny::h5("Local Reference (Unrestricted)"),
-          
-          plotly::plotlyOutput(outputId = ns("mvaLocalRefUnrestrictedPlot"), height = "600px")
-          
-        ),
-        
-        shiny::div(
-          
-          shiny::h5(" "),
-          
-          # rhandsontable::rHandsontableOutput(outputId = ns("rdaAnovaTable"))
-          
-        )
       )
       
     )

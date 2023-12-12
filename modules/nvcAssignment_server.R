@@ -87,7 +87,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
         dplyr::ungroup() |>
         dplyr::left_join(surveyTable_IDs, by = "ID")
       
-      assign(x = "nvcAssignmentQuadrat", value = nvcAssignmentQuadrat, envir = .GlobalEnv)
+      # assign(x = "nvcAssignmentQuadrat", value = nvcAssignmentQuadrat, envir = .GlobalEnv)
       
       nvcAssignmentQuadrat_prepped <- nvcAssignmentQuadrat |>
         tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = TRUE) |>

@@ -109,7 +109,9 @@ resultsViewEIVs_options <- c("Weighted Mean Hill-Ellenberg Values, by Site" = "w
 
 
 # Results to View Diversity -----------------------------------------------
-resultsViewDiversity_options <- c("Species Richness, by Site" = "speciesRichnessSite",
+resultsViewDiversity_options <- c("Site Summary Table"  = "diversitySummaryTable",
+                                  "Quadrat Diversity Indices Table" = "diversityIndicesTable",
+                                  "Species Richness, by Site" = "speciesRichnessSite",
                                   "Species Richness, by Group" = "speciesRichnessGroup",
                                   "Species Richness, by Quadrat" = "speciesRichnessQuadrat")
 

@@ -15,7 +15,7 @@ ui <- bslib::page_navbar(
       shiny::div(shiny::h1("pseudoMAVIS")),
       
       # Align cell contents in the middle vertically
-      cellArgs = list(style = "vertical-align: middle !important;")
+      cellArgs = list(style = "vertical-align: middle !important; color: #565656 !important;")
 
     ),
 
@@ -144,9 +144,9 @@ ui <- bslib::page_navbar(
         
         bslib::layout_columns(
           
-          col_widths = c(12, 12, 12, 12),
+          col_widths = c(6, 6, 6),
           
-          row_heights = c(1, 1, 1, 1),
+          row_heights = c(1, 1),
           
           fill = FALSE,
           
@@ -175,7 +175,7 @@ ui <- bslib::page_navbar(
       
       fill = TRUE,
       
-      bslib::card_header("NVC Lookup"),
+      # bslib::card_header("NVC Lookup"),
       
       nvcInfoUI(id = "nvcInfo_id_1")
       
@@ -194,9 +194,28 @@ ui <- bslib::page_navbar(
       
       # fillable = TRUE,
       
-      bslib::card_header("Documentation"),
+      # bslib::card_header("Documentation"),
       
       documentationUI(id = "docs_id_1")
+      
+    )
+  ),
+  
+  bslib::nav_panel(
+    
+    "Release Log",
+    
+    bslib::card(
+      
+      full_screen = FALSE,
+      
+      fill = TRUE,
+      
+      # fillable = TRUE,
+      
+      # bslib::card_header("Release Log"),
+      
+      releaseLogUI(id = "releaseLog_id_1")
       
     )
   )

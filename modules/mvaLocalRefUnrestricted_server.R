@@ -1,4 +1,4 @@
-mvaLocalRefUnrestricted <- function(input, output, session, surveyTable, nvcAssignment, sidebar_options) {
+mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvcAssignment, sidebar_options) {
   
   ns <- session$ns
   
@@ -27,7 +27,8 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTable, nvcAssi
   
   observe({
     
-    shiny::req(surveyTable())
+    # shiny::req(surveyTable())
+    shiny::req(surveyTableWide())
     shiny::req(nvcAssignment())
     
     shinybusy::show_modal_spinner(
@@ -35,6 +36,8 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTable, nvcAssi
       color = "#3F9280",
       text = "Performing DCA Analysis"
     )
+    
+    surveyTableWide <- surveyTableWide()
     
     # # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
@@ -72,33 +75,26 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTable, nvcAssi
       nvc_pquads_final_wide_prepped <- nvc_pquads_final_wide_trimmed[, colSums(abs(nvc_pquads_final_wide_trimmed)) != 0] |>
         as.data.frame()
       
-      # Prepare survey data
-      surveyTable_prepped <- surveyTable() |>
-        # Convert cover estimates to presence/absence binary values
-        dplyr::mutate(
-          "Cover" = 
-            dplyr::case_when(
-              Cover > 0 ~ 1,
-              is.na(Cover) ~ 0,
-              TRUE ~ as.numeric(0)
-            )
-          ) |>
-        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
-        dplyr::select(ID, Species, Cover)  |>
-        dplyr::filter(!is.na(Cover)) |>
-        tidyr::pivot_wider(id_cols = ID,
-                           names_from = Species,
-                           values_from = Cover) |>
-        tibble::column_to_rownames(var = "ID")
-    
+      # print(surveyTableWide)
+      
+      # assign(x = "nvc_pquads_final_wide_prepped", value = nvc_pquads_final_wide_prepped, envir = .GlobalEnv)
+      # 
+      # assign(x = "surveyTableWide", value = surveyTableWide, envir = .GlobalEnv)
+      
+      surveyTableWide_prepped <- surveyTableWide |>
+        as.data.frame() |>
+        dplyr::mutate_if(is.numeric, ~1 * (. != 0))
+        
       # Combine the pseudo-quadrats and survey data into a single matrix
-      nvc_pquads_final_wide_prepped_wSurveyTable_prepped <- nvc_pquads_final_wide_prepped |>
-        dplyr::bind_rows(surveyTable_prepped) |>
+      nvc_pquads_final_wide_prepped_wSurveyTableWide <- nvc_pquads_final_wide_prepped |>
+        dplyr::bind_rows(surveyTableWide_prepped) |>
         dplyr::mutate_all(~replace(., is.na(.), 0)) |>
         as.matrix()
       
+      # assign(x = "nvc_pquads_final_wide_prepped_wSurveyTableWide", value = nvc_pquads_final_wide_prepped_wSurveyTableWide, envir = .GlobalEnv)
+      
       # Perform a DCA on the combined pseudo-quadrat and survey data
-      pquads_surveyTable_dca_results <- vegan::decorana(veg = nvc_pquads_final_wide_prepped_wSurveyTable_prepped)
+      pquads_surveyTable_dca_results <- vegan::decorana(veg = nvc_pquads_final_wide_prepped_wSurveyTableWide)
       
       # Extract the DCA results species axis scores
       pquads_surveyTable_dca_results_species <- vegan::scores(pquads_surveyTable_dca_results, tidy = TRUE) |>
@@ -107,7 +103,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTable, nvcAssi
         dplyr::rename("Species" = label)
       
       pquads_surveyTable_dca_results_species_unique <- pquads_surveyTable_dca_results_species |>
-        dplyr::filter(Species %in% setdiff(colnames(surveyTable_prepped), colnames(nvc_pquads_final_wide_prepped)))
+        dplyr::filter(Species %in% setdiff(colnames(surveyTableWide), colnames(nvc_pquads_final_wide_prepped)))
       
       # Extract the DCA results quadrat axis scores
       pquads_surveyTable_dca_results_quadrats <- vegan::scores(pquads_surveyTable_dca_results, tidy = TRUE) |>

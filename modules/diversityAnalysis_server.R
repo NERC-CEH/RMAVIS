@@ -20,6 +20,8 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
   
   observe({
     
+    shinyjs::show(id = "diversitySummaryTable_div")
+    shinyjs::show(id = "diversityIndicesTable_div")
     shinyjs::show(id = "speciesRichnessSiteTable_div")
     shinyjs::show(id = "speciesRichnessGroupTable_div")
     shinyjs::show(id = "speciesRichnessQuadratTable_div")
@@ -31,6 +33,20 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
               once = TRUE)
   
   observe({
+    
+    # diversitySummaryTable
+    if("diversitySummaryTable" %in% resultsViewDiversity()){
+      shinyjs::show(id = "diversitySummaryTable_div")
+    } else {
+      shinyjs::hide(id = "diversitySummaryTable_div")
+    }
+    
+    # diversityIndicesTable
+    if("diversityIndicesTable" %in% resultsViewDiversity()){
+      shinyjs::show(id = "diversityIndicesTable_div")
+    } else {
+      shinyjs::hide(id = "diversityIndicesTable_div")
+    }
     
     # speciesRichnessSiteTable
     if("speciesRichnessSite" %in% resultsViewDiversity()){
@@ -61,13 +77,82 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
 
   observe({
     
-    shinyjs::show(id = "speciesRichnessSiteTable_div")
+    shinyjs::show(id = "diversitySummaryTable_div")
+    shinyjs::show(id = "diversityIndicesTable_div")
   
   }) |>
     bindEvent(resultsViewDiversity(),
               ignoreNULL = FALSE,
               ignoreInit = FALSE,
               once = TRUE)
+
+# Initialise Summary Table ------------------------------------------------
+  diversitySummaryTable_init <- data.frame("Year" = integer(),
+                                           "Metric" = character(),
+                                           "Value" = character())
+  
+  diversitySummaryTable_rval <- reactiveVal(diversitySummaryTable_init)
+  
+  output$diversitySummaryTable <- rhandsontable::renderRHandsontable({
+    
+    diversitySummaryTable <- rhandsontable::rhandsontable(data = diversitySummaryTable_init,
+                                                          rowHeaders = NULL,
+                                                          width = "100%"#,
+                                                          # overflow = "visible",
+                                                          # stretchH = "all"
+                                                          ) |>
+      rhandsontable::hot_col(col = colnames(diversitySummaryTable_init), halign = "htCenter", readOnly = TRUE) |>
+      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+      htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"diversity_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+    
+    return(diversitySummaryTable)
+    
+  })
+  
+
+# Intialise Diversity Indices Table ---------------------------------------
+  diversityIndicesTable_init <- data.frame("ID" = character(),
+                                           "Richness" = integer(),
+                                           "Shannon.Diversity" = double(),
+                                           "Simpson.Diversity" = double(),
+                                           "InverseSimpson.Diversity" = double(),
+                                           "Shannon.Evenness" = double(),
+                                           "Simpson.Evenness" = double()
+                                           # "" = double(),
+                                           # "" = double()
+                                           )
+  
+  diversityIndicesTable_rval <- reactiveVal(diversityIndicesTable_init)
+  
+  output$diversityIndicesTable <- rhandsontable::renderRHandsontable({
+    
+    diversityIndicesTable <- rhandsontable::rhandsontable(data = diversityIndicesTable_init,
+                                                                rowHeaders = NULL,
+                                                                width = "100%"#,
+                                                                # overflow = "visible",
+                                                                # stretchH = "all"
+    ) |>
+      rhandsontable::hot_col(col = colnames(diversityIndicesTable_init), halign = "htCenter", readOnly = TRUE) |>
+      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+      htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"diversity_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+    
+    return(diversityIndicesTable)
+    
+  })
 
   
 # Initialise Species Richness Quadrat Table -------------------------------
@@ -183,8 +268,8 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
 
 # Species Richness --------------------------------------------------------
       
-      assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
-      assign(x = "surveyTableWide", value = surveyTableWide, envir = .GlobalEnv)
+      # assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
+      # assign(x = "surveyTableWide", value = surveyTableWide, envir = .GlobalEnv)
   
       # Species Richness - Quadrat
       speciesRichness_quadrat <- surveyTable |>
@@ -212,7 +297,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
                            names_from = Year,
                            values_from = Richness)
       
-      speciesRichness_quadrat_long <- speciesRichness_group |>
+      speciesRichness_group_long <- speciesRichness_group |>
         tidyr::unite(col = "ID", c(Year, Group), sep = " - ", remove = TRUE)
       
       # Species Richness - Site
@@ -229,8 +314,107 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       
       speciesRichness_site_long <- speciesRichness_site
       
+      # Summary Table
+      summaryTable <- speciesRichness_quadrat |>
+        dplyr::group_by(Year) |>
+        dplyr::summarise("Alpha.Mean" = mean(Richness)) |>
+        dplyr::left_join(speciesRichness_site_long, by = "Year") |>
+        dplyr::rename("Gamma" = "Richness") |>
+        dplyr::mutate("Beta" = (Gamma / Alpha.Mean) - 1) |>
+        base::t() |>
+        janitor::row_to_names(row = 1) |>
+        tibble::as_tibble(rownames = "Metric")
+      
+      # Shannon Diversity
+      shannonDiversity <- surveyTableWide |>
+        vegan::diversity(index = "shannon") |>
+        tibble::as_tibble(rownames = "ID") |>
+        dplyr::rename("Shannon.Diversity" = "value")
+      
+      # Simpson Diversity
+      simpsonDiversity <- surveyTableWide |>
+        vegan::diversity(index = "simpson") |>
+        tibble::as_tibble(rownames = "ID") |>
+        dplyr::rename("Simpson.Diversity" = "value")
+      
+      # Inverse Simpson Diversity
+      inverseSimpsonDiversity <- surveyTableWide |>
+        vegan::diversity(index = "invsimpson") |>
+        tibble::as_tibble(rownames = "ID") |>
+        dplyr::rename("InverseSimpson.Diversity" = "value")
+      
+      # Shannon's/Pielou’s J evenness
+      shannonsEvenness <- shannonDiversity |>
+        # dplyr::left_join(speciesRichness_quadrat_long, by = "ID") |>
+        # dplyr::mutate("Shannon.Evenness" = Shannon.Diversity / log(Richness)) |>
+        dplyr::mutate("Shannon.Evenness" = (Shannon.Diversity / max(Shannon.Diversity)), .keep = "unused")
+      
+      # Simpson's evenness
+      simpsonEvenness <- inverseSimpsonDiversity |>
+        dplyr::left_join(speciesRichness_quadrat_long, by = "ID") |>
+        dplyr::mutate("Simpson.Evenness" = (InverseSimpson.Diversity / Richness), .keep = "unused")
+      
+      # Rényi diversities and Hill Numbers
+      # vegan::renyi(surveyTableWide)
+      
+      # Diversity Metrics Table
+      diversityIndicesTable <- speciesRichness_quadrat_long |>
+        dplyr::left_join(shannonDiversity, by = "ID") |>
+        dplyr::left_join(simpsonDiversity, by = "ID") |>
+        dplyr::left_join(inverseSimpsonDiversity, by = "ID") |>
+        dplyr::left_join(shannonsEvenness, by = "ID") |>
+        dplyr::left_join(simpsonEvenness, by = "ID")
+      
       
     }) # Close isolate
+    
+    # Update summaryTable
+    output$diversitySummaryTable <- rhandsontable::renderRHandsontable({
+      
+      diversitySummaryTable <- rhandsontable::rhandsontable(data = summaryTable,
+                                                            rowHeaders = NULL,
+                                                            width = "100%"#,
+                                                            # overflow = "visible",
+                                                            # stretchH = "all"
+      ) |>
+        rhandsontable::hot_col(col = colnames(summaryTable), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+        function(el, x) {
+          var hot = this.hot
+          $('a[data-value=\"diversity_panel\"').on('click', function(){
+            setTimeout(function() {hot.render();}, 0);
+          })
+        }")
+      
+      return(diversitySummaryTable)
+      
+    })
+    
+    # Update diversityIndicesTable
+    output$diversityIndicesTable <- rhandsontable::renderRHandsontable({
+      
+      diversityIndicesTable <- rhandsontable::rhandsontable(data = diversityIndicesTable,
+                                                            rowHeaders = NULL,
+                                                            width = "100%"#,
+                                                            # overflow = "visible",
+                                                            # stretchH = "all"
+      ) |>
+        rhandsontable::hot_col(col = colnames(diversityIndicesTable), halign = "htCenter", readOnly = TRUE) |>
+        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"diversity_panel\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+      
+      return(diversityIndicesTable)
+      
+    })
     
     # Update speciesRichnessSiteTable
     output$speciesRichnessSiteTable <- rhandsontable::renderRHandsontable({
@@ -313,30 +497,13 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
     })
     
     speciesRichnessQuadratTable_rval(rhandsontable::hot_to_r(input$speciesRichnessQuadratTable))
-
-
-# Beta Diversity ----------------------------------------------------------
       
-    isolate({
-      
-      # betaDiversity_w <- vegan::betadiver(surveyTableWide, method = "w")
-      # 
-      # betaDiversity_w_mat <- as.matrix(betaDiversity_w)
-      # 
-      # assign(x = "surveyTableWide", value = surveyTableWide, envir = .GlobalEnv)
-      # assign(x = "betaDiversity_w", value = betaDiversity_w, envir = .GlobalEnv)
-      
-    })
-
-
-# Simpsons Diversity ------------------------------------------------------
-
-    # simpsonDiversity <- surveyTableWide |>
-    #   vegan::diversity(index = "simpson") |>
-    #   tibble::as_tibble(rownames = "ID") |>
-    #   dplyr::rename("Simpson.Diversity" = "value")
-      
-    
+    # betaDiversity_w <- vegan::betadiver(surveyTableWide, method = "w")
+    # 
+    # betaDiversity_w_mat <- as.matrix(betaDiversity_w)
+    # 
+    # assign(x = "surveyTableWide", value = surveyTableWide, envir = .GlobalEnv)
+    # assign(x = "betaDiversity_w", value = betaDiversity_w, envir = .GlobalEnv)
     
     shinybusy::remove_modal_spinner()
     

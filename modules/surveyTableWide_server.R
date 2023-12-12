@@ -56,10 +56,12 @@ surveyTableWide <- function(input, output, session, surveyTable, sidebar_options
       
     })
     
+    # print(surveyTableWide)
+    
     surveyTableWide_rval(surveyTableWide)
     
   }) |>
-    bindEvent(runAnalysis           (),
+    bindEvent(runAnalysis(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   

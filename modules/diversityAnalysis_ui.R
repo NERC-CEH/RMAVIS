@@ -8,13 +8,41 @@ diversityAnalysisUI <- function(id){
       
       shiny::div(
         
+        id = ns("diversitySummaryTable_div"),
+        
+        shiny::h5("Summary Table"),
+        
+        shiny::div(
+          rhandsontable::rHandsontableOutput(outputId = ns("diversitySummaryTable"))
+        ),
+        
+        shiny::div(shiny::br())
+        
+      ),
+      
+      shiny::div(
+        
+        id = ns("diversityIndicesTable_div"),
+        
+        shiny::h5("Quadrat Diversity Indices Table"),
+        
+        shiny::div(
+          rhandsontable::rHandsontableOutput(outputId = ns("diversityIndicesTable"))
+        ),
+        
+        shiny::div(shiny::br())
+        
+      ),
+      
+      shiny::div(
+        
         id = ns("speciesRichnessSiteTable_div"),
         
-        shiny::h5("Species Richness - by Site (Gamma Diversity)"),
+        shiny::h5("Species Richness, by Site (Gamma Diversity)"),
         
         shiny::div(
           rhandsontable::rHandsontableOutput(outputId = ns("speciesRichnessSiteTable"))
-        )
+        ),
         
       ),
       
@@ -26,32 +54,34 @@ diversityAnalysisUI <- function(id){
       #   rhandsontable::rHandsontableOutput(outputId = ns(""))
       # ),
       
-      shiny::div(shiny::br()),
-      
       shiny::div(
         
         id = ns("speciesRichnessGroupTable_div"),
         
-        shiny::h5("Species Richness - by Group"),
+        shiny::h5("Species Richness, by Group"),
         
         shiny::div(
           rhandsontable::rHandsontableOutput(outputId = ns("speciesRichnessGroupTable"))
-        )
+        ),
+        
+        shiny::div(shiny::br())
         
       ),
-      
-      shiny::div(shiny::br()),
       
       shiny::div(
         
         id = ns("speciesRichnessQuadratTable_div"),
         
-        shiny::h5("Species Richness - by Quadrat (Alpha Diversity)"),
+        shiny::h5("Species Richness, by Quadrat (Alpha Diversity)"),
         
         shiny::div(
           rhandsontable::rHandsontableOutput(outputId = ns("speciesRichnessQuadratTable"))
-        )
+        ),
+        
+        shiny::div(shiny::br())
+        
       )
+      
     )
   )
 }
