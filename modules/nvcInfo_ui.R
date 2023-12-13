@@ -8,7 +8,7 @@ nvcInfoUI <- function(id) {
       shiny::h5("NVC Code Lookup Table"),
       
       shiny::div(
-        rhandsontable::rHandsontableOutput(outputId = ns("nvcInfoLookupTable"))
+        reactable::reactableOutput(outputId = ns("nvcInfoLookupTable"))
       )
     )
   )

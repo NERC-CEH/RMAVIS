@@ -17,65 +17,36 @@ nvcInfo <- function(input, output, session, sidebar_options) {
   
   nvcInfoLookupTable_rval <- reactiveVal(nvcInfoLookupTable_init)
   
-  output$nvcInfoLookupTable <- rhandsontable::renderRHandsontable({
+  output$nvcInfoLookupTable <- reactable::renderReactable({
     
-    nvcInfoLookupTable <- rhandsontable::rhandsontable(data = nvcInfoLookupTable_init,
-                                                       rowHeaders = NULL#,
-                                                       # width = "100%"#,
-                                                       # overflow = "visible"
-                                                       # stretchH = "all"
-                                                       ) |>
-      rhandsontable::hot_col(col = colnames(nvcInfoLookupTable_init), halign = "htCenter") |>
-      rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE) |> # stretchH = "all"
-      htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"nvcInfo\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+    nvcInfoLookupTable <- reactable::reactable(data = nvcInfoLookupTable_init,
+                                               filterable = FALSE,
+                                               pagination = FALSE, 
+                                               highlight = TRUE,
+                                               bordered = TRUE,
+                                               sortable = FALSE, 
+                                               wrap = FALSE,
+                                               resizable = TRUE,
+                                               style = list(fontSize = "1rem"),
+                                               class = "my-tbl",
+                                               # style = list(fontSize = "1rem"),
+                                               rowClass = "my-row",
+                                               defaultColDef = reactable::colDef(
+                                                 headerClass = "my-header",
+                                                 class = "my-col",
+                                                 align = "center" # Needed as alignment is not passing through to header
+                                               ),
+                                               columns = list(
+                                                 NVC.Code = reactable::colDef(
+                                                   filterable = TRUE,
+                                                   maxWidth = 150
+                                                   )
+                                                 )
+                                               )
     
     return(nvcInfoLookupTable)
     
   })
-  
-  # observe({
-  #   
-  #   # print(rhandsontable::hot_to_r(input$nvcInfoLookupTable))
-  #   # 
-  #   # shiny::isolate({
-  #   #   
-  #   #   nvcInfoLookupTable <- rhandsontable::hot_to_r(input$nvcInfoLookupTable)
-  #   #   
-  #   # })
-  # 
-  #   output$nvcInfoLookupTable <- rhandsontable::renderRHandsontable({
-  # 
-  #     nvcInfoLookupTable <- rhandsontable::rhandsontable(data = nvcInfoLookupTable_init,
-  #                                                        rowHeaders = NULL,
-  #                                                        # width = "100%"#,
-  #                                                        # overflow = "visible",
-  #                                                        # stretchH = "all"
-  #                                                        ) |>
-  #       rhandsontable::hot_col(col = colnames(nvcInfoLookupTable_init), halign = "htCenter") |>
-  #       rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE) |>
-  #       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE) |> # stretchH = "all"
-  #       htmlwidgets::onRender("
-  #       function(el, x) {
-  #         var hot = this.hot
-  #         $('a[data-value=\"nvcInfo\"').on('click', function(){
-  #           setTimeout(function() {hot.render();}, 0);
-  #         })
-  #       }")
-  # 
-  #     return(nvcInfoLookupTable)
-  # 
-  #   })
-  # 
-  #   nvcInfoLookupTable_rval(rhandsontable::hot_to_r(input$nvcInfoLookupTable))
-  # 
-  # })
   
   
   outputOptions(output, "nvcInfoLookupTable", suspendWhenHidden = FALSE)
