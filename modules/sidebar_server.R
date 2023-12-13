@@ -28,6 +28,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
       "selectSurveyYears" = input$selectSurveyYears,
       "selectSurveyQuadrats" = input$selectSurveyQuadrats,
       "selectSurveyGroups" = input$selectSurveyGroups,
+      "dcaAxisSelection" = input$dcaAxisSelection,
       "dcaVars" = input$dcaVars,
       "ccaVars" = input$ccaVars
     )
@@ -54,6 +55,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
               input$selectSurveyYears,
               input$selectSurveyQuadrats,
               input$selectSurveyGroups,
+              input$dcaAxisSelection,
               input$dcaVars,
               input$ccaVars,
               ignoreInit = TRUE)

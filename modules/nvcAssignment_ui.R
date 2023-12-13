@@ -9,23 +9,23 @@ nvcAssignmentUI <- function(id){
       shiny::h5("Site Similarities"),
       
       shiny::div(
-        rhandsontable::rHandsontableOutput(outputId = ns("nvcAssignmentSiteTable"))
+        reactable::reactableOutput(outputId = ns("nvcAssignmentSiteTable"))
       ),
       
       shiny::div(shiny::br()),
-      
+
       shiny::h5("Group Similarities"),
-      
+
       shiny::div(
-        rhandsontable::rHandsontableOutput(outputId = ns("nvcAssignmentGroupTable"))
+        reactable::reactableOutput(outputId = ns("nvcAssignmentGroupTable"))
       ),
-      
+
       shiny::div(shiny::br()),
-      
+
       shiny::h5("Quadrat Similarities"),
-      
+
       shiny::div(
-        rhandsontable::rHandsontableOutput(outputId = ns("nvcAssignmentQuadratTable"))
+        reactable::reactableOutput(outputId = ns("nvcAssignmentQuadratTable"))
       )
     )
   )

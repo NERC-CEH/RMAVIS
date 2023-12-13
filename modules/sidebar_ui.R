@@ -7,13 +7,15 @@ sidebarUI <- function(id){
     width = 320,
     
     shiny::h5("Options"),
-    # shiny::hr(),
+    
+
+# Run Analysis ------------------------------------------------------------
     shiny::actionButton(inputId = ns("runAnalysis"),
                         label = "Run Analysis"),
-    # shiny::hr(),
+
     
-    # shiny::div(shiny::br()),
-    
+
+# Survey Data -------------------------------------------------------------
     bslib::accordion(
       
       open = FALSE,
@@ -64,7 +66,7 @@ sidebarUI <- function(id){
           
         ),
         
-        shiny::div(shiny::h5("Validation")),
+        shiny::div(shiny::h6("Validation")),
         
         bslib::layout_columns(
           
@@ -111,6 +113,8 @@ sidebarUI <- function(id){
         )
       ),
       
+
+# NVC Assignment ----------------------------------------------------------
       bslib::accordion_panel(
         
         "NVC Assignment", 
@@ -166,6 +170,8 @@ sidebarUI <- function(id){
         )
       ),
       
+
+# Habitat Correspondence --------------------------------------------------
       bslib::accordion_panel(
         
         "Habitat Correspondence", 
@@ -197,6 +203,8 @@ sidebarUI <- function(id){
         
       ),
       
+
+# Floristic Tables --------------------------------------------------------
       bslib::accordion_panel(
         
         "Floristic Tables", 
@@ -284,6 +292,8 @@ sidebarUI <- function(id){
         
       ),
       
+
+# EIVs --------------------------------------------------------------------
       bslib::accordion_panel(
         
         "EIVs", 
@@ -299,6 +309,9 @@ sidebarUI <- function(id){
         
       ),
       
+
+
+# Diversity ---------------------------------------------------------------
       bslib::accordion_panel(
         
         "Diversity", 
@@ -314,18 +327,20 @@ sidebarUI <- function(id){
         
       ),
       
+
+# MVA ---------------------------------------------------------------------
       bslib::accordion_panel(
         
         "MVA", 
         
         icon = bsicons::bs_icon("arrows-angle-expand"),
         
-        # shinyWidgets::pickerInput(inputId = ns("globalReferenceSpaces"),
-        #                           label = "Global Reference Spaces",
-        #                           choices = globalReferenceSpaces_options,
-        #                           selected = NULL,
-        #                           multiple = TRUE,
-        #                           options = shinyWidgets::pickerOptions(dropupAuto = FALSE)),
+        shiny::selectizeInput(inputId = ns("dcaAxisSelection"),
+                              label = "Axis Selection",
+                              choices = dcaAxisSelection_options,
+                              selected = "dca1dca2",
+                              multiple = FALSE),
+        
         
         shiny::selectizeInput(inputId = ns("globalReferenceSpaces"),
                               label = "Global Reference Spaces",
@@ -401,6 +416,8 @@ sidebarUI <- function(id){
         
       ),
       
+
+# Download Options --------------------------------------------------------
       bslib::accordion_panel(
         
         "Download Options", 

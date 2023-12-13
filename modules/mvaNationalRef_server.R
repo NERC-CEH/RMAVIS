@@ -4,6 +4,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
   
   # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
+  dcaAxisSelection <- reactiveVal()
   dcaVars <- reactiveVal()
   ccaVars <- reactiveVal()
   globalReferenceSpaces <- reactiveVal()
@@ -15,6 +16,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
+    dcaAxisSelection(sidebar_options()$dcaAxisSelection)
     dcaVars(sidebar_options()$dcaVars)
     ccaVars(sidebar_options()$ccaVars)
     globalReferenceSpaces(sidebar_options()$globalReferenceSpaces)
@@ -212,11 +214,44 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
         
       }
       
-      nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls |>
-        dplyr::filter(NVC %in% globalReferenceSpaces())
+      dcaAxisSelection <- dcaAxisSelection()
       
       # Create an interactive plot of the DCA results
       output$mvaNationalRefPlot <- plotly::renderPlotly({
+        
+        if(dcaAxisSelection == "dca1dca2"){
+          
+          x_axis <- "DCA1"
+          y_axis <- "DCA2"
+          
+          nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls |>
+            dplyr::filter(NVC %in% globalReferenceSpaces(),
+                          dcaAxes == "dca1dca2") |>
+            dplyr::select(-dcaAxes)
+          
+        } else if(dcaAxisSelection == "dca1dca3"){
+          
+          x_axis <- "DCA1"
+          y_axis <- "DCA3"
+          
+          nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls |>
+            dplyr::filter(NVC %in% globalReferenceSpaces(),
+                          dcaAxes == "dca1dca3") |>
+            dplyr::select(-dcaAxes)
+          
+        } else if(dcaAxisSelection == "dca2dca3"){
+          
+          x_axis <- "DCA2"
+          y_axis <- "DCA3"
+          
+          nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls |>
+            dplyr::filter(NVC %in% globalReferenceSpaces(),
+                          dcaAxes == "dca2dca3") |>
+            dplyr::select(-dcaAxes)
+          
+          print(nvc_pquad_dca_all_hulls_selected)
+          
+        }
         
         suppressWarnings(
           
@@ -227,16 +262,16 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
             {if("species" %in% dcaVars())ggplot2::geom_point(data = mvaNationalRefResults$selected_pquads_dca_results_species,
                                                              color = '#32a87d',
                                                              shape = 18,
-                                                             mapping = ggplot2::aes(x = DCA1, 
-                                                                                    y = DCA2,
+                                                             mapping = ggplot2::aes(x = .data[[x_axis]], 
+                                                                                    y = .data[[y_axis]],
                                                                                     Species = Species))} +
             {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = surveyTable_dca_results_quadrats_selected,
                                                                     color = 'black',
                                                                     mapping = ggplot2::aes(Year = Year,
                                                                                            Group = Group,
                                                                                            Quadrat = Quadrat,
-                                                                                           x = DCA1,
-                                                                                           y = DCA2))} +
+                                                                                           x = .data[[x_axis]],
+                                                                                           y = .data[[y_axis]]))} +
             # {if("hillEllenberg" %in% dcaVars())ggplot2::geom_segment(data = mvaNationalRefResults$CCA_arrowData,
             #                                                          color = 'black',
             #                                                          arrow = grid::arrow(),
@@ -287,6 +322,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
       
     }) |>
     bindEvent(mvaNationalRefResults(),
+              dcaAxisSelection(),
               dcaVars(),
               globalReferenceSpaces(),
               selectSurveyMethod(),

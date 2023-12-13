@@ -20,30 +20,15 @@ speciesFreq <- function(input, output, session, surveyTable, surveyTableWide, si
   
   speciesFrequencyTable_rval <- reactiveVal(speciesFrequencyTable_init)
   
-  output$speciesFrequencyTable <- rhandsontable::renderRHandsontable({
+  
+  output$speciesFrequencyTable <- reactable::renderReactable({
     
-    speciesFrequencyTable <- rhandsontable::rhandsontable(data = speciesFrequencyTable_init,
-                                                          rowHeaders = NULL,
-                                                          width = "100%"#,
-                                                          # overflow = "visible",
-                                                          # stretchH = "all"
-    ) |>
-      rhandsontable::hot_col(col = colnames(speciesFrequencyTable_init), halign = "htCenter", readOnly = TRUE) |>
-      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_cols(columnSorting = TRUE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"speciesFreq_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+    speciesFrequencyTable <- reactable::reactable(data = speciesFrequencyTable_init)
+    
     
     return(speciesFrequencyTable)
     
   })
-  
   
 
 # Compile Frequency Table -------------------------------------------------
@@ -96,51 +81,42 @@ speciesFreq <- function(input, output, session, surveyTable, surveyTableWide, si
             )
         )
       
-      # text_renderer <- "
-      # function (instance, td, row, col, prop, value, cellProperties) {
-      #   Handsontable.renderers.TextRenderer.apply(this, arguments);
-      #   # This is the column which you want to check for coloring
-      #   var col_value = instance.getData()[row][4]
-      #   if (col_value == 'Gain') {
-      #     td.style.background = 'lightgreen';
-      #   } else if (col_value == 'Net Increase') {
-      #     td.style.background = 'lightgreen';
-      #   } else if (col_value == 'Loss') {
-      #     td.style.background = 'lightred';
-      #   } else if (col_value == 'Net Decrease') {
-      #     td.style.background = 'lightred';
-      #   }
-      # }"
+    })
+    
+    output$speciesFrequencyTable <- reactable::renderReactable({
+      
+      speciesFrequencyTable <- reactable::reactable(data = speciesFrequency, 
+                                                    filterable = TRUE,
+                                                    pagination = FALSE, 
+                                                    highlight = TRUE,
+                                                    bordered = TRUE,
+                                                    sortable = TRUE, 
+                                                    resizable = TRUE,
+                                                    style = list(fontSize = "1rem"),
+                                                    defaultColDef = reactable::colDef(
+                                                      # header = function(value) gsub(".", " ", value, fixed = TRUE),
+                                                      # cell = function(value) format(value, nsmall = 1),
+                                                      align = "center",
+                                                      # minWidth = 70,
+                                                      headerStyle = list(background = "#f7f7f8",
+                                                                         fontweight = "normal")
+                                                      ),
+                                                    # rowStyle = function(index) {
+                                                    #   if(speciesFrequency[index, "Change"] %in% c("Gain", "Net Increase")) {
+                                                    #     list(background = "lightgreen", alpha = 0.5)
+                                                    #   } else if(speciesFrequency[index, "Change"] %in% c("Loss", "Net Decrease")){
+                                                    #     list(background = "red", alpha = 0.5)
+                                                    #   }
+                                                    # },
+                                                    theme = reactable::reactableTheme(
+                                                      cellPadding = "2px 2px"
+                                                    )
+                                                    )
+      
+      
+      return(speciesFrequencyTable)
       
     })
-      
-      
-      output$speciesFrequencyTable <- rhandsontable::renderRHandsontable({
-        
-        speciesFrequencyTable <- rhandsontable::rhandsontable(data = speciesFrequency,
-                                                              rowHeaders = NULL
-                                                              # width = "100%"#,
-                                                              # overflow = "visible",
-                                                              # stretchH = "all"
-        ) |>
-          rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-          rhandsontable::hot_col(col = colnames(speciesFrequency), halign = "htCenter", readOnly = TRUE) |>
-          # rhandsontable::hot_col(col = "Change", renderer = text_renderer) |>
-          # rhandsontable::hot_cols(columnSorting = TRUE) |>
-          rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-          htmlwidgets::onRender("
-          function(el, x) {
-            var hot = this.hot
-            $('a[data-value=\"speciesFreq_panel\"').on('click', function(){
-              setTimeout(function() {hot.render();}, 0);
-            })
-          }")
-        
-        return(speciesFrequencyTable)
-        
-      })
-      
-    speciesFrequencyTable_rval <- reactiveVal(rhandsontable::hot_to_r(input$speciesFrequencyTable))
       
     shinybusy::remove_modal_spinner()
     

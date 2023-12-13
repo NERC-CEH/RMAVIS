@@ -13,7 +13,7 @@ speciesFreqUI <- function(id){
         shiny::h5("Species Frequency"),
         
         shiny::div(
-          rhandsontable::rHandsontableOutput(outputId = ns("speciesFrequencyTable"))
+          reactable::reactableOutput(outputId = ns("speciesFrequencyTable"))
         )
         
       )

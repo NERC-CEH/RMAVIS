@@ -128,11 +128,12 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
         dplyr::ungroup()
       
       nvcAssignmentSite_prepped <- nvcAssignmentSite |>
-        dplyr::mutate("ID" = Year, .keep = "unused") |>
-        dplyr::select(ID, NVC.Code, Mean.Similarity) |>
-        dplyr::arrange(ID, dplyr::desc(Mean.Similarity))
+        dplyr::select(Year, NVC.Code, Mean.Similarity) |>
+        dplyr::arrange(Year, dplyr::desc(Mean.Similarity))
       
       nvcAssignmentSite_rval(nvcAssignmentSite_prepped)
+      
+      # print(nvcAssignmentSite_prepped)
       
     })
     
@@ -141,66 +142,55 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   }) |>
     bindEvent(runAnalysis(),
               ignoreInit = TRUE)
-  
-  
 
-# NVC Assignment Site Table -----------------------------------------------
-  nvcAssignmentSiteTable_init <- data.frame("ID" = character(),
+
+# Intialise NVC Assignment Site Table -------------------------------------
+  nvcAssignmentSiteTable_init <- data.frame("Year" = integer(),
                                             "Mean.Similarity" = numeric(),
                                             "NVC.Code" = character()
   )
   
-  nvcAssignmentSiteTable_rval <- reactiveVal(nvcAssignmentSiteTable_init)
-  
-  output$nvcAssignmentSiteTable <- rhandsontable::renderRHandsontable({
+  output$nvcAssignmentSiteTable <- reactable::renderReactable({
     
-    nvcAssignmentSiteTable <- rhandsontable::rhandsontable(data = nvcAssignmentSiteTable_init,
-                                                           rowHeaders = NULL,
-                                                           search = TRUE,
-                                                           width = "100%"#,
-                                                           # overflow = "visible",
-                                                           # stretchH = "all"
-                                                           ) |>
-      rhandsontable::hot_col(col = colnames(nvcAssignmentSiteTable_init), halign = "htCenter", readOnly = TRUE) |>
-      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"nvcAssignment_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+    nvcAssignmentSiteTable <- reactable::reactable(data = nvcAssignmentSiteTable_init)
     
     return(nvcAssignmentSiteTable)
     
   })
   
+  
+
+# Update NVC Assignment Site Table ----------------------------------------
   observe({
     
-    req(input$nvcAssignmentSiteTable)
+    # req(input$nvcAssignmentSiteTable)
     
     nvcAssignmentSite <- nvcAssignmentSite_rval()
     
-    output$nvcAssignmentSiteTable <- rhandsontable::renderRHandsontable({
+    print(nvcAssignmentSite)
+    
+    output$nvcAssignmentSiteTable <- reactable::renderReactable({
       
-      nvcAssignmentSiteTable <- rhandsontable::rhandsontable(data = nvcAssignmentSite,
-                                                             rowHeaders = NULL,
-                                                             search = TRUE,
-                                                             width = "100%"#,
-                                                             # overflow = "visible",
-                                                             # stretchH = "all"
-                                                             ) |>
-        rhandsontable::hot_col(col = colnames(nvcAssignmentSite), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"nvcAssignment_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+      nvcAssignmentSiteTable <- reactable::reactable(data = nvcAssignmentSite, 
+                                                     filterable = TRUE,
+                                                     pagination = FALSE, 
+                                                     highlight = TRUE,
+                                                     bordered = TRUE,
+                                                     sortable = TRUE, 
+                                                     resizable = TRUE,
+                                                     style = list(fontSize = "1rem"),
+                                                     defaultColDef = reactable::colDef(
+                                                       # header = function(value) gsub(".", " ", value, fixed = TRUE),
+                                                       # cell = function(value) format(value, nsmall = 1),
+                                                       align = "center",
+                                                       # minWidth = 70,
+                                                       headerStyle = list(background = "#f7f7f8",
+                                                                          fontweight = "normal")
+                                                     ),
+                                                     theme = reactable::reactableTheme(
+                                                       cellPadding = "2px 2px"
+                                                       )
+                                                     )
       
       return(nvcAssignmentSiteTable)
       
@@ -213,9 +203,8 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   
   
   outputOptions(output, "nvcAssignmentSiteTable", suspendWhenHidden = FALSE)
-  
 
-# NVC Assignment Group Table ----------------------------------------------
+# Initialise NVC Assignment Group Table -----------------------------------
   nvcAssignmentGroupTable_init <- data.frame("ID" = character(),
                                               "Mean.Similarity" = numeric(),
                                               "NVC.Code" = character()
@@ -223,53 +212,44 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   
   nvcAssignmentGroupTable_rval <- reactiveVal(nvcAssignmentGroupTable_init)
   
-  output$nvcAssignmentGroupTable <- rhandsontable::renderRHandsontable({
+  output$nvcAssignmentGroupTable <- reactable::renderReactable({
     
-    nvcAssignmentGroupTable <- rhandsontable::rhandsontable(data = nvcAssignmentGroupTable_init,
-                                                            rowHeaders = NULL,
-                                                            width = "100%"#,
-                                                            # overflow = "visible",
-                                                            # stretchH = "all"
-                                                            ) |>
-      rhandsontable::hot_col(col = colnames(nvcAssignmentGroupTable_init), halign = "htCenter", readOnly = TRUE) |>
-      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"nvcAssignment_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+    nvcAssignmentSiteTable <- reactable::reactable(data = nvcAssignmentGroupTable_init)
     
     return(nvcAssignmentGroupTable)
     
   })
   
+
+# Update NVC Assignment Group Table ---------------------------------------
   observe({
     
-    req(input$nvcAssignmentGroupTable)
+    # req(input$nvcAssignmentGroupTable)
     
     nvcAssignmentGroup <- nvcAssignmentGroup_rval()
     
     output$nvcAssignmentGroupTable <- rhandsontable::renderRHandsontable({
       
-      nvcAssignmentGroupTable <- rhandsontable::rhandsontable(data = nvcAssignmentGroup,
-                                                              rowHeaders = NULL,
-                                                              width = "100%"#,
-                                                              # overflow = "visible",
-                                                              # stretchH = "all"
-                                                              ) |>
-        rhandsontable::hot_col(col = colnames(nvcAssignmentGroup), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"nvcAssignment_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+      nvcAssignmentGroupTable <- reactable::reactable(data = nvcAssignmentGroup, 
+                                                      filterable = TRUE,
+                                                      pagination = FALSE, 
+                                                      highlight = TRUE,
+                                                      bordered = TRUE,
+                                                      sortable = TRUE, 
+                                                      resizable = TRUE,
+                                                      style = list(fontSize = "1rem"),
+                                                      defaultColDef = reactable::colDef(
+                                                        # header = function(value) gsub(".", " ", value, fixed = TRUE),
+                                                        # cell = function(value) format(value, nsmall = 1),
+                                                        align = "center",
+                                                        # minWidth = 70,
+                                                        headerStyle = list(background = "#f7f7f8",
+                                                                           fontweight = "normal")
+                                                      ),
+                                                      theme = reactable::reactableTheme(
+                                                        cellPadding = "2px 2px"
+                                                        )
+                                                      )
       
       return(nvcAssignmentGroupTable)
       
@@ -284,7 +264,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   outputOptions(output, "nvcAssignmentGroupTable", suspendWhenHidden = FALSE)
   
 
-  # NVC Assignment Quadrat Table ----------------------------------------------
+# Initialise NVC Assignment Quadrat Table ---------------------------------
   nvcAssignmentQuadratTable_init <- data.frame("ID" = character(),
                                                "Mean.Similarity" = numeric(),
                                                "NVC.Code" = character()
@@ -292,54 +272,44 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   
   nvcAssignmentQuadratTable_rval <- reactiveVal(nvcAssignmentQuadratTable_init)
   
-  output$nvcAssignmentQuadratTable <- rhandsontable::renderRHandsontable({
+  output$nvcAssignmentQuadratTable <- reactable::renderReactable({
     
-    nvcAssignmentQuadratTable <- rhandsontable::rhandsontable(data = nvcAssignmentQuadratTable_init,
-                                                              rowHeaders = NULL,
-                                                              width = "100%"#,
-                                                              # overflow = "visible",
-                                                              # stretchH = "all"
-                                                              ) |>
-      rhandsontable::hot_col(col = colnames(nvcAssignmentQuadratTable_init), halign = "htCenter", readOnly = TRUE) |>
-      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"nvcAssignment_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+    nvcAssignmentSiteTable <- reactable::reactable(data = nvcAssignmentQuadratTable_init)
     
     return(nvcAssignmentQuadratTable)
     
   })
   
+
+# Update NVC Assignment Quadrat Table -------------------------------------
   observe({
     
-    req(input$nvcAssignmentQuadratTable)
+    # req(input$nvcAssignmentQuadratTable)
     
     nvcAssignmentQuadrat <- nvcAssignmentQuadrat_rval()
     
     output$nvcAssignmentQuadratTable <- rhandsontable::renderRHandsontable({
       
-      nvcAssignmentQuadratTable <- rhandsontable::rhandsontable(data = nvcAssignmentQuadrat,
-                                                                rowHeaders = NULL,
-                                                                width = "100%",
-                                                                readOnly = TRUE
-                                                                # overflow = "visible",
-                                                                # stretchH = "all"
-                                                                ) |>
-        rhandsontable::hot_col(col = colnames(nvcAssignmentQuadrat), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"nvcAssignment_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+      nvcAssignmentQuadratTable <- reactable::reactable(data = nvcAssignmentQuadrat, 
+                                                        filterable = TRUE,
+                                                        pagination = FALSE, 
+                                                        highlight = TRUE,
+                                                        bordered = TRUE,
+                                                        sortable = TRUE, 
+                                                        resizable = TRUE,
+                                                        style = list(fontSize = "1rem"),
+                                                        defaultColDef = reactable::colDef(
+                                                          # header = function(value) gsub(".", " ", value, fixed = TRUE),
+                                                          # cell = function(value) format(value, nsmall = 1),
+                                                          align = "center",
+                                                          # minWidth = 70,
+                                                          headerStyle = list(background = "#f7f7f8",
+                                                                             fontweight = "normal")
+                                                        ),
+                                                        theme = reactable::reactableTheme(
+                                                          cellPadding = "2px 2px"
+                                                          )
+                                                        )
       
       return(nvcAssignmentQuadratTable)
       
@@ -355,7 +325,8 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   
   
 
-# Return nvcAssignmentSiteTable data (nvcAssignmentSite_rval) -------------
+
+# Return NVC Assignment Data ----------------------------------------------
   return(nvcAssignmentSite_rval)
   
 }

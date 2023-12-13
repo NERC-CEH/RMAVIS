@@ -116,6 +116,13 @@ resultsViewDiversity_options <- c("Site Summary Table"  = "diversitySummaryTable
                                   "Species Richness, by Quadrat" = "speciesRichnessQuadrat")
 
 
+
+# DCA Axis Selection Options ----------------------------------------------
+dcaAxisSelection_options <- c("DCA1 vs DCA2" = "dca1dca2",
+                              "DCA1 vs DCA3" = "dca1dca3",
+                              "DCA2 vs DCA3" = "dca2dca3")
+
+
 # DCA Variable Options To Show --------------------------------------------
 dcaVars_options <- c("Survey Quadrats" = "surveyQuadrats",
                      "Pseudo-Quadrats" = "pseudoQuadrats",
