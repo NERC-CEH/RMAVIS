@@ -1,10 +1,11 @@
-report <- function(input, output, session, 
+report <- function(input, output, session,
+                   sidebar_options,
                    surveyTable,
                    nvcAssignment,
+                   floristicTables,
+                   speciesFreq,
                    mvaLocalRefRestrictedResults,
-                   mvaLocalRefUnrestrictedResults,
-                   sidebar_options,
-                   floristicTables) {
+                   mvaLocalRefUnrestrictedResults) {
   
   ns <- session$ns
   
@@ -57,12 +58,13 @@ report <- function(input, output, session,
                         # output_dir,
                         output_file = file,
                         params = list(
+                          sidebar_options = sidebar_options(),
                           surveyTable = surveyTable(),
                           nvcAssignment = nvcAssignment(),
-                          sidebar_options = sidebar_options(),
+                          floristicTables = floristicTables(),
+                          speciesFreq = speciesFreq(),
                           mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults(),
-                          mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults(),
-                          floristicTables = floristicTables()
+                          mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults()
                         ),
                         envir = new.env(parent = globalenv()))
       

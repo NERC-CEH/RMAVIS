@@ -31,7 +31,8 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
       "selectSurveyGroups" = input$selectSurveyGroups,
       "dcaAxisSelection" = input$dcaAxisSelection,
       "dcaVars" = input$dcaVars,
-      "ccaVars" = input$ccaVars
+      "ccaVars" = input$ccaVars,
+      "reportOptions" = input$reportOptions
     )
     
     sidebar_options(sidebar_options_list)
@@ -60,6 +61,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
               input$dcaAxisSelection,
               input$dcaVars,
               input$ccaVars,
+              input$reportOptions,
               ignoreInit = TRUE)
 
 # Show/Hide inputMethod-related inputs ------------------------------------

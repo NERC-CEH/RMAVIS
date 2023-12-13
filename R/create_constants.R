@@ -142,11 +142,32 @@ dcaVars_options <- c("Survey Quadrats" = "surveyQuadrats",
 
 
 # CCA options -------------------------------------------------------------
-ccaVars_options <- c("Moisture (F)" = "F",
-                     "Nitrogen (N)" = "N",
-                     "Reaction (R)" = "R",
-                     "Light (L)" = "L",
-                     "Salinity (S)" = "S")
+ccaVars_vals <- list("FN" = c("F", "N"),
+                     "FR" = c("F", "R"),
+                     "FL" = c("F", "L"),
+                     "FS" = c("F", "S"),
+                     
+                     "NR" = c("N", "R"),
+                     "NL" = c("N", "L"),
+                     "NS" = c("N", "S"),
+                     
+                     "RL" = c("R", "L"),
+                     "RS" = c("R", "S"),
+                     
+                     "LS" = c("L", "S")
+                     )
+
+ccaVars_options <- c("Moisture (F) x Nitrogen (N)" = "FN",
+                     "Moisture (F) x Reaction (R)" = "FR",
+                     "Moisture (F) x Light (L)" = "FL",
+                     "Moisture (F) x Salinity (S)" = "FS",
+                     "Nitrogen (N) x Reaction (R)" = "NR",
+                     "Nitrogen (N) x Light (L)" = "NL",
+                     "Nitrogen (N) x Salinity (S)" = "NS",
+                     "Reaction (R) x Light (L)" = "RL",
+                     "Reaction (R) x Salinity (S)" = "RS",
+                     "Light (L) x Salinity (S)" = "LS"
+                     )
 
 
 
@@ -165,3 +186,17 @@ selectSurveyYears_options <- c()
 selectSurveyQuadrats_options <- c()
 
 selectSurveyGroups_options <- c()
+
+
+# Report Options ----------------------------------------------------------
+reportOptions_options <- c("NVC Assignment, Site" = "nvcAssignmentResultsSite",
+                           "NVC Assignment, Group" = "nvcAssignmentResultsGroups",
+                           "NVC Assignment, Quadrat" = "nvcAssignmentResultsQuadrats",
+                           "Floristic Tables, Site" = "composedFloristicTablesSite",
+                           "Floristic Tables, Group" = "composedFloristicTablesGroup",
+                           "Species Frequency" = "speciesFrequencyTable",
+                           "MVA, National" = "mvaNationalReference",
+                           "MVA, Local (restricted)" = "mvaLocalReferenceRestricted",
+                           "MVA, Local (unrestricted)" = "mvaLocalReferenceUnrestricted"
+                           )
+

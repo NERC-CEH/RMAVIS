@@ -56,11 +56,11 @@ server <- function(input, output, session) {
                                surveyTable = surveyTable,
                                sidebar_options = sidebar_options)
   
-  shiny::callModule(module = diversityAnalysis,
-                    id = "diversityAnalysis_id_1",
-                    surveyTable = surveyTable,
-                    surveyTableWide = surveyTableWide,
-                    sidebar_options = sidebar_options)
+  diversityAnalysis <- shiny::callModule(module = diversityAnalysis,
+                                         id = "diversityAnalysis_id_1",
+                                         surveyTable = surveyTable,
+                                         surveyTableWide = surveyTableWide,
+                                         sidebar_options = sidebar_options)
   
   mvaNationalRefResults <- shiny::callModule(module = mvaNationalRef,
                                              id = "mvaNationalRef_id_1",
@@ -85,12 +85,13 @@ server <- function(input, output, session) {
   
   shiny::callModule(module = report,
                     id = "sidebar_id_1",
+                    sidebar_options = sidebar_options,
                     surveyTable = surveyTable,
                     nvcAssignment = nvcAssignment,
+                    floristicTables = floristicTables,
+                    speciesFreq = speciesFreq,
                     mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults,
-                    mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults,
-                    sidebar_options = sidebar_options,
-                    floristicTables = floristicTables)
+                    mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults)
   
   
   # observe({

@@ -386,10 +386,8 @@ sidebarUI <- function(id){
           shiny::selectizeInput(inputId = ns("ccaVars"),
                                 label = "CCA Variables",
                                 choices = ccaVars_options,
-                                selected = c("F", "N"),
-                                multiple = TRUE,
-                                options = list(minItems = 2,
-                                               maxItems = 3)),
+                                selected = "Moisture (F) x Nitrogen (N)",
+                                multiple = FALSE),
           
           bslib::popover(
             bsicons::bs_icon("info-circle"),
@@ -429,6 +427,15 @@ sidebarUI <- function(id){
         icon = bsicons::bs_icon("download"),
         
         shiny::downloadButton(
+          outputId = ns("downloadSpeciesData"),
+          label = "Download Accepted Species",
+          class = NULL,
+          icon = NULL
+        ),
+        
+        shiny::div(shiny::br()),
+        
+        shiny::downloadButton(
           outputId = ns("generateReport"),
           label = "Download Report",
           class = NULL,
@@ -437,11 +444,12 @@ sidebarUI <- function(id){
         
         shiny::div(shiny::br()),
         
-        shiny::downloadButton(
-          outputId = ns("downloadSpeciesData"),
-          label = "Download Accepted Species",
-          class = NULL,
-          icon = NULL
+        shiny::div(
+          shiny::checkboxGroupInput(inputId = ns("reportOptions"),
+                                    label = "Report Options",
+                                    choices = reportOptions_options,
+                                    selected = c("nvcAssignmentResultsSite", "composedFloristicTablesSite", "speciesFrequencyTable")),
+          style = ""
         )
         
         # reportUI(id = ns("report_id_1"))
