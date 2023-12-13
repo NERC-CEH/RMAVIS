@@ -90,12 +90,12 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
       # assign(x = "nvcAssignmentQuadrat", value = nvcAssignmentQuadrat, envir = .GlobalEnv)
       
       nvcAssignmentQuadrat_prepped <- nvcAssignmentQuadrat |>
-        tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = TRUE) |>
-        dplyr::select(ID, NVC.Code, Mean.Similarity)|>
-        dplyr::group_by(ID) |>
+        # tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = TRUE) |>
+        dplyr::select(Year, Group, Quadrat, NVC.Code, Mean.Similarity)|>
+        dplyr::group_by(Year, Group, Quadrat) |>
         dplyr::slice(1:as.numeric(nTopResults())) |>
         dplyr::ungroup() |>
-        dplyr::arrange(ID, dplyr::desc(Mean.Similarity))
+        dplyr::arrange(Year, Group, Quadrat, dplyr::desc(Mean.Similarity))
         
       nvcAssignmentQuadrat_rval(nvcAssignmentQuadrat_prepped)
       
@@ -111,9 +111,9 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
         dplyr::ungroup()
       
       nvcAssignmentGroup_prepped <- nvcAssignmentGroup |>
-        tidyr::unite(col = "ID", c("Year", "Group"), sep = " - ", remove = TRUE) |>
-        dplyr::select(ID, NVC.Code, Mean.Similarity) |>
-        dplyr::arrange(ID, dplyr::desc(Mean.Similarity))
+        # tidyr::unite(col = "ID", c("Year", "Group"), sep = " - ", remove = TRUE) |>
+        dplyr::select(Year, Group, NVC.Code, Mean.Similarity) |>
+        dplyr::arrange(Year, Group, dplyr::desc(Mean.Similarity))
       
       nvcAssignmentGroup_rval(nvcAssignmentGroup_prepped)
 
@@ -132,8 +132,6 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
         dplyr::arrange(Year, dplyr::desc(Mean.Similarity))
       
       nvcAssignmentSite_rval(nvcAssignmentSite_prepped)
-      
-      # print(nvcAssignmentSite_prepped)
       
     })
     
@@ -167,8 +165,6 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     
     nvcAssignmentSite <- nvcAssignmentSite_rval()
     
-    print(nvcAssignmentSite)
-    
     output$nvcAssignmentSiteTable <- reactable::renderReactable({
       
       nvcAssignmentSiteTable <- reactable::reactable(data = nvcAssignmentSite, 
@@ -180,10 +176,12 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
                                                      resizable = TRUE,
                                                      style = list(fontSize = "1rem"),
                                                      defaultColDef = reactable::colDef(
-                                                       # header = function(value) gsub(".", " ", value, fixed = TRUE),
-                                                       # cell = function(value) format(value, nsmall = 1),
+                                                       filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                    return rows.filter(function(row) {
+                                                                                    return row.values[columnId] == filterValue
+                                                                                    })
+                                                                                    }"),
                                                        align = "center",
-                                                       # minWidth = 70,
                                                        headerStyle = list(background = "#f7f7f8",
                                                                           fontweight = "normal")
                                                      ),
@@ -205,16 +203,17 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   outputOptions(output, "nvcAssignmentSiteTable", suspendWhenHidden = FALSE)
 
 # Initialise NVC Assignment Group Table -----------------------------------
-  nvcAssignmentGroupTable_init <- data.frame("ID" = character(),
-                                              "Mean.Similarity" = numeric(),
-                                              "NVC.Code" = character()
-                                              )
+  nvcAssignmentGroupTable_init <- data.frame("Year" = integer(),
+                                             "Group" = character(),
+                                             "Mean.Similarity" = numeric(),
+                                             "NVC.Code" = character()
+  )
   
   nvcAssignmentGroupTable_rval <- reactiveVal(nvcAssignmentGroupTable_init)
   
   output$nvcAssignmentGroupTable <- reactable::renderReactable({
     
-    nvcAssignmentSiteTable <- reactable::reactable(data = nvcAssignmentGroupTable_init)
+    nvcAssignmentGroupTable <- reactable::reactable(data = nvcAssignmentGroupTable_init)
     
     return(nvcAssignmentGroupTable)
     
@@ -239,10 +238,12 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
                                                       resizable = TRUE,
                                                       style = list(fontSize = "1rem"),
                                                       defaultColDef = reactable::colDef(
-                                                        # header = function(value) gsub(".", " ", value, fixed = TRUE),
-                                                        # cell = function(value) format(value, nsmall = 1),
+                                                        filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                     return rows.filter(function(row) {
+                                                                                     return row.values[columnId] == filterValue
+                                                                                     })
+                                                                                     }"),
                                                         align = "center",
-                                                        # minWidth = 70,
                                                         headerStyle = list(background = "#f7f7f8",
                                                                            fontweight = "normal")
                                                       ),
@@ -265,7 +266,9 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   
 
 # Initialise NVC Assignment Quadrat Table ---------------------------------
-  nvcAssignmentQuadratTable_init <- data.frame("ID" = character(),
+  nvcAssignmentQuadratTable_init <- data.frame("Year" = integer(),
+                                               "Group" = character(),
+                                               "Quadrat" = character(),
                                                "Mean.Similarity" = numeric(),
                                                "NVC.Code" = character()
   )
@@ -274,7 +277,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   
   output$nvcAssignmentQuadratTable <- reactable::renderReactable({
     
-    nvcAssignmentSiteTable <- reactable::reactable(data = nvcAssignmentQuadratTable_init)
+    nvcAssignmentQuadratTable <- reactable::reactable(data = nvcAssignmentQuadratTable_init)
     
     return(nvcAssignmentQuadratTable)
     
@@ -299,10 +302,12 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
                                                         resizable = TRUE,
                                                         style = list(fontSize = "1rem"),
                                                         defaultColDef = reactable::colDef(
-                                                          # header = function(value) gsub(".", " ", value, fixed = TRUE),
-                                                          # cell = function(value) format(value, nsmall = 1),
+                                                          filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }"),
                                                           align = "center",
-                                                          # minWidth = 70,
                                                           headerStyle = list(background = "#f7f7f8",
                                                                              fontweight = "normal")
                                                         ),
