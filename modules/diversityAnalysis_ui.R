@@ -13,7 +13,7 @@ diversityAnalysisUI <- function(id){
         shiny::h5("Summary Table"),
         
         shiny::div(
-          rhandsontable::rHandsontableOutput(outputId = ns("diversitySummaryTable"))
+          reactable::reactableOutput(outputId = ns("diversitySummaryTable"))
         ),
         
         shiny::div(shiny::br())
@@ -27,7 +27,7 @@ diversityAnalysisUI <- function(id){
         shiny::h5("Quadrat Diversity Indices Table"),
         
         shiny::div(
-          rhandsontable::rHandsontableOutput(outputId = ns("diversityIndicesTable"))
+          reactable::reactableOutput(outputId = ns("diversityIndicesTable"))
         ),
         
         shiny::div(shiny::br())
@@ -41,7 +41,7 @@ diversityAnalysisUI <- function(id){
         shiny::h5("Species Richness, by Site (Gamma Diversity)"),
         
         shiny::div(
-          rhandsontable::rHandsontableOutput(outputId = ns("speciesRichnessSiteTable"))
+          reactable::reactableOutput(outputId = ns("speciesRichnessSiteTable"))
         ),
         
       ),
@@ -51,7 +51,7 @@ diversityAnalysisUI <- function(id){
       # shiny::h5("Beta Diversity"),
       # 
       # shiny::div(
-      #   rhandsontable::rHandsontableOutput(outputId = ns(""))
+      #   reactable::reactableOutput(outputId = ns(""))
       # ),
       
       shiny::div(
@@ -61,7 +61,7 @@ diversityAnalysisUI <- function(id){
         shiny::h5("Species Richness, by Group"),
         
         shiny::div(
-          rhandsontable::rHandsontableOutput(outputId = ns("speciesRichnessGroupTable"))
+          reactable::reactableOutput(outputId = ns("speciesRichnessGroupTable"))
         ),
         
         shiny::div(shiny::br())
@@ -75,7 +75,7 @@ diversityAnalysisUI <- function(id){
         shiny::h5("Species Richness, by Quadrat (Alpha Diversity)"),
         
         shiny::div(
-          rhandsontable::rHandsontableOutput(outputId = ns("speciesRichnessQuadratTable"))
+          reactable::reactableOutput(outputId = ns("speciesRichnessQuadratTable"))
         ),
         
         shiny::div(shiny::br())

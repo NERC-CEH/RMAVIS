@@ -93,24 +93,25 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
   
   diversitySummaryTable_rval <- reactiveVal(diversitySummaryTable_init)
   
-  output$diversitySummaryTable <- rhandsontable::renderRHandsontable({
+  output$diversitySummaryTable <- reactable::renderReactable({
     
-    diversitySummaryTable <- rhandsontable::rhandsontable(data = diversitySummaryTable_init,
-                                                          rowHeaders = NULL,
-                                                          width = "100%"#,
-                                                          # overflow = "visible",
-                                                          # stretchH = "all"
-                                                          ) |>
-      rhandsontable::hot_col(col = colnames(diversitySummaryTable_init), halign = "htCenter", readOnly = TRUE) |>
-      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"diversity_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+    diversitySummaryTable <- reactable::reactable(data = diversitySummaryTable_init,
+                                                  filterable = FALSE,
+                                                  pagination = FALSE, 
+                                                  highlight = TRUE,
+                                                  bordered = TRUE,
+                                                  sortable = TRUE, 
+                                                  wrap = FALSE,
+                                                  resizable = TRUE,
+                                                  style = list(fontSize = "1rem"),
+                                                  class = "my-tbl",
+                                                  # style = list(fontSize = "1rem"),
+                                                  rowClass = "my-row",
+                                                  defaultColDef = reactable::colDef(
+                                                    headerClass = "my-header",
+                                                    class = "my-col",
+                                                    align = "center" # Needed as alignment is not passing through to header
+                                                  ))
     
     return(diversitySummaryTable)
     
@@ -118,7 +119,9 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
   
 
 # Intialise Diversity Indices Table ---------------------------------------
-  diversityIndicesTable_init <- data.frame("ID" = character(),
+  diversityIndicesTable_init <- data.frame("Year" = integer(),
+                                           "Group" = character(),
+                                           "Quadrat" = character(),
                                            "Richness" = integer(),
                                            "Shannon.Diversity" = double(),
                                            "Simpson.Diversity" = double(),
@@ -131,24 +134,25 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
   
   diversityIndicesTable_rval <- reactiveVal(diversityIndicesTable_init)
   
-  output$diversityIndicesTable <- rhandsontable::renderRHandsontable({
+  output$diversityIndicesTable <- reactable::renderReactable({
     
-    diversityIndicesTable <- rhandsontable::rhandsontable(data = diversityIndicesTable_init,
-                                                                rowHeaders = NULL,
-                                                                width = "100%"#,
-                                                                # overflow = "visible",
-                                                                # stretchH = "all"
-    ) |>
-      rhandsontable::hot_col(col = colnames(diversityIndicesTable_init), halign = "htCenter", readOnly = TRUE) |>
-      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"diversity_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+    diversityIndicesTable <- reactable::reactable(data = diversityIndicesTable_init,
+                                                  filterable = FALSE,
+                                                  pagination = FALSE, 
+                                                  highlight = TRUE,
+                                                  bordered = TRUE,
+                                                  sortable = TRUE, 
+                                                  wrap = FALSE,
+                                                  resizable = TRUE,
+                                                  style = list(fontSize = "1rem"),
+                                                  class = "my-tbl",
+                                                  # style = list(fontSize = "1rem"),
+                                                  rowClass = "my-row",
+                                                  defaultColDef = reactable::colDef(
+                                                    headerClass = "my-header",
+                                                    class = "my-col",
+                                                    align = "center" # Needed as alignment is not passing through to header
+                                                  ))
     
     return(diversityIndicesTable)
     
@@ -163,24 +167,25 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
   
   speciesRichnessQuadratTable_rval <- reactiveVal(speciesRichnessQuadratTable_init)
 
-  output$speciesRichnessQuadratTable <- rhandsontable::renderRHandsontable({
+  output$speciesRichnessQuadratTable <- reactable::renderReactable({
 
-    speciesRichnessQuadratTable <- rhandsontable::rhandsontable(data = speciesRichnessQuadratTable_init,
-                                                                rowHeaders = NULL,
-                                                                width = "100%"#,
-                                                                # overflow = "visible",
-                                                                # stretchH = "all"
-                                                                ) |>
-      rhandsontable::hot_col(col = colnames(speciesRichnessQuadratTable_init), halign = "htCenter", readOnly = TRUE) |>
-      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"diversity_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+    speciesRichnessQuadratTable <- reactable::reactable(data = speciesRichnessQuadratTable_init,
+                                                        filterable = FALSE,
+                                                        pagination = FALSE, 
+                                                        highlight = TRUE,
+                                                        bordered = TRUE,
+                                                        sortable = TRUE, 
+                                                        wrap = FALSE,
+                                                        resizable = TRUE,
+                                                        style = list(fontSize = "1rem"),
+                                                        class = "my-tbl",
+                                                        # style = list(fontSize = "1rem"),
+                                                        rowClass = "my-row",
+                                                        defaultColDef = reactable::colDef(
+                                                          headerClass = "my-header",
+                                                          class = "my-col",
+                                                          align = "center" # Needed as alignment is not passing through to header
+                                                        ))
 
     return(speciesRichnessQuadratTable)
 
@@ -194,24 +199,25 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
   
   speciesRichnessGroupTable_rval <- reactiveVal(speciesRichnessGroupTable_init)
   
-  output$speciesRichnessGroupTable <- rhandsontable::renderRHandsontable({
+  output$speciesRichnessGroupTable <- reactable::renderReactable({
     
-    speciesRichnessGroupTable <- rhandsontable::rhandsontable(data = speciesRichnessGroupTable_init,
-                                                              rowHeaders = NULL,
-                                                              width = "100%"#,
-                                                              # overflow = "visible",
-                                                              # stretchH = "all"
-    ) |>
-      rhandsontable::hot_col(col = colnames(speciesRichnessGroupTable_init), halign = "htCenter", readOnly = TRUE) |>
-      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"diversity_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+    speciesRichnessGroupTable <- reactable::reactable(data = speciesRichnessGroupTable_init,
+                                                      filterable = FALSE,
+                                                      pagination = FALSE, 
+                                                      highlight = TRUE,
+                                                      bordered = TRUE,
+                                                      sortable = TRUE, 
+                                                      wrap = FALSE,
+                                                      resizable = TRUE,
+                                                      style = list(fontSize = "1rem"),
+                                                      class = "my-tbl",
+                                                      # style = list(fontSize = "1rem"),
+                                                      rowClass = "my-row",
+                                                      defaultColDef = reactable::colDef(
+                                                        headerClass = "my-header",
+                                                        class = "my-col",
+                                                        align = "center" # Needed as alignment is not passing through to header
+                                                      ))
     
     return(speciesRichnessGroupTable)
     
@@ -224,24 +230,25 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
   
   speciesRichnessSiteTable_rval <- reactiveVal(speciesRichnessSiteTable_init)
   
-  output$speciesRichnessSiteTable <- rhandsontable::renderRHandsontable({
+  output$speciesRichnessSiteTable <- reactable::renderReactable({
     
-    speciesRichnessSiteTable <- rhandsontable::rhandsontable(data = speciesRichnessSiteTable_init,
-                                                             rowHeaders = NULL,
-                                                             width = "100%"#,
-                                                             # overflow = "visible",
-                                                             # stretchH = "all"
-                                                             ) |>
-      rhandsontable::hot_col(col = colnames(speciesRichnessSiteTable_init), halign = "htCenter", readOnly = TRUE) |>
-      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"diversity_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+    speciesRichnessSiteTable <- reactable::reactable(data = speciesRichnessSiteTable_init,
+                                                     filterable = FALSE,
+                                                     pagination = FALSE, 
+                                                     highlight = TRUE,
+                                                     bordered = TRUE,
+                                                     sortable = TRUE, 
+                                                     wrap = FALSE,
+                                                     resizable = TRUE,
+                                                     style = list(fontSize = "1rem"),
+                                                     class = "my-tbl",
+                                                     # style = list(fontSize = "1rem"),
+                                                     rowClass = "my-row",
+                                                     defaultColDef = reactable::colDef(
+                                                       headerClass = "my-header",
+                                                       class = "my-col",
+                                                       align = "center" # Needed as alignment is not passing through to header
+                                                     ))
     
     return(speciesRichnessSiteTable)
     
@@ -314,6 +321,12 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       
       speciesRichness_site_long <- speciesRichness_site
       
+      # Summary table concordance
+      surveyTable_conc <- surveyTable |>
+        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = FALSE) |>
+        dplyr::select(ID, Year, Group, Quadrat) |>
+        dplyr::distinct()
+      
       # Summary Table
       summaryTable <- speciesRichness_quadrat |>
         dplyr::group_by(Year) |>
@@ -363,78 +376,110 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
         dplyr::left_join(simpsonDiversity, by = "ID") |>
         dplyr::left_join(inverseSimpsonDiversity, by = "ID") |>
         dplyr::left_join(shannonsEvenness, by = "ID") |>
-        dplyr::left_join(simpsonEvenness, by = "ID")
+        dplyr::left_join(simpsonEvenness, by = "ID") |>
+        dplyr::left_join(surveyTable_conc, by = "ID") |>
+        dplyr::select(Year, Group, Quadrat, Richness, Shannon.Diversity, Simpson.Diversity, InverseSimpson.Diversity, Shannon.Evenness, Simpson.Evenness)
       
       
     }) # Close isolate
     
     # Update summaryTable
-    output$diversitySummaryTable <- rhandsontable::renderRHandsontable({
+    output$diversitySummaryTable <- reactable::renderReactable({
       
-      diversitySummaryTable <- rhandsontable::rhandsontable(data = summaryTable,
-                                                            rowHeaders = NULL,
-                                                            width = "100%"#,
-                                                            # overflow = "visible",
-                                                            # stretchH = "all"
-      ) |>
-        rhandsontable::hot_col(col = colnames(summaryTable), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"diversity_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+      diversitySummaryTable <- reactable::reactable(data = summaryTable,
+                                                    filterable = FALSE,
+                                                    pagination = FALSE, 
+                                                    highlight = TRUE,
+                                                    bordered = TRUE,
+                                                    sortable = TRUE, 
+                                                    wrap = FALSE,
+                                                    resizable = TRUE,
+                                                    style = list(fontSize = "1rem"),
+                                                    class = "my-tbl",
+                                                    # style = list(fontSize = "1rem"),
+                                                    rowClass = "my-row",
+                                                    defaultColDef = reactable::colDef(
+                                                      headerClass = "my-header",
+                                                      class = "my-col",
+                                                      align = "center" # Needed as alignment is not passing through to header
+                                                    )
+                                                    )
       
       return(diversitySummaryTable)
       
     })
     
     # Update diversityIndicesTable
-    output$diversityIndicesTable <- rhandsontable::renderRHandsontable({
+    output$diversityIndicesTable <- reactable::renderReactable({
       
-      diversityIndicesTable <- rhandsontable::rhandsontable(data = diversityIndicesTable,
-                                                            rowHeaders = NULL,
-                                                            width = "100%"#,
-                                                            # overflow = "visible",
-                                                            # stretchH = "all"
-      ) |>
-        rhandsontable::hot_col(col = colnames(diversityIndicesTable), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"diversity_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+      diversityIndicesTable <- reactable::reactable(data = diversityIndicesTable,
+                                                    filterable = FALSE,
+                                                    pagination = FALSE, 
+                                                    highlight = TRUE,
+                                                    bordered = TRUE,
+                                                    sortable = TRUE, 
+                                                    wrap = FALSE,
+                                                    resizable = TRUE,
+                                                    style = list(fontSize = "1rem"),
+                                                    class = "my-tbl",
+                                                    # style = list(fontSize = "1rem"),
+                                                    rowClass = "my-row",
+                                                    defaultColDef = reactable::colDef(
+                                                      headerClass = "my-header",
+                                                      class = "my-col",
+                                                      align = "center" # Needed as alignment is not passing through to header
+                                                    ),
+                                                    columns = list(
+                                                      Year = reactable::colDef(
+                                                        filterable = TRUE,
+                                                        filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                      ),
+                                                      Group = reactable::colDef(
+                                                        filterable = TRUE,
+                                                        filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                      ),
+                                                      Quadrat = reactable::colDef(
+                                                        filterable = TRUE,
+                                                        filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                      )
+                                                    ))
       
       return(diversityIndicesTable)
       
     })
     
     # Update speciesRichnessSiteTable
-    output$speciesRichnessSiteTable <- rhandsontable::renderRHandsontable({
+    output$speciesRichnessSiteTable <- reactable::renderReactable({
       
-      speciesRichnessSiteTable <- rhandsontable::rhandsontable(data = speciesRichness_site_wide,
-                                                                  rowHeaders = NULL,
-                                                                  width = "100%"#,
-                                                                  # overflow = "visible",
-                                                                  # stretchH = "all"
-                                                                  ) |>
-        rhandsontable::hot_col(col = colnames(speciesRichness_site_wide), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"diversity_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+      speciesRichnessSiteTable <- reactable::reactable(data = speciesRichness_site_wide,
+                                                       filterable = FALSE,
+                                                       pagination = FALSE, 
+                                                       highlight = TRUE,
+                                                       bordered = TRUE,
+                                                       sortable = TRUE, 
+                                                       wrap = FALSE,
+                                                       resizable = TRUE,
+                                                       style = list(fontSize = "1rem"),
+                                                       class = "my-tbl",
+                                                       # style = list(fontSize = "1rem"),
+                                                       rowClass = "my-row",
+                                                       defaultColDef = reactable::colDef(
+                                                         headerClass = "my-header",
+                                                         class = "my-col",
+                                                         align = "center" # Needed as alignment is not passing through to header
+                                                       ))
       
       return(speciesRichnessSiteTable)
       
@@ -445,24 +490,25 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
     
     
     # Update speciesRichnessGroupTable
-    output$speciesRichnessGroupTable <- rhandsontable::renderRHandsontable({
+    output$speciesRichnessGroupTable <- reactable::renderReactable({
       
-      speciesRichnessGroupTable <- rhandsontable::rhandsontable(data = speciesRichness_group_wide,
-                                                                  rowHeaders = NULL,
-                                                                  width = "100%"#,
-                                                                  # overflow = "visible",
-                                                                  # stretchH = "all"
-      ) |>
-        rhandsontable::hot_col(col = colnames(speciesRichness_group_wide), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"diversity_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+      speciesRichnessGroupTable <- reactable::reactable(data = speciesRichness_group_wide,
+                                                        filterable = FALSE,
+                                                        pagination = FALSE, 
+                                                        highlight = TRUE,
+                                                        bordered = TRUE,
+                                                        sortable = TRUE, 
+                                                        wrap = FALSE,
+                                                        resizable = TRUE,
+                                                        style = list(fontSize = "1rem"),
+                                                        class = "my-tbl",
+                                                        # style = list(fontSize = "1rem"),
+                                                        rowClass = "my-row",
+                                                        defaultColDef = reactable::colDef(
+                                                          headerClass = "my-header",
+                                                          class = "my-col",
+                                                          align = "center" # Needed as alignment is not passing through to header
+                                                        ))
       
       return(speciesRichnessGroupTable)
       
@@ -473,24 +519,25 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
     
     
     # Update speciesRichnessQuadratTable
-    output$speciesRichnessQuadratTable <- rhandsontable::renderRHandsontable({
+    output$speciesRichnessQuadratTable <- reactable::renderReactable({
       
-      speciesRichnessQuadratTable <- rhandsontable::rhandsontable(data = speciesRichness_quadrat_wide,
-                                                                  rowHeaders = NULL,
-                                                                  width = "100%"#,
-                                                                  # overflow = "visible",
-                                                                  # stretchH = "all"
-      ) |>
-        rhandsontable::hot_col(col = colnames(speciesRichness_quadrat_wide), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"diversity_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+      speciesRichnessQuadratTable <- reactable::reactable(data = speciesRichness_quadrat_wide,
+                                                          filterable = FALSE,
+                                                          pagination = FALSE, 
+                                                          highlight = TRUE,
+                                                          bordered = TRUE,
+                                                          sortable = TRUE, 
+                                                          wrap = FALSE,
+                                                          resizable = TRUE,
+                                                          style = list(fontSize = "1rem"),
+                                                          class = "my-tbl",
+                                                          # style = list(fontSize = "1rem"),
+                                                          rowClass = "my-row",
+                                                          defaultColDef = reactable::colDef(
+                                                            headerClass = "my-header",
+                                                            class = "my-col",
+                                                            align = "center" # Needed as alignment is not passing through to header
+                                                          ))
       
       return(speciesRichnessQuadratTable)
       

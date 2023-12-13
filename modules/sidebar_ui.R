@@ -325,7 +325,7 @@ sidebarUI <- function(id){
         shiny::selectizeInput(inputId = ns("resultsViewDiversity"),
                                            label = "Results to View",
                                            choices = resultsViewDiversity_options,
-                                           selected = c("diversitySummaryTable", "diversityIndicesTable"),
+                                           selected = c("diversitySummaryTable"),
                                            multiple = FALSE),
         
         
