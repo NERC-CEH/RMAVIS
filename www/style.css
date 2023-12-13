@@ -117,11 +117,46 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
   background-color: var(--ceh-background-grey) !important;
 }
 
-/*#diversityAnalysis_id_1-speciesUniqueToYearTable * {word-wrap: break-word !important;}
 
-.handsontable .wraptext {
-    overflow-wrap: break-word !important;
-    white-space: pre-line !important;
-    /*max-width: 20px;*/
+/* Custom {reactable} css classes */
+/* Row height needs to be 24px; Header height needs to be 26px */
+
+.my-tbl {
+  text-align: center !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+  /*border-radius: 3px !important;*/
+  border-color: rgba(40,70,94,0.1) !important;
+  border-width: 1px !important;
+  /*border-style: solid !important;*/
 }
-*/
+
+.my-header {
+  text-align: center !important;
+  font-weight: normal !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  line-height: 15px !important;
+  background-color: rgba(0,0,0,0.05) !important;
+  border-color: rgba(40,70,94,0.1) !important;
+  border-width: 1px !important;
+  /*border-style: solid !important;*/
+}
+
+.my-col {
+  text-align: center !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  line-height: 9px !important;
+  border-color: rgba(40,70,94,0.1) !important;
+  border-width: 1px !important;
+  /*border-style: solid !important;*/
+}
+
+.my-row {
+
+}
+
+
+
+

@@ -23,7 +23,15 @@ speciesFreq <- function(input, output, session, surveyTable, surveyTableWide, si
   
   output$speciesFrequencyTable <- reactable::renderReactable({
     
-    speciesFrequencyTable <- reactable::reactable(data = speciesFrequencyTable_init)
+    speciesFrequencyTable <- reactable::reactable(data = speciesFrequencyTable_init,
+                                                  class = "my-tbl",
+                                                  # style = list(fontSize = "1rem"),
+                                                  rowClass = "my-row",
+                                                  defaultColDef = reactable::colDef(
+                                                    headerClass = "my-header",
+                                                    class = "my-col",
+                                                    align = "center" # Needed as alignment is not passing through to header
+                                                  ))
     
     
     return(speciesFrequencyTable)
@@ -81,36 +89,49 @@ speciesFreq <- function(input, output, session, surveyTable, surveyTableWide, si
             )
         )
       
+      speciesFrequencyTable_rval(speciesFrequency)
+      
     })
     
     output$speciesFrequencyTable <- reactable::renderReactable({
       
       speciesFrequencyTable <- reactable::reactable(data = speciesFrequency, 
-                                                    filterable = TRUE,
+                                                    filterable = FALSE,
                                                     pagination = FALSE, 
                                                     highlight = TRUE,
                                                     bordered = TRUE,
                                                     sortable = TRUE, 
-                                                    resizable = TRUE,
-                                                    style = list(fontSize = "1rem"),
+                                                    wrap = FALSE,
+                                                    resizable = TRUE, 
+                                                    # compact = TRUE,
+                                                    class = "my-tbl",
+                                                    # style = list(fontSize = "1rem"),
+                                                    rowClass = "my-row",
                                                     defaultColDef = reactable::colDef(
-                                                      # header = function(value) gsub(".", " ", value, fixed = TRUE),
-                                                      # cell = function(value) format(value, nsmall = 1),
-                                                      align = "center",
-                                                      # minWidth = 70,
-                                                      headerStyle = list(background = "#f7f7f8",
-                                                                         fontweight = "normal")
+                                                      headerClass = "my-header",
+                                                      class = "my-col",
+                                                      align = "center" # Needed as alignment is not passing through to header
+                                                    ),
+                                                    columns = list(
+                                                      Species = reactable::colDef(
+                                                        filterable = TRUE
                                                       ),
+                                                      Change = reactable::colDef(
+                                                        filterable = TRUE,
+                                                        filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                      )
+                                                    ),
                                                     # rowStyle = function(index) {
                                                     #   if(speciesFrequency[index, "Change"] %in% c("Gain", "Net Increase")) {
                                                     #     list(background = "lightgreen", alpha = 0.5)
                                                     #   } else if(speciesFrequency[index, "Change"] %in% c("Loss", "Net Decrease")){
                                                     #     list(background = "red", alpha = 0.5)
                                                     #   }
-                                                    # },
-                                                    theme = reactable::reactableTheme(
-                                                      cellPadding = "2px 2px"
-                                                    )
+                                                    # }
                                                     )
       
       

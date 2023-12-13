@@ -127,6 +127,12 @@ sidebarUI <- function(id){
         #                       selected = "pseudoQuadratSite",
         #                       multiple = TRUE),
         
+        shiny::selectizeInput(inputId = ns("resultsViewNVCAssign"),
+                              label = "Results to View",
+                              choices = resultsViewNVCAssign_options,
+                              selected = c("nvcAssignSitePseudo"),
+                              multiple = FALSE),
+        
         bslib::layout_columns(
           
           col_widths = c(11, 1),
@@ -147,8 +153,6 @@ sidebarUI <- function(id){
           )
           
         ),
-        
-        shiny::div(shiny::br()),
         
         bslib::layout_columns(
           
@@ -304,7 +308,7 @@ sidebarUI <- function(id){
                                            label = "Results to View",
                                            choices = resultsViewEIVs_options,
                                            selected = c("unweightedMeanHEValuesSite"),
-                                           multiple = TRUE),
+                                           multiple = FALSE),
         
         
       ),
@@ -322,7 +326,7 @@ sidebarUI <- function(id){
                                            label = "Results to View",
                                            choices = resultsViewDiversity_options,
                                            selected = c("diversitySummaryTable", "diversityIndicesTable"),
-                                           multiple = TRUE),
+                                           multiple = FALSE),
         
         
       ),

@@ -9,8 +9,7 @@ habCorUI <- function(id){
       shiny::h5("Habitat Correspondence"),
       
       shiny::div(
-        rhandsontable::rHandsontableOutput(outputId = ns("habCorTable"))
-        #, style = "margin-right: 5px !important;"
+        reactable::reactableOutput(outputId = ns("habCorTable"))
       )
     )
   )

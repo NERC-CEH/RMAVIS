@@ -249,7 +249,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
                           dcaAxes == "dca2dca3") |>
             dplyr::select(-dcaAxes)
           
-          print(nvc_pquad_dca_all_hulls_selected)
+          # print(nvc_pquad_dca_all_hulls_selected)
           
         }
         

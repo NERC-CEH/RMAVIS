@@ -61,8 +61,8 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
         col = "Species",
         readOnly = FALSE,
         type = "dropdown",
-        source = speciesNames, # [1:50]
-        strict = TRUE,
+        source = speciesNames,
+        strict = FALSE,
         default = as.character(NA_character_)
       ) |>
       rhandsontable::hot_col(
@@ -157,8 +157,8 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
           col = "Species",
           readOnly = FALSE,
           type = "dropdown",
-          source = speciesNames, # [1:50]
-          strict = TRUE,
+          source = speciesNames,
+          strict = FALSE,
           default = as.character(NA_character_)
         ) |>
         rhandsontable::hot_col(

@@ -8,7 +8,8 @@ inputMethod_options <- c("Manual" = "manual",
 example_data_options <- c("None" = "none", 
                           "Parsonage Down (CG)" = "Parsonage Down",
                           "Whitwell Common (M)" = "Whitwell Common",
-                          "Leith Hill Place Wood (W)" = "Leith Hill Place Wood")
+                          "Leith Hill Place Wood (W)" = "Leith Hill Place Wood",
+                          "Sand Dune (SD)" = "Sand Dune")
 
 
 
@@ -97,6 +98,13 @@ crossTabulate_options <- c("No" = "No",
                            "Composed to NVC" = "compToNVC",
                            "NVC to Composed" = "NVCToComp")
 
+
+# Results to View NVC Assignment ------------------------------------------
+resultsViewNVCAssign_options <- c("Site, Pseudo-quadrat" = "nvcAssignSitePseudo",
+                                  "Group, Pseudo-quadrat" = "nvcAssignGroupPseudo",
+                                  "Quadrat, Pseudo-quadrat" = "nvcAssignQuadratPseudo",
+                                  "Site, Czekanowski" = "nvcAssignSiteCzekanowski",
+                                  "Group, Czekanowski" = "nvcAssignGroupCzekanowski")
 
 # Results to View EIVs ----------------------------------------------------
 resultsViewEIVs_options <- c("Weighted Mean Hill-Ellenberg Values, by Site" = "weightedMeanHEValuesSite",

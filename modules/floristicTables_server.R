@@ -23,24 +23,25 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   floristicTables_composed_init <- data.frame("Species" = character(),
                                               "Constancy" = character())
   
-  output$floristicTables_composed <- rhandsontable::renderRHandsontable({
+  output$floristicTables_composed <- reactable::renderReactable({
     
-    floristicTables_composed <- rhandsontable::rhandsontable(data = floristicTables_composed_init,
-                                                             rowHeaders = NULL,
-                                                             width = "100%"#,
-                                                             # overflow = "visible",
-                                                             # stretchH = "all"
-                                                             ) |>
-      rhandsontable::hot_col(col = colnames(floristicTables_composed_init), halign = "htCenter", format = "character", readOnly = TRUE) |>
-      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"floristicTables_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+    floristicTables_composed <-  reactable::reactable(data = floristicTables_composed_init,
+                                                      filterable = FALSE,
+                                                      pagination = FALSE, 
+                                                      highlight = TRUE,
+                                                      bordered = TRUE,
+                                                      sortable = FALSE, 
+                                                      wrap = FALSE,
+                                                      resizable = TRUE,
+                                                      class = "my-tbl",
+                                                      # style = list(fontSize = "1rem"),
+                                                      rowClass = "my-row",
+                                                      defaultColDef = reactable::colDef(
+                                                        headerClass = "my-header",
+                                                        class = "my-col",
+                                                        align = "center" # Needed as alignment is not passing through to header
+                                                      )
+                                                      )
     
     return(floristicTables_composed)
     
@@ -52,8 +53,8 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   
   observe({
     
-    shiny::req(input$floristicTables_composed)
-    shiny::req(input$floristicTables_nvc)
+    # shiny::req(input$floristicTables_composed)
+    # shiny::req(input$floristicTables_nvc)
     shiny::req(surveyTable())
 
     surveyTable <- surveyTable()
@@ -65,7 +66,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
                                                "Species" = character(),
                                                "Constancy" = factor())
     
-    # assign(x = "surveyTable_prepped", value = surveyTable_prepped, envir = .GlobalEnv)
+    assign(x = "surveyTable_prepped", value = surveyTable_prepped, envir = .GlobalEnv)
 
 # Create composed floristic tables across all groups ----------------------
     floristicTables_composed <- surveyTable_prepped |>
@@ -131,8 +132,6 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
       floristicTables_composed_all <- floristicTables_composed_all |>
         dplyr::bind_rows(floristicTables_composed)
       
-      # print(floristicTables_composed)
-      
     }
     
     floristicTables_composed_all_rval(floristicTables_composed_all)
@@ -193,35 +192,29 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
 
     })
     
-    # Create renderer to highlight rows if Constancy is empty
-    # row_renderer <- "
-    # function (instance, td, row, col, prop, value, cellproperties) {
-    #   handsontable.renderers.textrenderer.apply(this, arguments);
-    #   var col_value = instance.getdata()[row][1]
-    #   if (col_value == '<NA>') {
-    #     td.style.background = 'pink';
-    #   }
-    # }"
-    
-    output$floristicTables_composed <- rhandsontable::renderRHandsontable({
+    output$floristicTables_composed <- reactable::renderReactable({
 
-      floristicTables_composed <- rhandsontable::rhandsontable(data = floristicTables_composed_view,
-                                                  rowHeaders = NULL#,
-                                                  # overflow = "visible",
-                                                  # stretchH = "all"
-                                                  ) |>
-        rhandsontable::hot_col(col = colnames(floristicTables_composed_view), halign = "htCenter", format = "character", readOnly = TRUE) |> # renderer = row_renderer
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-        # function(el, x) {
-        #   var hot = this.hot
-        #   $('a[data-value=\"floristicTables_panel\"').on('click', function(){
-        #     setTimeout(function() {hot.render();}, 0);
-        #   })
-        # }")
+      floristicTables_composed <- reactable::reactable(data = floristicTables_composed_view, 
+                                                       filterable = FALSE,
+                                                       pagination = FALSE, 
+                                                       highlight = TRUE,
+                                                       bordered = TRUE,
+                                                       sortable = FALSE, 
+                                                       wrap = FALSE,
+                                                       resizable = TRUE,
+                                                       class = "my-tbl",
+                                                       # style = list(fontSize = "1rem"),
+                                                       rowClass = "my-row",
+                                                       defaultColDef = reactable::colDef(
+                                                         headerClass = "my-header",
+                                                         class = "my-col",
+                                                         align = "center" # Needed as alignment is not passing through to header
+                                                       )
+                                                       )
 
       return(floristicTables_composed)
+      
+      
 
     })
     
@@ -240,27 +233,30 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
 
 # NVC Floristic Tables ----------------------------------------------------
 
+
+# Intialise NVC Floristic Table -------------------------------------------
   floristicTables_nvc_init <- data.frame("Species" = character(),
                                          "Constancy" = character())
   
-  output$floristicTables_nvc <- rhandsontable::renderRHandsontable({
+  output$floristicTables_nvc <- reactable::renderReactable({
     
-    floristicTables_nvc <- rhandsontable::rhandsontable(data = floristicTables_nvc_init,
-                                                        rowHeaders = NULL,
-                                                        width = "100%"#,
-                                                        # overflow = "visible",
-                                                        # stretchH = "all"
-                                                        ) |>
-      rhandsontable::hot_col(col = colnames(floristicTables_nvc_init), halign = "htCenter", format = "character", readOnly = TRUE) |>
-      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"floristicTables_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+    floristicTables_nvc <- reactable::reactable(data = floristicTables_nvc_init,
+                                                filterable = FALSE,
+                                                pagination = FALSE, 
+                                                highlight = TRUE,
+                                                bordered = TRUE,
+                                                sortable = FALSE, 
+                                                wrap = FALSE,
+                                                resizable = TRUE,
+                                                class = "my-tbl",
+                                                # style = list(fontSize = "1rem"),
+                                                rowClass = "my-row",
+                                                defaultColDef = reactable::colDef(
+                                                  headerClass = "my-header",
+                                                  class = "my-col",
+                                                  align = "center" # Needed as alignment is not passing through to header
+                                                )
+                                                )
     
     return(floristicTables_nvc)
     
@@ -268,8 +264,8 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   
   observe({
     
-    shiny::req(input$floristicTables_nvc)
-    shiny::req(input$floristicTables_composed)
+    # shiny::req(input$floristicTables_nvc)
+    # shiny::req(input$floristicTables_composed)
     shiny::req(!is.null(composedFloristicTable()))
     
     # Retrieve the table, optionally modify the table without triggering recursion.
@@ -314,23 +310,25 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
       
     })
     
-    output$floristicTables_nvc <- rhandsontable::renderRHandsontable({
+    output$floristicTables_nvc <- reactable::renderReactable({
       
-      floristicTables_nvc <- rhandsontable::rhandsontable(data = floristicTables_nvc_view,
-                                                          rowHeaders = NULL#,
-                                                          # overflow = "visible",
-                                                          # stretchH = "all"
-      ) |>
-        rhandsontable::hot_col(col = colnames(floristicTables_nvc_view), halign = "htCenter", format = "character", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"floristicTables_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+      floristicTables_nvc <- reactable::reactable(data = floristicTables_nvc_view, 
+                                                  filterable = FALSE,
+                                                  pagination = FALSE, 
+                                                  highlight = TRUE,
+                                                  bordered = TRUE,
+                                                  sortable = FALSE, 
+                                                  wrap = FALSE,
+                                                  resizable = TRUE,
+                                                  class = "my-tbl",
+                                                  # style = list(fontSize = "1rem"),
+                                                  rowClass = "my-row",
+                                                  defaultColDef = reactable::colDef(
+                                                    headerClass = "my-header",
+                                                    class = "my-col",
+                                                    align = "center" # Needed as alignment is not passing through to header
+                                                  )
+                                                  )
       
       return(floristicTables_nvc)
       

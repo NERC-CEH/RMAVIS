@@ -24,24 +24,18 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
   
   habCorTable_rval <- reactiveVal(habCorData_init)
   
-  output$habCorTable <- rhandsontable::renderRHandsontable({
+  output$habCorTable <- reactable::renderReactable({
     
-    habCorTable <- rhandsontable::rhandsontable(data = habCorData_init,
-                                                rowHeaders = NULL,
-                                                width = "100%"#,
-                                                # overflow = "visible",
-                                                # stretchH = "all"
-                                                ) |>
-      rhandsontable::hot_col(col = colnames(habCorData_init), halign = "htCenter", readOnly = TRUE) |>
-      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"habCor_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+    habCorTable <- reactable::reactable(data = habCorData_init,
+                                        class = "my-tbl",
+                                        # style = list(fontSize = "1rem"),
+                                        rowClass = "my-row",
+                                        defaultColDef = reactable::colDef(
+                                          headerClass = "my-header",
+                                          class = "my-col",
+                                          align = "center" # Needed as alignment is not passing through to header
+                                        )
+                                        )
     
     return(habCorTable)
     
@@ -49,7 +43,7 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
   
   observe({
     
-    shiny::req(input$habCorTable)
+    # shiny::req(input$habCorTable)
     shiny::req(nvcAssignment())
     
     # # Retrieve the table, optionally modify the table without triggering recursion.
@@ -82,27 +76,29 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
 
     output$habCorTable <- rhandsontable::renderRHandsontable({
       
-      habCorTable <- rhandsontable::rhandsontable(data = habCorTable,
-                                                  rowHeaders = NULL#,
-                                                  # overflow = "visible",
-                                                  # stretchH = "all"
-                                                  ) |>
-        rhandsontable::hot_col(col = colnames(habCorTable), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-        function(el, x) {
-          var hot = this.hot
-          $('a[data-value=\"habCor_panel\"').on('click', function(){
-            setTimeout(function() {hot.render();}, 0);
-          })
-        }")
+      habCorTable <- reactable::reactable(data = habCorTable,
+                                          filterable = FALSE,
+                                          pagination = FALSE, 
+                                          highlight = TRUE,
+                                          bordered = TRUE,
+                                          sortable = TRUE, 
+                                          wrap = FALSE,
+                                          resizable = TRUE,
+                                          class = "my-tbl",
+                                          # style = list(fontSize = "1rem"),
+                                          rowClass = "my-row",
+                                          defaultColDef = reactable::colDef(
+                                            headerClass = "my-header",
+                                            class = "my-col",
+                                            align = "center" # Needed as alignment is not passing through to header
+                                          )
+                                          )
       
       return(habCorTable)
       
     })
     
-    habCorTable_rval(rhandsontable::hot_to_r(input$habCorTable))
+    habCorTable_rval(habCorTable)
     
   }) |>
     bindEvent(nvcAssignment(),

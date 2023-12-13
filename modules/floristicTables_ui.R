@@ -9,8 +9,7 @@ floristicTablesUI <- function(id){
       shiny::h5("Composed Floristic Table"),
       
       shiny::div(
-        rhandsontable::rHandsontableOutput(outputId = ns("floristicTables_composed"))
-        #, style = "margin-right: 5px !important;"
+        reactable::reactableOutput(outputId = ns("floristicTables_composed"))
       )
       
     ),
@@ -20,8 +19,7 @@ floristicTablesUI <- function(id){
       shiny::h5("NVC Floristic Table"),
       
       shiny::div(
-        rhandsontable::rHandsontableOutput(outputId = ns("floristicTables_nvc"))
-        #, style = "margin-right: 5px !important;"
+        reactable::reactableOutput(outputId = ns("floristicTables_nvc"))
       )
       
     )

@@ -6,26 +6,43 @@ nvcAssignmentUI <- function(id){
     shiny::column(
       width = 12,
       
-      shiny::h5("Site Similarities"),
-      
       shiny::div(
-        reactable::reactableOutput(outputId = ns("nvcAssignmentSiteTable"))
+        id = ns("nvcAssignmentSiteTable_div"),
+        
+        shiny::h5("Site Similarities"),
+        
+        shiny::div(
+          reactable::reactableOutput(outputId = ns("nvcAssignmentSiteTable"))
+        ),
+        
+        shiny::div(shiny::br())
+        
       ),
       
-      shiny::div(shiny::br()),
-
-      shiny::h5("Group Similarities"),
-
       shiny::div(
-        reactable::reactableOutput(outputId = ns("nvcAssignmentGroupTable"))
+        id = ns("nvcAssignmentGroupTable_div"),
+        
+        shiny::h5("Group Similarities"),
+        
+        shiny::div(
+          reactable::reactableOutput(outputId = ns("nvcAssignmentGroupTable"))
+        ),
+        
+        shiny::div(shiny::br())
+        
       ),
-
-      shiny::div(shiny::br()),
-
-      shiny::h5("Quadrat Similarities"),
-
+      
       shiny::div(
-        reactable::reactableOutput(outputId = ns("nvcAssignmentQuadratTable"))
+        id = ns("nvcAssignmentQuadratTable_div"),
+        
+        shiny::h5("Quadrat Similarities"),
+        
+        shiny::div(
+          reactable::reactableOutput(outputId = ns("nvcAssignmentQuadratTable"))
+        ),
+        
+        shiny::div(shiny::br())
+        
       )
     )
   )

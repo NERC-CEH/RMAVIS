@@ -17,12 +17,12 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
 # Show/Hide Results -------------------------------------------------------
   observe({
     
-    shinyjs::show(id = "weightedMeanHEValuesSite")
-    shinyjs::show(id = "unweightedMeanHEValuesSite")
-    shinyjs::show(id = "weightedMeanHEValuesGroup")
-    shinyjs::show(id = "unweightedMeanHEValuesGroup")
-    shinyjs::show(id = "weightedMeanHEValuesQuadrat")
-    shinyjs::show(id = "unweightedMeanHEValuesQuadrat")
+    shinyjs::show(id = "weightedMeanHEValuesSite_div")
+    shinyjs::show(id = "unweightedMeanHEValuesSite_div")
+    shinyjs::show(id = "weightedMeanHEValuesGroup_div")
+    shinyjs::show(id = "unweightedMeanHEValuesGroup_div")
+    shinyjs::show(id = "weightedMeanHEValuesQuadrat_div")
+    shinyjs::show(id = "unweightedMeanHEValuesQuadrat_div")
     
   }) |>
     bindEvent(resultsViewEIVs(),
@@ -86,7 +86,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
   
 
 # Initialise Results Tables -----------------------------------------------
-  meanHEValuesTable_init <- data.frame("ID" = character(),
+  meanHEValuesTable_init <- data.frame("Year" = integer(),
                                        "Moisture.F" = double(),
                                        "Light.L" = double(),
                                        "Nitrogen.N" = double(),
@@ -103,24 +103,25 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
   unweightedMeanHEValuesQuadrat_rval <- reactiveVal(meanHEValuesTable_init)
   
 # Initialise Weighted Mean HE Values by Site ------------------------------
-  output$weightedMeanHEValuesSiteTable <- rhandsontable::renderRHandsontable({
+  output$weightedMeanHEValuesSiteTable <- reactable::renderReactable({
     
-    weightedMeanHEValuesSiteTable <- rhandsontable::rhandsontable(data = meanHEValuesTable_init,
-                                                                  rowHeaders = NULL,
-                                                                  width = "100%"#,
-                                                                  # overflow = "visible",
-                                                                  # stretchH = "all"
-                                                                  ) |>
-      rhandsontable::hot_col(col = colnames(meanHEValuesTable_init), halign = "htCenter", readOnly = TRUE) |>
-      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"eivs_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+    weightedMeanHEValuesSiteTable <- reactable::reactable(data = meanHEValuesTable_init,
+                                                          filterable = FALSE,
+                                                          pagination = FALSE, 
+                                                          highlight = TRUE,
+                                                          bordered = TRUE,
+                                                          sortable = TRUE, 
+                                                          wrap = FALSE,
+                                                          resizable = TRUE,
+                                                          style = list(fontSize = "1rem"),
+                                                          class = "my-tbl",
+                                                          # style = list(fontSize = "1rem"),
+                                                          rowClass = "my-row",
+                                                          defaultColDef = reactable::colDef(
+                                                            headerClass = "my-header",
+                                                            class = "my-col",
+                                                            align = "center" # Needed as alignment is not passing through to header
+                                                          ))
     
     return(weightedMeanHEValuesSiteTable)
     
@@ -128,24 +129,25 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
 
   
 # Initialise Unweighted Mean HE Values by Site ----------------------------
-  output$unweightedMeanHEValuesSiteTable <- rhandsontable::renderRHandsontable({
+  output$unweightedMeanHEValuesSiteTable <- reactable::renderReactable({
     
-    unweightedMeanHEValuesSiteTable <- rhandsontable::rhandsontable(data = meanHEValuesTable_init,
-                                                                    rowHeaders = NULL,
-                                                                    width = "100%"#,
-                                                                    # overflow = "visible",
-                                                                    # stretchH = "all"
-                                                                    ) |>
-    rhandsontable::hot_col(col = colnames(meanHEValuesTable_init), halign = "htCenter", readOnly = TRUE) |>
-    rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-    rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-    htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"eivs_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+    unweightedMeanHEValuesSiteTable <- reactable::reactable(data = meanHEValuesTable_init,
+                                                            filterable = FALSE,
+                                                            pagination = FALSE, 
+                                                            highlight = TRUE,
+                                                            bordered = TRUE,
+                                                            sortable = TRUE, 
+                                                            wrap = FALSE,
+                                                            resizable = TRUE,
+                                                            style = list(fontSize = "1rem"),
+                                                            class = "my-tbl",
+                                                            # style = list(fontSize = "1rem"),
+                                                            rowClass = "my-row",
+                                                            defaultColDef = reactable::colDef(
+                                                              headerClass = "my-header",
+                                                              class = "my-col",
+                                                              align = "center" # Needed as alignment is not passing through to header
+                                                            ))
   
   return(unweightedMeanHEValuesSiteTable)
     
@@ -153,24 +155,25 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
 
 
 # Initialise Weighted Mean HE Values by Group -----------------------------
-  output$weightedMeanHEValuesGroupTable <- rhandsontable::renderRHandsontable({
+  output$weightedMeanHEValuesGroupTable <- reactable::renderReactable({
     
-    weightedMeanHEValuesGroupTable <- rhandsontable::rhandsontable(data = meanHEValuesTable_init,
-                                                                   rowHeaders = NULL,
-                                                                   width = "100%"#,
-                                                                   # overflow = "visible",
-                                                                   # stretchH = "all"
-                                                                   ) |>
-    rhandsontable::hot_col(col = colnames(meanHEValuesTable_init), halign = "htCenter", readOnly = TRUE) |>
-    rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-    rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-    htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"eivs_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+    weightedMeanHEValuesGroupTable <- reactable::reactable(data = meanHEValuesTable_init,
+                                                           filterable = FALSE,
+                                                           pagination = FALSE, 
+                                                           highlight = TRUE,
+                                                           bordered = TRUE,
+                                                           sortable = TRUE, 
+                                                           wrap = FALSE,
+                                                           resizable = TRUE,
+                                                           style = list(fontSize = "1rem"),
+                                                           class = "my-tbl",
+                                                           # style = list(fontSize = "1rem"),
+                                                           rowClass = "my-row",
+                                                           defaultColDef = reactable::colDef(
+                                                             headerClass = "my-header",
+                                                             class = "my-col",
+                                                             align = "center" # Needed as alignment is not passing through to header
+                                                           ))
   
   return(weightedMeanHEValuesGroupTable)
     
@@ -178,24 +181,25 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
 
 
 # Initialise Unweighted Mean HE Values by Group ---------------------------
-  output$unweightedMeanHEValuesGroupTable <- rhandsontable::renderRHandsontable({
+  output$unweightedMeanHEValuesGroupTable <- reactable::renderReactable({
     
-    unweightedMeanHEValuesGroupTable<- rhandsontable::rhandsontable(data = meanHEValuesTable_init,
-                                                                    rowHeaders = NULL,
-                                                                    width = "100%"#,
-                                                                    # overflow = "visible",
-                                                                    # stretchH = "all"
-                                                                    ) |>
-    rhandsontable::hot_col(col = colnames(meanHEValuesTable_init), halign = "htCenter", readOnly = TRUE) |>
-    rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-    rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-    htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"eivs_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+    unweightedMeanHEValuesGroupTable<- reactable::reactable(data = meanHEValuesTable_init,
+                                                            filterable = FALSE,
+                                                            pagination = FALSE, 
+                                                            highlight = TRUE,
+                                                            bordered = TRUE,
+                                                            sortable = TRUE, 
+                                                            wrap = FALSE,
+                                                            resizable = TRUE,
+                                                            style = list(fontSize = "1rem"),
+                                                            class = "my-tbl",
+                                                            # style = list(fontSize = "1rem"),
+                                                            rowClass = "my-row",
+                                                            defaultColDef = reactable::colDef(
+                                                              headerClass = "my-header",
+                                                              class = "my-col",
+                                                              align = "center" # Needed as alignment is not passing through to header
+                                                            ))
   
   return(unweightedMeanHEValuesGroupTable)
     
@@ -203,48 +207,50 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
   
 
 # Initialise Weighted Mean HE Values by Quadrat ---------------------------
-  output$weightedMeanHEValuesQuadratTable <- rhandsontable::renderRHandsontable({
+  output$weightedMeanHEValuesQuadratTable <- reactable::renderReactable({
     
-    weightedMeanHEValuesQuadratTable <- rhandsontable::rhandsontable(data = meanHEValuesTable_init,
-                                                                     rowHeaders = NULL,
-                                                                     width = "100%"#,
-                                                                     # overflow = "visible",
-                                                                     # stretchH = "all"
-                                                                     ) |>
-    rhandsontable::hot_col(col = colnames(meanHEValuesTable_init), halign = "htCenter", readOnly = TRUE) |>
-    rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-    rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-    htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"eivs_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+    weightedMeanHEValuesQuadratTable <- reactable::reactable(data = meanHEValuesTable_init,
+                                                             filterable = FALSE,
+                                                             pagination = FALSE, 
+                                                             highlight = TRUE,
+                                                             bordered = TRUE,
+                                                             sortable = TRUE, 
+                                                             wrap = FALSE,
+                                                             resizable = TRUE,
+                                                             style = list(fontSize = "1rem"),
+                                                             class = "my-tbl",
+                                                             # style = list(fontSize = "1rem"),
+                                                             rowClass = "my-row",
+                                                             defaultColDef = reactable::colDef(
+                                                               headerClass = "my-header",
+                                                               class = "my-col",
+                                                               align = "center" # Needed as alignment is not passing through to header
+                                                             ))
   
   return(weightedMeanHEValuesQuadratTable)
     
   })
 
 # Initialise Unweighted Mean HE Values by Quadrat -------------------------
-  output$unweightedMeanHEValuesQuadratTable <- rhandsontable::renderRHandsontable({
+  output$unweightedMeanHEValuesQuadratTable <- reactable::renderReactable({
     
-    unweightedMeanHEValuesQuadratTable <- rhandsontable::rhandsontable(data = meanHEValuesTable_init,
-                                                                       rowHeaders = NULL,
-                                                                       width = "100%"#,
-                                                                       # overflow = "visible",
-                                                                       # stretchH = "all"
-                                                                       ) |>
-    rhandsontable::hot_col(col = colnames(meanHEValuesTable_init), halign = "htCenter", readOnly = TRUE) |>
-    rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-    rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-    htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"eivs_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
+    unweightedMeanHEValuesQuadratTable <- reactable::reactable(data = meanHEValuesTable_init,
+                                                               filterable = FALSE,
+                                                               pagination = FALSE, 
+                                                               highlight = TRUE,
+                                                               bordered = TRUE,
+                                                               sortable = TRUE, 
+                                                               wrap = FALSE,
+                                                               resizable = TRUE,
+                                                               style = list(fontSize = "1rem"),
+                                                               class = "my-tbl",
+                                                               # style = list(fontSize = "1rem"),
+                                                               rowClass = "my-row",
+                                                               defaultColDef = reactable::colDef(
+                                                                 headerClass = "my-header",
+                                                                 class = "my-col",
+                                                                 align = "center" # Needed as alignment is not passing through to header
+                                                               ))
   
   return(unweightedMeanHEValuesQuadratTable)
     
@@ -290,8 +296,8 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
         dplyr::ungroup() |>
         dplyr::arrange(Year, Group, Quadrat)
       
-      weightedMeanHEValuesQuadrat_prepped <- weightedMeanHEValuesQuadrat |>
-        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE)
+      weightedMeanHEValuesQuadrat_prepped <- weightedMeanHEValuesQuadrat #|>
+        # tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE)
       
       
       # By Group
@@ -305,8 +311,8 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
         dplyr::ungroup() |>
         dplyr::arrange(Year, Group)
       
-      weightedMeanHEValuesGroup_prepped <- weightedMeanHEValuesGroup  |>
-        tidyr::unite(col = "ID", c(Year, Group), sep = " - ", remove = TRUE)
+      weightedMeanHEValuesGroup_prepped <- weightedMeanHEValuesGroup  #|>
+        # tidyr::unite(col = "ID", c(Year, Group), sep = " - ", remove = TRUE)
       
       # By Site
       weightedMeanHEValuesSite <- weightedMeanHEValuesQuadrat |>
@@ -319,8 +325,8 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
         dplyr::ungroup() |>
         dplyr::arrange(Year)
       
-      weightedMeanHEValuesSite_prepped <- weightedMeanHEValuesSite |>
-        dplyr::rename("ID" = "Year")
+      weightedMeanHEValuesSite_prepped <- weightedMeanHEValuesSite #|>
+        # dplyr::rename("ID" = "Year")
       
 
 # Calculate Unweighted Mean HE Values -------------------------------------
@@ -340,8 +346,8 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
         dplyr::ungroup() |>
         dplyr::arrange(Year, Group, Quadrat)
       
-      unweightedMeanHEValuesQuadrat_prepped <- unweightedMeanHEValuesQuadrat |>
-        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE)
+      unweightedMeanHEValuesQuadrat_prepped <- unweightedMeanHEValuesQuadrat #|>
+        # tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE)
       
       
       # By Group
@@ -355,8 +361,8 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
         dplyr::ungroup() |>
         dplyr::arrange(Year, Group)
       
-      unweightedMeanHEValuesGroup_prepped <- unweightedMeanHEValuesGroup  |>
-        tidyr::unite(col = "ID", c(Year, Group), sep = " - ", remove = TRUE)
+      unweightedMeanHEValuesGroup_prepped <- unweightedMeanHEValuesGroup  #|>
+        # tidyr::unite(col = "ID", c(Year, Group), sep = " - ", remove = TRUE)
       
       # By Site
       unweightedMeanHEValuesSite <- unweightedMeanHEValuesQuadrat |>
@@ -369,8 +375,8 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
         dplyr::ungroup() |>
         dplyr::arrange(Year)
       
-      unweightedMeanHEValuesSite_prepped <- unweightedMeanHEValuesSite |>
-        dplyr::rename("ID" = "Year")
+      unweightedMeanHEValuesSite_prepped <- unweightedMeanHEValuesSite #|>
+        # dplyr::rename("ID" = "Year")
         
       
     })
@@ -379,148 +385,267 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
 # Update Tables -----------------------------------------------------------
 
 # Update Weighted Mean HE Values by Site ------------------------------
-    output$weightedMeanHEValuesSiteTable <- rhandsontable::renderRHandsontable({
-      
-      weightedMeanHEValuesSiteTable <- rhandsontable::rhandsontable(data = weightedMeanHEValuesSite_prepped,
-                                                                    rowHeaders = NULL,
-                                                                    width = "100%"#,
-                                                                    # overflow = "visible",
-                                                                    # stretchH = "all"
-      ) |>
-        rhandsontable::hot_col(col = colnames(weightedMeanHEValuesSite_prepped), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"eivs_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
-      
+    output$weightedMeanHEValuesSiteTable <- reactable::renderReactable({
+
+      weightedMeanHEValuesSiteTable <- reactable::reactable(data = weightedMeanHEValuesSite_prepped,
+                                                            filterable = FALSE,
+                                                            pagination = FALSE,
+                                                            highlight = TRUE,
+                                                            bordered = TRUE,
+                                                            sortable = TRUE,
+                                                            wrap = FALSE,
+                                                            resizable = TRUE,
+                                                            style = list(fontSize = "1rem"),
+                                                            class = "my-tbl",
+                                                            # style = list(fontSize = "1rem"),
+                                                            rowClass = "my-row",
+                                                            defaultColDef = reactable::colDef(
+                                                              headerClass = "my-header",
+                                                              class = "my-col",
+                                                              align = "center" # Needed as alignment is not passing through to header
+                                                            ),
+                                                            columns = list(
+                                                              Year = reactable::colDef(
+                                                                filterable = TRUE,
+                                                                filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                              )
+                                                            ))
+
       return(weightedMeanHEValuesSiteTable)
-      
+
     })
-    
+
 # Update Unweighted Mean HE Values by Site ----------------------------
-    output$unweightedMeanHEValuesSiteTable <- rhandsontable::renderRHandsontable({
-      
-      unweightedMeanHEValuesSiteTable <- rhandsontable::rhandsontable(data = unweightedMeanHEValuesSite_prepped,
-                                                                      rowHeaders = NULL,
-                                                                      width = "100%"#,
-                                                                      # overflow = "visible",
-                                                                      # stretchH = "all"
-      ) |>
-        rhandsontable::hot_col(col = colnames(unweightedMeanHEValuesSite_prepped), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"eivs_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
-      
+    output$unweightedMeanHEValuesSiteTable <- reactable::renderReactable({
+
+      unweightedMeanHEValuesSiteTable <- reactable::reactable(data = unweightedMeanHEValuesSite_prepped,
+                                                              filterable = FALSE,
+                                                              pagination = FALSE,
+                                                              highlight = TRUE,
+                                                              bordered = TRUE,
+                                                              sortable = TRUE,
+                                                              wrap = FALSE,
+                                                              resizable = TRUE,
+                                                              style = list(fontSize = "1rem"),
+                                                              class = "my-tbl",
+                                                              # style = list(fontSize = "1rem"),
+                                                              rowClass = "my-row",
+                                                              defaultColDef = reactable::colDef(
+                                                                headerClass = "my-header",
+                                                                class = "my-col",
+                                                                align = "center" # Needed as alignment is not passing through to header
+                                                              ),
+                                                              columns = list(
+                                                                Year = reactable::colDef(
+                                                                  filterable = TRUE,
+                                                                  filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                                )
+                                                              ))
+
       return(unweightedMeanHEValuesSiteTable)
-      
+
     })
-    
+
 # Update Weighted Mean HE Values by Group -----------------------------
-    output$weightedMeanHEValuesGroupTable <- rhandsontable::renderRHandsontable({
-      
-      weightedMeanHEValuesGroupTable <- rhandsontable::rhandsontable(data = weightedMeanHEValuesGroup_prepped,
-                                                                     rowHeaders = NULL,
-                                                                     width = "100%"#,
-                                                                     # overflow = "visible",
-                                                                     # stretchH = "all"
-      ) |>
-        rhandsontable::hot_col(col = colnames(weightedMeanHEValuesGroup_prepped), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"eivs_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
-      
+    output$weightedMeanHEValuesGroupTable <- reactable::renderReactable({
+
+      weightedMeanHEValuesGroupTable <- reactable::reactable(data = weightedMeanHEValuesGroup_prepped,
+                                                             filterable = FALSE,
+                                                             pagination = FALSE,
+                                                             highlight = TRUE,
+                                                             bordered = TRUE,
+                                                             sortable = TRUE,
+                                                             wrap = FALSE,
+                                                             resizable = TRUE,
+                                                             style = list(fontSize = "1rem"),
+                                                             class = "my-tbl",
+                                                             # style = list(fontSize = "1rem"),
+                                                             rowClass = "my-row",
+                                                             defaultColDef = reactable::colDef(
+                                                               headerClass = "my-header",
+                                                               class = "my-col",
+                                                               align = "center" # Needed as alignment is not passing through to header
+                                                             ),
+                                                             columns = list(
+                                                               Year = reactable::colDef(
+                                                                 filterable = TRUE,
+                                                                 filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                               ),
+                                                               Group = reactable::colDef(
+                                                                 filterable = TRUE,
+                                                                 filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                               )
+                                                             ))
+
       return(weightedMeanHEValuesGroupTable)
-      
+
     })
-    
+
 # Update Unweighted Mean HE Values by Group ---------------------------
-    output$unweightedMeanHEValuesGroupTable <- rhandsontable::renderRHandsontable({
-      
-      unweightedMeanHEValuesGroupTable<- rhandsontable::rhandsontable(data = unweightedMeanHEValuesGroup_prepped,
-                                                                      rowHeaders = NULL,
-                                                                      width = "100%"#,
-                                                                      # overflow = "visible",
-                                                                      # stretchH = "all"
-      ) |>
-        rhandsontable::hot_col(col = colnames(unweightedMeanHEValuesGroup_prepped), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"eivs_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
-      
+    output$unweightedMeanHEValuesGroupTable <- reactable::renderReactable({
+
+      unweightedMeanHEValuesGroupTable<- reactable::reactable(data = unweightedMeanHEValuesGroup_prepped,
+                                                              filterable = FALSE,
+                                                              pagination = FALSE,
+                                                              highlight = TRUE,
+                                                              bordered = TRUE,
+                                                              sortable = TRUE,
+                                                              wrap = FALSE,
+                                                              resizable = TRUE,
+                                                              style = list(fontSize = "1rem"),
+                                                              class = "my-tbl",
+                                                              # style = list(fontSize = "1rem"),
+                                                              rowClass = "my-row",
+                                                              defaultColDef = reactable::colDef(
+                                                                headerClass = "my-header",
+                                                                class = "my-col",
+                                                                align = "center" # Needed as alignment is not passing through to header
+                                                              ),
+                                                              columns = list(
+                                                                Year = reactable::colDef(
+                                                                  filterable = TRUE,
+                                                                  filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                                ),
+                                                                Group = reactable::colDef(
+                                                                  filterable = TRUE,
+                                                                  filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                                )
+                                                              ))
+
       return(unweightedMeanHEValuesGroupTable)
-      
+
     })
-    
-# Update Weighted Mean HE Values by Quadrat ---------------------------
-    output$weightedMeanHEValuesQuadratTable <- rhandsontable::renderRHandsontable({
-      
-      weightedMeanHEValuesQuadratTable <- rhandsontable::rhandsontable(data = weightedMeanHEValuesQuadrat_prepped,
-                                                                       rowHeaders = NULL,
-                                                                       width = "100%"#,
-                                                                       # overflow = "visible",
-                                                                       # stretchH = "all"
-                                                                       ) |>
-        rhandsontable::hot_col(col = colnames(weightedMeanHEValuesQuadrat_prepped), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"eivs_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
-      
-      return(weightedMeanHEValuesQuadratTable)
-      
-    })
-    
+
+# # Update Weighted Mean HE Values by Quadrat ---------------------------
+#     output$weightedMeanHEValuesQuadratTable <- reactable::renderReactable({
+# 
+#       weightedMeanHEValuesQuadratTable <- reactable::reactable(data = weightedMeanHEValuesQuadrat_prepped,
+#                                                                filterable = FALSE,
+#                                                                pagination = FALSE,
+#                                                                highlight = TRUE,
+#                                                                bordered = TRUE,
+#                                                                sortable = TRUE,
+#                                                                wrap = FALSE,
+#                                                                resizable = TRUE,
+#                                                                style = list(fontSize = "1rem"),
+#                                                                class = "my-tbl",
+#                                                                # style = list(fontSize = "1rem"),
+#                                                                rowClass = "my-row",
+#                                                                defaultColDef = reactable::colDef(
+#                                                                  headerClass = "my-header",
+#                                                                  class = "my-col",
+#                                                                  align = "center" # Needed as alignment is not passing through to header
+#                                                                ),
+#                                                                # columns = list(
+#                                                                #   Year = reactable::colDef(
+#                                                                #     filterable = TRUE,
+#                                                                #     filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+#                                                                #                         return rows.filter(function(row) {
+#                                                                #                         return row.values[columnId] == filterValue
+#                                                                #                         })
+#                                                                #                         }")
+#                                                                #   ),
+#                                                                #   Group = reactable::colDef(
+#                                                                #     filterable = TRUE,
+#                                                                #     filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+#                                                                #                         return rows.filter(function(row) {
+#                                                                #                         return row.values[columnId] == filterValue
+#                                                                #                         })
+#                                                                #                         }")
+#                                                                #   ),
+#                                                                #   Quadrat = reactable::colDef(
+#                                                                #     filterable = TRUE,
+#                                                                #     filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+#                                                                #                         return rows.filter(function(row) {
+#                                                                #                         return row.values[columnId] == filterValue
+#                                                                #                         })
+#                                                                #                         }")
+#                                                                #   )
+#                                                                # )
+#       )
+# 
+#       return(weightedMeanHEValuesQuadratTable)
+# 
+#     })
+
 # Update Unweighted Mean HE Values by Quadrat -------------------------
-    output$unweightedMeanHEValuesQuadratTable <- rhandsontable::renderRHandsontable({
       
-      unweightedMeanHEValuesQuadratTable <- rhandsontable::rhandsontable(data = unweightedMeanHEValuesQuadrat_prepped,
-                                                                         rowHeaders = NULL,
-                                                                         width = "100%"#,
-                                                                         # overflow = "visible",
-                                                                         # stretchH = "all"
-                                                                         ) |>
-        rhandsontable::hot_col(col = colnames(unweightedMeanHEValuesQuadrat_prepped), halign = "htCenter", readOnly = TRUE) |>
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        htmlwidgets::onRender("
-      function(el, x) {
-        var hot = this.hot
-        $('a[data-value=\"eivs_panel\"').on('click', function(){
-          setTimeout(function() {hot.render();}, 0);
-        })
-      }")
-      
-      return(unweightedMeanHEValuesQuadratTable)
-      
-    })
+    # print(unweightedMeanHEValuesQuadrat_prepped)
+    # 
+    # output$unweightedMeanHEValuesQuadratTable <- reactable::renderReactable({
+    # 
+    #   unweightedMeanHEValuesQuadratTable <- reactable::reactable(data = unweightedMeanHEValuesQuadrat_prepped,
+    #                                                              filterable = FALSE,
+    #                                                              pagination = TRUE,
+    #                                                              highlight = TRUE,
+    #                                                              bordered = TRUE,
+    #                                                              sortable = TRUE,
+    #                                                              wrap = FALSE,
+    #                                                              resizable = TRUE,
+    #                                                              style = list(fontSize = "1rem"),
+    #                                                              class = "my-tbl",
+    #                                                              # style = list(fontSize = "1rem"),
+    #                                                              rowClass = "my-row",
+    #                                                              defaultColDef = reactable::colDef(
+    #                                                                headerClass = "my-header",
+    #                                                                class = "my-col",
+    #                                                                align = "center" # Needed as alignment is not passing through to header
+    #                                                              ),
+    #                                                              columns = list(
+    #                                                                Year = reactable::colDef(
+    #                                                                  filterable = TRUE,
+    #                                                                  filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+    #                                                                                    return rows.filter(function(row) {
+    #                                                                                    return row.values[columnId] == filterValue
+    #                                                                                    })
+    #                                                                                    }")
+    #                                                                ),
+    #                                                                Group = reactable::colDef(
+    #                                                                  filterable = TRUE,
+    #                                                                  filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+    #                                                                                    return rows.filter(function(row) {
+    #                                                                                    return row.values[columnId] == filterValue
+    #                                                                                    })
+    #                                                                                    }")
+    #                                                                ),
+    #                                                                Quadrat = reactable::colDef(
+    #                                                                  filterable = TRUE,
+    #                                                                  filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+    #                                                                                    return rows.filter(function(row) {
+    #                                                                                    return row.values[columnId] == filterValue
+    #                                                                                    })
+    #                                                                                    }")
+    #                                                                )
+    #                                                              )
+    #                                                              )
+    # 
+    #   return(unweightedMeanHEValuesQuadratTable)
+    # 
+    # })
     
     # weightedMeanHEValuesSite_rval()
     # unweightedMeanHEValuesSite_rval()

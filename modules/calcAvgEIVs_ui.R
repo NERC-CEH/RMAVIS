@@ -12,7 +12,7 @@ calcAvgEIVsUI <- function(id){
         shiny::h5("Unweighted Mean Hill-Ellenberg Values, by Site"),
         
         shiny::div(
-          rhandsontable::rHandsontableOutput(outputId = ns("unweightedMeanHEValuesSiteTable"))
+          reactable::reactableOutput(outputId = ns("unweightedMeanHEValuesSiteTable"))
         ),
         
         shiny::div(shiny::br())
@@ -25,7 +25,7 @@ calcAvgEIVsUI <- function(id){
         shiny::h5("Weighted Mean Hill-Ellenberg Values, by Site"),
         
         shiny::div(
-          rhandsontable::rHandsontableOutput(outputId = ns("weightedMeanHEValuesSiteTable"))
+          reactable::reactableOutput(outputId = ns("weightedMeanHEValuesSiteTable"))
         ),
         
         shiny::div(shiny::br())
@@ -38,7 +38,7 @@ calcAvgEIVsUI <- function(id){
         shiny::h5("Weighted Mean Hill-Ellenberg Values, by Group"),
         
         shiny::div(
-          rhandsontable::rHandsontableOutput(outputId = ns("weightedMeanHEValuesGroupTable"))
+          reactable::reactableOutput(outputId = ns("weightedMeanHEValuesGroupTable"))
         ),
         
         shiny::div(shiny::br())
@@ -51,7 +51,7 @@ calcAvgEIVsUI <- function(id){
         shiny::h5("Unweighted Mean Hill-Ellenberg Values, by Group"),
         
         shiny::div(
-          rhandsontable::rHandsontableOutput(outputId = ns("unweightedMeanHEValuesGroupTable"))
+          reactable::reactableOutput(outputId = ns("unweightedMeanHEValuesGroupTable"))
         ),
         
         shiny::div(shiny::br())
@@ -64,7 +64,7 @@ calcAvgEIVsUI <- function(id){
         shiny::h5("Weighted Mean Hill-Ellenberg Values, by Quadrat"),
         
         shiny::div(
-          rhandsontable::rHandsontableOutput(outputId = ns("weightedMeanHEValuesQuadratTable"))
+          reactable::reactableOutput(outputId = ns("weightedMeanHEValuesQuadratTable"))
         ),
         
         shiny::div(shiny::br())
@@ -77,7 +77,7 @@ calcAvgEIVsUI <- function(id){
         shiny::h5("Unweighted Mean Hill-Ellenberg Values, by Quadrat"),
         
         shiny::div(
-          rhandsontable::rHandsontableOutput(outputId = ns("unweightedMeanHEValuesQuadratTable"))
+          reactable::reactableOutput(outputId = ns("unweightedMeanHEValuesQuadratTable"))
         ),
         
         shiny::div(shiny::br())

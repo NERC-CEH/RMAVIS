@@ -8,6 +8,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   habitatRestriction <- reactiveVal()
   nTopResults <- reactiveVal()
   # nvcAssignMethods <- reactiveVal()
+  resultsViewNVCAssign <- reactiveVal()
 
   observe({
 
@@ -16,9 +17,58 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     habitatRestriction(sidebar_options()$habitatRestriction)
     nTopResults(sidebar_options()$nTopResults)
     # nvcAssignMethods(sidebar_options()$nvcAssignMethods)
+    resultsViewNVCAssign(sidebar_options()$resultsViewNVCAssign)
 
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
+  
+  # Show/Hide Results -------------------------------------------------------
+  observe({
+    
+    shinyjs::show(id = "nvcAssignmentSiteTable_div")
+    shinyjs::show(id = "nvcAssignmentGroupTable_div")
+    shinyjs::show(id = "nvcAssignmentQuadratTable_div")
+    
+  }) |>
+    bindEvent(resultsViewNVCAssign(),
+              ignoreNULL = FALSE,
+              ignoreInit = FALSE,
+              once = TRUE)
+  
+  observe({
+    
+    if("nvcAssignSitePseudo" %in% resultsViewNVCAssign()){
+      shinyjs::show(id = "nvcAssignmentSiteTable_div")
+    } else {
+      shinyjs::hide(id = "nvcAssignmentSiteTable_div")
+    }
+    
+    if("nvcAssignGroupPseudo" %in% resultsViewNVCAssign()){
+      shinyjs::show(id = "nvcAssignmentGroupTable_div")
+    } else {
+      shinyjs::hide(id = "nvcAssignmentGroupTable_div")
+    }
+    
+    if("nvcAssignQuadratPseudo" %in% resultsViewNVCAssign()){
+      shinyjs::show(id = "nvcAssignmentQuadratTable_div")
+    } else {
+      shinyjs::hide(id = "nvcAssignmentQuadratTable_div")
+    }
+    
+  }) |>
+    bindEvent(resultsViewNVCAssign(),
+              ignoreInit = FALSE,
+              ignoreNULL = FALSE)
+  
+  observe({
+    
+    shinyjs::show(id = "nvcAssignmentSiteTable_div")
+    
+  }) |>
+    bindEvent(resultsViewNVCAssign(),
+              ignoreNULL = FALSE,
+              ignoreInit = FALSE,
+              once = TRUE)
   
 # Calculate nvcAssignment results by site ----------------------------------------
   nvcAssignmentQuadrat_rval <- reactiveVal()
@@ -150,7 +200,23 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   
   output$nvcAssignmentSiteTable <- reactable::renderReactable({
     
-    nvcAssignmentSiteTable <- reactable::reactable(data = nvcAssignmentSiteTable_init)
+    nvcAssignmentSiteTable <- reactable::reactable(data = nvcAssignmentSiteTable_init,
+                                                   filterable = FALSE,
+                                                   pagination = FALSE, 
+                                                   highlight = TRUE,
+                                                   bordered = TRUE,
+                                                   sortable = TRUE, 
+                                                   wrap = FALSE,
+                                                   resizable = TRUE,
+                                                   style = list(fontSize = "1rem"),
+                                                   class = "my-tbl",
+                                                   # style = list(fontSize = "1rem"),
+                                                   rowClass = "my-row",
+                                                   defaultColDef = reactable::colDef(
+                                                     headerClass = "my-header",
+                                                     class = "my-col",
+                                                     align = "center" # Needed as alignment is not passing through to header
+                                                   ))
     
     return(nvcAssignmentSiteTable)
     
@@ -168,26 +234,32 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     output$nvcAssignmentSiteTable <- reactable::renderReactable({
       
       nvcAssignmentSiteTable <- reactable::reactable(data = nvcAssignmentSite, 
-                                                     filterable = TRUE,
+                                                     filterable = FALSE,
                                                      pagination = FALSE, 
                                                      highlight = TRUE,
                                                      bordered = TRUE,
                                                      sortable = TRUE, 
+                                                     wrap = FALSE,
                                                      resizable = TRUE,
                                                      style = list(fontSize = "1rem"),
+                                                     class = "my-tbl",
+                                                     # style = list(fontSize = "1rem"),
+                                                     rowClass = "my-row",
                                                      defaultColDef = reactable::colDef(
-                                                       filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                    return rows.filter(function(row) {
-                                                                                    return row.values[columnId] == filterValue
-                                                                                    })
-                                                                                    }"),
-                                                       align = "center",
-                                                       headerStyle = list(background = "#f7f7f8",
-                                                                          fontweight = "normal")
+                                                       headerClass = "my-header",
+                                                       class = "my-col",
+                                                       align = "center" # Needed as alignment is not passing through to header
                                                      ),
-                                                     theme = reactable::reactableTheme(
-                                                       cellPadding = "2px 2px"
+                                                     columns = list(
+                                                       Year = reactable::colDef(
+                                                         filterable = TRUE,
+                                                         filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
                                                        )
+                                                     )
                                                      )
       
       return(nvcAssignmentSiteTable)
@@ -213,7 +285,23 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   
   output$nvcAssignmentGroupTable <- reactable::renderReactable({
     
-    nvcAssignmentGroupTable <- reactable::reactable(data = nvcAssignmentGroupTable_init)
+    nvcAssignmentGroupTable <- reactable::reactable(data = nvcAssignmentGroupTable_init,
+                                                    filterable = FALSE,
+                                                    pagination = FALSE, 
+                                                    highlight = TRUE,
+                                                    bordered = TRUE,
+                                                    sortable = TRUE, 
+                                                    wrap = FALSE,
+                                                    resizable = TRUE,
+                                                    style = list(fontSize = "1rem"),
+                                                    class = "my-tbl",
+                                                    # style = list(fontSize = "1rem"),
+                                                    rowClass = "my-row",
+                                                    defaultColDef = reactable::colDef(
+                                                      headerClass = "my-header",
+                                                      class = "my-col",
+                                                      align = "center" # Needed as alignment is not passing through to header
+                                                    ))
     
     return(nvcAssignmentGroupTable)
     
@@ -227,29 +315,43 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     
     nvcAssignmentGroup <- nvcAssignmentGroup_rval()
     
-    output$nvcAssignmentGroupTable <- rhandsontable::renderRHandsontable({
+    output$nvcAssignmentGroupTable <- reactable::renderReactable({
       
       nvcAssignmentGroupTable <- reactable::reactable(data = nvcAssignmentGroup, 
-                                                      filterable = TRUE,
+                                                      filterable = FALSE,
                                                       pagination = FALSE, 
                                                       highlight = TRUE,
                                                       bordered = TRUE,
                                                       sortable = TRUE, 
+                                                      wrap = FALSE,
                                                       resizable = TRUE,
                                                       style = list(fontSize = "1rem"),
+                                                      class = "my-tbl",
+                                                      # style = list(fontSize = "1rem"),
+                                                      rowClass = "my-row",
                                                       defaultColDef = reactable::colDef(
-                                                        filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                     return rows.filter(function(row) {
-                                                                                     return row.values[columnId] == filterValue
-                                                                                     })
-                                                                                     }"),
-                                                        align = "center",
-                                                        headerStyle = list(background = "#f7f7f8",
-                                                                           fontweight = "normal")
+                                                        headerClass = "my-header",
+                                                        class = "my-col",
+                                                        align = "center" # Needed as alignment is not passing through to header
                                                       ),
-                                                      theme = reactable::reactableTheme(
-                                                        cellPadding = "2px 2px"
+                                                      columns = list(
+                                                        Year = reactable::colDef(
+                                                          filterable = TRUE,
+                                                          filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                        ),
+                                                        Group = reactable::colDef(
+                                                          filterable = TRUE,
+                                                          filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
                                                         )
+                                                      )
                                                       )
       
       return(nvcAssignmentGroupTable)
@@ -277,7 +379,23 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   
   output$nvcAssignmentQuadratTable <- reactable::renderReactable({
     
-    nvcAssignmentQuadratTable <- reactable::reactable(data = nvcAssignmentQuadratTable_init)
+    nvcAssignmentQuadratTable <- reactable::reactable(data = nvcAssignmentQuadratTable_init,
+                                                      filterable = FALSE,
+                                                      pagination = FALSE, 
+                                                      highlight = TRUE,
+                                                      bordered = TRUE,
+                                                      sortable = TRUE, 
+                                                      wrap = FALSE,
+                                                      resizable = TRUE,
+                                                      style = list(fontSize = "1rem"),
+                                                      class = "my-tbl",
+                                                      # style = list(fontSize = "1rem"),
+                                                      rowClass = "my-row",
+                                                      defaultColDef = reactable::colDef(
+                                                        headerClass = "my-header",
+                                                        class = "my-col",
+                                                        align = "center" # Needed as alignment is not passing through to header
+                                                      ))
     
     return(nvcAssignmentQuadratTable)
     
@@ -291,29 +409,50 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     
     nvcAssignmentQuadrat <- nvcAssignmentQuadrat_rval()
     
-    output$nvcAssignmentQuadratTable <- rhandsontable::renderRHandsontable({
+    output$nvcAssignmentQuadratTable <- reactable::renderReactable({
       
       nvcAssignmentQuadratTable <- reactable::reactable(data = nvcAssignmentQuadrat, 
-                                                        filterable = TRUE,
+                                                        filterable = FALSE,
                                                         pagination = FALSE, 
                                                         highlight = TRUE,
                                                         bordered = TRUE,
                                                         sortable = TRUE, 
+                                                        wrap = FALSE,
                                                         resizable = TRUE,
-                                                        style = list(fontSize = "1rem"),
+                                                        class = "my-tbl",
+                                                        # style = list(fontSize = "1rem"),
+                                                        rowClass = "my-row",
                                                         defaultColDef = reactable::colDef(
-                                                          filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                          headerClass = "my-header",
+                                                          class = "my-col",
+                                                          align = "center" # Needed as alignment is not passing through to header
+                                                        ),
+                                                        columns = list(
+                                                          Year = reactable::colDef(
+                                                            filterable = TRUE,
+                                                            filterMethod = reactable::JS("function(rows, columnId, filterValue) {
                                                                                        return rows.filter(function(row) {
                                                                                        return row.values[columnId] == filterValue
                                                                                        })
-                                                                                       }"),
-                                                          align = "center",
-                                                          headerStyle = list(background = "#f7f7f8",
-                                                                             fontweight = "normal")
-                                                        ),
-                                                        theme = reactable::reactableTheme(
-                                                          cellPadding = "2px 2px"
+                                                                                       }")
+                                                            ),
+                                                          Group = reactable::colDef(
+                                                            filterable = TRUE,
+                                                            filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                          ),
+                                                          Quadrat = reactable::colDef(
+                                                            filterable = TRUE,
+                                                            filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
                                                           )
+                                                        )
                                                         )
       
       return(nvcAssignmentQuadratTable)
