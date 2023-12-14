@@ -14,6 +14,7 @@ params:
     # mvaNationalRefResults: NULL
     mvaLocalRefRestrictedResults: NULL
     mvaLocalRefUnrestrictedResults: NULL
+    reportAuthorName: NULL
 bibliography: Report.refs.bib
 link-citations: yes
 editor_options: 
@@ -21,7 +22,6 @@ editor_options:
     wrap: 72
 title: \textbf{\textcolor{ceh.dark.blue}{pseudoMAVIS}}
 subtitle: \textbf{\textcolor{ceh.dark.blue}{User Report}}
-# author: "Author"
 date: \textbf{\textcolor{ceh.dark.blue}{`r Sys.Date()`}}
 ---
 
@@ -43,6 +43,8 @@ speciesFreq <- params$speciesFreq
 
 # Report options
 reportOptions <- sidebar_options$reportOptions
+reportAuthorName <- params$reportAuthorName
+reportProjectName <- sidebar_options$reportProjectName
 
 # mvaLocalRefRestrictedResults
 mvaLocalRefRestrictedResults <- params$mvaLocalRefRestrictedResults
@@ -63,6 +65,15 @@ arrow_plot_data <- mvaLocalRefUnrestrictedResults$arrow_plot_data
 
 
 ```
+
+```{r reportDetails, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+cat(as.character(reportAuthorName))
+
+cat(as.character(reportProjectName))
+
+```
+
 
 # Introduction
 The Modular Analysis of Vegetation Information System (MAVIS) is a tool..

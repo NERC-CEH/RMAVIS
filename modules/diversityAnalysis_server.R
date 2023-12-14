@@ -108,6 +108,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
                                                   # style = list(fontSize = "1rem"),
                                                   rowClass = "my-row",
                                                   defaultColDef = reactable::colDef(
+                                                    format = reactable::colFormat(digits = 2),
                                                     headerClass = "my-header",
                                                     class = "my-col",
                                                     align = "center" # Needed as alignment is not passing through to header
@@ -149,6 +150,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
                                                   # style = list(fontSize = "1rem"),
                                                   rowClass = "my-row",
                                                   defaultColDef = reactable::colDef(
+                                                    format = reactable::colFormat(digits = 2),
                                                     headerClass = "my-header",
                                                     class = "my-col",
                                                     align = "center" # Needed as alignment is not passing through to header
@@ -182,6 +184,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
                                                         # style = list(fontSize = "1rem"),
                                                         rowClass = "my-row",
                                                         defaultColDef = reactable::colDef(
+                                                          format = reactable::colFormat(digits = 2),
                                                           headerClass = "my-header",
                                                           class = "my-col",
                                                           align = "center" # Needed as alignment is not passing through to header
@@ -214,6 +217,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
                                                       # style = list(fontSize = "1rem"),
                                                       rowClass = "my-row",
                                                       defaultColDef = reactable::colDef(
+                                                        format = reactable::colFormat(digits = 2),
                                                         headerClass = "my-header",
                                                         class = "my-col",
                                                         align = "center" # Needed as alignment is not passing through to header
@@ -245,6 +249,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
                                                      # style = list(fontSize = "1rem"),
                                                      rowClass = "my-row",
                                                      defaultColDef = reactable::colDef(
+                                                       format = reactable::colFormat(digits = 2),
                                                        headerClass = "my-header",
                                                        class = "my-col",
                                                        align = "center" # Needed as alignment is not passing through to header
@@ -399,6 +404,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
                                                     # style = list(fontSize = "1rem"),
                                                     rowClass = "my-row",
                                                     defaultColDef = reactable::colDef(
+                                                      format = reactable::colFormat(digits = 2),
                                                       headerClass = "my-header",
                                                       class = "my-col",
                                                       align = "center" # Needed as alignment is not passing through to header
@@ -425,6 +431,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
                                                     # style = list(fontSize = "1rem"),
                                                     rowClass = "my-row",
                                                     defaultColDef = reactable::colDef(
+                                                      format = reactable::colFormat(digits = 2),
                                                       headerClass = "my-header",
                                                       class = "my-col",
                                                       align = "center" # Needed as alignment is not passing through to header
@@ -476,10 +483,12 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
                                                        # style = list(fontSize = "1rem"),
                                                        rowClass = "my-row",
                                                        defaultColDef = reactable::colDef(
+                                                         format = reactable::colFormat(digits = 2),
                                                          headerClass = "my-header",
                                                          class = "my-col",
                                                          align = "center" # Needed as alignment is not passing through to header
-                                                       ))
+                                                       )
+                                                       )
       
       return(speciesRichnessSiteTable)
       
@@ -505,10 +514,22 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
                                                         # style = list(fontSize = "1rem"),
                                                         rowClass = "my-row",
                                                         defaultColDef = reactable::colDef(
+                                                          format = reactable::colFormat(digits = 2),
                                                           headerClass = "my-header",
                                                           class = "my-col",
                                                           align = "center" # Needed as alignment is not passing through to header
-                                                        ))
+                                                        ),
+                                                        columns = list(
+                                                          Group = reactable::colDef(
+                                                            filterable = TRUE,
+                                                            filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                         return rows.filter(function(row) {
+                                                                                         return row.values[columnId] == filterValue
+                                                                                         })
+                                                                                         }")
+                                                          )
+                                                        )
+      )
       
       return(speciesRichnessGroupTable)
       
@@ -534,10 +555,30 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
                                                           # style = list(fontSize = "1rem"),
                                                           rowClass = "my-row",
                                                           defaultColDef = reactable::colDef(
+                                                            format = reactable::colFormat(digits = 2),
                                                             headerClass = "my-header",
                                                             class = "my-col",
                                                             align = "center" # Needed as alignment is not passing through to header
-                                                          ))
+                                                          ),
+                                                          columns = list(
+                                                          Group = reactable::colDef(
+                                                            filterable = TRUE,
+                                                            filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                         return rows.filter(function(row) {
+                                                                                         return row.values[columnId] == filterValue
+                                                                                         })
+                                                                                         }")
+                                                          ),
+                                                          Quadrat = reactable::colDef(
+                                                            filterable = TRUE,
+                                                            filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                         return rows.filter(function(row) {
+                                                                                         return row.values[columnId] == filterValue
+                                                                                         })
+                                                                                         }")
+                                                          )
+                                                          )
+                                                          )
       
       return(speciesRichnessQuadratTable)
       
@@ -557,7 +598,8 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
   }) |>
     bindEvent(runAnalysis(),
               ignoreInit = TRUE, 
-              ignoreNULL = TRUE)
+              ignoreNULL = TRUE, 
+              label = "calcDivMetrics")
   
   
   outputOptions(output, "speciesRichnessSiteTable", suspendWhenHidden = FALSE)

@@ -251,7 +251,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
           
         }
         
-        print(nvc_pquad_dca_all_hulls_selected)
+        # print(nvc_pquad_dca_all_hulls_selected)
         
         suppressWarnings(
           

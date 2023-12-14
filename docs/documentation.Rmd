@@ -13,7 +13,7 @@ bibliography: references.bib
 link-citations: yes
 editor_options: 
   markdown: 
-    wrap: 72
+    wrap: 60
 ---
 
 ```{r setup, include=FALSE}

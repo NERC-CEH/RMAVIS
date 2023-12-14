@@ -213,6 +213,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
                                                    # style = list(fontSize = "1rem"),
                                                    rowClass = "my-row",
                                                    defaultColDef = reactable::colDef(
+                                                     format = reactable::colFormat(digits = 2),
                                                      headerClass = "my-header",
                                                      class = "my-col",
                                                      align = "center" # Needed as alignment is not passing through to header
@@ -246,6 +247,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
                                                      # style = list(fontSize = "1rem"),
                                                      rowClass = "my-row",
                                                      defaultColDef = reactable::colDef(
+                                                       format = reactable::colFormat(digits = 2),
                                                        headerClass = "my-header",
                                                        class = "my-col",
                                                        align = "center" # Needed as alignment is not passing through to header
@@ -298,6 +300,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
                                                     # style = list(fontSize = "1rem"),
                                                     rowClass = "my-row",
                                                     defaultColDef = reactable::colDef(
+                                                      format = reactable::colFormat(digits = 2),
                                                       headerClass = "my-header",
                                                       class = "my-col",
                                                       align = "center" # Needed as alignment is not passing through to header
@@ -330,6 +333,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
                                                       # style = list(fontSize = "1rem"),
                                                       rowClass = "my-row",
                                                       defaultColDef = reactable::colDef(
+                                                        format = reactable::colFormat(digits = 2),
                                                         headerClass = "my-header",
                                                         class = "my-col",
                                                         align = "center" # Needed as alignment is not passing through to header
@@ -423,6 +427,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
                                                         # style = list(fontSize = "1rem"),
                                                         rowClass = "my-row",
                                                         defaultColDef = reactable::colDef(
+                                                          format = reactable::colFormat(digits = 2),
                                                           headerClass = "my-header",
                                                           class = "my-col",
                                                           align = "center" # Needed as alignment is not passing through to header

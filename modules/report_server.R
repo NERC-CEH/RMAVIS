@@ -59,6 +59,7 @@ report <- function(input, output, session,
                         output_file = file,
                         params = list(
                           sidebar_options = sidebar_options(),
+                          reportAuthorName = sidebar_options()$reportAuthorName,
                           surveyTable = surveyTable(),
                           nvcAssignment = nvcAssignment(),
                           floristicTables = floristicTables(),

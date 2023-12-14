@@ -14,6 +14,8 @@ ui <- bslib::page_navbar(
       # App Title
       shiny::div(shiny::h1("pseudoMAVIS")),
       
+      # bslib::card_image(file = "www/nationalReference.png", fill = FALSE, max_height = "62px"),
+      
       # Align cell contents in the middle vertically
       cellArgs = list(style = "vertical-align: middle !important; color: #565656 !important;")
 

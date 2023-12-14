@@ -295,6 +295,17 @@ sidebarUI <- function(id){
         )
         
       ),
+
+
+# Frequency ---------------------------------------------------------------
+      bslib::accordion_panel(
+        
+        "Frequency", 
+        
+        icon = bsicons::bs_icon("graph-up-arrow")
+        
+        
+      ),
       
 
 # EIVs --------------------------------------------------------------------
@@ -417,12 +428,48 @@ sidebarUI <- function(id){
         )
         
       ),
-      
+
+
+# Report Options ----------------------------------------------------------
+bslib::accordion_panel(
+  
+  "Report", 
+  
+  icon = bsicons::bs_icon("filetype-pdf"),
+  
+  shiny::textInput(inputId = ns("reportAuthorName"),
+                   label = "Author"),
+  
+  shiny::textInput(inputId = ns("reportProjectName"),
+                   label = "Project Name"),
+  
+  shiny::div(shiny::br()),
+  
+  shiny::downloadButton(
+    outputId = ns("generateReport"),
+    label = "Download Report",
+    class = NULL,
+    icon = NULL
+  ),
+  
+  shiny::div(shiny::br()),
+  
+  shiny::div(
+    shiny::checkboxGroupInput(inputId = ns("reportOptions"),
+                              label = "Report Options",
+                              choices = reportOptions_options,
+                              selected = c("nvcAssignmentResultsSite", "composedFloristicTablesSite", "speciesFrequencyTable")),
+    style = ""
+  )
+  
+  # reportUI(id = ns("report_id_1"))
+  
+),
 
 # Download Options --------------------------------------------------------
       bslib::accordion_panel(
         
-        "Download Options", 
+        "Download", 
         
         icon = bsicons::bs_icon("download"),
         
@@ -431,29 +478,8 @@ sidebarUI <- function(id){
           label = "Download Accepted Species",
           class = NULL,
           icon = NULL
-        ),
-        
-        shiny::div(shiny::br()),
-        
-        shiny::downloadButton(
-          outputId = ns("generateReport"),
-          label = "Download Report",
-          class = NULL,
-          icon = NULL
-        ),
-        
-        shiny::div(shiny::br()),
-        
-        shiny::div(
-          shiny::checkboxGroupInput(inputId = ns("reportOptions"),
-                                    label = "Report Options",
-                                    choices = reportOptions_options,
-                                    selected = c("nvcAssignmentResultsSite", "composedFloristicTablesSite", "speciesFrequencyTable")),
-          style = ""
         )
-        
-        # reportUI(id = ns("report_id_1"))
-        
+
       )
     )
   )

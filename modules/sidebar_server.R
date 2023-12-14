@@ -32,6 +32,8 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
       "dcaAxisSelection" = input$dcaAxisSelection,
       "dcaVars" = input$dcaVars,
       "ccaVars" = input$ccaVars,
+      "reportAuthorName" = input$reportAuthorName,
+      "reportProjectName" = input$reportProjectName,
       "reportOptions" = input$reportOptions
     )
     
@@ -61,6 +63,8 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
               input$dcaAxisSelection,
               input$dcaVars,
               input$ccaVars,
+              input$reportAuthorName,
+              input$reportProjectName,
               input$reportOptions,
               ignoreInit = TRUE)
 
@@ -132,7 +136,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
         shiny::updateSelectizeInput(
           session = session,
           inputId = "habitatRestriction",
-          selected = "SD"
+          selected = NULL
         )
         
       }

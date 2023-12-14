@@ -118,6 +118,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                           # style = list(fontSize = "1rem"),
                                                           rowClass = "my-row",
                                                           defaultColDef = reactable::colDef(
+                                                            format = reactable::colFormat(digits = 2),
                                                             headerClass = "my-header",
                                                             class = "my-col",
                                                             align = "center" # Needed as alignment is not passing through to header
@@ -144,6 +145,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                             # style = list(fontSize = "1rem"),
                                                             rowClass = "my-row",
                                                             defaultColDef = reactable::colDef(
+                                                              format = reactable::colFormat(digits = 2),
                                                               headerClass = "my-header",
                                                               class = "my-col",
                                                               align = "center" # Needed as alignment is not passing through to header
@@ -170,6 +172,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                            # style = list(fontSize = "1rem"),
                                                            rowClass = "my-row",
                                                            defaultColDef = reactable::colDef(
+                                                             format = reactable::colFormat(digits = 2),
                                                              headerClass = "my-header",
                                                              class = "my-col",
                                                              align = "center" # Needed as alignment is not passing through to header
@@ -196,6 +199,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                             # style = list(fontSize = "1rem"),
                                                             rowClass = "my-row",
                                                             defaultColDef = reactable::colDef(
+                                                              format = reactable::colFormat(digits = 2),
                                                               headerClass = "my-header",
                                                               class = "my-col",
                                                               align = "center" # Needed as alignment is not passing through to header
@@ -222,6 +226,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                              # style = list(fontSize = "1rem"),
                                                              rowClass = "my-row",
                                                              defaultColDef = reactable::colDef(
+                                                               format = reactable::colFormat(digits = 2),
                                                                headerClass = "my-header",
                                                                class = "my-col",
                                                                align = "center" # Needed as alignment is not passing through to header
@@ -247,6 +252,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                                # style = list(fontSize = "1rem"),
                                                                rowClass = "my-row",
                                                                defaultColDef = reactable::colDef(
+                                                                 format = reactable::colFormat(digits = 2),
                                                                  headerClass = "my-header",
                                                                  class = "my-col",
                                                                  align = "center" # Needed as alignment is not passing through to header
@@ -400,6 +406,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                             # style = list(fontSize = "1rem"),
                                                             rowClass = "my-row",
                                                             defaultColDef = reactable::colDef(
+                                                              format = reactable::colFormat(digits = 2),
                                                               headerClass = "my-header",
                                                               class = "my-col",
                                                               align = "center" # Needed as alignment is not passing through to header
@@ -435,6 +442,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                               # style = list(fontSize = "1rem"),
                                                               rowClass = "my-row",
                                                               defaultColDef = reactable::colDef(
+                                                                format = reactable::colFormat(digits = 2),
                                                                 headerClass = "my-header",
                                                                 class = "my-col",
                                                                 align = "center" # Needed as alignment is not passing through to header
@@ -470,6 +478,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                              # style = list(fontSize = "1rem"),
                                                              rowClass = "my-row",
                                                              defaultColDef = reactable::colDef(
+                                                               format = reactable::colFormat(digits = 2),
                                                                headerClass = "my-header",
                                                                class = "my-col",
                                                                align = "center" # Needed as alignment is not passing through to header
@@ -513,6 +522,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                               # style = list(fontSize = "1rem"),
                                                               rowClass = "my-row",
                                                               defaultColDef = reactable::colDef(
+                                                                format = reactable::colFormat(digits = 2),
                                                                 headerClass = "my-header",
                                                                 class = "my-col",
                                                                 align = "center" # Needed as alignment is not passing through to header
@@ -541,111 +551,110 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
     })
 
 # # Update Weighted Mean HE Values by Quadrat ---------------------------
-#     output$weightedMeanHEValuesQuadratTable <- reactable::renderReactable({
-# 
-#       weightedMeanHEValuesQuadratTable <- reactable::reactable(data = weightedMeanHEValuesQuadrat_prepped,
-#                                                                filterable = FALSE,
-#                                                                pagination = FALSE,
-#                                                                highlight = TRUE,
-#                                                                bordered = TRUE,
-#                                                                sortable = TRUE,
-#                                                                wrap = FALSE,
-#                                                                resizable = TRUE,
-#                                                                style = list(fontSize = "1rem"),
-#                                                                class = "my-tbl",
-#                                                                # style = list(fontSize = "1rem"),
-#                                                                rowClass = "my-row",
-#                                                                defaultColDef = reactable::colDef(
-#                                                                  headerClass = "my-header",
-#                                                                  class = "my-col",
-#                                                                  align = "center" # Needed as alignment is not passing through to header
-#                                                                ),
-#                                                                # columns = list(
-#                                                                #   Year = reactable::colDef(
-#                                                                #     filterable = TRUE,
-#                                                                #     filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-#                                                                #                         return rows.filter(function(row) {
-#                                                                #                         return row.values[columnId] == filterValue
-#                                                                #                         })
-#                                                                #                         }")
-#                                                                #   ),
-#                                                                #   Group = reactable::colDef(
-#                                                                #     filterable = TRUE,
-#                                                                #     filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-#                                                                #                         return rows.filter(function(row) {
-#                                                                #                         return row.values[columnId] == filterValue
-#                                                                #                         })
-#                                                                #                         }")
-#                                                                #   ),
-#                                                                #   Quadrat = reactable::colDef(
-#                                                                #     filterable = TRUE,
-#                                                                #     filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-#                                                                #                         return rows.filter(function(row) {
-#                                                                #                         return row.values[columnId] == filterValue
-#                                                                #                         })
-#                                                                #                         }")
-#                                                                #   )
-#                                                                # )
-#       )
-# 
-#       return(weightedMeanHEValuesQuadratTable)
-# 
-#     })
+    output$weightedMeanHEValuesQuadratTable <- reactable::renderReactable({
+
+      weightedMeanHEValuesQuadratTable <- reactable::reactable(data = weightedMeanHEValuesQuadrat_prepped,
+                                                               filterable = FALSE,
+                                                               pagination = FALSE,
+                                                               highlight = TRUE,
+                                                               bordered = TRUE,
+                                                               sortable = TRUE,
+                                                               wrap = FALSE,
+                                                               resizable = TRUE,
+                                                               style = list(fontSize = "1rem"),
+                                                               class = "my-tbl",
+                                                               # style = list(fontSize = "1rem"),
+                                                               rowClass = "my-row",
+                                                               defaultColDef = reactable::colDef(
+                                                                 format = reactable::colFormat(digits = 2),
+                                                                 headerClass = "my-header",
+                                                                 class = "my-col",
+                                                                 align = "center" # Needed as alignment is not passing through to header
+                                                               ),
+                                                               columns = list(
+                                                                 Year = reactable::colDef(
+                                                                   filterable = TRUE,
+                                                                   filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                                 ),
+                                                                 Group = reactable::colDef(
+                                                                   filterable = TRUE,
+                                                                   filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                                 ),
+                                                                 Quadrat = reactable::colDef(
+                                                                   filterable = TRUE,
+                                                                   filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                                 )
+                                                               )
+      )
+
+      return(weightedMeanHEValuesQuadratTable)
+
+    })
 
 # Update Unweighted Mean HE Values by Quadrat -------------------------
-      
-    # print(unweightedMeanHEValuesQuadrat_prepped)
-    # 
-    # output$unweightedMeanHEValuesQuadratTable <- reactable::renderReactable({
-    # 
-    #   unweightedMeanHEValuesQuadratTable <- reactable::reactable(data = unweightedMeanHEValuesQuadrat_prepped,
-    #                                                              filterable = FALSE,
-    #                                                              pagination = TRUE,
-    #                                                              highlight = TRUE,
-    #                                                              bordered = TRUE,
-    #                                                              sortable = TRUE,
-    #                                                              wrap = FALSE,
-    #                                                              resizable = TRUE,
-    #                                                              style = list(fontSize = "1rem"),
-    #                                                              class = "my-tbl",
-    #                                                              # style = list(fontSize = "1rem"),
-    #                                                              rowClass = "my-row",
-    #                                                              defaultColDef = reactable::colDef(
-    #                                                                headerClass = "my-header",
-    #                                                                class = "my-col",
-    #                                                                align = "center" # Needed as alignment is not passing through to header
-    #                                                              ),
-    #                                                              columns = list(
-    #                                                                Year = reactable::colDef(
-    #                                                                  filterable = TRUE,
-    #                                                                  filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-    #                                                                                    return rows.filter(function(row) {
-    #                                                                                    return row.values[columnId] == filterValue
-    #                                                                                    })
-    #                                                                                    }")
-    #                                                                ),
-    #                                                                Group = reactable::colDef(
-    #                                                                  filterable = TRUE,
-    #                                                                  filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-    #                                                                                    return rows.filter(function(row) {
-    #                                                                                    return row.values[columnId] == filterValue
-    #                                                                                    })
-    #                                                                                    }")
-    #                                                                ),
-    #                                                                Quadrat = reactable::colDef(
-    #                                                                  filterable = TRUE,
-    #                                                                  filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-    #                                                                                    return rows.filter(function(row) {
-    #                                                                                    return row.values[columnId] == filterValue
-    #                                                                                    })
-    #                                                                                    }")
-    #                                                                )
-    #                                                              )
-    #                                                              )
-    # 
-    #   return(unweightedMeanHEValuesQuadratTable)
-    # 
-    # })
+    output$unweightedMeanHEValuesQuadratTable <- reactable::renderReactable({
+
+      unweightedMeanHEValuesQuadratTable <- reactable::reactable(data = unweightedMeanHEValuesQuadrat_prepped,
+                                                                 filterable = FALSE,
+                                                                 pagination = FALSE,
+                                                                 highlight = TRUE,
+                                                                 bordered = TRUE,
+                                                                 sortable = TRUE,
+                                                                 wrap = FALSE,
+                                                                 resizable = TRUE,
+                                                                 style = list(fontSize = "1rem"),
+                                                                 class = "my-tbl",
+                                                                 # style = list(fontSize = "1rem"),
+                                                                 rowClass = "my-row",
+                                                                 defaultColDef = reactable::colDef(
+                                                                   format = reactable::colFormat(digits = 2),
+                                                                   headerClass = "my-header",
+                                                                   class = "my-col",
+                                                                   align = "center" # Needed as alignment is not passing through to header
+                                                                 ),
+                                                                 columns = list(
+                                                                   Year = reactable::colDef(
+                                                                     filterable = TRUE,
+                                                                     filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                                   ),
+                                                                   Group = reactable::colDef(
+                                                                     filterable = TRUE,
+                                                                     filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                                   ),
+                                                                   Quadrat = reactable::colDef(
+                                                                     filterable = TRUE,
+                                                                     filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                                   )
+                                                                 )
+                                                                 )
+
+      return(unweightedMeanHEValuesQuadratTable)
+
+    })
     
     # weightedMeanHEValuesSite_rval()
     # unweightedMeanHEValuesSite_rval()
@@ -659,7 +668,8 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
   }) |>
     bindEvent(runAnalysis(),
               ignoreInit = TRUE, 
-              ignoreNULL = TRUE)
+              ignoreNULL = TRUE, 
+              label = "updateEIVTables")
   
 
 # Ensure tables are not suspended when hidden -----------------------------
