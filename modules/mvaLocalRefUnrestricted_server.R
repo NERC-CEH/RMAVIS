@@ -150,12 +150,29 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
         dplyr::mutate("Quadrat" = stringr::str_extract(string = Quadrat, pattern = "[[:alnum:]]*$"))
         
         
+      dcaAxisSelection <- dcaAxisSelection()
       
+      if(dcaAxisSelection == "dca1dca2"){
+        
+        x_axis <- "DCA1"
+        y_axis <- "DCA2"
+        
+      } else if(dcaAxisSelection == "dca1dca3"){
+        
+        x_axis <- "DCA1"
+        y_axis <- "DCA3"
+        
+      } else if(dcaAxisSelection == "dca2dca3"){
+        
+        x_axis <- "DCA2"
+        y_axis <- "DCA3"
+        
+      }
       
       # Create convex hulls around the pseudo-quadrat DCA points.
       pquads_surveyTable_dca_results_quadrats_hull <- pquads_surveyTable_dca_results_quadrats_pquads |>
         dplyr::group_by(NVC.Comm) |>
-        dplyr::slice(grDevices::chull(DCA1, DCA2)) |>
+        dplyr::slice(grDevices::chull(get(x_axis), get(y_axis))) |>
         dplyr::ungroup()
       
       # Prepare the data required to draw arrows between points, ordered by Year
@@ -166,8 +183,8 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
           dplyr::select("Year" = Year, 
                         "Group" = Group,
                         "Quadrat" = Quadrat,
-                        "x" = DCA1, 
-                        "y" = DCA2) |>
+                        "x" = tidyselect::all_of(x_axis), 
+                        "y" = tidyselect::all_of(y_axis)) |>
           dplyr::group_by(Quadrat) |>
           dplyr::mutate("endX" = dplyr::lead(x),
                         "endY" = dplyr::lead(y)) |>
@@ -196,6 +213,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
     
   }) |>
     bindEvent(runAnalysis(),
+              dcaAxisSelection(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   

@@ -164,10 +164,30 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
       
       # assign(x = "surveyTable_dca_results_quadrats", value = surveyTable_dca_results_quadrats, envir = .GlobalEnv)
       
+      dcaAxisSelection <- dcaAxisSelection()
+      
+      if(dcaAxisSelection == "dca1dca2"){
+        
+        x_axis <- "DCA1"
+        y_axis <- "DCA2"
+        
+      } else if(dcaAxisSelection == "dca1dca3"){
+        
+        x_axis <- "DCA1"
+        y_axis <- "DCA3"
+        
+      } else if(dcaAxisSelection == "dca2dca3"){
+        
+        x_axis <- "DCA2"
+        y_axis <- "DCA3"
+        
+      }
+      
       # Create convex hulls around the pseudo-quadrat DCA points.
       selected_pquads_dca_results_quadrats_final_hull <- selected_pquads_dca_results_quadrats_final |>
         dplyr::group_by(NVC.Comm) |>
-        dplyr::slice(grDevices::chull(DCA1, DCA2))
+        dplyr::slice(grDevices::chull(get(x_axis), get(y_axis))) |>
+        dplyr::ungroup()
       
       # assign(x = "selected_pquads_dca_results_quadrats_final_hull", value = selected_pquads_dca_results_quadrats_final_hull, envir = .GlobalEnv)
       
@@ -180,8 +200,8 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
           dplyr::select("Year" = Year, 
                         "Group" = Group,
                         "Quadrat" = Quadrat, 
-                        "x" = DCA1, 
-                        "y" = DCA2) |>
+                        "x" = tidyselect::all_of(x_axis), 
+                        "y" = tidyselect::all_of(y_axis)) |>
           dplyr::group_by(Quadrat) |>
           dplyr::mutate("endX" = dplyr::lead(x),
                         "endY" = dplyr::lead(y)) |>
@@ -211,6 +231,7 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
       
   }) |>
     bindEvent(runAnalysis(),
+              dcaAxisSelection(),
               # dcaVars(),
               ccaVars(),
               ignoreInit = TRUE, 
