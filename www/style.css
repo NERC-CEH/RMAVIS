@@ -19,6 +19,11 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
 /* Main font */
 * {font-family: "Montserrat", sans-serif !important;}
 
+.modal-backdrop{
+  opacity: 0 !important;
+  background-color: var(--text-title-color) !important;
+}
+
 /* Title header flex container*/
 .g-col-sm-1.g-col-lg-1.bslib-grid-item.bslib-gap-spacing.html-fill-container{
   /*align-items: center !important;*/

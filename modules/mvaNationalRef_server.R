@@ -249,16 +249,18 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
                           dcaAxes == "dca2dca3") |>
             dplyr::select(-dcaAxes)
           
-          # print(nvc_pquad_dca_all_hulls_selected)
-          
         }
+        
+        print(nvc_pquad_dca_all_hulls_selected)
         
         suppressWarnings(
           
           # Create ggplot2 plot
           mvaNationalRefPlot_plot <- ggplot2::ggplot() +
             {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = nvc_pquad_dca_all_hulls_selected, alpha = 0.2, 
-                                                                      mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC))} +
+                                                                      mapping = ggplot2::aes(x = .data[[x_axis]], 
+                                                                                             y = .data[[y_axis]],
+                                                                                             fill = NVC))} +
             {if("species" %in% dcaVars())ggplot2::geom_point(data = mvaNationalRefResults$selected_pquads_dca_results_species,
                                                              color = '#32a87d',
                                                              shape = 18,

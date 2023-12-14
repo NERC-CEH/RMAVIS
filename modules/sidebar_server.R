@@ -127,6 +127,14 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
           selected = "W"
         )
         
+      } else if(input$exampleData == "Sand Dune"){
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "habitatRestriction",
+          selected = "SD"
+        )
+        
       }
       
     }
@@ -188,9 +196,9 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
   #   bindEvent(surveyTableValidator(),
   #             ignoreInit = TRUE,
   #             ignoreNULL = TRUE)
-
-# Upload Data Modal Popup -------------------------------------------------
-
+  
+  # Upload Data Modal Popup -------------------------------------------------
+  
   observe({
     
     shiny::showModal(
@@ -217,8 +225,8 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     bindEvent(input$uploadData,
               ignoreInit = TRUE)
   
-
-# Reactively update nvcFloristicTable options -----------------------------
+  
+  # Reactively update nvcFloristicTable options -----------------------------
   observe({
     
     # Get all NVC communities and sub-communities from nvc assignment results
@@ -232,9 +240,9 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
       unique()
     
     NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
-
+    
     if(input$restrictNVCFlorTablesOpts == TRUE){
-
+      
       shiny::updateSelectizeInput(
         session = session,
         inputId = "nvcFloristicTable",
@@ -242,7 +250,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
         selected = NVC_communities_final[1],
         server = TRUE
       )
-
+      
     } else if(input$restrictNVCFlorTablesOpts == FALSE){
       
       shiny::updateSelectizeInput(
@@ -254,16 +262,16 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
       )
       
     }
-
+    
   }) |>
     bindEvent(input$restrictNVCFlorTablesOpts,
               nvcAssignment(),
               ignoreInit = TRUE)
-
-
-# Reactively update composedFloristicTable options ------------------------
+  
+  
+  # Reactively update composedFloristicTable options ------------------------
   observe({
-      
+    
     if(nrow(floristicTables()) != 0){
       
       uniq_IDs <- floristicTables() |>
@@ -285,9 +293,9 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
   }) |>
     bindEvent(floristicTables(),
               ignoreInit = TRUE)
-
   
-# Reactively update DCA survey quadrat selection method -------------------
+  
+  # Reactively update DCA survey quadrat selection method -------------------
   observe({
     
     if (input$selectSurveyMethod == "all") {
@@ -319,9 +327,9 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
   }) |>
     bindEvent(input$selectSurveyMethod, ignoreInit = FALSE)
   
-
-# Reactively update global reference DCA space selection ------------------
-
+  
+  # Reactively update global reference DCA space selection ------------------
+  
   observe({
     
     # Get all NVC communities and sub-communities from nvc assignment results
@@ -347,13 +355,13 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     bindEvent(nvcAssignment(),
               ignoreInit = TRUE)
   
-# Reactively update DCA survey quadrat selection options ------------------
+  # Reactively update DCA survey quadrat selection options ------------------
   observe({
     
     # print(mvaLocalRefRestrictedResults())
-
+    
     if(is.null(mvaLocalRefRestrictedResults()) == FALSE){
-
+      
       uniq_years <- surveyTable() |>
         dplyr::pull(Year) |>
         unique()
@@ -474,13 +482,13 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
         )
       }
     }
-
+    
   }) |>
     bindEvent(input$selectSurveyMethod,
               ignoreInit = TRUE)
   
-
-# Return sidebar options --------------------------------------------------
+  
+  # Return sidebar options --------------------------------------------------
   return(sidebar_options)
   
 }

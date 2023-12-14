@@ -73,6 +73,7 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
       ) |>
       rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+      # rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames) |>
       htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot
@@ -169,6 +170,7 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
         ) |>
         rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE) |>
         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        # rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames) |>
         htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot

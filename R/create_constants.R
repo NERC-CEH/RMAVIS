@@ -197,6 +197,7 @@ reportOptions_options <- c("NVC Assignment, Site" = "nvcAssignmentResultsSite",
                            "Species Frequency" = "speciesFrequencyTable",
                            "MVA, National" = "mvaNationalReference",
                            "MVA, Local (restricted)" = "mvaLocalReferenceRestricted",
-                           "MVA, Local (unrestricted)" = "mvaLocalReferenceUnrestricted"
+                           "MVA, Local (unrestricted)" = "mvaLocalReferenceUnrestricted",
+                           "Survey Table" = "surveyTable"
                            )
 

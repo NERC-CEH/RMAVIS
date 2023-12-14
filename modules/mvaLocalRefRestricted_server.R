@@ -4,6 +4,7 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
   
   # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
+  dcaAxisSelection <- reactiveVal()
   dcaVars <- reactiveVal()
   ccaVars <- reactiveVal()
   selectSurveyMethod <- reactiveVal()
@@ -14,6 +15,7 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
+    dcaAxisSelection(sidebar_options()$dcaAxisSelection)
     dcaVars(sidebar_options()$dcaVars)
     ccaVars(sidebar_options()$ccaVars)
     selectSurveyMethod(sidebar_options()$selectSurveyMethod)
@@ -254,33 +256,54 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
         
       }
       
+      dcaAxisSelection <- dcaAxisSelection()
+      
       # Create an interactive plot of the DCA results
       output$mvaLocalRefRestrictedPlot <- plotly::renderPlotly({
+        
+        if(dcaAxisSelection == "dca1dca2"){
+          
+          x_axis <- "DCA1"
+          y_axis <- "DCA2"
+          
+        } else if(dcaAxisSelection == "dca1dca3"){
+          
+          x_axis <- "DCA1"
+          y_axis <- "DCA3"
+          
+        } else if(dcaAxisSelection == "dca2dca3"){
+          
+          x_axis <- "DCA2"
+          y_axis <- "DCA3"
+          
+        }
         
         suppressWarnings(
           
           # Create ggplot2 plot
           mvaLocalRefRestrictedPlot_plot <- ggplot2::ggplot() +
             {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = mvaLocalRefRestrictedResults$selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2, 
-                                                                      mapping = ggplot2::aes(x = DCA1, y = DCA2, fill = NVC.Comm))} +
+                                                                      mapping = ggplot2::aes(x = .data[[x_axis]], 
+                                                                                             y = .data[[y_axis]],
+                                                                                             fill = NVC.Comm))} +
             {if("species" %in% dcaVars())ggplot2::geom_point(data = mvaLocalRefRestrictedResults$selected_pquads_dca_results_species,
                                                              color = '#32a87d',
                                                              shape = 18,
-                                                             mapping = ggplot2::aes(x = DCA1, 
-                                                                                    y = DCA2,
+                                                             mapping = ggplot2::aes(x = .data[[x_axis]], 
+                                                                                    y = .data[[y_axis]],
                                                                                     Species = Species))} +
             {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = mvaLocalRefRestrictedResults$selected_pquads_dca_results_quadrats_final,
                                                                     mapping = ggplot2::aes(color = NVC.Comm,
                                                                                            Quadrat = Quadrat,
-                                                                                           x = DCA1,
-                                                                                           y = DCA2))} +
+                                                                                           x = .data[[x_axis]], 
+                                                                                           y = .data[[y_axis]]))} +
             {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = surveyTable_dca_results_quadrats_selected,
                                                                     color = 'black',
                                                                     mapping = ggplot2::aes(Year = Year,
                                                                                            Group = Group,
                                                                                            Quadrat = Quadrat,
-                                                                                           x = DCA1,
-                                                                                           y = DCA2))} +
+                                                                                           x = .data[[x_axis]], 
+                                                                                           y = .data[[y_axis]]))} +
             {if("hillEllenberg" %in% dcaVars())ggplot2::geom_segment(data = mvaLocalRefRestrictedResults$CCA_arrowData,
                                                                      color = 'black',
                                                                      arrow = grid::arrow(),
@@ -331,6 +354,7 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
       
     }) |>
     bindEvent(mvaLocalRefRestrictedResults(),
+              dcaAxisSelection(),
               dcaVars(),
               selectSurveyMethod(),
               selectSurveyYears(),
