@@ -413,6 +413,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                             ),
                                                             columns = list(
                                                               Year = reactable::colDef(
+                                                                format = reactable::colFormat(digits = 0),
                                                                 filterable = TRUE,
                                                                 filterMethod = reactable::JS("function(rows, columnId, filterValue) {
                                                                                        return rows.filter(function(row) {
@@ -449,6 +450,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                               ),
                                                               columns = list(
                                                                 Year = reactable::colDef(
+                                                                  format = reactable::colFormat(digits = 0),
                                                                   filterable = TRUE,
                                                                   filterMethod = reactable::JS("function(rows, columnId, filterValue) {
                                                                                        return rows.filter(function(row) {
@@ -485,6 +487,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                              ),
                                                              columns = list(
                                                                Year = reactable::colDef(
+                                                                 format = reactable::colFormat(digits = 0),
                                                                  filterable = TRUE,
                                                                  filterMethod = reactable::JS("function(rows, columnId, filterValue) {
                                                                                        return rows.filter(function(row) {
@@ -529,6 +532,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                               ),
                                                               columns = list(
                                                                 Year = reactable::colDef(
+                                                                  format = reactable::colFormat(digits = 0),
                                                                   filterable = TRUE,
                                                                   filterMethod = reactable::JS("function(rows, columnId, filterValue) {
                                                                                        return rows.filter(function(row) {
@@ -573,6 +577,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                                ),
                                                                columns = list(
                                                                  Year = reactable::colDef(
+                                                                   format = reactable::colFormat(digits = 0),
                                                                    filterable = TRUE,
                                                                    filterMethod = reactable::JS("function(rows, columnId, filterValue) {
                                                                                        return rows.filter(function(row) {
@@ -626,6 +631,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                                  ),
                                                                  columns = list(
                                                                    Year = reactable::colDef(
+                                                                     format = reactable::colFormat(digits = 0),
                                                                      filterable = TRUE,
                                                                      filterMethod = reactable::JS("function(rows, columnId, filterValue) {
                                                                                        return rows.filter(function(row) {

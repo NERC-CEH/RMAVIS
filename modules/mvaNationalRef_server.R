@@ -160,6 +160,8 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
                                        #"CCA_arrowData" = CCA_arrowData
                                        )
     
+    assign(x = "foo", value = mvaNationalRefResults_list, envir = .GlobalEnv)
+    
     mvaNationalRefResults(mvaNationalRefResults_list)
     
     shinybusy::remove_modal_spinner()
@@ -215,6 +217,8 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
       }
       
       dcaAxisSelection <- dcaAxisSelection()
+      
+      assign(x = "globalReferenceSpaces", globalReferenceSpaces(), envir = .GlobalEnv)
       
       # Create an interactive plot of the DCA results
       output$mvaNationalRefPlot <- plotly::renderPlotly({

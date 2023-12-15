@@ -254,6 +254,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
                                                      ),
                                                      columns = list(
                                                        Year = reactable::colDef(
+                                                         format = reactable::colFormat(digits = 0),
                                                          filterable = TRUE,
                                                          filterMethod = reactable::JS("function(rows, columnId, filterValue) {
                                                                                        return rows.filter(function(row) {
@@ -340,6 +341,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
                                                       ),
                                                       columns = list(
                                                         Year = reactable::colDef(
+                                                          format = reactable::colFormat(digits = 0),
                                                           filterable = TRUE,
                                                           filterMethod = reactable::JS("function(rows, columnId, filterValue) {
                                                                                        return rows.filter(function(row) {
@@ -396,6 +398,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
                                                       # style = list(fontSize = "1rem"),
                                                       rowClass = "my-row",
                                                       defaultColDef = reactable::colDef(
+                                                        format = reactable::colFormat(digits = 2),
                                                         headerClass = "my-header",
                                                         class = "my-col",
                                                         align = "center" # Needed as alignment is not passing through to header
@@ -434,6 +437,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
                                                         ),
                                                         columns = list(
                                                           Year = reactable::colDef(
+                                                            format = reactable::colFormat(digits = 0),
                                                             filterable = TRUE,
                                                             filterMethod = reactable::JS("function(rows, columnId, filterValue) {
                                                                                        return rows.filter(function(row) {

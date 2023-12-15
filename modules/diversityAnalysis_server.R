@@ -438,6 +438,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
                                                     ),
                                                     columns = list(
                                                       Year = reactable::colDef(
+                                                        format = reactable::colFormat(digits = 0),
                                                         filterable = TRUE,
                                                         filterMethod = reactable::JS("function(rows, columnId, filterValue) {
                                                                                        return rows.filter(function(row) {

@@ -188,18 +188,20 @@ ui <- bslib::page_navbar(
     
     "Documentation",
     
-    bslib::card(
-      
-      full_screen = FALSE,
-      
-      fill = TRUE,
-      
-      # fillable = TRUE,
-      
-      # bslib::card_header("Documentation"),
-      
-      documentationUI(id = "docs_id_1")
-      
-    )
+    documentationUI(id = "docs_id_1")
+    
+    # bslib::card(
+    #   
+    #   full_screen = FALSE,
+    #   
+    #   fill = TRUE,
+    #   
+    #   # fillable = TRUE,
+    #   
+    #   # bslib::card_header("Documentation"),
+    #   
+    #   documentationUI(id = "docs_id_1")
+    #   
+    # )
   )
 )
