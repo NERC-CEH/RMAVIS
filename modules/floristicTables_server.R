@@ -66,7 +66,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
                                                "Species" = character(),
                                                "Constancy" = factor())
     
-    assign(x = "surveyTable_prepped", value = surveyTable_prepped, envir = .GlobalEnv)
+    # assign(x = "surveyTable_prepped", value = surveyTable_prepped, envir = .GlobalEnv)
 
 # Create composed floristic tables across all groups ----------------------
     floristicTables_composed <- surveyTable_prepped |>

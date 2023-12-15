@@ -24,7 +24,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
       "restrictNVCFlorTablesOpts" = input$restrictNVCFlorTablesOpts,
       "resultsViewEIVs"  = input$resultsViewEIVs,
       "resultsViewDiversity"  = input$resultsViewDiversity,
-      "globalReferenceSpaces" = input$globalReferenceSpaces,
+      "nationalReferenceSpaces" = input$nationalReferenceSpaces,
       "selectSurveyMethod" = input$selectSurveyMethod,
       "selectSurveyYears" = input$selectSurveyYears,
       "selectSurveyQuadrats" = input$selectSurveyQuadrats,
@@ -55,7 +55,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
               input$restrictNVCFlorTablesOpts,
               input$resultsViewEIVs,
               input$resultsViewDiversity,
-              input$globalReferenceSpaces,
+              input$nationalReferenceSpaces,
               input$selectSurveyMethod,
               input$selectSurveyYears,
               input$selectSurveyQuadrats,
@@ -353,7 +353,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     # shinyWidgets::updatePickerInput(
     shiny::updateSelectizeInput(
       session = session,
-      inputId = "globalReferenceSpaces",
+      inputId = "nationalReferenceSpaces",
       selected = NVC_communities_final
     )
     

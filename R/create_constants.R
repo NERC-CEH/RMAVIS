@@ -172,7 +172,7 @@ ccaVars_options <- c("Moisture (F) x Nitrogen (N)" = "FN",
 
 
 # Global Reference DCA Space Options --------------------------------------
-globalReferenceSpaces_options <- sort(c(c("A", "CG", "H", "M", "MC", "MG", "OV", "S", "SD", "SM", "U", "W"), setdiff(readRDS(file = "./data/bundled_data/nvc_community_codes.rds"), c("SM1", "SM1a", "SM1b"))))
+nationalReferenceSpaces_options <- sort(c(c("A", "CG", "H", "M", "MC", "MG", "OV", "S", "SD", "SM", "U", "W"), setdiff(readRDS(file = "./data/bundled_data/nvc_community_codes.rds"), c("SM1", "SM1a", "SM1b"))))
 
 
 # DCA Survey Quadrat Options ----------------------------------------------

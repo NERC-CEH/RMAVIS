@@ -7,7 +7,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
   dcaAxisSelection <- reactiveVal()
   dcaVars <- reactiveVal()
   ccaVars <- reactiveVal()
-  globalReferenceSpaces <- reactiveVal()
+  nationalReferenceSpaces <- reactiveVal()
   selectSurveyMethod <- reactiveVal()
   selectSurveyYears <- reactiveVal()
   selectSurveyQuadrats <- reactiveVal()
@@ -19,7 +19,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
     dcaAxisSelection(sidebar_options()$dcaAxisSelection)
     dcaVars(sidebar_options()$dcaVars)
     ccaVars(sidebar_options()$ccaVars)
-    globalReferenceSpaces(sidebar_options()$globalReferenceSpaces)
+    nationalReferenceSpaces(sidebar_options()$nationalReferenceSpaces)
     selectSurveyMethod(sidebar_options()$selectSurveyMethod)
     selectSurveyYears(sidebar_options()$selectSurveyYears)
     selectSurveyQuadrats(sidebar_options()$selectSurveyQuadrats)
@@ -160,7 +160,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
                                        #"CCA_arrowData" = CCA_arrowData
                                        )
     
-    assign(x = "foo", value = mvaNationalRefResults_list, envir = .GlobalEnv)
+    # assign(x = "foo", value = mvaNationalRefResults_list, envir = .GlobalEnv)
     
     mvaNationalRefResults(mvaNationalRefResults_list)
     
@@ -218,7 +218,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
       
       dcaAxisSelection <- dcaAxisSelection()
       
-      assign(x = "globalReferenceSpaces", globalReferenceSpaces(), envir = .GlobalEnv)
+      # assign(x = "nationalReferenceSpaces", nationalReferenceSpaces(), envir = .GlobalEnv)
       
       # Create an interactive plot of the DCA results
       output$mvaNationalRefPlot <- plotly::renderPlotly({
@@ -229,7 +229,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
           y_axis <- "DCA2"
           
           nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls |>
-            dplyr::filter(NVC %in% globalReferenceSpaces(),
+            dplyr::filter(NVC %in% nationalReferenceSpaces(),
                           dcaAxes == "dca1dca2") |>
             dplyr::select(-dcaAxes)
           
@@ -239,7 +239,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
           y_axis <- "DCA3"
           
           nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls |>
-            dplyr::filter(NVC %in% globalReferenceSpaces(),
+            dplyr::filter(NVC %in% nationalReferenceSpaces(),
                           dcaAxes == "dca1dca3") |>
             dplyr::select(-dcaAxes)
           
@@ -249,7 +249,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
           y_axis <- "DCA3"
           
           nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls |>
-            dplyr::filter(NVC %in% globalReferenceSpaces(),
+            dplyr::filter(NVC %in% nationalReferenceSpaces(),
                           dcaAxes == "dca2dca3") |>
             dplyr::select(-dcaAxes)
           
@@ -330,7 +330,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
     bindEvent(mvaNationalRefResults(),
               dcaAxisSelection(),
               dcaVars(),
-              globalReferenceSpaces(),
+              nationalReferenceSpaces(),
               selectSurveyMethod(),
               selectSurveyYears(),
               selectSurveyGroups(),

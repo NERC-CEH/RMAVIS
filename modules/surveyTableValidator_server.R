@@ -77,6 +77,20 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     # Check whether there is any missing data in the Species column
     surveyTable_speciesComplete <- isTRUE(any(!is.na(surveyTable$Species)))
     
+    # assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
+    
+    # Check whether there are any species-quadrat double-entries
+    surveyTable_speciesQuadratDuplicates <- surveyTable |>
+      dplyr::select(Year, Group, Quadrat, Species) |>
+      dplyr::group_by(Year, Group, Quadrat, Species) |>
+      dplyr::filter(dplyr::n() > 1) |>
+      dplyr::ungroup()
+    
+    # print(surveyTable_speciesQuadratDuplicates)
+    
+    surveyTable_speciesQuadratDuplicates <- isTRUE(nrow(surveyTable_speciesQuadratDuplicates) == 0)
+    urveyTable_speciesQuadratDuplicates <- surveyTable_speciesQuadratDuplicates
+    
     # Check whether each quadrat ID is unique
     surveyTable_quadratIDUnique <- surveyTable |>
       dplyr::select(Year, Group, Quadrat) |>
@@ -105,6 +119,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     # Check whether the analysis is ok to proceed
     okToProceed <- isTRUE(all(surveyTable_speciesInAccepted, surveyTable_yearComplete, 
                               surveyTable_groupComplete, surveyTable_quadratComplete,
+                              surveyTable_speciesQuadratDuplicates,
                               surveyTable_speciesComplete, surveyTable_quadratIDUnique,
                               surveyTable_groupIDUnique))
     
@@ -119,6 +134,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
       "groupComplete" = surveyTable_groupComplete,
       "quadratComplete" = surveyTable_quadratComplete,
       "speciesComplete" = surveyTable_speciesComplete,
+      "speciesQuadratDuplicates" = surveyTable_speciesQuadratDuplicates,
       "quadratIDUnique" = surveyTable_quadratIDUnique,
       "quadratIDDuplicates" = surveyTable_quadratIDDuplicates,
       "groupIDUnique" = surveyTable_groupIDUnique,
@@ -130,7 +146,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
       "okToProceed" = okToProceed
     )
     
-    print(surveyTableValidation)
+    # print(surveyTableValidation)
     
     surveyTableValidation_rval(surveyTableValidation)
     
@@ -211,6 +227,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     groupComplete <- surveyTableValidation$groupComplete
     quadratComplete <- surveyTableValidation$quadratComplete
     speciesComplete <- surveyTableValidation$speciesComplete
+    speciesQuadratDuplicates <- surveyTableValidation$speciesQuadratDuplicates
     quadratIDUnique <- surveyTableValidation$quadratIDUnique
     quadratIDDuplicates <- surveyTableValidation$quadratIDDuplicates
     groupIDUnique <- surveyTableValidation$groupIDUnique
@@ -220,7 +237,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     
 
 # All Species in Accepted List Text ---------------------------------------
-    output$speciesInAcceptedText <- shiny::renderText({
+    output$speciesInAcceptedText <- shiny::renderUI({
       
       paste0("All Species Accepted: ",
              ifelse(
@@ -238,7 +255,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     
 
 # Cover Supplied Text -----------------------------------------------------
-    output$coverSuppliedText <- shiny::renderText({
+    output$coverSuppliedText <- shiny::renderUI({
       
       paste0("Are Cover Estimate Values Provided: ",
              ifelse(
@@ -252,11 +269,12 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
              )
       )
       
+      
     })
 
 
 # Year Column Complete Text -----------------------------------------------
-    output$yearCompleteText <- shiny::renderText({
+    output$yearCompleteText <- shiny::renderUI({
       
       paste0("Year Column Complete (no missing values): ",
              ifelse(
@@ -274,7 +292,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 
 
 # Group Column Complete Text ----------------------------------------------
-    output$groupCompleteText <- shiny::renderText({
+    output$groupCompleteText <- shiny::renderUI({
       
       paste0("Group Column Complete (no missing values): ",
              ifelse(
@@ -292,7 +310,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 
 
 # Quadrat Column Complete Text --------------------------------------------
-    output$quadratCompleteText <- shiny::renderText({
+    output$quadratCompleteText <- shiny::renderUI({
       
       paste0("Quadrat Column Complete (no missing values): ",
              ifelse(
@@ -309,7 +327,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     })
     
 # Species Column Complete Text --------------------------------------------
-    output$speciesCompleteText <- shiny::renderText({
+    output$speciesCompleteText <- shiny::renderUI({
       
       paste0("Species Column Complete (no missing values): ",
              ifelse(
@@ -325,9 +343,25 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
       
     })
 
-
 # Quadrat Names Unique Text -----------------------------------------------
-    output$quadratIDUniqueText <- shiny::renderText({
+    output$speciesQuadratDuplicatesText <- shiny::renderUI({
+      
+      paste0("No Duplicate Species Within Quadrats: ",
+             ifelse(
+               as.character(speciesQuadratDuplicates) == TRUE,
+               paste('<font color="green"><b>', 
+                     as.character(speciesQuadratDuplicates), 
+                     '</b></font>'),
+               paste('<font color="red"><b>', 
+                     as.character(speciesQuadratDuplicates), 
+                     '</b></font>')
+             )
+      )
+      
+    })
+    
+# Quadrat Names Unique Text -----------------------------------------------
+    output$quadratIDUniqueText <- shiny::renderUI({
       
       paste0("Quadrat Names Unique: ",
              ifelse(
@@ -345,7 +379,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 
 
 # Group Names Unique Text -------------------------------------------------
-    output$groupIDUniqueText <- shiny::renderText({
+    output$groupIDUniqueText <- shiny::renderUI({
       
       paste0("Group Names Unique: ",
              ifelse(
@@ -363,7 +397,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
   
 
 # Ok to proceed Text ------------------------------------------------------
-    output$okToProceedText <- shiny::renderText({
+    output$okToProceedText <- shiny::renderUI({
       
       paste0("Ok to Proceed: ",
              ifelse(

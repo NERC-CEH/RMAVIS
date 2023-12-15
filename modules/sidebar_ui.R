@@ -44,7 +44,14 @@ sidebarUI <- function(id){
               bsicons::bs_icon("info-circle"),
               title = "Input Method",
               id = ns("inputmethodInfo"),
-              paste0(""),
+              shiny::markdown(
+                "
+                Three input methods are provided:
+                1. 'Manual entry'.
+                2. 'Example'.
+                3. 'Upload'.
+                "
+              ),
               placement = "bottom"
             )
             
@@ -73,7 +80,15 @@ sidebarUI <- function(id){
               bsicons::bs_icon("info-circle"),
               title = "Example Data",
               id = ns("exampleDataInfo"),
-              paste0(""),
+              shiny::markdown(
+                "
+                Four example datasets are currently provided:
+                1. 'Parsonage Down'.
+                2. 'Whitwell Common'.
+                3. 'Leith Hill Place Wood'.
+                4. 'Sand Dune'.
+                "
+              ),
               placement = "bottom"
             )
             
@@ -96,19 +111,16 @@ sidebarUI <- function(id){
             shiny::actionButton(inputId = ns("uploadData"),
                                 label = "Upload"),
             
-            # shiny::fileInput(inputId = ns("uploadDataInput"),
-            #                  label = "browse",
-            #                  accept = c("text/csv",
-            #                             "text/comma-separated-values,text/plain",
-            #                             ".csv"
-            #                  )
-            # ),
-            
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Upload Data",
               id = ns("uploadDataInfo"),
-              paste0(""),
+              shiny::markdown(
+                "
+                Clicking the 'Upload' button opens a pop-up interface
+                in which more details are provided.
+                "
+              ),
               placement = "bottom"
             )
           ),
@@ -134,9 +146,13 @@ sidebarUI <- function(id){
               bsicons::bs_icon("info-circle"),
               title = "Validate Survey Table Data",
               id = ns("validateSurveyTableInfo"),
-              paste0("Open a popup window to validate the data present in the Survey Data Table.
-                    All validation checks must pass before the 'Run Analysis' button is enabled
-                    and pseudoMAVIS is ok to proceed."),
+              shiny::markdown(
+                "
+                Open a popup window to validate the data present in the Survey Data Table.
+                All validation checks must pass before the 'Run Analysis' button is enabled
+                and pseudoMAVIS is able to proceed with any analyses.
+                "
+              ),
               placement = "bottom"
             )
             
@@ -177,7 +193,16 @@ sidebarUI <- function(id){
               bsicons::bs_icon("info-circle"),
               title = "Results to View",
               id = ns("resultsToViewNVCAssignInfo"),
-              paste0(""),
+              shiny::markdown(
+                "
+                Five sets of NVC assigment results are available:
+                - 'Site, Pseudo-quadrat'
+                - 'Group, Pseudo-quadrat'
+                - 'Quadrat, Pseudo-quadrat'
+                - 'Site, Czekanowski'
+                - 'Group, Czekanowski'
+                "
+              ),
               placement = "bottom"
             )
             
@@ -206,7 +231,14 @@ sidebarUI <- function(id){
               bsicons::bs_icon("info-circle"),
               title = "Restrict Habitat",
               id = ns("restrictHabitatInfo"),
-              paste0(""),
+              shiny::markdown(
+                "
+                Optionally restrict the NVC assignment process to one or more
+                broad NVC habitat types. This is reccomended to increase the
+                assignment speed, but only if the site being
+                analysed unequivocally conforms to the selected NVC habitat.
+                "
+              ),
               placement = "bottom"
             )
           ),
@@ -233,7 +265,12 @@ sidebarUI <- function(id){
               bsicons::bs_icon("info-circle"),
               title = "Number of Top Results",
               id = ns("nTopResultsInfo"),
-              paste0(""),
+              shiny::markdown(
+                "
+                Select the number of top results to display per Site, Group, or
+                Quadrat.
+                "
+              ),
               placement = "bottom"
             )
           )
@@ -268,11 +305,15 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Classification",
-              paste0("Select a habitat classification you wish to retrieve correspondence",
-                     " values for using the fitted NVC communities and sub-communities.",
-                     " Note that all community level codes associated with sub-communities",
-                     " are also used, even if they aren't fitted. This is to account for the",
-                     " incomplete coverage of NVC sub-communities in the JNCC habitat correspondences."),
+              shiny::markdown(
+                "
+                Select a habitat classification you wish to retrieve correspondence,
+                values for using the fitted NVC communities and sub-communities.
+                Note that all community level codes associated with sub-communities,
+                are also used, even if they aren't fitted. This is to account for the,
+                incomplete coverage of NVC sub-communities in the JNCC habitat correspondences.
+                "
+              ),
               placement = "bottom"
             )
           )
@@ -303,8 +344,13 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Restrict",
-              paste0("Restrict the NVC community option below",
-                     " to the fitted NVC communities."),
+              shiny::markdown(
+                "
+                Restrict the NVC communities available for selection in the
+                'NVC Table' option below to the top-fitting NVC communities
+                as returned in the 'NVC Assignment' tab.
+                "
+              ),
               placement = "bottom"
             )
             
@@ -331,8 +377,12 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "NVC Community",
-              paste0("Select a NVC community, the floristic table of which will be",
-                     "  displayed alongside the composed floristic table."),
+              shiny::markdown(
+                "
+                Select an NVC community, the floristic table of which will be
+                displayed alongside the composed floristic table.
+                "
+              ),
               placement = "bottom"
             )
             
@@ -362,7 +412,14 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Composed Table",
-              paste0("Select a year/group/quadrat ID to compose a floristic table."),
+              shiny::markdown(
+                "
+                A list of floristic/syntopic tables composed from the survey
+                data is supplied. Tables are only composed for groups of quadrats
+                (per year) and all quadrats (per year), and only if there are...
+                ...
+                "
+              ),
               placement = "bottom"
             )
             
@@ -389,8 +446,20 @@ sidebarUI <- function(id){
             
             bslib::popover(
               bsicons::bs_icon("info-circle"),
-              title = "Cross Tabulate",
-              paste0("Select one of three options:"),
+              title = "Match Species",
+              shiny::markdown(
+                "
+                Three options for arranging the composed and NVC floristic tables
+                are provided:
+                - 'No': Displayes the tables side-by-side, ordered by Constancy.
+                - 'Composed to NVC': Aligns the species in the composed table that
+                are present in the selected NVC community with the NVC floristic table.
+                Omits species which are not present in the NVC community.
+                - 'NVC to Composed': Aligns the species in the NVC floristic table that
+                are present in the composed table with the composed table. Omits
+                species which are not present in the composed table.
+                "
+              ),
               placement = "bottom"
             )
             
@@ -436,7 +505,18 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Results to View",
-              paste0(""),
+              shiny::markdown(
+                "
+                Select the Ecological Indicator Value (EIV) results to view.
+                Six options are currently provided.
+                - 'Unweighted Mean Hill-Ellenberg Values, by Site':
+                - 'Weighted Mean Hill-Ellenberg Values, by Site':
+                - 'Unweighted Mean Hill-Ellenberg Values, by Group':
+                - 'Weighted Mean Hill-Ellenberg Values, by Group':
+                - 'Unweighted Mean Hill-Ellenberg Values, by Quadrat':
+                - 'Weighted Mean Hill-Ellenberg Values, by Quadrat':
+                "
+              ),
               placement = "bottom"
             )
         
@@ -471,7 +551,17 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Results to View",
-              paste0(""),
+              shiny::markdown(
+                "
+                Select the diveristy metric results to view.
+                Five options are currently provided.
+                - 'Site Summary Table':
+                - 'Quadrat Diversity Indices Table':
+                - 'Species Richness, by Site':
+                - 'Species Richness, by Group':
+                - 'Species Richness, by Quadrat':
+                "
+              ),
               placement = "bottom"
             )
           
@@ -506,7 +596,15 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Axis Selection",
-              paste0(""),
+              shiny::markdown(
+                "
+                Select the Detrended Correspondence Analysis (DCA) axis scores
+                to display, all combinations of the first three axes are available:
+                - 'DCA1 vs DCA2'
+                - 'DCA1 vs DCA3'
+                - 'DCA2 vs DCA3'
+                "
+              ),
               placement = "bottom"
             )
             
@@ -518,23 +616,30 @@ sidebarUI <- function(id){
         
         shiny::div(
           
-          id = ns("globalReferenceSpaces_div"),
+          id = ns("nationalReferenceSpaces_div"),
           
           bslib::layout_columns(
             
             col_widths = c(11, 1),
             
-            shiny::selectizeInput(inputId = ns("globalReferenceSpaces"),
-                                  label = "Global Reference Spaces",
-                                  choices = globalReferenceSpaces_options,
+            shiny::selectizeInput(inputId = ns("nationalReferenceSpaces"),
+                                  label = "National Reference Spaces",
+                                  choices = nationalReferenceSpaces_options,
                                   selected = NULL,
                                   multiple = TRUE),
             
             
             bslib::popover(
               bsicons::bs_icon("info-circle"),
-              title = "Global Reference Spaces",
-              paste0(""),
+              title = "National Reference Spaces",
+              shiny::markdown(
+                "
+                Select the NVC communities to display the national reference spaces
+                for. By default the top fitting NVC communities are displayed.
+                Please see the documentation for a definition of the
+                'National Reference Spaces' along with interpretation guidance.
+                "
+              ),
               placement = "bottom"
             )
             
@@ -561,7 +666,15 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Survey Quadrat Selection",
-              paste0(""),
+              shiny::markdown(
+                "
+                Select the survey quadrat selection method. Three options are 
+                provided:
+                - 'Select Years':
+                - 'Select Groups':
+                - 'Select Quadrats':
+                "
+              ),
               placement = "bottom"
             )
             
@@ -590,7 +703,12 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Select Survey Years",
-              paste0(""),
+              shiny::markdown(
+                "
+                Select survey quadrats for one or more of the years present in 
+                the survey data.
+                "
+              ),
               placement = "bottom"
             )
             
@@ -619,7 +737,12 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Select Survey Groups",
-              paste0(""),
+              shiny::markdown(
+                "
+                Select survey quadrats for one or more of the groups present in 
+                the survey data.
+                "
+              ),
               placement = "bottom"
             )
             
@@ -648,7 +771,12 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Select Survey Quadrats",
-              paste0(""),
+              shiny::markdown(
+                "
+                Select survey quadrats for one or more of the quadrats present in 
+                the survey data.
+                "
+              ),
               placement = "bottom"
             )
             
@@ -675,7 +803,12 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "CCA",
-              paste0(""),
+              shiny::markdown(
+                "
+                Select the variables with which to perform a 
+                Constrained Correspondence Analysis (CCA).
+                "
+              ),
               placement = "bottom"
             )
             
@@ -701,7 +834,20 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "DCA",
-              paste0(""),
+              shiny::markdown(
+                "
+                Select the variables to display in the multivariate analysis plots:
+                Seven options are provided:
+                - 'Survey Quadrats': the DCA scores of the survey quadrats.
+                - 'Pseudo-Quadrats': the DCA scores of the pseudo-quadrats (Local Reference only).
+                - 'Reference Space': the convex hulls formed from the pseudo-quadrat DCA scores.
+                - 'Species': the DCA scores of the species.
+                - 'Unique Survey Species': the DCA scores of the species unique to the survey data, but absent from the best fitting NVC communities pseudo-quadrats (Local Reference (unrestricted) only).
+                - 'Hill-Ellenberg': the CCA result axis scores for the Hill-Ellenberg selected in the 'CCA Variables' option.
+                - 'Survey Quadrat Change': arrows drawn between each quadrat by year, showing the movement of the quadrat in the ordination space.
+                Please see the documentation for more details.
+                "
+              ),
               placement = "bottom"
             )
           )
@@ -731,7 +877,11 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Report Author",
-              paste0(""),
+              shiny::markdown(
+                "
+                Please enter the name of the person/s using pseudoMAVIS, for attribution in the report.
+                "
+              ),
               placement = "bottom"
             )
           ),
@@ -755,7 +905,11 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Project Name",
-              paste0(""),
+              shiny::markdown(
+                "
+                Please enter the name of the project/site being analysed in pseudoMAVIS.
+                "
+              ),
               placement = "bottom"
             )
           ),
@@ -782,7 +936,11 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Download Report",
-              paste0(""),
+              shiny::markdown(
+                "
+                
+                "
+              ),
               placement = "bottom"
             )
           ),
@@ -810,7 +968,11 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Report Options",
-              paste0(""),
+              shiny::markdown(
+                "
+                
+                "
+              ),
               placement = "bottom"
             )
           )

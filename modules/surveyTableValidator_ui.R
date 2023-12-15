@@ -37,27 +37,27 @@ surveyTableValidatorUI <- function(id){
         
         shiny::div(
           
-          shiny::htmlOutput(outputId = ns("speciesInAcceptedText")),
+          shiny::uiOutput(outputId = ns("speciesInAcceptedText")),
           
-          shiny::htmlOutput(outputId = ns("coverSuppliedText")),
+          shiny::uiOutput(outputId = ns("coverSuppliedText")),
           
-          shiny::htmlOutput(outputId = ns("yearCompleteText")),
+          shiny::uiOutput(outputId = ns("yearCompleteText")),
           
-          shiny::htmlOutput(outputId = ns("groupCompleteText")),
+          shiny::uiOutput(outputId = ns("groupCompleteText")),
           
-          shiny::htmlOutput(outputId = ns("quadratCompleteText")),
+          shiny::uiOutput(outputId = ns("quadratCompleteText")),
           
-          shiny::htmlOutput(outputId = ns("speciesCompleteText")),
+          shiny::uiOutput(outputId = ns("speciesCompleteText")),
           
-          shiny::htmlOutput(outputId = ns("quadratIDUniqueText")),
+          shiny::uiOutput(outputId = ns("quadratIDUniqueText")),
           
-          shiny::htmlOutput(outputId = ns("groupIDUniqueText"))
+          shiny::uiOutput(outputId = ns("groupIDUniqueText"))
           
         ),
         
         shiny::div(
           
-          shiny::htmlOutput(outputId = ns("okToProceedText"))
+          shiny::uiOutput(outputId = ns("okToProceedText"))
           
         )
         
