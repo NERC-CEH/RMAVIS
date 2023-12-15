@@ -94,7 +94,7 @@ habitatRestriction_options <- list(
 
 
 # Cross-tabulate NVC floristic tables options -----------------------------
-crossTabulate_options <- c("No" = "No",
+matchSpecies_options <- c("No" = "No",
                            "Composed to NVC" = "compToNVC",
                            "NVC to Composed" = "NVCToComp")
 

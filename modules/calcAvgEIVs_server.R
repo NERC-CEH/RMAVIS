@@ -612,6 +612,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
     output$unweightedMeanHEValuesQuadratTable <- reactable::renderReactable({
 
       unweightedMeanHEValuesQuadratTable <- reactable::reactable(data = unweightedMeanHEValuesQuadrat_prepped,
+                                                                 # elementId = "unweightedMeanHEValuesQuadratTable",
                                                                  filterable = FALSE,
                                                                  pagination = FALSE,
                                                                  highlight = TRUE,
@@ -649,6 +650,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
                                                                    ),
                                                                    Quadrat = reactable::colDef(
                                                                      filterable = TRUE,
+                                                                     # filterInput = dataListFilter("unweightedMeanHEValuesQuadratTable")
                                                                      filterMethod = reactable::JS("function(rows, columnId, filterValue) {
                                                                                        return rows.filter(function(row) {
                                                                                        return row.values[columnId] == filterValue

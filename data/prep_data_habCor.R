@@ -89,8 +89,11 @@ ukHab_habCor_final <- ukHab_habCor_renamed |>
                       values_to = "Code") |>
   dplyr::filter(!is.na(Code)) |>
   dplyr::mutate(
-    Level = stringr::str_remove(string = Level,
-                                pattern = stringr::fixed(".Code"))
+    "Level" = stringr::str_remove(string = Level, pattern = stringr::fixed(".Code"))
+  ) |>
+  dplyr::mutate(
+    "Code" = stringr::str_remove_all(string = Code, pattern = stringr::fixed("[")),
+    "Code" = stringr::str_remove_all(string = Code, pattern = stringr::fixed("]"))
   ) |>
   dplyr::distinct() |>
   dplyr::mutate("Relationship" = "associated with", .after = "NVC.Code") |>

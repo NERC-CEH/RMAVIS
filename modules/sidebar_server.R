@@ -20,7 +20,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
       "habCorClass" = input$habCorClass,
       "composedFloristicTable" = input$composedFloristicTable,
       "nvcFloristicTable" = input$nvcFloristicTable,
-      "crossTabulate" = input$crossTabulate,
+      "matchSpecies" = input$matchSpecies,
       "restrictNVCFlorTablesOpts" = input$restrictNVCFlorTablesOpts,
       "resultsViewEIVs"  = input$resultsViewEIVs,
       "resultsViewDiversity"  = input$resultsViewDiversity,
@@ -51,7 +51,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
               input$habCorClass, 
               input$composedFloristicTable,
               input$nvcFloristicTable, 
-              input$crossTabulate,
+              input$matchSpecies,
               input$restrictNVCFlorTablesOpts,
               input$resultsViewEIVs,
               input$resultsViewDiversity,
@@ -73,27 +73,18 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     if (input$inputMethod == "manual") {
       
-      shinyjs::hide(id = "exampleData")
-      shinyjs::hide(id = "uploadData")
-      
-      shinyjs::hideElement(id = "exampleDataInfo")
-      shinyjs::hideElement(id = "uploadDataInfo")
+      shinyjs::hide(id = "exampleData_div")
+      shinyjs::hide(id = "uploadData_div")
       
     } else if (input$inputMethod == "example") {
       
-      shinyjs::show(id = "exampleData")
-      shinyjs::hide(id = "uploadData")
-      
-      shinyjs::showElement(id = "exampleDataInfo")
-      shinyjs::hideElement(id = "uploadDataInfo")
+      shinyjs::show(id = "exampleData_div")
+      shinyjs::hide(id = "uploadData_div")
       
     } else if (input$inputMethod == "upload") {
       
-      shinyjs::hide(id = "exampleData")
-      shinyjs::show(id = "uploadData")
-      
-      shinyjs::hideElement(id = "exampleDataInfo")
-      shinyjs::showElement(id = "uploadDataInfo")
+      shinyjs::hide(id = "exampleData_div")
+      shinyjs::show(id = "uploadData_div")
       
     }
     
@@ -179,29 +170,38 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
 
 
 # Disable Run Analysis ActionButton if okToProceed == FALSE ---------------
-
+  
   # observe({
   #   
+  #   shinyjs::disable(id = "runAnalysis")
+  #   
+  # }) |>
+  #   bindEvent(surveyTableValidator(),
+  #             once = TRUE,
+  #             ignoreInit = FALSE)
+
+  # observe({
+  # 
   #   surveyTableValidator <- surveyTableValidator()
-  #   
+  # 
   #   okToProceed <- surveyTableValidator$okToProceed
-  #   
+  # 
   #   if(okToProceed == TRUE){
-  #     
+  # 
   #     shinyjs::enable(id = "runAnalysis")
-  #     
+  # 
   #   } else if(okToProceed == FALSE){
-  #     
+  # 
   #     shinyjs::disable(id = "runAnalysis")
-  #     
+  # 
   #   }
-  #   
+  # 
   # }) |>
   #   bindEvent(surveyTableValidator(),
   #             ignoreInit = TRUE,
   #             ignoreNULL = TRUE)
   
-  # Upload Data Modal Popup -------------------------------------------------
+# Upload Data Modal Popup -------------------------------------------------
   
   observe({
     
@@ -233,8 +233,10 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
   # Reactively update nvcFloristicTable options -----------------------------
   observe({
     
+    shiny::req(nvcAssignment())
+    
     # Get all NVC communities and sub-communities from nvc assignment results
-    NVC_communities_all <- nvcAssignment() |> # nvcAssignment()
+    NVC_communities_all <- nvcAssignment() |>
       dplyr::pull(NVC.Code)
     
     # Get all NVC communities from community and sub-community codes
@@ -304,27 +306,27 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     if (input$selectSurveyMethod == "all") {
       
-      shinyjs::hideElement(id = "selectSurveyYears")
-      shinyjs::hideElement(id = "selectSurveyQuadrats")
-      shinyjs::hideElement(id = "selectSurveyGroups")
+      shinyjs::hide(id = "selectSurveyYears_div")
+      shinyjs::hide(id = "selectSurveyQuadrats_div")
+      shinyjs::hide(id = "selectSurveyGroups_div")
       
     } else if (input$selectSurveyMethod == "selectYears") {
       
-      shinyjs::showElement(id = "selectSurveyYears")
-      shinyjs::hideElement(id = "selectSurveyGroups")
-      shinyjs::hideElement(id = "selectSurveyQuadrats")
+      shinyjs::show(id = "selectSurveyYears_div")
+      shinyjs::hide(id = "selectSurveyGroups_div")
+      shinyjs::hide(id = "selectSurveyQuadrats_div")
       
     } else if (input$selectSurveyMethod == "selectGroups") {
       
-      shinyjs::hideElement(id = "selectSurveyYears")
-      shinyjs::showElement(id = "selectSurveyGroups")
-      shinyjs::hideElement(id = "selectSurveyQuadrats")
+      shinyjs::hide(id = "selectSurveyYears_div")
+      shinyjs::show(id = "selectSurveyGroups_div")
+      shinyjs::hide(id = "selectSurveyQuadrats_div")
       
     } else if (input$selectSurveyMethod == "selectQuadrats") {
       
-      shinyjs::hideElement(id = "selectSurveyYears")
-      shinyjs::hideElement(id = "selectSurveyGroups")
-      shinyjs::showElement(id = "selectSurveyQuadrats")
+      shinyjs::hide(id = "selectSurveyYears_div")
+      shinyjs::hide(id = "selectSurveyGroups_div")
+      shinyjs::show(id = "selectSurveyQuadrats_div")
       
     }
     

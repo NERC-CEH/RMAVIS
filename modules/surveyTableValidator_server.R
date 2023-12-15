@@ -130,6 +130,8 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
       "okToProceed" = okToProceed
     )
     
+    print(surveyTableValidation)
+    
     surveyTableValidation_rval(surveyTableValidation)
     
   }) |>

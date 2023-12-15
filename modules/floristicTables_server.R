@@ -6,14 +6,14 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   
   composedFloristicTable <- reactiveVal()
   nvcFloristicTable <- reactiveVal()
-  crossTabulate <- reactiveVal()
+  matchSpecies <- reactiveVal()
   runAnalysis <- reactiveVal()
 
   observe({
 
     composedFloristicTable(sidebar_options()$composedFloristicTable)
     nvcFloristicTable(sidebar_options()$nvcFloristicTable)
-    crossTabulate(sidebar_options()$crossTabulate)
+    matchSpecies(sidebar_options()$matchSpecies)
     runAnalysis(sidebar_options()$runAnalysis)
 
   }) |>
@@ -176,15 +176,15 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
             )
         )
       
-      if(crossTabulate() == "No"){
+      if(matchSpecies() == "No"){
         
         floristicTables_composed_view <- floristicTables_composed_selected
         
-      } else if(crossTabulate() == "compToNVC"){
+      } else if(matchSpecies() == "compToNVC"){
         
         floristicTables_composed_view <- floristicTables_composed_compToNVC
         
-      } else if(crossTabulate() == "NVCToComp"){
+      } else if(matchSpecies() == "NVCToComp"){
         
         floristicTables_composed_view <- floristicTables_composed_selected
         
@@ -220,7 +220,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
     
   }) |>
     bindEvent(floristicTables_composed_all_rval(), 
-              crossTabulate(),
+              matchSpecies(),
               nvcFloristicTable(),
               composedFloristicTable(),
               ignoreInit = TRUE, ignoreNULL = TRUE)
@@ -294,15 +294,15 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
             )
         )
       
-      if(crossTabulate() == "No"){
+      if(matchSpecies() == "No"){
         
         floristicTables_nvc_view <- floristicTables_nvc
         
-      } else if(crossTabulate() == "compToNVC"){
+      } else if(matchSpecies() == "compToNVC"){
         
         floristicTables_nvc_view <- floristicTables_nvc
         
-      } else if(crossTabulate() == "NVCToComp"){
+      } else if(matchSpecies() == "NVCToComp"){
         
         floristicTables_nvc_view <- floristicTables_nvc_NVCToComp
         
@@ -337,7 +337,7 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   }) |>
     bindEvent(floristicTables_composed_all_rval(),
               nvcFloristicTable(), 
-              crossTabulate(), 
+              matchSpecies(), 
               composedFloristicTable(),
               ignoreInit = TRUE, ignoreNULL = TRUE)
   
