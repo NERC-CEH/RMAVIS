@@ -235,8 +235,8 @@ sidebarUI <- function(id){
                 "
                 Optionally restrict the NVC assignment process to one or more
                 broad NVC habitat types. This is reccomended to increase the
-                assignment speed, but only if the site being
-                analysed unequivocally conforms to the selected NVC habitat.
+                assignment speed, but only the site being
+                analysed unequivocally conforms to the selected NVC habitats.
                 "
               ),
               placement = "bottom"

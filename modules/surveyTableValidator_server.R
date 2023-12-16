@@ -3,7 +3,6 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
   ns <- session$ns
   
 # Initialise Table to Replace Species Not In Accepted List ----------------
-  
   speciesCorrectionTable_init <- data.frame("Species.Submitted" = character(),
                                             "Species.Corrected" = character(),
                                             "Species.Ignore" = logical())
@@ -27,7 +26,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
         col = "Species.Corrected",
         readOnly = FALSE,
         type = "dropdown",
-        source = speciesNames, # [1:50]
+        source = speciesNames,
         strict = TRUE,
         default = as.character(NA_character_)
       ) |>
@@ -60,7 +59,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     surveyTable_speciesNotAccepted <- setdiff(unique(surveyTable$Species), speciesNames)
     
     # Check whether any cover estimates are supplied
-    surveyTable_coverSupplied <- isFALSE(is.na(unique(surveyTable$Cover)))
+    surveyTable_coverSupplied <- isTRUE(!is.na(unique(surveyTable$Cover)))
     
     # Check whether all cover estimates are supplied
     surveyTable_coverSuppliedAll <- isTRUE(any(is.na(surveyTable$Cover)))

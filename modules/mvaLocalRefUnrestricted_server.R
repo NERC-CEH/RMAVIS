@@ -134,7 +134,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
           "Group" =
             dplyr::case_when(
               stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) == TRUE ~ "Reference",
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) == FALSE ~ stringr::str_extract(string = Quadrat, pattern = "(?<=\\d{4}\\s-\\s)([[:alnum:]]*)"),
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) == FALSE ~ stringr::str_extract(string = Quadrat, pattern = "\\d{4}\\s-\\s(.*)\\s-\\s.*", group = 1),
               TRUE ~ as.character("")
             ),
           .before  = "Quadrat"
@@ -147,7 +147,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
       pquads_surveyTable_dca_results_quadrats_sample <- pquads_surveyTable_dca_results_quadrats |>
         dplyr::filter(NVC.Comm == "Sample") |>
         dplyr::mutate("ID" = Quadrat, .before = "Year") |>
-        dplyr::mutate("Quadrat" = stringr::str_extract(string = Quadrat, pattern = "[[:alnum:]]*$"))
+        dplyr::mutate("Quadrat" = stringr::str_extract(string = Quadrat, pattern = "\\d{4}\\s-\\s.*\\s-\\s(.*)", group = 1))
         
         
       dcaAxisSelection <- dcaAxisSelection()
@@ -241,6 +241,15 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
       pquads_surveyTable_dca_results_quadrats_sample_selected <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample |>
         dplyr::filter(Group %in% selectSurveyGroups())
       
+      # print("selectSurveyGroups()")
+      # print(selectSurveyGroups())
+      # 
+      # print("mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample$Group |> unique()")
+      # print(mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample$Group |> unique())
+      # assign(x = "foo", value = mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample, envir = .GlobalEnv)
+      # print("head(pquads_surveyTable_dca_results_quadrats_sample_selected)")
+      # print(head(pquads_surveyTable_dca_results_quadrats_sample_selected))
+      
       arrow_plot_data_selected <- mvaLocalRefUnrestrictedResults$arrow_plot_data |>
         dplyr::filter(Group %in% selectSurveyGroups())
       
@@ -248,6 +257,8 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
       
       pquads_surveyTable_dca_results_quadrats_sample_selected <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample |>
         dplyr::filter(Quadrat %in% selectSurveyQuadrats())
+      
+      print(head(pquads_surveyTable_dca_results_quadrats_sample_selected))
       
       arrow_plot_data_selected <- mvaLocalRefUnrestrictedResults$arrow_plot_data |>
         dplyr::filter(Quadrat %in% selectSurveyQuadrats())
