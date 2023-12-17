@@ -20,6 +20,20 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
 
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
+  
+
+# Retrieve Survey Table Correction Button ---------------------------------
+  correctSpecies <- reactiveVal()
+  
+  observe({
+    
+    correctSpecies(surveyTableValidator()$correctSpecies)
+    
+  }) |>
+    bindEvent(surveyTableValidator(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+
 
 # Initial survey table data -----------------------------------------------
 
@@ -129,15 +143,6 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
       }
       
     })
-    
-    # isolate({
-      
-      surveyTableValidator <- surveyTableValidator()
-      
-      print(surveyTableValidator)
-      
-      
-    # })
 
     output$surveyTable <- rhandsontable::renderRHandsontable({
 
@@ -200,11 +205,121 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
     bindEvent(inputMethod(),
               exampleData(),
               uploadDataTable(),
-              # resetTable(),
-              surveyTableValidator(),
               ignoreInit = TRUE)
   
   
+
+# Validate Survey Data Table ----------------------------------------------
+  surveyTable_corrected_rval <- reactiveVal()
+  
+  observe({
+
+    req(surveyTableValidator())
+    req(input$surveyTable)
+
+    surveyTable <- rhandsontable::hot_to_r(input$surveyTable)
+
+    isolate({
+
+      surveyTableValidator <- surveyTableValidator()
+
+      assign(x = "surveyTableValidator", value = surveyTableValidator, envir = .GlobalEnv)
+      assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
+
+      if(!is.null(surveyTableValidator()$speciesCorrectionTable)){
+
+        speciesCorrectionTable <- surveyTableValidator$speciesCorrectionTable |>
+          dplyr::rename("Species" = Species.Submitted)
+
+        surveyTable_corrected <- surveyTable |>
+          dplyr::left_join(speciesCorrectionTable, by = "Species") |>
+          dplyr::mutate(
+            "Species" = dplyr::case_when(
+              is.na(Species.Corrected) ~ Species,
+              TRUE ~ as.character(Species.Corrected)
+            )
+          ) |>
+          dplyr::select(-Species.Corrected, -Species.Ignore)
+        
+        surveyTable_corrected_rval(surveyTable_corrected)
+
+      }
+
+    })
+
+  }) |>
+    bindEvent(input$surveyTable,
+              surveyTableValidator(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+  
+  observe({
+    
+    surveyTable_corrected <- surveyTable_corrected_rval()
+    
+    # print(head(surveyTable_corrected))
+    
+    output$surveyTable <- rhandsontable::renderRHandsontable({
+      
+      surveyTable <- rhandsontable::rhandsontable(data = surveyTable_corrected,
+                                                  rowHeaders = NULL,
+                                                  width = "100%"#,
+                                                  # overflow = "visible",
+                                                  # stretchH = "all"
+      ) |>
+        rhandsontable::hot_col(col = colnames(surveyTable_corrected), halign = "htCenter") |>
+        rhandsontable::hot_col(
+          col = "Year",
+          readOnly = FALSE,
+          type = "numeric"
+        ) |>
+        rhandsontable::hot_col(
+          col = "Group",
+          readOnly = FALSE,
+          type = "text"
+        ) |>
+        rhandsontable::hot_col(
+          col = "Quadrat",
+          readOnly = FALSE,
+          type = "text"
+        ) |>
+        rhandsontable::hot_col(
+          col = "Species",
+          readOnly = FALSE,
+          type = "dropdown",
+          source = speciesNames,
+          strict = FALSE,
+          default = as.character(NA_character_)
+        ) |>
+        rhandsontable::hot_col(
+          col = "Cover",
+          readOnly = FALSE,
+          type = "numeric",
+          strict = FALSE
+        ) |>
+        rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        # rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames) |>
+        htmlwidgets::onRender("
+        function(el, x) {
+          var hot = this.hot
+          $('a[data-value=\"surveyData_panel\"').on('click', function(){
+            setTimeout(function() {hot.render();}, 0);
+          })
+        }")
+      
+      return(surveyTable)
+      
+    })
+    
+  }) |>
+    bindEvent(correctSpecies(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+
+  
+
+# Save Survey Table to Reactive Val ---------------------------------------
   observe({
 
     # req(nrow(surveyTable_rval()) > 0)
