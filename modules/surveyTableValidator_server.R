@@ -30,6 +30,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
         strict = TRUE,
         default = as.character(NA_character_)
       ) |>
+      rhandsontable::hot_cols(colWidths = c(200, 200, 200)) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
@@ -155,6 +156,8 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
               ignoreNULL = TRUE)
 
 # Update Table to Replace Species Not In Accepted List --------------------
+  speciesCorrectionTable_rval <- reactiveVal()
+  
   observe({
     
     req(surveyTableValidation_rval())
@@ -190,13 +193,14 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
             strict = TRUE,
             default = as.character(NA_character_)
           ) |>
+          rhandsontable::hot_cols(colWidths = c(200, 200, 200)) |>
           rhandsontable::hot_validate_character(cols = "Species.Corrected", choices = speciesNames) |>
           rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
           rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
           htmlwidgets::onRender("
           function(el, x) {
             var hot = this.hot
-            $('a[data-value=\validateSurveyTable\"').on('click', function(){
+            $('a[data-value=\"validateSurveyTable\"').on('click', function(){
               setTimeout(function() {hot.render();}, 0);
             })
           }")
@@ -204,6 +208,8 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
         return(speciesCorrectionTable)
         
       })
+      
+      speciesCorrectionTable_rval(speciesCorrectionTable)
       
     }
      
@@ -236,7 +242,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     
 
 # All Species in Accepted List Text ---------------------------------------
-    output$speciesInAcceptedText <- shiny::renderUI({
+    output$speciesInAcceptedText <- shiny::renderText({
       
       paste0("All Species Accepted: ",
              ifelse(
@@ -254,7 +260,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     
 
 # Cover Supplied Text -----------------------------------------------------
-    output$coverSuppliedText <- shiny::renderUI({
+    output$coverSuppliedText <- shiny::renderText({
       
       paste0("Are Cover Estimate Values Provided: ",
              ifelse(
@@ -273,7 +279,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 
 
 # Year Column Complete Text -----------------------------------------------
-    output$yearCompleteText <- shiny::renderUI({
+    output$yearCompleteText <- shiny::renderText({
       
       paste0("Year Column Complete (no missing values): ",
              ifelse(
@@ -291,7 +297,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 
 
 # Group Column Complete Text ----------------------------------------------
-    output$groupCompleteText <- shiny::renderUI({
+    output$groupCompleteText <- shiny::renderText({
       
       paste0("Group Column Complete (no missing values): ",
              ifelse(
@@ -309,7 +315,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 
 
 # Quadrat Column Complete Text --------------------------------------------
-    output$quadratCompleteText <- shiny::renderUI({
+    output$quadratCompleteText <- shiny::renderText({
       
       paste0("Quadrat Column Complete (no missing values): ",
              ifelse(
@@ -326,7 +332,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     })
     
 # Species Column Complete Text --------------------------------------------
-    output$speciesCompleteText <- shiny::renderUI({
+    output$speciesCompleteText <- shiny::renderText({
       
       paste0("Species Column Complete (no missing values): ",
              ifelse(
@@ -343,7 +349,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     })
 
 # Quadrat Names Unique Text -----------------------------------------------
-    output$speciesQuadratDuplicatesText <- shiny::renderUI({
+    output$speciesQuadratDuplicatesText <- shiny::renderText({
       
       paste0("No Duplicate Species Within Quadrats: ",
              ifelse(
@@ -360,7 +366,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     })
     
 # Quadrat Names Unique Text -----------------------------------------------
-    output$quadratIDUniqueText <- shiny::renderUI({
+    output$quadratIDUniqueText <- shiny::renderText({
       
       paste0("Quadrat Names Unique: ",
              ifelse(
@@ -378,7 +384,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 
 
 # Group Names Unique Text -------------------------------------------------
-    output$groupIDUniqueText <- shiny::renderUI({
+    output$groupIDUniqueText <- shiny::renderText({
       
       paste0("Group Names Unique: ",
              ifelse(
@@ -396,7 +402,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
   
 
 # Ok to proceed Text ------------------------------------------------------
-    output$okToProceedText <- shiny::renderUI({
+    output$okToProceedText <- shiny::renderText({
       
       paste0("Ok to Proceed: ",
              ifelse(
@@ -418,8 +424,30 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
               ignoreNULL = TRUE)
   
 
-  outputOptions(output, "speciesCorrectionTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "speciesCorrectionTable", suspendWhenHidden = TRUE)
   
-  return(surveyTableValidation_rval)
+  # Compose object to return
+  surveyTableValidatorData_rval <- reactiveVal()
+  
+  observe({
+
+    surveyTableValidatorData <- list(
+      "correctSpecies" = input$correctSpecies,
+      "speciesCorrectionTable" = rhandsontable::hot_to_r(input$speciesCorrectionTable),
+      "surveyTableValidation" = surveyTableValidation_rval()
+    )
+
+    # print(surveyTableValidatorData)
+
+    surveyTableValidatorData_rval(surveyTableValidatorData)
+    
+  }) |>
+    bindEvent(input$correctSpecies,
+              input$speciesCorrectionTable,
+              surveyTableValidation_rval(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+  
+  return(surveyTableValidatorData_rval)
   
 }

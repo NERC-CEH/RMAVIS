@@ -18,6 +18,7 @@ server <- function(input, output, session) {
   surveyTable <- shiny::callModule(module = surveyTable,
                                    id = "surveyTable_id_1",
                                    uploadDataTable = uploadDataTable,
+                                   surveyTableValidator = surveyTableValidator,
                                    sidebar_options = sidebar_options)
   
   surveyTableValidator <- shiny::callModule(module = surveyTableValidator,

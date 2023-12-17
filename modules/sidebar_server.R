@@ -180,26 +180,28 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
   #             once = TRUE,
   #             ignoreInit = FALSE)
 
-  # observe({
-  # 
-  #   surveyTableValidator <- surveyTableValidator()
-  # 
-  #   okToProceed <- surveyTableValidator$okToProceed
-  # 
-  #   if(okToProceed == TRUE){
-  # 
-  #     shinyjs::enable(id = "runAnalysis")
-  # 
-  #   } else if(okToProceed == FALSE){
-  # 
-  #     shinyjs::disable(id = "runAnalysis")
-  # 
-  #   }
-  # 
-  # }) |>
-  #   bindEvent(surveyTableValidator(),
-  #             ignoreInit = TRUE,
-  #             ignoreNULL = TRUE)
+  observe({
+
+    surveyTableValidator <- surveyTableValidator()
+    
+    # print(surveyTableValidator)
+
+    okToProceed <- surveyTableValidator$surveyTableValidation$okToProceed
+
+    if(okToProceed == TRUE){
+
+      shinyjs::enable(id = "runAnalysis")
+
+    } else if(okToProceed == FALSE){
+
+      shinyjs::disable(id = "runAnalysis")
+
+    }
+
+  }) |>
+    bindEvent(surveyTableValidator(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
   
 # Upload Data Modal Popup -------------------------------------------------
   

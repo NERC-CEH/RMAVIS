@@ -241,15 +241,6 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
       pquads_surveyTable_dca_results_quadrats_sample_selected <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample |>
         dplyr::filter(Group %in% selectSurveyGroups())
       
-      # print("selectSurveyGroups()")
-      # print(selectSurveyGroups())
-      # 
-      # print("mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample$Group |> unique()")
-      # print(mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample$Group |> unique())
-      # assign(x = "foo", value = mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample, envir = .GlobalEnv)
-      # print("head(pquads_surveyTable_dca_results_quadrats_sample_selected)")
-      # print(head(pquads_surveyTable_dca_results_quadrats_sample_selected))
-      
       arrow_plot_data_selected <- mvaLocalRefUnrestrictedResults$arrow_plot_data |>
         dplyr::filter(Group %in% selectSurveyGroups())
       
@@ -257,8 +248,6 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
       
       pquads_surveyTable_dca_results_quadrats_sample_selected <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample |>
         dplyr::filter(Quadrat %in% selectSurveyQuadrats())
-      
-      print(head(pquads_surveyTable_dca_results_quadrats_sample_selected))
       
       arrow_plot_data_selected <- mvaLocalRefUnrestrictedResults$arrow_plot_data |>
         dplyr::filter(Quadrat %in% selectSurveyQuadrats())

@@ -1,4 +1,4 @@
-surveyTable <- function(input, output, session, uploadDataTable, sidebar_options) {
+surveyTable <- function(input, output, session, uploadDataTable, surveyTableValidator, sidebar_options) {
   
   ns <- session$ns
   
@@ -129,6 +129,15 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
       }
       
     })
+    
+    # isolate({
+      
+      surveyTableValidator <- surveyTableValidator()
+      
+      print(surveyTableValidator)
+      
+      
+    # })
 
     output$surveyTable <- rhandsontable::renderRHandsontable({
 
@@ -192,6 +201,7 @@ surveyTable <- function(input, output, session, uploadDataTable, sidebar_options
               exampleData(),
               uploadDataTable(),
               # resetTable(),
+              surveyTableValidator(),
               ignoreInit = TRUE)
   
   

@@ -6,7 +6,7 @@ concordance_all_trimmed <- concordance_all |>
 
 
 # Species names -----------------------------------------------------------
-speciesNames <- concordance_all_trimmed$proposedSpecies |> unique()
+speciesNames <- concordance_all_trimmed$proposedSpecies |> unique() |> sort()
 
 saveRDS(object = speciesNames, file = "./data/bundled_data/speciesNames.rds")
 
