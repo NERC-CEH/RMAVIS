@@ -3,27 +3,27 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
   ns <- session$ns
   
 # Initialise Table to Replace Species Not In Accepted List ----------------
-  speciesCorrectionTable_init <- data.frame("Species.Submitted" = character(),
-                                            "Species.Corrected" = character(),
+  speciesAdjustmentTable_init <- data.frame("Species.Submitted" = character(),
+                                            "Species.Adjusted" = character(),
                                             "Species.Ignore" = logical())
   
-  speciesCorrectionTable_rval <- reactiveVal(speciesCorrectionTable_init)
+  speciesAdjustmentTable_rval <- reactiveVal(speciesAdjustmentTable_init)
   
-  output$speciesCorrectionTable <- rhandsontable::renderRHandsontable({
+  output$speciesAdjustmentTable <- rhandsontable::renderRHandsontable({
     
-    speciesCorrectionTable <- rhandsontable::rhandsontable(data = speciesCorrectionTable_init,
+    speciesAdjustmentTable <- rhandsontable::rhandsontable(data = speciesAdjustmentTable_init,
                                                            rowHeaders = NULL,
                                                            width = "100%"#,
                                                            # overflow = "visible",
                                                            # stretchH = "all"
                                                            ) |>
-      rhandsontable::hot_col(col = colnames(speciesCorrectionTable_init), halign = "htCenter") |>
+      rhandsontable::hot_col(col = colnames(speciesAdjustmentTable_init), halign = "htCenter") |>
       rhandsontable::hot_col(
         col = "Species.Submitted",
         readOnly = TRUE,
       ) |>
       rhandsontable::hot_col(
-        col = "Species.Corrected",
+        col = "Species.Adjusted",
         readOnly = FALSE,
         type = "dropdown",
         source = speciesNames,
@@ -41,7 +41,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
         })
       }")
     
-    return(speciesCorrectionTable)
+    return(speciesAdjustmentTable)
     
   })
   
@@ -156,7 +156,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
               ignoreNULL = TRUE)
 
 # Update Table to Replace Species Not In Accepted List --------------------
-  speciesCorrectionTable_rval <- reactiveVal()
+  speciesAdjustmentTable_rval <- reactiveVal()
   
   observe({
     
@@ -168,50 +168,54 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     
     if(length(surveyTableValidation$speciesNotAccepted) > 0){
       
-      speciesCorrectionTable <- data.frame("Species.Submitted" = surveyTableValidation$speciesNotAccepted,
-                                           "Species.Corrected" = as.character(NA_character_),
+      speciesAdjustmentTable <- data.frame("Species.Submitted" = surveyTableValidation$speciesNotAccepted,
+                                           "Species.Adjusted" = as.character(NA_character_),
                                            "Species.Ignore" = FALSE)
       
-      output$speciesCorrectionTable <- rhandsontable::renderRHandsontable({
-        
-        speciesCorrectionTable <- rhandsontable::rhandsontable(data = speciesCorrectionTable,
-                                                               rowHeaders = NULL,
-                                                               width = "100%"#,
-                                                               # overflow = "visible",
-                                                               # stretchH = "all"
+    } else {
+      
+      speciesAdjustmentTable <- speciesAdjustmentTable_init
+      
+    }
+    
+    output$speciesAdjustmentTable <- rhandsontable::renderRHandsontable({
+      
+      speciesAdjustmentTable <- rhandsontable::rhandsontable(data = speciesAdjustmentTable,
+                                                             rowHeaders = NULL,
+                                                             width = "100%"#,
+                                                             # overflow = "visible",
+                                                             # stretchH = "all"
+      ) |>
+        rhandsontable::hot_col(col = colnames(speciesAdjustmentTable), halign = "htCenter") |>
+        rhandsontable::hot_col(
+          col = "Species.Submitted",
+          readOnly = TRUE,
         ) |>
-          rhandsontable::hot_col(col = colnames(speciesCorrectionTable), halign = "htCenter") |>
-          rhandsontable::hot_col(
-            col = "Species.Submitted",
-            readOnly = TRUE,
-          ) |>
-          rhandsontable::hot_col(
-            col = "Species.Corrected",
-            readOnly = FALSE,
-            type = "dropdown",
-            source = speciesNames,
-            strict = TRUE,
-            default = as.character(NA_character_)
-          ) |>
-          rhandsontable::hot_cols(colWidths = c(200, 200, 200)) |>
-          rhandsontable::hot_validate_character(cols = "Species.Corrected", choices = speciesNames) |>
-          rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-          rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-          htmlwidgets::onRender("
+        rhandsontable::hot_col(
+          col = "Species.Adjusted",
+          readOnly = FALSE,
+          type = "dropdown",
+          source = speciesNames,
+          strict = TRUE,
+          default = as.character(NA_character_)
+        ) |>
+        rhandsontable::hot_cols(colWidths = c(200, 200, 200)) |>
+        rhandsontable::hot_validate_character(cols = "Species.Adjusted", choices = speciesNames) |>
+        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
           function(el, x) {
             var hot = this.hot
             $('a[data-value=\"validateSurveyTable\"').on('click', function(){
               setTimeout(function() {hot.render();}, 0);
             })
           }")
-        
-        return(speciesCorrectionTable)
-        
-      })
       
-      speciesCorrectionTable_rval(speciesCorrectionTable)
+      return(speciesAdjustmentTable)
       
-    }
+    })
+    
+    speciesAdjustmentTable_rval(speciesAdjustmentTable)
      
   }) |>
     bindEvent(surveyTableValidation_rval(),
@@ -424,7 +428,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
               ignoreNULL = TRUE)
   
 
-  outputOptions(output, "speciesCorrectionTable", suspendWhenHidden = TRUE)
+  outputOptions(output, "speciesAdjustmentTable", suspendWhenHidden = TRUE)
   
   # Compose object to return
   surveyTableValidatorData_rval <- reactiveVal()
@@ -432,8 +436,9 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
   observe({
 
     surveyTableValidatorData <- list(
-      "correctSpecies" = input$correctSpecies,
-      "speciesCorrectionTable" = rhandsontable::hot_to_r(input$speciesCorrectionTable),
+      "adjustSpecies" = input$adjustSpecies,
+      "combineDuplicates" = input$combineDuplicates,
+      "speciesAdjustmentTable" = rhandsontable::hot_to_r(input$speciesAdjustmentTable),
       "surveyTableValidation" = surveyTableValidation_rval()
     )
 
@@ -442,8 +447,8 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     surveyTableValidatorData_rval(surveyTableValidatorData)
     
   }) |>
-    bindEvent(input$correctSpecies,
-              input$speciesCorrectionTable,
+    bindEvent(input$adjustSpecies,
+              input$speciesAdjustmentTable,
               surveyTableValidation_rval(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)

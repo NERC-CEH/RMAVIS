@@ -11,7 +11,8 @@ sidebarUI <- function(id){
 
 # Run Analysis ------------------------------------------------------------
     shiny::actionButton(inputId = ns("runAnalysis"),
-                        label = "Run Analysis"),
+                        label = "Run Analysis",
+                        disabled = ''),
 
     
 

@@ -170,16 +170,6 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
 
 
 # Disable Run Analysis ActionButton if okToProceed == FALSE ---------------
-  
-  # observe({
-  #   
-  #   shinyjs::disable(id = "runAnalysis")
-  #   
-  # }) |>
-  #   bindEvent(surveyTableValidator(),
-  #             once = TRUE,
-  #             ignoreInit = FALSE)
-
   observe({
 
     surveyTableValidator <- surveyTableValidator()

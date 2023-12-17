@@ -23,11 +23,15 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
   
 
 # Retrieve Survey Table Correction Button ---------------------------------
-  correctSpecies <- reactiveVal()
+  adjustSpecies <- reactiveVal()
+  combineDuplicates <- reactiveVal()
+  speciesAdjustmentTable <- reactiveVal()
   
   observe({
     
-    correctSpecies(surveyTableValidator()$correctSpecies)
+    adjustSpecies(surveyTableValidator()$adjustSpecies)
+    combineDuplicates(surveyTableValidator()$combineDuplicates)
+    speciesAdjustmentTable(surveyTableValidator()$speciesAdjustmentTable)
     
   }) |>
     bindEvent(surveyTableValidator(),
@@ -214,32 +218,29 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
   
   observe({
 
-    req(surveyTableValidator())
+    req(speciesAdjustmentTable())
     req(input$surveyTable)
 
     surveyTable <- rhandsontable::hot_to_r(input$surveyTable)
 
     isolate({
 
-      surveyTableValidator <- surveyTableValidator()
+      if(!is.null(speciesAdjustmentTable())){
+        
+        print(speciesAdjustmentTable())
 
-      assign(x = "surveyTableValidator", value = surveyTableValidator, envir = .GlobalEnv)
-      assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
-
-      if(!is.null(surveyTableValidator()$speciesCorrectionTable)){
-
-        speciesCorrectionTable <- surveyTableValidator$speciesCorrectionTable |>
+        speciesAdjustmentTable <- speciesAdjustmentTable() |>
           dplyr::rename("Species" = Species.Submitted)
 
         surveyTable_corrected <- surveyTable |>
-          dplyr::left_join(speciesCorrectionTable, by = "Species") |>
+          dplyr::left_join(speciesAdjustmentTable, by = "Species") |>
           dplyr::mutate(
             "Species" = dplyr::case_when(
-              is.na(Species.Corrected) ~ Species,
-              TRUE ~ as.character(Species.Corrected)
+              is.na(Species.Adjusted) ~ Species,
+              TRUE ~ as.character(Species.Adjusted)
             )
           ) |>
-          dplyr::select(-Species.Corrected, -Species.Ignore)
+          dplyr::select(-Species.Adjusted, -Species.Ignore)
         
         surveyTable_corrected_rval(surveyTable_corrected)
 
@@ -249,7 +250,7 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
 
   }) |>
     bindEvent(input$surveyTable,
-              surveyTableValidator(),
+              speciesAdjustmentTable(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
@@ -313,7 +314,7 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
     })
     
   }) |>
-    bindEvent(correctSpecies(),
+    bindEvent(adjustSpecies(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
 
