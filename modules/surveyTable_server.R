@@ -227,7 +227,7 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
 
       if(!is.null(speciesAdjustmentTable())){
         
-        print(speciesAdjustmentTable())
+        # print(speciesAdjustmentTable())
 
         speciesAdjustmentTable <- speciesAdjustmentTable() |>
           dplyr::rename("Species" = Species.Submitted)

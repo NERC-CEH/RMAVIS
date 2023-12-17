@@ -114,7 +114,7 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
 }
 
 .handsontable .htDimmed {
-  background-color: #ffffff !important;
+  /*background-color: #ffffff !important;*/
   color: #000000 !important;
 }
 
