@@ -372,7 +372,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("nvcFloristicTable"), 
                                   label = "NVC Table", 
-                                  choices = nvc_community_codes, 
+                                  choices = NULL, 
                                   selected = "A1", 
                                   multiple = FALSE),
             

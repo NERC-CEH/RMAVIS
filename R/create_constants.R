@@ -15,7 +15,8 @@ example_data_options <- c("None" = "none",
 
 # Data Entry Format Options -----------------------------------------------
 dataEntryFormat_options <- c("Long" = "long",
-                             "Wide" = "wide")
+                             "Wide" = "wide",
+                             "Matrix" = "matrix")
 
 # Domin Cover -------------------------------------------------------------
 dominCoverMidPointPerc <- c("10" = 0.955,

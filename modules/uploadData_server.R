@@ -15,13 +15,21 @@ uploadData <- function(input, output, session) {
     
     if(input$dataEntryFormat == "long") {
       
-      shinyjs::hideElement(id = "wide_description")
       shinyjs::showElement(id = "long_description")
+      shinyjs::hideElement(id = "wide_description")
+      shinyjs::hideElement(id = "matrix_description")
       
     } else if(input$dataEntryFormat == "wide") {
       
-      shinyjs::showElement(id = "wide_description")
       shinyjs::hideElement(id = "long_description")
+      shinyjs::showElement(id = "wide_description")
+      shinyjs::hideElement(id = "matrix_description")
+      
+    } else if(input$dataEntryFormat == "matrix") {
+      
+      shinyjs::hideElement(id = "long_description")
+      shinyjs::hideElement(id = "wide_description")
+      shinyjs::showElement(id = "matrix_description")
       
     }
     
@@ -56,15 +64,22 @@ uploadData <- function(input, output, session) {
   
   observe({
     
-    # shiny::req(input$uploadDataTable)
-    
     if(input$dataEntryFormat == "long"){
       
       uploaded_data_raw <- read.csv(input$uploadDataInput$datapath)
       
-      # print(uploaded_data_raw)
-      
     } else if(input$dataEntryFormat == "wide"){
+      
+      uploaded_data_raw <- read.csv(input$uploadDataInput$datapath, check.names = FALSE) |>
+        dplyr::mutate(dplyr::across(dplyr::everything(), as.character))|>
+        tidyr::pivot_longer(cols = -c(Year, Group, Quadrat),
+                            names_to = "Species",
+                            values_to = "Cover",
+                            values_transform = list(Cover = as.numeric)) |> # as.numeric
+        dplyr::select(Year, Group, Quadrat, Species, Cover) |>
+        dplyr::filter(!is.na(Cover))
+      
+    } else if(input$dataEntryFormat == "matrix"){
       
       uploaded_data_raw <- read.csv(input$uploadDataInput$datapath, check.names = FALSE, row.names = 1) |>
         tibble::rownames_to_column(var = "Quadrat")|>
@@ -127,10 +142,10 @@ uploadData <- function(input, output, session) {
     if(columnNames_correct == TRUE){
       
       yearValues_numeric <- all(is.numeric(uploaded_data_raw$Year))
-      speciesNames_correct <- all(unique(uploaded_data_raw$Species) %in% speciesNames)
+      # speciesNames_correct <- all(unique(uploaded_data_raw$Species) %in% speciesNames)
       
       yearValues_numeric(yearValues_numeric)
-      speciesNames_correct(speciesNames_correct)
+      # speciesNames_correct(speciesNames_correct)
       
       output$yearValues_numeric_expression <- shiny::renderText({
         
@@ -148,21 +163,21 @@ uploadData <- function(input, output, session) {
         
       })
       
-      output$speciesNames_correct_expression <- shiny::renderText({
-        
-        paste0("Species Names Correct: ",
-               ifelse(
-                 as.character(speciesNames_correct) == TRUE,
-                 paste('<font color="green"><b>', 
-                       as.character(speciesNames_correct), 
-                       '</b></font>'),
-                 paste('<font color="red"><b>', 
-                       as.character(speciesNames_correct), 
-                       '</b></font>')
-               )
-        )
-        
-      })
+      # output$speciesNames_correct_expression <- shiny::renderText({
+      #   
+      #   paste0("Species Names Correct: ",
+      #          ifelse(
+      #            as.character(speciesNames_correct) == TRUE,
+      #            paste('<font color="green"><b>', 
+      #                  as.character(speciesNames_correct), 
+      #                  '</b></font>'),
+      #            paste('<font color="red"><b>', 
+      #                  as.character(speciesNames_correct), 
+      #                  '</b></font>')
+      #          )
+      #   )
+      #   
+      # })
       
     }
     

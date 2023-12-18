@@ -34,10 +34,13 @@ uploadDataUI <- function(id) {
       
       shiny::markdown(
         "
-        MAVIS expects data to be uploaded in .csv format in one of two formats: long or wide, see below.
+        MAVIS expects data to be uploaded as a .csv file in one of three formats: long, wide, or matrix.
+        Use the 'Data Entry Format' option to view the format required by each option, and select the format to upload.
         
         "
       ),
+      
+      shiny::div(shiny::hr()),
       
       shiny::div(
         
@@ -45,13 +48,25 @@ uploadDataUI <- function(id) {
         
         shiny::markdown(
           "
-          Long data must be structured as a five-column dataframe with the following columns.
+          Long data must be structured as a five-column table with the following columns.
           
-          - *Year:* Contains the year the quadrat was surveyed. Numeric.
+          - *Year:* Contains the year the quadrat was surveyed. Integer.
           - *Group:* Contains the quadrat group. String.
           - *Quadrat:* Contains the quadrat ID. String.
-          - *Species:* Contains the species, please download the list of accepted species names using the button above. String.
-          - *Cover:* Contains the species-quadrat cover estimates, with values between 0 and 1. Numeric.
+          - *Species:* Contains the species. String.
+          - *Cover:* Contains the species-quadrat cover estimates, with values between 0 and 1. Double.
+          
+          Example:
+          
+          <center>
+          
+          | Year | Group | Quadrat |     Species      | Cover |
+          |:----:|:-----:|:-------:|:----------------:|:-----:|
+          | 2023 | A     | 1       | Calluna vulgaris | 0.5   |
+          | 2023 | A     | 1       | Empetrum nigrum  | 0.1   |
+          
+          </center>
+          </br>
           
           Formatting checks are displayed below.
           
@@ -66,9 +81,54 @@ uploadDataUI <- function(id) {
         
         shiny::markdown(
           "
-          Wide data must be structured with rows as quadrat IDs and columns as species names, with values as species-quadrat cover estimates, with values between 0 and 1.
+          Wide data must be structured as a table with three ID columns:
+          
+          - *Year:* Contains the year the quadrat was surveyed. Integer.
+          - *Group:* Contains the quadrat group. String.
+          - *Quadrat:* Contains the quadrat ID. String.
+          
+          with additional columns for each species and values as cover estimates (values between 0 and 1) or simply 1 to indicate the species presence.
+          
+          Once uploaded wide data will be converted into long format.
+          
+          Example:
+          
+          <center>
+          
+          | Year | Group | Quadrat | Calluna vulgaris | Empetrum nigrum |
+          |:----:|:-----:|:-------:|:----------------:|:---------------:|
+          | 2023 | A     | 1       | 0.5              | 0.1             |
+          
+          </center>
+          </br>
+          
+          Formatting checks are displayed below.
+          
+          "
+        )
+        
+      ),
+      
+      shiny::div(
+        
+        id = ns("matrix_description"),
+        
+        shiny::markdown(
+          "
+          Matrix data must be structured with rows as quadrat IDs and columns as species names, with values as species-quadrat cover estimates, with values between 0 and 1, or simply 1 to indicate species presence.
           
           Once uploaded wide data will be converted into long format, with placeholder Year and Group values which the user may edit.
+          
+          Example:
+          
+          <center>
+          
+          |   | Calluna vulgaris | Empetrum nigrum |
+          |:-:|:----------------:|:---------------:|
+          | 1 | 0.5              | 0.1             |
+          
+          </center>
+          </br>
           
           Formatting checks are displayed below.
           
@@ -83,7 +143,7 @@ uploadDataUI <- function(id) {
         
         shiny::htmlOutput(outputId = ns("columnNames_correct_expression")),
         shiny::htmlOutput(outputId = ns("yearValues_numeric_expression")),
-        shiny::htmlOutput(outputId = ns("speciesNames_correct_expression"))
+        # shiny::htmlOutput(outputId = ns("speciesNames_correct_expression"))
         
       ),
       
