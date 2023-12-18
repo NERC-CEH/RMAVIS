@@ -130,20 +130,19 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
                                                          comp_id = "Pid3") |>
         dplyr::select("ID" = FOCAL_ID,
                       "Mean.Similarity" = MEAN_SIM, 
-                      # "Standard.Deviation" = SD,
+                      "Standard.Deviation" = SD,
                       "NVC.Code" = NVC) |>
         dplyr::group_by(ID) |>
         dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
         dplyr::ungroup() |>
         dplyr::left_join(surveyTable_IDs, by = "ID")
       
-      # assign(x = "nvcAssignmentQuadrat", value = nvcAssignmentQuadrat, envir = .GlobalEnv)
+      assign(x = "nvcAssignmentQuadrat", value = nvcAssignmentQuadrat, envir = .GlobalEnv)
       
       nvcAssignmentQuadrat_prepped <- nvcAssignmentQuadrat |>
-        # tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = TRUE) |>
-        dplyr::select(Year, Group, Quadrat, NVC.Code, Mean.Similarity)|>
+        dplyr::select(Year, Group, Quadrat, NVC.Code, Mean.Similarity, Standard.Deviation)|>
         dplyr::group_by(Year, Group, Quadrat) |>
-        dplyr::slice(1:as.numeric(nTopResults())) |>
+        dplyr::slice(1:10) |>
         dplyr::ungroup() |>
         dplyr::arrange(Year, Group, Quadrat, dplyr::desc(Mean.Similarity))
         
@@ -154,31 +153,36 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
       nvcAssignmentGroup <- nvcAssignmentQuadrat |>
         dplyr::select(-ID) |>
         dplyr::group_by(Year, Group, NVC.Code) |>
-        dplyr::summarise("Mean.Similarity" = mean(Mean.Similarity), .groups = "drop") |>
+        dplyr::rename("Mean.Similarity.Quadrat" = "Mean.Similarity") |>
+        dplyr::summarise("Mean.Similarity" = mean(Mean.Similarity.Quadrat),
+                         "Standard.Deviation" = sd(Mean.Similarity.Quadrat),
+                         .groups = "drop") |>
         dplyr::group_by(Year, Group) |>
         dplyr::arrange(Year, Group, dplyr::desc(Mean.Similarity)) |> #
-        dplyr::slice(1:as.numeric(nTopResults())) |>
+        dplyr::slice(1:10) |>
         dplyr::ungroup()
       
       nvcAssignmentGroup_prepped <- nvcAssignmentGroup |>
-        # tidyr::unite(col = "ID", c("Year", "Group"), sep = " - ", remove = TRUE) |>
-        dplyr::select(Year, Group, NVC.Code, Mean.Similarity) |>
+        dplyr::select(Year, Group, NVC.Code, Mean.Similarity, Standard.Deviation) |>
         dplyr::arrange(Year, Group, dplyr::desc(Mean.Similarity))
       
       nvcAssignmentGroup_rval(nvcAssignmentGroup_prepped)
 
 
       # Calculate NVC Similarity by Site
-      nvcAssignmentSite <- nvcAssignmentQuadrat |> #nvcAssignmentGroup |>
+      nvcAssignmentSite <- nvcAssignmentQuadrat |>
         dplyr::group_by(Year, NVC.Code) |>
-        dplyr::summarise("Mean.Similarity" = mean(Mean.Similarity), .groups = "drop") |>
+        dplyr::rename("Mean.Similarity.Quadrat" = "Mean.Similarity") |>
+        dplyr::summarise("Mean.Similarity" = mean(Mean.Similarity.Quadrat),
+                         "Standard.Deviation" = sd(Mean.Similarity.Quadrat),
+                         .groups = "drop") |>
         dplyr::group_by(Year) |>
         dplyr::arrange(Year, dplyr::desc(Mean.Similarity)) |>
-        dplyr::slice(1:as.numeric(nTopResults())) |>
+        dplyr::slice(1:10) |>
         dplyr::ungroup()
       
       nvcAssignmentSite_prepped <- nvcAssignmentSite |>
-        dplyr::select(Year, NVC.Code, Mean.Similarity) |>
+        dplyr::select(Year, NVC.Code, Mean.Similarity, Standard.Deviation) |>
         dplyr::arrange(Year, dplyr::desc(Mean.Similarity))
       
       nvcAssignmentSite_rval(nvcAssignmentSite_prepped)
@@ -195,6 +199,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
 # Intialise NVC Assignment Site Table -------------------------------------
   nvcAssignmentSiteTable_init <- data.frame("Year" = integer(),
                                             "Mean.Similarity" = numeric(),
+                                            "Standard.Deviation" = numeric(),
                                             "NVC.Code" = character()
   )
   
@@ -228,9 +233,12 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
 # Update NVC Assignment Site Table ----------------------------------------
   observe({
     
-    # req(input$nvcAssignmentSiteTable)
+    req(nvcAssignmentSite_rval())
     
-    nvcAssignmentSite <- nvcAssignmentSite_rval()
+    nvcAssignmentSite <- nvcAssignmentSite_rval() |>
+      dplyr::group_by(Year) |>
+      dplyr::slice(1:nTopResults()) |>
+      dplyr::ungroup()
     
     output$nvcAssignmentSiteTable <- reactable::renderReactable({
       
@@ -271,6 +279,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     
   }) |>
     bindEvent(nvcAssignmentSite_rval(), 
+              nTopResults(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
@@ -281,6 +290,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   nvcAssignmentGroupTable_init <- data.frame("Year" = integer(),
                                              "Group" = character(),
                                              "Mean.Similarity" = numeric(),
+                                             "Standard.Deviation" = numeric(),
                                              "NVC.Code" = character()
   )
   
@@ -315,9 +325,12 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
 # Update NVC Assignment Group Table ---------------------------------------
   observe({
     
-    # req(input$nvcAssignmentGroupTable)
+    req(nvcAssignmentGroup_rval())
     
-    nvcAssignmentGroup <- nvcAssignmentGroup_rval()
+    nvcAssignmentGroup <- nvcAssignmentGroup_rval() |>
+      dplyr::group_by(Year, Group) |>
+      dplyr::slice(1:nTopResults()) |>
+      dplyr::ungroup()
     
     output$nvcAssignmentGroupTable <- reactable::renderReactable({
       
@@ -365,7 +378,8 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     })
     
   }) |>
-    bindEvent(nvcAssignmentGroup_rval(), 
+    bindEvent(nvcAssignmentGroup_rval(),
+              nTopResults(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
@@ -378,6 +392,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
                                                "Group" = character(),
                                                "Quadrat" = character(),
                                                "Mean.Similarity" = numeric(),
+                                               "Standard.Deviation" = numeric(),
                                                "NVC.Code" = character()
   )
   
@@ -412,9 +427,12 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
 # Update NVC Assignment Quadrat Table -------------------------------------
   observe({
     
-    # req(input$nvcAssignmentQuadratTable)
+    req(nvcAssignmentQuadrat_rval())
     
-    nvcAssignmentQuadrat <- nvcAssignmentQuadrat_rval()
+    nvcAssignmentQuadrat <- nvcAssignmentQuadrat_rval() |>
+      dplyr::group_by(Year, Group, Quadrat) |>
+      dplyr::slice(1:nTopResults()) |>
+      dplyr::ungroup()
     
     output$nvcAssignmentQuadratTable <- reactable::renderReactable({
       
@@ -469,7 +487,8 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     })
     
   }) |>
-    bindEvent(nvcAssignmentQuadrat_rval(), 
+    bindEvent(nvcAssignmentQuadrat_rval(),
+              nTopResults(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   

@@ -62,39 +62,20 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     # Check whether any cover estimates are supplied
     surveyTable_coverSupplied <- isTRUE(!is.na(unique(surveyTable$Cover)))
     
-    print(head(surveyTable))
-    
     # Check whether all cover estimates are supplied
     surveyTable_coverSuppliedAll <- isTRUE(all(!is.na(surveyTable$Cover)))
-    
-    print("surveyTable_coverSuppliedAll")
-    print(surveyTable_coverSuppliedAll)
     
     # Check whether there is any missing data in the Year column
     surveyTable_yearComplete <- isTRUE(all(!is.na(surveyTable$Year)))
     
-    print("surveyTable_yearComplete")
-    print(surveyTable_yearComplete)
-    
     # Check whether there is any missing data in the Group column
     surveyTable_groupComplete <- isTRUE(all(!(surveyTable$Group == "")))
-    
-    print("surveyTable_groupComplete")
-    print(surveyTable_groupComplete)
     
     # Check whether there is any missing data in the Quadrat column
     surveyTable_quadratComplete <- isTRUE(all(!(surveyTable$Quadrat == "")))
     
-    print("surveyTable_quadratComplete")
-    print(surveyTable_quadratComplete)
-    
     # Check whether there is any missing data in the Species column
     surveyTable_speciesComplete <- isTRUE(all(!(surveyTable$Species == "")))
-    
-    print("surveyTable_speciesComplete")
-    print(surveyTable_speciesComplete)
-    
-    # assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
     
     # Check whether there are any species-quadrat double-entries
     surveyTable_speciesQuadratDuplicates <- surveyTable |>
@@ -103,10 +84,8 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
       dplyr::filter(dplyr::n() > 1) |>
       dplyr::ungroup()
     
-    # print(surveyTable_speciesQuadratDuplicates)
-    
     surveyTable_speciesQuadratDuplicates <- isTRUE(nrow(surveyTable_speciesQuadratDuplicates) == 0)
-    urveyTable_speciesQuadratDuplicates <- surveyTable_speciesQuadratDuplicates
+    surveyTable_speciesQuadratDuplicates <- surveyTable_speciesQuadratDuplicates
     
     # Check whether each quadrat ID is unique
     surveyTable_quadratIDUnique <- surveyTable |>
