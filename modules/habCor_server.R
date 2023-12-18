@@ -27,6 +27,13 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
   output$habCorTable <- reactable::renderReactable({
     
     habCorTable <- reactable::reactable(data = habCorData_init,
+                                        filterable = FALSE,
+                                        pagination = FALSE, 
+                                        highlight = TRUE,
+                                        bordered = TRUE,
+                                        sortable = TRUE, 
+                                        wrap = FALSE,
+                                        resizable = TRUE,
                                         class = "my-tbl",
                                         # style = list(fontSize = "1rem"),
                                         rowClass = "my-row",

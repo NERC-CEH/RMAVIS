@@ -9,8 +9,8 @@ server <- function(input, output, session) {
                                        floristicTables = floristicTables,
                                        mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults)
   
-  shiny::callModule(module = nvcInfo,
-                    id = "nvcInfo_id_1")
+  nvcInfo <- shiny::callModule(module = nvcInfo,
+                               id = "nvcInfo_id_1")
   
   uploadDataTable <- shiny::callModule(module = uploadData,
                                        id = "uploadData_id_1")

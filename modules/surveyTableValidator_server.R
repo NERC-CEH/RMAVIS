@@ -62,20 +62,37 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     # Check whether any cover estimates are supplied
     surveyTable_coverSupplied <- isTRUE(!is.na(unique(surveyTable$Cover)))
     
+    print(head(surveyTable))
+    
     # Check whether all cover estimates are supplied
-    surveyTable_coverSuppliedAll <- isTRUE(any(is.na(surveyTable$Cover)))
+    surveyTable_coverSuppliedAll <- isTRUE(all(!is.na(surveyTable$Cover)))
+    
+    print("surveyTable_coverSuppliedAll")
+    print(surveyTable_coverSuppliedAll)
     
     # Check whether there is any missing data in the Year column
-    surveyTable_yearComplete <- isTRUE(any(!is.na(surveyTable$Year)))
+    surveyTable_yearComplete <- isTRUE(all(!is.na(surveyTable$Year)))
+    
+    print("surveyTable_yearComplete")
+    print(surveyTable_yearComplete)
     
     # Check whether there is any missing data in the Group column
-    surveyTable_groupComplete <- isTRUE(any(!is.na(surveyTable$Group)))
+    surveyTable_groupComplete <- isTRUE(all(!(surveyTable$Group == "")))
+    
+    print("surveyTable_groupComplete")
+    print(surveyTable_groupComplete)
     
     # Check whether there is any missing data in the Quadrat column
-    surveyTable_quadratComplete <- isTRUE(any(!is.na(surveyTable$Quadrat)))
+    surveyTable_quadratComplete <- isTRUE(all(!(surveyTable$Quadrat == "")))
+    
+    print("surveyTable_quadratComplete")
+    print(surveyTable_quadratComplete)
     
     # Check whether there is any missing data in the Species column
-    surveyTable_speciesComplete <- isTRUE(any(!is.na(surveyTable$Species)))
+    surveyTable_speciesComplete <- isTRUE(all(!(surveyTable$Species == "")))
+    
+    print("surveyTable_speciesComplete")
+    print(surveyTable_speciesComplete)
     
     # assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
     

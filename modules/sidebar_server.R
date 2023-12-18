@@ -170,28 +170,28 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
 
 
 # Disable Run Analysis ActionButton if okToProceed == FALSE ---------------
-  observe({
-
-    surveyTableValidator <- surveyTableValidator()
-    
-    # print(surveyTableValidator)
-
-    okToProceed <- surveyTableValidator$surveyTableValidation$okToProceed
-
-    if(okToProceed == TRUE){
-
-      shinyjs::enable(id = "runAnalysis")
-
-    } else if(okToProceed == FALSE){
-
-      shinyjs::disable(id = "runAnalysis")
-
-    }
-
-  }) |>
-    bindEvent(surveyTableValidator(),
-              ignoreInit = TRUE,
-              ignoreNULL = TRUE)
+  # observe({
+  # 
+  #   surveyTableValidator <- surveyTableValidator()
+  #   
+  #   # print(surveyTableValidator)
+  # 
+  #   okToProceed <- surveyTableValidator$surveyTableValidation$okToProceed
+  # 
+  #   if(okToProceed == TRUE){
+  # 
+  #     shinyjs::enable(id = "runAnalysis")
+  # 
+  #   } else if(okToProceed == FALSE){
+  # 
+  #     shinyjs::disable(id = "runAnalysis")
+  # 
+  #   }
+  # 
+  # }) |>
+  #   bindEvent(surveyTableValidator(),
+  #             ignoreInit = TRUE,
+  #             ignoreNULL = TRUE)
   
 # Upload Data Modal Popup -------------------------------------------------
   

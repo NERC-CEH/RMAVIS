@@ -24,6 +24,13 @@ speciesFreq <- function(input, output, session, surveyTable, surveyTableWide, si
   output$speciesFrequencyTable <- reactable::renderReactable({
     
     speciesFrequencyTable <- reactable::reactable(data = speciesFrequencyTable_init,
+                                                  filterable = FALSE,
+                                                  pagination = FALSE, 
+                                                  highlight = TRUE,
+                                                  bordered = TRUE,
+                                                  sortable = TRUE, 
+                                                  wrap = FALSE,
+                                                  resizable = TRUE, 
                                                   class = "my-tbl",
                                                   # style = list(fontSize = "1rem"),
                                                   rowClass = "my-row",
