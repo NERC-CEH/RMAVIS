@@ -1,7 +1,3 @@
-# To run app: shiny::runApp("app.R")
-
-# shinyOptions(bslib = TRUE)
-
 # Load data into memory ---------------------------------------------------
 source("R/load_data.R", local = TRUE)
 
@@ -12,7 +8,7 @@ source("R/create_constants.R", local = TRUE)
 source("R/render_docs.R", local = TRUE)
 
 # Source functions --------------------------------------------------------
-source("R/functions.R", local = TRUE) # Do I need to switch this to global to allow knitr access?
+source("R/functions.R", local = TRUE)
 source("R/reactable_functions.R", local = TRUE)
 
 # Source sub-modules ------------------------------------------------------

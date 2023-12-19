@@ -137,7 +137,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
         dplyr::ungroup() |>
         dplyr::left_join(surveyTable_IDs, by = "ID")
       
-      assign(x = "nvcAssignmentQuadrat", value = nvcAssignmentQuadrat, envir = .GlobalEnv)
+      # assign(x = "nvcAssignmentQuadrat", value = nvcAssignmentQuadrat, envir = .GlobalEnv)
       
       nvcAssignmentQuadrat_prepped <- nvcAssignmentQuadrat |>
         dplyr::select(Year, Group, Quadrat, NVC.Code, Mean.Similarity, Standard.Deviation)|>

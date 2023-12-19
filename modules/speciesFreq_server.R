@@ -34,6 +34,16 @@ speciesFreq <- function(input, output, session, surveyTable, surveyTableWide, si
                                                   class = "my-tbl",
                                                   # style = list(fontSize = "1rem"),
                                                   rowClass = "my-row",
+                                                  # columns = list(
+                                                  #   Species = reactable::colDef(
+                                                  #     sticky = "left",
+                                                  #     style = list(borderRight = "1px solid #eee"),
+                                                  #     headerStyle = list(borderRight = "1px solid #eee")
+                                                  #   ),
+                                                  #   Change = reactable::colDef(
+                                                  #     sticky = "right"
+                                                  #   )
+                                                  # ),
                                                   defaultColDef = reactable::colDef(
                                                     headerClass = "my-header",
                                                     class = "my-col",
@@ -121,7 +131,10 @@ speciesFreq <- function(input, output, session, surveyTable, surveyTableWide, si
                                                     ),
                                                     columns = list(
                                                       Species = reactable::colDef(
-                                                        filterable = TRUE
+                                                        filterable = TRUE,
+                                                        sticky = "left",
+                                                        style = list(borderRight = "1px solid #eee"),
+                                                        headerStyle = list(borderRight = "1px solid #eee")
                                                       ),
                                                       Change = reactable::colDef(
                                                         filterable = TRUE,
@@ -129,7 +142,13 @@ speciesFreq <- function(input, output, session, surveyTable, surveyTableWide, si
                                                                                        return rows.filter(function(row) {
                                                                                        return row.values[columnId] == filterValue
                                                                                        })
-                                                                                       }")
+                                                                                       }"),
+                                                        sticky = "right"
+                                                      ),
+                                                      Difference = reactable::colDef(
+                                                        sticky = "right",
+                                                        style = list(borderLeft = "1px solid #eee"),
+                                                        headerStyle = list(borderLeft = "1px solid #eee")
                                                       )
                                                     ),
                                                     # rowStyle = function(index) {

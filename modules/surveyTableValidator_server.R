@@ -424,9 +424,35 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
               ignoreNULL = TRUE)
   
 
-  outputOptions(output, "speciesAdjustmentTable", suspendWhenHidden = TRUE)
+
+# Create Survey Data Structure Table --------------------------------------
+  surveyTableStructure_rval <- reactiveVal()
   
-  # Compose object to return
+  observe({
+    
+    shiny::req(surveyTable())
+    
+    surveyTable <- surveyTable()
+    
+    # assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
+    
+    surveyTableStructure <- surveyTable |>
+      dplyr::select(Year, Group, Quadrat) |>
+      dplyr::distinct() |>
+      dplyr::group_by(Year, Group) |>
+      dplyr::summarise("Number.Quadrats" = dplyr::n())
+    
+    surveyTableStructure_rval(surveyTableStructure)
+    
+  }) |>
+    bindEvent(surveyTable(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+  
+  
+
+
+# Compose Data Object to Return -------------------------------------------
   surveyTableValidatorData_rval <- reactiveVal()
   
   observe({
@@ -448,6 +474,10 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
               surveyTableValidation_rval(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
+  
+  
+  
+  outputOptions(output, "speciesAdjustmentTable", suspendWhenHidden = TRUE)
   
   return(surveyTableValidatorData_rval)
   

@@ -20,7 +20,7 @@ report <- function(input, output, session,
   output$generateReport <- shiny::downloadHandler(
     
     filename = function() {
-      paste0("MAVIS.Report.",
+      paste0("pseudoMAVIS.Report.",
              gsub(x = gsub(x = Sys.time(),
                            pattern = "\\s",
                            replacement = "."),

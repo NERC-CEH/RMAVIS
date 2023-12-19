@@ -231,8 +231,6 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     NVC_communities_all <- nvcAssignment() |>
       dplyr::pull(NVC.Code)
     
-    print(NVC_communities_all)
-    
     # Get all NVC communities from community and sub-community codes
     NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
                                                        pattern = "(\\d)[^0-9]+$", 
@@ -240,8 +238,6 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
       unique()
     
     NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
-    
-    print(NVC_communities_final)
     
     if(input$restrictNVCFlorTablesOpts == TRUE){
       
