@@ -5,6 +5,8 @@ report <- function(input, output, session,
                    nvcAssignment,
                    floristicTables,
                    speciesFreq,
+                   avgEIVs,
+                   diversityAnalysis,
                    mvaLocalRefRestrictedResults,
                    mvaLocalRefUnrestrictedResults) {
   
@@ -66,6 +68,8 @@ report <- function(input, output, session,
                           nvcAssignment = nvcAssignment(),
                           floristicTables = floristicTables(),
                           speciesFreq = speciesFreq(),
+                          avgEIVs = avgEIVs(),
+                          diversityAnalysis = diversityAnalysis(),
                           mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults(),
                           mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults()
                         ),

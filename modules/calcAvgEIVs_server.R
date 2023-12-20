@@ -264,6 +264,8 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
   
 
 # Update tables -----------------------------------------------------------
+  meanHEValuesTableAll_rval <- reactiveVal()
+  
   observe({
     
     shiny::req(surveyTable())
@@ -664,12 +666,22 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
 
     })
     
-    # weightedMeanHEValuesSite_rval()
-    # unweightedMeanHEValuesSite_rval()
-    # weightedMeanHEValuesGroup_rval()
-    # unweightedMeanHEValuesGroup_rval()
-    # weightedMeanHEValuesQuadrat_rval()
-    # unweightedMeanHEValuesQuadrat_rval()
+    weightedMeanHEValuesSite_rval(weightedMeanHEValuesSite_prepped)
+    unweightedMeanHEValuesSite_rval(weightedMeanHEValuesSite_prepped)
+    weightedMeanHEValuesGroup_rval(weightedMeanHEValuesGroup_prepped)
+    unweightedMeanHEValuesGroup_rval(weightedMeanHEValuesGroup_prepped)
+    weightedMeanHEValuesQuadrat_rval(weightedMeanHEValuesQuadrat_prepped)
+    unweightedMeanHEValuesQuadrat_rval(weightedMeanHEValuesQuadrat_prepped)
+    
+    meanHEValuesTableAll <- list("weightedMeanHEValuesSite" = weightedMeanHEValuesSite_rval(),
+                                 "unweightedMeanHEValuesSite" = unweightedMeanHEValuesSite_rval(),
+                                 "weightedMeanHEValuesGroup" = weightedMeanHEValuesGroup_rval(),
+                                 "unweightedMeanHEValuesGroup" = unweightedMeanHEValuesGroup_rval(),
+                                 "weightedMeanHEValuesQuadrat" = weightedMeanHEValuesQuadrat_rval(),
+                                 "unweightedMeanHEValuesQuadrat" = unweightedMeanHEValuesQuadrat_rval()
+                                 )
+    
+    meanHEValuesTableAll_rval(meanHEValuesTableAll)
     
     shinybusy::remove_modal_spinner()
     
@@ -690,6 +702,6 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
   
 
 # Return data -------------------------------------------------------------
-  # return()
+  return(meanHEValuesTableAll_rval)
   
 }

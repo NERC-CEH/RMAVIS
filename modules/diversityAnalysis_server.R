@@ -388,7 +388,8 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       
     }) # Close isolate
     
-    # Update summaryTable
+
+# Update summaryTable -----------------------------------------------------
     output$diversitySummaryTable <- reactable::renderReactable({
       
       diversitySummaryTable <- reactable::reactable(data = summaryTable,
@@ -415,7 +416,8 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       
     })
     
-    # Update diversityIndicesTable
+
+# Update diversityIndicesTable --------------------------------------------
     output$diversityIndicesTable <- reactable::renderReactable({
       
       diversityIndicesTable <- reactable::reactable(data = diversityIndicesTable,
@@ -468,7 +470,8 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       
     })
     
-    # Update speciesRichnessSiteTable
+
+# Update speciesRichnessSiteTable -----------------------------------------
     output$speciesRichnessSiteTable <- reactable::renderReactable({
       
       speciesRichnessSiteTable <- reactable::reactable(data = speciesRichness_site_wide,
@@ -499,7 +502,8 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
     
     
     
-    # Update speciesRichnessGroupTable
+
+# Update speciesRichnessGroupTable ----------------------------------------
     output$speciesRichnessGroupTable <- reactable::renderReactable({
       
       speciesRichnessGroupTable <- reactable::reactable(data = speciesRichness_group_wide,
@@ -539,8 +543,8 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
     speciesRichnessGroupTable_rval(rhandsontable::hot_to_r(input$speciesRichnessGroupTable))
     
     
-    
-    # Update speciesRichnessQuadratTable
+
+# Update speciesRichnessQuadratTable --------------------------------------
     output$speciesRichnessQuadratTable <- reactable::renderReactable({
       
       speciesRichnessQuadratTable <- reactable::reactable(data = speciesRichness_quadrat_wide,
@@ -587,12 +591,6 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
     
     speciesRichnessQuadratTable_rval(rhandsontable::hot_to_r(input$speciesRichnessQuadratTable))
       
-    # betaDiversity_w <- vegan::betadiver(surveyTableWide, method = "w")
-    # 
-    # betaDiversity_w_mat <- as.matrix(betaDiversity_w)
-    # 
-    # assign(x = "surveyTableWide", value = surveyTableWide, envir = .GlobalEnv)
-    # assign(x = "betaDiversity_w", value = betaDiversity_w, envir = .GlobalEnv)
     
     shinybusy::remove_modal_spinner()
     
@@ -602,11 +600,16 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
               ignoreNULL = TRUE, 
               label = "calcDivMetrics")
   
-  
+
+
+# Ensure Tables Are Not Suspended Are Hidden ------------------------------
   outputOptions(output, "speciesRichnessSiteTable", suspendWhenHidden = FALSE)
   outputOptions(output, "speciesRichnessGroupTable", suspendWhenHidden = FALSE)
   outputOptions(output, "speciesRichnessQuadratTable", suspendWhenHidden = FALSE)
   
-  # return()
+  
+
+# Return Data -------------------------------------------------------------
+  return(speciesRichnessQuadratTable_rval)
   
 }

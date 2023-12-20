@@ -10,8 +10,8 @@ params:
     nvcAssignment: NULL
     floristicTables: NULL
     speciesFreq: NULL
-    # avgEIVs: NULL
-    # diversityAnalysis: NULL
+    avgEIVs: NULL
+    diversityAnalysis: NULL
     # mvaNationalRefResults: NULL
     mvaLocalRefRestrictedResults: NULL
     mvaLocalRefUnrestrictedResults: NULL
@@ -43,6 +43,10 @@ nvcAssignment <- params$nvcAssignment
 sidebar_options <- params$sidebar_options
 floristicTables <- params$floristicTables
 speciesFreq <- params$speciesFreq
+avgEIVs <- params$avgEIVs
+diversityAnalysis <- params$diversityAnalysis
+mvaLocalRefRestrictedResults <- params$mvaLocalRefRestrictedResults
+mvaLocalRefUnrestrictedResults <- params$mvaLocalRefUnrestrictedResults
 
 # Report options
 reportOptions <- sidebar_options$reportOptions
@@ -57,10 +61,15 @@ nvcAssignmentSite <- nvcAssignment$nvcAssignmentSite
 nvcAssignmentGroup <- nvcAssignment$nvcAssignmentGroup
 nvcAssignmentQuadrat <- nvcAssignment$nvcAssignmentQuadrat
 
+# EIVs
+weightedMeanHEValuesSite <- avgEIVs$weightedMeanHEValuesSite
+unweightedMeanHEValuesSite <- avgEIVs$unweightedMeanHEValuesSite
+weightedMeanHEValuesGroup <- avgEIVs$weightedMeanHEValuesGroup
+unweightedMeanHEValuesGroup <- avgEIVs$unweightedMeanHEValuesGroup
+weightedMeanHEValuesQuadrat <- avgEIVs$weightedMeanHEValuesQuadrat
+unweightedMeanHEValuesQuadrat <- avgEIVs$unweightedMeanHEValuesQuadrat
+
 # mvaLocalRefRestrictedResults
-mvaLocalRefRestrictedResults <- params$mvaLocalRefRestrictedResults
-# selected_pquads_dca_results_species_final <- mvaLocalRefRestrictedResults$selected_pquads_dca_results_species
-# selected_pquads_dca_results_quadrats_final <- mvaLocalRefRestrictedResults$selected_pquads_dca_results_quadrats_final
 surveyTable_dca_results_quadrats <- mvaLocalRefRestrictedResults$surveyTable_dca_results_quadrats
 selected_pquads_dca_results_quadrats_final_hull <- mvaLocalRefRestrictedResults$selected_pquads_dca_results_quadrats_final_hull
 arrow_plot_data <- mvaLocalRefRestrictedResults$arrow_plot_data
@@ -68,9 +77,7 @@ CCA_arrowData <- mvaLocalRefRestrictedResults$CCA_arrowData
 
 # mvaLocalRefUnrestrictedResults
 mvaLocalRefUnrestrictedResults <- params$mvaLocalRefUnrestrictedResults
-# pquads_surveyTable_dca_results_species <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_species
 pquads_surveyTable_dca_results_quadrats_sample <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample
-# pquads_surveyTable_dca_results_quadrats_pquads <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_pquads
 pquads_surveyTable_dca_results_quadrats_hull <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_hull
 arrow_plot_data <- mvaLocalRefUnrestrictedResults$arrow_plot_data
 
@@ -168,7 +175,33 @@ if("nvcAssignmentResultsQuadrat" %in% reportOptions){
 if("composedFloristicTablesSite" %in% reportOptions){
   
   cat("\\newpage")
-  cat("## Composed Floristic Tables")
+  cat("## Composed Floristic Tables Site")
+  
+  for(id in unique(floristicTables$ID)){
+
+    floristicTables_selected <- floristicTables |>
+      dplyr::filter(ID == id) |>
+      dplyr::select(-ID)
+  
+    kableExtra::kbl(x = floristicTables_selected, format = "latex", booktabs = TRUE,
+                    longtable = TRUE, linesep = "",
+                    caption = paste0("Composed Floristic Table (", as.character(id), ")")) |>
+      kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position")) |>
+      print()
+    
+  }
+  
+}
+
+```
+
+
+```{r floristicTablesGroup, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("composedFloristicTablesGroup" %in% reportOptions){
+  
+  cat("\\newpage")
+  cat("## Composed Floristic Tables Group")
   
   for(id in unique(floristicTables$ID)){
 
@@ -208,7 +241,107 @@ if("speciesFrequencyTable" %in% reportOptions){
 
 ```
 
-\newpage
+
+```{r weightedMeanHEValuesSite, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("weightedMeanHEValuesSite" %in% reportOptions){
+  
+  cat("\\newpage")
+  cat("## Weighted Mean Hill-Ellenberg Values Site")
+  
+  kableExtra::kbl(x = weightedMeanHEValuesSite, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "") |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
+
+```
+
+
+```{r unweightedMeanHEValuesSite, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("unweightedMeanHEValuesSite" %in% reportOptions){
+  
+  cat("\\newpage")
+  cat("## Unweighted Mean Hill-Ellenberg Values Site")
+  
+  kableExtra::kbl(x = unweightedMeanHEValuesSite, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "") |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
+
+```
+
+
+```{r weightedMeanHEValuesGroup, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("weightedMeanHEValuesGroup" %in% reportOptions){
+  
+  cat("\\newpage")
+  cat("## Weighted Mean Hill-Ellenberg Values Group")
+  
+  kableExtra::kbl(x = weightedMeanHEValuesGroup, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "") |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
+
+```
+
+
+```{r unweightedMeanHEValuesGroup, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("unweightedMeanHEValuesGroup" %in% reportOptions){
+  
+  cat("\\newpage")
+  cat("## Unweighted Mean Hill-Ellenberg Values Group")
+  
+  kableExtra::kbl(x = unweightedMeanHEValuesGroup, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "") |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
+
+```
+
+
+```{r weightedMeanHEValuesQuadrat, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("weightedMeanHEValuesQuadrat" %in% reportOptions){
+  
+  cat("\\newpage")
+  cat("## Weighted Mean Hill-Ellenberg Values Quadrat")
+  
+  kableExtra::kbl(x = weightedMeanHEValuesQuadrat, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "") |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
+
+```
+
+
+```{r unweightedMeanHEValuesQuadrat, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("unweightedMeanHEValuesQuadrat" %in% reportOptions){
+  
+  cat("\\newpage")
+  cat("## Unweighted Mean Hill-Ellenberg Values Quadrat")
+  
+  kableExtra::kbl(x = unweightedMeanHEValuesQuadrat, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "") |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
+
+```
 
 ```{r mvaSectionHeader, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
@@ -237,23 +370,12 @@ if("mvaLocalReferenceRestricted" %in% reportOptions){
                                                y = DCA2, 
                                                fill = NVC.Comm
                                                )) +
-  # ggplot2::geom_point(data = selected_pquads_dca_results_quadrats_final,
-  #                     mapping = ggplot2::aes(color = NVC.Comm, 
-  #                                            Quadrat = Quadrat, 
-  #                                            x = DCA1,
-  #                                            y = DCA2)) +
   ggplot2::geom_point(data = surveyTable_dca_results_quadrats,
                       mapping = ggplot2::aes(Year = Year,
                                              Group = Group,
                                              Quadrat = Quadrat,
                                              x = DCA1,
                                              y = DCA2)) +
-  # ggrepel::geom_text_repel(data = surveyTable_dca_results_quadrats,
-  #                          mapping = ggplot2::aes(label = Quadrat, # paste0(Year, Quadrat, collapse = "-"),
-  #                                                 # Group = Group,
-  #                                                 # Quadrat = Quadrat,
-  #                                                 x = DCA1,
-  #                                                 y = DCA2)) +
   ggplot2::geom_segment(data = CCA_arrowData,
                         color = 'black',
                         arrow = grid::arrow(),
@@ -269,14 +391,6 @@ if("mvaLocalReferenceRestricted" %in% reportOptions){
                      mapping = ggplot2::aes(x = CCA1 * 1.075,
                                             y = CCA2 * 1.075,
                                             label = `Hill-Ellenberg`)) +
-  # ggplot2::geom_point(data = pquads_surveyTable_dca_results_species,
-  #                     mapping = ggplot2::aes(x = DCA1, 
-  #                                            y = DCA2,
-  #                                            Species = Species)) +
-  # ggplot2::geom_path(data = surveyTable_dca_results_quadrats_final,
-  #                    mapping = ggplot2::aes(x = DCA1,
-  #                                           y = DCA2),
-  #                    arrow = grid::arrow()) +
   ggplot2::theme_minimal()
 
   mvaLocalRefRestrictedPlot
@@ -301,31 +415,12 @@ if("mvaLocalReferenceUnrestricted" %in% reportOptions){
                                                y = DCA2, 
                                                fill = NVC.Comm
                                                )) +
-  # ggplot2::geom_point(data = pquads_surveyTable_dca_results_quadrats_pquads,
-  #                     mapping = ggplot2::aes(color = NVC.Comm, 
-  #                                            Quadrat = Quadrat, 
-  #                                            x = DCA1,
-  #                                            y = DCA2)) +
   ggplot2::geom_point(data = pquads_surveyTable_dca_results_quadrats_sample,
                       mapping = ggplot2::aes(Year = Year,
                                              Group = Group,
                                              Quadrat = Quadrat,
                                              x = DCA1,
                                              y = DCA2)) +
-  # ggrepel::geom_text_repel(data = pquads_surveyTable_dca_results_quadrats_sample,
-  #                          mapping = ggplot2::aes(label = Quadrat, # paste0(Year, Quadrat, collapse = "-"),
-  #                                                 # Group = Group,
-  #                                                 # Quadrat = Quadrat,
-  #                                                 x = DCA1,
-  #                                                 y = DCA2)) +
-  # ggplot2::geom_point(data = pquads_surveyTable_dca_results_species,
-  #                     mapping = ggplot2::aes(x = DCA1, 
-  #                                            y = DCA2,
-  #                                            Species = Species)) +
-  # ggplot2::geom_path(data = surveyTable_dca_results_quadrats_final,
-  #                    mapping = ggplot2::aes(x = DCA1,
-  #                                           y = DCA2),
-  #                    arrow = grid::arrow()) +
   ggplot2::theme_minimal()
 
   mvaLocalRefUnrestrictedPlot
@@ -338,23 +433,6 @@ if("mvaLocalReferenceUnrestricted" %in% reportOptions){
 
 \newpage
 # Appendix
-
-```{r samplesTable, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-
-cat("## Samples")
-
-samplesTable <- surveyTable |>
-  dplyr::select(Year, Group, Quadrat) |>
-  dplyr::distinct()
-
-kableExtra::kbl(x = samplesTable, format = "latex", booktabs = TRUE,
-                longtable = TRUE, linesep = "",
-                caption = "Samples assessed in the analysis.") |>
-  kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
-
-```
-
-
 
 ```{r surveyTable, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
