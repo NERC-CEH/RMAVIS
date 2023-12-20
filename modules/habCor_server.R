@@ -57,7 +57,7 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
     shiny::isolate({
       
       # Get all NVC communities and sub-communities from nvc assignment results
-      NVC_communities_all <- nvcAssignment() |> # nvcAssignment()
+      NVC_communities_all <- nvcAssignment()$nvcAssignmentSite |> # nvcAssignment()
         dplyr::pull(NVC.Code)
       
       # Get all NVC communities from community and sub-community codes

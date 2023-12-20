@@ -67,7 +67,6 @@ server <- function(input, output, session) {
                                              id = "mvaNationalRef_id_1",
                                              surveyTable = surveyTable,
                                              # surveyTableWide = surveyTableWide,
-                                             nvcAssignment = nvcAssignment,
                                              sidebar_options = sidebar_options)
 
   mvaLocalRefRestrictedResults <- shiny::callModule(module = mvaLocalRefRestricted,
@@ -88,6 +87,7 @@ server <- function(input, output, session) {
                     id = "sidebar_id_1",
                     sidebar_options = sidebar_options,
                     surveyTable = surveyTable,
+                    surveyTableValidator = surveyTableValidator,
                     nvcAssignment = nvcAssignment,
                     floristicTables = floristicTables,
                     speciesFreq = speciesFreq,

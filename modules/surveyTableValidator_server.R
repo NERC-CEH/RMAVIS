@@ -461,7 +461,8 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
       "adjustSpecies" = input$adjustSpecies,
       "combineDuplicates" = input$combineDuplicates,
       "speciesAdjustmentTable" = rhandsontable::hot_to_r(input$speciesAdjustmentTable),
-      "surveyTableValidation" = surveyTableValidation_rval()
+      "surveyTableValidation" = surveyTableValidation_rval(),
+      "surveyTableStructure" = surveyTableStructure_rval()
     )
 
     # print(surveyTableValidatorData)

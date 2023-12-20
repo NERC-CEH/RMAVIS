@@ -6,6 +6,7 @@ output:
 params: 
     sidebar_options: NULL
     surveyTable: NULL
+    surveyTableValidator: NULL
     nvcAssignment: NULL
     floristicTables: NULL
     speciesFreq: NULL
@@ -35,7 +36,9 @@ library(kableExtra)
 # source("../create_constants.R", local = knitr::knit_global())
 # sys.source("./create_constants.R", envir = knitr::knit_global())
 
+# Retrieve report parameters
 surveyTable <- params$surveyTable
+surveyTableValidator <- params$surveyTableValidator
 nvcAssignment <- params$nvcAssignment
 sidebar_options <- params$sidebar_options
 floristicTables <- params$floristicTables
@@ -45,6 +48,14 @@ speciesFreq <- params$speciesFreq
 reportOptions <- sidebar_options$reportOptions
 reportAuthorName <- params$reportAuthorName
 reportProjectName <- sidebar_options$reportProjectName
+
+# Data Structure
+surveyTableStructure <- surveyTableValidator$surveyTableStructure
+
+# NVC Assignment
+nvcAssignmentSite <- nvcAssignment$nvcAssignmentSite
+nvcAssignmentGroup <- nvcAssignment$nvcAssignmentGroup
+nvcAssignmentQuadrat <- nvcAssignment$nvcAssignmentQuadrat
 
 # mvaLocalRefRestrictedResults
 mvaLocalRefRestrictedResults <- params$mvaLocalRefRestrictedResults
@@ -89,30 +100,68 @@ cat("**Date & Time:** ", as.character(format(Sys.time(), "%Y-%m-%d %H:%M:%S")), 
 # Introduction
 The Modular Analysis of Vegetation Information System (MAVIS) is a tool..
 
-# Input Data Parameters
+# Survey Data Structure
+
+```{r surveyTableStructure, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+kableExtra::kbl(x = surveyTableStructure, format = "latex", booktabs = TRUE,
+                longtable = TRUE, linesep = "",
+                caption = "The number of quadrats by group and year present in the inputted survey data.") |>
+  kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+
+```
+
 
 
 
 \newpage
 # Results
 
-## Jaccard Similarity - Pseudo-quadrat Method
-
 ```{r nvcAssignmentResultsSite, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
 if("nvcAssignmentResultsSite" %in% reportOptions){
   
-  nvcAssignmentResultsSite <- nvcAssignment
+  cat("## NVC Assignment Site")
 
-  kableExtra::kbl(x = nvcAssignmentResultsSite, format = "latex", booktabs = TRUE,
+  kableExtra::kbl(x = nvcAssignmentSite, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "The top N NVC communities fitted using the pseudo-quadrat method.") |>
+                  caption = "The top NVC communities fitted using the pseudo-quadrat method, for the site by year.") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }
 
 ```
 
+
+```{r nvcAssignmentResultsGroup, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("nvcAssignmentResultsGroup" %in% reportOptions){
+  
+  cat("## NVC Assignment Group")
+
+  kableExtra::kbl(x = nvcAssignmentGroup, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "The top NVC communities fitted using the pseudo-quadrat method, by group and year") |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
+
+```
+
+```{r nvcAssignmentResultsQuadrat, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("nvcAssignmentResultsQuadrat" %in% reportOptions){
+  
+  cat("## NVC Assignment Quadrat")
+
+  kableExtra::kbl(x = nvcAssignmentQuadrat, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "The top NVC communities fitted using the pseudo-quadrat method, by quadrat, group, and year") |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
+
+```
 
 ```{r floristicTablesSite, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
@@ -123,15 +172,16 @@ if("composedFloristicTablesSite" %in% reportOptions){
   
   for(id in unique(floristicTables$ID)){
 
-  floristicTables_selected <- floristicTables |>
-    dplyr::filter(ID == id) |>
-    dplyr::select(-ID)
-
-  kableExtra::kbl(x = floristicTables_selected, format = "latex", booktabs = TRUE,
-                  longtable = TRUE, linesep = "",
-                  caption = paste0("Composed Floristic Table (", as.character(id), ")")) |>
-    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position")) |>
-    print()
+    floristicTables_selected <- floristicTables |>
+      dplyr::filter(ID == id) |>
+      dplyr::select(-ID)
+  
+    kableExtra::kbl(x = floristicTables_selected, format = "latex", booktabs = TRUE,
+                    longtable = TRUE, linesep = "",
+                    caption = paste0("Composed Floristic Table (", as.character(id), ")")) |>
+      kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position")) |>
+      print()
+    
   }
   
 }

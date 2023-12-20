@@ -45,7 +45,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
     shiny::isolate({
       
       # Get all NVC communities and sub-communities from nvc assignment results
-      NVC_communities_all <- nvcAssignment() |>
+      NVC_communities_all <- nvcAssignment()$nvcAssignmentSite |>
         dplyr::pull(NVC.Code)
       
       # Get all NVC communities from community and sub-community codes
@@ -213,6 +213,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
     
   }) |>
     bindEvent(runAnalysis(),
+              nvcAssignment(),
               dcaAxisSelection(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)

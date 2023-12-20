@@ -228,7 +228,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     shiny::req(nvcAssignment())
     
     # Get all NVC communities and sub-communities from nvc assignment results
-    NVC_communities_all <- nvcAssignment() |>
+    NVC_communities_all <- nvcAssignment()$nvcAssignmentSite |>
       dplyr::pull(NVC.Code)
     
     # Get all NVC communities from community and sub-community codes
@@ -331,7 +331,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
   observe({
     
     # Get all NVC communities and sub-communities from nvc assignment results
-    NVC_communities_all <- nvcAssignment() |> # nvcAssignment()
+    NVC_communities_all <- nvcAssignment()$nvcAssignmentSite |> # nvcAssignment()
       dplyr::pull(NVC.Code)
     
     # Get all NVC communities from community and sub-community codes

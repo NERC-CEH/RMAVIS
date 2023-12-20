@@ -191,8 +191,8 @@ selectSurveyGroups_options <- c()
 
 # Report Options ----------------------------------------------------------
 reportOptions_options <- c("NVC Assignment, Site" = "nvcAssignmentResultsSite",
-                           "NVC Assignment, Group" = "nvcAssignmentResultsGroups",
-                           "NVC Assignment, Quadrat" = "nvcAssignmentResultsQuadrats",
+                           "NVC Assignment, Group" = "nvcAssignmentResultsGroup",
+                           "NVC Assignment, Quadrat" = "nvcAssignmentResultsQuadrat",
                            "Floristic Tables, Site" = "composedFloristicTablesSite",
                            "Floristic Tables, Group" = "composedFloristicTablesGroup",
                            "Species Frequency" = "speciesFrequencyTable",

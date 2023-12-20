@@ -1,4 +1,4 @@
-mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, sidebar_options) {
+mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options) {
   
   ns <- session$ns
   
@@ -36,7 +36,6 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
     
     # Require selected objects are not NULL
     shiny::req(surveyTable())
-    shiny::req(nvcAssignment())
     
     # Start busy spinner
     shinybusy::show_modal_spinner(

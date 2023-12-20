@@ -495,10 +495,47 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   
   outputOptions(output, "nvcAssignmentQuadratTable", suspendWhenHidden = FALSE)
   
+
+# Compose All NVC Assignment Results --------------------------------------
+  nvcAssignmentAll_rval <- reactiveVal()
   
+  observe({
+    
+    shiny::req(nvcAssignmentSite_rval())
+    shiny::req(nvcAssignmentGroup_rval())
+    shiny::req(nvcAssignmentQuadrat_rval())
+    
+    nvcAssignmentSite <- nvcAssignmentSite_rval() |>
+      dplyr::group_by(Year) |>
+      dplyr::slice(1:nTopResults()) |>
+      dplyr::ungroup()
+    
+    nvcAssignmentGroup <- nvcAssignmentGroup_rval() |>
+      dplyr::group_by(Year, Group) |>
+      dplyr::slice(1:nTopResults()) |>
+      dplyr::ungroup()
+    
+    nvcAssignmentQuadrat <- nvcAssignmentQuadrat_rval() |>
+      dplyr::group_by(Year, Group, Quadrat) |>
+      dplyr::slice(1:nTopResults()) |>
+      dplyr::ungroup()
+    
+    nvcAssignmentAll_list <- list("nvcAssignmentSite" = nvcAssignmentSite,
+                                  "nvcAssignmentGroup" = nvcAssignmentGroup,
+                                  "nvcAssignmentQuadrat" = nvcAssignmentQuadrat)
+    
+    nvcAssignmentAll_rval(nvcAssignmentAll_list)
+    
+  }) |>
+    bindEvent(nTopResults(),
+              nvcAssignmentSite_rval(),
+              nvcAssignmentGroup_rval(),
+              nvcAssignmentQuadrat_rval(),
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE)
 
 
 # Return NVC Assignment Data ----------------------------------------------
-  return(nvcAssignmentSite_rval)
+  return(nvcAssignmentAll_rval)
   
 }
