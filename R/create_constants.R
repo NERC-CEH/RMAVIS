@@ -190,21 +190,41 @@ selectSurveyGroups_options <- c()
 
 
 # Report Options ----------------------------------------------------------
-reportOptions_options <- c("NVC Assignment, Site" = "nvcAssignmentResultsSite",
-                           "NVC Assignment, Group" = "nvcAssignmentResultsGroup",
-                           "NVC Assignment, Quadrat" = "nvcAssignmentResultsQuadrat",
-                           "Floristic Tables, Site" = "composedFloristicTablesSite",
-                           "Floristic Tables, Group" = "composedFloristicTablesGroup",
-                           "Species Frequency" = "speciesFrequencyTable",
-                           "Weighted Mean Hill-Ellenberg Values, Site" = "weightedMeanHEValuesSite",
-                           "Unweighted Mean Hill-Ellenberg Values, Site" = "unweightedMeanHEValuesSite",
-                           "Weighted Mean Hill-Ellenberg Values, Group" = "weightedMeanHEValuesGroup",
-                           "Unweighted Mean Hill-Ellenberg Values, Group" = "unweightedMeanHEValuesGroup",
-                           "Weighted Mean Hill-Ellenberg Values, Quadrat" = "weightedMeanHEValuesQuadrat",
-                           "Unweighted Mean Hill-Ellenberg Values, Quadrat" = "unweightedMeanHEValuesQuadrat",
-                           "MVA, National" = "mvaNationalReference",
-                           "MVA, Local (restricted)" = "mvaLocalReferenceRestricted",
-                           "MVA, Local (unrestricted)" = "mvaLocalReferenceUnrestricted",
-                           "Survey Table" = "surveyTable"
-                           )
+
+reportOptions_options <- list(`NVC Assignment` = c("Site" = "nvcAssignmentResultsSite",
+                                                   "Group" = "nvcAssignmentResultsGroup",
+                                                   "Quadrat" = "nvcAssignmentResultsQuadrat"),
+                              `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
+                                                     "Group" = "composedFloristicTablesGroup"),
+                              `Species Frequency` = c("Species Frequency" = "speciesFrequencyTable"),
+                              `EIVs (incl. Mean Hill-Ellenberg)` = c("Weighted, Site" = "weightedMeanHEValuesSite",
+                                                                     "Unweighted, Site" = "unweightedMeanHEValuesSite",
+                                                                     "Weighted, Group" = "weightedMeanHEValuesGroup",
+                                                                     "Unweighted, Group" = "unweightedMeanHEValuesGroup",
+                                                                     "Weighted, Quadrat" = "weightedMeanHEValuesQuadrat",
+                                                                     "Unweighted, Quadrat" = "unweightedMeanHEValuesQuadrat"),
+                              `MVA` = c("National" = "mvaNationalReference",
+                                        "Local (restricted)" = "mvaLocalReferenceRestricted",
+                                        "Local (unrestricted)" = "mvaLocalReferenceUnrestricted"),
+                              `Survey Table` = c("Survey Table" = "surveyTable")
+    )
+
+
+# reportOptions_options <- c("NVC Assignment, Site" = "nvcAssignmentResultsSite",
+#                            "NVC Assignment, Group" = "nvcAssignmentResultsGroup",
+#                            "NVC Assignment, Quadrat" = "nvcAssignmentResultsQuadrat",
+#                            "Floristic Tables, Site" = "composedFloristicTablesSite",
+#                            "Floristic Tables, Group" = "composedFloristicTablesGroup",
+#                            "Species Frequency" = "speciesFrequencyTable",
+#                            "Weighted Mean Hill-Ellenberg Values, Site" = "weightedMeanHEValuesSite",
+#                            "Unweighted Mean Hill-Ellenberg Values, Site" = "unweightedMeanHEValuesSite",
+#                            "Weighted Mean Hill-Ellenberg Values, Group" = "weightedMeanHEValuesGroup",
+#                            "Unweighted Mean Hill-Ellenberg Values, Group" = "unweightedMeanHEValuesGroup",
+#                            "Weighted Mean Hill-Ellenberg Values, Quadrat" = "weightedMeanHEValuesQuadrat",
+#                            "Unweighted Mean Hill-Ellenberg Values, Quadrat" = "unweightedMeanHEValuesQuadrat",
+#                            "MVA, National" = "mvaNationalReference",
+#                            "MVA, Local (restricted)" = "mvaLocalReferenceRestricted",
+#                            "MVA, Local (unrestricted)" = "mvaLocalReferenceUnrestricted",
+#                            "Survey Table" = "surveyTable"
+#                            )
 

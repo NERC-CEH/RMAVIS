@@ -922,6 +922,53 @@ sidebarUI <- function(id){
         
         shiny::div(
           
+          id = ns("reportOptions_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shinyWidgets::pickerInput(inputId = ns("reportOptions"),
+                                      label = "Report Options",
+                                      choices = reportOptions_options,
+                                      selected = c("nvcAssignmentResultsSite", 
+                                                   "composedFloristicTablesSite", 
+                                                   "speciesFrequencyTable"),
+                                      options = shinyWidgets::pickerOptions(
+                                        dropdownAlignRight = TRUE
+                                      ),
+                                      choicesOpt = list(
+                                        style = rep_len("font-size: 75%; line-height: 1.6;", length(unlist(reportOptions_options)))
+                                      ),
+                                      multiple = TRUE
+            ),
+            
+            # shiny::checkboxGroupInput(inputId = ns("reportOptions"),
+            #                           label = "Report Options",
+            #                           choices = reportOptions_options,
+            #                           selected = c("nvcAssignmentResultsSite", 
+            #                                        "composedFloristicTablesSite", 
+            #                                        "speciesFrequencyTable")
+            # ),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Report Options",
+              shiny::markdown(
+                "
+                
+                "
+              ),
+              placement = "bottom"
+            )
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
           id = ns("generateReport_div"),
           
           bslib::layout_columns(
@@ -938,38 +985,6 @@ sidebarUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Download Report",
-              shiny::markdown(
-                "
-                
-                "
-              ),
-              placement = "bottom"
-            )
-          ),
-          
-          shiny::div(shiny::br())
-          
-        ),
-        
-        shiny::div(
-          
-          id = ns("reportOptions_div"),
-          
-          bslib::layout_columns(
-            
-            col_widths = c(11, 1),
-            
-            shiny::checkboxGroupInput(inputId = ns("reportOptions"),
-                                      label = "Report Options",
-                                      choices = reportOptions_options,
-                                      selected = c("nvcAssignmentResultsSite", 
-                                                   "composedFloristicTablesSite", 
-                                                   "speciesFrequencyTable")
-            ),
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Report Options",
               shiny::markdown(
                 "
                 
