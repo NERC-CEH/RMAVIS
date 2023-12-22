@@ -7,6 +7,7 @@ report <- function(input, output, session,
                    speciesFreq,
                    avgEIVs,
                    diversityAnalysis,
+                   mvaNationalRefResults,
                    mvaLocalRefRestrictedResults,
                    mvaLocalRefUnrestrictedResults) {
   
@@ -70,6 +71,7 @@ report <- function(input, output, session,
                           speciesFreq = speciesFreq(),
                           avgEIVs = avgEIVs(),
                           diversityAnalysis = diversityAnalysis(),
+                          mvaNationalRefResults = mvaNationalRefResults(),
                           mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults(),
                           mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults()
                         ),

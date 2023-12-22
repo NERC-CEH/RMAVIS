@@ -36,7 +36,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
     shinybusy::show_modal_spinner(
       spin = "fading-circle",
       color = "#3F9280",
-      text = "Performing DCA Analysis"
+      text = "Performing Local Reference, Unrestricted MVA"
     )
     
     surveyTableWide <- surveyTableWide()

@@ -29,7 +29,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options)
     bindEvent(sidebar_options(), ignoreInit = TRUE)
   
   
-  mvaNationalRefResults <- reactiveVal()
+  mvaNationalRefResults_rval <- reactiveVal()
   
 # Run DCA and CCA ---------------------------------------------------------
   observe({
@@ -41,7 +41,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options)
     shinybusy::show_modal_spinner(
       spin = "fading-circle",
       color = "#3F9280",
-      text = "Calculating National Reference DCA"
+      text = "Performing National Reference MVA"
     )
     
     # Peform analysis in a reactive context without creating a reactive relationship
@@ -148,20 +148,23 @@ mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options)
         
       }
       
+      nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls |>
+        dplyr::filter(NVC %in% nationalReferenceSpaces(),
+                      dcaAxes == "dca1dca2") |>
+        dplyr::select(-dcaAxes)
+      
     }) # close isolate
     
     # Compose list of DCA results objects
     mvaNationalRefResults_list <- list("selected_pquads_dca_results_species_final" = selected_pquads_dca_results_species,
                                        "selected_pquads_dca_results_quadrats_final" = selected_pquads_dca_results_quadrats_final,
                                        "surveyTable_dca_results_quadrats" = surveyTable_dca_results_quadrats,
-                                       # "selected_pquads_dca_results_quadrats_final_hull" = selected_pquads_dca_results_quadrats_final_hull,
+                                       "selected_pquads_dca_results_quadrats_final_hull" = nvc_pquad_dca_all_hulls_selected,
                                        "arrow_plot_data" = arrow_plot_data#,
                                        #"CCA_arrowData" = CCA_arrowData
                                        )
     
-    # assign(x = "foo", value = mvaNationalRefResults_list, envir = .GlobalEnv)
-    
-    mvaNationalRefResults(mvaNationalRefResults_list)
+    mvaNationalRefResults_rval(mvaNationalRefResults_list)
     
     shinybusy::remove_modal_spinner()
       
@@ -169,6 +172,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options)
   }) |>
     bindEvent(runAnalysis(),
               # dcaVars(),
+              nationalReferenceSpaces(),
               ccaVars(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
@@ -179,7 +183,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options)
 # Subset data and create plot ---------------------------------------------
     observe({
       
-      mvaNationalRefResults <- mvaNationalRefResults()
+      mvaNationalRefResults <- mvaNationalRefResults_rval()
       
       if(selectSurveyMethod() == "all"){
         
@@ -326,7 +330,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options)
       })
       
     }) |>
-    bindEvent(mvaNationalRefResults(),
+    bindEvent(mvaNationalRefResults_rval(),
               dcaAxisSelection(),
               dcaVars(),
               nationalReferenceSpaces(),
@@ -339,6 +343,6 @@ mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options)
     
   
   # Return list of DCA results objects
-  return(mvaNationalRefResults)
+  return(mvaNationalRefResults_rval)
   
 }

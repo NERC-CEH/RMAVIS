@@ -40,7 +40,7 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
     shinybusy::show_modal_spinner(
       spin = "fading-circle",
       color = "#3F9280",
-      text = "Performing DCA Analysis"
+      text = "Performing Local Reference, Restricted MVA"
     )
     
     # Peform analysis in a reactive context without creating a reactive relationship

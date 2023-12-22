@@ -93,6 +93,7 @@ server <- function(input, output, session) {
                     speciesFreq = speciesFreq,
                     avgEIVs = avgEIVs,
                     diversityAnalysis = diversityAnalysis,
+                    mvaNationalRefResults = mvaNationalRefResults,
                     mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults,
                     mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults)
   

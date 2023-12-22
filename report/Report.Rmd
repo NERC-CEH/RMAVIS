@@ -12,7 +12,7 @@ params:
     speciesFreq: NULL
     avgEIVs: NULL
     diversityAnalysis: NULL
-    # mvaNationalRefResults: NULL
+    mvaNationalRefResults: NULL
     mvaLocalRefRestrictedResults: NULL
     mvaLocalRefUnrestrictedResults: NULL
     reportAuthorName: NULL
@@ -45,6 +45,7 @@ floristicTables <- params$floristicTables
 speciesFreq <- params$speciesFreq
 avgEIVs <- params$avgEIVs
 diversityAnalysis <- params$diversityAnalysis
+mvaNationalRefResults <- params$mvaNationalRefResults
 mvaLocalRefRestrictedResults <- params$mvaLocalRefRestrictedResults
 mvaLocalRefUnrestrictedResults <- params$mvaLocalRefUnrestrictedResults
 
@@ -76,18 +77,24 @@ speciesRichnessSite <- diversityAnalysis$speciesRichnessSite
 speciesRichnessGroup <- diversityAnalysis$speciesRichnessGroup
 speciesRichnessQuadrat <- diversityAnalysis$speciesRichnessQuadrat
 
-# mvaLocalRefRestrictedResults
-surveyTable_dca_results_quadrats <- mvaLocalRefRestrictedResults$surveyTable_dca_results_quadrats
-selected_pquads_dca_results_quadrats_final_hull <- mvaLocalRefRestrictedResults$selected_pquads_dca_results_quadrats_final_hull
-arrow_plot_data <- mvaLocalRefRestrictedResults$arrow_plot_data
-CCA_arrowData <- mvaLocalRefRestrictedResults$CCA_arrowData
+# MVA Local Reference, Restricted
+mvaLocalRefRestricted_quadrats_survey <- mvaLocalRefRestrictedResults$surveyTable_dca_results_quadrats
+mvaLocalRefRestricted_hulls_pquads <- mvaLocalRefRestrictedResults$selected_pquads_dca_results_quadrats_final_hull
+mvaLocalRefRestricted_arrow_plot_data <- mvaLocalRefRestrictedResults$arrow_plot_data
+mvaLocalRefRestricted_CCA_arrowData <- mvaLocalRefRestrictedResults$CCA_arrowData
 
-# mvaLocalRefUnrestrictedResults
-mvaLocalRefUnrestrictedResults <- params$mvaLocalRefUnrestrictedResults
-pquads_surveyTable_dca_results_quadrats_sample <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample
-pquads_surveyTable_dca_results_quadrats_hull <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_hull
-arrow_plot_data <- mvaLocalRefUnrestrictedResults$arrow_plot_data
+# MVA Local Reference, Unrestricted
+mvaLocalRefUnrestricted_quadrats_survey <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample
+mvaLocalRefUnrestricted_hulls_pquads <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_hull
+mvaLocalRefUnrestricted_arrow_plot_data <- mvaLocalRefUnrestrictedResults$arrow_plot_data
 
+# MVA National Reference
+mvaNationalRef_quadrats_survey <- mvaNationalRefResults$surveyTable_dca_results_quadrats
+mvaNationalRef_hulls <- mvaNationalRefResults$selected_pquads_dca_results_quadrats_final_hull
+
+
+
+# Report options. Load from create_constants.R!!!
 reportOptions_options <- list(`NVC Assignment` = c("Site" = "nvcAssignmentResultsSite",
                                                    "Group" = "nvcAssignmentResultsGroup",
                                                    "Quadrat" = "nvcAssignmentResultsQuadrat"),
@@ -146,7 +153,6 @@ kableExtra::kbl(x = surveyTableStructure, format = "latex", booktabs = TRUE,
 
 ```
 
-
 ```{r nvcAssignmentTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
 reportOptions_nvcAssignment <- reportOptions_options$`NVC Assignment`
@@ -174,7 +180,6 @@ if("nvcAssignmentResultsSite" %in% reportOptions){
 }
 
 ```
-
 
 ```{r nvcAssignmentResultsGroup, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
@@ -243,7 +248,6 @@ if("composedFloristicTablesSite" %in% reportOptions){
 
 ```
 
-
 ```{r floristicTablesGroup, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
 if("composedFloristicTablesGroup" %in% reportOptions){
@@ -267,7 +271,6 @@ if("composedFloristicTablesGroup" %in% reportOptions){
 }
 
 ```
-
 
 ```{r speciesFrequency, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
@@ -316,7 +319,6 @@ if("weightedMeanHEValuesSite" %in% reportOptions){
 
 ```
 
-
 ```{r unweightedMeanHEValuesSite, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
 if("unweightedMeanHEValuesSite" %in% reportOptions){
@@ -331,7 +333,6 @@ if("unweightedMeanHEValuesSite" %in% reportOptions){
 }
 
 ```
-
 
 ```{r weightedMeanHEValuesGroup, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
@@ -348,7 +349,6 @@ if("weightedMeanHEValuesGroup" %in% reportOptions){
 
 ```
 
-
 ```{r unweightedMeanHEValuesGroup, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
 if("unweightedMeanHEValuesGroup" %in% reportOptions){
@@ -363,7 +363,6 @@ if("unweightedMeanHEValuesGroup" %in% reportOptions){
 }
 
 ```
-
 
 ```{r weightedMeanHEValuesQuadrat, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
@@ -483,7 +482,6 @@ if("speciesRichnessQuadrat" %in% reportOptions){
 
 ```
 
-
 ```{r mvaTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
 reportOptions_mva <- reportOptions_options$MVA
@@ -497,26 +495,88 @@ if(any(reportOptions_mva %in% reportOptions)){
 
 ```
 
+```{r mvaNationalRefTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.align = 'center', fig.cap='Multivariate analaysis plot, national reference.'}
 
-```{r mvaLocalRefRestricted, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.align = 'center', fig.cap='Multivariate analaysis plot, local reference, restricted.'}
+if("mvaNationalReference" %in% reportOptions){
+  
+  # cat("\\newpage")
+  cat("## National Reference")
+  
+}
 
-if("mvaLocalReferenceRestricted" %in% reportOptions){
+```
+
+```{r mvaNationalRef, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.align = 'center', fig.cap='Multivariate analaysis plot, national reference.'}
+
+if("mvaNationalReference" %in% reportOptions){
   
-  cat("## Local Reference, Restricted")
+  # cat("## National Reference")
   
-  mvaLocalRefRestrictedPlot <- ggplot2::ggplot() +
-    ggplot2::geom_polygon(data = selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2,
-                          mapping = ggplot2::aes(x = DCA1, 
-                                                 y = DCA2, 
-                                                 fill = NVC.Comm
+  mvaNationalRefPlot <- ggplot2::ggplot() +
+    ggplot2::geom_polygon(data = mvaNationalRef_hulls, alpha = 0.2,
+                          mapping = ggplot2::aes(x = DCA1,
+                                                 y = DCA2,
+                                                 fill = NVC
                                                  )) +
-    ggplot2::geom_point(data = surveyTable_dca_results_quadrats,
+    ggplot2::geom_point(data = mvaNationalRef_quadrats_survey,
                         mapping = ggplot2::aes(Year = Year,
                                                Group = Group,
                                                Quadrat = Quadrat,
                                                x = DCA1,
                                                y = DCA2)) +
-    ggplot2::geom_segment(data = CCA_arrowData,
+    # ggplot2::geom_segment(data = CCA_arrowData,
+    #                       color = 'black',
+    #                       arrow = grid::arrow(),
+    #                       mapping = ggplot2::aes(x = 0,
+    #                                              y = 0,
+    #                                              xend = CCA1,
+    #                                              yend = CCA2,
+    #                                              label = `Hill-Ellenberg`)) +
+    # ggplot2::geom_text(data = CCA_arrowData,
+    #                    color = 'black',
+    #                    # position = ggplot2::position_dodge(width = 0.9),
+    #                    size = 5,
+    #                    mapping = ggplot2::aes(x = CCA1 * 1.075,
+    #                                           y = CCA2 * 1.075,
+    #                                           label = `Hill-Ellenberg`)) +
+    ggplot2::theme_minimal()
+
+  mvaNationalRefPlot
+  
+}
+
+```
+
+```{r mvaLocalRefRestrictedTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.align = 'center', fig.cap='Multivariate analaysis plot, local reference, restricted.'}
+
+if("mvaLocalReferenceRestricted" %in% reportOptions){
+  
+  cat("\\newpage")
+  cat("## Local Reference, Restricted")
+  
+}
+
+```
+
+```{r mvaLocalRefRestricted, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.align = 'center', fig.cap='Multivariate analaysis plot, local reference, restricted.'}
+
+if("mvaLocalReferenceRestricted" %in% reportOptions){
+  
+  # cat("## Local Reference, Restricted")
+  
+  mvaLocalRefRestrictedPlot <- ggplot2::ggplot() +
+    ggplot2::geom_polygon(data = mvaLocalRefRestricted_hulls_pquads, alpha = 0.2,
+                          mapping = ggplot2::aes(x = DCA1, 
+                                                 y = DCA2, 
+                                                 fill = NVC.Comm
+                                                 )) +
+    ggplot2::geom_point(data = mvaLocalRefRestricted_quadrats_survey,
+                        mapping = ggplot2::aes(Year = Year,
+                                               Group = Group,
+                                               Quadrat = Quadrat,
+                                               x = DCA1,
+                                               y = DCA2)) +
+    ggplot2::geom_segment(data = mvaLocalRefRestricted_CCA_arrowData,
                           color = 'black',
                           arrow = grid::arrow(),
                           mapping = ggplot2::aes(x = 0,
@@ -524,7 +584,7 @@ if("mvaLocalReferenceRestricted" %in% reportOptions){
                                                  xend = CCA1,
                                                  yend = CCA2,
                                                  label = `Hill-Ellenberg`)) +
-    ggplot2::geom_text(data = CCA_arrowData,
+    ggplot2::geom_text(data = mvaLocalRefRestricted_CCA_arrowData,
                        color = 'black',
                        # position = ggplot2::position_dodge(width = 0.9),
                        size = 5,
@@ -539,20 +599,30 @@ if("mvaLocalReferenceRestricted" %in% reportOptions){
 
 ```
 
+```{r mvaLocalRefUnrestrictedTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.align = 'center', fig.cap='Multivariate analaysis plot, local reference, unrestricted.'}
+
+if("mvaLocalReferenceUnrestricted" %in% reportOptions){
+  
+  cat("\\newpage")
+  cat("## Local Reference, Unrestricted")
+  
+}
+
+```
 
 ```{r mvaLocalRefUnrestricted, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.align = 'center', fig.cap='Multivariate analaysis plot, local reference, unrestricted.'}
 
 if("mvaLocalReferenceUnrestricted" %in% reportOptions){
   
-  cat("## Local Reference, Unrestricted")
+  # cat("## Local Reference, Unrestricted")
   
   mvaLocalRefUnrestrictedPlot <- ggplot2::ggplot() +
-    ggplot2::geom_polygon(data = pquads_surveyTable_dca_results_quadrats_hull, alpha = 0.2,
+    ggplot2::geom_polygon(data = mvaLocalRefUnrestricted_hulls_pquads, alpha = 0.2,
                           mapping = ggplot2::aes(x = DCA1, 
                                                  y = DCA2, 
                                                  fill = NVC.Comm
                                                  )) +
-    ggplot2::geom_point(data = pquads_surveyTable_dca_results_quadrats_sample,
+    ggplot2::geom_point(data = mvaLocalRefUnrestricted_quadrats_survey,
                         mapping = ggplot2::aes(Year = Year,
                                                Group = Group,
                                                Quadrat = Quadrat,
@@ -565,8 +635,6 @@ if("mvaLocalReferenceUnrestricted" %in% reportOptions){
 }
 
 ```
-
-
 
 \newpage
 # Appendix
