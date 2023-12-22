@@ -60,7 +60,7 @@ body {
 # Introduction
 
 The Modular Analysis of Vegetation Information System
-(MAVIS), originally developed by
+(MAVIS), originally developed by [@smart2016mavis]
 
 ## Aims
 
@@ -121,7 +121,7 @@ quadrats 1971, 2001, and 2021 [@smart2014]
 **Whitwell Common** M. Norfolk Mires. Repeat quadrats 1994
 and 1997. [@smart2000]
 
-**Sand Dune**
+**Newborough Warren**. SD. Repeat quadrats. 2014 to 2018. [@wallace2018]
 
 ## NVC Assignment
 

@@ -108,12 +108,24 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
           selected = "CG"
         )
         
+        shiny::updateTextInput(
+          session = session,
+          inputId = "reportProjectName",
+          value = "Parsonage Down"
+        )
+        
       } else if(input$exampleData == "Whitwell Common"){
         
         shiny::updateSelectizeInput(
           session = session,
           inputId = "habitatRestriction",
           selected = "M"
+        )
+        
+        shiny::updateTextInput(
+          session = session,
+          inputId = "reportProjectName",
+          value = "Whitwell Common"
         )
         
       } else if(input$exampleData == "Leith Hill Place Wood"){
@@ -124,12 +136,24 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
           selected = "W"
         )
         
-      } else if(input$exampleData == "Sand Dune"){
+        shiny::updateTextInput(
+          session = session,
+          inputId = "reportProjectName",
+          value = "Leith Hill Place Wood"
+        )
+        
+      } else if(input$exampleData == "Newborough Warren"){
         
         shiny::updateSelectizeInput(
           session = session,
           inputId = "habitatRestriction",
           selected = NULL
+        )
+        
+        shiny::updateTextInput(
+          session = session,
+          inputId = "reportProjectName",
+          value = "Newborough Warren"
         )
         
       }

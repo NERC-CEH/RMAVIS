@@ -88,7 +88,7 @@ sidebarUI <- function(id){
                 1. 'Parsonage Down'.
                 2. 'Whitwell Common'.
                 3. 'Leith Hill Place Wood'.
-                4. 'Sand Dune'.
+                4. 'Newborough Warren'.
                 "
               ),
               placement = "bottom"

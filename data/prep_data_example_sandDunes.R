@@ -2,11 +2,11 @@
 source("R/create_constants.R")
 
 # Read raw data -----------------------------------------------------------
-sandDune_raw <- read.csv(file = "./data/raw_data/example_data/NRestSlack_fulldata_LJ2_prepped.csv")
+newboroughWarren_raw <- read.csv(file = "./data/raw_data/example_data/NRestSlack_fulldata_LJ2_prepped.csv")
 
 
-# Prepare Sand Dune Data --------------------------------------------------
-sandDune_prepped <- sandDune_raw |>
+# Prepare Newborough Warren Data --------------------------------------------------
+newboroughWarren_prepped <- newboroughWarren_raw |>
   base::t() |>
   janitor::row_to_names(row_number = 1) |>
   tibble::as_tibble(rownames = "Year.Quadrat") |>
@@ -18,14 +18,14 @@ sandDune_prepped <- sandDune_raw |>
                       values_to = "Cover") |>
   dplyr::filter(!(Cover %in% c("."))) |>
   dplyr::mutate("Cover" = as.double(Cover) / 100) |>
-  dplyr::mutate("Site" = "Sand Dune") |>
+  dplyr::mutate("Site" = "Newborough Warren") |>
   dplyr::mutate("Group" = "A") |>
   dplyr::select(Site, Year, Group, Quadrat, Species, Cover)
 
-exampleData_sandDunes <- sandDune_prepped
+exampleData_newboroughWarren <- newboroughWarren_prepped
 
 # Clean Names -------------------------------------------------------------
 
 
 # Save Data ---------------------------------------------------------------
-saveRDS(object = exampleData_sandDunes, file = "./data/bundled_data/exampleData_sandDunes.rds")
+saveRDS(object = exampleData_newboroughWarren, file = "./data/bundled_data/exampleData_newboroughWarren.rds")

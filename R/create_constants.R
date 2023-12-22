@@ -9,7 +9,7 @@ example_data_options <- c("None" = "none",
                           "Parsonage Down (CG)" = "Parsonage Down",
                           "Whitwell Common (M)" = "Whitwell Common",
                           "Leith Hill Place Wood (W)" = "Leith Hill Place Wood",
-                          "Sand Dune (SD)" = "Sand Dune")
+                          "Newborough Warren (SD)" = "Newborough Warren")
 
 
 
