@@ -418,6 +418,8 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       
     })
     
+    diversitySummaryTable_rval(summaryTable)
+    
 
 # Update diversityIndicesTable --------------------------------------------
     output$diversityIndicesTable <- reactable::renderReactable({
@@ -472,6 +474,8 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       
     })
     
+    diversityIndicesTable_rval(diversityIndicesTable)
+    
 
 # Update speciesRichnessSiteTable -----------------------------------------
     output$speciesRichnessSiteTable <- reactable::renderReactable({
@@ -500,7 +504,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       
     })
     
-    speciesRichnessSiteTable_rval(rhandsontable::hot_to_r(input$speciesRichnessSiteTable))
+    speciesRichnessSiteTable_rval(speciesRichness_site_wide)
     
     
     
@@ -542,7 +546,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       
     })
     
-    speciesRichnessGroupTable_rval(rhandsontable::hot_to_r(input$speciesRichnessGroupTable))
+    speciesRichnessGroupTable_rval(speciesRichness_group_wide)
     
     
 
@@ -591,7 +595,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       
     })
     
-    speciesRichnessQuadratTable_rval(rhandsontable::hot_to_r(input$speciesRichnessQuadratTable))
+    speciesRichnessQuadratTable_rval(speciesRichness_quadrat_wide)
       
     
 
@@ -605,6 +609,8 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
     
     
     diversityDataAll_rval(diversityDataAll)
+    
+    # print(diversityDataAll_rval())
     
     shinybusy::remove_modal_spinner()
     

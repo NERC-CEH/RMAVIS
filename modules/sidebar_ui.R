@@ -943,14 +943,6 @@ sidebarUI <- function(id){
                                       multiple = TRUE
             ),
             
-            # shiny::checkboxGroupInput(inputId = ns("reportOptions"),
-            #                           label = "Report Options",
-            #                           choices = reportOptions_options,
-            #                           selected = c("nvcAssignmentResultsSite", 
-            #                                        "composedFloristicTablesSite", 
-            #                                        "speciesFrequencyTable")
-            # ),
-            
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Report Options",

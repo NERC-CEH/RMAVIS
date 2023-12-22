@@ -69,6 +69,13 @@ unweightedMeanHEValuesGroup <- avgEIVs$unweightedMeanHEValuesGroup
 weightedMeanHEValuesQuadrat <- avgEIVs$weightedMeanHEValuesQuadrat
 unweightedMeanHEValuesQuadrat <- avgEIVs$unweightedMeanHEValuesQuadrat
 
+# Diversity
+diversitySummary <- diversityAnalysis$diversitySummary
+diversityIndices <- diversityAnalysis$diversityIndices
+speciesRichnessSite <- diversityAnalysis$speciesRichnessSite
+speciesRichnessGroup <- diversityAnalysis$speciesRichnessGroup
+speciesRichnessQuadrat <- diversityAnalysis$speciesRichnessQuadrat
+
 # mvaLocalRefRestrictedResults
 surveyTable_dca_results_quadrats <- mvaLocalRefRestrictedResults$surveyTable_dca_results_quadrats
 selected_pquads_dca_results_quadrats_final_hull <- mvaLocalRefRestrictedResults$selected_pquads_dca_results_quadrats_final_hull
@@ -81,7 +88,28 @@ pquads_surveyTable_dca_results_quadrats_sample <- mvaLocalRefUnrestrictedResults
 pquads_surveyTable_dca_results_quadrats_hull <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_hull
 arrow_plot_data <- mvaLocalRefUnrestrictedResults$arrow_plot_data
 
-
+reportOptions_options <- list(`NVC Assignment` = c("Site" = "nvcAssignmentResultsSite",
+                                                   "Group" = "nvcAssignmentResultsGroup",
+                                                   "Quadrat" = "nvcAssignmentResultsQuadrat"),
+                              `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
+                                                     "Group" = "composedFloristicTablesGroup"),
+                              `Species Frequency` = c("Species Frequency" = "speciesFrequencyTable"),
+                              `EIVs (incl. Mean Hill-Ellenberg)` = c("Weighted, Site" = "weightedMeanHEValuesSite",
+                                                                     "Unweighted, Site" = "unweightedMeanHEValuesSite",
+                                                                     "Weighted, Group" = "weightedMeanHEValuesGroup",
+                                                                     "Unweighted, Group" = "unweightedMeanHEValuesGroup",
+                                                                     "Weighted, Quadrat" = "weightedMeanHEValuesQuadrat",
+                                                                     "Unweighted, Quadrat" = "unweightedMeanHEValuesQuadrat"),
+                              `Diversity` = c("Summary" = "diversitySummary",
+                                              "Quadrat Indices" = "diversityIndices",
+                                              "Richness, Site" = "speciesRichnessSite",
+                                              "Richness, Group" = "speciesRichnessGroup",
+                                              "Richness, Quadrat" = "speciesRichnessQuadrat"),
+                              `MVA` = c("National" = "mvaNationalReference",
+                                        "Local (restricted)" = "mvaLocalReferenceRestricted",
+                                        "Local (unrestricted)" = "mvaLocalReferenceUnrestricted"),
+                              `Survey Table` = c("Survey Table" = "surveyTable")
+    )
 ```
 
 \vspace{-15truemm}
@@ -119,10 +147,18 @@ kableExtra::kbl(x = surveyTableStructure, format = "latex", booktabs = TRUE,
 ```
 
 
+```{r nvcAssignmentTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
+reportOptions_nvcAssignment <- reportOptions_options$`NVC Assignment`
 
-\newpage
-# Results
+if(any(reportOptions_nvcAssignment %in% reportOptions)){
+  
+  cat("\\newpage")
+  cat("# NVC Assignment")
+  
+}
+
+```
 
 ```{r nvcAssignmentResultsSite, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
@@ -170,11 +206,23 @@ if("nvcAssignmentResultsQuadrat" %in% reportOptions){
 
 ```
 
+```{r floristicTablesTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+reportOptions_floristicTables <- reportOptions_options$`Floristic Tables`
+
+if(any(reportOptions_floristicTables %in% reportOptions)){
+  
+  cat("\\newpage")
+  cat("# Floristic Tables")
+  
+}
+
+```
+
 ```{r floristicTablesSite, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
 if("composedFloristicTablesSite" %in% reportOptions){
   
-  cat("\\newpage")
   cat("## Composed Floristic Tables Site")
   
   for(id in unique(floristicTables$ID)){
@@ -200,7 +248,6 @@ if("composedFloristicTablesSite" %in% reportOptions){
 
 if("composedFloristicTablesGroup" %in% reportOptions){
   
-  cat("\\newpage")
   cat("## Composed Floristic Tables Group")
   
   for(id in unique(floristicTables$ID)){
@@ -227,7 +274,7 @@ if("composedFloristicTablesGroup" %in% reportOptions){
 if("speciesFrequencyTable" %in% reportOptions){
   
   cat("\\newpage")
-  cat("## Species Frequency")
+  cat("# Species Frequency")
 
   speciesFreqTable <- speciesFreq |>
     dplyr::mutate_all(~replace(., is.na(.), ""))
@@ -241,12 +288,23 @@ if("speciesFrequencyTable" %in% reportOptions){
 
 ```
 
+```{r eivTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+reportOptions_eiv <- reportOptions_options$`EIVs (incl. Mean Hill-Ellenberg)`
+
+if(any(reportOptions_eiv %in% reportOptions)){
+  
+  cat("\\newpage")
+  cat("# Ecological Indicator Values")
+  
+}
+
+```
 
 ```{r weightedMeanHEValuesSite, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
 if("weightedMeanHEValuesSite" %in% reportOptions){
   
-  cat("\\newpage")
   cat("## Weighted Mean Hill-Ellenberg Values Site")
   
   kableExtra::kbl(x = weightedMeanHEValuesSite, format = "latex", booktabs = TRUE,
@@ -263,7 +321,6 @@ if("weightedMeanHEValuesSite" %in% reportOptions){
 
 if("unweightedMeanHEValuesSite" %in% reportOptions){
   
-  cat("\\newpage")
   cat("## Unweighted Mean Hill-Ellenberg Values Site")
   
   kableExtra::kbl(x = unweightedMeanHEValuesSite, format = "latex", booktabs = TRUE,
@@ -280,7 +337,6 @@ if("unweightedMeanHEValuesSite" %in% reportOptions){
 
 if("weightedMeanHEValuesGroup" %in% reportOptions){
   
-  cat("\\newpage")
   cat("## Weighted Mean Hill-Ellenberg Values Group")
   
   kableExtra::kbl(x = weightedMeanHEValuesGroup, format = "latex", booktabs = TRUE,
@@ -297,7 +353,6 @@ if("weightedMeanHEValuesGroup" %in% reportOptions){
 
 if("unweightedMeanHEValuesGroup" %in% reportOptions){
   
-  cat("\\newpage")
   cat("## Unweighted Mean Hill-Ellenberg Values Group")
   
   kableExtra::kbl(x = unweightedMeanHEValuesGroup, format = "latex", booktabs = TRUE,
@@ -314,7 +369,6 @@ if("unweightedMeanHEValuesGroup" %in% reportOptions){
 
 if("weightedMeanHEValuesQuadrat" %in% reportOptions){
   
-  cat("\\newpage")
   cat("## Weighted Mean Hill-Ellenberg Values Quadrat")
   
   kableExtra::kbl(x = weightedMeanHEValuesQuadrat, format = "latex", booktabs = TRUE,
@@ -326,12 +380,10 @@ if("weightedMeanHEValuesQuadrat" %in% reportOptions){
 
 ```
 
-
 ```{r unweightedMeanHEValuesQuadrat, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
 if("unweightedMeanHEValuesQuadrat" %in% reportOptions){
   
-  cat("\\newpage")
   cat("## Unweighted Mean Hill-Ellenberg Values Quadrat")
   
   kableExtra::kbl(x = unweightedMeanHEValuesQuadrat, format = "latex", booktabs = TRUE,
@@ -343,55 +395,143 @@ if("unweightedMeanHEValuesQuadrat" %in% reportOptions){
 
 ```
 
-```{r mvaSectionHeader, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r diversityTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-# if(){
-#   
-#   
-# }
+reportOptions_diversity <- reportOptions_options$Diversity
 
-cat("## Multivariate Analysis")
+if(any(reportOptions_diversity %in% reportOptions)){
+  
+  cat("\\newpage")
+  cat("# Diversity")
+  
+}
+
+```
+
+```{r diversitySummary, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("diversitySummary" %in% reportOptions){
+  
+  cat("## Diversity Summary")
+  
+  kableExtra::kbl(x = diversitySummary, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "") |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
+
+```
+
+```{r diversityIndices, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("diversityIndices" %in% reportOptions){
+  
+  cat("## Diversity Indices")
+  
+  kableExtra::kbl(x = diversityIndices, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "") |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"), full_width = FALSE)
+  
+}
+
+```
+
+```{r speciesRichnessSite, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("speciesRichnessSite" %in% reportOptions){
+  
+  cat("## Species Richness, Site")
+  
+  kableExtra::kbl(x = speciesRichnessSite, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "") |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
+
+```
+
+```{r speciesRichnessGroup, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("speciesRichnessGroup" %in% reportOptions){
+  
+  cat("## Species Richness, Group")
+  
+  kableExtra::kbl(x = speciesRichnessGroup, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "") |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
+
+```
+
+```{r speciesRichnessQuadrat, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("speciesRichnessQuadrat" %in% reportOptions){
+  
+  cat("## Species Richness, Quadrat")
+  
+  kableExtra::kbl(x = speciesRichnessQuadrat, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "") |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
 
 ```
 
 
+```{r mvaTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+reportOptions_mva <- reportOptions_options$MVA
+
+if(any(reportOptions_mva %in% reportOptions)){
+  
+  cat("\\newpage")
+  cat("# Multivariate Analysis")
+  
+}
+
+```
 
 
-```{r mvaLocalRefRestricted, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r mvaLocalRefRestricted, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.align = 'center', fig.cap='Multivariate analaysis plot, local reference, restricted.'}
 
 if("mvaLocalReferenceRestricted" %in% reportOptions){
   
-  cat("\\newpage")
-  cat("Local Reference, Restricted")
+  cat("## Local Reference, Restricted")
   
   mvaLocalRefRestrictedPlot <- ggplot2::ggplot() +
-  ggplot2::geom_polygon(data = selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2,
-                        mapping = ggplot2::aes(x = DCA1, 
-                                               y = DCA2, 
-                                               fill = NVC.Comm
-                                               )) +
-  ggplot2::geom_point(data = surveyTable_dca_results_quadrats,
-                      mapping = ggplot2::aes(Year = Year,
-                                             Group = Group,
-                                             Quadrat = Quadrat,
-                                             x = DCA1,
-                                             y = DCA2)) +
-  ggplot2::geom_segment(data = CCA_arrowData,
-                        color = 'black',
-                        arrow = grid::arrow(),
-                        mapping = ggplot2::aes(x = 0,
-                                               y = 0,
-                                               xend = CCA1,
-                                               yend = CCA2,
-                                               label = `Hill-Ellenberg`)) +
-  ggplot2::geom_text(data = CCA_arrowData,
-                     color = 'black',
-                     # position = ggplot2::position_dodge(width = 0.9),
-                     size = 5,
-                     mapping = ggplot2::aes(x = CCA1 * 1.075,
-                                            y = CCA2 * 1.075,
-                                            label = `Hill-Ellenberg`)) +
-  ggplot2::theme_minimal()
+    ggplot2::geom_polygon(data = selected_pquads_dca_results_quadrats_final_hull, alpha = 0.2,
+                          mapping = ggplot2::aes(x = DCA1, 
+                                                 y = DCA2, 
+                                                 fill = NVC.Comm
+                                                 )) +
+    ggplot2::geom_point(data = surveyTable_dca_results_quadrats,
+                        mapping = ggplot2::aes(Year = Year,
+                                               Group = Group,
+                                               Quadrat = Quadrat,
+                                               x = DCA1,
+                                               y = DCA2)) +
+    ggplot2::geom_segment(data = CCA_arrowData,
+                          color = 'black',
+                          arrow = grid::arrow(),
+                          mapping = ggplot2::aes(x = 0,
+                                                 y = 0,
+                                                 xend = CCA1,
+                                                 yend = CCA2,
+                                                 label = `Hill-Ellenberg`)) +
+    ggplot2::geom_text(data = CCA_arrowData,
+                       color = 'black',
+                       # position = ggplot2::position_dodge(width = 0.9),
+                       size = 5,
+                       mapping = ggplot2::aes(x = CCA1 * 1.075,
+                                              y = CCA2 * 1.075,
+                                              label = `Hill-Ellenberg`)) +
+    ggplot2::theme_minimal()
 
   mvaLocalRefRestrictedPlot
   
@@ -400,28 +540,25 @@ if("mvaLocalReferenceRestricted" %in% reportOptions){
 ```
 
 
-### All Quadrats
-
-```{r mvaLocalRefUnrestricted, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r mvaLocalRefUnrestricted, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.align = 'center', fig.cap='Multivariate analaysis plot, local reference, unrestricted.'}
 
 if("mvaLocalReferenceUnrestricted" %in% reportOptions){
   
-  cat("\\newpage")
-  cat("Local Reference, Unrestricted")
+  cat("## Local Reference, Unrestricted")
   
   mvaLocalRefUnrestrictedPlot <- ggplot2::ggplot() +
-  ggplot2::geom_polygon(data = pquads_surveyTable_dca_results_quadrats_hull, alpha = 0.2,
-                        mapping = ggplot2::aes(x = DCA1, 
-                                               y = DCA2, 
-                                               fill = NVC.Comm
-                                               )) +
-  ggplot2::geom_point(data = pquads_surveyTable_dca_results_quadrats_sample,
-                      mapping = ggplot2::aes(Year = Year,
-                                             Group = Group,
-                                             Quadrat = Quadrat,
-                                             x = DCA1,
-                                             y = DCA2)) +
-  ggplot2::theme_minimal()
+    ggplot2::geom_polygon(data = pquads_surveyTable_dca_results_quadrats_hull, alpha = 0.2,
+                          mapping = ggplot2::aes(x = DCA1, 
+                                                 y = DCA2, 
+                                                 fill = NVC.Comm
+                                                 )) +
+    ggplot2::geom_point(data = pquads_surveyTable_dca_results_quadrats_sample,
+                        mapping = ggplot2::aes(Year = Year,
+                                               Group = Group,
+                                               Quadrat = Quadrat,
+                                               x = DCA1,
+                                               y = DCA2)) +
+    ggplot2::theme_minimal()
 
   mvaLocalRefUnrestrictedPlot
   
