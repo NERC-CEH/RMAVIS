@@ -378,23 +378,48 @@ role="doc-biblioref">Wallace and Jones 2018</a>)</span></p>
 </div>
 <div id="nvc-assignment" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> NVC Assignment</h2>
-<ol style="list-style-type: decimal">
-<li><p>An R implementation of the Modular Analysis of Vegetation
-Information System (MAVIS). This method uses the Czekanowski index <span
-class="citation">(<a href="#ref-bloom1981" role="doc-biblioref">Bloom
-1981</a>)</span> to quantify the similarity between a floristic table
-composed from survey data (with a minimum of five samples recommended)
-and the NVC Floristic Tables.</p></li>
-<li><p>An R implementation of the method outlined in</p>
+<div id="czekanowski-index" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Czekanowski
+Index</h3>
+<p>The Czekanowski index <span class="citation">(<a
+href="#ref-bloom1981" role="doc-biblioref">Bloom 1981</a>)</span> (see
+Equation~<span class="math inline">\(\ref{eq:czekanowski}\)</span>) to
+quantify the similarity between a floristic table composed from survey
+data (with a minimum of five samples recommended) and the NVC floristic
+tables, or a subset thereof.</p>
+<p><span class="math display">\[
+\begin{equation}\label{eq:czekanowski}
+= 200 * \sum_{j=1} ^{t} min(REF_{j}, NS_{j}) / \sum_{j=1} ^{m} REF_{j} +
+\sum_{j=1} ^{n} NS_{j}
+\end{equation}
+\]</span> Where <span class="math inline">\(REF_{j}\)</span> is the
+Domin cover or constancy value of species <span
+class="math inline">\(j\)</span> in the constancy table. <span
+class="math inline">\(NS_{j}\)</span> is the corresponding Domin cover
+or constancyt value for the same species but in the new, sample data.
+<span class="math inline">\(min(REF_{j}, NS_{j})\)</span> is the smaller
+of the two values <span class="citation">(<a href="#ref-smart2000"
+role="doc-biblioref">S. M. Smart 2000</a>)</span>.</p>
+</div>
+<div id="jaccard-similarity" class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Jaccard
+Similarity</h3>
+<p>An R implementation of the method outlined in <span
+class="citation">Tipping et al. (<a href="#ref-tipping2013"
+role="doc-biblioref">2013</a>)</span>. This method calculates the
+Jaccard similarity between user-inputted sample quadrats and a set of
+pseudo-quadrats. This approach is noted as improving the accuracy of fit
+relative to the Czekanowski index for sample quadrats with low species
+richness <span class="citation">(<a href="#ref-tipping2013"
+role="doc-biblioref">Tipping et al. 2013</a>)</span>.</p>
+</div>
+<div id="inverse-distance-metric" class="section level3" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> Inverse Distance
+Metric</h3>
 <ol class="example" style="list-style-type: decimal">
-<li>This method calculates the Jaccard similarity between user-inputted
-sample quadrats and pseudo-quadrats. This approach is noted as improving
-the accuracy of fit relative to the Czekanowski index for sample
-quadrats with poor species richness <span class="citation">(<a
-href="#ref-tipping2013" role="doc-biblioref">Tipping et al.
-2013</a>)</span>.</li>
-</ol></li>
+<li></li>
 </ol>
+</div>
 </div>
 <div id="habitat-correspondences" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Habitat
@@ -404,9 +429,8 @@ Correspondences</h2>
 <li>The Joint Nature Conservation Committee (JNCC) Spreadsheet of
 Habitat Correspondences <span class="citation">(<a href="#ref-jncc2008"
 role="doc-biblioref">JNCC 2008</a>)</span>.</li>
-<li>For UKHab is drawn from UKHab V1.1 <span class="citation">(<a
-href="#ref-butcher2020" role="doc-biblioref">Butcher et al.
-2020</a>)</span>.</li>
+<li>UKHab V1.1 <span class="citation">(<a href="#ref-butcher2020"
+role="doc-biblioref">Butcher et al. 2020</a>)</span>.</li>
 <li>For the National Plant Monitoring Scheme (NPMS) data is drawn from
 <span class="citation">(<a href="#ref-pescott2019"
 role="doc-biblioref">Pescott et al. 2019</a>)</span></li>
@@ -416,7 +440,7 @@ role="doc-biblioref">Pescott et al. 2019</a>)</span></li>
 <h2><span class="header-section-number">2.4</span> Floristic Tables</h2>
 <p>To aid in the NVC assignment process and as an exploratory tool the
 <strong>Floristic Tables</strong> section of MAVIS allows the user to
-compare a composed floristic table</p>
+compare a composed floristic table to a chosen NVC floristic table.</p>
 </div>
 <div id="analysis-metrics" class="section level2" number="2.5">
 <h2><span class="header-section-number">2.5</span> Analysis Metrics</h2>
@@ -498,6 +522,10 @@ Roles Taxonomy)</a>, are:</p>
 <div id="reccomended-citation" class="section level1" number="5">
 <h1><span class="header-section-number">5</span> Reccomended
 Citation</h1>
+<pre><code>@misc{
+
+
+}</code></pre>
 </div>
 <div id="release-log" class="section level1" number="6">
 <h1><span class="header-section-number">6</span> Release Log</h1>

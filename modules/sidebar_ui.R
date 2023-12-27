@@ -935,7 +935,8 @@ sidebarUI <- function(id){
                                                    "composedFloristicTablesSite", 
                                                    "speciesFrequencyTable"),
                                       options = shinyWidgets::pickerOptions(
-                                        dropdownAlignRight = TRUE
+                                        dropdownAlignRight = TRUE#,
+                                        # showContent = FALSE
                                       ),
                                       choicesOpt = list(
                                         style = rep_len("font-size: 75%; line-height: 1.6;", length(unlist(reportOptions_options)))

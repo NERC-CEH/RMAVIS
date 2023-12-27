@@ -59,8 +59,8 @@ body {
 
 # Introduction
 
-The Modular Analysis of Vegetation Information System
-(MAVIS), originally developed by [@smart2016mavis]
+The Modular Analysis of Vegetation Information System (MAVIS), originally 
+developed by [@smart2016mavis]
 
 ## Aims
 
@@ -125,41 +125,55 @@ and 1997. [@smart2000]
 
 ## NVC Assignment
 
-1.  An R implementation of the Modular Analysis of
-    Vegetation Information System (MAVIS). This method uses
-    the Czekanowski index [@bloom1981] to quantify the
-    similarity between a floristic table composed from
-    survey data (with a minimum of five samples recommended)
-    and the NVC Floristic Tables.
+### Czekanowski Index
 
-2.  An R implementation of the method outlined in
-    @tipping2013. This method calculates the Jaccard
-    similarity between user-inputted sample quadrats and
-    pseudo-quadrats. This approach is noted as improving the
-    accuracy of fit relative to the Czekanowski index for
-    sample quadrats with poor species richness
-    [@tipping2013].
+The Czekanowski index [@bloom1981] (see Equation~\ref{eq:czekanowski}) to 
+quantify the similarity between a floristic table composed from survey data 
+(with a minimum of five samples recommended) and the NVC floristic tables, or a 
+subset thereof.
+
+$$
+\begin{equation}\label{eq:czekanowski}
+= 200 * \sum_{j=1} ^{t} min(REF_{j}, NS_{j}) / \sum_{j=1} ^{m} REF_{j} + \sum_{j=1} ^{n} NS_{j}
+\end{equation}
+$$
+Where $REF_{j}$ is the Domin cover or constancy value of species $j$ in the 
+constancy table. $NS_{j}$ is the corresponding Domin cover or constancyt value 
+for the same species but in the new, sample data. $min(REF_{j}, NS_{j})$ is the 
+smaller of the two values [@smart2000].
+
+### Jaccard Similarity
+
+An R implementation of the method outlined in @tipping2013.
+This method calculates the Jaccard similarity between user-inputted sample 
+quadrats and a set of pseudo-quadrats. This approach is noted as improving the
+accuracy of fit relative to the Czekanowski index for sample quadrats with low
+species richness [@tipping2013].
+
+### Inverse Distance Metric
+
+@critchley2002.
 
 ## Habitat Correspondences
 
 Habitat correspondence data is drawn from three sources:
 
-1.  The Joint Nature Conservation Committee (JNCC)
-    Spreadsheet of Habitat Correspondences [@jncc2008].
-2.  For UKHab is drawn from UKHab V1.1 [@butcher2020].
-3.  For the National Plant Monitoring Scheme (NPMS) data is
-    drawn from [@pescott2019]
+1.  The Joint Nature Conservation Committee (JNCC) Spreadsheet of Habitat 
+Correspondences [@jncc2008].
+2.  UKHab V1.1 [@butcher2020].
+3.  For the National Plant Monitoring Scheme (NPMS) data is drawn from 
+[@pescott2019]
 
 ## Floristic Tables
 
-To aid in the NVC assignment process and as an exploratory
-tool the **Floristic Tables** section of MAVIS allows the
-user to compare a composed floristic table
+To aid in the NVC assignment process and as an exploratory tool the 
+**Floristic Tables** section of MAVIS allows the user to compare a composed 
+floristic table to a chosen NVC floristic table.
 
 ## Analysis Metrics
 
-... uses the results of the NVC Assignment module to
-calculate the following metrics:
+... uses the results of the NVC Assignment module to calculate the following 
+metrics:
 
 -   Cover-weighted Hill-Ellenberg ecological indicator
     values:
@@ -170,8 +184,8 @@ calculate the following metrics:
     -   Light Score (L) [@bsbi2017ellenbergL]
 -   
 
-Data for bryophytes was taken from BRYOATT [@hill2007] and
-data for vascular plants was taken from.
+Data for bryophytes was taken from BRYOATT [@hill2007] and data for vascular 
+plants was taken from.
 
 ## Diversity
 
@@ -208,10 +222,15 @@ Taxonomy)](https://credit.niso.org/), are:
 
 # Reccomended Citation
 
-```{r bibtexRef}
-
-
-
+```
+@misc{marshall2024,
+  author       = {Marshall, Z and Smart, S and Harrower, C.},
+  title        = {pseudoMAVIS},
+  howpublished = {Web Application},
+  month        = {02},
+  year         = {2024},
+  note         = {A R Shiny application for the assignment of vegetation survey data to National Vegetation Classification (NVC) communities, with additional exploratory analyses.}
+}
 ```
 
 # Release Log
