@@ -511,8 +511,33 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     bindEvent(input$selectSurveyMethod,
               ignoreInit = TRUE)
   
-  
-  # Return sidebar options --------------------------------------------------
+
+# Download Survey Data ----------------------------------------------------
+  output$downloadSurveyData <- downloadHandler(
+    
+    filename = function() {
+      
+      paste0("pseudoMAVIS.SurveyData.",
+             gsub(x = gsub(x = Sys.time(),
+                           pattern = "\\s",
+                           replacement = "."),
+                  pattern = ":",
+                  replacement = "-"),
+             ".csv",
+             sep="")
+      
+    },
+    
+    content = function(file) {
+      
+      surveyTable <- surveyTable()
+      
+      write.csv(x = surveyTable, file, row.names = FALSE, fileEncoding = "UTF-8")
+      
+    }
+  )
+
+# Return sidebar options --------------------------------------------------
   return(sidebar_options)
   
 }

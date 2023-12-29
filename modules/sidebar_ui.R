@@ -999,13 +999,63 @@ sidebarUI <- function(id){
         
         icon = bsicons::bs_icon("download"),
         
-        shiny::downloadButton(
-          outputId = ns("downloadSpeciesData"),
-          label = "Download Accepted Species",
-          class = NULL,
-          icon = NULL
+        shiny::div(
+          
+          id = ns("downloadSpeciesData_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::downloadButton(
+              outputId = ns("downloadSpeciesData"),
+              label = "Download Accepted Species",
+              class = NULL,
+              icon = NULL
+            ),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Download Accepted Species Data",
+              shiny::markdown(
+                "
+                
+                "
+              ),
+              placement = "bottom"
+            )
+          )
+        ),
+        
+        shiny::div(shiny::br()),
+        
+        shiny::div(
+          
+          id = ns("downloadSurveyData_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            downloadButton(
+              outputId = ns("downloadSurveyData"),
+              label = "Download Survey Data",
+              class = NULL,
+              icon = NULL
+            ),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Download Survey Data",
+              shiny::markdown(
+                "
+                
+                "
+              ),
+              placement = "bottom"
+            )
+          )
         )
-
       )
     )
   )

@@ -45,7 +45,7 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
                                  "Group" = as.character(rep("A", 20)),
                                  "Quadrat" = as.character(rep("1", 20)),
                                  "Species" = as.character(rep("", 20)),
-                                 "Cover" = as.numeric(rep(0, 20)))
+                                 "Cover" = as.numeric(rep(NA, 20)))
   
 # Survey Data Entry Table -------------------------------------------------
   

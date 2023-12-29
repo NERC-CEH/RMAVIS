@@ -302,8 +302,8 @@ body {
 <h1><span class="header-section-number">1</span> Introduction</h1>
 <p>The Modular Analysis of Vegetation Information System (MAVIS),
 originally developed by <span class="citation">(<a
-href="#ref-smart2016mavis" role="doc-biblioref">S. Smart, Goodwin, and
-Wallace 2016</a>)</span></p>
+href="#ref-smart2016mavis">S. Smart, Goodwin, and Wallace
+2016</a>)</span></p>
 <div id="aims" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> Aims</h2>
 <p>MAVIS aims to…</p>
@@ -341,11 +341,11 @@ upload, and example.</p>
 <p>The list of species available for entry is currently composed of:</p>
 <ul>
 <li>The vascular plants present in <span class="citation">Stace (<a
-href="#ref-stace2010new" role="doc-biblioref">2010</a>)</span>,
-retrieved from <span class="citation">BSBI (<a href="#ref-bsbi2014stace"
-role="doc-biblioref">2014</a>)</span>.</li>
+href="#ref-stace2010new">2010</a>)</span>, retrieved from <span
+class="citation">BSBI (<a
+href="#ref-bsbi2014stace">2014</a>)</span>.</li>
 <li>The bryophytes present in <span class="citation">Blockeel et al. (<a
-href="#ref-blockeel2021" role="doc-biblioref">2021</a>)</span>.</li>
+href="#ref-blockeel2021">2021</a>)</span>.</li>
 <li>The lichens, charophytes, and Algae present in the NVC floristic
 tables.</li>
 </ul>
@@ -362,18 +362,17 @@ tables.</li>
 to explore the applications functionality.</p>
 <p><strong>Parsonage Down</strong> CG. Calcareous grassland. Transect
 Survey. Repeat quadrats in 1970, 1990, and 2016 <span
-class="citation">(<a href="#ref-ridding2020"
-role="doc-biblioref">Ridding et al. 2020</a>)</span></p>
+class="citation">(<a href="#ref-ridding2020">Ridding et al.
+2020</a>)</span></p>
 <p><strong>Leith</strong> W. Bunce woodland Survey. Storm Track. Repeat
 quadrats 1971, 2001, and 2021 <span class="citation">(<a
-href="#ref-smart2014" role="doc-biblioref">S. M. Smart et al.
-2014</a>)</span></p>
+href="#ref-smart2014">S. M. Smart et al. 2014</a>)</span></p>
 <p><strong>Whitwell Common</strong> M. Norfolk Mires. Repeat quadrats
-1994 and 1997. <span class="citation">(<a href="#ref-smart2000"
-role="doc-biblioref">S. M. Smart 2000</a>)</span></p>
+1994 and 1997. <span class="citation">(<a href="#ref-smart2000">S. M.
+Smart 2000</a>)</span></p>
 <p><strong>Newborough Warren</strong>. SD. Repeat quadrats. 2014 to
-2018. <span class="citation">(<a href="#ref-wallace2018"
-role="doc-biblioref">Wallace and Jones 2018</a>)</span></p>
+2018. <span class="citation">(<a href="#ref-wallace2018">Wallace and
+Jones 2018</a>)</span></p>
 </div>
 </div>
 <div id="nvc-assignment" class="section level2" number="2.2">
@@ -382,11 +381,11 @@ role="doc-biblioref">Wallace and Jones 2018</a>)</span></p>
 <h3><span class="header-section-number">2.2.1</span> Czekanowski
 Index</h3>
 <p>The Czekanowski index <span class="citation">(<a
-href="#ref-bloom1981" role="doc-biblioref">Bloom 1981</a>)</span> (see
-Equation~<span class="math inline">\(\ref{eq:czekanowski}\)</span>) to
-quantify the similarity between a floristic table composed from survey
-data (with a minimum of five samples recommended) and the NVC floristic
-tables, or a subset thereof.</p>
+href="#ref-bloom1981">Bloom 1981</a>)</span> (see Equation~<span
+class="math inline">\(\ref{eq:czekanowski}\)</span>) to quantify the
+similarity between a floristic table composed from survey data (with a
+minimum of five samples recommended) and the NVC floristic tables, or a
+subset thereof.</p>
 <p><span class="math display">\[
 \begin{equation}\label{eq:czekanowski}
 = 200 * \sum_{j=1} ^{t} min(REF_{j}, NS_{j}) / \sum_{j=1} ^{m} REF_{j} +
@@ -398,20 +397,20 @@ class="math inline">\(j\)</span> in the constancy table. <span
 class="math inline">\(NS_{j}\)</span> is the corresponding Domin cover
 or constancyt value for the same species but in the new, sample data.
 <span class="math inline">\(min(REF_{j}, NS_{j})\)</span> is the smaller
-of the two values <span class="citation">(<a href="#ref-smart2000"
-role="doc-biblioref">S. M. Smart 2000</a>)</span>.</p>
+of the two values <span class="citation">(<a href="#ref-smart2000">S. M.
+Smart 2000</a>)</span>.</p>
 </div>
 <div id="jaccard-similarity" class="section level3" number="2.2.2">
 <h3><span class="header-section-number">2.2.2</span> Jaccard
 Similarity</h3>
 <p>An R implementation of the method outlined in <span
-class="citation">Tipping et al. (<a href="#ref-tipping2013"
-role="doc-biblioref">2013</a>)</span>. This method calculates the
+class="citation">Tipping et al. (<a
+href="#ref-tipping2013">2013</a>)</span>. This method calculates the
 Jaccard similarity between user-inputted sample quadrats and a set of
 pseudo-quadrats. This approach is noted as improving the accuracy of fit
 relative to the Czekanowski index for sample quadrats with low species
-richness <span class="citation">(<a href="#ref-tipping2013"
-role="doc-biblioref">Tipping et al. 2013</a>)</span>.</p>
+richness <span class="citation">(<a href="#ref-tipping2013">Tipping et
+al. 2013</a>)</span>.</p>
 </div>
 <div id="inverse-distance-metric" class="section level3" number="2.2.3">
 <h3><span class="header-section-number">2.2.3</span> Inverse Distance
@@ -427,13 +426,13 @@ Correspondences</h2>
 <p>Habitat correspondence data is drawn from three sources:</p>
 <ol style="list-style-type: decimal">
 <li>The Joint Nature Conservation Committee (JNCC) Spreadsheet of
-Habitat Correspondences <span class="citation">(<a href="#ref-jncc2008"
-role="doc-biblioref">JNCC 2008</a>)</span>.</li>
-<li>UKHab V1.1 <span class="citation">(<a href="#ref-butcher2020"
-role="doc-biblioref">Butcher et al. 2020</a>)</span>.</li>
+Habitat Correspondences <span class="citation">(<a
+href="#ref-jncc2008">JNCC 2008</a>)</span>.</li>
+<li>UKHab V1.1 <span class="citation">(<a
+href="#ref-butcher2020">Butcher et al. 2020</a>)</span>.</li>
 <li>For the National Plant Monitoring Scheme (NPMS) data is drawn from
-<span class="citation">(<a href="#ref-pescott2019"
-role="doc-biblioref">Pescott et al. 2019</a>)</span></li>
+<span class="citation">(<a href="#ref-pescott2019">Pescott et al.
+2019</a>)</span></li>
 </ol>
 </div>
 <div id="floristic-tables" class="section level2" number="2.4">
@@ -450,26 +449,21 @@ following metrics:</p>
 <li>Cover-weighted Hill-Ellenberg ecological indicator values:
 <ul>
 <li>Nitrogen Score (N) <span class="citation">(<a
-href="#ref-bsbi2017ellenbergN" role="doc-biblioref">BSBI
-2017c</a>)</span></li>
+href="#ref-bsbi2017ellenbergN">BSBI 2017c</a>)</span></li>
 <li>Moisture Score (F) <span class="citation">(<a
-href="#ref-bsbi2017ellenbergF" role="doc-biblioref">BSBI
-2017d</a>)</span></li>
+href="#ref-bsbi2017ellenbergF">BSBI 2017d</a>)</span></li>
 <li>Reaction Score (R) <span class="citation">(<a
-href="#ref-bsbi2017ellenbergR" role="doc-biblioref">BSBI
-2017a</a>)</span></li>
+href="#ref-bsbi2017ellenbergR">BSBI 2017a</a>)</span></li>
 <li>Salinity Score (S) <span class="citation">(<a
-href="#ref-bsbi2017ellenbergS" role="doc-biblioref">BSBI
-2017b</a>)</span></li>
+href="#ref-bsbi2017ellenbergS">BSBI 2017b</a>)</span></li>
 <li>Light Score (L) <span class="citation">(<a
-href="#ref-bsbi2017ellenbergL" role="doc-biblioref">BSBI
-2017e</a>)</span></li>
+href="#ref-bsbi2017ellenbergL">BSBI 2017e</a>)</span></li>
 </ul></li>
 <li></li>
 </ul>
 <p>Data for bryophytes was taken from BRYOATT <span class="citation">(<a
-href="#ref-hill2007" role="doc-biblioref">Hill et al. 2007</a>)</span>
-and data for vascular plants was taken from.</p>
+href="#ref-hill2007">Hill et al. 2007</a>)</span> and data for vascular
+plants was taken from.</p>
 </div>
 <div id="diversity" class="section level2" number="2.6">
 <h2><span class="header-section-number">2.6</span> Diversity</h2>
@@ -477,10 +471,9 @@ and data for vascular plants was taken from.</p>
 <ul>
 <li>Total Species Richness</li>
 <li>Simpson’s Diversity Index <span class="citation">(<a
-href="#ref-simpson1949" role="doc-biblioref">Simpson
-1949</a>)</span>.</li>
-<li>Beta diversity <span class="citation">(<a href="#ref-koleff2003"
-role="doc-biblioref">Koleff, Gaston, and Lennon 2003</a>)</span></li>
+href="#ref-simpson1949">Simpson 1949</a>)</span>.</li>
+<li>Beta diversity <span class="citation">(<a
+href="#ref-koleff2003">Koleff, Gaston, and Lennon 2003</a>)</span></li>
 </ul>
 </div>
 <div id="ordination" class="section level2" number="2.7">
@@ -492,15 +485,14 @@ number="2.7.1">
 <h3><span class="header-section-number">2.7.1</span> Detrended
 Correspondence Analysis</h3>
 <p>Detrended Correspondence Analysis (DCA) <span class="citation">(<a
-href="#ref-hill1980dca" role="doc-biblioref">Hill and Gauch
-1980</a>)</span></p>
+href="#ref-hill1980dca">Hill and Gauch 1980</a>)</span></p>
 </div>
 <div id="canonical-correspondence-analysis" class="section level3"
 number="2.7.2">
 <h3><span class="header-section-number">2.7.2</span> Canonical
 Correspondence Analysis</h3>
-<p><span class="citation">(<a href="#ref-terBraak1986"
-role="doc-biblioref">Braak 1986</a>)</span></p>
+<p><span class="citation">(<a href="#ref-terBraak1986">Braak
+1986</a>)</span></p>
 </div>
 </div>
 <div id="download-options" class="section level2" number="2.8">
@@ -522,9 +514,13 @@ Roles Taxonomy)</a>, are:</p>
 <div id="reccomended-citation" class="section level1" number="5">
 <h1><span class="header-section-number">5</span> Reccomended
 Citation</h1>
-<pre><code>@misc{
-
-
+<pre><code>@misc{marshall2024,
+  author       = {Marshall, Z and Smart, S and Harrower, C.},
+  title        = {pseudoMAVIS},
+  howpublished = {Web Application},
+  month        = {02},
+  year         = {2024},
+  note         = {A R Shiny application for the assignment of vegetation survey data to National Vegetation Classification (NVC) communities, with additional exploratory analyses.}
 }</code></pre>
 </div>
 <div id="release-log" class="section level1" number="6">
