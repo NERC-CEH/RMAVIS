@@ -34,8 +34,11 @@ mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options)
 # Run DCA and CCA ---------------------------------------------------------
   observe({
     
+    print(runAnalysis())
+    
     # Require selected objects are not NULL
     shiny::req(surveyTable())
+    shiny::req(runAnalysis() != 0)
     
     # Start busy spinner
     shinybusy::show_modal_spinner(
@@ -182,6 +185,10 @@ mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options)
 
 # Subset data and create plot ---------------------------------------------
     observe({
+      
+      print(mvaNationalRefResults_rval())
+      
+      shiny::req(mvaNationalRefResults_rval())
       
       mvaNationalRefResults <- mvaNationalRefResults_rval()
       

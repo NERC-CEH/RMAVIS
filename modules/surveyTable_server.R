@@ -288,6 +288,8 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
   
   observe({
     
+    shiny::req(surveyTable_corrected_rval())
+    
     surveyTable_corrected <- surveyTable_corrected_rval()
     
     # print(head(surveyTable_corrected))

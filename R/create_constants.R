@@ -96,16 +96,17 @@ habitatRestriction_options <- list(
 
 # Cross-tabulate NVC floristic tables options -----------------------------
 matchSpecies_options <- c("No" = "No",
-                           "Composed to NVC" = "compToNVC",
-                           "NVC to Composed" = "NVCToComp")
+                          "Composed to NVC" = "compToNVC",
+                          "NVC to Composed" = "NVCToComp")
 
 
 # Results to View NVC Assignment ------------------------------------------
 resultsViewNVCAssign_options <- c("Site, Pseudo-quadrat" = "nvcAssignSitePseudo",
                                   "Group, Pseudo-quadrat" = "nvcAssignGroupPseudo",
-                                  "Quadrat, Pseudo-quadrat" = "nvcAssignQuadratPseudo",
-                                  "Site, Czekanowski" = "nvcAssignSiteCzekanowski",
-                                  "Group, Czekanowski" = "nvcAssignGroupCzekanowski")
+                                  "Quadrat, Pseudo-quadrat" = "nvcAssignQuadratPseudo"#,
+                                  # "Site, Czekanowski" = "nvcAssignSiteCzekanowski",
+                                  # "Group, Czekanowski" = "nvcAssignGroupCzekanowski"
+                                  )
 
 # Results to View EIVs ----------------------------------------------------
 resultsViewEIVs_options <- c("Weighted Mean Hill-Ellenberg Values, by Site" = "weightedMeanHEValuesSite",

@@ -152,7 +152,7 @@ sidebarUI <- function(id){
                 "
                 Open a popup window to validate the data present in the Survey Data Table.
                 All validation checks must pass before the 'Run Analysis' button is enabled
-                and pseudoMAVIS is able to proceed with any analyses.
+                and pseudoMAVIS is ok to proceed.
                 "
               ),
               placement = "bottom"
@@ -197,12 +197,10 @@ sidebarUI <- function(id){
               id = ns("resultsToViewNVCAssignInfo"),
               shiny::markdown(
                 "
-                Five sets of NVC assigment results are available:
+                Three sets of NVC assigment results are currently available:
                 - 'Site, Pseudo-quadrat'
                 - 'Group, Pseudo-quadrat'
                 - 'Quadrat, Pseudo-quadrat'
-                - 'Site, Czekanowski'
-                - 'Group, Czekanowski'
                 "
               ),
               placement = "bottom"
@@ -311,8 +309,8 @@ sidebarUI <- function(id){
                 "
                 Select a habitat classification you wish to retrieve correspondence,
                 values for using the fitted NVC communities and sub-communities.
-                Note that all community level codes associated with sub-communities,
-                are also used, even if they aren't fitted. This is to account for the,
+                Note that all community level codes associated with sub-communities
+                are also used, even if they aren't directly assigned. This is to account for the,
                 incomplete coverage of NVC sub-communities in the JNCC habitat correspondences.
                 "
               ),
@@ -416,10 +414,8 @@ sidebarUI <- function(id){
               title = "Composed Table",
               shiny::markdown(
                 "
-                A list of floristic/syntopic tables composed from the survey
-                data is supplied. Tables are only composed for groups of quadrats
-                (per year) and all quadrats (per year), and only if there are...
-                ...
+                Select one from the list of floristic tables composed from the survey
+                data.
                 "
               ),
               placement = "bottom"
@@ -839,6 +835,7 @@ sidebarUI <- function(id){
               shiny::markdown(
                 "
                 Select the variables to display in the multivariate analysis plots:
+                
                 Seven options are provided:
                 - 'Survey Quadrats': the DCA scores of the survey quadrats.
                 - 'Pseudo-Quadrats': the DCA scores of the pseudo-quadrats (Local Reference only).
@@ -847,6 +844,7 @@ sidebarUI <- function(id){
                 - 'Unique Survey Species': the DCA scores of the species unique to the survey data, but absent from the best fitting NVC communities pseudo-quadrats (Local Reference (unrestricted) only).
                 - 'Hill-Ellenberg': the CCA result axis scores for the Hill-Ellenberg selected in the 'CCA Variables' option.
                 - 'Survey Quadrat Change': arrows drawn between each quadrat by year, showing the movement of the quadrat in the ordination space.
+                
                 Please see the documentation for more details.
                 "
               ),
@@ -949,7 +947,7 @@ sidebarUI <- function(id){
               title = "Report Options",
               shiny::markdown(
                 "
-                
+                Select the pseudoMAVIS outputs to include in the report.
                 "
               ),
               placement = "bottom"
@@ -980,7 +978,7 @@ sidebarUI <- function(id){
               title = "Download Report",
               shiny::markdown(
                 "
-                
+                Download a pdf report of the current pseudoMAVIS analyses results.
                 "
               ),
               placement = "bottom"
@@ -1019,7 +1017,7 @@ sidebarUI <- function(id){
               title = "Download Accepted Species Data",
               shiny::markdown(
                 "
-                
+                Download a csv containing the species names accepted by pseudoMAVIS.
                 "
               ),
               placement = "bottom"
@@ -1049,7 +1047,10 @@ sidebarUI <- function(id){
               title = "Download Survey Data",
               shiny::markdown(
                 "
-                
+                Download the survey data displayed in the 'Survey Data' section of pseudoMAVIS.
+                This data will contain any changes made in the survey data validation process
+                and allow reproduction of the results of the current pseudoMAVIS session
+                at a later date.
                 "
               ),
               placement = "bottom"

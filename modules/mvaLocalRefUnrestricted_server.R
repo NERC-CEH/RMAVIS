@@ -221,6 +221,8 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
   
   observe({
     
+    shiny::req(mvaLocalRefUnrestrictedResults())
+    
     mvaLocalRefUnrestrictedResults <- mvaLocalRefUnrestrictedResults()
     
     if(selectSurveyMethod() == "all"){

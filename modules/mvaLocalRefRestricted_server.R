@@ -244,6 +244,8 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
 # Subset data and create plot ---------------------------------------------
     observe({
       
+      shiny::req(mvaLocalRefRestrictedResults())
+      
       mvaLocalRefRestrictedResults <- mvaLocalRefRestrictedResults()
       
       if(selectSurveyMethod() == "all"){
