@@ -98,23 +98,23 @@ server <- function(input, output, session) {
                     mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults)
   
   
-  # observe({
-  # 
-  #   assign(x = "sidebar_options", value = sidebar_options(), envir = .GlobalEnv)
-  #   assign(x = "surveyTable", value = surveyTable(), envir = .GlobalEnv)
-  #   assign(x = "surveyTableValidator", value = surveyTableValidator(), envir = .GlobalEnv)
-  #   assign(x = "surveyTableWide", value = surveyTableWide(), envir = .GlobalEnv)
-  #   assign(x = "nvcAssignment", value = nvcAssignment(), envir = .GlobalEnv)
-  #   assign(x = "habCor", value = habCor(), envir = .GlobalEnv)
-  #   assign(x = "floristicTables", value = floristicTables(), envir = .GlobalEnv)
-  #   assign(x = "speciesFreq", value = speciesFreq(), envir = .GlobalEnv)
-  #   assign(x = "avgEIVs", value = avgEIVs(), envir = .GlobalEnv)
-  #   assign(x = "diversityAnalysis", value = diversityAnalysis(), envir = .GlobalEnv)
-  #   assign(x = "mvaNationalRefResults", value = mvaNationalRefResults(), envir = .GlobalEnv)
-  #   assign(x = "mvaLocalRefRestrictedResults", value = mvaLocalRefRestrictedResults(), envir = .GlobalEnv)
-  #   assign(x = "mvaLocalRefUnrestrictedResults", value = mvaLocalRefUnrestrictedResults(), envir = .GlobalEnv)
-  #   
-  # 
-  # })
+  observe({
+
+    # assign(x = "sidebar_options", value = sidebar_options(), envir = .GlobalEnv)
+    assign(x = "surveyTable", value = surveyTable(), envir = .GlobalEnv)
+    # assign(x = "surveyTableValidator", value = surveyTableValidator(), envir = .GlobalEnv)
+    # assign(x = "surveyTableWide", value = surveyTableWide(), envir = .GlobalEnv)
+    # assign(x = "nvcAssignment", value = nvcAssignment(), envir = .GlobalEnv)
+    # assign(x = "habCor", value = habCor(), envir = .GlobalEnv)
+    # assign(x = "floristicTables", value = floristicTables(), envir = .GlobalEnv)
+    # assign(x = "speciesFreq", value = speciesFreq(), envir = .GlobalEnv)
+    # assign(x = "avgEIVs", value = avgEIVs(), envir = .GlobalEnv)
+    # assign(x = "diversityAnalysis", value = diversityAnalysis(), envir = .GlobalEnv)
+    # assign(x = "mvaNationalRefResults", value = mvaNationalRefResults(), envir = .GlobalEnv)
+    # assign(x = "mvaLocalRefRestrictedResults", value = mvaLocalRefRestrictedResults(), envir = .GlobalEnv)
+    # assign(x = "mvaLocalRefUnrestrictedResults", value = mvaLocalRefUnrestrictedResults(), envir = .GlobalEnv)
+
+
+  })
 
 }

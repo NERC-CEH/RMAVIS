@@ -5,7 +5,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 # Initialise Table to Replace Species Not In Accepted List ----------------
   speciesAdjustmentTable_init <- data.frame("Species.Submitted" = character(),
                                             "Species.Adjusted" = character(),
-                                            "Species.Ignore" = logical())
+                                            "Species.Remove" = logical())
   
   speciesAdjustmentTable_rval <- reactiveVal(speciesAdjustmentTable_init)
   
@@ -109,9 +109,6 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     surveyTable_groupIDUnique <- isTRUE(length(surveyTable_groupIDUnique) == 0)
     surveyTable_groupIDDuplicates <- surveyTable_groupIDUnique
     
-    # Create a dataframe containing the number of quadrats, per group, per year.
-    
-    
     # Check whether the analysis is ok to proceed
     okToProceed <- isTRUE(all(surveyTable_speciesInAccepted, surveyTable_yearComplete, 
                               surveyTable_groupComplete, surveyTable_quadratComplete,
@@ -135,10 +132,6 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
       "quadratIDDuplicates" = surveyTable_quadratIDDuplicates,
       "groupIDUnique" = surveyTable_groupIDUnique,
       "groupIDDuplicates" = surveyTable_groupIDDuplicates,
-      # "" = ,
-      # "" = ,
-      # "" = ,
-      # "" = ,
       "okToProceed" = okToProceed
     )
     
@@ -166,7 +159,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
       
       speciesAdjustmentTable <- data.frame("Species.Submitted" = surveyTableValidation$speciesNotAccepted,
                                            "Species.Adjusted" = as.character(NA_character_),
-                                           "Species.Ignore" = FALSE)
+                                           "Species.Remove" = FALSE)
       
     } else {
       
@@ -434,24 +427,171 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     
     surveyTable <- surveyTable()
     
-    # assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
+    # Create a list of dataframes containing the number of quadrats, per group, per year
+    quadratsPerYear <- surveyTable |>
+      dplyr::select(Year, Group, Quadrat) |>
+      dplyr::distinct() |>
+      dplyr::group_by(Year) |>
+      dplyr::summarise(quadratsPerYear = dplyr::n())
     
-    surveyTableStructure <- surveyTable |>
+    quadratsPerYearGroup <- surveyTable |>
       dplyr::select(Year, Group, Quadrat) |>
       dplyr::distinct() |>
       dplyr::group_by(Year, Group) |>
-      dplyr::summarise("Number.Quadrats" = dplyr::n())
+      dplyr::summarise(quadratsPerYearGroup = dplyr::n())
     
-    surveyTableStructure_rval(surveyTableStructure)
+    surveyTable_quadratsPerYearGroup <- list("quadratsPerYear" = quadratsPerYear,
+                                             "quadratsPerYearGroup" = quadratsPerYearGroup)
+    
+    surveyTableStructure_rval(surveyTable_quadratsPerYearGroup)
     
   }) |>
     bindEvent(surveyTable(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
+
+# Initialise quadratsPerYear Table ----------------------------------------
+  quadratsPerYearTable_init <- data.frame("Year" = integer(),
+                                          "quadratsPerYear" = numeric()
+  )
   
+  quadratsPerYearTable_rval <- reactiveVal(quadratsPerYearTable_init)
   
+  output$quadratsPerYearTable <- reactable::renderReactable({
+    
+    quadratsPerYearTable <- reactable::reactable(data = quadratsPerYearTable_init,
+                                                 filterable = FALSE,
+                                                 pagination = FALSE, 
+                                                 highlight = TRUE,
+                                                 bordered = TRUE,
+                                                 sortable = TRUE, 
+                                                 wrap = FALSE,
+                                                 resizable = TRUE,
+                                                 style = list(fontSize = "1rem"),
+                                                 class = "my-tbl",
+                                                 # style = list(fontSize = "1rem"),
+                                                 rowClass = "my-row",
+                                                 defaultColDef = reactable::colDef(
+                                                   format = reactable::colFormat(digits = 0),
+                                                   headerClass = "my-header",
+                                                   class = "my-col",
+                                                   align = "center" # Needed as alignment is not passing through to header
+                                                 ))
+    
+    return(quadratsPerYearTable)
+    
+  })
+  
+# Initialise quadratsPerYearGroup Table -----------------------------------
+  quadratsPerYearGroupTable_init <- data.frame("Year" = integer(),
+                                               "Group" = character(),
+                                               "quadratsPerYearGroup" = numeric()
+  )
+  
+  quadratsPerYearGroupTable_rval <- reactiveVal(quadratsPerYearGroupTable_init)
+  
+  output$quadratsPerYearGroupTable <- reactable::renderReactable({
+    
+    quadratsPerYearGroupTable <- reactable::reactable(data = quadratsPerYearGroupTable_init,
+                                                      filterable = FALSE,
+                                                      pagination = FALSE, 
+                                                      highlight = TRUE,
+                                                      bordered = TRUE,
+                                                      sortable = TRUE, 
+                                                      wrap = FALSE,
+                                                      resizable = TRUE,
+                                                      style = list(fontSize = "1rem"),
+                                                      class = "my-tbl",
+                                                      # style = list(fontSize = "1rem"),
+                                                      rowClass = "my-row",
+                                                      defaultColDef = reactable::colDef(
+                                                        format = reactable::colFormat(digits = 0),
+                                                        headerClass = "my-header",
+                                                        class = "my-col",
+                                                        align = "center" # Needed as alignment is not passing through to header
+                                                      ))
+    
+    return(quadratsPerYearGroupTable)
+    
+  })
+    
+
+# Update quadratsPerYear Table --------------------------------------------
+  observe({
+    
+    req(surveyTableStructure_rval())
+    
+    quadratsPerYear <- surveyTableStructure_rval()$quadratsPerYear
+    
+    output$quadratsPerYearTable <- reactable::renderReactable({
+      
+      quadratsPerYearTable <- reactable::reactable(data = quadratsPerYear,
+                                                   filterable = FALSE,
+                                                   pagination = FALSE, 
+                                                   highlight = TRUE,
+                                                   bordered = TRUE,
+                                                   sortable = TRUE, 
+                                                   wrap = FALSE,
+                                                   resizable = TRUE,
+                                                   style = list(fontSize = "1rem"),
+                                                   class = "my-tbl",
+                                                   # style = list(fontSize = "1rem"),
+                                                   rowClass = "my-row",
+                                                   defaultColDef = reactable::colDef(
+                                                     format = reactable::colFormat(digits = 0),
+                                                     headerClass = "my-header",
+                                                     class = "my-col",
+                                                     align = "center" # Needed as alignment is not passing through to header
+                                                   ))
+      
+      return(quadratsPerYearTable)
+      
+    })
+    
+  }) |>
+    bindEvent(surveyTableStructure_rval(),
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE)
 
 
+# Update quadratsPerYearGroup Table ---------------------------------------
+  observe({
+    
+    req(surveyTableStructure_rval())
+    
+    quadratsPerYearGroup <- surveyTableStructure_rval()$quadratsPerYearGroup
+    
+    output$quadratsPerYearGroupTable <- reactable::renderReactable({
+      
+      quadratsPerYearGroupTable <- reactable::reactable(data = quadratsPerYearGroup,
+                                                        filterable = FALSE,
+                                                        pagination = FALSE, 
+                                                        highlight = TRUE,
+                                                        bordered = TRUE,
+                                                        sortable = TRUE, 
+                                                        wrap = FALSE,
+                                                        resizable = TRUE,
+                                                        style = list(fontSize = "1rem"),
+                                                        class = "my-tbl",
+                                                        # style = list(fontSize = "1rem"),
+                                                        rowClass = "my-row",
+                                                        defaultColDef = reactable::colDef(
+                                                          format = reactable::colFormat(digits = 0),
+                                                          headerClass = "my-header",
+                                                          class = "my-col",
+                                                          align = "center" # Needed as alignment is not passing through to header
+                                                        ))
+      
+      return(quadratsPerYearGroupTable)
+      
+    })
+    
+  }) |>
+    bindEvent(surveyTableStructure_rval(),
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE)
+
+  
 # Compose Data Object to Return -------------------------------------------
   surveyTableValidatorData_rval <- reactiveVal()
   
@@ -471,6 +611,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     
   }) |>
     bindEvent(input$adjustSpecies,
+              input$combineDuplicates,
               input$speciesAdjustmentTable,
               surveyTableValidation_rval(),
               ignoreInit = TRUE,

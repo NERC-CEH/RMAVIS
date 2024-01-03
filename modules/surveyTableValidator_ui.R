@@ -57,63 +57,267 @@ surveyTableValidatorUI <- function(id){
               shiny::markdown(
                 "
                 If TRUE all species names in the survey table are accepted names.
+                
                 If FALSE one or more of the species names are not accepted.
+                
                 These names should be corrected using the 'Species Adjustment Table' and 'Adjust Species' button.
                 "
               ),
               placement = "bottom"
             ),
             
-            shiny::htmlOutput(outputId = ns("speciesInAcceptedText")),
+            shiny::htmlOutput(outputId = ns("speciesInAcceptedText"))
             
           ),
           
-          # bslib::layout_columns(
-          #   
-          #   col_widths = c(1, 11),
-          #   
-          #   fill = FALSE,
-          #   
-          #   fillable = TRUE,
-          #   
-          #   bslib::popover(
-          #     bsicons::bs_icon("info-circle"),
-          #     title = "",
-          #     id = ns(""),
-          #     shiny::markdown(
-          #       "
-          #       If TRUE
-          #       If FALSE
-          #       
-          #       "
-          #     ),
-          #     placement = "bottom"
-          #   ),
-          #   
-          # ),
+          bslib::layout_columns(
+
+            col_widths = c(1, 11),
+
+            fill = FALSE,
+
+            fillable = TRUE,
+
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Cover Supplied",
+              id = ns("coverSuppliedTextInfo"),
+              shiny::markdown(
+                "
+                If TRUE cover values are supplied.
+                
+                If FALSE cover values are not supplied.
+                
+                Note that cover values are not required to proceed.
+
+                "
+              ),
+              placement = "bottom"
+            ),
+            
+            shiny::htmlOutput(outputId = ns("coverSuppliedText"))
+
+          ),
           
-          shiny::htmlOutput(outputId = ns("coverSuppliedText")),
+          bslib::layout_columns(
+            
+            col_widths = c(1, 11),
+            
+            fill = FALSE,
+            
+            fillable = TRUE,
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Year Column Complete",
+              id = ns("yearCompleteTextInfo"),
+              shiny::markdown(
+                "
+                If TRUE the Year column is complete and contains no missing values.
+                
+                If FALSE the Year column contains missing values.
+
+                "
+              ),
+              placement = "bottom"
+            ),
+            
+            shiny::htmlOutput(outputId = ns("yearCompleteText"))
+            
+          ),
           
-          shiny::htmlOutput(outputId = ns("yearCompleteText")),
+          bslib::layout_columns(
+            
+            col_widths = c(1, 11),
+            
+            fill = FALSE,
+            
+            fillable = TRUE,
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Group Column Complete",
+              id = ns("groupCompleteTextInfo"),
+              shiny::markdown(
+                "
+                If TRUE the Group column is complete and contains no missing values.
+                
+                If FALSE the Group column contains missing values.
+
+                "
+              ),
+              placement = "bottom"
+            ),
+            
+            shiny::htmlOutput(outputId = ns("groupCompleteText"))
+            
+          ),
           
-          shiny::htmlOutput(outputId = ns("groupCompleteText")),
+          bslib::layout_columns(
+            
+            col_widths = c(1, 11),
+            
+            fill = FALSE,
+            
+            fillable = TRUE,
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Quadrat Column Complete",
+              id = ns("quadratCompleteTextInfo"),
+              shiny::markdown(
+                "
+                If TRUE the Quadrat column is complete and contains no missing values.
+                
+                If FALSE the Quadrat column contains missing values.
+
+                "
+              ),
+              placement = "bottom"
+            ),
+            
+            shiny::htmlOutput(outputId = ns("quadratCompleteText"))
+            
+          ),
           
-          shiny::htmlOutput(outputId = ns("quadratCompleteText")),
+          bslib::layout_columns(
+            
+            col_widths = c(1, 11),
+            
+            fill = FALSE,
+            
+            fillable = TRUE,
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Species Column Complete",
+              id = ns("speciesCompleteTextInfo"),
+              shiny::markdown(
+                "
+                If TRUE the Species column is complete and contains no missing values.
+                
+                If FALSE the Species column contains missing values.
+
+                "
+              ),
+              placement = "bottom"
+            ),
+            
+            shiny::htmlOutput(outputId = ns("speciesCompleteText"))
+            
+          ),
           
-          shiny::htmlOutput(outputId = ns("speciesCompleteText")),
+          bslib::layout_columns(
+            
+            col_widths = c(1, 11),
+            
+            fill = FALSE,
+            
+            fillable = TRUE,
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Species Quadrat Duplicates",
+              id = ns("speciesQuadratDuplicatesTextInfo"),
+              shiny::markdown(
+                "
+                If TRUE all species are recorded only once per quadrat.
+                
+                If FALSE there are quadrats with a species recordeded twice or more. Species must only be recorded once per quadrat.
+
+                "
+              ),
+              placement = "bottom"
+            ),
+            
+            shiny::htmlOutput(outputId = ns("speciesQuadratDuplicatesText"))
+            
+          ),
           
-          shiny::htmlOutput(outputId = ns("speciesQuadratDuplicatesText")),
+          bslib::layout_columns(
+            
+            col_widths = c(1, 11),
+            
+            fill = FALSE,
+            
+            fillable = TRUE,
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Quadrat Names Unique",
+              id = ns("quadratIDUniqueTextInfo"),
+              shiny::markdown(
+                "
+                If TRUE all quadrat names/IDs are unique within each year.
+                
+                If FALSE there are duplicate quadrat names/IDs within a year.
+
+                "
+              ),
+              placement = "bottom"
+            ),
+            
+            shiny::htmlOutput(outputId = ns("quadratIDUniqueText"))
+            
+          ),
           
-          shiny::htmlOutput(outputId = ns("quadratIDUniqueText")),
-          
-          shiny::htmlOutput(outputId = ns("groupIDUniqueText"))
+          bslib::layout_columns(
+            
+            col_widths = c(1, 11),
+            
+            fill = FALSE,
+            
+            fillable = TRUE,
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Group Names Unique",
+              id = ns("groupIDUniqueTextInfo"),
+              shiny::markdown(
+                "
+                If TRUE all group names/IDs are unique within each year.
+                
+                If FALSE there are duplicate quadrat names/IDs within a year.
+
+                "
+              ),
+              placement = "bottom"
+            ),
+            
+            shiny::htmlOutput(outputId = ns("groupIDUniqueText"))
+            
+          )
           
         ),
         
         shiny::div(
           
-          shiny::htmlOutput(outputId = ns("okToProceedText"))
-          
+          bslib::layout_columns(
+            
+            col_widths = c(1, 11),
+            
+            fill = FALSE,
+            
+            fillable = TRUE,
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "",
+              id = ns("okToProceedTextInfo"),
+              shiny::markdown(
+                "
+                If TRUE all of the required validation conditions are met and psuedoMAVIS is ok to proceed with the analysis. The 'Run Analysis' button is enabled.
+                
+                If FALSE one or more of the required validation conditions are not met and psuedoMAVIS is not ok to proceed with the analysis. The 'Run Analysis' button is disabled.
+
+                "
+              ),
+              placement = "bottom"
+            ),
+            
+            shiny::htmlOutput(outputId = ns("okToProceedText"))
+            
+          )
         )
         
       ),
@@ -126,7 +330,39 @@ surveyTableValidatorUI <- function(id){
       
       shiny::div(
         rhandsontable::rHandsontableOutput(outputId = ns("speciesAdjustmentTable")) # , height = "300px"
+      ),
+      
+      shiny::div(shiny::br()),
+      
+      shiny::h5("Data Structure"),
+      
+      shiny::div(shiny::br()),
+      
+      shiny::markdown(
+                "
+                A sample size of at least five quadrats are reccomended per group and per year.
+                Smaller sample sizes may result in inaccuracies, particularly in 
+                the NVC assignment process and composition of floristic tables.
+                At present pseudoMAVIS does not prevent analysis if the number
+                of quadrats per group and year is less than five.
+                
+                Below the number of quadrats per year, along with the number of quadrats per group and year are displayed.
+
+                "
+      ),
+      
+      shiny::div(shiny::br()),
+      
+      shiny::div(
+        reactable::reactableOutput(outputId = ns("quadratsPerYearTable"))
+      ),
+      
+      shiny::div(shiny::br()),
+      
+      shiny::div(
+        reactable::reactableOutput(outputId = ns("quadratsPerYearGroupTable"))
       )
+      
     )
   )
 }
