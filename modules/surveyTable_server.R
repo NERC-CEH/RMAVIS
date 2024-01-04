@@ -244,8 +244,6 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
           dplyr::filter(Species.Remove != TRUE | is.na(Species.Remove)) |>
           dplyr::select(-Species.Adjusted, -Species.Remove)
         
-        print(combineDuplicates())
-        
         surveyTable_corrected_rval(surveyTable_corrected)
 
       }
@@ -274,8 +272,6 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
       surveyTable_noDuplicates <- surveyTable |>
         dplyr::group_by(Year, Group, Quadrat, Species) |>
         dplyr::summarise("Cover" = sum(Cover))
-      
-      print(nrow(surveyTable_noDuplicates))
 
       surveyTable_corrected_rval(surveyTable_noDuplicates)
 

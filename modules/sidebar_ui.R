@@ -970,7 +970,8 @@ sidebarUI <- function(id){
               outputId = ns("generateReport"),
               label = "Download Report",
               class = NULL,
-              icon = NULL
+              icon = NULL#,
+              # disabled = ''
             ),
             
             bslib::popover(

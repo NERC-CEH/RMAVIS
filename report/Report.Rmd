@@ -142,7 +142,8 @@ cat("**Date & Time:** ", as.character(format(Sys.time(), "%Y-%m-%d %H:%M:%S")), 
 ```
 
 # Introduction
-The Modular Analysis of Vegetation Information System (MAVIS) is a tool..
+This report contains user-selected outputs of a pseudoMAVIS application session.
+The selected outputs are shown in Table~.
 
 # Survey Data Structure
 

@@ -1,12 +1,15 @@
+# Load constants ----------------------------------------------------------
+source("R/create_constants.R", local = TRUE)
+
+# Check whether there are any duplicate Pid3 - species combinations
+# which left unchecked would result in list-cols when pivoting wide
 nvc_pquads_final <- readRDS(file = "./data/bundled_data/nvc_pquads_final.rds")
 
 nvc_pquads_final_noDupes <- nvc_pquads_final |>
   dplyr::group_by(Pid3, species) |>
   dplyr::filter(dplyr::n() == 1) |>
   dplyr::ungroup()
-  
-# Check whether there are any duplicate Pid3 - species combinations
-# which left unchecked would result in list-cols when pivoting wide
+
 duplictate_Pid3_species <- nvc_pquads_final_noDupes |>
   dplyr::group_by(Pid3, species) |>
   dplyr::summarise(n = dplyr::n(), .groups = "drop") |>
@@ -172,6 +175,28 @@ nvc_pquad_dca_all_hulls <- rbind(nvc_pquad_dca_all_hulls_subComm_dca1dca2,
 
 saveRDS(object = nvc_pquad_dca_all_hulls, file = "./data/bundled_data/nvc_pquad_dca_all_hulls.rds")
 
-# Pre-calculate CCA axis scores for all pseudo-quadrats -------------------
 
+# Pre-calculate CCA axis scores for all pseudo-quadrats -------------------
+nvc_pquads_mean_unweighted_eivs <- readRDS(file = "./data/bundled_data/nvc_pquads_mean_unweighted_eivs.rds")
+nvc_pquads_final_wide <- readRDS(file = "./data/bundled_data/nvc_pquads_final_wide.rds")
+
+nvc_pquads_cca_list <- list()
+
+for(ccaVars in names(ccaVars_vals)){
+  
+  nvc_pquads_cca <- vegan::cca(as.formula(paste0("nvc_pquads_final_wide ~ ", paste0(c(ccaVars_vals[[ccaVars]]), collapse = " + "))),
+                               data = nvc_pquads_mean_unweighted_eivs,
+                               na.action = na.exclude)
+  
+  nvc_pquads_cca_scores <- vegan::scores(nvc_pquads_cca, display = "bp")
+  # nvc_pquads_cca_multiplier <- vegan:::ordiArrowMul(nvc_pquads_cca_scores)
+  
+  nvc_pquads_cca_list[[paste0(ccaVars, collapse = "")]] <- nvc_pquads_cca_scores
+  
+  # Collect garbage
+  base::gc()
+  
+}
+
+saveRDS(object = nvc_pquads_cca_list, file = "./data/bundled_data/nvc_pquads_cca_list.rds")
 
