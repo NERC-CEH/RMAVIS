@@ -91,11 +91,12 @@ mvaLocalRefRestricted_CCA_arrowData <- mvaLocalRefRestrictedResults$CCA_arrowDat
 mvaLocalRefUnrestricted_quadrats_survey <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample
 mvaLocalRefUnrestricted_hulls_pquads <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_hull
 mvaLocalRefUnrestricted_arrow_plot_data <- mvaLocalRefUnrestrictedResults$arrow_plot_data
+mvaLocalRefUnrestricted_CCA_arrowData <- mvaLocalRefUnrestrictedResults$CCA_arrowData
 
 # MVA National Reference
 mvaNationalRef_quadrats_survey <- mvaNationalRefResults$surveyTable_dca_results_quadrats
 mvaNationalRef_hulls <- mvaNationalRefResults$selected_pquads_dca_results_quadrats_final_hull
-
+mvaNationalRef_CCA_arrowData <- mvaNationalRefResults$CCA_arrowData
 
 
 # Report options. Load from create_constants.R!!!
@@ -585,21 +586,21 @@ if("mvaNationalReference" %in% reportOptions){
                                                Quadrat = Quadrat,
                                                x = DCA1,
                                                y = DCA2)) +
-    # ggplot2::geom_segment(data = CCA_arrowData,
-    #                       color = 'black',
-    #                       arrow = grid::arrow(),
-    #                       mapping = ggplot2::aes(x = 0,
-    #                                              y = 0,
-    #                                              xend = CCA1,
-    #                                              yend = CCA2,
-    #                                              label = `Hill-Ellenberg`)) +
-    # ggplot2::geom_text(data = CCA_arrowData,
-    #                    color = 'black',
-    #                    # position = ggplot2::position_dodge(width = 0.9),
-    #                    size = 5,
-    #                    mapping = ggplot2::aes(x = CCA1 * 1.075,
-    #                                           y = CCA2 * 1.075,
-    #                                           label = `Hill-Ellenberg`)) +
+    ggplot2::geom_segment(data = mvaNationalRef_CCA_arrowData,
+                          color = 'black',
+                          arrow = grid::arrow(),
+                          mapping = ggplot2::aes(x = 0,
+                                                 y = 0,
+                                                 xend = CCA1,
+                                                 yend = CCA2,
+                                                 label = `Hill-Ellenberg`)) +
+    ggplot2::geom_text(data = mvaNationalRef_CCA_arrowData,
+                       color = 'black',
+                       # position = ggplot2::position_dodge(width = 0.9),
+                       size = 5,
+                       mapping = ggplot2::aes(x = CCA1 * 1.075,
+                                              y = CCA2 * 1.075,
+                                              label = `Hill-Ellenberg`)) +
     ggplot2::theme_minimal()
 
   mvaNationalRefPlot
@@ -689,6 +690,21 @@ if("mvaLocalReferenceUnrestricted" %in% reportOptions){
                                                Quadrat = Quadrat,
                                                x = DCA1,
                                                y = DCA2)) +
+    ggplot2::geom_segment(data = mvaLocalRefUnrestricted_CCA_arrowData,
+                          color = 'black',
+                          arrow = grid::arrow(),
+                          mapping = ggplot2::aes(x = 0,
+                                                 y = 0,
+                                                 xend = CCA1,
+                                                 yend = CCA2,
+                                                 label = `Hill-Ellenberg`)) +
+    ggplot2::geom_text(data = mvaLocalRefUnrestricted_CCA_arrowData,
+                       color = 'black',
+                       # position = ggplot2::position_dodge(width = 0.9),
+                       size = 5,
+                       mapping = ggplot2::aes(x = CCA1 * 1.075,
+                                              y = CCA2 * 1.075,
+                                              label = `Hill-Ellenberg`)) +
     ggplot2::theme_minimal()
 
   mvaLocalRefUnrestrictedPlot

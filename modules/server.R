@@ -82,6 +82,7 @@ server <- function(input, output, session) {
                                                       # surveyTable = surveyTable,
                                                       surveyTableWide = surveyTableWide,
                                                       nvcAssignment = nvcAssignment,
+                                                      avgEIVs = avgEIVs,
                                                       sidebar_options = sidebar_options)
   
   shiny::callModule(module = report,

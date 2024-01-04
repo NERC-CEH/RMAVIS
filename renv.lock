@@ -183,6 +183,23 @@
       ],
       "Hash": "40415719b5a479b87949f3aa0aee737c"
     },
+    "bookdown": {
+      "Package": "bookdown",
+      "Version": "0.37",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "htmltools",
+        "jquerylib",
+        "knitr",
+        "rmarkdown",
+        "tinytex",
+        "xfun",
+        "yaml"
+      ],
+      "Hash": "b1b1c3be5c75309f6107726fa58ee20c"
+    },
     "broom": {
       "Package": "broom",
       "Version": "1.0.5",

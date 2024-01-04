@@ -667,11 +667,11 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
     })
     
     weightedMeanHEValuesSite_rval(weightedMeanHEValuesSite_prepped)
-    unweightedMeanHEValuesSite_rval(weightedMeanHEValuesSite_prepped)
+    unweightedMeanHEValuesSite_rval(unweightedMeanHEValuesSite_prepped)
     weightedMeanHEValuesGroup_rval(weightedMeanHEValuesGroup_prepped)
-    unweightedMeanHEValuesGroup_rval(weightedMeanHEValuesGroup_prepped)
+    unweightedMeanHEValuesGroup_rval(unweightedMeanHEValuesGroup_prepped)
     weightedMeanHEValuesQuadrat_rval(weightedMeanHEValuesQuadrat_prepped)
-    unweightedMeanHEValuesQuadrat_rval(weightedMeanHEValuesQuadrat_prepped)
+    unweightedMeanHEValuesQuadrat_rval(unweightedMeanHEValuesQuadrat_prepped)
     
     meanHEValuesTableAll <- list("weightedMeanHEValuesSite" = weightedMeanHEValuesSite_rval(),
                                  "unweightedMeanHEValuesSite" = unweightedMeanHEValuesSite_rval(),

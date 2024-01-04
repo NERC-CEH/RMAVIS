@@ -1,4 +1,4 @@
-mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvcAssignment, sidebar_options) {
+mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvcAssignment, avgEIVs, sidebar_options) {
   
   ns <- session$ns
   
@@ -6,6 +6,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
   runAnalysis <- reactiveVal()
   dcaAxisSelection <- reactiveVal()
   dcaVars <- reactiveVal()
+  ccaVars <- reactiveVal()
   selectSurveyMethod <- reactiveVal()
   selectSurveyYears <- reactiveVal()
   selectSurveyGroups <- reactiveVal()
@@ -16,6 +17,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
     runAnalysis(sidebar_options()$runAnalysis)
     dcaAxisSelection(sidebar_options()$dcaAxisSelection)
     dcaVars(sidebar_options()$dcaVars)
+    ccaVars(sidebar_options()$ccaVars)
     selectSurveyMethod(sidebar_options()$selectSurveyMethod)
     selectSurveyYears(sidebar_options()$selectSurveyYears)
     selectSurveyGroups(sidebar_options()$selectSurveyGroups)
@@ -92,6 +94,59 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
         dplyr::bind_rows(surveyTableWide_prepped) |>
         dplyr::mutate_all(~replace(., is.na(.), 0)) |>
         as.matrix()
+      
+      # Retieve the unweighted mean Hill-Ellenberg scores for the pseudo-quadrats
+      nvc_pquads_mean_unweighted_eivs_prepped <- nvc_pquads_mean_unweighted_eivs |>
+        dplyr::filter(Pid3 %in% rownames(nvc_pquads_final_wide_prepped)) |>
+        tibble::column_to_rownames(var = "Pid3")
+      
+      # Join the sample quadrat unweighted mean Hill-Ellenberg scores
+      unweightedMeanHEValuesQuadrat_prepped <- avgEIVs()$unweightedMeanHEValuesQuadrat |>
+        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
+        tibble::column_to_rownames(var = "ID") |>
+        dplyr::select("F" = "Moisture.F",
+                      "L" = "Light.L",
+                      "N" = "Nitrogen.N",
+                      "R" = "Reaction.R",
+                      "S" = "Salinity.S")
+      
+      all_mean_unweighted_eivs_prepped <- rbind(nvc_pquads_mean_unweighted_eivs_prepped,
+                                                unweightedMeanHEValuesQuadrat_prepped)
+      
+      assign(x = "nvc_pquads_final_wide_prepped_wSurveyTableWide", value = nvc_pquads_final_wide_prepped_wSurveyTableWide, envir = .GlobalEnv)
+      assign(x = "nvc_pquads_mean_unweighted_eivs_prepped", value = nvc_pquads_mean_unweighted_eivs_prepped, envir = .GlobalEnv)
+      assign(x = "unweightedMeanHEValuesQuadrat", value = avgEIVs()$unweightedMeanHEValuesQuadrat, envir = .GlobalEnv)
+      
+      
+      
+      # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
+      nvc_pquads_final_wide_prepped_wSurveyTableWide_cca  <- vegan::cca(as.formula(paste0("nvc_pquads_final_wide_prepped_wSurveyTableWide ~ ", paste0(c(ccaVars_vals[[ccaVars()]]), collapse = " + "))), # nvc_pquads_final_wide_prepped_wSurveyTableWide ~ `F` + `L` + `N`
+                                                                        data = all_mean_unweighted_eivs_prepped,
+                                                                        na.action = na.exclude)
+      
+      # Extract CCA scores
+      nvc_pquads_final_wide_prepped_wSurveyTableWide_cca_scores <- vegan::scores(nvc_pquads_final_wide_prepped_wSurveyTableWide_cca, display = "bp")
+      
+      # Extract CCA multiplier
+      nvc_pquads_final_wide_prepped_wSurveyTableWide_cca_multiplier <- vegan:::ordiArrowMul(nvc_pquads_final_wide_prepped_wSurveyTableWide_cca_scores)
+      
+      # print(nvc_pquads_final_wide_prepped_wSurveyTableWide_cca_multiplier)
+      
+      # Create CCA arrow data
+      CCA_arrowData <- nvc_pquads_final_wide_prepped_wSurveyTableWide_cca_scores #* nvc_pquads_final_wide_prepped_wSurveyTableWide_cca_multiplier
+      CCA_arrowData <- CCA_arrowData |>
+        tibble::as_tibble(rownames = NA) |>
+        tibble::rownames_to_column(var = "Hill-Ellenberg")
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       # assign(x = "nvc_pquads_final_wide_prepped_wSurveyTableWide", value = nvc_pquads_final_wide_prepped_wSurveyTableWide, envir = .GlobalEnv)
       
@@ -207,7 +262,8 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
                                                 "pquads_surveyTable_dca_results_quadrats_pquads" = pquads_surveyTable_dca_results_quadrats_pquads,
                                                 "pquads_surveyTable_dca_results_quadrats_hull" = pquads_surveyTable_dca_results_quadrats_hull,
                                                 "pquads_surveyTable_dca_results_species_unique" = pquads_surveyTable_dca_results_species_unique,
-                                                "arrow_plot_data" = arrow_plot_data)
+                                                "arrow_plot_data" = arrow_plot_data,
+                                                "CCA_arrowData" = CCA_arrowData)
     
     mvaLocalRefUnrestrictedResults(mvaLocalRefUnrestrictedResults_list)
     
@@ -215,6 +271,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
     bindEvent(runAnalysis(),
               nvcAssignment(),
               dcaAxisSelection(),
+              ccaVars(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
@@ -303,6 +360,21 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
                                                                                          Quadrat = Quadrat,
                                                                                          x = .data[[x_axis]], 
                                                                                          y = .data[[y_axis]]))} +
+          {if("hillEllenberg" %in% dcaVars())ggplot2::geom_segment(data = mvaLocalRefUnrestrictedResults$CCA_arrowData,
+                                                                   color = 'black',
+                                                                   arrow = grid::arrow(),
+                                                                   mapping = ggplot2::aes(x = 0,
+                                                                                          y = 0,
+                                                                                          xend = CCA1,
+                                                                                          yend = CCA2,
+                                                                                          label = `Hill-Ellenberg`))} +
+          {if("hillEllenberg" %in% dcaVars())ggplot2::geom_text(data = mvaLocalRefUnrestrictedResults$CCA_arrowData,
+                                                                color = 'black',
+                                                                # position = ggplot2::position_dodge(width = 0.9),
+                                                                size = 5,
+                                                                mapping = ggplot2::aes(x = CCA1 * 1.075,
+                                                                                       y = CCA2 * 1.075,
+                                                                                       label = `Hill-Ellenberg`))} +
           {if("uniqSurveySpecies" %in% dcaVars())ggplot2::geom_point(data = mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_species_unique,
                                                                      color = '#32a87d',
                                                                      shape = 18,
