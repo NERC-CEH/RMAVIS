@@ -341,10 +341,8 @@ surveyTableValidatorUI <- function(id){
       shiny::markdown(
                 "
                 A sample size of at least five quadrats are reccomended per group and per year.
-                Smaller sample sizes may result in inaccuracies, particularly in 
-                the NVC assignment process and composition of floristic tables.
-                At present pseudoMAVIS does not prevent analysis if the number
-                of quadrats per group and year is less than five.
+                Smaller sample sizes may result in inaccuracies in 
+                the NVC assignment process and the composition of representative floristic tables.
                 
                 Below the number of quadrats per year, along with the number of quadrats per group and year are displayed.
 

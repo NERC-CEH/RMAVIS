@@ -948,6 +948,10 @@ sidebarUI <- function(id){
               shiny::markdown(
                 "
                 Select the pseudoMAVIS outputs to include in the report.
+                
+                Please note that selecting the 'Survey Table' option may produce
+                a long report if a large quantity of data is submitted to
+                pseudoMAVIS.
                 "
               ),
               placement = "bottom"

@@ -1,6 +1,8 @@
 ---
 output: 
-  pdf_document:
+  bookdown::pdf_document2:
+    toc: false
+    # number_sections: true
     includes:
       in_header: "Report.preamble.tex"
 params: 
@@ -141,11 +143,58 @@ cat("**Date & Time:** ", as.character(format(Sys.time(), "%Y-%m-%d %H:%M:%S")), 
 
 ```
 
+<!-- \newpage -->
+
+\tableofcontents
+
+\newpage
+
 # Introduction
 This report contains user-selected outputs of a pseudoMAVIS application session.
-The selected outputs are shown in Table~.
+The selected outputs are shown in Table \@ref(tab:selectedOutputs).
+
+```{r selectedOutputs, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+reportOptions_options_named_df <- stack(lapply(reportOptions_options, names)) |>
+  tibble::as_tibble() |>
+  dplyr::select("Results Group" = ind, "Results Value" = values)
+
+reportOptions_selected <- lapply(reportOptions_options, function(x) x[which(x %in% reportOptions)])
+reportOptions_selected <- reportOptions_selected[lengths(reportOptions_selected) > 0L]
+reportOptions_selected_df <- stack(lapply(reportOptions_selected, names)) |>
+  tibble::as_tibble() |>
+  dplyr::select("Results Group" = ind, "Results Value" = values) |>
+  dplyr::mutate("Selected" = "Yes")
+
+selectedOutputs <- reportOptions_options_named_df |>
+  dplyr::left_join(reportOptions_selected_df, by = c("Results Group", "Results Value")) |>
+  dplyr::mutate(
+    "Selected" = dplyr::case_when(
+      Selected == "Yes" ~ "Yes",
+      TRUE ~ as.character("")
+    )
+  )
+
+kableExtra::kbl(x = selectedOutputs, format = "latex", booktabs = TRUE,
+                longtable = TRUE, linesep = "",
+                caption = "The pseudoMAVIS results selected for inclusion in this report.") |>
+  kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+
+
+```
+
+\newpage
 
 # Survey Data Structure
+
+As detailed in the survey data validation section of pseudoMAVIS a sample size 
+of at least five quadrats are reccomended per group and per year.
+Smaller sample sizes may result in inaccuracies in 
+the NVC assignment process and the composition of representative floristic tables.
+However, at present pseudoMAVIS does not prevent analysis if the number
+of quadrats per group and year is less than five, leaving the user to interpret
+their the results in the context of the submitted data. 
+See Table \@ref(tab:quadratsPerYear) and Table \@ref(tab:quadratsPerYearGroup)
+for the sample sizes present in the survey data.
 
 ```{r quadratsPerYear, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 

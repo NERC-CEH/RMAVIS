@@ -1,4 +1,4 @@
-mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options) {
+mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, sidebar_options) {
   
   ns <- session$ns
   
@@ -37,6 +37,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options)
     # Require selected objects are not NULL
     shiny::req(surveyTable())
     shiny::req(runAnalysis() != 0)
+    shiny::req(nvcAssignment())
     
     # Start busy spinner
     shinybusy::show_modal_spinner(
@@ -48,36 +49,63 @@ mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options)
     # Peform analysis in a reactive context without creating a reactive relationship
     shiny::isolate({
       
-       # Remove columns (species) that are absent in all selected communities
-      selected_pquads_prepped <- nvc_pquads_final_wide
+      # Get all NVC communities and sub-communities from nvc assignment results
+      NVC_communities_all <- nvcAssignment()$nvcAssignmentSite |>
+        dplyr::pull(NVC.Code)
+      
+      # Get all NVC communities from community and sub-community codes
+      NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
+                                                         pattern = "(\\d)[^0-9]+$", 
+                                                         replace = "\\1") |>
+        unique()
+      
+      NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
+      
+      # Create pattern to subset matrix rows
+      codes_regex <- c()
+      
+      for(code in NVC_communities_final){
+        
+        regex <- paste0("^(", code, ")(?<=)P")
+        
+        codes_regex <- c(codes_regex, regex)
+        
+        codes_regex <- stringr::str_c(codes_regex, collapse = "|")
+        
+      }
+      
+      # Subset pseudo-quadrats for selected communities
+      selected_pquads <- nvc_pquads_final_wide[stringr::str_detect(string = row.names(nvc_pquads_final_wide), pattern = codes_regex), ]
+      
+      # Remove columns (species) that are absent in all selected communities
+      selected_pquads_prepped <- selected_pquads[, colSums(abs(selected_pquads)) != 0] |>
+        tibble::as_tibble(rownames = NA)
       
       # Retieve the unweighted mean Hill-Ellenberg scores for the pseudo-quadrats
       nvc_pquads_mean_unweighted_eivs_prepped <- nvc_pquads_mean_unweighted_eivs |>
         dplyr::filter(Pid3 %in% rownames(selected_pquads_prepped)) |>
         tibble::column_to_rownames(var = "Pid3")
       
-      # # Perform a CCA on the selected pseudo-quadrats 
-      # selected_pquads_prepped_cca  <- vegan::cca(as.formula(paste0("selected_pquads_prepped ~ ", paste0(c(ccaVars()), collapse = " + "))),
-      #                                            data = nvc_pquads_mean_unweighted_eivs_prepped,
-      #                                            na.action = na.exclude)
-      # 
-      # # Extract CCA scores
-      # selected_pquads_prepped_cca_scores <- vegan::scores(selected_pquads_prepped_cca, display = "bp")
-      # 
-      # # Extract CCA multiplier
-      # selected_pquads_prepped_cca_multiplier <- vegan:::ordiArrowMul(selected_pquads_prepped_cca_scores)
-      # 
-      # 
-      # # Create CCA arrow data
-      # CCA_arrowData <- selected_pquads_prepped_cca_scores #* selected_pquads_prepped_cca_multiplier
-      # CCA_arrowData <- CCA_arrowData |>
-      #   tibble::as_tibble(rownames = NA) |>
-      #   tibble::rownames_to_column(var = "Hill-Ellenberg")
+      # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
+      selected_pquads_prepped_cca  <- vegan::cca(as.formula(paste0("selected_pquads_prepped ~ ", paste0(c(ccaVars_vals[[ccaVars()]]), collapse = " + "))), # selected_pquads_prepped ~ `F` + `L` + `N`
+                                                 data = nvc_pquads_mean_unweighted_eivs_prepped,
+                                                 na.action = na.exclude)
+
+      # Extract CCA scores
+      selected_pquads_prepped_cca_scores <- vegan::scores(selected_pquads_prepped_cca, display = "bp")
+
+      # Extract CCA multiplier
+      selected_pquads_prepped_cca_multiplier <- vegan:::ordiArrowMul(selected_pquads_prepped_cca_scores)
+
+
+      # Create CCA arrow data
+      CCA_arrowData <- selected_pquads_prepped_cca_scores #* selected_pquads_prepped_cca_multiplier
+      CCA_arrowData <- CCA_arrowData |>
+        tibble::as_tibble(rownames = NA) |>
+        tibble::rownames_to_column(var = "Hill-Ellenberg")
       
-      # Retrieve pre-calc
+      # Retrieve pre-calculated cca scores
       selected_pquads_dca_results <- nvc_pquad_dca_all
-      
-      # assign(x = "selected_pquads_dca_results", value = selected_pquads_dca_results, envir = .GlobalEnv)
       
       # Extract the DCA results species axis scores
       selected_pquads_dca_results_species <- vegan::scores(selected_pquads_dca_results, tidy = TRUE) |>
@@ -85,24 +113,17 @@ mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options)
         dplyr::select(-score, -weight) |>
         dplyr::rename("Species" = label)
       
-      # assign(x = "selected_pquads_dca_results_species", value = selected_pquads_dca_results_species, envir = .GlobalEnv)
-      
       # Extract the DCA results quadrat axis scores
       selected_pquads_dca_results_quadrats <- vegan::scores(selected_pquads_dca_results, tidy = TRUE) |>
         dplyr::filter(score == "sites") |>
         dplyr::select(-score, -weight) |>
         dplyr::rename("Quadrat" = label)
       
-      # assign(x = "selected_pquads_dca_results_quadrats", value = selected_pquads_dca_results_quadrats, envir = .GlobalEnv)
-      
       # Prepare the pseudo-quadrat DCA results quadrat axis scores
       selected_pquads_dca_results_quadrats_final <- selected_pquads_dca_results_quadrats  |>
         dplyr::mutate("Year" = "Reference", .before  = "Quadrat") |>
         dplyr::mutate("Group" = "Reference", .before  = "Quadrat") |>
         dplyr::mutate("NVC.Comm" = stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"), .before  = "Quadrat")
-      
-    
-      # assign(x = "selected_pquads_dca_results_quadrats_final", value = selected_pquads_dca_results_quadrats_final, envir = .GlobalEnv)
       
       # Calculate the surveyTable DCA results using the pseudo-quadrat species scores
       surveyTable_dca_results_quadrats <- surveyTable() |> #()
@@ -161,8 +182,8 @@ mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options)
                                        "selected_pquads_dca_results_quadrats_final" = selected_pquads_dca_results_quadrats_final,
                                        "surveyTable_dca_results_quadrats" = surveyTable_dca_results_quadrats,
                                        "selected_pquads_dca_results_quadrats_final_hull" = nvc_pquad_dca_all_hulls_selected,
-                                       "arrow_plot_data" = arrow_plot_data#,
-                                       #"CCA_arrowData" = CCA_arrowData
+                                       "arrow_plot_data" = arrow_plot_data,
+                                       "CCA_arrowData" = CCA_arrowData
                                        )
     
     mvaNationalRefResults_rval(mvaNationalRefResults_list)
@@ -284,21 +305,21 @@ mvaNationalRef <- function(input, output, session, surveyTable, sidebar_options)
                                                                                            Quadrat = Quadrat,
                                                                                            x = .data[[x_axis]],
                                                                                            y = .data[[y_axis]]))} +
-            # {if("hillEllenberg" %in% dcaVars())ggplot2::geom_segment(data = mvaNationalRefResults$CCA_arrowData,
-            #                                                          color = 'black',
-            #                                                          arrow = grid::arrow(),
-            #                                                          mapping = ggplot2::aes(x = 0,
-            #                                                                                 y = 0,
-            #                                                                                 xend = CCA1,
-            #                                                                                 yend = CCA2,
-            #                                                                                 label = `Hill-Ellenberg`))} +
-            # {if("hillEllenberg" %in% dcaVars())ggplot2::geom_text(data = mvaNationalRefResults$CCA_arrowData,
-            #                                                       color = 'black',
-            #                                                       # position = ggplot2::position_dodge(width = 0.9),
-            #                                                       size = 5,
-            #                                                       mapping = ggplot2::aes(x = CCA1 * 1.075,
-            #                                                                              y = CCA2 * 1.075,
-            #                                                                              label = `Hill-Ellenberg`))} +
+            {if("hillEllenberg" %in% dcaVars())ggplot2::geom_segment(data = mvaNationalRefResults$CCA_arrowData,
+                                                                     color = 'black',
+                                                                     arrow = grid::arrow(),
+                                                                     mapping = ggplot2::aes(x = 0,
+                                                                                            y = 0,
+                                                                                            xend = CCA1,
+                                                                                            yend = CCA2,
+                                                                                            label = `Hill-Ellenberg`))} +
+            {if("hillEllenberg" %in% dcaVars())ggplot2::geom_text(data = mvaNationalRefResults$CCA_arrowData,
+                                                                  color = 'black',
+                                                                  # position = ggplot2::position_dodge(width = 0.9),
+                                                                  size = 5,
+                                                                  mapping = ggplot2::aes(x = CCA1 * 1.075,
+                                                                                         y = CCA2 * 1.075,
+                                                                                         label = `Hill-Ellenberg`))} +
             ggplot2::theme_minimal()
           
         )

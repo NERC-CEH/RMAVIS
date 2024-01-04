@@ -58,7 +58,6 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
       
       NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
       
-      
       # Create pattern to subset matrix rows
       codes_regex <- c()
       
@@ -72,15 +71,9 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
         
       }
       
-      # assign(x = "codes_regex", value = codes_regex, envir = .GlobalEnv)
-      
       # Subset pseudo-quadrats for selected communities
       selected_pquads <- nvc_pquads_final_wide[stringr::str_detect(string = row.names(nvc_pquads_final_wide), pattern = codes_regex), ]
-      
-      
-      # assign(x = "selected_pquads", value = selected_pquads, envir = .GlobalEnv)
-      
-      
+
       # Remove columns (species) that are absent in all selected communities
       selected_pquads_prepped <- selected_pquads[, colSums(abs(selected_pquads)) != 0] |>
         tibble::as_tibble(rownames = NA)
@@ -97,7 +90,7 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
       
       # assign(x = "nvc_pquads_mean_unweighted_eivs_prepped", value = nvc_pquads_mean_unweighted_eivs_prepped, envir = .GlobalEnv)
   
-      # Perform a CCA on the selected pseudo-quadrats using F, L, and N scores
+      # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
       selected_pquads_prepped_cca  <- vegan::cca(as.formula(paste0("selected_pquads_prepped ~ ", paste0(c(ccaVars_vals[[ccaVars()]]), collapse = " + "))), # selected_pquads_prepped ~ `F` + `L` + `N`
                                                  data = nvc_pquads_mean_unweighted_eivs_prepped,
                                                  na.action = na.exclude)

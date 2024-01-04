@@ -70,6 +70,11 @@ uploadDataUI <- function(id) {
           
           Formatting checks are displayed below.
           
+          To test this functionality with pre-formatted data take the following steps:
+        - Select the 'Example' option.
+        - Select a example data set.
+        - Go to the 'Download Options' section and download the Survey Data.
+          
           "
         )
         
