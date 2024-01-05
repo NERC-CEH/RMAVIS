@@ -59,133 +59,192 @@ body {
 
 # Introduction
 
-The Modular Analysis of Vegetation Information System (MAVIS), originally 
-developed by [@smart2016mavis]
+The assignment of species compositional data, often in the form of a set of
+surveyed quadrats, to pre-existing vegetation classifications is a widely used
+practice to ... [].
 
-## Aims
+In a UK context the NVC underpins the phase 2 habitat survey (or NVC survey) [@rodwell2006national].
 
-MAVIS aims to...
 
-1.  Assist in the assignment of a set of sample quadrats to
-    the closest NVC communities.
-2.  Assist in the identification of site properties.
-3.  ... This element of MAVIS is intended as an exploratory
-    tool, not ....
+[@cieem2022]
 
-## Scope
+The assignment of survey data to NVC communities...
+with the Society for Ecological Restoration (SER) third principle stating that
+*Ecological restoration practice is informed by native reference ecosystems, while considering environmental change.*
 
-MAVIS is designed to analyse vegetation survey data in the
-form of grouped or ungrouped quadrats, for a single site,
-with or without cover estimates.
+
+The Modular Analysis of Vegetation Information System (MAVIS), was
+originally developed by @smart2016mavis as a Windows application, with
+the latest version released in 2021.
+
+pseudoMAVIS is the latest in a series of applications which assist in the
+assignment of vegetation survey data to NVC communities and other habitat
+classifications.
+
+TABLEFIT [@marrs2019].
+
+
+
+
+At present pseudoMAVIS is designed to analyse vegetation survey data in
+the form of grouped quadrats for a single site, with or without cover
+estimates. However, the user may utilise the "Group" and "Quadrat"
+columns as desired.
 
 # Instructions and Methodology
 
 ## Survey Data
 
+Three methods for entering data into pseudoMAVIS are provided; manual,
+upload, and example.
+
 ### Requirements
 
--   Each species value must match a species present in the
-    accepted species list.
--   Each quadrat value must be unique, even if in a separate
-    group.
+Data entered through any of these methods must meet the following
+conditions.
+
+-   Each species value must match a species present in the accepted
+    species list, which can be downloaded in the "Download Options"
+    section.
+-   Each quadrat value must be unique in each year, even if in a
+    separate group.
+-   Each group value must be unique in each year.
 -   Each year value must be a four digit integer.
+-   No quadrat must contain two entries of
 
-Three methods for entering data into MAVIS are provided;
-manual, upload, and example.
+These conditions are checked and can be viewed in the "Survey Data
+Validation" section. Until these conditions are met pseudoMAVIS will not
+be able to proceed with the analysis and the "Run Analysis" and
+"Generate Report" buttons will be disabled.
 
-The list of species available for entry is currently
-composed of:
+The list of species available for entry is currently composed of:
 
--   The vascular plants present in @stace2010new, retrieved
-    from @bsbi2014stace.
+-   The vascular plants present in @stace2010new, retrieved from
+    @bsbi2014stace.
 -   The bryophytes present in @blockeel2021.
--   The lichens, charophytes, and Algae present in the NVC
-    floristic tables.
+-   The lichens, charophytes, and Algae present in the NVC floristic
+    tables.
 
-### Manual Entry
+## Example Data
 
-### Upload
+Four example datasets are available in pseudoMAVIS, which provide a
+means to explore the applications functionality.
 
-### Example Data
+**Parsonage Down**
 
-Three example datasets are bundled with MAVIS, which provide
-a means to explore the applications functionality.
+CG. Calcareous grassland. Four transects as groups. Repeat quadrats in
+1970, 1990, and 2016 Cover estimates. [@ridding2020]
 
-**Parsonage Down** CG. Calcareous grassland. Transect
-Survey. Repeat quadrats in 1970, 1990, and 2016
-[@ridding2020]
+**Leith Hill Place Wood**
 
-**Leith** W. Bunce woodland Survey. Storm Track. Repeat
-quadrats 1971, 2001, and 2021 [@smart2014]
+W. Bunce woodland Survey. Storm Track. Repeat quadrats 1971, 2001, and
+2021 [@smart2014]
 
-**Whitwell Common** M. Norfolk Mires. Repeat quadrats 1994
-and 1997. [@smart2000]
+**Whitwell Common**
 
-**Newborough Warren**. SD. Repeat quadrats. 2014 to 2018. [@wallace2018]
+M. Norfolk Mires. Repeat quadrats 1994 and 1997. [@smart2000]
+
+**Newborough Warren**.
+
+SD. Repeat quadrats. 2014 to 2018. [@wallace2018]
 
 ## NVC Assignment
 
-### Czekanowski Index
-
-The Czekanowski index [@bloom1981] (see Equation~\ref{eq:czekanowski}) to 
-quantify the similarity between a floristic table composed from survey data 
-(with a minimum of five samples recommended) and the NVC floristic tables, or a 
+In MAVIS NVC community similarities were assigned to survey data based
+on the the Czekanowski index [@bloom1981], which quantifies the
+similarity between a floristic table composed from survey data (with a
+minimum of five samples recommended) and the NVC floristic tables, or a
 subset thereof.
 
-$$
-\begin{equation}\label{eq:czekanowski}
-= 200 * \sum_{j=1} ^{t} min(REF_{j}, NS_{j}) / \sum_{j=1} ^{m} REF_{j} + \sum_{j=1} ^{n} NS_{j}
-\end{equation}
-$$
-Where $REF_{j}$ is the Domin cover or constancy value of species $j$ in the 
-constancy table. $NS_{j}$ is the corresponding Domin cover or constancyt value 
-for the same species but in the new, sample data. $min(REF_{j}, NS_{j})$ is the 
-smaller of the two values [@smart2000].
+In pseudoMAVIS NVC community similarities are assigned to the survey
+data based on the Jaccard similarity between user-inputted sample
+quadrats and a set of pseudo-quadrats, with group and yearly mean
+similarities calculated across the sample quadrats. This approach is
+noted as improving the accuracy of fit relative to the Czekanowski index
+for samples with low species richness [@tipping2013].
 
-### Jaccard Similarity
+Future development of pseudoMAVIS may incorporate the Czekanowski index
+and other ecological resemblance metrics to aid in the NVC Assignment
+process.
 
-An R implementation of the method outlined in @tipping2013.
-This method calculates the Jaccard similarity between user-inputted sample 
-quadrats and a set of pseudo-quadrats. This approach is noted as improving the
-accuracy of fit relative to the Czekanowski index for sample quadrats with low
-species richness [@tipping2013].
+### Communities
 
-### Inverse Distance Metric
+The NVC communities available in pseudoMAVIS are composed from the following
+sources:
 
-@critchley2002.
+-   The original NVC floristic tables [@rodwell1991v1].
+-   An alternative version of MG4 (MG4v2) and the four MG4 sub-communities outlined 
+in @prosser2023 and @wallace2017  (MG4a, MG4b, MG4c, and MG4d).
+-   A new MG6 sub-community (MG6d) [@wallace2017]
+-   An alternative version of MG8 (MG8v2) and the four sub-communities outlined in
+@wallace2017 (MG8a, MG8b, MG8c, and MG8d).
+-   An alternative version of MG13 (MG13v2) [@wallace2017].
+-   A new MG community (MG14) and two sub-communities (MG14a, MG14b) [@wallace2017].
+-   A new MG community (MG15) and two sub-communities (MG15a, MG15b) [@wallace2017].
+-   A new MG community (MG16) [@wallace2017].
 
-## Habitat Correspondences
+
+
+<!-- $$ -->
+
+<!-- \begin{equation}\label{eq:czekanowski} -->
+
+<!-- = 200 * \sum_{j=1} ^{t} min(REF_{j}, NS_{j}) / \sum_{j=1} ^{m} REF_{j} + \sum_{j=1} ^{n} NS_{j} -->
+
+<!-- \end{equation} -->
+
+<!-- $$ -->
+
+<!-- Where $REF_{j}$ is the Domin cover or constancy value of species $j$ in the  -->
+
+<!-- constancy table. $NS_{j}$ is the corresponding Domin cover or constancyt value  -->
+
+<!-- for the same species but in the new, sample data. $min(REF_{j}, NS_{j})$ is the  -->
+
+<!-- smaller of the two values [@smart2000]. -->
+
+<!-- ### Inverse Distance Metric -->
+
+<!-- @critchley2002. -->
+
+## Habitat Correspondence
+
+The "Habitat Correspondence" section provides a means to explore the
+habitats which are associated with alternativehabitat classifications
+top-fitted NVC communities assigned to the survey data
 
 Habitat correspondence data is drawn from three sources:
 
-1.  The Joint Nature Conservation Committee (JNCC) Spreadsheet of Habitat 
-Correspondences [@jncc2008].
+1.  The Joint Nature Conservation Committee (JNCC) Spreadsheet of
+    Habitat Correspondences [@jncc2008].
 2.  UKHab V1.1 [@butcher2020].
-3.  For the National Plant Monitoring Scheme (NPMS) data is drawn from 
-[@pescott2019]
+3.  For the National Plant Monitoring Scheme (NPMS) data is drawn from
+    [@pescott2019]
 
 ## Floristic Tables
 
-To aid in the NVC assignment process and as an exploratory tool the 
-**Floristic Tables** section of MAVIS allows the user to compare a composed 
-floristic table to a chosen NVC floristic table.
+To aid in the NVC assignment process and as an exploratory tool the
+**Floristic Tables** section of pseudoMAVIS allows the user to compare a
+composed floristic table to a chosen NVC floristic table.
 
-## Analysis Metrics
+A minimum of 5 quadrats per group per year, or per year are recommended
+to...
 
-... uses the results of the NVC Assignment module to calculate the following 
-metrics:
+## Frequency
 
--   Cover-weighted Hill-Ellenberg ecological indicator
-    values:
+## EIVs
+
+The Ecological Indicator Values (EIVs) section uses the results of the
+NVC Assignment module to calculate the following metrics:
+
+-   Cover-weighted Hill-Ellenberg ecological indicator values:
     -   Nitrogen Score (N) [@bsbi2017ellenbergN]
     -   Moisture Score (F) [@bsbi2017ellenbergF]
     -   Reaction Score (R) [@bsbi2017ellenbergR]
     -   Salinity Score (S) [@bsbi2017ellenbergS]
     -   Light Score (L) [@bsbi2017ellenbergL]
--   
 
-Data for bryophytes was taken from BRYOATT [@hill2007] and data for vascular 
-plants was taken from.
+Data for bryophytes was taken from BRYOATT [@hill2007].
 
 ## Diversity
 
@@ -195,53 +254,65 @@ Metrics assessed:
 -   Simpson's Diversity Index [@simpson1949].
 -   Beta diversity [@koleff2003]
 
-## Ordination
+## MVA
 
-The ordination section of MAVIS aims to allow the user to
-explore...
+The Multivariate Analysis (MVA) section of pseudoMAVIS aims to allow the
+user to explore the position of the survey data quadrats in
 
-### Detrended Correspondence Analysis
+At present, two method are used.
 
 Detrended Correspondence Analysis (DCA) [@hill1980dca]
 
-### Canonical Correspondence Analysis
+Canonical Correspondence Analysis (CCA) [@terBraak1986]
 
-[@terBraak1986]
+### National Reference
+
+### Local Reference (restricted)
+
+### Local Reference (unrestricted)
+
+## Report
 
 ## Download Options
 
 # Acknowledgements
 
-# Author Contribution
+We would like to thank...
 
-Contributions towards the development of the application, in
-accordance with [CRediT (Contributor Roles
-Taxonomy)](https://credit.niso.org/), are:
+for testing pseudoMAVIS.
+
+<!-- # Author Contribution -->
+
+<!-- Contributions towards the development of the application, in accordance -->
+<!-- with [CRediT (Contributor Roles Taxonomy)](https://credit.niso.org/), -->
+<!-- are: -->
 
 **Zeke Marshall:** **Simon Smart:** **Colin Harrower:**
 
 # Reccomended Citation
 
-```
+Marshall, Z., Smart, S., and Harrower, C.. (2024). pseudoMAVIS.
+
+```         
 @misc{marshall2024,
-  author       = {Marshall, Z and Smart, S and Harrower, C.},
-  title        = {pseudoMAVIS},
-  howpublished = {Web Application},
-  month        = {02},
-  year         = {2024},
-  note         = {A R Shiny application for the assignment of vegetation survey data to National Vegetation Classification (NVC) communities, with additional exploratory analyses.}
+  author = {Marshall, Z. and Smart, S. and Harrower, C.},
+  title = {pseudoMAVIS},
+  howpublished = {Available at \url{https://connect-apps.ceh.ac.uk/pseudoMAVIS/}, version 0.9},
+  month = {02},
+  year  = {2024},
+  note = {A R Shiny application for the assignment of vegetation survey data to National Vegetation Classification (NVC) communities, with additional exploratory analyses.}
 }
 ```
 
 # Release Log
-<span style="font-size:2em;font-weight:700;">v0.9</span>
 
-**2023/12/23**
+[v0.9]{style="font-size:2em;font-weight:700;"}
+
+**2024/01/09**
 
 -   First release for user testing.
--   Modifications:
--   Fixes:
--   New Features:
-
+-   Modifications: NA
+-   Fixes: NA
+-   New Features: NA
 
 # References

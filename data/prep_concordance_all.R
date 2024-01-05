@@ -91,3 +91,16 @@ concordance_all_nonUniqpropSpecies <- concordance_all |>
 # Save concordance
 saveRDS(object = concordance_all, file = "./data/bundled_data/concordance_all.rds")
 
+
+# Accepted Species --------------------------------------------------------
+acceptedSpecies <- concordance_all |>
+  dplyr::select(
+    "Accepted_Species" = "proposedSpecies",
+    "BSBI_taxonId" = "bsbiTaxonId",
+    "BRC_new" = "BRC_new",
+    "BRC_old" = "BRC_old",
+    "TVK" = "TVK",
+  )
+
+saveRDS(object = acceptedSpecies, file = "./data/bundled_data/acceptedSpecies.rds")
+

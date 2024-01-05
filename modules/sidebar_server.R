@@ -539,6 +539,30 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     }
   )
 
+# Download Accepted Species -----------------------------------------------
+  output$downloadSpeciesData <- downloadHandler(
+    
+    filename = function() {
+      
+      paste0("pseudoMAVIS.AcceptedSpecies.",
+             gsub(x = gsub(x = Sys.time(),
+                           pattern = "\\s",
+                           replacement = "."),
+                  pattern = ":",
+                  replacement = "-"),
+             ".csv",
+             sep="")
+      
+    },
+    
+    content = function(file) {
+      
+      write.csv(x = acceptedSpecies, file, row.names = FALSE, fileEncoding = "UTF-8")
+      
+    }
+  )
+
+
 # Return sidebar options --------------------------------------------------
   return(sidebar_options)
   

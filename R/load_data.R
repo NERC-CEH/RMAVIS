@@ -29,6 +29,11 @@ speciesNames <- readRDS(file = "./data/bundled_data/speciesNames.rds")
 concordance_all <- readRDS(file = "./data/bundled_data/concordance_all.rds")
 
 
+# Accepted Species data ---------------------------------------------------
+
+acceptedSpecies <- readRDS(file = "./data/bundled_data/acceptedSpecies.rds")
+
+
 # Pseudo-quadrat DCA scores -----------------------------------------------
 nvc_pquads_final_wide <- readRDS(file = "./data/bundled_data/nvc_pquads_final_wide.rds")
 nvc_pquad_dca_all <- readRDS(file = "./data/bundled_data/nvc_pquad_dca_all.rds")
