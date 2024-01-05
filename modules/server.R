@@ -44,6 +44,7 @@ server <- function(input, output, session) {
   floristicTables <- shiny::callModule(module = floristicTables,
                                        id = "floristicTables_id_1",
                                        surveyTable = surveyTable,
+                                       surveyTableValidator = surveyTableValidator,
                                        sidebar_options = sidebar_options)
   
   speciesFreq <- shiny::callModule(module = speciesFreq,

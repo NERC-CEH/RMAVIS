@@ -172,7 +172,7 @@ process.
 The NVC communities available in pseudoMAVIS are composed from the following
 sources:
 
--   The original NVC floristic tables [@rodwell1991v1].
+-   The original NVC floristic tables as detailed in @rodwell2000.
 -   An alternative version of MG4 (MG4v2) and the four MG4 sub-communities outlined 
 in @prosser2023 and @wallace2017  (MG4a, MG4b, MG4c, and MG4d).
 -   A new MG6 sub-community (MG6d) [@wallace2017]

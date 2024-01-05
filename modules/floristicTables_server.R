@@ -1,4 +1,4 @@
-floristicTables <- function(input, output, session, surveyTable, sidebar_options) {
+floristicTables <- function(input, output, session, surveyTable, surveyTableValidator, sidebar_options) {
   
   ns <- session$ns
   
@@ -141,10 +141,8 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   }) |>
     bindEvent(runAnalysis(),
               ignoreInit = TRUE, ignoreNULL = TRUE)
-  
-  
-  
-  
+
+# Create Composed Floristic Table -----------------------------------------
   observe({
     
     shiny::req(floristicTables_composed_all_rval())
@@ -228,7 +226,45 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   
   outputOptions(output, "floristicTables_composed", suspendWhenHidden = FALSE)
   
+## Create Composed Floristic Table Title -----------------------------------
+  composedFloristicTableTitle_rval <- reactiveVal(paste("<font size=4.75>",
+                                                        "Composed Floristic Table ",
+                                                        "</font>") 
+  )
   
+  observe({
+    
+    shiny::req(surveyTableValidator())
+    shiny::req(composedFloristicTable())
+    
+    quadratsPerID <- surveyTableValidator()$surveyTableStructure$quadratsPerID
+    
+    composedFloristicTable_n <- quadratsPerID |>
+      dplyr::filter(ID == composedFloristicTable()) |>
+      dplyr::pull(n)
+    
+    composedFloristicTableTitle <- paste("<font size=4.75>",
+                                         composedFloristicTable(),
+                                         " (n = ",
+                                         composedFloristicTable_n,
+                                         ")",
+                                         "</font>",
+                                         sep = "") 
+    
+    composedFloristicTableTitle_rval(composedFloristicTableTitle)
+    
+  }) |>
+    bindEvent(surveyTableValidator(), 
+              composedFloristicTable(),
+              ignoreInit = TRUE, ignoreNULL = TRUE)
+  
+  output$composedFloristicTableTitle <- renderText({ 
+    
+    composedFloristicTableTitle <- composedFloristicTableTitle_rval()
+    
+    paste(composedFloristicTableTitle) 
+    
+  })
   
 
 # NVC Floristic Tables ----------------------------------------------------
@@ -344,6 +380,41 @@ floristicTables <- function(input, output, session, surveyTable, sidebar_options
   
   outputOptions(output, "floristicTables_nvc", suspendWhenHidden = FALSE)
   
+  
+  ## Create Composed Floristic Table Title -----------------------------------
+  nvcFloristicTableTitle_rval <- reactiveVal(paste("<font size=4.75>",
+                                                   "NVC Floristic Table ",
+                                                   "</font>") 
+  )
+  
+  observe({
+    
+    shiny::req(surveyTableValidator())
+    shiny::req(nvcFloristicTable())
+    shiny::req(composedFloristicTable())
+    
+    nvcFloristicTableTitle <- paste("<font size=4.75>",
+                                    nvcFloristicTable(),
+                                    "</font>") 
+    
+    nvcFloristicTableTitle_rval(nvcFloristicTableTitle)
+    
+  }) |>
+    bindEvent(surveyTableValidator(), 
+              nvcFloristicTable(), 
+              composedFloristicTable(),
+              ignoreInit = TRUE, ignoreNULL = TRUE)
+  
+  output$nvcFloristicTableTitle <- renderText({ 
+    
+    nvcFloristicTableTitle <- nvcFloristicTableTitle_rval()
+    
+    paste(nvcFloristicTableTitle) 
+    
+  })
+  
+
+# Return Data -------------------------------------------------------------
   return(floristicTables_composed_all_rval)
   
 }

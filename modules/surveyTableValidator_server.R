@@ -440,8 +440,21 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
       dplyr::group_by(Year, Group) |>
       dplyr::summarise(quadratsPerYearGroup = dplyr::n())
     
+    quadratsPerYearID <- quadratsPerYear |>
+      dplyr::mutate("ID" = Year, .before = "Year", .keep = "unused") |>
+      dplyr::select("ID" = ID,
+                    "n" = quadratsPerYear)
+    
+    quadratsPerYearGroupID <- quadratsPerYearGroup |>
+      tidyr::unite(col = "ID", c(Year, Group), sep = " - ", remove = TRUE) |>
+      dplyr::select("ID" = ID,
+                    "n" = quadratsPerYearGroup)
+    
+    quadratsPerID <- rbind(quadratsPerYearID, quadratsPerYearGroupID)
+    
     surveyTable_quadratsPerYearGroup <- list("quadratsPerYear" = quadratsPerYear,
-                                             "quadratsPerYearGroup" = quadratsPerYearGroup)
+                                             "quadratsPerYearGroup" = quadratsPerYearGroup,
+                                             "quadratsPerID" = quadratsPerID)
     
     surveyTableStructure_rval(surveyTable_quadratsPerYearGroup)
     
