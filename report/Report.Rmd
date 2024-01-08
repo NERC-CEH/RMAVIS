@@ -238,9 +238,12 @@ if(any(reportOptions_nvcAssignment %in% reportOptions)){
 
 if("nvcAssignmentResultsSite" %in% reportOptions){
   
-  cat("## NVC Assignment Site")
+  cat("## NVC Assignment, by Site")
+  
+  nvcAssignmentSite_prepped <- nvcAssignmentSite |>
+    dplyr::mutate_if(is.numeric, round, digits = 2)
 
-  kableExtra::kbl(x = nvcAssignmentSite, format = "latex", booktabs = TRUE,
+  kableExtra::kbl(x = nvcAssignmentSite_prepped, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
                   caption = "The top NVC communities fitted using the pseudo-quadrat method, for the site by year.") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
@@ -253,9 +256,12 @@ if("nvcAssignmentResultsSite" %in% reportOptions){
 
 if("nvcAssignmentResultsGroup" %in% reportOptions){
   
-  cat("## NVC Assignment Group")
+  cat("## NVC Assignment, by Group")
+  
+  nvcAssignmentGroup_prepped <- nvcAssignmentGroup |>
+    dplyr::mutate_if(is.numeric, round, digits = 2)
 
-  kableExtra::kbl(x = nvcAssignmentGroup, format = "latex", booktabs = TRUE,
+  kableExtra::kbl(x = nvcAssignmentGroup_prepped, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
                   caption = "The top NVC communities fitted using the pseudo-quadrat method, by group and year") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
@@ -268,9 +274,12 @@ if("nvcAssignmentResultsGroup" %in% reportOptions){
 
 if("nvcAssignmentResultsQuadrat" %in% reportOptions){
   
-  cat("## NVC Assignment Quadrat")
+  cat("## NVC Assignment, by Quadrat")
+  
+  nvcAssignmentQuadrat_prepped <- nvcAssignmentQuadrat |>
+    dplyr::mutate_if(is.numeric, round, digits = 2)
 
-  kableExtra::kbl(x = nvcAssignmentQuadrat, format = "latex", booktabs = TRUE,
+  kableExtra::kbl(x = nvcAssignmentQuadrat_prepped, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
                   caption = "The top NVC communities fitted using the pseudo-quadrat method, by quadrat, group, and year") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
@@ -296,7 +305,7 @@ if(any(reportOptions_floristicTables %in% reportOptions)){
 
 if("composedFloristicTablesSite" %in% reportOptions){
   
-  cat("## Composed Floristic Tables Site")
+  cat("## Composed Floristic Tables, by Site")
   
   for(id in unique(floristicTables$ID)){
 
@@ -320,7 +329,7 @@ if("composedFloristicTablesSite" %in% reportOptions){
 
 if("composedFloristicTablesGroup" %in% reportOptions){
   
-  cat("## Composed Floristic Tables Group")
+  cat("## Composed Floristic Tables, by Group")
   
   for(id in unique(floristicTables$ID)){
 
@@ -376,11 +385,11 @@ if(any(reportOptions_eiv %in% reportOptions)){
 
 if("weightedMeanHEValuesSite" %in% reportOptions){
   
-  cat("## Weighted Mean Hill-Ellenberg Values Site")
+  cat("## Weighted Mean Hill-Ellenberg Values, by Site")
   
   kableExtra::kbl(x = weightedMeanHEValuesSite, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "") |>
+                  caption = "Weighted Mean Hill-Ellenberg Values, by Site") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }
@@ -391,11 +400,11 @@ if("weightedMeanHEValuesSite" %in% reportOptions){
 
 if("unweightedMeanHEValuesSite" %in% reportOptions){
   
-  cat("## Unweighted Mean Hill-Ellenberg Values Site")
+  cat("## Unweighted Mean Hill-Ellenberg Values, by Site")
   
   kableExtra::kbl(x = unweightedMeanHEValuesSite, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "") |>
+                  caption = "Unweighted Mean Hill-Ellenberg Values, by Site") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }
@@ -406,11 +415,11 @@ if("unweightedMeanHEValuesSite" %in% reportOptions){
 
 if("weightedMeanHEValuesGroup" %in% reportOptions){
   
-  cat("## Weighted Mean Hill-Ellenberg Values Group")
+  cat("## Weighted Mean Hill-Ellenberg Values, by Group")
   
   kableExtra::kbl(x = weightedMeanHEValuesGroup, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "") |>
+                  caption = "Weighted Mean Hill-Ellenberg Values, by Group") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }
@@ -421,11 +430,11 @@ if("weightedMeanHEValuesGroup" %in% reportOptions){
 
 if("unweightedMeanHEValuesGroup" %in% reportOptions){
   
-  cat("## Unweighted Mean Hill-Ellenberg Values Group")
+  cat("## Unweighted Mean Hill-Ellenberg Values, by Group")
   
   kableExtra::kbl(x = unweightedMeanHEValuesGroup, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "") |>
+                  caption = "Unweighted Mean Hill-Ellenberg Values, by Group") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }
@@ -436,11 +445,11 @@ if("unweightedMeanHEValuesGroup" %in% reportOptions){
 
 if("weightedMeanHEValuesQuadrat" %in% reportOptions){
   
-  cat("## Weighted Mean Hill-Ellenberg Values Quadrat")
+  cat("## Weighted Mean Hill-Ellenberg Values, by Quadrat")
   
   kableExtra::kbl(x = weightedMeanHEValuesQuadrat, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "") |>
+                  caption = "Weighted Mean Hill-Ellenberg Values, by Quadrat") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }
@@ -451,11 +460,11 @@ if("weightedMeanHEValuesQuadrat" %in% reportOptions){
 
 if("unweightedMeanHEValuesQuadrat" %in% reportOptions){
   
-  cat("## Unweighted Mean Hill-Ellenberg Values Quadrat")
+  cat("## Unweighted Mean Hill-Ellenberg Values, by Quadrat")
   
   kableExtra::kbl(x = unweightedMeanHEValuesQuadrat, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "") |>
+                  caption = "Unweighted Mean Hill-Ellenberg Values, by Quadrat") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }
@@ -483,7 +492,7 @@ if("diversitySummary" %in% reportOptions){
   
   kableExtra::kbl(x = diversitySummary, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "") |>
+                  caption = "Diversity Summary") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }
@@ -496,10 +505,16 @@ if("diversityIndices" %in% reportOptions){
   
   cat("## Diversity Indices")
   
-  kableExtra::kbl(x = diversityIndices, format = "latex", booktabs = TRUE,
+  diversityIndices_prepped <- diversityIndices |>
+    dplyr::mutate_if(is.numeric, round, digits = 2)
+  
+  kableExtra::kbl(x = diversityIndices_prepped, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "") |>
-    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"), full_width = FALSE)
+                  caption = "Diversity Indices") |>
+    # Note that "scale_down" does not work when "longtable = TRUE"
+    # kableExtra::kable_styling(font_size = 7) |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position")) |>
+    kableExtra::landscape()
   
 }
 
@@ -509,11 +524,11 @@ if("diversityIndices" %in% reportOptions){
 
 if("speciesRichnessSite" %in% reportOptions){
   
-  cat("## Species Richness, Site")
+  cat("## Species Richness, by Site")
   
   kableExtra::kbl(x = speciesRichnessSite, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "") |>
+                  caption = "Species Richness, by Site") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }
@@ -524,11 +539,11 @@ if("speciesRichnessSite" %in% reportOptions){
 
 if("speciesRichnessGroup" %in% reportOptions){
   
-  cat("## Species Richness, Group")
+  cat("## Species Richness, by Group")
   
   kableExtra::kbl(x = speciesRichnessGroup, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "") |>
+                  caption = "Species Richness, by Group") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }
@@ -539,11 +554,11 @@ if("speciesRichnessGroup" %in% reportOptions){
 
 if("speciesRichnessQuadrat" %in% reportOptions){
   
-  cat("## Species Richness, Quadrat")
+  cat("## Species Richness, by Quadrat")
   
   kableExtra::kbl(x = speciesRichnessQuadrat, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "") |>
+                  caption = "Species Richness, by Quadrat") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }

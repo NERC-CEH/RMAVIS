@@ -11,8 +11,8 @@ sidebarUI <- function(id){
 
 # Run Analysis ------------------------------------------------------------
     shiny::actionButton(inputId = ns("runAnalysis"),
-                        label = "Run Analysis"#,
-                        # disabled = ''
+                        label = "Run Analysis",
+                        disabled = ''
                         ),
 
     
@@ -234,8 +234,8 @@ sidebarUI <- function(id){
               shiny::markdown(
                 "
                 Optionally restrict the NVC assignment process to one or more
-                broad NVC habitat types. This is reccomended to increase the
-                assignment speed, but only the site being
+                broad NVC habitat types. This is recommended to increase the
+                assignment speed, but only if the site being
                 analysed unequivocally conforms to the selected NVC habitats.
                 "
               ),
@@ -974,8 +974,8 @@ sidebarUI <- function(id){
               outputId = ns("generateReport"),
               label = "Download Report",
               class = NULL,
-              icon = NULL#,
-              # disabled = ''
+              icon = NULL,
+              disabled = ''
             ),
             
             bslib::popover(

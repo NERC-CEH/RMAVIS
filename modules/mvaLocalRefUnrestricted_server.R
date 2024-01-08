@@ -113,9 +113,9 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
       all_mean_unweighted_eivs_prepped <- rbind(nvc_pquads_mean_unweighted_eivs_prepped,
                                                 unweightedMeanHEValuesQuadrat_prepped)
       
-      assign(x = "nvc_pquads_final_wide_prepped_wSurveyTableWide", value = nvc_pquads_final_wide_prepped_wSurveyTableWide, envir = .GlobalEnv)
-      assign(x = "nvc_pquads_mean_unweighted_eivs_prepped", value = nvc_pquads_mean_unweighted_eivs_prepped, envir = .GlobalEnv)
-      assign(x = "unweightedMeanHEValuesQuadrat", value = avgEIVs()$unweightedMeanHEValuesQuadrat, envir = .GlobalEnv)
+      # assign(x = "nvc_pquads_final_wide_prepped_wSurveyTableWide", value = nvc_pquads_final_wide_prepped_wSurveyTableWide, envir = .GlobalEnv)
+      # assign(x = "nvc_pquads_mean_unweighted_eivs_prepped", value = nvc_pquads_mean_unweighted_eivs_prepped, envir = .GlobalEnv)
+      # assign(x = "unweightedMeanHEValuesQuadrat", value = avgEIVs()$unweightedMeanHEValuesQuadrat, envir = .GlobalEnv)
       
       
       

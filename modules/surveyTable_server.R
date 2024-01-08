@@ -223,14 +223,15 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
     req(speciesAdjustmentTable())
     req(input$surveyTable)
 
-    surveyTable <- rhandsontable::hot_to_r(input$surveyTable)
-
     isolate({
+      
+      surveyTable <- rhandsontable::hot_to_r(input$surveyTable)
 
       if(!is.null(speciesAdjustmentTable())){
 
         speciesAdjustmentTable <- speciesAdjustmentTable() |>
-          dplyr::rename("Species" = Species.Submitted)
+          dplyr::rename("Species" = Species.Submitted) |>
+          dplyr::select(-Species.Ignore)
 
         surveyTable_corrected <- surveyTable |>
           tibble::as_tibble() |>
@@ -251,9 +252,7 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
     })
 
   }) |>
-    bindEvent(input$surveyTable,
-              speciesAdjustmentTable(),
-              combineDuplicates(),
+    bindEvent(adjustSpecies(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
@@ -272,6 +271,8 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
       surveyTable_noDuplicates <- surveyTable |>
         dplyr::group_by(Year, Group, Quadrat, Species) |>
         dplyr::summarise("Cover" = sum(Cover))
+      
+      
 
       surveyTable_corrected_rval(surveyTable_noDuplicates)
 
@@ -344,8 +345,7 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
     })
     
   }) |>
-    bindEvent(adjustSpecies(),
-              combineDuplicates(),
+    bindEvent(surveyTable_corrected_rval(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
 

@@ -314,7 +314,7 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
                                                                                            Quadrat = Quadrat,
                                                                                            x = .data[[x_axis]], 
                                                                                            y = .data[[y_axis]]))} +
-            {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = surveyTable_dca_results_quadrats_selected,
+            {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = surveyTable_dca_results_quadrats_selected, #  & !is.null(surveyTable_dca_results_quadrats_selected)
                                                                     color = 'black',
                                                                     mapping = ggplot2::aes(Year = Year,
                                                                                            Group = Group,
@@ -340,7 +340,10 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
           
         )
         
-        if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data_selected)){
+        print(arrow_plot_data_selected)
+        print(surveyTable_dca_results_quadrats_selected)
+        
+        if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data_selected) & !is.null(surveyTable_dca_results_quadrats_selected)){
           
           if(nrow(arrow_plot_data_selected) > 0){
             

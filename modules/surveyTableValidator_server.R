@@ -5,6 +5,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 # Initialise Table to Replace Species Not In Accepted List ----------------
   speciesAdjustmentTable_init <- data.frame("Species.Submitted" = character(),
                                             "Species.Adjusted" = character(),
+                                            "Species.Ignore" = logical(),
                                             "Species.Remove" = logical())
   
   speciesAdjustmentTable_rval <- reactiveVal(speciesAdjustmentTable_init)
@@ -12,6 +13,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
   output$speciesAdjustmentTable <- rhandsontable::renderRHandsontable({
     
     speciesAdjustmentTable <- rhandsontable::rhandsontable(data = speciesAdjustmentTable_init,
+                                                           height = 300,
                                                            rowHeaders = NULL,
                                                            width = "100%"#,
                                                            # overflow = "visible",
@@ -30,7 +32,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
         strict = TRUE,
         default = as.character(NA_character_)
       ) |>
-      rhandsontable::hot_cols(colWidths = c(200, 200, 200)) |>
+      rhandsontable::hot_cols(colWidths = c(200, 200, 200, 200)) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
@@ -47,14 +49,57 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
   
 
 # Perform Validation Checks on surveyTable --------------------------------
-  surveyTableValidation_rval <- reactiveVal()
+  surveyTableValidation_rval <- reactiveVal(
+    list(
+      "speciesInAccepted" = FALSE,
+      "speciesNotAccepted" = FALSE,
+      "coverSupplied" = FALSE,
+      "coverSuppliedAll" = FALSE,
+      "yearComplete" = FALSE,
+      "groupComplete" = FALSE,
+      "quadratComplete" = FALSE,
+      "speciesComplete" = FALSE,
+      "speciesQuadratDuplicates" = FALSE,
+      "quadratIDUnique" = FALSE,
+      "quadratIDDuplicates" = FALSE,
+      "groupIDUnique" = FALSE,
+      "groupIDDuplicates" = FALSE,
+      "okToProceed" = FALSE
+    )
+  )
   
   observe({
     
+    shiny::req(surveyTable())
+
     surveyTable <- surveyTable()
     
+    # isolate({
+    #   
+    #   surveyTable <- surveyTable()
+    # 
+    # })
+    
     # Check all species are accepted
-    surveyTable_speciesInAccepted <- isTRUE(all(unique(surveyTable$Species) %in% speciesNames))
+    if(!is.null(input$speciesAdjustmentTable)){
+
+      speciesToIgnore <- rhandsontable::hot_to_r(input$speciesAdjustmentTable) |>
+        dplyr::filter(Species.Ignore == TRUE) |>
+        dplyr::pull(Species.Submitted)
+      
+      surveyTable_speciesToIgnore <- speciesToIgnore
+      
+      species_to_check <- setdiff(unique(surveyTable$Species), speciesToIgnore)
+
+      surveyTable_speciesInAccepted <- isTRUE(all(species_to_check %in% speciesNames))
+
+    } else {
+      
+      surveyTable_speciesToIgnore <- c()
+     
+      surveyTable_speciesInAccepted <- isTRUE(all(unique(surveyTable$Species) %in% speciesNames)) 
+      
+    }
     
     # Check which species are not accepted
     surveyTable_speciesNotAccepted <- setdiff(unique(surveyTable$Species), speciesNames)
@@ -119,6 +164,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     
     # Create list of validation checkes
     surveyTableValidation <- list(
+      "speciesToIgnore" = surveyTable_speciesToIgnore,
       "speciesInAccepted" = surveyTable_speciesInAccepted,
       "speciesNotAccepted" = surveyTable_speciesNotAccepted,
       "coverSupplied" = surveyTable_coverSupplied,
@@ -141,6 +187,8 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     
   }) |>
     bindEvent(surveyTable(),
+              input$adjustSpecies,
+              speciesAdjustmentTable_rval(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
 
@@ -149,17 +197,25 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
   
   observe({
     
-    req(surveyTableValidation_rval())
+    shiny::req(surveyTableValidation_rval())
     
     surveyTableValidation <- surveyTableValidation_rval()
     
-    # print(surveyTableValidation$speciesNotAccepted)
-    
     if(length(surveyTableValidation$speciesNotAccepted) > 0){
+      
+      # print(surveyTableValidation$speciesToIgnore)
       
       speciesAdjustmentTable <- data.frame("Species.Submitted" = surveyTableValidation$speciesNotAccepted,
                                            "Species.Adjusted" = as.character(NA_character_),
-                                           "Species.Remove" = FALSE)
+                                           "Species.Ignore" = FALSE,
+                                           "Species.Remove" = FALSE) |>
+        dplyr::mutate(
+          "Species.Ignore" = 
+            dplyr::case_when(
+              Species.Submitted %in% surveyTableValidation$speciesToIgnore ~ TRUE,
+              TRUE ~ as.logical(FALSE)
+            )
+        )
       
     } else {
       
@@ -167,9 +223,12 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
       
     }
     
+    # assign(x = "speciesAdjustmentTable", value = speciesAdjustmentTable, envir = .GlobalEnv)
+    
     output$speciesAdjustmentTable <- rhandsontable::renderRHandsontable({
       
       speciesAdjustmentTable <- rhandsontable::rhandsontable(data = speciesAdjustmentTable,
+                                                             height = 300,
                                                              rowHeaders = NULL,
                                                              width = "100%"#,
                                                              # overflow = "visible",
@@ -188,7 +247,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
           strict = TRUE,
           default = as.character(NA_character_)
         ) |>
-        rhandsontable::hot_cols(colWidths = c(200, 200, 200)) |>
+        rhandsontable::hot_cols(colWidths = c(200, 200, 200, 200)) |>
         rhandsontable::hot_validate_character(cols = "Species.Adjusted", choices = speciesNames) |>
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
@@ -207,7 +266,8 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     speciesAdjustmentTable_rval(speciesAdjustmentTable)
      
   }) |>
-    bindEvent(surveyTableValidation_rval(),
+    bindEvent(input$adjustSpecies,
+              surveyTableValidation_rval(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
@@ -465,7 +525,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 
 # Initialise quadratsPerYear Table ----------------------------------------
   quadratsPerYearTable_init <- data.frame("Year" = integer(),
-                                          "quadratsPerYear" = numeric()
+                                          "n" = numeric()
   )
   
   quadratsPerYearTable_rval <- reactiveVal(quadratsPerYearTable_init)
@@ -498,7 +558,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 # Initialise quadratsPerYearGroup Table -----------------------------------
   quadratsPerYearGroupTable_init <- data.frame("Year" = integer(),
                                                "Group" = character(),
-                                               "quadratsPerYearGroup" = numeric()
+                                               "n" = numeric()
   )
   
   quadratsPerYearGroupTable_rval <- reactiveVal(quadratsPerYearGroupTable_init)
@@ -534,7 +594,8 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     
     req(surveyTableStructure_rval())
     
-    quadratsPerYear <- surveyTableStructure_rval()$quadratsPerYear
+    quadratsPerYear <- surveyTableStructure_rval()$quadratsPerYear |>
+      dplyr::mutate("n" = quadratsPerYear, .keep = "unused")
     
     output$quadratsPerYearTable <- reactable::renderReactable({
       
@@ -572,7 +633,8 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     
     req(surveyTableStructure_rval())
     
-    quadratsPerYearGroup <- surveyTableStructure_rval()$quadratsPerYearGroup
+    quadratsPerYearGroup <- surveyTableStructure_rval()$quadratsPerYearGroup|>
+      dplyr::mutate("n" = quadratsPerYearGroup, .keep = "unused")
     
     output$quadratsPerYearGroupTable <- reactable::renderReactable({
       

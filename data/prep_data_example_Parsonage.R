@@ -119,17 +119,38 @@ quadratGroup_2016 <- pd_2016_prepped |>
   dplyr::select(Year, Group, Quadrat) |>
   dplyr::distinct()
 
-
-# Clean Names -------------------------------------------------------------
-
-
-
 # Compile Data ------------------------------------------------------------
 exampleData_pd <- rbind(pd_1970_prepped, pd_1990_prepped, pd_2016_prepped) |>
   dplyr::mutate("Site" = "Parsonage Down") |>
   dplyr::select(Site, Year, Group, Quadrat, Species, Cover)
 
+# Clean Names -------------------------------------------------------------
+pd_cleanNames <- exampleData_pd |>
+  dplyr::mutate(
+    "Species" = 
+      dplyr::case_when(
+        Species == "Avenula pratensis" ~ "Helictotrichon pratense",
+        Species == "Avenula pubescens" ~ "Helictotrichon pubescens",
+        Species == "Camptothecium lutescens" ~ "Homalothecium lutescens",
+        Species == "Poterium sanguisorba" ~ "Sanguisorba minor",
+        Species == "Pseudoscleropodium purum" ~ "Scleropodium purum",
+        Species == "Acrocladium cuspidatum " ~ "Calliergonella cuspidata",
+        Species == "Taraxacum agg" ~ "Taraxacum",
+        Species == "Scorzoneroides autumnalis" ~ "Leontodon autumnalis",
+        # Species == "Rhytidiadelphus sp." ~ "",
+        # Species == "Anacamptis morio" ~ "",
+        Species == "Pilosella officinarum" ~ "Hieracium pilosella",
+        # Species == "Mnium sp. " ~ "",
+        # Species == "Spiranthes spiralis" ~ "",
+        # Species == "Neotinea ustulata" ~ "",
+        # Species == "Fissidens sp." ~ "",
+        Species == "Schedonorus pratensis" ~ "Festuca pratensis",
+        Species == "Galium album" ~ "Galium mollugo",
+        TRUE ~ as.character(Species)
+      )
+  )
+
 # Save Data ---------------------------------------------------------------
-saveRDS(object = exampleData_pd, file = "./data/bundled_data/exampleData_pd.rds")
+saveRDS(object = pd_cleanNames, file = "./data/bundled_data/exampleData_pd.rds")
 
 

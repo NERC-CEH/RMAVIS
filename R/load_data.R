@@ -30,7 +30,6 @@ concordance_all <- readRDS(file = "./data/bundled_data/concordance_all.rds")
 
 
 # Accepted Species data ---------------------------------------------------
-
 acceptedSpecies <- readRDS(file = "./data/bundled_data/acceptedSpecies.rds")
 
 

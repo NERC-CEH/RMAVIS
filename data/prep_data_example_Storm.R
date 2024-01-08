@@ -67,7 +67,6 @@ storm_1971_2001_prepped <- storm_1971_2001|>
   
 
 # Check Species Names -----------------------------------------------------
-
 storm_1971_2001_prepped_species <- unique(storm_1971_2001_prepped$Species)
 storm_2021_prepped_species <- unique(storm_2021_prepped$Species)
 
@@ -76,19 +75,65 @@ setdiff(storm_2021_prepped_species, storm_1971_2001_prepped_species)
 
 
 # Check all quadrats are present in all years -----------------------------
-
 storm_1971_2001_prepped_quadrats <- unique(storm_1971_2001_prepped$Quadrat)
 storm_2021_prepped_quadrats <- unique(storm_2021_prepped$Quadrat)
-
-  
-# Clean Names -------------------------------------------------------------
-
 
 # Compile Data ------------------------------------------------------------
 exampleData_stormWoods <- rbind(storm_2021_prepped, storm_1971_2001_prepped) |>
   dplyr::arrange(Year, Group, Quadrat) |>
   dplyr::distinct()
 
+# Clean Names -------------------------------------------------------------
+stormWoods_cleanNames <- exampleData_stormWoods |>
+  dplyr::mutate(
+    "Species" = 
+      dplyr::case_when(
+        # Species == "Pellia sp." ~ "",
+        # Species == "Lophocolea sp." ~ "",
+        Species == "Poa nemoralis/trivialis" ~ "Poa trivialis",
+        Species == "Quercus seedling/sp" ~ "Quercus",
+        Species == "Rubus fruticosus agg." ~ "Rubus fruticosus",
+        Species == "Viola riviniana/reichenbiana" ~ "Viola sp.",
+        Species == "Ulmus sp." ~ "Ulmus",
+        Species == "Betula seedling/sp" ~ "Betula",
+        # Species == "Abies sp." ~ "",
+        Species == "Thuja spp." ~ "Thuja sp.",
+        # Species == "Populus sp" ~ "",
+        Species == "Hypnum cupressiforme sens.lat." ~ "Hypnum cupressiforme",
+        Species == "Isopterygium elegans" ~ "Pseudotaxiphyllum elegans",
+        Species == "Dryopteris dilatata/carthusiana" ~ "Dryopteris sp.",
+        Species == "Sphagnum (green/thin)" ~ "Sphagnum sp.",
+        # Species == "Sphagnum sp." ~ "",
+        Species == "Pseudotsuga spp." ~ "Pseudotsuga menziesii (c)",
+        # Species == "Plagiochila sp" ~ "",
+        Species == "Dryopteris affinis/f-mas" ~ "Dryopteris sp.",
+        Species == "Fraxinus excelsior" ~ "Fraxinus excelsior (c)",
+        Species == "Hedera helix" ~ "Hedera helix (g)",
+        Species == "Fissidens sp." ~ "Fissidens",
+        # Species == "Hypericum androsaemum" ~ "",
+        Species == "Agrostis canina sens.lat." ~ "Agrostis canina",
+        Species == "Galeopsis tetrahit agg." ~ "Galeopsis tetrahit",
+        Species == "Cardamine hirsuta/flexuosa" ~ "Cardamine sp.",
+        # Species == "Brachythecium sp." ~ "",
+        # Species == "Rumex conglomeratus/sanguineus" ~ "",
+        # Species == "Sorbus sp." ~ "",
+        Species == "Ribes nigrum/rubrum" ~ "Ribes sp.",
+        # Species == "Impatiens parviflora" ~ "",
+        Species == "Juncus bufonius sens.lat." ~ "Juncus bufonius",
+        Species == "Salix cin/cap" ~ "Salix sp.",
+        Species == "Sphagnum (green/fat)" ~ "Sphagnum sp.",
+        Species == "Cladonia sp." ~ "Cladonia",
+        Species == "Arctium agg." ~ "Arctium sp.",
+        Species == "Prunus avium" ~ "Prunus avium (c)",
+        Species == "Larix sp." ~ "Larix",
+        Species == "Viburnum opulus" ~ "Viburnum opulus (s)",
+        # Species == "Impatiens sp." ~ "",
+        Species == "Taraxacum agg." ~ "Taraxacum",
+        Species == "Callitriche stagnalis s.l." ~ "Callitriche stagnalis",
+        TRUE ~ as.character(Species)
+      )
+  )
+
 # Save Data ---------------------------------------------------------------
-saveRDS(object = exampleData_stormWoods, file = "./data/bundled_data/exampleData_stormWoods.rds")
+saveRDS(object = stormWoods_cleanNames, file = "./data/bundled_data/exampleData_stormWoods.rds")
 
