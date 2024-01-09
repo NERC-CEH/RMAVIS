@@ -21,7 +21,7 @@ whitwell_cleanNames <- whitwell_prepped |>
         Species == "Lotus uliginosus" ~ "Lotus pedunculatus",
         Species == "Calliergon cuspidatum" ~ "Calliergonella cuspidata",
         Species == "Polygonum amphibium" ~ "Persicaria amphibia",
-        # Species == "Dactylorhiza sp." ~ "",
+        Species == "Dactylorhiza sp." ~ "Dactylorhiza",
         Species == "Cerastium fontanum triviale" ~ "Cerastium fontanum",
         Species == "Rubus fruticosus agg (g)" ~ "Rubus fruticosus",
         Species == "Prunus spinosa (s)" ~ "Prunus spinosa",
@@ -30,10 +30,13 @@ whitwell_cleanNames <- whitwell_prepped |>
         Species == "Juncus articulata" ~ "Juncus articulatus",
         Species == "Pulicaria dysentrica" ~ "Pulicaria dysenterica",
         Species == "Rhiananthus minor" ~ "Rhinanthus minor",
-        Species == "Lynchis flos-cuculi" ~ "Lychnis flos-cuculi",
+        Species == "Lynchis flos-cuculi" ~ "Silene flos-cuculi",
+        Species == "Lychnis flos-cuculi" ~ "Silene flos-cuculi",
         Species == "Tortilis japonica" ~ "Torilis japonica",
         Species == "Taraxacum officinalis" ~ "Taraxacum",
         Species == "Eurynchium praelongum" ~ "Eurhynchium praelongum",
+        Species == "Festuca arundinacea" ~  "Schedonorus arundinaceus",
+        Species == "Vicia hirsuta" ~  "Ervilia hirsuta",
         TRUE ~ as.character(Species)
       )
   )

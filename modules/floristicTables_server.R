@@ -53,8 +53,6 @@ floristicTables <- function(input, output, session, surveyTable, surveyTableVali
   
   observe({
     
-    # shiny::req(input$floristicTables_composed)
-    # shiny::req(input$floristicTables_nvc)
     shiny::req(surveyTable())
 
     surveyTable <- surveyTable()

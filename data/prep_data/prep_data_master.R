@@ -1,4 +1,3 @@
-
 master_data <- plants_data |>
   dplyr::bind_rows(bryophytes_data)
 

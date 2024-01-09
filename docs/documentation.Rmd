@@ -93,9 +93,13 @@ dataset, in order to demonstrate the functionality of the app
 
 The list of species available for entry is currently composed of:
 
--   The vascular plants present in @stace2010new, retrieved from @bsbi2014stace.
+-   The vascular plant taxa present in the Botanical Society of Britain and Ireland's
+    database [@bsbi2022TaxonLists]; filtered to include taxa at the genus, 
+    species, hybrid species, and subspecies ranks which have an associated
+    UK Species Inventory Taxon Version Key (TVK).
 <!-- -   The bryophytes present in @blockeel2021. -->
--   The lichens, charophytes, and Algae present in the NVC floristic tables.
+-   The bryophytes, lichens, charophytes, and Algae present in the NVC floristic tables.
+
 
 ### Example Data
 
@@ -116,7 +120,7 @@ direct percentage estimates for use in pseudoMAVIS.
 The Leith Hill Place Wood dataset represents a subset of the Bunce woodland
 survey data, described in @wood2015 and consists of a total of 16 plots surveyed 
 in 1971, 2001, and 2021. Leith Hill Place Wood lies in the path of the
-October 1987 storm track, with @smart2014 outlining the ipositive effect of the
+October 1987 storm track, with @smart2014 outlining the positive effect of the
 storm on species richness between 1971 and 2001. No cover values are currently
 provided in this example dataset.
 
@@ -124,13 +128,15 @@ provided in this example dataset.
 
 The Whitwell Common dataset is composed of a repeat survey of Whitwell Common,
 Norfolk - a soligenous mire. Thirty repeat quadrats were surveyed in 1994 and 1997 [@smart2000].
+No cover values are currently provided in this example dataset.
 
 **Newborough Warren**.
 
 The Newborough Warren dataset contains the results of a yearly monitoring study
-at Newborough Warren - Ynys Llanddwyn SSSI, Anglesey surveyed over five
-years: 2014, 2015, 2016, 2017, and 2018 (containing 18, 19, 18, 24, and 24
-quadrats respectively) [@wallace2018]. Newborough Warren represents a 
+at Newborough Warren (Ynys Llanddwyn SSSI, Anglesey) with four dune slacks
+surveyed over five years: 2014, 2015, 2016, 2017, and 2018 
+(which contain 18, 19, 18, 24, and 24 quadrats respectively) [@wallace2018].
+No cover values are currently provided in this example dataset.
 
 ## Survey Data Validation
 
@@ -339,11 +345,8 @@ At present six sets of results are available:
 
 ## Diversity
 
-Metrics assessed:
-
--   Total Species Richness
--   Simpson's Diversity Index [@simpson1949].
--   Beta diversity [@koleff2003]
+The **Diversity** section allows the user to view a range of basic diversity
+metrics.
 
 ### Options
 
@@ -362,8 +365,10 @@ At present five sets of results are available:
 The Multivariate Analysis (MVA) section of pseudoMAVIS aims to allow the
 user to explore the position of the survey data quadrats in an ordination space
 constructed by performing a Detrended Correspondence Analysis (DCA) [@hill1980dca].
-
-Canonical Correspondence Analysis (CCA) [@terBraak1986]
+The results of a Canonical Correspondence Analysis (CCA) [@terBraak1986], using
+the pseudo-quadrats as the community matrix and pre-calculated set of unweighted
+mean Hill-Ellenberg values for each pseudo-quadrat as the constraining matrix,
+are available for visualising in each MVA plot.
 
 Three MVA methods are provided in pseudoMAVIS, which are described below.
 
@@ -375,23 +380,28 @@ with the survey quadrats added in passively in pseudoMAVIS using the mean of the
 species scores from the pre-calculated pseudo-quadrat DCA.
 
 By default the top-fitted NVC communities retrieved from the **NVC Assignment** 
-process are displayed, with the user able to select the pseudo-quadrats and
-pseudo-quadrat hulls from any NVC community or sub-community.
+process are displayed.
 
 **Advantages**
 
--   The position of the pseudo-quadrat axis scores is absolute. Adding or 
-    removing NVC communities from the plot does not change the axis scores and
+-   The psuedo-quadrat axis scores are not influenced by the survey quadrats.
+-   The position of the pseudo-quadrat axis scores are absolute. Adding or 
+    removing NVC communities from the plot using the "National Reference Spaces"
+    option does not change the axis scores and
     position of the other NVC communities or survey quadrats.
 -   The pseudo-quadrat DCA contains all the species present in the NVC floristic
     table, in comparison to the **Local Reference (restricted)** method.
+-   The survey quadrat positions in the ordination space accurately reflect their
+    similiarity with the pseudo-quadrats, and therefore the NVC communities and
+    sub-communities.
 
 
 **Disadvantages**
 
 -   The pseudo-quadrat DCA scores for each sub-community within a community are
     compressed by the dissimilarity with other communities. Consequently there 
-    is a greater degree of overlap between communities and sub-communities.
+    is a greater degree of overlap between the sub-communities, and the
+    survey quadrats and sub-communities.
 
 ### Local Reference (restricted)
 
@@ -412,8 +422,8 @@ mean of the species scores from the pseudo-quadrat DCA.
 
 -   Species present in the survey data but absent in the top-fitted NVC
     communities are omitted from the survey quadrat axis score calculation.
-    Consequently, the survey quadrats will be more similar to the NVC
-    communities than...
+    Consequently, the similiarity between the survey quadrats and pseudo-quadrats
+    (and therefore NVC communities and sub-communities) is over-estimated.
 -   The axis scores and position of both the pseudo-quadrats and survey quadrats
     varies based on the NVC communities used in the pseudo-quadrat DCA.
 
@@ -516,7 +526,7 @@ being analysed in pseudoMAVIS.
 **Report Options**
 
 The user is able to select any of the results visualised in pseudoMAVIS for
-inclusion in the report, displayed in Table \@ref(tab:reportOptions_table).
+inclusion in the report, displayed in the table below.
 
 ```{r reportOptions_table, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="The pseudoMAVIS results available for inclusion in the pdf report."}
 
@@ -537,13 +547,20 @@ kableExtra::kbl(x = reportOptions_table,
 
 ## Download
 
-### Options
+At present the **Download** section of pseudoMAVIS allows the user to download:
+
+-   A csv file containing the species accepted by pseudoMAVIS.
+-   The data entered into the Survey Table.
+
 
 # Acknowledgements
 
 We would like to thank...
 
 for testing pseudoMAVIS.
+
+We would also like to thank Laurence Jones for providing the Newborough Warren
+example dataset and Lucy Ridding for providing the Parsonage Down example dataset.
 
 <!-- # Author Contribution -->
 

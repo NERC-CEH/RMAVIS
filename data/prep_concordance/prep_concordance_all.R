@@ -1,8 +1,8 @@
-source("./data/prep_concordance_plants.R", local = TRUE)
-source("./data/prep_concordance_lichens.R", local = TRUE)
-source("./data/prep_concordance_charophytes.R", local = TRUE)
-source("./data/prep_concordance_bryophytes.R", local = TRUE)
-source("./data/prep_concordance_algae.R", local = TRUE)
+concordance_plants <- readRDS(file = "./data/bundled_data/concordance_plants.rds")
+concordance_bryophytes <- readRDS(file = "./data/bundled_data/concordance_bryophytes.rds")
+concordance_lichens <- readRDS(file = "./data/bundled_data/concordance_lichens.rds")
+concordance_charophytes <- readRDS(file = "./data/bundled_data/concordance_charophytes.rds")
+concordance_algae <- readRDS(file = "./data/bundled_data/concordance_algae.rds")
 
 nvc_pquads_uniqSpecies <- assignNVC::nvc_pquads |>
   dplyr::select(species, BRC) |>
@@ -23,11 +23,8 @@ length(assignNVC::ps_quad$name |> unique())
 length(assignNVC::NVC_communities$Species |> unique())
 length(all_species)
 
-
-
 setdiff(nvc_psquad_uniqSpecies$name, nvc_comms_uniqSpecies$Species)
 setdiff(nvc_comms_uniqSpecies$Species, nvc_psquad_uniqSpecies$name)
-
 
 setdiff(nvc_pquads_uniqSpecies$species, nvc_comms_uniqSpecies$Species)
 setdiff(nvc_pquads_uniqSpecies$species, all_species)
@@ -35,14 +32,13 @@ setdiff(nvc_pquads_uniqSpecies$species, all_species)
 setdiff(nvc_comms_uniqSpecies$Species, nvc_pquads_uniqSpecies$species)
 setdiff(nvc_comms_uniqSpecies$Species, all_species)
 
-
-
 colnames(concordance_plants)
 colnames(concordance_algae)
 colnames(concordance_bryophytes)
 colnames(concordance_charophytes)
 colnames(concordance_lichens)
 
+# Bind each taxon groups concordence data into a single data frame
 concordance_all <- concordance_plants |>
   dplyr::bind_rows(concordance_algae) |>
   dplyr::bind_rows(concordance_bryophytes) |>
@@ -90,7 +86,6 @@ concordance_all_nonUniqpropSpecies <- concordance_all |>
 
 # Save concordance
 saveRDS(object = concordance_all, file = "./data/bundled_data/concordance_all.rds")
-
 
 # Accepted Species --------------------------------------------------------
 acceptedSpecies <- concordance_all |>

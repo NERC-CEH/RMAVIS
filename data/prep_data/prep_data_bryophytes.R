@@ -1,7 +1,8 @@
 concordance_all <- readRDS(file = "./data/bundled_data/concordance_all.rds")
 concordance_all_trimmed <- concordance_all |>
   dplyr::select("proposedSpecies" = proposedSpecies,
-                "BRC_old" = BRC_old)
+                "BRC_old" = BRC_old
+                )
 
 bryoatt_raw <- readxl::read_xls(path = "./data/raw_data/bryophytes/Bryoatt_updated_2017.xls", sheet = "BRYOATT")
 

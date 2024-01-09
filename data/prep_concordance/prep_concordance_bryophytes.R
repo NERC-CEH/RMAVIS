@@ -5,7 +5,7 @@ nvc_pquads_uniqSpecies_bryophytes <- nvc_pquads_noMissCodes |>
   dplyr::rename("BRC_old" = BRC)
 
 # Read National Species Inventory and filter for bryophytes
-nhm_nsi <- read.csv(file = "C:/Users/User/Desktop/resource.csv")
+nhm_nsi <- read.csv(file = "/home/zeke/Downloads/resource.csv")
 
 nhm_nsi$INFORMAL_GROUP |> unique()
 
@@ -54,7 +54,7 @@ check_nhm_nsi <- nhm_nsi_bryophytes |>
   dplyr::ungroup() |>
   dplyr::arrange(species)
 
-bryoatt_raw <- readxl::read_xls(path = "./data/raw_data/Bryoatt_updated_2017.xls", sheet = "BRYOATT")
+bryoatt_raw <- readxl::read_xls(path = "./data/raw_data/bryophytes/Bryoatt_updated_2017.xls", sheet = "BRYOATT")
 
 bryoatt_names <- bryoatt_raw |>
   dplyr::select("bryoattSpecies" = `Taxon name`,
@@ -215,8 +215,8 @@ setdiff(concordance_bryophytes$assignNVCSpecies, nvc_pquads_uniqSpecies_bryophyt
 
 # Find missing rows
 concordance_bryophytes |> dplyr::filter(is.na(assignNVCSpecies))
-concordance_bryophytes |> dplyr::filter(is.na(BRC_old))
-concordance_bryophytes |> dplyr::filter(is.na(BRC_new))
+# concordance_bryophytes |> dplyr::filter(is.na(BRC_old))
+# concordance_bryophytes |> dplyr::filter(is.na(BRC_new))
 concordance_bryophytes |> dplyr::filter(is.na(proposedSpecies))
 concordance_bryophytes |> dplyr::filter(is.na(TVK))
 
@@ -232,3 +232,5 @@ concordance_bryophytes_nonUniqpropSpecies <- concordance_bryophytes |>
 concordance_bryophytes_naRows <- concordance_bryophytes |>
   dplyr::filter(is.na(dplyr::if_any(dplyr::everything(), is.na)))
 
+# Save concordance
+saveRDS(object = concordance_bryophytes, file = "./data/bundled_data/concordance_bryophytes.rds")

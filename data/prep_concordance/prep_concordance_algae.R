@@ -40,3 +40,6 @@ nrow(nvc_pquads_uniqSpecies_algae) - nrow(concordance_algae)
 # Check whether there is any missing data
 concordance_algae_naRows <- concordance_algae |>
   dplyr::filter(is.na(dplyr::if_any(dplyr::everything(), is.na)))
+
+# Save concordance
+saveRDS(object = concordance_algae, file = "./data/bundled_data/concordance_algae.rds")

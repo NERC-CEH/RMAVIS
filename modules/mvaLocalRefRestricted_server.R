@@ -340,8 +340,8 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
           
         )
         
-        print(arrow_plot_data_selected)
-        print(surveyTable_dca_results_quadrats_selected)
+        # print(arrow_plot_data_selected)
+        # print(surveyTable_dca_results_quadrats_selected)
         
         if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data_selected) & !is.null(surveyTable_dca_results_quadrats_selected)){
           

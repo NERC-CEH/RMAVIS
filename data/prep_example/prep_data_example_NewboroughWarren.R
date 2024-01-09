@@ -13,7 +13,7 @@ newboroughWarren_prepped <- newboroughWarren_raw |>
   dplyr::mutate("Year" = stringr::str_extract(string = Year.Quadrat, pattern = "(\\d{4})") |> as.integer(), .before = "Year.Quadrat") |>
   dplyr::mutate("Group" = stringr::str_extract(string = Year.Quadrat, pattern = "(\\d{1})(\\d{1})$", group = 1), .after = "Year") |>
   dplyr::mutate("Group" = paste0("Slack ", Group)) |>
-  dplyr::mutate("Quadrat" = stringr::str_extract(string = Year.Quadrat, pattern = "(\\d{1}$)"), .after = "Year") |>
+  dplyr::mutate("Quadrat" = stringr::str_extract(string = Year.Quadrat, pattern = "(\\d{2}$)"), .after = "Year") |>
   dplyr::select(-Year.Quadrat) |>
   tidyr::pivot_longer(cols = -c(Year, Group, Quadrat),
                       names_to = "Species",
@@ -28,42 +28,46 @@ newboroughWarren_cleanNames <- newboroughWarren_prepped |>
   dplyr::mutate(
     "Species" = 
       dplyr::case_when(
-        # Species == "Centaurium littorale" ~ "",
+        Species == "Festuca pratensis" ~ "Schedonorus pratensis", 
+        Species == "Leontodon autumnalis" ~ "Scorzoneroides autumnalis", 
+        Species == "Senecio jacobaea" ~ "Jacobaea vulgaris", 
+        Species == "Anagallis arvensis" ~ "Lysimachia arvensis", 
+        Species == "Vicia hirsuta" ~ "Ervilia hirsuta", 
+        Species == "Chamerion angustifolium" ~ "Chamaenerion angustifolium", 
+        Species == "Pellia sp" ~ "Pellia", 
+        Species == "Thymus polytrichus" ~ "Thymus drucei", 
+        Species == "Thymus praecox arcticus" ~ "Thymus drucei", 
+        Species == "Listera ovata" ~ "Neottia ovata", 
+        Species == "Carex serotina" ~ "Carex viridula subsp. viridula",
+        Species == "Poa subcaerulea" ~ "Poa humilis",
+        Species == "Dactylorhiza sp." ~ "Dactylorhiza",
+        Species == "Cardamine sp." ~ "Cardamine",
+        Species == "Taraxacum officinale agg." ~ "Taraxacum",
+    
+        Species == "Anagallis tenella" ~ "Lysimachia tenella",
         Species == "Hypochoeris radicata" ~ "Hypochaeris radicata",
         Species == "Leontodon taraxacoides" ~ "Leontodon saxatilis",
         Species == "Salix repens agg." ~ "Salix repens",
-        # Species == "Carex demissa" ~ "",
         Species == "Calliergon cuspidatum" ~ "Calliergonella cuspidata",
-        Species == "Taraxacum officinale agg." ~ "Taraxacum",
-        Species == "Drepanocladus sp" ~ "Drepanocladus sp.",
+        Species == "Taraxacum officinale" ~ "Taraxacum",
+        Species == "Drepanocladus sp" ~ "Drepanocladus",
         Species == "Pseudoscleropodium purum" ~ "Scleropodium purum",
         Species == "Scirpus setaceus" ~ "Isolepis setacea",
         Species == "Barbula fallax" ~ "Didymodon fallax",
-        # Species == "Veronica anagallis-aquatica" ~ "",
         Species == "Filaginella uliginosa" ~ "Gnaphalium uliginosum",
-        # Species == "Carex serotina" ~ "",
         Species == "Euphrasia officinalis agg" ~ "Euphrasia officinalis",
-        Species == "Pilosella officinarum agg" ~ "Hieracium pilosella",
+        Species == "Pilosella officinarum agg" ~ "Pilosella officinarum",
         Species == "Taraxacum sect. erythrosperma" ~ "Taraxacum",
         Species == "Barbula tophacea" ~ "Didymodon tophaceus",
-        # Species == "Poa subcaerulea" ~ "",
         Species == "Campylium polygamum" ~ "Drepanocladus polygamus",
-        # Species == "Aira caryophyllea" ~ "",
         Species == "Viola tricolor curtisii" ~ "Viola tricolor subsp. curtisii",
         Species == "Ceratodon purpureus" ~ "Ceratodon purpureus s.l.",
         Species == "Bryum algovicum var rutheanum" ~ "Bryum algovicum",
-        # Species == "Cardamine sp." ~ "",
-        # Species == "Dactylorhiza purpurella" ~ "",
         Species == "Hieracium sp" ~ "Hieracium",
         Species == "Daucus carota" ~ "Daucus carota subsp. carota",
-        Species == "Avenula pubescens" ~ "Helictotrichon pubescens",
-        # Species == "Pellia sp" ~ "Pellia sp.",
-        # Species == "Campylium chrysophyllum" ~ "",
-        Species == "Thymus praecox arcticus" ~ "Thymus polytrichus",
         Species == "Bryum bicolor" ~ "Bryum dichotomum s.l.",
         Species == "Tortula ruralis ssp ruraliformis" ~ "Syntrichia ruraliformis",
         Species == "Salix aurita (s)" ~ "Salix aurita",
-        # Species == "Dactylorhiza sp." ~ "",
         Species == "Bryum sp" ~ "Bryum",
         TRUE ~ as.character(Species)
       )

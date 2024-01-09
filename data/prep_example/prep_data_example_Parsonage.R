@@ -129,23 +129,17 @@ pd_cleanNames <- exampleData_pd |>
   dplyr::mutate(
     "Species" = 
       dplyr::case_when(
-        Species == "Avenula pratensis" ~ "Helictotrichon pratense",
-        Species == "Avenula pubescens" ~ "Helictotrichon pubescens",
+        Species == "Avenula pratensis" ~ "Helictochloa pratensis",
         Species == "Camptothecium lutescens" ~ "Homalothecium lutescens",
-        Species == "Poterium sanguisorba" ~ "Sanguisorba minor",
+        Species == "Thymus polytrichus" ~ "Thymus drucei",
+        Species == "Senecio jacobaea" ~ "Jacobaea vulgaris",
         Species == "Pseudoscleropodium purum" ~ "Scleropodium purum",
         Species == "Acrocladium cuspidatum " ~ "Calliergonella cuspidata",
         Species == "Taraxacum agg" ~ "Taraxacum",
-        Species == "Scorzoneroides autumnalis" ~ "Leontodon autumnalis",
-        # Species == "Rhytidiadelphus sp." ~ "",
-        # Species == "Anacamptis morio" ~ "",
-        Species == "Pilosella officinarum" ~ "Hieracium pilosella",
-        # Species == "Mnium sp. " ~ "",
-        # Species == "Spiranthes spiralis" ~ "",
-        # Species == "Neotinea ustulata" ~ "",
-        # Species == "Fissidens sp." ~ "",
-        Species == "Schedonorus pratensis" ~ "Festuca pratensis",
-        Species == "Galium album" ~ "Galium mollugo",
+        Species == "Rhytidiadelphus sp." ~ "Rhytidiadelphus",
+        Species == "Mnium sp. " ~ "Mnium",
+        Species == "Fissidens sp." ~ "Fissidens",
+        Species == "Coeloglossum viride" ~ "Dactylorhiza viridis",
         TRUE ~ as.character(Species)
       )
   )

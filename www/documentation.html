@@ -335,9 +335,12 @@ dataset, in order to demonstrate the functionality of the app
 <h3><span class="header-section-number">2.1.1</span> Accepted Species</h3>
 <p>The list of species available for entry is currently composed of:</p>
 <ul>
-<li>The vascular plants present in <span class="citation">Stace (<a href="#ref-stace2010new">2010</a>)</span>, retrieved from <span class="citation">BSBI (<a href="#ref-bsbi2014stace">2014</a>)</span>.
+<li>The vascular plant taxa present in the Botanical Society of Britain and Ireland’s
+database <span class="citation">(<a href="#ref-bsbi2022TaxonLists">BSBI 2022</a>)</span>; filtered to include taxa at the genus,
+species, hybrid species, and subspecies ranks which have an associated
+UK Species Inventory Taxon Version Key (TVK).
 <!-- -   The bryophytes present in @blockeel2021. --></li>
-<li>The lichens, charophytes, and Algae present in the NVC floristic tables.</li>
+<li>The bryophytes, lichens, charophytes, and Algae present in the NVC floristic tables.</li>
 </ul>
 </div>
 <div id="example-data" class="section level3" number="2.1.2">
@@ -355,17 +358,19 @@ direct percentage estimates for use in pseudoMAVIS.</p>
 <p>The Leith Hill Place Wood dataset represents a subset of the Bunce woodland
 survey data, described in <span class="citation">Wood, Smart, and Bunce (<a href="#ref-wood2015">2015</a>)</span> and consists of a total of 16 plots surveyed
 in 1971, 2001, and 2021. Leith Hill Place Wood lies in the path of the
-October 1987 storm track, with <span class="citation">S. M. Smart et al. (<a href="#ref-smart2014">2014</a>)</span> outlining the ipositive effect of the
+October 1987 storm track, with <span class="citation">Simon M. Smart et al. (<a href="#ref-smart2014">2014</a>)</span> outlining the positive effect of the
 storm on species richness between 1971 and 2001. No cover values are currently
 provided in this example dataset.</p>
 <p><strong>Whitwell Common</strong></p>
 <p>The Whitwell Common dataset is composed of a repeat survey of Whitwell Common,
-Norfolk - a soligenous mire. Thirty repeat quadrats were surveyed in 1994 and 1997 <span class="citation">(<a href="#ref-smart2000">S. M. Smart 2000</a>)</span>.</p>
+Norfolk - a soligenous mire. Thirty repeat quadrats were surveyed in 1994 and 1997 <span class="citation">(<a href="#ref-smart2000">S. M. Smart 2000</a>)</span>.
+No cover values are currently provided in this example dataset.</p>
 <p><strong>Newborough Warren</strong>.</p>
 <p>The Newborough Warren dataset contains the results of a yearly monitoring study
-at Newborough Warren - Ynys Llanddwyn SSSI, Anglesey surveyed over five
-years: 2014, 2015, 2016, 2017, and 2018 (containing 18, 19, 18, 24, and 24
-quadrats respectively) <span class="citation">(<a href="#ref-wallace2018">Wallace and Jones 2018</a>)</span>. Newborough Warren represents a</p>
+at Newborough Warren (Ynys Llanddwyn SSSI, Anglesey) with four dune slacks
+surveyed over five years: 2014, 2015, 2016, 2017, and 2018
+(which contain 18, 19, 18, 24, and 24 quadrats respectively) <span class="citation">(<a href="#ref-wallace2018">Wallace and Jones 2018</a>)</span>.
+No cover values are currently provided in this example dataset.</p>
 </div>
 </div>
 <div id="survey-data-validation" class="section level2" number="2.2">
@@ -552,12 +557,8 @@ Data for bryophytes was taken from BRYOATT <span class="citation">(<a href="#ref
 </div>
 <div id="diversity" class="section level2" number="2.8">
 <h2><span class="header-section-number">2.8</span> Diversity</h2>
-<p>Metrics assessed:</p>
-<ul>
-<li>Total Species Richness</li>
-<li>Simpson’s Diversity Index <span class="citation">(<a href="#ref-simpson1949">Simpson 1949</a>)</span>.</li>
-<li>Beta diversity <span class="citation">(<a href="#ref-koleff2003">Koleff, Gaston, and Lennon 2003</a>)</span></li>
-</ul>
+<p>The <strong>Diversity</strong> section allows the user to view a range of basic diversity
+metrics.</p>
 <div id="options-4" class="section level3" number="2.8.1">
 <h3><span class="header-section-number">2.8.1</span> Options</h3>
 <p><strong>Results to View</strong></p>
@@ -575,8 +576,11 @@ Data for bryophytes was taken from BRYOATT <span class="citation">(<a href="#ref
 <h2><span class="header-section-number">2.9</span> MVA</h2>
 <p>The Multivariate Analysis (MVA) section of pseudoMAVIS aims to allow the
 user to explore the position of the survey data quadrats in an ordination space
-constructed by performing a Detrended Correspondence Analysis (DCA) <span class="citation">(<a href="#ref-hill1980dca">Hill and Gauch 1980</a>)</span>.</p>
-<p>Canonical Correspondence Analysis (CCA) <span class="citation">(<a href="#ref-terBraak1986">Braak 1986</a>)</span></p>
+constructed by performing a Detrended Correspondence Analysis (DCA) <span class="citation">(<a href="#ref-hill1980dca">Hill and Gauch 1980</a>)</span>.
+The results of a Canonical Correspondence Analysis (CCA) <span class="citation">(<a href="#ref-terBraak1986">Braak 1986</a>)</span>, using
+the pseudo-quadrats as the community matrix and pre-calculated set of unweighted
+mean Hill-Ellenberg values for each pseudo-quadrat as the constraining matrix,
+are available for visualising in each MVA plot.</p>
 <p>Three MVA methods are provided in pseudoMAVIS, which are described below.</p>
 <div id="national-reference" class="section level3" number="2.9.1">
 <h3><span class="header-section-number">2.9.1</span> National Reference</h3>
@@ -585,21 +589,26 @@ a pre-calculated DCA on the pseudo-quadrats from all NVC communities,
 with the survey quadrats added in passively in pseudoMAVIS using the mean of the
 species scores from the pre-calculated pseudo-quadrat DCA.</p>
 <p>By default the top-fitted NVC communities retrieved from the <strong>NVC Assignment</strong>
-process are displayed, with the user able to select the pseudo-quadrats and
-pseudo-quadrat hulls from any NVC community or sub-community.</p>
+process are displayed.</p>
 <p><strong>Advantages</strong></p>
 <ul>
-<li>The position of the pseudo-quadrat axis scores is absolute. Adding or
-removing NVC communities from the plot does not change the axis scores and
+<li>The psuedo-quadrat axis scores are not influenced by the survey quadrats.</li>
+<li>The position of the pseudo-quadrat axis scores are absolute. Adding or
+removing NVC communities from the plot using the “National Reference Spaces”
+option does not change the axis scores and
 position of the other NVC communities or survey quadrats.</li>
 <li>The pseudo-quadrat DCA contains all the species present in the NVC floristic
 table, in comparison to the <strong>Local Reference (restricted)</strong> method.</li>
+<li>The survey quadrat positions in the ordination space accurately reflect their
+similiarity with the pseudo-quadrats, and therefore the NVC communities and
+sub-communities.</li>
 </ul>
 <p><strong>Disadvantages</strong></p>
 <ul>
 <li>The pseudo-quadrat DCA scores for each sub-community within a community are
 compressed by the dissimilarity with other communities. Consequently there
-is a greater degree of overlap between communities and sub-communities.</li>
+is a greater degree of overlap between the sub-communities, and the
+survey quadrats and sub-communities.</li>
 </ul>
 </div>
 <div id="local-reference-restricted" class="section level3" number="2.9.2">
@@ -620,8 +629,8 @@ dissimilarity.</li>
 <ul>
 <li>Species present in the survey data but absent in the top-fitted NVC
 communities are omitted from the survey quadrat axis score calculation.
-Consequently, the survey quadrats will be more similar to the NVC
-communities than…</li>
+Consequently, the similiarity between the survey quadrats and pseudo-quadrats
+(and therefore NVC communities and sub-communities) is over-estimated.</li>
 <li>The axis scores and position of both the pseudo-quadrats and survey quadrats
 varies based on the NVC communities used in the pseudo-quadrat DCA.</li>
 </ul>
@@ -714,7 +723,7 @@ pseudoMAVIS.</p>
 being analysed in pseudoMAVIS.</p>
 <p><strong>Report Options</strong></p>
 <p>The user is able to select any of the results visualised in pseudoMAVIS for
-inclusion in the report, displayed in Table @ref(tab:reportOptions_table).</p>
+inclusion in the report, displayed in the table below.</p>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -901,15 +910,19 @@ Survey Table
 </div>
 <div id="download" class="section level2" number="2.11">
 <h2><span class="header-section-number">2.11</span> Download</h2>
-<div id="options-7" class="section level3" number="2.11.1">
-<h3><span class="header-section-number">2.11.1</span> Options</h3>
-</div>
+<p>At present the <strong>Download</strong> section of pseudoMAVIS allows the user to download:</p>
+<ul>
+<li>A csv file containing the species accepted by pseudoMAVIS.</li>
+<li>The data entered into the Survey Table.</li>
+</ul>
 </div>
 </div>
 <div id="acknowledgements" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Acknowledgements</h1>
 <p>We would like to thank…</p>
 <p>for testing pseudoMAVIS.</p>
+<p>We would also like to thank Laurence Jones for providing the Newborough Warren
+example dataset and Lucy Ridding for providing the Parsonage Down example dataset.</p>
 <!-- # Author Contribution -->
 <!-- Contributions towards the development of the application, in accordance -->
 <!-- with [CRediT (Contributor Roles Taxonomy)](https://credit.niso.org/), -->
@@ -948,11 +961,8 @@ Bloom, SA. 1981. <span>“Similarity Indices in Community Studies: Potential Pit
 <div id="ref-terBraak1986" class="csl-entry">
 Braak, Cajo J. F. ter. 1986. <span>“Canonical Correspondence Analysis: A New Eigenvector Technique for Multivariate Direct Gradient Analysis.”</span> <em>Ecology</em> 67 (5): 1167–79. <a href="https://doi.org/10.2307/1938672">https://doi.org/10.2307/1938672</a>.
 </div>
-<div id="ref-bsbi2014stace" class="csl-entry">
-BSBI. 2014. <span>“Stace Ed. 3.”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.b44z8y&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.b44z8y&amp;class=ChecklistInstance</a>.
-</div>
 <div id="ref-bsbi2017ellenbergR" class="csl-entry">
-———. 2017a. <span>“Ellenberg Indicator r (Reaction).”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1m1&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1m1&amp;class=ChecklistInstance</a>.
+BSBI. 2017a. <span>“Ellenberg Indicator r (Reaction).”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1m1&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1m1&amp;class=ChecklistInstance</a>.
 </div>
 <div id="ref-bsbi2017ellenbergS" class="csl-entry">
 ———. 2017b. <span>“Ellenberg Indicator s (Salt Tolerance).”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1s5&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1s5&amp;class=ChecklistInstance</a>.
@@ -965,6 +975,9 @@ BSBI. 2014. <span>“Stace Ed. 3.”</span> <a href="https://database.bsbi.org/o
 </div>
 <div id="ref-bsbi2017ellenbergL" class="csl-entry">
 ———. 2017e. <span>“Ellenberg Indicator l (Light).”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1v7&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1v7&amp;class=ChecklistInstance</a>.
+</div>
+<div id="ref-bsbi2022TaxonLists" class="csl-entry">
+———. 2022. <span>“Taxon Lists Botanical Society of Britain &amp; Ireland.”</span> <a href="https://bsbi.org/taxon-lists" class="uri">https://bsbi.org/taxon-lists</a>.
 </div>
 <div id="ref-butcher2020" class="csl-entry">
 Butcher, B, P Carey, R Edmonds, L Norton, and J Treweek. 2020. <span>“UK Habitats Classification User Manual Version 1.1.”</span> Stockport: UKHab Ltd.
@@ -987,9 +1000,6 @@ Hill, M. O., Christopher D. Preston, Sam D. S. Bosanquet, and Roy D. B. 2007. <s
 <div id="ref-jncc2008" class="csl-entry">
 JNCC. 2008. <em>Spreadsheet of Habitat Correspondences</em>. <a href="https://hub.jncc.gov.uk/assets/9e70531b-5467-4136-88f6-3b3dd905b56d">https://hub.jncc.gov.uk/assets/9e70531b-5467-4136-88f6-3b3dd905b56d</a>.
 </div>
-<div id="ref-koleff2003" class="csl-entry">
-Koleff, Patricia, Kevin J. Gaston, and Jack J. Lennon. 2003. <span>“Measuring Beta Diversity for Presence-Absence Data.”</span> <em>Journal of Animal Ecology</em> 72 (3): 367–82. <a href="https://doi.org/10.1046/j.1365-2656.2003.00710.x">https://doi.org/10.1046/j.1365-2656.2003.00710.x</a>.
-</div>
 <div id="ref-maciejewski2020" class="csl-entry">
 Maciejewski, Lise, Paulina E. Pinto, Stéphanie Wurpillot, Jacques Drapier, Serge Cadet, Serge Muller, Pierre Agou, Benoît Renaux, and Jean‐Claude Gégout. 2020. <span>“Vegetation Unit Assignments: Phytosociology Experts and Classification Programs Show Similar Performance but Low Convergence.”</span> Edited by Borja Jiménez-Alfaro. <em>Applied Vegetation Science</em> 23 (4): 698–709. <a href="https://doi.org/10.1111/avsc.12516">https://doi.org/10.1111/avsc.12516</a>.
 </div>
@@ -1011,20 +1021,14 @@ Rodwell, J. S. 2006. <em>National Vegetation Classification: Users’ Handbook</
 <div id="ref-rodwell2000" class="csl-entry">
 Rodwell, J. S., Nature Conservancy Council (Great Britain)), and Joint Nature Conservation Committee (Great Britain). 2000. <em>British Plant Communities Set of Volumes 1 to 5</em>. Cambridge University Press.
 </div>
-<div id="ref-simpson1949" class="csl-entry">
-Simpson, E. H. 1949. <span>“Measurement of Diversity.”</span> <em>Nature</em> 163 (4148): 688–88. <a href="https://doi.org/10.1038/163688a0">https://doi.org/10.1038/163688a0</a>.
+<div id="ref-smart2000" class="csl-entry">
+Smart, S. M. 2000. <em>Biodiversity and Conservation</em> 9 (6): 811–32. <a href="https://doi.org/10.1023/a:1008948602316">https://doi.org/10.1023/a:1008948602316</a>.
 </div>
 <div id="ref-smart2016mavis" class="csl-entry">
 Smart, S., A. Goodwin, and H. Wallace. 2016. <em>MAVIS (Ver 1.03) User Manual</em>. Edited by S. Smart.
 </div>
-<div id="ref-smart2000" class="csl-entry">
-Smart, Simon M. 2000. <em>Biodiversity and Conservation</em> 9 (6): 811–32. <a href="https://doi.org/10.1023/a:1008948602316">https://doi.org/10.1023/a:1008948602316</a>.
-</div>
 <div id="ref-smart2014" class="csl-entry">
 Smart, Simon M., Aaron M. Ellison, Robert G. H. Bunce, Robert H. Marrs, Keith J. Kirby, Adam Kimberley, Andy W. Scott, and David R. Foster. 2014. <span>“Quantifying the Impact of an Extreme Climate Event on Species Diversity in Fragmented Temperate Forests: The Effect of the October 1987 Storm on British Broadleaved Woodlands.”</span> Edited by Frank Gilliam. <em>Journal of Ecology</em> 102 (5): 1273–87. <a href="https://doi.org/10.1111/1365-2745.12291">https://doi.org/10.1111/1365-2745.12291</a>.
-</div>
-<div id="ref-stace2010new" class="csl-entry">
-Stace, C. 2010. <em>New Flora of the British Isles Third Edition</em>. Cambridge University Press.
 </div>
 <div id="ref-tipping2013" class="csl-entry">
 Tipping, E, PA Henrys, LC Maskell, and SM Smart. 2013. <span>“Nitrogen Deposition Effects on Plant Species Diversity; Threshold Loads from Field Data.”</span> <em>Environmental Pollution</em> 179: 218–23. <a href="https://doi.org/10.1016/j.envpol.2013.04.008">https://doi.org/10.1016/j.envpol.2013.04.008</a>.

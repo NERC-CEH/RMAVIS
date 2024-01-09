@@ -3,8 +3,6 @@ nvc_pquads_uniqSpecies_charophytes <- nvc_pquads_noMissCodes |>
   dplyr::distinct() |>
   dplyr::filter(stringr::str_detect(string = BRC, pattern = "^[7]"))
 
-
-
 concordance_charophytes <- nvc_pquads_uniqSpecies_charophytes |>
   dplyr::mutate(
     "proposedSpecies" =
@@ -41,3 +39,5 @@ nrow(nvc_pquads_uniqSpecies_charophytes) - nrow(concordance_charophytes)
 concordance_charophytes_naRows <- concordance_charophytes |>
   dplyr::filter(is.na(dplyr::if_any(dplyr::everything(), is.na)))
 
+# Save concordance
+saveRDS(object = concordance_charophytes, file = "./data/bundled_data/concordance_charophytes.rds")

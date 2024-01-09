@@ -56,6 +56,7 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
   output$surveyTable <- rhandsontable::renderRHandsontable({
     
     surveyTable <- rhandsontable::rhandsontable(data = surveyTable_init,
+                                                height = 600,
                                                 rowHeaders = NULL,
                                                 width = "100%"#,
                                                 # overflow = "visible"
@@ -153,6 +154,7 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
     output$surveyTable <- rhandsontable::renderRHandsontable({
 
       surveyTable <- rhandsontable::rhandsontable(data = surveyTable,
+                                                  height = 600,
                                                   rowHeaders = NULL,
                                                   width = "100%"#,
                                                   # overflow = "visible",
@@ -222,6 +224,8 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
 
     req(speciesAdjustmentTable())
     req(input$surveyTable)
+    
+    # print(speciesAdjustmentTable())
 
     isolate({
       
@@ -294,6 +298,7 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
     output$surveyTable <- rhandsontable::renderRHandsontable({
       
       surveyTable <- rhandsontable::rhandsontable(data = surveyTable_corrected,
+                                                  height = 600,
                                                   rowHeaders = NULL,
                                                   width = "100%"#,
                                                   # overflow = "visible",

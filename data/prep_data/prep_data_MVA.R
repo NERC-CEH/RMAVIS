@@ -177,26 +177,26 @@ saveRDS(object = nvc_pquad_dca_all_hulls, file = "./data/bundled_data/nvc_pquad_
 
 
 # Pre-calculate CCA axis scores for all pseudo-quadrats -------------------
-nvc_pquads_mean_unweighted_eivs <- readRDS(file = "./data/bundled_data/nvc_pquads_mean_unweighted_eivs.rds")
-nvc_pquads_final_wide <- readRDS(file = "./data/bundled_data/nvc_pquads_final_wide.rds")
-
-nvc_pquads_cca_list <- list()
-
-for(ccaVars in names(ccaVars_vals)){
-  
-  nvc_pquads_cca <- vegan::cca(as.formula(paste0("nvc_pquads_final_wide ~ ", paste0(c(ccaVars_vals[[ccaVars]]), collapse = " + "))),
-                               data = nvc_pquads_mean_unweighted_eivs,
-                               na.action = na.exclude)
-  
-  nvc_pquads_cca_scores <- vegan::scores(nvc_pquads_cca, display = "bp")
-  # nvc_pquads_cca_multiplier <- vegan:::ordiArrowMul(nvc_pquads_cca_scores)
-  
-  nvc_pquads_cca_list[[paste0(ccaVars, collapse = "")]] <- nvc_pquads_cca_scores
-  
-  # Collect garbage
-  base::gc()
-  
-}
-
-saveRDS(object = nvc_pquads_cca_list, file = "./data/bundled_data/nvc_pquads_cca_list.rds")
+# nvc_pquads_mean_unweighted_eivs <- readRDS(file = "./data/bundled_data/nvc_pquads_mean_unweighted_eivs.rds")
+# nvc_pquads_final_wide <- readRDS(file = "./data/bundled_data/nvc_pquads_final_wide.rds")
+# 
+# nvc_pquads_cca_list <- list()
+# 
+# for(ccaVars in names(ccaVars_vals)){
+#   
+#   nvc_pquads_cca <- vegan::cca(as.formula(paste0("nvc_pquads_final_wide ~ ", paste0(c(ccaVars_vals[[ccaVars]]), collapse = " + "))),
+#                                data = nvc_pquads_mean_unweighted_eivs,
+#                                na.action = na.exclude)
+#   
+#   nvc_pquads_cca_scores <- vegan::scores(nvc_pquads_cca, display = "bp")
+#   # nvc_pquads_cca_multiplier <- vegan:::ordiArrowMul(nvc_pquads_cca_scores)
+#   
+#   nvc_pquads_cca_list[[paste0(ccaVars, collapse = "")]] <- nvc_pquads_cca_scores
+#   
+#   # Collect garbage
+#   base::gc()
+#   
+# }
+# 
+# saveRDS(object = nvc_pquads_cca_list, file = "./data/bundled_data/nvc_pquads_cca_list.rds")
 
