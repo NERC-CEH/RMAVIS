@@ -12,6 +12,8 @@ source("R/functions.R", local = TRUE)
 source("R/reactable_functions.R", local = TRUE)
 
 # Source sub-modules ------------------------------------------------------
+source("modules/privacy_ui.R", local = TRUE)
+
 source("modules/documentation_ui.R", local = TRUE)
 
 source("modules/nvcInfo_ui.R", local = TRUE)

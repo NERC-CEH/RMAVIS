@@ -70,9 +70,8 @@ TABLEFIT [@hill1989; @marrs2019]. The most recent program, the Modular Analysis 
 Vegetation Information System (MAVIS), was originally developed by 
 @smart2016mavis as a Windows application, with the latest version released in 
 2021.
-pseudoMAVIS is the newest program in this series, aiming to provide a web-based, 
-platform-independent and easily operable system which can be updated and 
-improved over time. 
+pseudoMAVIS is the newest program in this series, aiming to provide a web-based 
+and easily operable system which can be updated and improved over time. 
 The prefix *pseudo* in pseudoMAVIS emphasises the fundamental role of 
 *pseudo-quadrats* in the NVC assignment process.
 <!-- (see Section \@ref(pseudo-quadrat-generation)). -->

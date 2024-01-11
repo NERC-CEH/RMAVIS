@@ -190,18 +190,14 @@ ui <- bslib::page_navbar(
     
     documentationUI(id = "docs_id_1")
     
-    # bslib::card(
-    #   
-    #   full_screen = FALSE,
-    #   
-    #   fill = TRUE,
-    #   
-    #   # fillable = TRUE,
-    #   
-    #   # bslib::card_header("Documentation"),
-    #   
-    #   documentationUI(id = "docs_id_1")
-    #   
-    # )
+  ),
+  
+  bslib::nav_panel(
+    
+    "Privacy",
+    
+    privacyUI(id = "privacy_id_1")
+
   )
+  
 )
