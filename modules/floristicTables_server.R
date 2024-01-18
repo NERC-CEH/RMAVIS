@@ -1,4 +1,4 @@
-floristicTables <- function(input, output, session, surveyTable, surveyTableValidator, sidebar_options) {
+floristicTables <- function(input, output, session, surveyTable, surveyTableSummary, sidebar_options) {
   
   ns <- session$ns
   
@@ -175,10 +175,10 @@ floristicTables <- function(input, output, session, surveyTable, surveyTableVali
   
   observe({
     
-    shiny::req(surveyTableValidator())
+    shiny::req(surveyTableSummary())
     shiny::req(composedFloristicTable())
     
-    quadratsPerID <- surveyTableValidator()$surveyTableStructure$quadratsPerID
+    quadratsPerID <- surveyTableSummary()$surveyTableStructure$quadratsPerID
     
     composedFloristicTable_n <- quadratsPerID |>
       dplyr::filter(ID == composedFloristicTable()) |>
@@ -195,7 +195,7 @@ floristicTables <- function(input, output, session, surveyTable, surveyTableVali
     composedFloristicTableTitle_rval(composedFloristicTableTitle)
     
   }) |>
-    bindEvent(surveyTableValidator(), 
+    bindEvent(surveyTableSummary(), 
               composedFloristicTable(),
               ignoreInit = TRUE, ignoreNULL = TRUE)
   
@@ -330,7 +330,7 @@ floristicTables <- function(input, output, session, surveyTable, surveyTableVali
   
   observe({
     
-    shiny::req(surveyTableValidator())
+    shiny::req(surveyTableSummary())
     shiny::req(nvcFloristicTable())
     shiny::req(composedFloristicTable())
     
@@ -341,7 +341,7 @@ floristicTables <- function(input, output, session, surveyTable, surveyTableVali
     nvcFloristicTableTitle_rval(nvcFloristicTableTitle)
     
   }) |>
-    bindEvent(surveyTableValidator(), 
+    bindEvent(surveyTableSummary(), 
               nvcFloristicTable(), 
               composedFloristicTable(),
               ignoreInit = TRUE, ignoreNULL = TRUE)

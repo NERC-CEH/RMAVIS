@@ -1,6 +1,6 @@
 ---
 title: "pseudoMAVIS - Documentation"
-subtitle: "v0.93"
+subtitle: "v0.94"
 output: 
   bookdown::html_document2:
     toc: true
@@ -585,6 +585,15 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). pseudoMAVIS.
 ```
 
 # Release Log
+
+[v0.94]{style="font-size:2em;font-weight:700;"}
+
+**2024/01/18**
+
+-   Modifications: NA
+-   Fixes:
+    - Ensuring the number of quadrats per group is passed to the floristic tables module through the new survey data summary module.
+-   New Features: NA
 
 [v0.93]{style="font-size:2em;font-weight:700;"}
 

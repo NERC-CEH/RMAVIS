@@ -5,7 +5,8 @@
 
 <!-- badges: start -->
 
-[![Generic badge](https://img.shields.io/badge/Version-0.1-green.svg)]()
+[![Generic
+badge](https://img.shields.io/badge/Version-0.94-green.svg)]()
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -20,7 +21,8 @@ You can run pseudoMAVIS from
 repository, calling `renv::restore()`, and then calling
 `shiny::runApp("app.R")`.
 
-Future developments may support the release of pseudoMAVIS as an R package.
+Future developments may support the release of pseudoMAVIS as an R
+package.
 
 ## Hosting
 
@@ -33,25 +35,25 @@ two approaches may be taken:
 ### Using Docker Manually
 
 1.  Build the app locally with
-    `docker build --no-cache -t <container registry url>/pseudomavis:<version> .`.
+    `docker build --no-cache -t <container registry url>/pseudoMAVIS:<version> .`.
 2.  Log in to the container registry with
     `docker login <container registry url>`, using a API key.
 3.  Push the image to the container registry with
-    `docker push <container registry url>/pseudomavis:<version>`. One of:
-    4a. Log into a container registry UI through a web browser, and
+    `docker push <container registry url>/pseudoMAVIS:<version>`. One
+    of: 4a. Log into a container registry UI through a web browser, and
     navigate to a console button which opens a terminal to the server.
     4b. ssh into the server from a local terminal.
 4.  In the server, log in to the container registry with
     `docker login registry.digitalocean.com`, using a API key.
 5.  Pull the image from the container registry with
-    `docker pull <container registry url>/pseudomavis:<version>`.
+    `docker pull <container registry url>/pseudoMAVIS:<version>`.
 6.  Check that the image has been successfully retrieved with
     `docker images`.
 7.  Check whether there is a container currently running with
     `docker ps -a`.
 8.  Stop and remove this instance with `docker rm -f <instance name>`.
 9.  Run the Docker container in a new instance with
-    `docker run -d -p 8001:8001 --privileged=true --name <instance name> <container registry url>/pseudomavis:<version>`.
+    `docker run -d -p 8001:8001 --privileged=true --name <instance name> <container registry url>/pseudoMAVIS:<version>`.
 
 ### Using Docker Compose
 
