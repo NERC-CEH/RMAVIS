@@ -1,6 +1,6 @@
 ---
 title: "pseudoMAVIS - Documentation"
-subtitle: "v0.9"
+subtitle: "v0.93"
 output: 
   bookdown::html_document2:
     toc: true
@@ -585,6 +585,16 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). pseudoMAVIS.
 ```
 
 # Release Log
+
+[v0.93]{style="font-size:2em;font-weight:700;"}
+
+**2024/01/18**
+
+-   Modifications: NA
+-   Fixes: NA
+-   New Features:
+    -   Adding survey data summary module.
+    -   Adding quadrat re-grouping tool.
 
 [v0.92]{style="font-size:2em;font-weight:700;"}
 
