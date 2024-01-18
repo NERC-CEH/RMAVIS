@@ -330,35 +330,6 @@ surveyTableValidatorUI <- function(id){
       
       shiny::div(
         rhandsontable::rHandsontableOutput(outputId = ns("speciesAdjustmentTable")) # , height = "300px"
-      ),
-      
-      shiny::div(shiny::br()),
-      
-      shiny::h5("Data Structure"),
-      
-      shiny::div(shiny::br()),
-      
-      shiny::markdown(
-                "
-                A sample size of at least five quadrats are reccomended per group and per year.
-                Smaller sample sizes may result in inaccuracies in 
-                the NVC assignment process and the composition of representative floristic tables.
-                
-                Below the number of quadrats per year, along with the number of quadrats per group and year are displayed.
-
-                "
-      ),
-      
-      shiny::div(shiny::br()),
-      
-      shiny::div(
-        reactable::reactableOutput(outputId = ns("quadratsPerYearTable"))
-      ),
-      
-      shiny::div(shiny::br()),
-      
-      shiny::div(
-        reactable::reactableOutput(outputId = ns("quadratsPerYearGroupTable"))
       )
       
     )

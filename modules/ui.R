@@ -68,6 +68,18 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
+        bslib::card_header("Data Summary"),
+        
+        value = "surveyTableSummary_panel",
+        
+        surveyTableSummaryUI(id = "surveyTableSummary_id_1")
+        
+      ),
+      
+      bslib::nav_panel(
+        
+        full_screen = TRUE,
+        
         value = "nvcAssignment_panel",
         
         bslib::card_header("NVC Assignment"),

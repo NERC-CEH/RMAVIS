@@ -176,14 +176,12 @@ In MAVIS NVC community similarities were assigned to survey data based on the
 the Czekanowski index [@bloom1981; @hill1989], which quantifies the similarity 
 between a floristic table composed from survey data and the NVC floristic tables.
 
-In pseudoMAVIS NVC community similarities are assigned to the survey
-data based on the Jaccard similarity between user-inputted sample
-quadrats and a set of pseudo-quadrats generated from the NVC floristic tables.
+In pseudoMAVIS the Czekanowski index method is also used, however the primary
+and reccomended method is the Jaccard similarity. Which is calculated 
+between user-inputted sample quadrats and a set of pseudo-quadrats generated 
+from the NVC floristic tables.
 This approach is noted as improving the accuracy of fit relative to the 
 Czekanowski index for samples with low species richness [@tipping2013].
-
-Future development of pseudoMAVIS may incorporate the Czekanowski index
-and other ecological resemblance metrics to aid in the NVC Assignment process.
 
 ### Communities
 
@@ -210,6 +208,8 @@ Three sets of NVC assignment results are available in pseudoMAVIS at present:
 -   Site, Pseudo-quadrat
 -   Group, Pseudo-quadrat
 -   Quadrat, Pseudo-quadrat
+-   Site, Czekanowski
+-   Group, Czekanowski
 
 **Restrict Habitat**
 

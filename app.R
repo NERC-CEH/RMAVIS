@@ -8,7 +8,7 @@ source("R/create_constants.R", local = TRUE)
 source("R/render_docs.R", local = TRUE)
 
 # Source functions --------------------------------------------------------
-source("R/functions.R", local = TRUE)
+source("R/syntopicTable_functions.R", local = TRUE)
 source("R/similarity_functions.R", local = TRUE)
 source("R/reactable_functions.R", local = TRUE)
 
@@ -31,6 +31,9 @@ source("modules/surveyTable_server.R", local = TRUE)
 
 source("modules/surveyTableValidator_ui.R", local = TRUE)
 source("modules/surveyTableValidator_server.R", local = TRUE)
+
+source("modules/surveyTableSummary_ui.R", local = TRUE)
+source("modules/surveyTableSummary_server.R", local = TRUE)
 
 source("modules/surveyTableWide_ui.R", local = TRUE)
 source("modules/surveyTableWide_server.R", local = TRUE)
