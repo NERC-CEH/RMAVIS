@@ -43,6 +43,32 @@ nvcAssignmentUI <- function(id){
         
         shiny::div(shiny::br())
         
+      ),
+      
+      shiny::div(
+        id = ns("nvcAssignmentSiteTable_Czekanowski_div"),
+        
+        shiny::h5("Site Similarities"),
+        
+        shiny::div(
+          reactable::reactableOutput(outputId = ns("nvcAssignmentSiteTable_Czekanowski"))
+        ),
+        
+        shiny::div(shiny::br())
+        
+      ),
+      
+      shiny::div(
+        id = ns("nvcAssignmentGroupTable_Czekanowski_div"),
+        
+        shiny::h5("Group Similarities"),
+        
+        shiny::div(
+          reactable::reactableOutput(outputId = ns("nvcAssignmentGroupTable_Czekanowski"))
+        ),
+        
+        shiny::div(shiny::br())
+        
       )
     )
   )

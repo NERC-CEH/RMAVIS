@@ -31,21 +31,22 @@ server <- function(input, output, session) {
                                        surveyTable = surveyTable,
                                        sidebar_options = sidebar_options)
   
+  floristicTables <- shiny::callModule(module = floristicTables,
+                                       id = "floristicTables_id_1",
+                                       surveyTable = surveyTable,
+                                       surveyTableValidator = surveyTableValidator,
+                                       sidebar_options = sidebar_options)
+  
   nvcAssignment <- shiny::callModule(module = nvcAssignment,
                                      id = "nvcAssignment_id_1",
                                      surveyTable = surveyTable,
+                                     floristicTables = floristicTables,
                                      sidebar_options = sidebar_options)
 
   habCor <- shiny::callModule(module = habCor,
                               id = "habCor_id_1",
                               nvcAssignment = nvcAssignment,
                               sidebar_options = sidebar_options)
-
-  floristicTables <- shiny::callModule(module = floristicTables,
-                                       id = "floristicTables_id_1",
-                                       surveyTable = surveyTable,
-                                       surveyTableValidator = surveyTableValidator,
-                                       sidebar_options = sidebar_options)
   
   speciesFreq <- shiny::callModule(module = speciesFreq,
                                    id = "speciesFreq_id_1",

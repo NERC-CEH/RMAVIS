@@ -1,3 +1,9 @@
+# Taxonomic Backbone Methods ----------------------------------------------
+taxonomicBackboneMethod_options <- c("Bundled" = "bundled",
+                                     "Upload" = "upload",
+                                     "Kew WCVP" = "wcvp",
+                                     "Syntopic Tables" = "syntopicTables")
+
 # Input method options ----------------------------------------------------
 inputMethod_options <- c("Manual" = "manual",
                          "Example" = "example",
@@ -103,9 +109,10 @@ matchSpecies_options <- c("No" = "No",
 # Results to View NVC Assignment ------------------------------------------
 resultsViewNVCAssign_options <- c("Site, Pseudo-quadrat" = "nvcAssignSitePseudo",
                                   "Group, Pseudo-quadrat" = "nvcAssignGroupPseudo",
-                                  "Quadrat, Pseudo-quadrat" = "nvcAssignQuadratPseudo"#,
-                                  # "Site, Czekanowski" = "nvcAssignSiteCzekanowski",
-                                  # "Group, Czekanowski" = "nvcAssignGroupCzekanowski"
+                                  "Quadrat, Pseudo-quadrat" = "nvcAssignQuadratPseudo",
+                                  "Site, Czekanowski" = "nvcAssignSiteCzekanowski",
+                                  "Group, Czekanowski" = "nvcAssignGroupCzekanowski"#,
+                                  # "Quadrat, Czekanowski" = "nvcAssignQuadratCzekanowski"
                                   )
 
 # Results to View EIVs ----------------------------------------------------
@@ -191,10 +198,11 @@ selectSurveyGroups_options <- c()
 
 
 # Report Options ----------------------------------------------------------
-
-reportOptions_options <- list(`NVC Assignment` = c("Site" = "nvcAssignmentResultsSite",
-                                                   "Group" = "nvcAssignmentResultsGroup",
-                                                   "Quadrat" = "nvcAssignmentResultsQuadrat"),
+reportOptions_options <- list(`NVC Assignment Pseudo-quadrat` = c("Site" = "nvcAssignmentResultsSite",
+                                                                  "Group" = "nvcAssignmentResultsGroup",
+                                                                  "Quadrat" = "nvcAssignmentResultsQuadrat"),
+                              `NVC Assignment Czekanowski` = c("Site" = "nvcAssignmentResultsSite_Czekanowski",
+                                                               "Group" = "nvcAssignmentResultsGroup_Czekanowski"),
                               `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
                                                      "Group" = "composedFloristicTablesGroup"),
                               `Species Frequency` = c("Species Frequency" = "speciesFrequencyTable"),
@@ -214,23 +222,4 @@ reportOptions_options <- list(`NVC Assignment` = c("Site" = "nvcAssignmentResult
                                         "Local (unrestricted)" = "mvaLocalReferenceUnrestricted"),
                               `Survey Table` = c("Survey Table" = "surveyTable")
     )
-
-
-# reportOptions_options <- c("NVC Assignment, Site" = "nvcAssignmentResultsSite",
-#                            "NVC Assignment, Group" = "nvcAssignmentResultsGroup",
-#                            "NVC Assignment, Quadrat" = "nvcAssignmentResultsQuadrat",
-#                            "Floristic Tables, Site" = "composedFloristicTablesSite",
-#                            "Floristic Tables, Group" = "composedFloristicTablesGroup",
-#                            "Species Frequency" = "speciesFrequencyTable",
-#                            "Weighted Mean Hill-Ellenberg Values, Site" = "weightedMeanHEValuesSite",
-#                            "Unweighted Mean Hill-Ellenberg Values, Site" = "unweightedMeanHEValuesSite",
-#                            "Weighted Mean Hill-Ellenberg Values, Group" = "weightedMeanHEValuesGroup",
-#                            "Unweighted Mean Hill-Ellenberg Values, Group" = "unweightedMeanHEValuesGroup",
-#                            "Weighted Mean Hill-Ellenberg Values, Quadrat" = "weightedMeanHEValuesQuadrat",
-#                            "Unweighted Mean Hill-Ellenberg Values, Quadrat" = "unweightedMeanHEValuesQuadrat",
-#                            "MVA, National" = "mvaNationalReference",
-#                            "MVA, Local (restricted)" = "mvaLocalReferenceRestricted",
-#                            "MVA, Local (unrestricted)" = "mvaLocalReferenceUnrestricted",
-#                            "Survey Table" = "surveyTable"
-#                            )
 

@@ -9,6 +9,7 @@ source("R/render_docs.R", local = TRUE)
 
 # Source functions --------------------------------------------------------
 source("R/functions.R", local = TRUE)
+source("R/similarity_functions.R", local = TRUE)
 source("R/reactable_functions.R", local = TRUE)
 
 # Source sub-modules ------------------------------------------------------

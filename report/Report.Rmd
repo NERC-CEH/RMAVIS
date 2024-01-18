@@ -66,6 +66,9 @@ nvcAssignmentSite <- nvcAssignment$nvcAssignmentSite
 nvcAssignmentGroup <- nvcAssignment$nvcAssignmentGroup
 nvcAssignmentQuadrat <- nvcAssignment$nvcAssignmentQuadrat
 
+nvcAssignmentSite_Czekanowski <- nvcAssignment$nvcAssignmentSite_Czekanowski
+nvcAssignmentGroup_Czekanowski <- nvcAssignment$nvcAssignmentGroup_Czekanowski
+
 # EIVs
 weightedMeanHEValuesSite <- avgEIVs$weightedMeanHEValuesSite
 unweightedMeanHEValuesSite <- avgEIVs$unweightedMeanHEValuesSite
@@ -100,9 +103,11 @@ mvaNationalRef_CCA_arrowData <- mvaNationalRefResults$CCA_arrowData
 
 
 # Report options. Load from create_constants.R!!!
-reportOptions_options <- list(`NVC Assignment` = c("Site" = "nvcAssignmentResultsSite",
-                                                   "Group" = "nvcAssignmentResultsGroup",
-                                                   "Quadrat" = "nvcAssignmentResultsQuadrat"),
+reportOptions_options <- list(`NVC Assignment Pseudo-quadrat` = c("Site" = "nvcAssignmentResultsSite",
+                                                                  "Group" = "nvcAssignmentResultsGroup",
+                                                                  "Quadrat" = "nvcAssignmentResultsQuadrat"),
+                              `NVC Assignment Czekanowski` = c("Site" = "nvcAssignmentResultsSite_Czekanowski",
+                                                               "Group" = "nvcAssignmentResultsGroup_Czekanowski"),
                               `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
                                                      "Group" = "composedFloristicTablesGroup"),
                               `Species Frequency` = c("Species Frequency" = "speciesFrequencyTable"),
@@ -282,6 +287,44 @@ if("nvcAssignmentResultsQuadrat" %in% reportOptions){
   kableExtra::kbl(x = nvcAssignmentQuadrat_prepped, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
                   caption = "The top NVC communities fitted using the pseudo-quadrat method, by quadrat, group, and year") |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
+
+```
+
+```{r nvcAssignmentResultsSiteCzekanowski, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("nvcAssignmentResultsSite_Czekanowski" %in% reportOptions){
+  
+  cat("## NVC Assignment Czekanowski, by Site")
+  
+  nvcAssignmentSite_Czekanowski_prepped <- nvcAssignmentSite_Czekanowski |>
+    dplyr::mutate_if(is.numeric, round, digits = 2)
+
+  kableExtra::kbl(x = nvcAssignmentSite_Czekanowski_prepped, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "The top NVC communities fitted using the Czekanowski method, for the site by year."
+                  ) |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
+
+```
+
+```{r nvcAssignmentResultsGroupCzekanowski, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("nvcAssignmentResultsGroup_Czekanowski" %in% reportOptions){
+  
+  cat("## NVC Assignment Czekanowski, by Group")
+  
+  nvcAssignmentGroup_Czekanowski_prepped <- nvcAssignmentGroup_Czekanowski |>
+    dplyr::mutate_if(is.numeric, round, digits = 2)
+
+  kableExtra::kbl(x = nvcAssignmentGroup_Czekanowski_prepped, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "The top NVC communities fitted using the Czekanowski method, by group and year"
+                  ) |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }

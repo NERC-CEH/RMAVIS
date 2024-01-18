@@ -1,4 +1,4 @@
-nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) {
+nvcAssignment <- function(input, output, session, surveyTable, floristicTables, sidebar_options) {
   
   ns <- session$ns
   
@@ -28,6 +28,13 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
     shinyjs::show(id = "nvcAssignmentSiteTable_div")
     shinyjs::show(id = "nvcAssignmentGroupTable_div")
     shinyjs::show(id = "nvcAssignmentQuadratTable_div")
+
+    shinyjs::show(id = "nvcAssignmentSiteTable_Czekanowski_div")
+    shinyjs::show(id = "nvcAssignmentGroupTable_Czekanowski_div")
+    
+    # shinyjs::show(id = "nvcAssignmentSiteTable_div")
+    # shinyjs::show(id = "nvcAssignmentGroupTable_div")
+    # shinyjs::show(id = "nvcAssignmentQuadratTable_div")
     
   }) |>
     bindEvent(resultsViewNVCAssign(),
@@ -55,6 +62,18 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
       shinyjs::hide(id = "nvcAssignmentQuadratTable_div")
     }
     
+    if("nvcAssignSiteCzekanowski" %in% resultsViewNVCAssign()){
+      shinyjs::show(id = "nvcAssignmentSiteTable_Czekanowski_div")
+    } else {
+      shinyjs::hide(id = "nvcAssignmentSiteTable_Czekanowski_div")
+    }
+    
+    if("nvcAssignGroupCzekanowski" %in% resultsViewNVCAssign()){
+      shinyjs::show(id = "nvcAssignmentGroupTable_Czekanowski_div")
+    } else {
+      shinyjs::hide(id = "nvcAssignmentGroupTable_Czekanowski_div")
+    }
+    
   }) |>
     bindEvent(resultsViewNVCAssign(),
               ignoreInit = FALSE,
@@ -70,12 +89,17 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
               ignoreInit = FALSE,
               once = TRUE)
   
-# Calculate nvcAssignment results by site ----------------------------------------
+
+# Calculate ALL nvcAssignment results -------------------------------------
   nvcAssignmentQuadrat_rval <- reactiveVal()
   nvcAssignmentGroup_rval <- reactiveVal()
   nvcAssignmentSite_rval <- reactiveVal()
+  nvcAssignmentSite_Czekanowski_rval <- reactiveVal()
+  nvcAssignmentGroup_Czekanowski_rval <- reactiveVal()
   
   observe({
+    
+    shiny::req(floristicTables())
     
     # req(isFALSE(runAnalysis() == 0))
     
@@ -106,7 +130,7 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
 
       for(code in habitatRestriction()){
 
-        regex <- paste0("^", code, "\\d{1,}.+(?![a-z*][P])") #
+        regex <- paste0("^", code, "\\d{1,}.+(?![a-z*][P])")
 
         codes_regex <- c(codes_regex, regex)
 
@@ -136,8 +160,6 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
         dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
         dplyr::ungroup() |>
         dplyr::left_join(surveyTable_IDs, by = "ID")
-      
-      # assign(x = "nvcAssignmentQuadrat", value = nvcAssignmentQuadrat, envir = .GlobalEnv)
       
       nvcAssignmentQuadrat_prepped <- nvcAssignmentQuadrat |>
         dplyr::select(Year, Group, Quadrat, NVC.Code, Mean.Similarity, Standard.Deviation)|>
@@ -188,6 +210,69 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
       nvcAssignmentSite_rval(nvcAssignmentSite_prepped)
       
     })
+    
+    # Prepare floristicTables
+    floristicTables <- floristicTables()
+    floristicTables_prepped <- floristicTables  |>
+      dplyr::mutate(
+        "Constancy" = 
+          dplyr::case_when(
+            Constancy == "I" ~ 0.2,
+            Constancy == "II" ~ 0.4,
+            Constancy == "III" ~ 0.6,
+            Constancy == "IV" ~ 0.8,
+            Constancy == "V" ~ 1.0,
+            TRUE ~ as.numeric(0)
+          )
+      )
+    
+    # Prepare nvc_floristic_tables_numeric
+    if(!is.null(habitatRestriction())){
+      
+      nvc_floristic_tables_numeric_prepped <- nvc_floristic_tables_numeric |>
+        dplyr::filter(stringr::str_detect(string = NVC.Code, pattern = codes_regex))
+      
+    } else {
+      
+      nvc_floristic_tables_numeric_prepped <- nvc_floristic_tables_numeric
+      
+    }
+    
+    
+    # assign(x = "habitatRestriction", value = habitatRestriction(), envir = .GlobalEnv)
+    # assign(x = "codes_regex", value = codes_regex, envir = .GlobalEnv)
+    
+    # assign(x = "floristicTables_prepped", value = floristicTables_prepped, envir = .GlobalEnv)
+    # assign(x = "nvc_floristic_tables_numeric", value = nvc_floristic_tables_numeric, envir = .GlobalEnv)
+    
+    # Calculate NVC Similarity by Site using the Czekanowski index
+    nvcAssignmentSiteGroup_Czekanowski <- similarityCzekanowski(samp_df = floristicTables_prepped,
+                                                                comp_df = nvc_floristic_tables_numeric_prepped,
+                                                                samp_species_col = "Species",
+                                                                comp_species_col = "Species",
+                                                                samp_group_name = "ID",
+                                                                comp_group_name = "NVC.Code",
+                                                                samp_weight_name = "Constancy",
+                                                                comp_weight_name = "Constancy")
+    
+    nvcAssignmentSite_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
+      dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$")) |>
+      dplyr::mutate("Year" = ID) |>
+      dplyr::select(Year, NVC.Code, Similarity)|>
+      dplyr::arrange(Year, dplyr::desc(Similarity))
+    
+    nvcAssignmentGroup_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
+      dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$", negate = TRUE)) |>
+      dplyr::mutate("Year" = stringr::str_extract(string = ID, pattern = "\\d{4}")) |>
+      dplyr::mutate("Group" = stringr::str_extract(string = ID, pattern = "(?<=\\s-\\s).*$")) |>
+      dplyr::select(Year, Group, NVC.Code, Similarity) |>
+      dplyr::arrange(Year, Group, dplyr::desc(Similarity))
+    
+    # assign(x = "nvcAssignmentSite_Czekanowski", value = nvcAssignmentSite_Czekanowski, envir = .GlobalEnv)
+    # assign(x = "nvcAssignmentGroup_Czekanowski", value = nvcAssignmentGroup_Czekanowski, envir = .GlobalEnv)
+    
+    nvcAssignmentSite_Czekanowski_rval(nvcAssignmentSite_Czekanowski)
+    nvcAssignmentGroup_Czekanowski_rval(nvcAssignmentGroup_Czekanowski)
     
     shinybusy::remove_modal_spinner()
     
@@ -495,6 +580,198 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
   
   outputOptions(output, "nvcAssignmentQuadratTable", suspendWhenHidden = FALSE)
   
+  # Intialise NVC Assignment Site Czekanowski Table -----------------------
+  nvcAssignmentSiteTable_Czekanowski_init <- data.frame("Year" = integer(),
+                                                        "Similarity" = numeric(),
+                                                        "NVC.Code" = character()
+  )
+  
+  output$nvcAssignmentSiteTable_Czekanowski <- reactable::renderReactable({
+    
+    nvcAssignmentSiteTable_Czekanowski <- reactable::reactable(data = nvcAssignmentSiteTable_Czekanowski_init,
+                                                               filterable = FALSE,
+                                                               pagination = FALSE, 
+                                                               highlight = TRUE,
+                                                               bordered = TRUE,
+                                                               sortable = TRUE, 
+                                                               wrap = FALSE,
+                                                               resizable = TRUE,
+                                                               style = list(fontSize = "1rem"),
+                                                               class = "my-tbl",
+                                                               # style = list(fontSize = "1rem"),
+                                                               rowClass = "my-row",
+                                                               defaultColDef = reactable::colDef(
+                                                                 format = reactable::colFormat(digits = 2),
+                                                                 headerClass = "my-header",
+                                                                 class = "my-col",
+                                                                 align = "center" # Needed as alignment is not passing through to header
+                                                               )
+                                                               )
+    
+    return(nvcAssignmentSiteTable_Czekanowski)
+    
+  })
+  
+  
+  
+  # Update NVC Assignment Site Czekanowski Table --------------------------
+  observe({
+    
+    
+    shiny::req(nvcAssignmentSite_Czekanowski_rval())
+    
+    nvcAssignmentSite_Czekanowski <- nvcAssignmentSite_Czekanowski_rval() |>
+      dplyr::group_by(Year) |>
+      dplyr::slice(1:nTopResults()) |>
+      dplyr::ungroup()
+    
+    output$nvcAssignmentSiteTable_Czekanowski <- reactable::renderReactable({
+      
+      nvcAssignmentSiteTable_Czekanowski <- reactable::reactable(data = nvcAssignmentSite_Czekanowski, 
+                                                                 filterable = FALSE,
+                                                                 pagination = FALSE, 
+                                                                 highlight = TRUE,
+                                                                 bordered = TRUE,
+                                                                 sortable = TRUE, 
+                                                                 wrap = FALSE,
+                                                                 resizable = TRUE,
+                                                                 style = list(fontSize = "1rem"),
+                                                                 class = "my-tbl",
+                                                                 # style = list(fontSize = "1rem"),
+                                                                 rowClass = "my-row",
+                                                                 defaultColDef = reactable::colDef(
+                                                                   format = reactable::colFormat(digits = 2),
+                                                                   headerClass = "my-header",
+                                                                   class = "my-col",
+                                                                   align = "center" # Needed as alignment is not passing through to header
+                                                                 ),
+                                                                 columns = list(
+                                                                   Year = reactable::colDef(
+                                                                     format = reactable::colFormat(digits = 0),
+                                                                     filterable = TRUE,
+                                                                     filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                                   return rows.filter(function(row) {
+                                                                                                   return row.values[columnId] == filterValue
+                                                                                                   })
+                                                                                                   }")
+                                                                   )
+                                                                 )
+      )
+      
+      return(nvcAssignmentSiteTable_Czekanowski)
+      
+    })
+    
+  }) |>
+    bindEvent(nvcAssignmentSite_Czekanowski_rval(), 
+              nTopResults(),
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE)
+  
+  
+  outputOptions(output, "nvcAssignmentSiteTable_Czekanowski", suspendWhenHidden = FALSE)
+  
+  
+  # Initialise NVC Assignment Group Czekanowski Table ---------------------
+  nvcAssignmentGroupTable_Czekanowski_init <- data.frame("Year" = integer(),
+                                                         "Group" = character(),
+                                                         "Similarity" = numeric(),
+                                                         "NVC.Code" = character()
+                                                         )
+  
+  nvcAssignmentGroupTable_Czekanowski_rval <- reactiveVal(nvcAssignmentGroupTable_Czekanowski_init)
+  
+  output$nvcAssignmentGroupTable_Czekanowski <- reactable::renderReactable({
+    
+    nvcAssignmentGroupTable_Czekanowski <- reactable::reactable(data = nvcAssignmentGroupTable_Czekanowski_init,
+                                                                filterable = FALSE,
+                                                                pagination = FALSE, 
+                                                                highlight = TRUE,
+                                                                bordered = TRUE,
+                                                                sortable = TRUE, 
+                                                                wrap = FALSE,
+                                                                resizable = TRUE,
+                                                                style = list(fontSize = "1rem"),
+                                                                class = "my-tbl",
+                                                                # style = list(fontSize = "1rem"),
+                                                                rowClass = "my-row",
+                                                                defaultColDef = reactable::colDef(
+                                                                  format = reactable::colFormat(digits = 2),
+                                                                  headerClass = "my-header",
+                                                                  class = "my-col",
+                                                                  align = "center" # Needed as alignment is not passing through to header
+                                                                )
+                                                                )
+    
+    return(nvcAssignmentGroupTable_Czekanowski)
+    
+  })
+  
+  
+  # Update NVC Assignment Group CzekanowskiTable ------------------------
+  observe({
+    
+    req(nvcAssignmentGroup_Czekanowski_rval())
+    
+    nvcAssignmentGroup_Czekanowski <- nvcAssignmentGroup_Czekanowski_rval() |>
+      dplyr::group_by(Year, Group) |>
+      dplyr::slice(1:nTopResults()) |>
+      dplyr::ungroup()
+    
+    output$nvcAssignmentGroupTable_Czekanowski <- reactable::renderReactable({
+      
+      nvcAssignmentGroupTable_Czekanowski <- reactable::reactable(data = nvcAssignmentGroup_Czekanowski, 
+                                                                  filterable = FALSE,
+                                                                  pagination = FALSE, 
+                                                                  highlight = TRUE,
+                                                                  bordered = TRUE,
+                                                                  sortable = TRUE, 
+                                                                  wrap = FALSE,
+                                                                  resizable = TRUE,
+                                                                  style = list(fontSize = "1rem"),
+                                                                  class = "my-tbl",
+                                                                  # style = list(fontSize = "1rem"),
+                                                                  rowClass = "my-row",
+                                                                  defaultColDef = reactable::colDef(
+                                                                    format = reactable::colFormat(digits = 2),
+                                                                    headerClass = "my-header",
+                                                                    class = "my-col",
+                                                                    align = "center" # Needed as alignment is not passing through to header
+                                                                  ),
+                                                                  columns = list(
+                                                                    Year = reactable::colDef(
+                                                                      format = reactable::colFormat(digits = 0),
+                                                                      filterable = TRUE,
+                                                                      filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                                   return rows.filter(function(row) {
+                                                                                                   return row.values[columnId] == filterValue
+                                                                                                   })
+                                                                                                   }")
+                                                                    ),
+                                                                    Group = reactable::colDef(
+                                                                      filterable = TRUE,
+                                                                      filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                                   return rows.filter(function(row) {
+                                                                                                   return row.values[columnId] == filterValue
+                                                                                                   })
+                                                                                                   }")
+                                                                    )
+                                                                  )
+                  )
+      
+      return(nvcAssignmentGroupTable_Czekanowski)
+      
+    })
+    
+  }) |>
+    bindEvent(nvcAssignmentGroup_Czekanowski_rval(),
+              nTopResults(),
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE)
+  
+  
+  outputOptions(output, "nvcAssignmentGroupTable_Czekanowski", suspendWhenHidden = FALSE)
+  
 
 # Compose All NVC Assignment Results --------------------------------------
   nvcAssignmentAll_rval <- reactiveVal()
@@ -520,9 +797,21 @@ nvcAssignment <- function(input, output, session, surveyTable, sidebar_options) 
       dplyr::slice(1:nTopResults()) |>
       dplyr::ungroup()
     
+    nvcAssignmentSite_Czekanowski <- nvcAssignmentSite_Czekanowski_rval() |>
+      dplyr::group_by(Year) |>
+      dplyr::slice(1:nTopResults()) |>
+      dplyr::ungroup()
+    
+    nvcAssignmentGroup_Czekanowski <- nvcAssignmentGroup_Czekanowski_rval() |>
+      dplyr::group_by(Year, Group) |>
+      dplyr::slice(1:nTopResults()) |>
+      dplyr::ungroup()
+    
     nvcAssignmentAll_list <- list("nvcAssignmentSite" = nvcAssignmentSite,
                                   "nvcAssignmentGroup" = nvcAssignmentGroup,
-                                  "nvcAssignmentQuadrat" = nvcAssignmentQuadrat)
+                                  "nvcAssignmentQuadrat" = nvcAssignmentQuadrat,
+                                  "nvcAssignmentSite_Czekanowski" = nvcAssignmentSite_Czekanowski,
+                                  "nvcAssignmentGroup_Czekanowski" = nvcAssignmentGroup_Czekanowski)
     
     nvcAssignmentAll_rval(nvcAssignmentAll_list)
     

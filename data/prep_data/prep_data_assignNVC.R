@@ -43,7 +43,7 @@ nvc_communities_final <- concordance_all_trimmed |>
   dplyr::right_join(assignNVC::NVC_communities, by = "Species") |>
   dplyr::select(-Species, -freq, -BRC) |>
   dplyr::rename("Species" = "proposedSpecies") |>
-  dplyr::rename("NVC.Code" = "NVC")|>
+  dplyr::rename("NVC.Code" = "NVC") |>
   dplyr::mutate(
     "Constancy" = 
       dplyr::case_when(
@@ -72,6 +72,21 @@ nvc_communities_final <- concordance_all_trimmed |>
 nrow(nvc_communities_final) == nrow(assignNVC::NVC_communities)
 
 saveRDS(object = nvc_communities_final, file = "./data/bundled_data/nvc_floristic_tables.rds")
+
+nvc_communities_final_numeric <- nvc_communities_final |>
+  dplyr::mutate(
+    "Constancy" = 
+      dplyr::case_when(
+        Constancy == "I" ~ 0.2,
+        Constancy == "II" ~ 0.4,
+        Constancy == "III" ~ 0.6,
+        Constancy == "IV" ~ 0.8,
+        Constancy == "V" ~ 1.0,
+        TRUE ~ as.numeric(0)
+      )
+  )
+
+saveRDS(object = nvc_communities_final_numeric, file = "./data/bundled_data/nvc_floristic_tables_numeric.rds")
 
 nvc_community_codes <- nvc_communities_final |>
   dplyr::pull(NVC.Code) |>

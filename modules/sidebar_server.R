@@ -39,8 +39,6 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     sidebar_options(sidebar_options_list)
     
-    # print(input$reportOptions)
-    
   }) |>
     bindEvent(input$inputMethod, 
               # input$resetTable, 
