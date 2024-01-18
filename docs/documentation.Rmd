@@ -586,7 +586,16 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). pseudoMAVIS.
 
 # Release Log
 
-[v0.9]{style="font-size:2em;font-weight:700;"}
+[v0.92]{style="font-size:2em;font-weight:700;"}
+
+**2024/01/18**
+
+-   Modifications: NA
+-   Fixes: NA
+-   New Features:
+    -   Adding Czekanowski index method for Site and Group NVC assignment calculations.
+
+[v0.91]{style="font-size:2em;font-weight:700;"}
 
 **2024/01/09**
 
