@@ -12,7 +12,7 @@ surveyTableValidatorUI <- function(id){
       
       bslib::layout_columns(
         
-        col_widths = c(3, 3, 3, 3),
+        col_widths = c(3, 3, 3),
       
         shiny::div(
           shiny::actionButton(inputId = ns("adjustSpecies"),
@@ -22,6 +22,11 @@ surveyTableValidatorUI <- function(id){
         shiny::div(
           shiny::actionButton(inputId = ns("combineDuplicates"),
                               label = "Combine Duplicates")
+        ),
+        
+        shiny::div(
+          shiny::actionButton(inputId = ns("reallocateGroups"),
+                              label = "Re-allocate Groups")
         )
         
       ),
@@ -330,6 +335,16 @@ surveyTableValidatorUI <- function(id){
       
       shiny::div(
         rhandsontable::rHandsontableOutput(outputId = ns("speciesAdjustmentTable")) # , height = "300px"
+      ),
+      
+      shiny::div(shiny::br()),
+      
+      shiny::h5("Group Re-allocation Table"),
+      
+      shiny::div(shiny::br()),
+      
+      shiny::div(
+        rhandsontable::rHandsontableOutput(outputId = ns("reallocateGroupsTable")) # , height = "300px"
       )
       
     )

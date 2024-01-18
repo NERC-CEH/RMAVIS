@@ -23,6 +23,8 @@ source("modules/nvcInfo_server.R", local = TRUE)
 source("modules/sidebar_ui.R", local = TRUE)
 source("modules/sidebar_server.R", local = TRUE)
 
+# source("modules/setupData_server.R", local = TRUE)
+
 source("modules/uploadData_ui.R", local = TRUE)
 source("modules/uploadData_server.R", local = TRUE)
 

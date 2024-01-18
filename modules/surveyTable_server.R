@@ -24,15 +24,19 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
 
 # Retrieve Survey Table Correction Button ---------------------------------
   adjustSpecies <- reactiveVal()
+  reallocateGroups <- reactiveVal()
   combineDuplicates <- reactiveVal()
   speciesAdjustmentTable <- reactiveVal()
+  reallocateGroupsTable <- reactiveVal()
   combineDuplicates <- reactiveVal()
   
   observe({
     
     adjustSpecies(surveyTableValidator()$adjustSpecies)
+    reallocateGroups(surveyTableValidator()$reallocateGroups)
     combineDuplicates(surveyTableValidator()$combineDuplicates)
     speciesAdjustmentTable(surveyTableValidator()$speciesAdjustmentTable)
+    reallocateGroupsTable(surveyTableValidator()$reallocateGroupsTable)
     combineDuplicates(surveyTableValidator()$combineDuplicates)
     
   }) |>
@@ -217,9 +221,12 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
   
   
 
-# Validate Survey Data Table ----------------------------------------------
+
+
+# Survey Table Validation Actions -----------------------------------------
   surveyTable_corrected_rval <- reactiveVal()
   
+## Adjust Species Names ---------------------------------------------------
   observe({
 
     req(speciesAdjustmentTable())
@@ -257,6 +264,37 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
 
   }) |>
     bindEvent(adjustSpecies(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+
+## Re-allocate Groups -----------------------------------------------------
+  observe({
+    
+    req(reallocateGroupsTable())
+    req(input$surveyTable)
+    
+    isolate({
+      
+      surveyTable <- rhandsontable::hot_to_r(input$surveyTable)
+      
+      if(!is.null(reallocateGroupsTable())){
+        
+        reallocateGroupsTable <- reallocateGroupsTable()
+        
+        surveyTable_corrected <- surveyTable |>
+          tibble::as_tibble() |>
+          dplyr::select(-Group) |>
+          dplyr::left_join(reallocateGroupsTable, by = "Quadrat") |>
+          dplyr::select(Year, Group, Quadrat, Species, Cover)
+        
+        surveyTable_corrected_rval(surveyTable_corrected)
+        
+      }
+      
+    })
+    
+  }) |>
+    bindEvent(reallocateGroups(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   

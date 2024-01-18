@@ -47,6 +47,35 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
     
   })
   
+# Initialise Table to Re-allocate groups ---------------------------------
+  reallocateGroups_init <- data.frame("Quadrat" = character(),
+                                      "Group" = character())
+  
+  reallocateGroups_rval <- reactiveVal(reallocateGroups_init)
+  
+  output$reallocateGroupsTable <- rhandsontable::renderRHandsontable({
+    
+    reallocateGroupsTable <- rhandsontable::rhandsontable(data = reallocateGroups_init,
+                                                          height = 300,
+                                                          rowHeaders = NULL,
+                                                          width = "100%"#,
+                                                          # overflow = "visible",
+                                                          # stretchH = "all"
+                                                          ) |>
+      rhandsontable::hot_col(col = colnames(reallocateGroups_init), halign = "htCenter") |>
+      rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+      htmlwidgets::onRender("
+      function(el, x) {
+        var hot = this.hot
+        $('a[data-value=\"validateSurveyTable\"').on('click', function(){
+          setTimeout(function() {hot.render();}, 0);
+        })
+      }")
+    
+    return(reallocateGroupsTable)
+    
+  })
 
 # Perform Validation Checks on surveyTable --------------------------------
   surveyTableValidation_rval <- reactiveVal(
@@ -213,9 +242,6 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 
     surveyTableValidation <- surveyTableValidation_rval()
 
-    # print(surveyTableValidation$speciesNotAccepted)
-    # print(length(surveyTableValidation$speciesNotAccepted) > 0)
-
     if(length(surveyTableValidation$speciesNotAccepted) > 0){
 
       speciesAdjustmentTable <- data.frame("Species.Submitted" = surveyTableValidation$speciesNotAccepted,
@@ -235,8 +261,6 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
       speciesAdjustmentTable <- speciesAdjustmentTable_init
 
     }
-
-    # assign(x = "speciesAdjustmentTable", value = speciesAdjustmentTable, envir = .GlobalEnv)
 
     output$speciesAdjustmentTable <- rhandsontable::renderRHandsontable({
 
@@ -284,7 +308,53 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
-
+  # Update Table to to Re-allocate groups ------------------------------
+  reallocateGroupsTable_rval <- reactiveVal()
+  
+  observe({
+    
+    shiny::req(reallocateGroups_rval())
+    
+    surveyTable <- surveyTable()
+    
+    reallocateGroups <- reallocateGroups_rval()
+      
+    reallocateGroupsTable <- surveyTable |>
+      dplyr::select(Quadrat, Group) |>
+      dplyr::distinct()
+    
+    output$reallocateGroupsTable <- rhandsontable::renderRHandsontable({
+      
+      reallocateGroupsTable <- rhandsontable::rhandsontable(data = reallocateGroupsTable,
+                                                            height = 300,
+                                                            rowHeaders = NULL,
+                                                            width = "100%"#,
+                                                            # overflow = "visible",
+                                                            # stretchH = "all"
+                                                            ) |>
+        rhandsontable::hot_col(col = colnames(reallocateGroupsTable), halign = "htCenter") |>
+        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        htmlwidgets::onRender("
+          function(el, x) {
+            var hot = this.hot
+            $('a[data-value=\"validateSurveyTable\"').on('click', function(){
+              setTimeout(function() {hot.render();}, 0);
+            })
+          }")
+      
+      return(reallocateGroupsTable)
+      
+    })
+    
+    reallocateGroupsTable_rval(reallocateGroupsTable)
+    
+  }) |>
+    bindEvent(surveyTable(),
+              ignoreInit = FALSE,
+              ignoreNULL = TRUE)
+  
+  
 # Create Text Validation Outputs ------------------------------------------
   observe({
     
@@ -496,19 +566,21 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 
     surveyTableValidatorData <- list(
       "adjustSpecies" = input$adjustSpecies,
+      "reallocateGroups" = input$reallocateGroups,
       "combineDuplicates" = input$combineDuplicates,
       "speciesAdjustmentTable" = rhandsontable::hot_to_r(input$speciesAdjustmentTable),
+      "reallocateGroupsTable" = rhandsontable::hot_to_r(input$reallocateGroupsTable),
       "surveyTableValidation" = surveyTableValidation_rval()
     )
-
-    # print(surveyTableValidatorData)
 
     surveyTableValidatorData_rval(surveyTableValidatorData)
     
   }) |>
     bindEvent(input$adjustSpecies,
+              input$reallocateGroups,
               input$combineDuplicates,
               input$speciesAdjustmentTable,
+              input$reallocateGroupsTable,
               surveyTableValidation_rval(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
