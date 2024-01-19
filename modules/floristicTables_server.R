@@ -66,12 +66,12 @@ floristicTables <- function(input, output, session, surveyTable, surveyTableSumm
     floristicTables_composed_year_group <- composeSyntopicTables(surveyTable = surveyTable, 
                                                                  group_cols = c("Year", "Group"), 
                                                                  species_col_name = "Species", 
-                                                                 releve_col_name = "Quadrat")
+                                                                 plot_col_name = "Quadrat")
     
     floristicTables_composed_year <- composeSyntopicTables(surveyTable = surveyTable, 
                                                            group_cols = c("Year"), 
                                                            species_col_name = "Species", 
-                                                           releve_col_name = "Quadrat")
+                                                           plot_col_name = "Quadrat")
     
     floristicTables_composed_all <- rbind(floristicTables_composed_year, floristicTables_composed_year_group)
     
