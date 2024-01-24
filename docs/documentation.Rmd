@@ -1,6 +1,6 @@
 ---
 title: "pseudoMAVIS - Documentation"
-subtitle: "v0.94"
+subtitle: "v0.95"
 output: 
   bookdown::html_document2:
     toc: true
@@ -577,7 +577,7 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). pseudoMAVIS.
 @misc{marshall2024,
   author = {Marshall, Z. and Smart, S. and Harrower, C.},
   title = {pseudoMAVIS},
-  howpublished = {Available at https://connect-apps.ceh.ac.uk/pseudoMAVIS/, version 0.9},
+  howpublished = {Available at https://connect-apps.ceh.ac.uk/pseudoMAVIS/, version 0.95},
   month = {02},
   year  = {2024},
   note = {A R Shiny application for the assignment of vegetation survey data to National Vegetation Classification (NVC) communities, with additional exploratory analyses.}
@@ -585,6 +585,18 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). pseudoMAVIS.
 ```
 
 # Release Log
+
+[v0.95]{style="font-size:2em;font-weight:700;"}
+
+**2024/01/24**
+
+-   Modifications:
+    - Removing unnecessary upload data checks.
+    - Making survey data availability table searchable.
+    - Changing nomenclature for releve to plot.
+-   Fixes:
+    - Ensuring report renders correctly using new surveyTableSummary object data.
+-   New Features: NA
 
 [v0.94]{style="font-size:2em;font-weight:700;"}
 

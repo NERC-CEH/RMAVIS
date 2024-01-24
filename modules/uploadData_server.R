@@ -5,8 +5,6 @@ uploadData <- function(input, output, session) {
 
 # Intialiase data validation objects --------------------------------------
   columnNames_correct <- reactiveVal()
-  yearValues_numeric <- reactiveVal()
-  speciesNames_correct <- reactiveVal()
   
 
 # Show/Hide Long/Wide descriptions ----------------------------------------
@@ -137,49 +135,6 @@ uploadData <- function(input, output, session) {
              )
       
     })
-    
-    
-    if(columnNames_correct == TRUE){
-      
-      yearValues_numeric <- all(is.numeric(uploaded_data_raw$Year))
-      # speciesNames_correct <- all(unique(uploaded_data_raw$Species) %in% speciesNames)
-      
-      yearValues_numeric(yearValues_numeric)
-      # speciesNames_correct(speciesNames_correct)
-      
-      output$yearValues_numeric_expression <- shiny::renderText({
-        
-        paste0("Year Values Numeric: ",
-               ifelse(
-                 as.character(yearValues_numeric) == TRUE,
-                 paste('<font color="green"><b>', 
-                       as.character(yearValues_numeric), 
-                       '</b></font>'),
-                 paste('<font color="red"><b>', 
-                       as.character(yearValues_numeric), 
-                       '</b></font>')
-               )
-        )
-        
-      })
-      
-      # output$speciesNames_correct_expression <- shiny::renderText({
-      #   
-      #   paste0("Species Names Correct: ",
-      #          ifelse(
-      #            as.character(speciesNames_correct) == TRUE,
-      #            paste('<font color="green"><b>', 
-      #                  as.character(speciesNames_correct), 
-      #                  '</b></font>'),
-      #            paste('<font color="red"><b>', 
-      #                  as.character(speciesNames_correct), 
-      #                  '</b></font>')
-      #          )
-      #   )
-      #   
-      # })
-      
-    }
     
   }) |>
     bindEvent(input$uploadDataInput,

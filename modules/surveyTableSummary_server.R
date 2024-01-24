@@ -290,13 +290,7 @@ surveyTableSummary <- function(input, output, session, surveyTable) {
                                                            ),
                                                            columns = list(
                                                              `Species` = reactable::colDef(
-                                                               format = reactable::colFormat(digits = 0),
-                                                               filterable = TRUE,
-                                                               filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                                   return rows.filter(function(row) {
-                                                                                                   return row.values[columnId] == filterValue
-                                                                                                   })
-                                                                                                   }")
+                                                               filterable = TRUE
                                                              ),
                                                              `Hill-Ellenberg` = reactable::colDef(
                                                                format = reactable::colFormat(digits = 0),

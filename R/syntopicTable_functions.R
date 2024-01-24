@@ -1,13 +1,13 @@
 # Compose floristic tables from surveyTable
-composeSyntopicTables <- function(surveyTable, group_cols, species_col_name = "Species", releve_col_name = "Quadrat"){
+composeSyntopicTables <- function(surveyTable, group_cols, species_col_name = "Species", plot_col_name = "Quadrat"){
   
   syntopicTables <- surveyTable |>
     tidyr::unite(col = "ID", group_cols, sep = " - ", remove = TRUE) |>
-    dplyr::select(ID, releve_col_name, species_col_name) |>
+    dplyr::select(ID, plot_col_name, species_col_name) |>
     dplyr::mutate("Present" = 1) |>
     tidyr::pivot_wider(id_cols = c(ID, species_col_name),
                        values_from = Present,
-                       names_from = releve_col_name) |>
+                       names_from = plot_col_name) |>
     dplyr::rowwise() |>
     dplyr::mutate("Sum" = sum(dplyr::c_across(dplyr::where(is.numeric)), na.rm = TRUE)) |>
     dplyr::ungroup() |>

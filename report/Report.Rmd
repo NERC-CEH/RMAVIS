@@ -9,6 +9,7 @@ params:
     sidebar_options: NULL
     surveyTable: NULL
     surveyTableValidator: NULL
+    surveyTableSummary: NULL
     nvcAssignment: NULL
     floristicTables: NULL
     speciesFreq: NULL
@@ -41,6 +42,7 @@ library(kableExtra)
 # Retrieve report parameters
 surveyTable <- params$surveyTable
 surveyTableValidator <- params$surveyTableValidator
+surveyTableSummary <- params$surveyTableSummary
 nvcAssignment <- params$nvcAssignment
 sidebar_options <- params$sidebar_options
 floristicTables <- params$floristicTables
@@ -53,11 +55,11 @@ mvaLocalRefUnrestrictedResults <- params$mvaLocalRefUnrestrictedResults
 
 # Report options
 reportOptions <- sidebar_options$reportOptions
-reportAuthorName <- params$reportAuthorName
+reportAuthorName <- sidebar_options$reportAuthorName
 reportProjectName <- sidebar_options$reportProjectName
 
 # Data Structure
-surveyTableStructure <- surveyTableValidator$surveyTableStructure
+surveyTableStructure <- surveyTableSummary$surveyTableStructure
 quadratsPerYear <- surveyTableStructure$quadratsPerYear
 quadratsPerYearGroup <- surveyTableStructure$quadratsPerYearGroup
 
@@ -133,7 +135,7 @@ reportOptions_options <- list(`NVC Assignment Pseudo-quadrat` = c("Site" = "nvcA
 
 ```{r pseudoMAVISVersion, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-cat("**Version:** ", as.character("v0.94"), sep = "")
+cat("**Version:** ", as.character("v0.95"), sep = "")
 
 ```
 
