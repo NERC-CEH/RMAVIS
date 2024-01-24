@@ -1,3 +1,6 @@
+# Silence dplyr::summarise() messages -------------------------------------
+options(dplyr.summarise.inform = FALSE)
+
 # Load data into memory ---------------------------------------------------
 source("R/load_data.R", local = TRUE)
 
