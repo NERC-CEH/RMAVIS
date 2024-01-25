@@ -41,6 +41,9 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
                                           headerClass = "my-header",
                                           class = "my-col",
                                           align = "center" # Needed as alignment is not passing through to header
+                                        ),
+                                        columns = list(
+                                          Label = reactable::colDef(minWidth = 700)
                                         )
                                         )
     
@@ -98,6 +101,12 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
                                             headerClass = "my-header",
                                             class = "my-col",
                                             align = "center" # Needed as alignment is not passing through to header
+                                          ),
+                                          columns = list(
+                                            NVC.Code = reactable::colDef(maxWidth = 150),
+                                            Relationship = reactable::colDef(maxWidth = 300),
+                                            Code = reactable::colDef(maxWidth = 150),
+                                            Label = reactable::colDef(minWidth = 600)
                                           )
                                           )
       

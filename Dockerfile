@@ -28,6 +28,8 @@ COPY /data /data
 COPY /R /R
 COPY /www /www
 COPY /renv.lock /renv.lock
+COPY /docs /docs
+COPY /report /report
 
 # Install renv & restore packages
 RUN Rscript -e 'install.packages("renv")'

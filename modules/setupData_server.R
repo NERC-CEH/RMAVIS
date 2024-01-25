@@ -2,15 +2,19 @@ setupData <- function(input, output, session, sidebar_options) {
   
   ns <- session$ns
   
+# Establish reactive objects ----------------------------------------------
+  uploadedTaxonomicBackbone <- reactiveVal()
+  finalTaxonomicBackbone <- reactiveVal()
+
 # Retrieve sidebar options ------------------------------------------------
-  taxonomicBackboneMethod <- reactiveVal()
-  bundledTaxonomicBackbone <- reactiveVal()
+  selectedTaxonomicBackboneMethod <- reactiveVal()
+  selectedTaxonomicBackbone <- reactiveVal()
   wcvpCountries <- reactiveVal()
   
   observe({
     
-    taxonomicBackboneMethod(sidebar_options()$taxonomicBackboneMethod)
-    bundledTaxonomicBackbone(sidebar_options()$bundledTaxonomicBackbone)
+    selectedTaxonomicBackboneMethod(sidebar_options()$taxonomicBackboneMethod)
+    selectedTaxonomicBackbone(sidebar_options()$bundledTaxonomicBackbone)
     wcvpCountries(sidebar_options()$wcvpCountries)
     
   }) |>

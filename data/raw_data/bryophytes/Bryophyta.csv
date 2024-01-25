@@ -1,0 +1,1304 @@
+taxonID,taxonRank,scientificName,Scientific Name Authorship,Nomenclatural Status,Preferred Common Name,establishmentMeans,Habitat,genus,family,order,class,phylum,kingdom,datasetName
+NHMSYS0021616531,species,Myurella julacea,(Schwägr.) Schimp.,,Small Mouse-tail Moss,Native,terrestrial,Myurella,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601227,genus,Plenogemma,"Plášek, Sawicki & Ochyra",,,Native,terrestrial/freshwater,,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020978999,species,Crossidium squamiferum,(Viv.) Jur.,,,Native,,Crossidium,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309781,genus,Diphyscium,D.Mohr,,,Native,,,Diphysciaceae,Diphysciales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310519,genus,Pterogonium,Sw.,,,Native,,,Leucodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310651,family,Sphagnaceae,Dumort.,,,Native,,,,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036678,species,Philonotis rigida,Brid.,,Rigid Apple-moss,Native,freshwater,Philonotis,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021177844,species,Scleropodium touretii,(Brid.) L.F.Koch,,Glass-wort Feather-moss,Native,,Scleropodium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595342,species,Bryum concinnatum,Spruce,,,Native,terrestrial,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309970,species,Grimmia elongata,Kaulf.,,Brown Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036326,species,Aloina brevirostris,(Hook. & Grev.) Kindb.,,Short-beaked Aloe-moss,Native,,Aloina,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593227,species,Stereodon hamulosus,(Schimp.) Lindb.,,Hook-leaved Plait-moss,Native,terrestrial,Stereodon,Stereodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310521,species,Pterygoneurum ovatum,(Hedw.) Dixon,,Oval-leaved Pottia,Native,,Pterygoneurum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310526,genus,Ptilium,De Not.,,,Native,marine/terrestrial,,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600417,species aggregate,Sphagnum capillifolium,(Ehrh.) Hedw.,s.l.,Acute-leaved Bog-moss,Native,terrestrial/freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595332,species,Microeurhynchium pumilum,(Wilson) Ignatov & Vanderpoorten,,Dwarf Feather-moss,Native,terrestrial/freshwater,Microeurhynchium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310157,genus,Leptobryum,Wilson,,,Native,,,Meesiaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310580,species,Zygodon gracilis,Wilson,,Slender Yoke-moss,Native,,Zygodon,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595357,species,Bryum zieri,Hedw.,,Zierian Hump-moss,Native,terrestrial,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036639,species,Bryum rubens,Mitt.,,Crimson-tuber Thread-moss,Native,terrestrial,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000156307,species,Sarmentypnum sarmentosum,(Wahlenb.) Tuom. & T.J.Kop.,,Twiggy Spear-moss,Native,freshwater,Sarmentypnum,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021232443,species,Ulota crispa s.str.,(Hedw.) Brid.,,,Native,terrestrial,Ulota,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195191,species,Campylium stellatum,(Hedw.) Lange & C.E.O.Jensen,s.str.,,Native,freshwater,Campylium,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309333,species,Andreaea megistospora,B.M.Murray,,Big-spored Rock-moss,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036618,species,Bryum gemmiparum,De Not.,,Welsh Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309627,genus,Cinclidium,Sw.,,,Native,,,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020930323,genus,Oxyrrhynchium,(Schimp.) Warnst.,,,Native,freshwater,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600272,variety,Streblotrichum convolutum var. commutatum,(Jur.) J.J.Amann,,,Native,terrestrial,Streblotrichum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000842049,genus,Bryopsida,,,,Native,,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309804,genus,Drepanocladus,(Muell.Hal.) Roth,,,Native,freshwater,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036491,species,Racomitrium aciculare,(Hedw.) Brid.,,Yellow Fringe-moss,Native,freshwater,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000146096,species,Didymodon nicholsonii,Culm.,,Nicholson's Beard-moss,Native,freshwater,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310615,genus,Scorpidium,(Schimp.) Limpr.,,,Native,freshwater,,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310282,species,Philonotis tomentella,Molendo,,Woolly Apple-moss,Native,freshwater,Philonotis,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005439,species,Schistidium platyphyllum,(Mitt.) H.Perss.,,Broadleaf Grimmia,Native,freshwater,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309380,species,Arctoa fulvella,"(Dicks.) Bruch, Schimp. & W.Guembel",,Arctic Fork-moss,Native,,Arctoa,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310833,variety,Weissia controversa var. controversa,Hedw.,,,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005857,species,Tortula viridifolia,(Mitt.) Blockeel & A.J.E.Sm.,,Bristly Pottia,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036828,species,Sanionia orthothecioides,(Lindb.) Loeske,,St Kilda Hook-moss,Native,,Sanionia,Scorpidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020695923,species aggregate,Weissia agg.,,,,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310557,species,Rhabdoweisia crenulata,(Mitt.) H.Jameson,,Greater Streak-moss,Native,freshwater,Rhabdoweisia,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310231,family,Neckeraceae,Schimp.,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309325,species,Amphidium mougeotii,(Bruch & Schimp.) Schimp.,,Mougeot's Yoke-moss,Native,,Amphidium,Amphidiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310351,genus,Pleurozium,Mitt.,,,Native,,,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595822,subspecies,Fontinalis antipyretica subsp. gracilis,(Lindb.) Kindb.,,Lesser Water-moss,Native,freshwater,Fontinalis,Fontinalaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000066483,order,Orthotrichales,,,,Native,terrestrial,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601157,family,Distichiaceae,Schimp.,,,Native,terrestrial,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036398,species,Anoectangium aestivum,(Hedw.) Mitt.,,Summer-moss,Native,,Anoectangium,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310721,species,Syntrichia papillosa,(Wilson) Jur.,,Marble Screw-moss,Native,,Syntrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310765,genus,Tortella,(Lindb.) Limpr.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036845,species,Calliergon giganteum,(Schimp.) Kindb.,,Giant Spear-moss,Native,freshwater,Calliergon,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310769,species,Tortella fragilis,(Drumm.) Limpr.,,Brittle Crisp-moss,Native,,Tortella,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310087,species,Hypnum jutlandicum,Holmen & E.Warncke,,Heath Plait-moss,Native,freshwater,Hypnum,Hypnaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000101499,variety,Fissidens bryoides var. caespitans,Schimp.,,Curnow's Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309467,species,Bryoerythrophyllum caledonicum,D.G.Long,,Scottish Beard-moss,Native,,Bryoerythrophyllum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309473,variety,Bryum algovicum var. rutheanum,Sendtn. ex Muell.Hal.,,,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310918,species aggregate,Sphagnum recurvum,,sensu lato,,Native,,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036581,species,Bryum calophyllum,R.Br.,,Blunt Bryum,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309476,species,Bryum arcticum,"(R.Br.) Bruch, Schimp. & W.Guembel",,Arctic Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310916,species aggregate,Sphagnum denticulatum,,sensu lato,,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601212,genus,Codonoblepharon,Schwägr.,,,Native,terrestrial,,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036413,species,Weissia rostellata,(Brid.) Lindb.,,Beaked Beardless-moss,Native,freshwater,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309732,family,Daltoniaceae,Schimp.,,,Native,,,,Hookeriales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310921,species aggregate,Syntrichia ruralis,(Hedw.) F. Weber and D.Mohr,sensu lato,,Native,,Syntrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036440,species,Leptodontium gemmascens,(Mitt. ex Hunt) Braithw.,,Thatch-moss,Native,,Leptodontium,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309331,genus,Andreaea,Hedw.,,,Native,freshwater,,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309563,species,Campylophyllum halleri,(Hedw.) M.Fleisch.,,Haller's Feather-moss,Native,,Campylophyllum,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310534,genus,Racomitrium,Brid.,,,Native,freshwater,,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309487,species,Bryum cyclophyllum,(Schwaegr.) Bruch & Schimp.,,Round-leaved Bryum,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005855,species,Tortula protobryoides,R.H.Zander,,Tall Pottia,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309514,species,Bryum salinum,I.Hagen ex Limpr.,,Saltmarsh Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195421,species,Oxyrrhynchium schleicheri,(R.Hedw.) Röll,,Twist-tip Feather-moss,Native,,Oxyrrhynchium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310834,variety,Weissia controversa var. densifolia,"(Bruch, Schimp. & W.Guembel) Wilson",,,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310039,genus,Herzogiella,Broth.,,,Native,,,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310179,species,Leucodon sciuroides,Schwaegr.,,Squirrel-tail Moss,Native,,Leucodon,Leucodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310030,species,Hennediella macrophylla,(R.Br.ter.) Paris,,Short Pottia,Native,freshwater,Hennediella,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021232449,species,Ulota intermedia,Schimp.,,,Native,terrestrial,Ulota,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309724,species,Cyclodictyon laetevirens,(Hook. & Taylor) Mitt.,,Bright-green Cave-moss,Native,freshwater,Cyclodictyon,Pilotrichaceae,Hookeriales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020706175,variety,Zygodon conoideus var. conoideus,(Dicks.) Hook. & Tayl.,,,Native,,Zygodon,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020695899,species,Sciuro-hypnum plumosum,(Hedw.) Ignatov & Huttunen,,Rusty Feather-moss,Native,freshwater,Sciuro-hypnum,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036483,species,Grimmia trichophylla,Grev.,,Hair-pointed Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309726,species,Cynodontium bruntonii,"(Sm.) Bruch, Schimp. & W.Guembel",,Brunton's Dog-tooth,Native,,Cynodontium,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595347,species,Bryum demissum,Hook.,,Alpine Hump-moss,Native,terrestrial,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036284,species,Fissidens taxifolius,Hedw.,,Common Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239508,species,Tortella fasciculata,(Culm.) Culm.,,,Native,terrestrial,Tortella,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005684,species,Syntrichia ruraliformis,(Besch.) Cardot,,Sand-hill Screw-moss,Native,,Syntrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310257,species,Orthotrichum rivulare,Turner,,River Bristle-moss,Native,freshwater,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000159880,family,Ditrichaceae,,,,Native,,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959463,order,Timmiales,,,,Native,,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000154158,species,Plasteurhynchium striatulum,(Spruce) M.Fleisch.,,Lesser Striated Feather-moss,Native,,Plasteurhynchium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036572,species,Epipterygium tozeri,(Grev.) Lindb.,,Tozer's Thread-moss,Native,freshwater,Epipterygium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020695905,species,Sciuro-hypnum populeum,(Hedw.) Ignatov & Huttunen,,Matted Feather-moss,Native,,Sciuro-hypnum,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309462,genus,Breutelia,Schimp.,,,Native,,,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036263,species,Paraleucobryum longifolium,(Hedw.) Loeske,,Long-leaved Fork-moss,Native,,Paraleucobryum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309525,species,Buxbaumia viridis,(Moug. ex Lam. & DC.) Brid. ex Moug. & Nestl.,,Green Shield-moss,Native,,Buxbaumia,Buxbaumiaceae,Buxbaumiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593132,genus,Campylophyllopsis,W.R.Buck,,,Native,terrestrial,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036272,species,Fissidens incurvus,Starke ex Roehl.,,Short-leaved Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309324,genus,Amphidium,Schimp.,,,Native,,,Amphidiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309474,species,Bryum alpinum,With.,,Alpine Thread-moss,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000173038,class,Bryopsida,,,Mosses,Native,terrestrial,,,,,Bryophyta,Plantae,UKSI
+NHMSYS0021571793,species,Roaldia revoluta,(Mitt.) P.E.A.S.Câmara & Carv.-Silva,,Revolute Plait-moss,Native,terrestrial,Roaldia,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601257,species,Lewinskya shawii,"(Wilson) F.Lara, Garilleti & Goffinet",,,Native,terrestrial,,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597867,species,Hymenoloma crispulum,(Hedw.) Ochyra,,Mountain Pincushion,Native,terrestrial,Hymenoloma,Hymenolomataceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309340,variety,Andreaea rupestris var. rupestris,Hedw.,,,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239514,species,Tortella pseudofragilis,(Thér.) Köckinger & Hedenäs,,,Native,terrestrial,Tortella,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595807,species,Flexitrichum flexicaule,(Schwägr.) Ignatov & Fedosov,,Bendy Ditrichum,Native,terrestrial,Flexitrichum,Flexitrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021008423,genus,Pseudocalliergon,(Limpr.) Loeske,,,Native,,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036439,species,Leptodontium flexifolium,(Dicks.) Hampe,,Bent-leaved Beard-moss,Native,,Leptodontium,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036772,species,Pterigynandrum filiforme,Hedw.,,Capillary Wing-moss,Native,freshwater,Pterigynandrum,Pterigynandraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309516,species,Bryum schleicheri,Lam. & DC.,,Schleicher's Thread-moss,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000022280,species,Rhytidiadelphus squarrosus,(Hedw.) Warnst.,,Springy Turf-moss,Native,freshwater,Rhytidiadelphus,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036493,species,Racomitrium fasciculare,(Hedw.) Brid.,,Green Mountain Fringe-moss,Native,freshwater,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036280,species,Fissidens exilis,Hedw.,,Slender Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036603,species,Bryum elegans,Nees ex Brid.,,Stirton's Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310377,species,Pohlia obtusifolia,(Brid.) L.F.Koch,,Blunt-leaved Thread-moss,Native,freshwater,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310493,family,Pottiaceae,Schimp.,,,Native,terrestrial,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310779,species,Tortula freibergii,Dixon & Loeske,,Freiberg's Screw-moss,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021236436,species,Ulota crispa,(Hedw.) Brid.,sensu Smith (2004),Crisped Pincushion,Native,,Ulota,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309790,species,Distichium capillaceum,"(Hedw.) Bruch, Schimp. & W.Guembel",,Fine Distichium,Native,,Distichium,Distichiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021618722,species,Pohlia lescuriana,(Sull.) Ochi,,Pretty Nodding-moss,Native,terrestrial/freshwater,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600197,species aggregate,Acaulon muticum,(Hedw.) Müll.Hal.,s.l.,,Native,terrestrial,Acaulon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036095,species,Sphagnum cuspidatum,Ehrh. ex Hoffm.,,Feathery Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593197,species,Platyhypnum duriusculum,(De Not.) Ochyra,,Broad-leaved Brook-moss,Native,freshwater,Platyhypnum,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100004737,species,Plagiopus oederianus,(Sw.) H.A.Crum & L.E.Anderson,,Oeder's Apple-moss,Native,,Plagiopus,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310276,genus,Philonotis,Brid.,,,Native,freshwater,,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036761,species,Habrodon perpusillus,(De Not.) Lindb.,,Lesser Squirrel-tail Moss,Native,,Habrodon,Habrodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593207,species,Platyhypnum smithii,(Sw.) Ochyra,,Arctic Brook-moss,Native,freshwater,Platyhypnum,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100003437,species,Hennediella heimii,(Hedw.) R.H.Zander,,Heim's Pottia,Native,,Hennediella,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309833,species,Ephemerum recurvifolium,(Dicks) Boulay,,Strap-leaved Earth-moss,Native,,Ephemerum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600167,species aggregate,Atrichum undulatum,(Hedw.) P.Beauv.,s.l.,,Native,terrestrial/freshwater,Atrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310280,species,Philonotis cernua,(Wilson) D.G.Griffin & W.R.Buck,,Swan-necked Apple-moss,Native,,Philonotis,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309568,species,Campylopus flexuosus,(Hedw.) Brid.,,Rusty Swan-neck Moss,Native,freshwater,Campylopus,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310441,species,Rhytidiadelphus subpinnatus,(Lindb.) T.J.Kop.,,Scarce Turf-moss,Native,freshwater,Rhytidiadelphus,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310611,species,Scleropodium cespitans,(Muell.Hal.) L.F.Koch,,Tufted Feather-moss,Native,freshwater,Scleropodium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310741,species,Tetraplodon angustatus,(Hedw.) Bruch & Schimp.,,Narrow Cruet-moss,Native,,Tetraplodon,Splachnaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310594,species,Schistidium apocarpum,(Hedw.) Bruch & Schimp.,,Sessile Grimmia,Native,freshwater,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020695869,variety,Hypnum cupressiforme var. resupinatum,(Taylor) Schimp.,,Supine Plait-moss,Native,,Hypnum,Hypnaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021571763,genus,Roaldia,P.E.A.S.Câmara & Carv.-Silva,,,Native,terrestrial,,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310600,variety,Schistidium frigidum var. frigidum,H.H.Blom,,,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194614,species,Dendrocryphaea lamyana,(Mont.) P.Rao,,Multi-fruited Cryphaea,Native,freshwater,Dendrocryphaea,Cryphaeaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616456,species,Homalothecium sericeum,(Hedw.) Schimp.,,Silky Wall Feather-moss,Native,terrestrial,Homalothecium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616581,species,Thuidium delicatulum,(Hedw.) Schimp.,,Delicate Tamarisk-moss,Native,terrestrial/freshwater,Thuidium,Thuidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309757,genus,Dicranum,Hedw.,,,Native,terrestrial/freshwater,,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310247,genus,Orthothecium,"Bruch, Schimp. & W.Guembel",,,Native,,,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310760,genus,Timmia,Hedw.,,,Native,,,Timmiaceae,Timmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036436,species,Tortella inflexa,(Bruch) Broth.,,Sassari Crisp-moss,Native,,Tortella,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021618717,species aggregate,Trichostomum brachydontium,Bruch,sensu lato,Variable Crisp-moss,Native,terrestrial,Trichostomum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036667,species,Meesia uliginosa,Hedw.,,Broad-nerved Hump-moss,Native,freshwater,Meesia,Meesiaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616546,species,Orthothecium rufescens,(Dicks. ex Brid.) Schimp.,,Red Leskea,Native,terrestrial/freshwater,Orthothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195599,species sensu lato,Ephemerum serratum,(Hedw.) Hampe,sens. lat.,Serrated Earth-moss,Native,freshwater,Ephemerum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310617,genus,Scorpiurium,Schimp.,,,Native,,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036670,species,Catoscopium nigritum,(Hedw.) Brid.,,Down-looking Moss,Native,freshwater,Catoscopium,Catoscopiaceae,Catoscopiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310539,species,Racomitrium canescens,(Hedw.) Brid.,,Hoary Fringe-moss,Native,,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310679,variety,Sphagnum palustre var. centrale,(C.E.O.Jensen) A.Eddy,,,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593192,species,Microhypnum sauteri,(Schimp.) Jan Kučera & Ignatov,,,Native,terrestrial,Microhypnum,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036086,species,Sphagnum molle,Sull.,,Blushing Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310080,species,Hypnum cupressiforme,Hedw.,,Cypress-leaved Plait-moss,Native,freshwater,Hypnum,Hypnaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036640,species,Rhodobryum roseum,(Hedw.) Limpr.,,Rose-moss,Native,freshwater,Rhodobryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020930491,genus,Straminergon,Hedenäs,,,Native,,,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036448,species pro parte,Schistidium alpicola,,auct.,,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036121,species,Andreaea blyttii,Schimp.,,Blytt's Rock-moss,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601232,genus,Pulvigera,"Plášek, Sawicki & Ochyra",,,Native,terrestrial,,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036395,species,Gyroweisia tenuis,(Hedw.) Schimp.,,Slender Stubble-moss,Native,,Gyroweisia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309305,species,Aloina ambigua,(Bruch & Schimp.) Limpr.,,Tall Aloe-moss,Native,,Aloina,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036713,species,Orthotrichum pallens,Bruch ex Brid.,,Pale Bristle-moss,Native,,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194674,variety,Hymenostylium recurvirostrum var. insigne,(Dixon) E.B.Bartram,,Robust Tufa-moss,Native,,Hymenostylium,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000154398,species,Pohlia proligera,(Lindb. ex Breidl.) Lindb. ex Arnell,,Bent-bud Thread-moss,Native,,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309982,species,Grimmia tergestina,"Tomm. ex Bruch, Schimp. & W.Guembel",,Dapple-mouthed Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600227,variety,Microbryum davallianum var. conicum,(Schleich. ex Schwägr.) R.H.Zander,,,Native,terrestrial,Microbryum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309545,genus,Calyptrochaeta,Desv.,,,Native,,,Daltoniaceae,Hookeriales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036167,species,Ditrichum plumbicola,Crundw.,,Lead-moss,Native,,Ditrichum,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036429,species,Tortella tortuosa,(Hedw.) Limpr.,,Frizzled Crisp-moss,Native,,Tortella,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616461,species,Amblyodon dealbatus,(Hedw.) P.Beauv.,,Short-tooth Hump-moss,Native,terrestrial/freshwater,Amblyodon,Meesiaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310747,genus,Thamnobryum,Nieuwl.,,,Native,freshwater,,Neckeraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310628,species,Seligeria pusilla,"(Hedw.) Bruch, Schimp. & W.Guembel",,Dwarf Rock-bristle,Native,,Seligeria,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125859,genus,Ephemerella,Müll.Hal.,,,Native,terrestrial,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021571768,species,Buckia vaucheri,"(Lesq.) D.Rios, M.T.Gallego & J.Guerra",,Vaucher's Plait-moss,Native,terrestrial,Buckia,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309884,family,Fissidentaceae,Schimp.,,,Native,terrestrial,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309386,species,Atrichum crispum,(James) Sull. & Lesq.,,Fountain Smoothcap,Native,freshwater,Atrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593147,genus,Platyhypnum,,,,Native,freshwater,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021614624,variety,Tortula acaulon var. acaulon,(Dicks.) Brid.,,Schreberian Earth-moss,Native,terrestrial/freshwater,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310191,genus,Micromitrium,Aust.,,,Native,freshwater,,Micromitriaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601147,order,Aulacomniales,,,,Native,terrestrial/freshwater,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309334,species,Andreaea mutabilis,Hook.f. & Wilson,,Changeable Rock-moss,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036216,species,Dicranella heteromalla,(Hedw.) Schimp.,,Silky Forklet-moss,Native,freshwater,Dicranella,Dicranellaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597982,species,Leucobryum glaucum,(Hedw.) Ångstr.,s.str.,,Native,terrestrial/freshwater,Leucobryum,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593137,genus,Kandaea,Jan Kučera & Hedenäs,,,Native,terrestrial/freshwater,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309551,genus,Campylium,(Sull.) Mitt.,,,Native,freshwater,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036110,species,Andreaea rupestris,Hedw.,,Black Rock-moss,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000149094,species,Hygroamblystegium fluviatile,(Hedw.) Loeske,,Brook-side Feather-moss,Native,freshwater,Hygroamblystegium,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310009,genus,Gyroweisia,Schimp.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310025,species,Hedwigia stellata,Hedenaes,,Starry Hoar-moss,Native,freshwater,Hedwigia,Hedwigiaceae,Hedwigiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600317,subspecies,Ephemerum crassinervium subsp. rutheanum,(Schimp.) Holyoak,,,Native,freshwater,Ephemerum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310720,species,Syntrichia norvegica,F.Weber,,Norway Screw-moss,Native,,Syntrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601142,order,Orthodontiales,,,,Native,terrestrial,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959451,order,Oedipodiales,,,,Native,,,,,Oedipodiopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309561,genus,Campylophyllum,(Schimp.) M.Fleisch.,,,Native,,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310903,species aggregate,Pseudoleskeella catenulata,,sensu lato,,Native,,Pseudoleskeella,Pseudoleskeellaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036085,subspecies,Sphagnum subnitens subsp. ferrugineum,Flatberg,,,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309839,genus,Epipterygium,Lindb.,,,Native,,,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021178755,species,Dichodontium palustre,(Dicks.) M.Stech,,Marsh Forklet-moss,Native,freshwater,Dichodontium,Aongstroemiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036559,species,Pohlia bulbifera,(Warnst.) Warnst.,,Blunt-bud Thread-moss,Native,,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020636842,species,Arctoa anderssonii,Wich.,,,Native,,Arctoa,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036930,species,Homomallium incurvatum,(Brid.) Loeske,,Incurved Feather-moss,Native,,Homomallium,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310432,species,Rhynchostegium alopecuroides,(Brid.) A.J.E.Sm.,,Portuguese Feather-moss,Native,freshwater,Rhynchostegium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309739,genus,Dichodontium,Schimp.,,,Native,freshwater,,Aongstroemiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309439,genus,Blindia,"Bruch, Schimp. & W.Guembel",,,Native,freshwater,,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309652,species,Grimmia atrata,Miel. ex Hoppe & Hornsch.,,Copper Grimmia,Native,freshwater,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000146098,species,Didymodon sinuosus,(Mitt.) Delogne,,Wavy Beard-moss,Native,freshwater,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036790,species,Cratoneuron filicinum,(Hedw.) Spruce,,Fern-leaved Hook-moss,Native,freshwater,Cratoneuron,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020695851,species,Brachytheciastrum velutinum,(Hedw.) Ignatov & Huttunen,,Velvet Feather-moss,Native,,Brachytheciastrum,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309823,genus,Entodon,Muell.Hal.,,,Native,,,Entodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021618747,genus,Leptotheca,Schwägr.,,,Native,terrestrial,,Orthodontiaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020930142,genus,Dicranoloma,(Ren.) Ren.,,,Native,,,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310500,genus,Pseudocrossidium,R.S.Williams,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310917,species aggregate,Sphagnum imbricatum,,sensu lato,,Native,,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036126,species,Tetrodontium repandum,(Funck) Schwaegr.,,Small Four-tooth Moss,Native,,Tetrodontium,Tetraphidaceae,Tetraphidales,Tetraphidopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239474,species sensu lato,Oncophorus virens,(Hedw.) Brid.,sensu lato,Green Spur-moss,Native,freshwater,Oncophorus,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194698,variety,Microbryum davallianum var. commutatum,(Limpr.) R.H.Zander,,,Native,terrestrial,Microbryum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309767,species,Dicranum scottianum,Turner,,Scott's Fork-moss,Native,freshwater,Dicranum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310020,genus,Hedwigia,P.Beauv.,,,Native,freshwater,,Hedwigiaceae,Hedwigiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310828,genus,Weissia,Hedw.,,,Native,freshwater,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310368,species,Pohlia filum,(Schimp.) Maartensson,,Fat-bud Thread-moss,Native,,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310801,genus,Trematodon,Michx.,,,Native,,,Bruchiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310715,species,Stegonia latifolia,(Schwaegr.) Venturi ex Broth.,,Hood-leaved Screw-moss,Native,,Stegonia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310364,species,Pohlia drummondii,(Muell.Hal.) A.L.Andrews,,Drummond's Thread-moss,Native,freshwater,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310740,genus,Tetraplodon,"Bruch, Schimp. & W.Guembel",,,Native,,,Splachnaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310123,species,Kiaeria falcata,(Hedw.) I.Hagen,,Sickle-leaved Fork-moss,Native,,Kiaeria,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036642,species,Mnium thomsonii,Schimp.,,Short-beaked Thyme-moss,Native,,Mnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000158083,species,Tomentypnum nitens,(Hedw.) Loeske,,Woolly Feather-moss,Native,freshwater,Tomentypnum,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036752,species,Hookeria lucens,(Hedw.) Sm.,,Shining Hookeria,Native,freshwater,Hookeria,Hookeriaceae,Hookeriales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310077,genus,Hypnum,Hedw.,,,Native,freshwater,,Hypnaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310712,genus,Splachnum,Hedw.,,,Native,freshwater,,Splachnaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021232461,species,Hedwigia striata,(Wilson ex Hook.) John Whitehead ex anon.,,,Native,terrestrial,Hedwigia,Hedwigiaceae,Hedwigiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000065739,order,Archidiales,,,,Native,,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595327,genus,Microeurhynchium,Ignatov & Vanderp.,,,Native,terrestrial/freshwater,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239434,species,Sphagnum divinum,Flatberg & Hassel,,,Native,terrestrial,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036241,species,Dicranodontium subporodictyon,Broth.,,Rusty Bow-moss,Native,freshwater,Dicranodontium,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310624,species,Seligeria donniana,(Sm.) Muell.Hal.,,Donn's Rock-bristle,Native,,Seligeria,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616496,species,Rhynchostegium murale,(Hedw.) Schimp.,,Wall Feather-moss,Native,terrestrial,Rhynchostegium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000149724,species,Kindbergia praelonga,(Hedw.) Ochyra,,Common Feather-moss,Native,freshwater,Kindbergia,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309782,species,Diphyscium foliosum,(Hedw.) D.Mohr,,Nut-moss,Native,freshwater,Diphyscium,Diphysciaceae,Diphysciales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310684,species,Sphagnum quinquefarium,(Lindb. ex Braithw.) Warnst.,,Five-ranked Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000153657,species,Philonotis capillaris,Lindb.,,Arnell's Apple-moss,Native,freshwater,Philonotis,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005685,species,Syntrichia virescens,(De Not.) Ochyra,,Lesser Screw-moss,Native,,Syntrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036396,species,Gyroweisia reflexa,(Brid.) Schimp.,,Reflexed Beardless-moss,Native,,Gyroweisia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310181,family,Leucodontaceae,Schimp.,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036287,species,Fissidens adianthoides,Hedw.,,Maidenhair Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309738,genus,Dialytrichia,(Schimp.) Limpr.,,,Native,freshwater,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597987,species,Leucobryum juniperoideum,(Brid.) Müll.Hal.,s.str.,,Native,terrestrial,Leucobryum,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036177,species,Seligeria trifaria,(Brid.) Lindb.,,Trifid Rock-bristle,Native,,Seligeria,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600337,species,Lescuraea patens,Lindb.,,Patent Leskea,Native,terrestrial,Lescuraea,Pseudoleskeaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309366,genus,Antitrichia,Brid.,,,Native,,,Antitrichiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310440,genus,Rhytidiadelphus,(Limpr.) Warnst.,,,Native,freshwater,,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000154689,species,Polytrichum perigoniale,Michx.,,,Native,,Polytrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310723,species,Syntrichia ruralis,(Hedw.) F.Weber & D.Mohr,,Great Hairy Screw-moss,Native,,Syntrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125987,species,Hygroamblystegium varium,(Hedw.) Mönk.,,Willow Feather-moss,Native,freshwater,Hygroamblystegium,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036590,variety,Bryum schleicheri var. latifolium,(Schwaegr.) Schimp.,,,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310196,genus,Mnium,Hedw.,,,Native,freshwater,,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000146844,species,Entosthodon attenuatus,(Dicks.) Bryhn,,Thin Cord-moss,Native,freshwater,Entosthodon,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309580,species,Campylostelium saxicola,"(F.Weber & D.Mohr) Bruch, Schimp. & W.Guembel",,Bent-moss,Native,,Campylostelium,Ptychomitriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036391,species,Gymnostomum viridulum,Brid.,,Luisier's Tufa-moss,Native,,Gymnostomum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036915,species,Plagiothecium platyphyllum,Moenk.,,Alpine Silk-moss,Native,freshwater,Plagiothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310158,species,Leptobryum pyriforme,(Hedw.) Wilson,,Golden Thread-moss,Native,freshwater,Leptobryum,Meesiaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310078,species,Hypnum andoi,A.J.E. Sm.,,Mamillate Plait-moss,Native,,Hypnum,Hypnaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036537,species,Splachnum sphaericum,Hedw.,,Round-fruited Collar-moss,Native,freshwater,Splachnum,Splachnaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000841019,variety,Weissia controversa var. crispata,(Nees & Hornsch.) Nyholm,,,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036276,species,Fissidens monguillonii,Ther.,,Atlantic Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000146089,species,Didymodon ferrugineus,(Schimp. ex Besch.) M.O.Hill,,Rusty Beard-moss,Native,,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309773,genus,Didymodon,Hedw.,,,Native,freshwater,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036442,species,Cinclidotus fontinaloides,(Hedw.) P.Beauv.,,Smaller Lattice-moss,Native,freshwater,Cinclidotus,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309466,genus,Bryoerythrophyllum,P.C.Chen,,,Native,freshwater,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310359,species,Pohlia andalusica,(Hoehn.) Broth.,,Gravel Thread-moss,Native,,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616406,genus,Heterocladium,Bruch & Schimp.,,,Native,terrestrial/freshwater,,Lembophyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309463,species,Breutelia chrysocoma,(Hedw.) Limpr.,,Golden-head Moss,Native,freshwater,Breutelia,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036800,species,Campylium chrysophyllum,(Brid.) J.Lange,,Golden Feather-moss,Native,,Campylium,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309392,genus,Aulacomnium,Schwaegr.,,,Native,freshwater,,Aulacomniaceae,Aulacomniales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239496,species,Orthotrichum schimperi,Hammar,,,Native,terrestrial,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959445,order,Diphysciales,,,,Native,,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309494,species,Bryum gemmiferum,R.Wilczek & Demaret,,Small-bud Bryum,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000189253,species aggregate,Zygodon viridissimus,,sens.lat.,,Native,,Zygodon,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020930820,genus,Phascum,Hedw.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195455,genus,Plasteurhynchium,M.Fleisch. ex Broth.,,,Native,terrestrial,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0001682649,species,Grimmia dissimulata,E.Maier,,,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310024,variety,Hedwigia ciliata var. leucophaea,"Bruch, Schimp. & W.Guembel",,,Native,,Hedwigia,Hedwigiaceae,Hedwigiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600297,species,Weissia angustifolia,(Baumgartner) Crundw. & Nyholm,,,Native,terrestrial,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000152470,species,Nyholmiella gymnostoma,(Bruch ex Brid.) Holmen & Warnke,,Aspen Bristle-moss,Native,,Nyholmiella,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309916,family,Funariaceae,Schwägr.,,,Native,terrestrial,,,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310460,genus,Sanionia,Loeske,,,Native,freshwater,,Scorpidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600392,genus,Blindiadelphus,(Lindb.) Fedosov & Ignatov,,,Native,terrestrial,,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036740,species,Antitrichia curtipendula,(Hedw.) Brid.,,Pendulous Wing-moss,Native,freshwater,Antitrichia,Antitrichiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310278,species,Philonotis calcarea,(Bruch & Schimp.) Schimp.,,Thick-nerved Apple-moss,Native,freshwater,Philonotis,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036072,species,Sphagnum squarrosum,Crome,,Spiky Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616501,species,Rhynchostegium rotundifolium,(Scop. ex Brid.) Schimp.,,Round-Leaved Feather-Moss,Native,terrestrial,Rhynchostegium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600207,variety,Microbryum davallianum var. davallianum,(Sm.) R.H.Zander,sensu Blockeel et al. (2021),,Native,terrestrial,Microbryum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309703,genus,Coscinodon,Spreng.,,,Native,,,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616451,genus,Schistidium,Bruch & Schimp.,,,Native,terrestrial/freshwater,,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601172,family,Aongstroemiaceae,,,,Native,terrestrial/freshwater,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194986,genus,Sarmentypnum,Tuom. & T.J.Kop.,,,Native,terrestrial,,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597817,species,Hedwigia ciliata,(Hedw.) P.Beauv.,sensu stricto,Fringed Hoar-moss,Native,terrestrial,Hedwigia,Hedwigiaceae,Hedwigiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309825,family,Entodontaceae,Kindberg,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310223,genus,Myurium,Schimp.,,,Native,,,Myuriaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021618712,species,Trichostomum brachydontium,Bruch,s.str.,,Native,terrestrial,Trichostomum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309778,species,Didymodon tomaculosus,(Blockeel) M.F.V.Corley,,Sausage Beard-moss,Native,,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125895,species,Orthotrichum scanicum,Gronvall,,,Native,terrestrial,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036211,species,Dicranella subulata,(Hedw.) Schimp.,,Awl-leaved Forklet-moss,Native,,Dicranella,Dicranellaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036432,species,Tortella flavovirens,(Bruch) Broth.,,Arisaig Crisp-moss,Native,,Tortella,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310662,species,Sphagnum compactum,Lam. & DC.,,Compact Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310499,species,Pseudobryum cinclidioides,(Huebener) T.J.Kop.,,River Thyme-moss,Native,freshwater,Pseudobryum,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595817,subspecies,Fontinalis antipyretica subsp. antipyretica,Hedw.,,,Native,freshwater,Fontinalis,Fontinalaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310355,genus,Pohlia,Hedw.,,,Native,freshwater,,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309576,species,Campylopus setifolius,Wilson,,Silky Swan-neck Moss,Native,freshwater,Campylopus,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309729,species,Cynodontium tenellum,"(Bruch, Schimp. & W.Guembel) Limpr.",,Delicate Dog-tooth,Native,,Cynodontium,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310310,species,Plagiomnium affine,(Blandow) T.J.Kop.,,Many-fruited Thyme-moss,Native,freshwater,Plagiomnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309440,species,Blindia acuta,"(Hedw.) Bruch, Schimp. & W.Guembel",,Sharp-leaved Blindia,Native,freshwater,Blindia,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036884,species,Eurhynchium striatum,(Hedw.) Schimp.,,Common Striated Feather-moss,Native,freshwater,Eurhynchium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310507,genus,Pseudoleskeella,Kindb.,,,Native,,,Pseudoleskeellaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005856,species,Tortula truncata,(Hedw.) Mitt.,,Common Pottia,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000158538,species,Trichostomum littorale,Mitt.,,,Native,,Trichostomum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310373,species,Pohlia lutescens,(Limpr.) H.Lindb.,,Yellow Thread-moss,Native,freshwater,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310569,species,Rhizomnium punctatum,(Hedw.) T.J.Kop.,,Dotted Thyme-moss,Native,freshwater,Rhizomnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310094,species,Isopterygiopsis pulchella,(Hedw.) Z.Iwats.,,Neat Silk-moss,Native,,Isopterygiopsis,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000842048,order,Bryopsida,,,,Native,,,,,,Bryophyta,Plantae,UKSI
+NBNSYS0000036709,species,Orthotrichum cupulatum,Brid.,,Hooded Bristle-moss,Native,,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309612,species,Ceratodon conicus,(Hampe ex Muell.Hal.) Lindb.,,Scarce Redshank,Native,,Ceratodon,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601242,species,Lewinskya acuminata,"(H.Philib.) F.Lara, Garilleti & Goffinet",,,Native,terrestrial,,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600172,species aggregate,Atrichum undulatum,(Hedw.) P.Beauv.,s.str.,,Native,terrestrial/freshwater,Atrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309886,family,Fontinalaceae,Schimp.,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310906,species aggregate,Racomitrium canescens,,sensu lato,,Native,,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036288,species,Fissidens serrulatus,Brid.,,Large Atlantic Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310174,family,Leucobryaceae,Schimp.,,,Native,terrestrial,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021232455,species,Orthotrichum alpestre,Hornsch. ex Bruch & Schimp.,,,Native,terrestrial,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036138,species,Polytrichum juniperinum,Hedw.,,Juniper Haircap,Native,,Polytrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601262,species,Lewinskya speciosa,"(Nees) F.Lara, Garilleti & Goffinet",,Showy Bristle-moss,Native,terrestrial,,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0001682647,species,Bryum valparaisense,Thér.,,,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309701,genus,Conostomum,Sw.,,,Native,,,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021008742,species,Ditrichum pallidum,(Hedw.) Hampe,,,Native,,Ditrichum,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601137,order,Bartramiales,M. Menzel,,,Native,terrestrial/freshwater,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036746,species,Neckera pumila,Hedw.,,Dwarf Neckera,Native,,Neckera,Neckeraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601182,family,Habrodontaceae,,,,Native,terrestrial,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310178,genus,Leucodon,Schwaegr.,,,Native,,,Leucodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036504,species,Racomitrium ericoides,(Brid.) Brid.,,Dense Fringe-moss,Native,,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310849,species aggregate,Aloina aloides,,sensu lato,,Native,,Aloina,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036076,species,Sphagnum russowii,Warnst.,,Russow's Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310121,genus,Kiaeria,I.Hagen,,,Native,,,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310864,species aggregate,Dichodontium pellucidum,,sensu lato,,Native,freshwater,Dichodontium,Aongstroemiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310770,species,Tortella inclinata,(R.Hedw.) Limpr.,,Bent Crisp-moss,Native,,Tortella,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000146092,species,Didymodon insulanus,(De Not.) M.O.Hill,,Cylindric Beard-moss,Native,freshwater,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036455,species,Schistidium atrofuscum,(Schimp.) Limpr.,,Black Mountain Grimmia,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616441,genus,Platygyrium,Schimp.,,,Native,terrestrial,,Pylaisiadelphaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600187,species,Polytrichum commune s.str.,Hedw.,,,Native,terrestrial/freshwater,Polytrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020636839,variety,Hypnum cupressiforme var. heseleri,(Ando & Higuchi) M.O.Hill,,,Native,,Hypnum,Hypnaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036296,species,Encalypta streptocarpa,Hedw.,,Spiral Extinguisher-moss,Native,,Encalypta,Encalyptaceae,Encalyptales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616586,species,Thuidium tamariscinum,(Hedw.) Schimp.,,Common Tamarisk-moss,Native,terrestrial/freshwater,Thuidium,Thuidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036437,species,Tortella nitida,(Lindb.) Broth.,,Neat Crisp-moss,Native,,Tortella,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309843,genus,Eucladium,"Bruch, Schimp. & W.Guembel",,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000146846,species,Entosthodon obtusus,(Hedw.) Lindb.,,Blunt Cord-moss,Native,freshwater,Entosthodon,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000149096,species,Hygroamblystegium tenax,(Hedw.) Jenn.,,Fountain Feather-moss,Native,freshwater,Hygroamblystegium,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309445,family,Brachytheciaceae,Schimp.,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597992,species,Leucobryum glaucum,(Hedw.) Ångstr.,sensu Smith (2004),Large White-moss,Native,terrestrial/freshwater,Leucobryum,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036485,species,Grimmia hartmanii,Schimp.,,Hartman's Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959446,order,Hedwigiales,,,,Native,,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309368,species,Aongstroemia longipes,"(Sommerf.) Bruch, Schimp. & W.Guembel",,Sprig-moss,Native,,Aongstroemia,Aongstroemiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021571773,species,Pseudohygrohypnum eugyrium,(Schimp.) Kanda,,Western Brook-moss,Native,terrestrial,Pseudohygrohypnum,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310514,species,Pseudotaxiphyllum elegans,(Brid.) Z.Iwats.,,Elegant Silk-moss,Native,,Pseudotaxiphyllum,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616601,species,Brachythecium albicans,(Hedw.) Schimp.,,Whitish Feather-moss,Native,terrestrial,Brachythecium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310012,species,Hamatocaulis vernicosus,(Mitt.) Hedenaes,,Varnished Hook-moss,Native,freshwater,Hamatocaulis,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309827,species,Entosthodon fascicularis,(Hedw.) Muell.Hal.,,Hasselquist's Hyssop,Native,,Entosthodon,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036217,species,Dicranoweisia cirrata,(Hedw.) Lindb. ex Milde,,Common Pincushion,Native,,Dicranoweisia,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036267,species,Fissidens viridulus,(Sw.) Wahlenb.,,Green Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036664,species,Aulacomnium turgidum,(Wahlenb.) Schwaegr.,,Mountain Groove-moss,Native,,Aulacomnium,Aulacomniaceae,Aulacomniales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310667,species,Sphagnum fimbriatum,Wilson,,Fringed Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616396,genus,Ditrichum,Timm ex Hampe,,,Native,terrestrial/freshwater,,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000065837,order,Bryales,,,,Native,,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036155,species,Archidium alternifolium,(Hedw.) Schimp.,,Clay Earth-moss,Native,freshwater,Archidium,Archidiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601162,family,Micromitriaceae,Smyth ex Goffinet & Budke,,,Native,freshwater,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309618,species,Cheilothela chloropus,(Brid.) Lindb.,,Rabbit Moss,Native,,Cheilothela,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005382,species,Sanionia uncinata,(Hedw.) Loeske,,Sickle-leaved Hook-moss,Native,freshwater,Sanionia,Scorpidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036392,species,Gymnostomum aeruginosum,Sm.,,Verdigris Tufa-moss,Native,,Gymnostomum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036122,species,Andreaea nivalis,Hook.,,Snow Rock-moss,Native,freshwater,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309526,family,Buxbaumiaceae,Schwägr.,,,Native,,,,Buxbaumiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310101,species,Isothecium alopecuroides,(Dubois) Isov.,,Larger Mouse-tail Moss,Native,freshwater,Isothecium,Lembophyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310002,genus,Gymnostomum,Nees & Hornsch.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595827,species,Physcomitrium patens,(Hedw.) Mitt.,,Spreading Earth-moss,Native,terrestrial,Physcomitrium,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036091,species,Sphagnum auriculatum,Schimp.,,Cow-horn Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036234,species,Dicranum elongatum,Schleich. ex Schwaegr.,,Dense Fork-moss,Native,,Dicranum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195504,species,Polytrichastrum sexangulare,(Brid.) G.L.Sm.,,Northern Haircap,Native,freshwater,Polytrichastrum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036718,species,Ulota drummondii,(Hook. & Grev.) Brid.,,Drummond's Pincushion,Native,,Ulota,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239397,variety,Syntrichia ruralis var. epilosa,(Venturi) J.J.Amann,,,Native,terrestrial,Syntrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600222,genus,Chionoloma,"(Mitt.) M.Alonso, M.J.Cano & J.A.Jiménez",,,Native,terrestrial,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310027,genus,Helodium,Warnst.,,,Native,,,Thuidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036560,species,Pohlia annotina,(Hedw.) Lindb.,,Pale-fruited Thread-moss,Native,freshwater,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310581,species,Zygodon rupestris,Schimp. ex Lor.,,Park Yoke-moss,Native,,Zygodon,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036293,species,Encalypta ciliata,Hedw.,,Fringed Extinguisher-moss,Native,,Encalypta,Encalyptaceae,Encalyptales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239440,species sensu lato,Sphagnum magellanicum,Brid.,sensu lato,Magellanic Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310766,species,Tortella densa,(Lor. & Molendo) Crundw. & Nyholm,,Clint Crisp-moss,Native,,Tortella,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005162,species,Rhynchostegiella litorea,(De Not.) Limpr.,,Scabrous Feather-moss,Native,,Rhynchostegiella,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036078,species,Sphagnum skyense,Flatberg,,Skye bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310719,species,Syntrichia latifolia,(Bruch ex Hartm.) Huebener,,Water Screw-moss,Native,freshwater,Syntrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310590,species,Schistidium agassizii,Sull. & Lesq.,,Water Grimmia,Native,freshwater,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310162,genus,Leptodontium,(Muell.Hal.) Hampe ex Lindb.,,,Native,terrestrial,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310704,species,Sphagnum warnstorfii,Russow,,Warnstorf's Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194584,species,Brachytheciastrum trachypodium,(Brid.) Ignatov & Huttunen,,Lawers Feather-moss,Native,,Brachytheciastrum,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021598027,species,Physcomitrium readeri,Müll.Hal.,,,Native,terrestrial,Physcomitrium,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310714,genus,Stegonia,Venturi,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601152,family,Saelaniaceae,,,,Native,terrestrial,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959447,family,Hylocomiaceae,,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100004097,species,Molendoa warburgii,(Crundw. & M.O.Hill) R.H.Zander,,Warburg's Moss,Native,freshwater,Molendoa,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310568,species,Rhizomnium pseudopunctatum,(Bruch & Schimp.) T.J.Kop.,,Felted Thyme-moss,Native,freshwater,Rhizomnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309718,genus,Ctenidium,(Schimp.) Mitt.,,,Native,freshwater,,Myuriaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310659,species,Sphagnum balticum,(Russow) C.E.O.Jensen,,Baltic Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600307,species,Weissia wimmerana,(Sendtn.) Bruch & Schimp.,,,Native,terrestrial,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309878,species,Fissidens rufulus,"Bruch, Schimp. & W.Guembel",,Beck Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310576,species,Zygodon conoideus,(Dicks.) Hook. & Taylor,,Lesser Yoke-moss,Native,,Zygodon,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000065714,order,Andreaeales,,,,Native,,,,,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310827,species,Warnstorfia fluitans,(Hedw.) Loeske,,Floating Hook-moss,Native,freshwater,Warnstorfia,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310674,species,Sphagnum inundatum,Russow,,Lesser Cow-horn Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036633,species,Bryum violaceum,Crundw. & Nyholm,,Pill Bryum,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239484,species sensu lato,Orthotrichum pumilum,Sw.,sensu lato,Dwarf Bristle-moss,Native,,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309704,genus,Cratoneuron,(Sull.) Spruce,,,Native,freshwater,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036202,species,Oncophorus wahlenbergii,Brid.,,Wahlenberg's Spur-moss,Native,freshwater,Oncophorus,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195185,species sensu lato,Campylium stellatum,(Hedw.) Lange & C.E.O.Jensen,s.lat.,Yellow Starry Feather-moss,Native,freshwater,Campylium,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310057,family,Hookeriaceae,Schimp.,,,Native,,,,Hookeriales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309745,genus,Dicranella,(Muell.Hal.) Schimp.,,,Native,freshwater,,Dicranellaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309391,family,Aulacomniaceae,Schimp.,,,Native,,,,Aulacomniales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005440,species,Schistidium pruinosum,(Wilson ex Schimp.) Roth,,Mealy Grimmia,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309352,species,Anomobryum julaceum,"(P.Gaertn., B.Mey. & Scherb.) Schimp.",s.l.,Slender Silver-moss,Native,terrestrial/freshwater,Anomobryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309301,genus,Aloina,Kindb.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310914,species aggregate,Schistidium rivulare,,sensu lato,,Native,freshwater,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593167,species,Campylium bambergeri,"(Schimp.) Hedenäs, Schlesak & D.Quandt",,Golden Plait-moss,Native,terrestrial,Campylium,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020695887,species,Oxyrrhynchium hians,(Hedw.) Loeske,,Swartz's Feather-moss,Native,freshwater,Oxyrrhynchium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000154157,species,Plasteurhynchium meridionale,(Schimp.) M.Fleisch.,,Portland Feather-moss,Native,,Plasteurhynchium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309385,species,Atrichum angustatum,(Brid.) Bruch & Schimp.,,Lesser Smoothcap,Native,freshwater,Atrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616626,species,Brachythecium rivulare,Schimp.,,River Feather-moss,Native,terrestrial/freshwater,Brachythecium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309789,genus,Distichium,"Bruch, Schimp. & W.Guembel",,,Native,,,Distichiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000146087,species,Didymodon cordatus,Jur.,,Cordate Beard-moss,Native,,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310831,variety,Weissia brachycarpa var. obliqua,(Nees & Hornsch.) M.O.Hill,,,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310825,genus,Warnstorfia,Loeske,,,Native,freshwater,,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310411,genus,Paludella,Brid.,,,Native,,,Meesiaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309569,species,Campylopus fragilis,"(Brid.) Bruch, Schimp. & W.Guembel",,Brittle Swan-neck Moss,Native,freshwater,Campylopus,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036472,species,Grimmia incurva,Schwaegr.,,Black Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036192,species,Rhabdoweisia crispata,(Dicks.) Lindb.,,Toothed Streak-moss,Native,freshwater,Rhabdoweisia,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310543,species,Racomitrium himalayanum,(Mitt.) A.Jaeger,,Himalayan Fringe-moss,Native,,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601272,species,Nyholmiella obtusifolia,(Brid.) Holmen & E.Warncke,,Blunt-leaved Bristle-moss,Native,terrestrial,Nyholmiella,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309637,family,Climaciaceae,Kindberg,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036673,species,Bartramia pomiformis,Hedw.,,Common Apple-moss,Native,,Bartramia,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036107,species,Sphagnum lindbergii,Schimp. ex Lindb.,,Lindberg's Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021571778,species,Pseudohygrohypnum subeugyrium,(Renauld & Cardot) Ignatov & Ignatova,,,Native,terrestrial,Pseudohygrohypnum,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036766,species,Leskea polycarpa,Hedw.,,Many-fruited Leskea,Native,freshwater,Leskea,Leskeaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036937,species,Hypnum uncinulatum,Jur.,,Hooked Plait-moss,Native,,Hypnum,Hypnaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309342,family,Andreaeaceae,Dumort.,,,Native,,,,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020930049,genus,Calomnion,Hook. f. & Wilson,,,Native,,,Rhizogoniaceae,Rhizogoniales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021635340,species,Dicranella varia,(Hedw.) Schimp.,s.str.,,Native,terrestrial/freshwater,Dicranella,Dicranellaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310529,family,Ptychomitriaceae,Schimp.,,,Native,,,,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595837,species aggregate,Racomitrium heterostichum,(Hedw.) Brid.,sensu Smith (2004),Bristly Fringe-moss,Native,terrestrial,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195044,genus,Dendrocryphaea,Paris & Schimp. ex Broth.,,,Native,terrestrial,,Cryphaeaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310533,species,Pylaisia polyantha,(Hedw.) Schimp.,,Many-flowered Leskea,Native,,Pylaisia,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036906,species,Entodon concinnus,(De Not.) Paris,,Montagne's Cylinder-moss,Native,,Entodon,Entodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309619,genus,Chenia,R.H.Zander,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600277,variety,Streblotrichum convolutum var. convolutum,(Hedw.) P.Beauv.,,Lesser Bird's-claw Beard-moss,Native,terrestrial,Streblotrichum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020978993,genus,Crossidium,Jur.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616411,genus,Homalia,Brid.,,,Native,terrestrial/freshwater,,Neckeraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309495,species,Bryum gemmilucens,R.Wilczek & Demaret,,Yellow-bud Bryum,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309826,genus,Entosthodon,Schwaegr.,,,Native,terrestrial/freshwater,,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310360,species,Pohlia camptotrachela,(Renauld & Cardot) Broth.,,Crookneck Nodding-moss,Native,,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020918141,variety,Abietinella abietina var. abietina,(Hedw.) M. Fleisch.,,Fir Tamarisk-moss,Native,,Abietinella,Thuidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601207,family,Heterocladiellaceae,Ignatov & Fedosov,,,Native,terrestrial,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036227,species,Dicranum scoparium,Hedw.,,Broom Fork-moss,Native,freshwater,Dicranum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309480,species,Bryum bornholmense,Wink. & R.Ruthe,,Potato Bryum,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036648,species,Mnium stellare,Hedw.,,Starry Thyme-moss,Native,,Mnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310815,genus,Ulota,D.Mohr,,,Native,,,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000145923,species,Dialytrichia mucronata,(Brid.) Broth.,,Pointed Lattice-moss,Native,freshwater,Dialytrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036224,species,Dicranum polysetum,Sw.,,Rugose Fork-moss,Native,,Dicranum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036362,species,Hennediella stanfordensis,(Steere) Blockeel,,Stanford Screw-moss,Native,freshwater,Hennediella,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036501,species,Racomitrium lanuginosum,(Hedw.) Brid.,,Woolly Fringe-moss,Native,freshwater,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593182,species,Drepanocladus turgescens,(T.Jensen) Broth.,,Turgid Scorpion-moss,Native,terrestrial/freshwater,Drepanocladus,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194656,species,Grimmia ramondii,(Lam. & DC.) Margad.,,Spreading-leaved Grimmia,Native,freshwater,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309728,species,Cynodontium strumiferum,(Hedw.) Lindb.,,Strumose Dog-tooth,Native,,Cynodontium,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309787,family,Disceliaceae,Schimp.,,,Native,,,,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036719,species aggregate,Ulota crispa,(Hedw.) Brid.,sens.lat.,,Native,,Ulota,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310200,variety,Mnium marginatum var. marginatum,(Dicks.) P.Beauv.,,,Native,,Mnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309774,species,Didymodon fallax,(Hedw.) R.H.Zander,,Fallacious Beard-moss,Native,freshwater,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000143595,species,Campylopus pilifer,Brid.,,Stiff Swan-neck Moss,Native,,Campylopus,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000066596,order,Polytrichales,,,,Native,,,,,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310315,species,Plagiomnium rostratum,(Schrad.) T.J.Kop.,,Long-beaked Thyme-moss,Native,freshwater,Plagiomnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310527,genus,Ptychodium,Schimp.,,,Native,,,Leskeaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309498,species,Bryum intermedium,(Brid.) Blandow,,Many-seasoned Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616556,species,Plagiothecium denticulatum,(Hedw.) Schimp.,,Dented Silk-moss,Native,terrestrial/freshwater,Plagiothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309373,genus,Aplodon,(R.Br.) Rchb.,,,Native,,,Splachnaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310606,species,Schistostega pennata,(Hedw.) F.Weber & D.Mohr,,Luminous Moss,Native,,Schistostega,Schistostegaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600182,species aggregate,Polytrichum commune s.l.,Hedw.,,Common Haircap,Native,terrestrial/freshwater,Polytrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593127,family,Stereodontaceae,"Hedenäs, Schlesak & D.Quandt",,,Native,terrestrial,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310516,genus,Pterigynandrum,Hedw.,,,Native,,,Pterigynandraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036475,species,Grimmia pulvinata,(Hedw.) Sm.,,Grey-cushioned Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309730,genus,Daltonia,Hook. & Taylor,,,Native,,,Daltoniaceae,Hookeriales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616516,species,Hylocomiastrum,Broth.,,,Native,terrestrial,,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000066196,order,Hookeriales,,,,Native,,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309513,species,Bryum riparium,I.Hagen,,River Thread-moss,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021126013,species,Oxystegus minor,"Köckinger, O.Werner & Ros",,,Native,terrestrial,Oxystegus,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309610,genus,Ceratodon,Brid.,,,Native,freshwater,,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000157727,species,Tayloria tenuis,(Dicks.) Schimp.,,Slender Gland-moss,Native,,Tayloria,Splachnaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036168,species,Ditrichum cornubicum,Paton,,Cornish Path-moss,Native,,Ditrichum,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309582,genus,Catoscopium,Brid.,,,Native,,,Catoscopiaceae,Catoscopiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310160,genus,Leptodon,D.Mohr,,,Native,,,Leptodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310340,species,Platygyrium repens,"(Brid.) Bruch, Schimp. & W.Guembel",,Flat-brocade Moss,Native,,Platygyrium,Pylaisiadelphaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600267,species,Chionoloma tenuirostre,"(Hook. & Taylor) M.Alonso, M.J.Cano & J.A.Jiménez",,Narrow-fruited Crisp-moss,Native,terrestrial/freshwater,Chionoloma,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239537,species,Didymodon acutus,(Brid.) K.Saito,s.str.,,Native,terrestrial,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309452,species,Brachythecium mildeanum,(Schimp.) Schimp. ex Milde,,Sand Feather-moss,Native,,Brachythecium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021607974,species,Racomitrium elongatum,Ehrh. ex Frisvoll,,Long Fringe-moss,Native,terrestrial,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021652440,species,Ptychostomum rubens sensu Bijlsma et al. 2020,,,,Native,terrestrial,Ptychostomum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309752,species,Dicranodontium denudatum,(Brid.) E.Britton,,Beaked Bow-moss,Native,,Dicranodontium,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601217,genus,Lewinskya,"F.Lara, Garilleti & Goffinet",,,Native,terrestrial/freshwater,,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309503,species,Bryum marratii,Hook.f. & Wilson,,Baltic Bryum,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021571753,genus,Pseudohygrohypnum,Kanda,,,Native,terrestrial,,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000066109,order,Funariales,,,,Native,terrestrial,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597837,genus,Heterocladiella,Ignatov & Fedosov,,,Native,terrestrial,,Heterocladiellaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000066217,order,Hypnales,,,,Native,terrestrial,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020930034,genus,Brachytheciastrum,Ignatov & Huttunen,,,Native,,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036539,species,Splachnum vasculosum,Hedw.,,Rugged Collar-moss,Native,freshwater,Splachnum,Splachnaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309756,genus,Dicranoweisia,Lindb. ex Milde,,,Native,freshwater,,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309499,species,Bryum klinggraeffii,Schimp.,,Raspberry Bryum,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036760,species,Myrinia pulvinata,(Wahlenb.) Schimp.,,Flood-moss,Native,freshwater,Myrinia,Myriniaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310322,species,Plagiothecium cavifolium,(Brid.) Z.Iwats.,,Round Silk-moss,Native,,Plagiothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310749,species,Thamnobryum angustifolium,(Holt) Nieuwl.,,Derbyshire Feather-moss,Native,,Thamnobryum,Neckeraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309581,family,Catoscopiaceae,Boulay ex Broth.,,,Native,,,,Catoscopiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597842,species,Heterocladiella dimorpha,(Brid.) Ignatov & Fedosov,,Dimorphous Tamarisk-moss,Native,terrestrial,Heterocladiella,Heterocladiellaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616541,species,Orthothecium intricatum,(Hartm.) Schimp.,,Fine-leaved Leskea,Native,terrestrial,Orthothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309443,genus,Brachydontium,Fuernr.,,,Native,,,Ptychomitriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597852,species,Hylocomiadelphus triquetrus,(Hedw.) Ochyra & Stebel,,Big Shaggy-moss,Native,terrestrial,Hylocomiadelphus,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310622,species,Seligeria calycina,Mitt. ex Lindb.,,English Rock-bristle,Native,,Seligeria,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036512,species,Funaria hygrometrica,Hedw.,,Common Cord-moss,Native,freshwater,Funaria,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601167,family,Amphidiaceae,,,,Native,terrestrial,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036240,species,Dicranodontium asperulum,(Mitt.) Broth.,,Orange Bow-moss,Native,,Dicranodontium,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959449,family,Leptodontaceae,,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036944,species,Ptilium crista-castrensis,(Hedw.) De Not.,,Ostrich-plume Feather-moss,Native,,Ptilium,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309990,family,Grimmiaceae,Arnott,,,Native,terrestrial,,,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310532,genus,Pylaisia,Schimp.,,,Native,marine/terrestrial,,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310574,genus,Zygodon,Hook. & Taylor,,,Native,,,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036186,species,Saelania glaucescens,(Hedw.) Broth.,,Blue Dew-moss,Native,,Saelania,Saelaniaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959457,family,Pylaisiadelphaceae,,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310056,genus,Hookeria,Sm.,,,Native,,,Hookeriaceae,Hookeriales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310778,species,Tortula cuneifolia,(Dicks.) Turner,,Wedge-leaved Screw-moss,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310386,genus,Polytrichum,Hedw.,,,Native,freshwater,,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036105,species,Sphagnum obtusum,Warnst.,,Obtuse Bog-moss,Native,,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959453,family,Orthodontiaceae,,,,Native,,,,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309683,genus,Meesia,Hedw.,,,Native,,,Meesiaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036332,species,Scopelophila cataractae,(Mitt.) Broth.,,Tongue-leaf Copper-moss,Native,freshwater,Scopelophila,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309751,genus,Dicranodontium,"Bruch, Schimp. & W.Guembel",,,Native,,,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036175,species,Seligeria brevifolia,(Lindb.) Lindb.,,Short Rock-bristle,Native,,Seligeria,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601267,species,Lewinskya striata,"(Hedw.) F.Lara, Garilleti & Goffinet",,Shaw's Bristle-moss,Native,terrestrial,,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000156390,species,Schistidium rivulare,(Brid.) Podp.,,River Grimmia,Native,freshwater,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0001682645,variety,Andreaea rupestris var. papillosa-var. rupestris intermediate,,,,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309809,species,Drepanocladus polygamus,"(Bruch, Schimp. & W.Guembel) Hedenaes",,Fertile Feather-moss,Native,freshwater,Drepanocladus,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036069,species,Sphagnum papillosum,Lindb.,,Papillose Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310261,species,Orthotrichum sprucei,Mont.,,Spruce's Bristle-moss,Native,freshwater,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036768,species,Lescuraea incurvata,(Hedw.) Lawton,,Brown Mountain Leskea,Native,,Lescuraea,Pseudoleskeaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601237,species,Codonoblepharon forsteri,(Dicks.) Goffinet,,Knothole Moss,Native,terrestrial,Codonoblepharon,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036137,species,Polytrichum piliferum,Hedw.,,Bristly Haircap,Native,freshwater,Polytrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600312,species,Ephemerum crassinervium,(Schwägr.) Hampe,,,Native,terrestrial/freshwater,Ephemerum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310830,variety,Weissia brachycarpa var. brachycarpa,(Nees & Hornsch.) Jur.,,,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309779,species,Didymodon umbrosus,(Muell.Hal.) R.H.Zander,,Shady Beard-moss,Native,,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616401,genus,Eurhynchium,Bruch & Schimp.,,,Native,terrestrial/freshwater,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036840,species,Scorpidium scorpioides,(Hedw.) Limpr.,,Hooked Scorpion-moss,Native,freshwater,Scorpidium,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310060,genus,Hygrohypnum,Lindb.,,,Native,freshwater,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310832,species aggregate,Weissia brachycarpa or Weissia controversa,,,,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036291,species,Encalypta alpina,Sm.,,Alpine Extinguisher-moss,Native,,Encalypta,Encalyptaceae,Encalyptales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310326,variety,Plagiothecium denticulatum var. obtusifolium,(Turner) Moore,,,Native,,Plagiothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036556,species,Pohlia scotica,Crundw.,,Scottish Thread-moss,Native,,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309468,species,Bryoerythrophyllum ferruginascens,(Stirt.) Giacom.,,Rufous Beard-moss,Native,freshwater,Bryoerythrophyllum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310621,species,Seligeria calcarea,"(Hedw.) Bruch, Schimp. & W.Guembel",,Chalk Rock-bristle,Native,,Seligeria,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194746,species,Sciuro-hypnum reflexum,(Starke) Ignatov & Huttunen,,Reflexed Feather-moss,Native,,Sciuro-hypnum,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310665,species,Sphagnum fallax,(H.Klinggr.) H.Klinggr.,,Flat-topped Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310694,subspecies,Sphagnum subnitens subsp. subnitens,,,,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036687,species,Timmia austriaca,Hedw.,,Sheathed Timmia,Native,,Timmia,Timmiaceae,Timmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310385,family,Polytrichaceae,Schwägr.,,,Native,,,,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309777,species,Didymodon rigidulus,Hedw.,,Perthshire Beard-moss,Native,,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959460,order,Rhizogoniales,,,,Native,,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036292,species,Encalypta vulgaris,Hedw.,,Common Extinguisher-moss,Native,,Encalypta,Encalyptaceae,Encalyptales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310843,species,Weissia squarrosa,(Nees & Hornsch.) Muell.Hal.,,Spreading-leaved Beardless-moss,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000065715,class,Andreaeopsida,,,,Native,,,,,,Bryophyta,Plantae,UKSI
+NHMSYS0000309697,species,Conardia compacta,(Muell.Hal.) H.Rob.,,Compact Feather-moss,Native,,Conardia,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309287,species,Acaulon triquetrum,(Spruce) Muell.Hal.,,Triangular Pygmy-moss,Native,,Acaulon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021598022,species,Neckera smithii,(Hedw.) Müll.Hal.,,Prince-of-Wales Feather-moss,Native,terrestrial,Neckera,Neckeraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036628,species,Bryum argenteum,Hedw.,,Silver-moss,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310175,genus,Leucobryum,Hampe,,,Native,freshwater,,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310026,family,Hedwigiaceae,Schimp.,,,Native,,,,Hedwigiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310195,family,Mniaceae,Schwägr.,,,Native,,,,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309377,family,Archidiaceae,Schimp.,,,Native,,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310309,genus,Plagiomnium,T.J.Kop.,,,Native,freshwater,,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036636,species,Bryum tenuisetum,Limpr.,,Yellow-tuber Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310093,species,Isopterygiopsis muelleriana,(Schimp.) Z.Iwats.,,Mueller's Silk-moss,Native,,Isopterygiopsis,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309620,species,Chenia leptophylla,(Muell.Hal.) R.H.Zander,,Vectis-moss,Native,,Chenia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000545667,genus,Bruchia,Schwaegr.,,,Native,,,Bruchiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616561,species,Plagiothecium denticulatum var. denticulatum,(Hedw.) Schimp.,,Swamp Silk-moss,Native,terrestrial/freshwater,Plagiothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036599,species,Bryum donianum,Grev.,,Don's Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310737,genus,Tetraphis,Hedw.,,,Native,,,Tetraphidaceae,Tetraphidales,Tetraphidopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036215,species,Dicranella cerviculata,(Hedw.) Schimp.,,Red-neck Forklet-moss,Native,freshwater,Dicranella,Dicranellaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036281,species,Fissidens celticus,Paton,,Welsh Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310246,species,Orthodontium gracile,"Schwaegr. ex Bruch, Schimp. & W.Guembel",,Slender Thread-moss,Native,,Orthodontium,Orthodontiaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310632,family,Sematophyllaceae,Broth.,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959462,class,Tetraphidopsida,,,,Native,,,,,,Bryophyta,Plantae,UKSI
+NHMSYS0020959448,family,Lembophyllaceae,,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020636838,species,Leptotheca gaudichaudii,Schwägr.,,,Native,,Leptotheca,Orthodontiaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239490,species,Orthotrichum pumilum,Sw.,s.str.,,Native,terrestrial,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195270,species,Fissidens fontanus,(Bach.Pyl.) Steud.,,Fountain Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000159073,species,Weissia condensa,(Voit) Lindb.,,Curly Beardless-moss,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000158114,species,Tortula atrovirens,(Sm.) Lindb.,,Rib-leaf Moss,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310513,genus,Pseudotaxiphyllum,Z.Iwats.,,,Native,,,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310598,species,Schistidium dupretii,(Ther.) W.A.Weber,,Dupret's Grimmia,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0001682644,subspecies,Andreaea rothii subsp. falcata-subsp. rothii intermediate,,,,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310654,species,Sphagnum angustifolium,(C.E.O.Jensen ex Russow) C.E.O.Jensen,,Fine Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195076,genus,Eurhynchiastrum,Ignatov & Huttunen,,,Native,terrestrial,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125907,species,Pterygoneurum papillosum,Oesau,,,Native,terrestrial,Pterygoneurum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310869,species aggregate,Ditrichum flexicaule,,sensu lato,,Native,,Ditrichum,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021598017,genus,Pseudanomodon,(Limpr.) Ignatov & Fedosov,,,Native,terrestrial,,Neckeraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021164707,species,Sciuro-hypnum starkei,(Brid.) Ignatov & Huttunen,,Starke's Feather-moss,Native,,Sciuro-hypnum,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036237,species,Dicranum flagellare,Hedw.,,Whip Fork-moss,Native,,Dicranum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310230,species,Neckera complanata,(Hedw.) Huebener,,Flat Neckera,Native,,Neckera,Neckeraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593122,species aggregate,Palustriella commutata,(Hedw.) Ochyra,s.l.,Curled Hook-moss,Native,terrestrial/freshwater,Palustriella,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020636829,species,Dialytrichia saxicola,(Lamy) M.J.Cano,,,Native,freshwater,Dialytrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036156,species,Pleuridium acuminatum,Lindb.,,Taper-leaved Earth-moss,Native,,Pleuridium,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000189239,species,Dichodontium pellucidum,,sens.str.,Transparent Fork-moss,Native,freshwater,Dichodontium,Aongstroemiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036553,species,Pohlia nutans,(Hedw.) Lindb.,,Nodding Thread-moss,Native,freshwater,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601287,species,Pulvigera lyellii,"(Hook. & Taylor) Plášek, Sawicki & Ochyra",,Lyell's Bristle-moss,Native,terrestrial,Pulvigera,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310618,species,Scorpiurium circinatum,(Brid.) M.Fleisch. & Loeske,,Curving Feather-moss,Native,,Scorpiurium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020636830,species,Dicranoloma menziesii,(Hook. f. & Wilson) Paris,,,Native,,Dicranoloma,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616506,species,Grimmia torquata,Drumm.,,Twisted Grimmia,Native,terrestrial,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000143447,species,Calliergonella cuspidata,(Hedw.) Loeske,,Pointed Spear-moss,Native,freshwater,Calliergonella,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959440,family,Anomodontaceae,,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036948,species,Ctenidium molluscum,(Hedw.) Mitt.,,Chalk Comb-moss,Native,freshwater,Ctenidium,Myuriaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000143315,species,Bryum subapiculatum,Hampe,,Lesser Potato Bryum,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310055,genus,Homomallium,(Schimp.) Loeske,,,Native,marine/terrestrial,,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036131,species,Polytrichum longisetum,Sw. ex Brid.,,Slender Haircap,Native,freshwater,Polytrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036507,species,Racomitrium macounii,Kindb.,,Macoun's Fringe-moss,Native,freshwater,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000154678,species,Polytrichastrum alpinum,(Hedw.) G.L.Sm.,,Alpine Haircap,Native,,Polytrichastrum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310604,species,Schistidium strictum,(Turner) Loeske ex Martensson,,Upright Brown Grimmia,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000079896,genus,Bartramia,Hedw.,,,Native,,,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036939,species,Hypnum imponens,Hedw.,,Pellucid Plait-moss,Native,,Hypnum,Hypnaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309865,genus,Fissidens,Hedw.,,,Native,terrestrial/freshwater,,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309617,genus,Cheilothela,Lindb.,,,Native,,,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194734,species,Sarmentypnum exannulatum,(Schimp.) Hedenäs,,Ringless Hook-moss,Native,freshwater,Sarmentypnum,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000189235,species aggregate,Andreaea rothii agg.,,sensu Smith (1978),,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021635335,species aggregate,Dicranella varia,(Hedw.) Schimp.,s.l.,Variable Forklet-moss,Native,terrestrial/freshwater,Dicranella,Dicranellaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310603,species,Schistidium robustum,(Nees & Hornsch.) H.H.Blom,,Robust Grimmia,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036547,species,Pohlia elongata,Hedw.,,Long-fruited Thread-moss,Native,,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005435,species,Schistidium frigidum,H.H.Blom,,Frigid Grimmia,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194764,variety,Syntrichia ruralis var. ruralis,,,,Native,terrestrial,Syntrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593187,species,Kandaea elodes,(Lindb.) Jan Kučera & Hedenäs,,Fine-leaved Marsh Feather-moss,Native,terrestrial/freshwater,Kandaea,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036552,species,Pohlia cruda,(Hedw.) Lindb.,,Opal Thread-moss,Native,,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616606,species,Brachythecium erythrorrhizon,Schimp.,,Redfoot Feather-moss,Native,terrestrial,Brachythecium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593172,species,Campylophyllopsis calcarea,(Crundw. & Nyholm) Ochyra,,Chalk Feather-moss,Native,terrestrial,Campylophyllopsis,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036632,species,Bryum ruderale,Crundw. & Nyholm,,Pea Bryum,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021232437,species,Sphagnum beothuk,R.E. Andrus,,,Native,terrestrial,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000146099,species,Didymodon spadiceus,(Mitt.) Limpr.,,Brown Beard-moss,Native,freshwater,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020929957,genus,Achrophyllum,Vitt & Crosby,,,Native,,,Daltoniaceae,Hookeriales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036492,species,Racomitrium aquaticum,(Schrad.) Brid.,,Narrow-leaved Fringe-moss,Native,freshwater,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036644,species,Mnium marginatum,(Dicks.) P.Beauv.,,Bordered Thyme-moss,Native,freshwater,Mnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310764,genus,Tomentypnum,Loeske,,,Native,freshwater,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616471,genus,Pseudoleskea,Schimp.,,,Native,terrestrial,,Leskeaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036094,species,Sphagnum contortum,Schultz,,Twisted Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959444,family,Diphysciaceae,,,,Native,,,,Diphysciales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310872,species aggregate,Fissidens viridulus,,sensu lato,Tiny Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036715,species,Orthotrichum diaphanum,Brid.,,White-tipped Bristle-moss,Native,freshwater,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310763,family,Timmiaceae,Schimp.,,,Native,,,,Timmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310344,genus,Pleuridium,Rabenh.,,,Native,,,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020955192,species,Palustriella falcata,(Bridel) Hedenäs,,,Native,freshwater,Palustriella,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310619,genus,Seligeria,"Bruch, Schimp. & W.Guembel",,,Native,freshwater,,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195391,genus,Trichodon,Schimp.,,,Native,terrestrial,,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601187,family,Pseudoleskeaceae,,,,Native,terrestrial,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036460,species,Grimmia crinita,Brid.,,Hedgehog Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310494,genus,Pottiopsis,Blockeel & A.J.E.Sm.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036778,species,Anomodon longifolius,(Brid.) Hartm.,,Long-leaved Tail-moss,Native,,Anomodon,Anomodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616476,species,Grimmia lisae,De Not.,,,Native,terrestrial/freshwater,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310439,family,Rhytidiaceae,Broth.,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309528,genus,Calliergon,(Sull.) Kindb.,,,Native,freshwater,,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310100,genus,Isothecium,Brid.,,,Native,freshwater,,Lembophyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616446,genus,Rhynchostegium,Schimp.,,,Native,terrestrial/freshwater,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616421,genus,Hylocomium,Schimp.,,,Native,terrestrial/freshwater,,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036403,species,Weissia controversa,Hedw.,,Green-tufted Stubble-moss,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125889,species,Leptodontium proliferum,Herzog,,,Native,terrestrial,Leptodontium,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000066757,order,Sphagnales,,,,Native,,,,,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036684,species,Philonotis seriata,Mitt.,,Spiral Apple-moss,Native,freshwater,Philonotis,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036674,species,Bartramia halleriana,Hedw.,,Haller's Apple-moss,Native,,Bartramia,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616486,species,Rhynchostegium confertum,(Dicks.) Schimp.,,Clustered Feather-moss,Native,terrestrial,Rhynchostegium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036189,species,Ceratodon purpureus,(Hedw.) Brid.,,Redshank,Native,freshwater,Ceratodon,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310459,genus,Saelania,Lindb.,,,Native,,,Saelaniaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959458,family,Rhabdoweisiaceae,,,,Native,,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036124,species,Tetraphis pellucida,Hedw.,,Pellucid Four-tooth Moss,Native,,Tetraphis,Tetraphidaceae,Tetraphidales,Tetraphidopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600382,species,Hygrohypnella ochracea,(Turner ex Wilson) Ignatov & Ignatova,,Claw Brook-moss,Native,freshwater,Hygrohypnella,Scorpidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036934,variety,Hypnum cupressiforme var. lacunosum,Brid.,,Roof Plait-moss,Native,,Hypnum,Hypnaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310658,species,Sphagnum austinii,Sull. ex Aust.,,Austin's Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021618737,genus,Brachythecium,Schimp.,,,Native,terrestrial/freshwater,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036210,species,Dicranella crispa,(Hedw.) Schimp.,,Curl-leaved Forklet-moss,Native,,Dicranella,Dicranellaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036531,species,Oedipodium griffithianum,(Dicks.) Schwaegr.,,Gouty-moss,Native,,Oedipodium,Oedipodiaceae,Oedipodiales,Oedipodiopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036165,species,Ditrichum pusillum,(Hedw.) Hampe,,Brown Ditrichum,Native,,Ditrichum,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310323,species,Plagiothecium curvifolium,Schlieph. ex Limpr.,,Curved Silk-moss,Native,,Plagiothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310338,species,Platydictya jungermannioides,(Brid.) H.A.Crum,,Spruce's Leskea,Native,,Platydictya,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036621,species,Bryum mildeanum,Jur.,,Milde's Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597847,genus,Hylocomiadelphus,Ochyra & Stebel,,,Native,terrestrial,,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310333,species,Plagiothecium succulentum,(Wilson) Lindb.,,Juicy Silk-moss,Native,freshwater,Plagiothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125951,variety,Syntrichia montana var. montana,Nees,,,Native,terrestrial,Syntrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310520,genus,Pterygoneurum,Jur.,,,Native,terrestrial,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005036,subspecies,Racomitrium macounii subsp. alpinum,(E.Lawton) Frisvoll,,,Native,freshwater,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309441,species,Blindia caespiticia,(F.Weber & D.Mohr) Muell.Hal.,,Dwarf Blindia,Native,,Blindia,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036817,species,Drepanocladus aduncus,(Hedw.) Warnst.,,Kneiff's Hook-moss,Native,freshwater,Drepanocladus,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593177,species,Drepanocladus trifarius,(F.Weber & D.Mohr) Broth.,,Three-ranked Spear-moss,Native,terrestrial/freshwater,Drepanocladus,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600212,variety,Microbryum davallianum var. davallianum,(Sm.) R.H.Zander,sensu Smith (2004),,Native,terrestrial,Microbryum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310784,species,Tortula leucostoma,(R.Br.) Hook. & Grev.,,Alpine Pottia,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036257,species,Campylopus atrovirens,De Not.,,Bristly Swan-neck Moss,Native,freshwater,Campylopus,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310156,genus,Leptobarbula,Schimp.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309577,species,Campylopus shawii,Wilson ex Hunt,,Shaw's Swan-neck Moss,Native,freshwater,Campylopus,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310566,genus,Rhizomnium,T.J.Kop.,,,Native,freshwater,,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000147929,species,Grimmia muehlenbeckii,Schimp.,,,Native,terrestrial,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036631,species,Bryum radiculosum,Brid.,,Wall Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000545672,species,Grimmia ungeri,Jur.,,,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100002799,species,Dicranella schreberiana,(Hedw.) Dixon,,Schreber's Forklet-moss,Native,freshwater,Dicranella,Dicranellaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310884,species aggregate,Hypnum cupressiforme,,sensu lato,,Native,,Hypnum,Hypnaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309578,species,Campylopus subulatus,Schimp.,,Awl-leaved Swan-neck Moss,Native,freshwater,Campylopus,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309346,genus,Anoectangium,Schwaegr.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021607964,species,Heterocladium heteropterum,(Brid.) Schimp.,s.str.,,Native,terrestrial/freshwater,Heterocladium,Lembophyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310742,species,Tetraplodon mnioides,(Hedw.) Bruch & Schimp.,,Slender Cruet-moss,Native,,Tetraplodon,Splachnaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005431,species,Schistidium elegantulum,H.H.Blom,,Elegant Grimmia,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309281,species aggregate,Schistidium apocarpum,,sensu lato,,Native,freshwater,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310729,genus,Tayloria,Hook.,,,Native,freshwater,,Splachnaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100002179,species,Campylopus gracilis,(Mitt.) A.Jaeger,,Schwarz's Swan-neck Moss,Native,freshwater,Campylopus,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309511,variety,Bryum pseudotriquetrum var. bimum,(Schreb.) Lilj.,,,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616566,species,Plagiothecium latebricola,Schimp.,,Alder Silk-moss,Native,terrestrial,Plagiothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601247,species,Lewinskya affinis,"(Schrad. ex Brid.) F.Lara, Garilleti & Goffinet",,Wood Bristle-moss,Native,terrestrial,,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593142,genus,Microhypnum,Jan Kučera & Ignatov,,,Native,terrestrial,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310072,species,Hymenostylium recurvirostrum,(Hedw.) Dixon,,Hook-beak Tufa-moss,Native,freshwater,Hymenostylium,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000157544,species,Syntrichia montana,Nees,,Intermediate Screw-moss,Native,terrestrial,Syntrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310800,species,Tortula wilsonii,(Hook.) R.H.Zander,,Wilson's Pottia,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195352,species,Loeskeobryum brevirostre,(Brid.) M.Fleisch.,,Short-beaked Wood-moss,Native,,Loeskeobryum,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309989,species,Grimmia unicolor,Hook.,,Dingy Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309522,species,Bryum warneum,(Roehl.) Blandow ex Brid.,,Sand Thread-moss,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310229,genus,Neckera,Hedw.,,,Native,freshwater,,Neckeraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310871,species aggregate,Fissidens pusillus,,sensu lato,,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310597,species,Schistidium confertum,(Funck) Bruch & Schimp.,,Compact Grimmia,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310844,species,Weissia sterilis,W.E.Nicholson,,Sterile Beardless-moss,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020636828,species,Calomnion complanatum,(Hook.f. & Wilson) Lindb.,,,Native,,Calomnion,Rhizogoniaceae,Rhizogoniales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036144,species,Pogonatum urnigerum,(Hedw.) P.Beauv.,,Urn Haircap,Native,,Pogonatum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310384,variety,Pohlia wahlenbergii var. wahlenbergii,(F.Weber & D.Mohr) A.L.Andrews,,,Native,,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310124,species,Kiaeria glacialis,(Berggr.) I.Hagen,,Snow Fork-moss,Native,,Kiaeria,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593257,species,Andreaea hookeri,Schimp.,,Alpine Rock-moss,Native,terrestrial,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036819,species,Drepanocladus lycopodioides,(Brid.) Warnst.,,Large Hook-moss,Native,freshwater,Drepanocladus,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616521,species,Hylocomium splendens,(Hedw.) Schimp.,,Glittering Wood-moss,Native,terrestrial/freshwater,Hylocomium,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309969,species,Grimmia elatior,Bruch ex Bals.-Criv. & De Not.,,Large Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036532,species,Tayloria lingulata,(Dicks.) Lindb.,,Tongue-leaved Gland-moss,Native,freshwater,Tayloria,Splachnaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600352,species,Ptychostomum touwii,"Bijlsma, Kruijer & M. Stech",,,Native,terrestrial,Ptychostomum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310250,family,Orthotrichaceae,Arnott,,,Native,terrestrial,,,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036426,species,Trichostomum crispulum,Bruch,,Curly Crisp-moss,Native,freshwater,Trichostomum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036623,species,Bryum bicolor,,sens.lat.,,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600202,species aggregate,Weissia longifolia,Mitt.,s.l.,,Native,terrestrial,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593152,genus,Pseudocampylium,Vanderp. & Hedenäs,,,Native,terrestrial/freshwater,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309472,species,Bryum algovicum,Sendtn. ex Mull. Hal.,,Drooping Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020695943,variety,Fissidens bryoides var. bryoides,,,,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021232431,species,Sphagnum fuscum,(Schimp.) H.Klinggr.,sens. str.,,Native,terrestrial,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310383,variety,Pohlia wahlenbergii var. glacialis,(Schleich. ex Brid.) E.F.Warb.,,,Native,,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310676,species,Sphagnum majus,(Russow) C.E.O.Jensen,,Olive Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036145,species,Oligotrichum hercynicum,(Hedw.) Lam. & DC.,,Hercynian Haircap,Native,,Oligotrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600342,species,Lescuraea plicata,(Schleich. ex F.Weber & D.Mohr) Lindb.,,Plaited Leskea,Native,terrestrial,Lescuraea,Pseudoleskeaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595322,species,Eurhynchiastrum diversifolium,(Schimp.) J.Guerra,,Elegant Feather-moss,Native,terrestrial,Eurhynchiastrum,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309401,genus,Barbula,Hedw.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310352,species,Pleurozium schreberi,(Brid.) Mitt.,,Red-stemmed Feather-moss,Native,freshwater,Pleurozium,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021618732,genus,Amblystegium,Schimp.,,,Native,terrestrial/freshwater,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036195,species,Cynodontium polycarpon,(Hedw.) Schimp.,,Many-fruited Dog-tooth,Native,,Cynodontium,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021123543,species,Orthotrichum cambrense,Bosanquet et F. Lara,,,Native,terrestrial,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616641,species,Brachythecium salebrosum,(Hoffm. ex F.Weber & D.Mohr) Schimp.,,Smooth-stalk Feather-moss,Native,terrestrial,Brachythecium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036723,species,Ulota hutchinsiae,(Sm.) Hammar,,Hutchins' Pincushion,Native,,Ulota,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593117,species aggregate,Palustriella commutata,(Hedw.) Ochyra,s.str.,,Native,terrestrial/freshwater,Palustriella,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005429,species,Schistidium crassipilum,H.H.Blom,,Thickpoint Grimmia,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100004852,species,Pottiopsis caespitosa,(Bruch ex Brid.) Blockeel & A.J.E.Sm.,,Round-fruited Pottia,Native,,Pottiopsis,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036327,species,Aloina rigida,(Hedw.) Limpr.,,Rigid Aloe-moss,Native,,Aloina,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310052,species,Homalothecium lutescens,(Hedw.) H.Rob.,,Yellow Feather-moss,Native,,Homalothecium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309723,genus,Cyclodictyon,Mitt.,,,Native,,,Pilotrichaceae,Hookeriales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036458,species,Schistidium trichodon,(Brid.) Poelt,,Stook Grimmia,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194620,species,Entosthodon muhlenbergii,(Turner) Fife,,Muhlenberg's Cord-moss,Native,,Entosthodon,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036834,species,Hygrohypnum styriacum,(Limpr.) Broth.,,Snow Brook-moss,Native,freshwater,Hygrohypnum,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310501,species,Pseudocrossidium hornschuchianum,(Schultz) R.H.Zander,,Hornschuch's Beard-moss,Native,,Pseudocrossidium,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310316,species,Plagiomnium undulatum,(Hedw.) T.J.Kop.,,Hart's-tongue Thyme-moss,Native,freshwater,Plagiomnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000066809,order,Tetraphidales,,,,Native,,,,,Tetraphidopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600287,species,Tortula caucasica,Lindb.,,Blunt-fruited Pottia,Native,terrestrial,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310125,species,Kiaeria starkei,(F.Weber & D.Mohr) I.Hagen,,Starke's Fork-moss,Native,,Kiaeria,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021177838,species,Microbryum curvicollum,(Hedw.) R.H.Zander,,Swan-necked Earth-moss,Native,,Microbryum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597822,genus,Braunia,Bruch & Schimp.,,,Native,terrestrial,,Hedwigiaceae,Hedwigiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310727,genus,Taxiphyllum,M.Fleisch.,,,Native,,,Taxiphyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310567,species,Rhizomnium magnifolium,(Horik.) T.J.Kop.,,Large-leaf Thyme-moss,Native,freshwater,Rhizomnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310717,species,Syntrichia laevipila,Brid.,,Small Hairy Screw-moss,Native,,Syntrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310761,species,Timmia megapolitana,Hedw.,,,Native,,Timmia,Timmiaceae,Timmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310798,species,Tortula vahliana,(Schultz) Mont.,,Chalk Screw-moss,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309283,genus,Acaulon,Muell.Hal.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310073,genus,Hyocomium,"Bruch, Schimp. & W.Guembel",,,Native,,,Myuriaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125871,species sensu lato,Fissidens bryoides s.l.,Hedw.,,Lesser Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125975,genus,Hygroamblystegium,"Loeske, nom. cons.",,,Native,terrestrial/freshwater,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310317,genus,Plagiopus,Brid.,,,Native,,,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310414,genus,Paraleptodontium,D.G.Long,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000022274,species,Fontinalis antipyretica,Hedw.,,Greater Water-moss,Native,freshwater,Fontinalis,Fontinalaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310817,species,Ulota calvescens,Wilson,,Balding Pincushion,Native,,Ulota,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000842166,variety,Tortula acaulon var. pilifera,(Hedw.) R.H.Zander,,,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020636834,species,Schistidium flexipile,(Lindb. ex Broth.) G.Roth,,,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000164571,family,Bruchiaceae,,,,Native,,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595802,genus,Flexitrichum,Ignatov & Fedosov,,,Native,terrestrial,,Flexitrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310314,species,Plagiomnium medium,(Bruch & Schimp.) T.J.Kop.,,Alpine Thyme-moss,Native,freshwater,Plagiomnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125945,variety,Syntrichia montana var. calva,(Durieu & Sagot) J.J. Amann,,,Native,terrestrial,Syntrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601277,species,Orthotrichum columbicum,Mitt.,,,Native,,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600252,species,Chionoloma cylindrotheca,"(Mitt.) M.Alonso, M.J.Cano & J.A.Jiménez",,,Native,terrestrial,Chionoloma,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310369,species,Pohlia flexuosa,Harv.,,Orange-bud Thread-moss,Native,,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310578,variety,Zygodon conoideus var. lingulatus,S.Edwards,,,Native,,Zygodon,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239428,species,Sphagnum medium,Limpr.,,,Native,terrestrial,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595797,family,Flexitrichaceae,Ignatov & Fedosov,,,Native,terrestrial,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021232407,species,Orthotrichum patens,Bruch & Brid.,,,Native,terrestrial,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309761,species,Dicranum bonjeanii,De Not.,,Crisped Fork-moss,Native,freshwater,Dicranum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959454,family,Pilotrichaceae,,,,Native,,,,Hookeriales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020636844,species,Grimmia alpestris,(F.Weber & D.Mohr) Schleich.,,,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310785,species,Tortula marginata,(Bruch & Schimp.) Spruce,,Bordered Screw-moss,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309628,genus,Cinclidotus,P.Beauv.,,,Native,freshwater,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595842,species,Grimmia reflexidens,Müll.Hal.,,Alpine Grimmia,Native,terrestrial,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309564,genus,Campylopus,Brid.,,,Native,terrestrial/freshwater,,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036525,species,Ephemerum cohaerens,(Hedw.) Hampe,,Clustered Earth-moss,Native,freshwater,Ephemerum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036832,species,Hygrohypnum luridum,(Hedw.) Jenn.,,Pict-moss,Native,freshwater,Hygrohypnum,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309686,family,Meesiaceae,Schimp.,,,Native,,,,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309354,genus,Anomodon,Hook. & Taylor,,,Native,,,Anomodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310635,species,Sematophyllum substrumulosum,(Hampe) E.Britton,,Bark Signal-moss,Native,,Sematophyllum,Sematophyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309378,genus,Archidium,Brid.,,,Native,,,Archidiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021618752,species,Rhynchostegium megapolitanum,(Blandow ex F.Weber & D.Mohr) Schimp.,,Megapolitan Feather-moss,Native,terrestrial,Rhynchostegium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194644,species,Fissidens crispus,Mont.,,Herzog's Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310329,species,Plagiothecium nemorale,(Mitt.) A.Jaeger,,Woodsy Silk-moss,Native,freshwater,Plagiothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600217,species,Bryoerythrophyllum campylocarpum,(C. Müller) H. Crum,,,Native,terrestrial,Bryoerythrophyllum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595812,species,Flexitrichum gracile,(Mitt.) Ignatov & Fedosov,,Slender Ditrichum,Native,terrestrial,Flexitrichum,Flexitrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036542,species,Mielichhoferia mielichhoferiana,(Funck) Loeske,,Alpine Copper-moss,Native,,Mielichhoferia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000146090,species,Didymodon glaucus,Ryan,,Glaucous Beard-moss,Native,,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601132,order,Catoscopiales,Ignatov & Ignatova,,,Native,terrestrial/freshwater,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959441,family,Calliergonaceae,,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616436,genus,Plagiothecium,Schimp.,,,Native,terrestrial/freshwater,,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005434,species,Schistidium flaccidum,(De Not.) Ochyra,,Chubby Grimmia,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310076,family,Hypnaceae,Schimp.,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309828,species aggregate,Entosthodon fascicularis or Physcomitrium pyriforme,,,,Native,,,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000149206,species,Hylocomiastrum pyrenaicum,(Spruce) M.Fleisch.,,Oake's Wood-moss,Native,,,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309747,species,Dicranella rufescens,(Dicks.) Schimp.,,Rufous Forklet-moss,Native,freshwater,Dicranella,Dicranellaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309755,species,Dicranodontium uncinatum,(Harv.) A.Jaeger,,Curve-leaved Bow-moss,Native,,Dicranodontium,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310188,genus,Microbryum,Schimp.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036901,species,Rhynchostegiella tenella,(Dicks.) Limpr.,,Tender Feather-moss,Native,,Rhynchostegiella,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310728,species,Taxiphyllum wissgrillii,(Garov.) Wijk & Margad.,,Depressed Feather-moss,Native,,Taxiphyllum,Taxiphyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310122,species,Kiaeria blyttii,"(Bruch, Schimp. & W.Guembel) Broth.",,Blytt's Fork-moss,Native,,Kiaeria,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195346,genus,Loeskeobryum,Broth.,,,Native,terrestrial,,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000066017,order,Dicranales,,,,Native,terrestrial,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000150326,species,Leptodictyum riparium,(Hedw.) Warnst.,,Kneiff's Feather-moss,Native,freshwater,Leptodictyum,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036417,species,Weissia longifolia,Mitt.,,Crisp Beardless-moss,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310011,genus,Hamatocaulis,Hedenaes,,,Native,,,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600332,species,Ephemerum serratum,(Hedw.) Hampe,s.str.,,Native,freshwater,Ephemerum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310716,genus,Syntrichia,Brid.,,,Native,terrestrial/freshwater,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310607,family,Schistostegaceae,Schimp.,,,Native,,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309837,species,Ephemerum spinulosum,Bruch & Schimp.,,Prickly Earth-moss,Native,freshwater,Ephemerum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036209,species,Dicranella grevilleana,(Brid.) Schimp.,,Greville's Forklet-moss,Native,,Dicranella,Dicranellaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309630,species,Cinclidotus riparius,(Brid.) Arnott,,Fountain Lattice-moss,Native,freshwater,Cinclidotus,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020695917,species,Thuidium assimile,(Mitt.) A.Jaeger,,Philibert's Tamarisk-moss,Native,,Thuidium,Thuidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036420,species,Weissia levieri,(Limpr.) Kindb.,,Levier's Beardless-moss,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036171,species,Trematodon ambiguus,(Hedw.) Hornsch.,,Ambiguous Long-necked Moss,Native,,Trematodon,Bruchiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597997,species,Leucobryum juniperoideum,(Brid.) Müll.Hal.,sensu Smith (2004),Smaller White-moss,Native,terrestrial,Leucobryum,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310882,species aggregate,Hedwigia ciliata,,sensu lato,,Native,,Hedwigia,Hedwigiaceae,Hedwigiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310497,species,Pseudephemerum nitidum,(Hedw.) Loeske,,Delicate Earth-moss,Native,freshwater,Pseudephemerum,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036676,species,Conostomum tetragonum,(Hedw.) Lindb.,,Helmet-moss,Native,,Conostomum,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100002835,species,Dicranum flexicaule,Brid.,,Bendy Fork-moss,Native,,Dicranum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036665,species,Aulacomnium androgynum,(Hedw.) Schwaegr.,,Bud-headed Groove-moss,Native,,Aulacomnium,Aulacomniaceae,Aulacomniales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000158108,species,Tortella bambergeri,(Schimp.) Broth.,sensu Bosanquet (2006),,Native,,Tortella,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310074,species,Hyocomium armoricum,(Brid.) Wijk & Margad.,,Flagellate Feather-moss,Native,freshwater,Hyocomium,Myuriaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309975,species,Grimmia orbicularis,Bruch ex Wilson,,Round-fruited Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309387,species,Atrichum tenellum,(Roehl.) Bruch & Schimp.,,Slender Smoothcap,Native,freshwater,Atrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036706,species,Orthotrichum anomalum,Hedw.,,Anomalous Bristle-moss,Native,,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310217,genus,Myrinia,Schimp.,,,Native,,,Myriniaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310601,species,Schistidium maritimum,(Turner) Bruch & Schimp.,,Seaside Grimmia,Native,terrestrial,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309546,species,Calyptrochaeta apiculata,(Hook.f. & Wilson) Vitt,,Southern Hookeria,Native,,Calyptrochaeta,Daltoniaceae,Hookeriales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036199,species,Cynodontium fallax,Limpr.,,False Dog-tooth,Native,,Cynodontium,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310777,species,Tortula cernua,(Huebener) Lindb.,,Flamingo-moss,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309521,species,Bryum uliginosum,(Brid.) Bruch & Schimp.,,Cernuous Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309964,species,Grimmia decipiens,(Schultz) Lindb.,,Great Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310277,species,Philonotis caespitosa,Jur.,,Tufted Apple-moss,Native,freshwater,Philonotis,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021272941,species hybrid,Physcomitrium patens × eurystomum = P. x stevensonii,D.A. Callaghan,,,Native,terrestrial,Physcomitrium,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309740,species,Dichodontium flavescens,(Dicks.) Lindb.,,Yellowish Fork-moss,Native,freshwater,Dichodontium,Aongstroemiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036486,species,Grimmia retracta,Stirt.,,Gravel Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310748,species,Thamnobryum alopecurum,(Hedw.) Gangulee,,Fox-tail Feather-moss,Native,freshwater,Thamnobryum,Neckeraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309488,species,Bryum dichotomum,Hedw.,,Dune Thread-moss,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593217,species,Serpoleskea confervoides,(Brid.) Loeske,,Tiny Feather-moss,Native,terrestrial,Serpoleskea,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309780,species,Didymodon vinealis,(Brid.) R.H.Zander,,Soft-tufted Beard-moss,Native,,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036609,species,Bryum pallescens,Schleich. ex Schwaegr.,,Tall-clustered Thread-moss,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309797,species,Ditrichum heteromallum,(Hedw.) E.Britton,,Curve-leaved Ditrichum,Native,,Ditrichum,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309278,species aggregate,Hymenostylium recurvirostrum,,sensu lato,,Native,,Hymenostylium,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310040,species,Herzogiella seligeri,(Brid.) Z.Iwats.,,Silesian Feather-moss,Native,,Herzogiella,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310029,genus,Hennediella,Paris,,,Native,freshwater,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595337,genus,Ptychostomum,Hornsch.,,,Native,terrestrial,,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036717,species,Ulota coarctata,(P.Beauv.) Hammar,,Club Pincushion,Native,,Ulota,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000022281,species,Rhytidiadelphus loreus,(Hedw.) Warnst.,,Little Shaggy-moss,Native,freshwater,Rhytidiadelphus,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125901,species sensu lato,Plagiothecium laetum s.l.,Schimp.,,,Native,terrestrial,Plagiothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310775,species,Tortula amplexa,(Lesq.) Steere,,Clay Screw-moss,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309444,species,Brachydontium trichodes,(F.Weber) Milde,,Bristle-leaf,Native,freshwater,Brachydontium,Ptychomitriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239446,species sensu lato,Sphagnum fuscum,(Schimp.) H.Klinggr.,sensu lato,Rusty Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021618727,genus,Amblyodon,P.Beauv.,,,Native,terrestrial/freshwater,,Meesiaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601347,species,Isothecium myosuroides,Brid.,s.str.,,Native,terrestrial,Isothecium,Lembophyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309799,species,Ditrichum zonatum,(Brid.) Braithw.,,Alpine Ditrichum,Native,,Ditrichum,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595792,species,Dicranella howei,Renauld & Cardot,,,Native,terrestrial/freshwater,Dicranella,Dicranellaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125847,species,Encalypta pilifera,Funck,,,Native,terrestrial,Encalypta,Encalyptaceae,Encalyptales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036649,species,Cinclidium stygium,Sw.,,Lurid Cupola-moss,Native,freshwater,Cinclidium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597977,species,Leucobryum albidum,(Brid. ex P. Beauv.) Lindb.,s.str.,,Native,terrestrial,Leucobryum,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036509,species,Glyphomitrium daviesii,(Dicks.) Brid.,,Black-tufted Moss,Native,,Glyphomitrium,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310515,family,Pterigynandraceae,Schimp.,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616431,genus,Myurella,Schimp.,,,Native,terrestrial,,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310028,species,Helodium blandowii,(F.Weber & D.Mohr) Warnst.,,Blandow's Tamarisk-moss,Native,,Helodium,Thuidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310437,species,Rhynchostegium riparioides,(Hedw.) Cardot,,Long-beaked Water Feather-moss,Native,freshwater,Rhynchostegium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036261,species,Campylopus introflexus,(Hedw.) Brid.,,Heath Star Moss,Non-native,terrestrial,Campylopus,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310010,genus,Habrodon,Schimp.,,,Native,,,Habrodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036600,species,Bryum capillare,Hedw.,,Capillary Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309356,species,Anomodon viticulosus,(Hedw.) Hook. & Taylor,,Rambling Tail-moss,Native,,Anomodon,Anomodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310240,family,Oedipodiaceae,Schimp.,,,Native,,,,Oedipodiales,Oedipodiopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309731,species,Daltonia splachnoides,(Sm.) Hook. & Taylor,,Irish Daltonia,Native,freshwater,Daltonia,Daltoniaceae,Hookeriales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125877,species,Grimmia anomala,Hampe ex Schimp.,,,Native,terrestrial,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310570,genus,Rhodobryum,(Schimp.) Limpr.,,,Native,,,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000065840,order,Buxbaumiales,,,,Native,,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194596,species,Calliergonella lindbergii,(Mitt.) Hedenäs,,Lindberg's Plait-moss,Native,freshwater,Calliergonella,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600387,species,Hygrohypnella polaris,(Lindb.) Ignatov & Ignatova,,Polar Brook-moss,Native,freshwater,Hygrohypnella,Scorpidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310244,genus,Oncophorus,(Brid.) Brid.,,,Native,freshwater,,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309871,species,Fissidens gracilifolius,Brugg.-Nan. & Nyholm,,Narrow-leaved Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021236450,species,Ulota crispula,Bruch,,,Native,terrestrial,Ulota,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310582,species,Zygodon viridissimus,(Dicks.) Brid.,,Green Yoke-moss,Native,,Zygodon,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036142,species,Pogonatum aloides,(Hedw.) P.Beauv.,,Aloe Haircap,Native,,Pogonatum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100004048,species,Microbryum starckeanum,(Hedw.) R.H.Zander,,Starke's Pottia,Native,,Microbryum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005163,species,Rhynchostegiella teneriffae,(Mont.) Dirkse & Bouman,,Teesdale Feather-moss,Native,freshwater,Rhynchostegiella,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036406,species,Weissia perssonii,Kindb.,,Persson's Stubble-moss,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595312,species,Bartramia aprica,Müll.Hal.,,Upright Apple-moss,Native,terrestrial,Bartramia,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310652,genus,Sphagnum,L.,,Bog Moss,Native,freshwater,,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036852,species,Isothecium holtii,Kindb.,,Holt's Mouse-tail Moss,Native,freshwater,Isothecium,Lembophyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616526,species,Lescuraea saxicola,(Schimp.) Molendo,,Rock Feather-moss,Native,terrestrial,Lescuraea,Pseudoleskeaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000156554,species,Scorpidium revolvens,(Sw. ex anon.) Rubers,,Rusty Hook-moss,Native,freshwater,Scorpidium,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020918189,variety,Pohlia elongata var. greenii,(Brid.) A.J. Shaw,,Changeable Thread-moss,Native,,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310367,variety,Pohlia elongata var. elongata,Hedw.,,Sharp-leaved Thread-moss,Native,,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310288,genus,Plagiobryum,Lindb.,,,Native,,,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000158779,species,Ulota bruchii,Hornsch. ex Brid.,,Bruch's Pincushion,Native,,Ulota,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036714,species,Orthotrichum tenellum,Bruch ex Brid.,,Slender Bristle-moss,Native,,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021571758,genus,Pseudostereodon,(Broth.) M.Fleisch.,,,Native,terrestrial,,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310070,genus,Hymenostylium,Brid.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195485,genus,Polytrichastrum,G.L.Sm.,,,Native,terrestrial,,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000189252,species,Sphagnum subsecundum,Nees,s.str.,Slender Cow-horn Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309869,species,Fissidens curvatus,Hornsch.,,Portuguese Pocket-moss,Native,,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310041,species,Herzogiella striatella,(Brid.) Z.Iwats.,,Muhlenbeck's Feather-moss,Native,,Herzogiella,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036132,species,Polytrichum formosum,Hedw.,,Bank Haircap,Native,,Polytrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616631,species,Brachythecium rutabulum,(Hedw.) Schimp.,,Rough-stalked Feather-moss,Native,terrestrial,Brachythecium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000163967,species,Orthotrichum rogeri,Brid.,,,Native,terrestrial,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000143150,species,Brachythecium cirrosum,(Schwaegr.) Schimp.,,Tendril Feather-moss,Native,,Brachythecium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600322,species,Ephemerum crassinervium subsp. sessile,(Bruch) Holyoak,,Sessile Earth-moss,Native,terrestrial/freshwater,Ephemerum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036551,species,Pohlia crudoides,(Sull. & Lesq.) Broth.,,Lapland Thread-moss,Native,,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310829,species,Weissia brachycarpa,(Nees & Hornsch.) Jur.,,Small-mouthed Beardless-moss,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310374,species,Pohlia melanodon,(Brid.) A.J.Shaw,,Pink-fruited Thread-moss,Native,freshwater,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959456,class,Polytrichopsida,,,,Native,,,,,,Bryophyta,Plantae,UKSI
+NHMSYS0000309821,family,Encalyptaceae,Schimp.,,,Native,terrestrial,,,Encalyptales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195133,species,Aplodon wormskioldii,(Hornem.) R.Br.,,Carrion-moss,Native,,Aplodon,Splachnaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0001682660,species,Achrophyllum dentatum,(Hook. f. and Wils.) Vitt and Crosby,,,Native,,Achrophyllum,Daltoniaceae,Hookeriales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036101,species,Sphagnum recurvum,P.Beauv.,,,Native,,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036109,variety,Andreaea rupestris var. papillosa,(Lindb.) Podp.,,,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597967,species,Isothecium interludens,Stirt.,,,Native,terrestrial,Isothecium,Lembophyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036166,species,Ditrichum lineare,(Sw.) Lindb.,,Dark Ditrichum,Native,,Ditrichum,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959459,family,Rhizogoniaceae,,,,Native,,,,Rhizogoniales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036675,species,Bartramia ithyphylla,Brid.,,Straight-leaved Apple-moss,Native,,Bartramia,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600177,species,Atrichum flavisetum,Mitt.,,,Native,terrestrial,Atrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310540,species,Racomitrium ellipticum,(Turner) Bruch & Schimp.,,Oval-fruited Fringe-moss,Native,freshwater,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601177,family,Dicranellaceae,,,,Native,terrestrial/freshwater,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000140834,species,Abietinella abietina,(Hedw.) Fleisch.,,,Native,,Abietinella,Thuidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309818,genus,Encalypta,Hedw.,,,Native,terrestrial,,Encalyptaceae,Encalyptales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310744,species,Tetrodontium brownianum,(Dicks.) Schwaegr.,,Brown's Four-tooth Moss,Native,,Tetrodontium,Tetraphidaceae,Tetraphidales,Tetraphidopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310556,genus,Rhabdoweisia,"Bruch, Schimp. & W.Guembel",,,Native,freshwater,,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600257,species,Chionoloma hibernicum,"(Mitt.) M.Alonso, M.J.Cano & J.A.Jiménez",,Irish Crisp-moss,Native,terrestrial/freshwater,Chionoloma,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309384,genus,Atrichum,P.Beauv.,,,Native,freshwater,,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310842,species,Weissia mittenii,"(Bruch, Schimp. & W.Guembel) Mitt.",,Mitten's Beardless-moss,Native,,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309550,genus,Campyliadelphus,(Kindb.) R.S.Chopra,,,Native,freshwater,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310284,genus,Physcomitrium,(Brid.) Brid.,,,Native,freshwater,,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309788,genus,Discelium,Brid.,,,Native,,,Disceliaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310222,family,Myuriaceae,Fleischer,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616591,species,Didymodon tophaceus subsp. tophaceus,(Brid.) Lisa,,,Native,terrestrial/freshwater,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309469,species,Bryoerythrophyllum recurvirostrum,(Hedw.) P.C.Chen,,Red Beard-moss,Native,freshwater,Bryoerythrophyllum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020695845,variety,Abietinella abietina var. hystricosa,(Mitt.) Sakurai,,Prickly Tamarisk-moss,Native,,Abietinella,Thuidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309379,genus,Arctoa,"Bruch, Schimp. & W.Guembel",,,Native,,,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309844,species,Eucladium verticillatum,"(Brid.) Bruch, Schimp. & W.Guembel",,Whorled Tufa-moss,Native,freshwater,Eucladium,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310336,genus,Platydictya,Berk.,,,Native,,,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601352,species,Sphagnum capillifolium,(Ehrh.) Hedw.,s.str.,,Native,terrestrial/freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021232425,species,Didymodon icmadophilus,(Schimp. ex Müll.Hal.) K.Saito,sensu J. Kučera,Slender Beard-moss,Native,terrestrial,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036787,species,Thuidium recognitum,(Hedw.) Lindb.,,Lesser Tamarisk-moss,Native,,Thuidium,Thuidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309631,genus,Cirriphyllum,Grout,,,Native,freshwater,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036646,variety,Mnium marginatum var. dioicum,(H.Muell.) Crundw.,,,Native,,Mnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036759,species,Myurella tenerrima,(Brid.) Lindb.,,Dwarf Mouse-tail Moss,Native,,Myurella,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020636843,species,Tortula inermis,(Brid.) Mont.,,,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036745,species,Neckera crispa,Hedw.,,Crisped Neckera,Native,freshwater,Neckera,Neckeraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036712,species,Orthotrichum stramineum,Hornsch. ex Brid.,,Straw Bristle-moss,Native,,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309973,species,Grimmia montana,Bruch & Schimp.,,Sun Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616416,genus,Homalothecium,Schimp.,,,Native,terrestrial/freshwater,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309910,genus,Funaria,Hedw.,,,Native,,,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021614629,variety,Chionoloma tenuirostre var. holtii,"(Braithw.) M.Alonso, M.J.Cano & J.A.Jiménez",,,Native,terrestrial/freshwater,Chionoloma,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239403,species,Didymodon australasiae,(Hook. & Grev.) R.H.Zander,,,Native,terrestrial,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600232,genus,Pottia,Fuernr.,,,Native,terrestrial,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310173,family,Leskeaceae,Schimp.,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310412,genus,Palustriella,Ochyra,,,Native,freshwater,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309308,family,Amblystegiaceae,Roth,,,Native,terrestrial,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309887,genus,Fontinalis,Hedw.,,,Native,freshwater,,Fontinalaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309523,genus,Buxbaumia,Hedw.,,,Native,,,Buxbaumiaceae,Buxbaumiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036228,species,Dicranum majus,Sm.,,Greater Fork-moss,Native,freshwater,Dicranum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036282,species,Fissidens osmundoides,Hedw.,,Purple-stalked Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310218,family,Myriniaceae,Schimp.,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036336,species,Pterygoneurum lamellatum,(Lindb.) Jur.,,Spiral Chalk-moss,Native,,Pterygoneurum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597952,species aggregate,Heterocladium heteropterum,Schimp.,s.l.,Wry-leaved Tamarisk-moss,Native,terrestrial,Heterocladium,Lembophyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310668,species,Sphagnum flexuosum,Dozy & Molk.,,Flexuous Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310653,species,Sphagnum affine,Renauld & Cardot,,Imbricate Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036875,species,Cirriphyllum piliferum,(Hedw.) Grout,,Hair-pointed Feather-moss,Native,,Cirriphyllum,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600327,species,Ephemerum stoloniferum,(Hedw.) L.T.Ellis & M.J.Price,,,Native,terrestrial,Ephemerum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194740,species,Sciuro-hypnum glaciale,(Schimp.) Ignatov & Huttunen,,Snow Feather-moss,Native,,Sciuro-hypnum,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036730,species,Fontinalis squamosa,Hedw.,,Alpine Water-moss,Native,freshwater,Fontinalis,Fontinalaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000143585,species,Campylium protensum,(Brid.) Kindb.,,,Native,freshwater,Campylium,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310212,genus,Molendoa,Lindb.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021598002,genus,Nogopterium,Crosby & W.R.Buck,,,Native,terrestrial,,Leucodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000146101,species,Didymodon tophaceus,(Brid.) Lisa,,Olive Beard-moss,Native,freshwater,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036953,species,Rhytidium rugosum,(Hedw.) Kindb.,,Wrinkle-leaved Feather-moss,Native,,Rhytidium,Rhytidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310531,species,Ptychomitrium polyphyllum,(Sw.) Bruch & Schimp.,,Long-shanked Pincushion,Native,,Ptychomitrium,Ptychomitriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601222,genus,Nyholmiella,Holmen & E.Warncke,,,Native,terrestrial,,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036591,species,Bryum weigelii,Spreng.,,Duval's Thread-moss,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593157,genus,Serpoleskea,(Limpr.) Loeske,,,Native,terrestrial,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597862,genus,Hymenoloma,Dusén,,,Native,terrestrial,,Hymenolomataceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036314,species,Tortula subulata,Hedw.,,Upright Screw-moss,Native,freshwater,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310372,species,Pohlia ludwigii,(Spreng. ex Schwaegr.) Broth.,,Ludwig's Thread-moss,Native,freshwater,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309645,genus,Grimmia,Hedw.,,,Native,terrestrial/freshwater,,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021178779,genus,Platyhypnidium,M.Fleisch.,,,Native,terrestrial/freshwater,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310630,family,Seligeriaceae,Schimp.,,,Native,,,,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959461,order,Splachnales,,,,Native,,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309518,species,Bryum torquescens,Bruch & Schimp.,,Twisting Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309650,species,Grimmia anodon,Bruch & Schimp.,,Toothless Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309510,species,Bryum pseudotriquetrum,"(Hedw.) P.Gaertn., B.Mey. & Scherb.",,Marsh Bryum,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310023,variety,Hedwigia ciliata var. ciliata,(Hedw.) P.Beauv.,,,Native,,Hedwigia,Hedwigiaceae,Hedwigiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310193,genus,Mielichhoferia,Hornsch.,,,Native,,,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600237,species,Tortula bolanderi,(Lesquereux & James) M. Howe,,,Native,terrestrial,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000066147,order,Grimmiales,,,,Native,terrestrial,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309479,species,Bryum bicolor,Dicks.,,Bicoloured Bryum,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616576,species,Plagiothecium undulatum,(Hedw.) Schimp.,,Waved Silk-moss,Native,terrestrial/freshwater,Plagiothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310397,species,Polytrichum strictum,Brid.,,Strict Haircap,Native,freshwater,Polytrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616466,species,Seligeria patula,(Lindb.) Lindb. ex I.Hagen,,,Native,terrestrial,Seligeria,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125913,subspecies,Schistidium maritimum subsp. piliferum,(I. Hagen) B. Bremer,,,Native,terrestrial,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309822,order,Encalyptales,,,,Native,terrestrial,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0001682650,species aggregate,Grimmia trichophylla agg.,,,,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309335,species,Andreaea rothii,F.Weber & D.Mohr,,Dusky Rock-moss,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310346,genus,Pleurochaete,Lindb.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310286,genus,Pictus,C.C.Towns.,,,Native,,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036148,species,Atrichum undulatum,(Hedw.) P.Beauv.,,Common Smoothcap,Native,freshwater,Atrichum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020929952,genus,Abietinella,Müll. Hal.,,,Native,,,Thuidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310192,species,Micromitrium tenerum,(Bruch & Schimp.) Crosby,,Millimetre Moss,Native,freshwater,Micromitrium,Micromitriaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310536,species,Racomitrium affine,(Schleich. ex F.Weber & D.Mohr) Lindb.,,Lesser Fringe-moss,Native,,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000136876,genus,Pottia,,,,Native,,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036666,species,Paludella squarrosa,(Hedw.) Brid.,,Tufted Fen-moss,Native,,Paludella,Meesiaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036519,species,Physcomitrium eurystomum,Sendtn.,,Norfolk Bladder-moss,Native,freshwater,Physcomitrium,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600367,species aggregate,Scorpidium revolvens,,s.l.,,Native,terrestrial/freshwater,Scorpidium,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036117,subspecies,Andreaea rothii subsp. falcata,(Schimp.) Lindb.,,,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309470,genus,Bryum,Hedw.,,,Native,freshwater,,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309830,genus,Ephemerum,Hampe,,,Native,freshwater,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309486,species,Bryum creberrimum,Taylor,,Tight-tufted Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310743,genus,Tetrodontium,Schwaegr.,,,Native,,,Tetraphidaceae,Tetraphidales,Tetraphidopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310620,species,Seligeria acutifolia,Lindb.,,Sharp Rock-bristle,Native,,Seligeria,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310806,genus,Trichostomum,Bruch,,,Native,freshwater,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601192,family,Pseudoleskeellaceae,,,,Native,terrestrial,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036153,species,Buxbaumia aphylla,Hedw.,,Brown Shield-moss,Native,,Buxbaumia,Buxbaumiaceae,Buxbaumiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309638,genus,Climacium,F.Weber & D.Mohr,,,Native,,,Climaciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194662,species,Hageniella micans,(Mitt.) B.C.Tan & Y.Jia,,Sparkling Signal-moss,Native,freshwater,Hageniella,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309716,family,Cryphaeaceae,Schimp.,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036744,species,Neckera pennata,Hedw.,,Feathered Neckera,Native,,Neckera,Neckeraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021598007,species,Nogopterium gracile,(Hedw.) Crosby & W.R. Buck,,Bird's-foot Wing-moss,Native,terrestrial,Nogopterium,Leucodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309505,species,Bryum muehlenbeckii,"Bruch, Schimp. & W.Guembel",,Muehlenbeck's Thread-moss,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309520,species,Bryum turbinatum,(Hedw.) Turner,,Topshape Thread-moss,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600407,species,Blindiadelphus recurvatus,(Hedw.) Fedosov & Ignatov,,Recurved Rock-bristle,Native,terrestrial,Blindiadelphus,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000842165,variety,Tortula acaulon var. papillosa,(Lindb.) R.H.Zander,,Rough Earth-moss,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616426,genus,Lescuraea,Schimp.,,,Native,terrestrial,,Pseudoleskeaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309873,species,Fissidens polyphyllus,"Wilson ex Bruch, Schimp. & W.Guembel",,Many-leaved Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036689,species,Amphidium lapponicum,(Hedw.) Schimp.,,Lapland Yoke-moss,Native,,Amphidium,Amphidiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036112,species,Andreaea alpestris,(Thed.) Schimp.,,Slender Rock-moss,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036544,species,Orthodontium lineare,Schwaegr.,,Cape Thread-moss,Native,,Orthodontium,Orthodontiaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036538,species,Splachnum ampullaceum,Hedw.,,Cruet Collar-moss,Native,freshwater,Splachnum,Splachnaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309971,species,Grimmia funalis,(Schwaegr.) Bruch & Schimp.,,String Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310701,species,Sphagnum tenellum,(Brid.) Bory,,Soft Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309531,genus,Calliergonella,Loeske,,,Native,marine/terrestrial,,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195217,species,Cirriphyllum crassinervium,(Taylor) Loeske & M.Fleisch.,,Beech Feather-moss,Native,freshwater,Cirriphyllum,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036367,species,Barbula unguiculata,Hedw.,,Bird's-claw Beard-moss,Native,,Barbula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601282,species,Plenogemma phyllantha,"(Brid.) Sawicki, Plášek & Ochyra",,Frizzled Pincushion,Native,terrestrial/freshwater,Plenogemma,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309713,genus,Cryphaea,D.Mohr,,,Native,freshwater,,Cryphaeaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600262,species,Chionoloma recurvifolium,"(Taylor) M.Alonso, M.J.Cano & J.A.Jiménez",,Drooping-leaved Beard-moss,Native,terrestrial,Chionoloma,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021605667,species,Trichostomum herzogii,"Ros, O. Werner & R.D. Porley",,,Native,terrestrial,Trichostomum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309641,genus,Glyphomitrium,Brid.,,,Native,,,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000066603,order,Pottiales,,,,Native,terrestrial,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310545,species,Racomitrium sudeticum,(Funck) Bruch & Schimp.,,Slender Fringe-moss,Native,,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036710,species,Orthotrichum urnigerum,Myr.,,,Native,,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616511,species,Homalia trichomanoides,(Hedw.) Brid.,,Blunt Feather-moss,Native,terrestrial/freshwater,Homalia,Neckeraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600302,species,Weissia wilsonii,D.A.Callaghan,,Many-fruited Beardless-moss,Native,terrestrial,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310609,genus,Scleropodium,"Bruch, Schimp. & W.Guembel",,,Native,freshwater,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600247,variety,Chionoloma tenuirostre var. tenuirostre,"(Hook. & Taylor) M.Alonso, M.J.Cano & J.A.Jiménez",,,Native,terrestrial/freshwater,Chionoloma,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310633,genus,Sematophyllum,Mitt.,,,Native,freshwater,,Sematophyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309579,genus,Campylostelium,"Bruch, Schimp. & W.Guembel",,,Native,,,Ptychomitriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616536,species,Bruchia vogesiaca,Nestl. ex Schwägr.,,,Native,terrestrial,Bruchia,Bruchiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036397,species,Leptobarbula berica,(De Not.) Schimp.,,Beric Beard-moss,Native,,Leptobarbula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000066758,class,Sphagnopsida,,,,Native,,,,,,Bryophyta,Plantae,UKSI
+NHMSYS0021597947,species aggregate,Isothecium myosuroides,,s.l.,Slender Mouse-tail Moss,Native,terrestrial,Isothecium,Lembophyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310559,species,Rhabdoweisia fugax,"(Hedw.) Bruch, Schimp. & W.Guembel",,Dwarf Streak-moss,Native,freshwater,Rhabdoweisia,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309654,species,Grimmia austrofunalis,Muell.Hal.,,Southern String Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310689,species,Sphagnum riparium,Aangstr.,,Cleft Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036390,species,Gymnostomum calcareum,Nees & Hornsch.,,Blunt-leaf Tufa-moss,Native,,Gymnostomum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036294,species,Encalypta rhaptocarpa,Schwaegr.,,Ribbed Extinguisher-moss,Native,,Encalypta,Encalyptaceae,Encalyptales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021598032,species,Pseudanomodon attenuatus,(Hedw.) Ignatov & Fedosov,,Slender Tail-moss,Native,terrestrial,Pseudanomodon,Neckeraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021571748,genus,Buckia,"D.Rios, M.T.Gallego & J.Guerra",,,Native,terrestrial,,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021618742,genus,Thuidium,Bruch & Schimp.,,,Native,terrestrial/freshwater,,Thuidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310194,species,Mielichhoferia elongata,(Hoppe & Hornsch. ex Hook.) Hornsch.,,Elongate Copper-moss,Native,,Mielichhoferia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597857,family,Hymenolomataceae,Ignatov & Fedosov,,,Native,terrestrial,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036140,species,Pogonatum nanum,(Hedw.) P.Beauv.,,Dwarf Haircap,Native,,Pogonatum,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310571,genus,Rhynchostegiella,"(Bruch, Schimp. & W.Guembel) Limpr.",,,Native,freshwater,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309867,species,Fissidens crassipes,"Wilson ex Bruch, Schimp. & W.Guembel",,Fatfoot Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309727,species,Cynodontium jenneri,(Schimp.) Stirt.,,Jenner's Dog-tooth,Native,,Cynodontium,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125841,species,Dicranum spadiceum,J.E.Zetterst.,,,Native,terrestrial,Dicranum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309791,species,Distichium inclinatum,"(Hedw.) Bruch, Schimp. & W.Guembel",,Inclined Distichium,Native,,Distichium,Distichiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600147,genus,Streblotrichum,P.Beauv.,,,Native,terrestrial,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309341,species,Andreaea sinuosa,B.M.Murray,,Small-spored Rock-moss,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310382,variety,Pohlia wahlenbergii var. calcarea,(Warnst.) E.F.Warb.,,,Native,,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595352,species,Bryum julaceum,"Schrad. ex G.Gaertn., B.Mey. & Scherb.",,,Native,terrestrial,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310091,genus,Isopterygiopsis,Z.Iwats.,,,Native,,,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036160,species,Ditrichum subulatum,Hampe,,Awl-leaved Ditrichum,Native,,Ditrichum,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005848,species,Tortula acaulon,(With.) R.H.Zander,,Cuspidate Earth-moss,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310614,genus,Scopelophila,(Mitt.) Lindb.,,,Native,,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036844,species,Calliergon cordifolium,(Hedw.) Kindb.,,Heart-leaved Spear-moss,Native,freshwater,Calliergon,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036229,species,Dicranum spurium,Hedw.,,Rusty Fork-moss,Native,,Dicranum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600402,species,Blindiadelphus diversifolius,(Lindb.) Fedosov & Ignatov,,Long Rock-bristle,Native,terrestrial,Blindiadelphus,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000137057,genus,Pseudoscleropodium,(Limpr.) M.Fleisch.,,,Native,terrestrial,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000146095,species,Didymodon maximus,(Syed & Crundw.) M.O.Hill,,Irish Beard-moss,Native,,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036236,species,Dicranum montanum,Hedw.,,Mountain Fork-moss,Native,,Dicranum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310634,species,Sematophyllum demissum,(Wilson) Mitt.,,Prostrate Signal-moss,Native,freshwater,Sematophyllum,Sematophyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600292,species,Tortula lindbergii,Kindb. ex Broth.,,Lance-leaved Pottia,Native,terrestrial,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036246,species,Campylopus schimperi,Milde,,Schimper's Swan-neck Moss,Native,,Campylopus,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194590,species,Bryum moravicum,Podp.,,Flabby Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310509,species,Pseudoleskeella catenulata,(Schrad.) Kindb.,,Chained Leskea,Native,,Pseudoleskeella,Pseudoleskeellaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959442,family,Calomniaceae,,,,Native,,,,Rhizogoniales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310353,genus,Pogonatum,P.Beauv.,,,Native,,,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310920,species aggregate,Sphagnum subsecundum,Nees,sensu lato,,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036742,species,Myurium hochstetteri,(Schimp.) Kindb.,,Hare-tail Moss,Native,,Myurium,Myuriaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239462,species,Oncophorus integerrimus,Hedenäs,,,Native,terrestrial,Oncophorus,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310691,species,Sphagnum subnitens,Russow & Warnst.,,Lustrous Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310605,genus,Schistostega,D.Mohr,,,Native,,,Schistostegaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310750,species,Thamnobryum cataractarum,N.G.Hodgetts & Blockeel,,Yorkshire Feather-moss,Native,,Thamnobryum,Neckeraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000140867,species,Acaulon mediterraneum,Limpr.,,,Native,,Acaulon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000153057,species,Oxyrrhynchium speciosum,(Brid.) Warnst.,,Showy Feather-moss,Native,freshwater,Oxyrrhynchium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310736,family,Tetraphidaceae,Schimp.,,,Native,,,,Tetraphidales,Tetraphidopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310680,variety,Sphagnum palustre var. palustre,L.,,,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036662,species,Aulacomnium palustre,(Hedw.) Schwaegr.,,Bog Groove-moss,Native,freshwater,Aulacomnium,Aulacomniaceae,Aulacomniales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036679,species,Philonotis marchica,(Hedw.) Brid.,,Bog Apple-moss,Native,,Philonotis,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036328,species,Aloina aloides,(Schultz) Kindb.,,Common Aloe-moss,Native,,Aloina,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036597,species,Bryum knowltonii,Barnes,,Knowlton's Thread-moss,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310625,species,Seligeria oelandica,C.E.O.Jensen & Medelius,,Irish Rock-bristle,Native,,Seligeria,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036183,species,Seligeria carniolica,(Breidl. & Beck) Nyholm,,Water Rock-bristle,Native,,Seligeria,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309750,species,Dicranella staphylina,H.Whitehouse,,Field Forklet-moss,Native,freshwater,Dicranella,Dicranellaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309696,genus,Conardia,H.Rob.,,,Native,,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021607969,species,Meesia triquetra,(L. ex Jolycl.) Ångstr.,,Three-ranked Hump-moss,Native,terrestrial/freshwater,Meesia,Meesiaceae,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310496,genus,Pseudephemerum,(Lindb.) I.Hagen,,,Native,,,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310313,species,Plagiomnium ellipticum,(Brid.) T.J.Kop.,,Marsh Thyme-moss,Native,freshwater,Plagiomnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000102458,species,Mnium lycopodioides,Schwägr.,,Ambiguous Thyme-moss,Native,,Mnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310702,species,Sphagnum teres,(Schimp.) Aangstr.,,Rigid Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036615,species,Bryum caespiticium,Hedw.,,Tufted Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600372,family,Scorpidiaceae,Ignatov & Ignatova,,,Native,terrestrial/freshwater,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036469,species,Grimmia ovalis,(Hedw.) Lindb.,,Flat-rock Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310345,species,Pleuridium subulatum,(Hedw.) Rabenh.,,Awl-leaved Earth-moss,Native,,Pleuridium,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593222,species,Stereodon callichrous,(Brid.) Brid.,,Downy Plait-moss,Native,terrestrial,Stereodon,Stereodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194608,species,Cratoneuron curvicaule,(Jur.) G.Roth,,Bent-stem Hook-moss,Native,,Cratoneuron,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310381,species,Pohlia wahlenbergii,(F.Weber & D.Mohr) A.L.Andrews,,Pale Glaucous Thread-moss,Native,freshwater,Pohlia,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036641,species,Mnium hornum,Hedw.,,Swan's-neck Thyme-moss,Native,freshwater,Mnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239409,species,Oxystegus tenuirostris,(Hook. & Taylor) A.J.E.Sm.,s.l.,,Native,terrestrial/freshwater,Oxystegus,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593202,species,Platyhypnum molle,(Hedw.) Loeske,,Soft Brook-moss,Native,,Platyhypnum,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600422,species,Sphagnum rubellum,(Wilson) M.O.Hill,,Red Bog-moss,Native,terrestrial/freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036445,species,Coscinodon cribrosus,(Hedw.) Spruce,,Sieve-tooth Moss,Native,,Coscinodon,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125981,species,Hygroamblystegium humile,(P.Beauv.) Vanderp. et al.,,Constricted Feather-moss,Native,freshwater,Hygroamblystegium,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616571,species,Plagiothecium piliferum,(Sw.) Schimp.,,Hair Silk-moss,Native,terrestrial,Plagiothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309567,species,Campylopus brevipilus,"Bruch, Schimp. & W.Guembel",,Compact Swan-neck Moss,Native,freshwater,Campylopus,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036313,species,Tortula solmsii,(Schimp.) Limpr.,,Solms' Screw-moss,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036682,species,Philonotis fontana,(Hedw.) Brid.,,Fountain Apple-moss,Native,freshwater,Philonotis,Bartramiaceae,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036230,species,Dicranum undulatum,Schrad. ex Brid.,,Waved Fork-moss,Native,freshwater,Dicranum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310311,species,Plagiomnium cuspidatum,(Hedw.) T.J.Kop.,,Woodsy Thyme-moss,Native,,Plagiomnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616481,species,Amblystegium serpens,(Hedw.) Schimp.,,Creeping Feather-moss,Native,terrestrial/freshwater,Amblystegium,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310442,genus,Rhytidium,(Sull.) Kindb.,,,Native,,,Rhytidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021571788,species,Pseudostereodon procerrimus,(Molendo) M.Fleisch.,,Alpine Comb-moss,Native,terrestrial,Pseudostereodon,Pylaisiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020930457,genus,Sciuro-hypnum,Hampe,,,Native,,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310762,species,Timmia norvegica,J.E.Zetterst.,,Norway Timmia,Native,,Timmia,Timmiaceae,Timmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593212,species,Pseudocampylium radicale,(P. Beauv.) Vanderpoorten & Hedenäs,,Swamp Feather-moss,Native,terrestrial/freshwater,Pseudocampylium,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036461,species,Grimmia laevigata,(Brid.) Brid.,,Hoary Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310245,genus,Orthodontium,Schwaegr.,,,Native,,,Orthodontiaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310242,genus,Oligotrichum,Lam. & DC.,,,Native,,,Polytrichaceae,Polytrichales,Polytrichopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036511,species,Discelium nudum,(Dicks.) Brid.,,Flag-moss,Native,freshwater,Discelium,Disceliaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310312,species,Plagiomnium elatum,(Bruch & Schimp.) T.J.Kop.,,Tall Thyme-moss,Native,freshwater,Plagiomnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036647,species,Mnium spinosum,(Voit) Schwaegr.,,Spinose Thyme-moss,Native,,Mnium,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310171,genus,Leskea,Hedw.,,,Native,,,Leskeaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036123,species,Andreaea crassinervia,Bruch,,,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021195005,genus,Hageniella,Broth.,,,Native,terrestrial,,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000158318,species,Trichodon cylindricus,(Hedw.) Schimp.,,Cylindric Ditrichum,Native,,Trichodon,Ditrichaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310681,species,Sphagnum platyphyllum,(Lindb. ex Braithw.) Sull. ex Warnst.,,Flat-leaved Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310670,species,Sphagnum girgensohnii,Russow,,Girgensohn's Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309475,species,Bryum archangelicum,"Bruch, Schimp. & W.Guembel",,Small-mouthed Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309489,species,Bryum dixonii,Cardot ex W.E.Nicholson,,Dixon's Thread-moss,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310773,genus,Tortula,Hedw.,,,Native,freshwater,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100005438,species,Schistidium papillosum,Culm.,,Rough Grimmia,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310159,genus,Leptodictyum,(Schimp.) Warnst.,,,Native,,,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310511,species,Pseudoleskeella rupestris,(Berggr.) Hedenaes & Soederstroem,,Wispy Leskea,Native,,Pseudoleskeella,Pseudoleskeellaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000156389,species,Schistidium helveticum,(Schkuhr) Deguchi,,,Native,terrestrial,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036407,species,Weissia rutilans,(Hedw.) Lindb.,,Pointed-leaved Stubble-moss,Native,freshwater,Weissia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036295,species,Encalypta brevicolla,(Br.Eur.) Angstr.,,White-mouthed Extinguisher-moss,Native,,Encalypta,Encalyptaceae,Encalyptales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036465,species,Grimmia donniana,Sm.,,Donn's Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100004047,species,Microbryum rectum,(With.) R.H.Zander,,Upright Pottia,Native,,Microbryum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310753,family,Thuidiaceae,Schimp.,,,Native,,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601202,family,Antitrichiaceae,,,,Native,terrestrial/freshwater,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309515,species,Bryum sauteri,"Bruch, Schimp. & W.Guembel",,Sauter's Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309367,genus,Aongstroemia,"Bruch, Schimp. & W.Guembel",,,Native,,,Aongstroemiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100003298,species,Grimmia longirostris,Hook.,,North Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000189236,species aggregate,Andreaea rupestris agg.,,sensu Smith (1978),,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309428,family,Bartramiaceae,Schwägr.,,,Native,,,,Bartramiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000153141,species,Palustriella decipiens,(De Not.) Ochyra,,Lesser Curled Hook-moss,Native,freshwater,Palustriella,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309714,species,Cryphaea heteromalla,(Hedw.) D.Mohr,,Lateral Cryphaea,Native,,Cryphaea,Cryphaeaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309875,species,Fissidens pusillus,(Wilson) Milde,,Petty Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309744,family,Dicranaceae,Schimp.,,,Native,terrestrial,,,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021239468,species,Oncophorus virens,(Hedw.) Brid.,s.str.,,Native,terrestrial,Oncophorus,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036902,species,Rhynchostegiella curviseta,(Brid.) Limpr.,,Curve-stalked Feather-moss,Native,freshwater,Rhynchostegiella,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036233,species,Dicranum fuscescens,Sm.,,Dusky Fork-moss,Native,freshwater,Dicranum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310908,species aggregate,Racomitrium heterostichum,,sensu lato,,Native,,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310320,family,Plagiotheciaceae,(Broth.) Fleischer,,,Native,terrestrial,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000134166,genus,Isopterygium,,,,Native,,,,,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000135976,genus,Oxystegus,(Broth.) Hilp.,,,Native,terrestrial/freshwater,,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036933,variety,Hypnum cupressiforme var. cupressiforme,,,,Native,terrestrial,Hypnum,Hypnaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000160468,subdivision,Musci,,,,Native,,,,,,Bryophyta,Plantae,UKSI
+NHMSYS0021272936,species hybrid,Sphagnum capillifolium x quinquefarium,,,,Native,terrestrial,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309639,species,Climacium dendroides,(Hedw.) F.Weber & D.Mohr,,Tree-moss,Native,freshwater,Climacium,Climaciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601292,subspecies,Schistidium maritimum subsp. maritimum,(Sm. ex R.Scott) Bruch & Schimp.,,,Native,terrestrial,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021593162,genus,Stereodon,(Brid.) Mitt.,,,Native,terrestrial,,Stereodontaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309371,genus,Aphanorrhegma,Sull.,,,Native,,,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309332,species,Andreaea frigida,Huebener,,Icy Rock-moss,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310512,species,Pseudoscleropodium purum,(Hedw.) M.Fleisch.,,Neat Feather-moss,Native,freshwater,Pseudoscleropodium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310251,genus,Orthotrichum,Hedw.,,,Native,terrestrial/freshwater,,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036765,species,Pseudoleskeella nervosa,(Brid.) Nyholm,,Nerved Leskea,Native,,Pseudoleskeella,Pseudoleskeellaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021178730,genus,Kindbergia,Ochyra,,,Native,terrestrial/freshwater,,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036607,species,Bryum canariense,Brid.,,Canary Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020636836,species,Tortula schimperi,M.J.Cano et al.,,,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310416,genus,Paraleucobryum,(Limpr.) Loeske,,,Native,,,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310711,family,Splachnaceae,Greville & Arnott,,,Native,,,,Splachnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100004046,species,Microbryum floerkeanum,(F.Weber & D.Mohr) Schimp.,,Floerke's Phascum,Native,,Microbryum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000146093,species,Didymodon luridus,Hornsch. ex Spreng.,,Dusky Beard-moss,Native,freshwater,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310530,genus,Ptychomitrium,Fuernr.,,,Native,,,Ptychomitriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310048,species,Heterocladium wulfsbergii,I.Hagen,,Wulfsberg's Tamarisk-moss,Native,freshwater,Heterocladium,Lembophyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309491,species,Bryum dyffrynense,Holyoak,,,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020636827,species,Bryum apiculatum,"auct., non Schwaegr.",,,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020695911,species,Straminergon stramineum,(Dicks. ex Brid.) Hedenäs,,Straw Spear-moss,Native,freshwater,Straminergon,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000159267,species,Zygodon stirtonii,Schimp. ex Stirt.,,,Native,,Zygodon,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616611,species,Brachythecium glareosum,(Bruch ex Spruce) Schimp.,,Streaky Feather-moss,Native,terrestrial,Brachythecium,Brachytheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036087,species,Sphagnum strictum,Sull.,,Pale Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601252,species,Lewinskya rupestris,"(Schleich. ex Schwägr.) F.Lara, Garilleti & Goffinet",,Rock Bristle-moss,Native,terrestrial,,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309338,subspecies,Andreaea rothii subsp. rothii,F.Weber & D.Mohr,,,Native,,Andreaea,Andreaeaceae,Andreaeales,Andreaeopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000156552,species,Scorpidium cossonii,(Schimp.) Hedenas,,Intermediate Hook-moss,Native,freshwater,Scorpidium,Calliergonaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309465,family,Bryaceae,Schwägr.,,,Native,,,,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020636835,species,Thamnobryum maderense,(Kindb.) Hedenäs,,,Native,,Thamnobryum,Neckeraceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021595832,species,Racomitrium heterostichum,(Hedw.) Brid.,sensu Blockeel et al. (2021),,Native,terrestrial,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020959452,class,Oedipodiopsida,,,,Native,,,,,,Bryophyta,Plantae,UKSI
+NBNSYS0000036464,species,Grimmia arenaria,Hampe,,Sand Grimmia,Native,,Grimmia,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036518,species,Physcomitrium pyriforme,(Hedw.) Brid.,,Common Bladder-moss,Native,freshwater,Physcomitrium,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000157547,species,Syntrichia princeps,(De Not.) Mitt.,,Brown Screw-moss,Native,,Syntrichia,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194680,variety,Hymenostylium recurvirostrum var. recurvirostrum,,,,Native,terrestrial,Hymenostylium,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021605662,species,Plagiothecium longisetum,Lindb.,,,Native,terrestrial,Plagiothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597827,species,Braunia imberbis,(Sm.) N.J. Dalton & D.G. Long,,Green Hoar-moss,Native,terrestrial,Braunia,Hedwigiaceae,Hedwigiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036310,species,Tortula muralis,Hedw.,,Wall Screw-moss,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021616596,species,Didymodon tophaceus subsp. sicculus,(Brid.) Lisa,,,Native,terrestrial/freshwater,Didymodon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310241,genus,Oedipodium,Schwaegr.,,,Native,,,Oedipodiaceae,Oedipodiales,Oedipodiopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021194626,species,Entosthodon pulchellus,(H.Philib.) Brugués,,Pretty Cord-moss,Native,,Entosthodon,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036226,species,Dicranum leioneuron,Kindb.,,Fuzzy Fork-moss,Native,,Dicranum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600192,species aggregate,Tortula subulata,Hedw.,agg.,,Native,terrestrial,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036250,species,Campylopus pyriformis,(Schultz) Brid.,,Dwarf Swan-neck Moss,Native,,Campylopus,Leucobryaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600282,species,Tortella squarrosa,(Brid.) Limpr.,,Side-fruited Crisp-moss,Native,terrestrial,Tortella,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0100004045,species,Microbryum davallianum,(Sm.) R.H.Zander,,Smallest Pottia,Native,,Microbryum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000022271,species,Bryum pallens,Sw.,,Pale Thread-moss,Native,freshwater,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021607959,species,Fissidens rivularis,(Spruce) Schimp.,,River Pocket-moss,Native,freshwater,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021125853,species,Entosthodon mouretii,(Corb.) Jelenc.,,,Native,terrestrial,Entosthodon,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021571743,family,Pylaisiaceae,Schimp.,,,Native,terrestrial,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310502,species,Pseudocrossidium revolutum,(Brid.) R.H.Zander,,Revolute Beard-moss,Native,,Pseudocrossidium,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036070,species,Sphagnum palustre,L.,,Blunt-leaved Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309349,genus,Anomobryum,Schimp.,,,Native,,,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309725,genus,Cynodontium,Schimp.,,,Native,,,Rhabdoweisiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000842163,variety,Schistidium frigidum var. havaasii,H.H.Blom,,,Native,,Schistidium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310498,genus,Pseudobryum,(Kindb.) T.J.Kop.,,,Native,,,Mniaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020636805,species aggregate,Seligeria trifaria,(Brid.) Lindb.,s.l.,,Native,,Seligeria,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309284,species,Acaulon muticum,(Brid.) Muell.Hal.,,Rounded Pygmy-moss,Native,,Acaulon,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021597962,species,Heterocladium flaccidum,Schimp.,,,Native,terrestrial,Heterocladium,Lembophyllaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310285,species,Physcomitrium sphaericum,(Ludw.) Brid.,,Dwarf Bladder-moss,Native,freshwater,Physcomitrium,Funariaceae,Funariales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600377,genus,Hygrohypnella,Ignatov & Ignatova,,,Native,freshwater,,Scorpidiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309771,species,Dicranum tauricum,Sapjegin,,Fragile Fork-moss,Native,,Dicranum,Dicranaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021600397,species,Blindiadelphus campylopodus,(Kindb.) Fedosov & Ignatov,,Bentfoot Rock-bristle,Native,terrestrial,Blindiadelphus,Seligeriaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000147421,species,Fissidens dubius,P.Beauv.,,Rock Pocket-moss,Native,,Fissidens,Fissidentaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0021601197,family,Taxiphyllaceae,,,,Native,terrestrial,,,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000149207,species,Hylocomiastrum umbratum,(Hedw.) M.Fleisch.,,Shaded Wood-moss,Native,,,Hylocomiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0020442298,species,Bryum kunzei,Hornsch.,,Funck's Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036818,species,Drepanocladus sendtneri,(Schimp. ex H.Muell.) Warnst.,,Chalk Hook-moss,Native,freshwater,Drepanocladus,Amblystegiaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000036308,species,Tortula canescens,Mont.,,Dog Screw-moss,Native,,Tortula,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000309512,variety,Bryum pseudotriquetrum var. pseudotriquetrum,"(Hedw.) P.Gaertn., B.Mey. & Scherb.",,Long-leaved Thread-moss,Native,,Bryum,Bryaceae,Bryales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000157386,variety,Streblotrichum convolutum,(Hedw.) P.Beauv.,,,Native,terrestrial,Streblotrichum,Pottiaceae,Dicranales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310683,species,Sphagnum pulchrum,(Lindb. ex Braithw.) Warnst.,,Golden Bog-moss,Native,freshwater,Sphagnum,Sphagnaceae,Sphagnales,Sphagnopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310327,species,Plagiothecium laetum,"Bruch, Schimp. & W.Guembel",,Bright Silk-moss,Native,,Plagiothecium,Plagiotheciaceae,Hypnales,Bryopsida,Bryophyta,Plantae,UKSI
+NHMSYS0000310256,species,Orthotrichum pulchellum,Brunt.,,Elegant Bristle-moss,Native,freshwater,Orthotrichum,Orthotrichaceae,Orthotrichales,Bryopsida,Bryophyta,Plantae,UKSI
+NBNSYS0000155608,species aggregate,Racomitrium obtusum,(Brid.) Brid.,,,Native,terrestrial,Racomitrium,Grimmiaceae,Grimmiales,Bryopsida,Bryophyta,Plantae,UKSI

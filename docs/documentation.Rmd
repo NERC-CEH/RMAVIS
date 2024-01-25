@@ -118,7 +118,7 @@ direct percentage estimates for use in pseudoMAVIS.
 
 The Leith Hill Place Wood dataset represents a subset of the Bunce woodland
 survey data, described in @wood2015 and consists of a total of 16 plots surveyed 
-in 1971, 2001, and 2021. Leith Hill Place Wood lies in the path of the
+in 1971, 2001, and 2021 [@smart2024]. Leith Hill Place Wood lies in the path of the
 October 1987 storm track, with @smart2014 outlining the positive effect of the
 storm on species richness between 1971 and 2001. No cover values are currently
 provided in this example dataset.
