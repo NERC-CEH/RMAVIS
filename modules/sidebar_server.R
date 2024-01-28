@@ -145,7 +145,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
         shiny::updateSelectizeInput(
           session = session,
           inputId = "habitatRestriction",
-          selected = NULL
+          selected = "SD"
         )
         
         shiny::updateTextInput(
