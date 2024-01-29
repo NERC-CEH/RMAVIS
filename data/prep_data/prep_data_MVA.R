@@ -52,6 +52,10 @@ plot(nvc_pquad_dca_all)
 saveRDS(object = nvc_pquad_dca_all, file = "./data/bundled_data/nvc_pquad_dca_all.rds")
 
 
+# Calculate pquad centroids -----------------------------------------------
+
+
+
 
 # Produce hulls for each sub-community ------------------------------------
 nvc_pquad_dca_all_hulls_subComm_dca1dca2 <- vegan::scores(nvc_pquad_dca_all, tidy = TRUE) |>

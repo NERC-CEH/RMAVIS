@@ -12,7 +12,7 @@
 #' @param samp_group_name 
 #' @param comp_group_name 
 #' @param samp_weight_name 
-#' @param downweight_threshold
+#' @param downweight_threshold If 0 no downeighting occurs.
 #' @param downweight_value
 #'
 #' @return
@@ -60,9 +60,6 @@ similarityCzekanowski <- function(samp_df, comp_df,
     SIMPLIFY = FALSE,
     USE.NAMES = FALSE,
     FUN = function(X, Y){
-      
-      X = eval_combinations[[samp_group_name]][[1]]
-      Y = eval_combinations[[comp_group_name]][[1]]
       
       samp_data <- samp_df_split[[X]]
       comp_data <- comp_df_split[[Y]]

@@ -586,9 +586,10 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). pseudoMAVIS.
 
 # Release Log
 
-[v0.95]{style="font-size:2em;font-weight:700;"}
+<details>
+<summary>v0.95</summary>
 
-**2024/01/24**
+<strong>2024/01/24</strong>
 
 -   Modifications:
     - Removing unnecessary upload data checks.
@@ -597,19 +598,26 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). pseudoMAVIS.
 -   Fixes:
     - Ensuring report renders correctly using new surveyTableSummary object data.
 -   New Features: NA
+</details>
 
-[v0.94]{style="font-size:2em;font-weight:700;"}
 
-**2024/01/18**
+<details>
+<summary>v0.94</summary>
+
+<strong>2024/01/18</strong>
 
 -   Modifications: NA
 -   Fixes:
     - Ensuring the number of quadrats per group is passed to the floristic tables module through the new survey data summary module.
 -   New Features: NA
 
-[v0.93]{style="font-size:2em;font-weight:700;"}
+</details>
 
-**2024/01/18**
+
+<details>
+<summary>v0.93</summary>
+
+<strong>2024/01/18</strong>
 
 -   Modifications: NA
 -   Fixes: NA
@@ -617,22 +625,46 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). pseudoMAVIS.
     -   Adding survey data summary module.
     -   Adding quadrat re-grouping tool.
 
-[v0.92]{style="font-size:2em;font-weight:700;"}
+</details>
 
-**2024/01/18**
+
+
+<details>
+<summary>v0.92</summary>
+
+<strong>2024/01/18</strong>
 
 -   Modifications: NA
 -   Fixes: NA
 -   New Features:
     -   Adding Czekanowski index method for Site and Group NVC assignment calculations.
 
-[v0.91]{style="font-size:2em;font-weight:700;"}
+</details>
 
-**2024/01/09**
+
+<details>
+<summary>v0.91</summary>
+
+<strong>2024/01/11</strong>
+
+-   Modifications: NA
+-   Fixes: NA
+-   New Features:
+    -   Adding privacy policy section
+
+</details>
+
+
+<details>
+<summary>v0.9</summary>
+
+<strong>2024/01/09</strong>
 
 -   First release for user testing.
 -   Modifications: NA
 -   Fixes: NA
 -   New Features: NA
+
+</details>
 
 # References
