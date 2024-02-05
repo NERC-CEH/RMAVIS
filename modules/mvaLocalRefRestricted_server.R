@@ -47,7 +47,7 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
     shiny::isolate({
       
       # Get all NVC communities and sub-communities from nvc assignment results
-      NVC_communities_all <- nvcAssignment()$nvcAssignmentSite |>
+      NVC_communities_all <- nvcAssignment()$nvcAssignmentSite_Czekanowski |>
         dplyr::pull(NVC.Code)
       
       # Get all NVC communities from community and sub-community codes

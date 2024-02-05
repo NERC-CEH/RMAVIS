@@ -1,3 +1,6 @@
+bryophytes_data <- readRDS(file = "./data/bundled_data/bryophytes_data.rds")  
+plants_data <- readRDS(file = "./data/bundled_data/plants_data.rds")
+
 master_data <- plants_data |>
   dplyr::bind_rows(bryophytes_data)
 

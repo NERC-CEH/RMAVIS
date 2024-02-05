@@ -107,11 +107,11 @@ matchSpecies_options <- c("No" = "No",
 
 
 # Results to View NVC Assignment ------------------------------------------
-resultsViewNVCAssign_options <- c("Site, Pseudo-quadrat" = "nvcAssignSitePseudo",
-                                  "Group, Pseudo-quadrat" = "nvcAssignGroupPseudo",
-                                  "Quadrat, Pseudo-quadrat" = "nvcAssignQuadratPseudo",
+resultsViewNVCAssign_options <- c(#"Site, Jaccard" = "nvcAssignSiteJaccard",
+                                  #"Group, Jaccard" = "nvcAssignGroupJaccard",
                                   "Site, Czekanowski" = "nvcAssignSiteCzekanowski",
-                                  "Group, Czekanowski" = "nvcAssignGroupCzekanowski"#,
+                                  "Group, Czekanowski" = "nvcAssignGroupCzekanowski",
+                                  "Quadrat, Jaccard" = "nvcAssignQuadratJaccard"#,
                                   # "Quadrat, Czekanowski" = "nvcAssignQuadratCzekanowski"
                                   )
 
@@ -198,11 +198,12 @@ selectSurveyGroups_options <- c()
 
 
 # Report Options ----------------------------------------------------------
-reportOptions_options <- list(`NVC Assignment Pseudo-quadrat` = c("Site" = "nvcAssignmentResultsSite",
-                                                                  "Group" = "nvcAssignmentResultsGroup",
-                                                                  "Quadrat" = "nvcAssignmentResultsQuadrat"),
-                              `NVC Assignment Czekanowski` = c("Site" = "nvcAssignmentResultsSite_Czekanowski",
-                                                               "Group" = "nvcAssignmentResultsGroup_Czekanowski"),
+reportOptions_options <- list(#`NVC Assignment Pseudo-quadrat` = c("Site" = "nvcAssignmentResultsSite",
+                              #                                    "Group" = "nvcAssignmentResultsGroup",
+                              #                                    "Quadrat, Jaccard" = "nvcAssignmentResultsQuadrat_Jaccard"),
+                              `NVC Assignment` = c("Site, Czekanowski" = "nvcAssignmentResultsSite_Czekanowski",
+                                                   "Group, Czekanowski" = "nvcAssignmentResultsGroup_Czekanowski",
+                                                   "Quadrat, Jaccard" = "nvcAssignmentResultsQuadrat_Jaccard"),
                               `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
                                                      "Group" = "composedFloristicTablesGroup"),
                               `Species Frequency` = c("Species Frequency" = "speciesFrequencyTable"),

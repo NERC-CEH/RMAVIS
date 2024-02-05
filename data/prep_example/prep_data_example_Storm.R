@@ -133,9 +133,13 @@ stormWoods_cleanNames <- exampleData_stormWoods |>
         Species == "Senecio erucifolius" ~ "Jacobaea erucifolia",
         Species == "Festuca gigantea" ~ "Schedonorus giganteus",
         Species == "Deschampsia flexuosa" ~ "Avenella flexuosa",
+        Species == "Eurhynchium praelongum" ~ "Kindbergia praelonga",
         TRUE ~ as.character(Species)
       )
-  )
+  ) |>
+  dplyr::group_by(Site, Year, Group, Quadrat, Species) |>
+  dplyr::summarise("Cover" = sum(Cover)) |>
+  dplyr::ungroup()
 
 # Save Data ---------------------------------------------------------------
 saveRDS(object = stormWoods_cleanNames, file = "./data/bundled_data/exampleData_stormWoods.rds")

@@ -1,13 +1,15 @@
-concordance_all <- readRDS(file = "./data/bundled_data/concordance_all.rds")
-concordance_all_trimmed <- concordance_all |>
-  dplyr::select("proposedSpecies" = proposedSpecies,
-                "BRC_old" = BRC_old
-                )
+# Read Concordance --------------------------------------------------------
+concordance_bryophytes <- readRDS(file = "./data/bundled_data/concordance_bryophytes.rds") |>
+  dplyr::select(assignNVCSpecies, TVK, proposedSpecies) |>
+  tibble::as_tibble()
 
-bryoatt_raw <- readxl::read_xls(path = "./data/raw_data/bryophytes/Bryoatt_updated_2017.xls", sheet = "BRYOATT")
+
+# Read and Clean BRYOATT --------------------------------------------------
+bryoatt_raw <- readxl::read_xls(path = "./data/raw_data/bryophytes/Bryoatt_updated_2017.xls", sheet = "BRYOATT") |>
+  tibble::as_tibble()
 
 bryoatt_codesNames <- bryoatt_raw |>
-  dplyr::select("species" = `Taxon name`, 
+  dplyr::select("bryoattSpecies" = `Taxon name`, 
                 "BRC_old" = BRC_num, 
                 "BRC_new" = Concept,
                 "L" = L,	
@@ -18,25 +20,62 @@ bryoatt_codesNames <- bryoatt_raw |>
   dplyr::mutate("BRC_old" = stringr::str_replace_all(string = BRC_old, pattern = "\\s*", replacement = "")) |>
   dplyr::mutate("BRC_old" = as.numeric(BRC_old))
 
-# Check for duplicate BRC_old codes
-length(bryoatt_codesNames$BRC_old) == nrow(bryoatt_codesNames)
 
-# Check for missing BRC_old codes
-bryoatt_codesNames_missBRC_old <- bryoatt_codesNames |>
-  dplyr::filter(is.na(BRC_old)) |>
-  print()
+# Check which BRYOATT species aren't in concordance -----------------------
+bryoatt_names <- bryoatt_codesNames$bryoattSpecies |> unique()
+concordance_names <- concordance_bryophytes$proposedSpecies |> unique()
+bryoatt_names_notin_concordance_names <- bryoatt_names[!(bryoatt_names %in% concordance_names)]
+bryoatt_names_in_concordance_names <- bryoatt_names[bryoatt_names %in% concordance_names]
 
-# Check for duplicate BRC_new codes
-length(bryoatt_codesNames$BRC_new) == nrow(bryoatt_codesNames)
+concordance_names_notin_bryoatt_names <- bryoatt_names[!(concordance_names %in% bryoatt_names)]
 
-# Check for missing BRC_new codes
-bryoatt_codesNames_missBRC_new <- bryoatt_codesNames |>
-  dplyr::filter(is.na(BRC_new)) |>
-  print()
 
-bryophytes_data <- bryoatt_codesNames |>
-  dplyr::left_join(concordance_all_trimmed, by = "BRC_old") |>
-  dplyr::filter(!is.na(proposedSpecies)) |>
-  dplyr::select(-species, -BRC_old, -BRC_new) |>
-  dplyr::rename("species" = "proposedSpecies")
-  
+# Create Altered BRYOATT With Added NBN Names -----------------------------
+bryoatt_nbn_names <- concordance_bryophytes |>
+  dplyr::select(proposedSpecies, TVK) |>
+  dplyr::mutate("bryoattSpecies" = proposedSpecies) |>
+  dplyr::right_join(bryoatt_codesNames, by = "bryoattSpecies") |>
+  # Strip " s.l." and " s.str." for now 
+  dplyr::mutate("bryoattSpecies" = stringr::str_replace(string = bryoattSpecies, pattern = " s.l.", replacement = "")) |>
+  dplyr::mutate("bryoattSpecies" = stringr::str_replace(string = bryoattSpecies, pattern = " s.str.", replacement = ""))
+
+# Submit BRYOATT names which don't match to NBN API -----------------------
+# https://api.nbnatlas.org/
+query_url <- "https://species-ws.nbnatlas.org/species/lookup/bulk?"
+
+unmatched_names <- bryoatt_nbn_names |>
+  dplyr::filter(is.na(proposedSpecies)) |>
+  dplyr::pull(bryoattSpecies)
+
+req_list <- list("names" = unmatched_names)
+
+req_body <- jsonlite::toJSON(req_list, auto_unbox = TRUE)
+
+response <- httr::POST(url = query_url, body = req_body)
+
+responseContent <- httr::content(response)
+
+names(responseContent) <- unmatched_names
+
+response_df <- data.table::rbindlist(responseContent, idcol = "bryoattSpecies", fill = FALSE)
+
+response_df_trimmed <- response_df |>
+  dplyr::select("bryoattSpecies" = bryoattSpecies, "TVK" = identifier, "proposedSpecies" = name) # "proposedSpecies" = name
+
+# Add resolved names ------------------------------------------------------
+bryoatt_nbn_names2 <- bryoatt_nbn_names |>
+  dplyr::filter(is.na(TVK)) |>
+  dplyr::select(-proposedSpecies, -TVK) |>
+  dplyr::left_join(response_df_trimmed, by = "bryoattSpecies") |>
+  dplyr::filter(!is.na(bryoattSpecies))
+
+# Compile completed data --------------------------------------------------
+bryophytes_data <- bryoatt_nbn_names |>
+  dplyr::filter(!is.na(TVK)) |>
+  rbind(bryoatt_nbn_names2) |>
+  dplyr::select(-bryoattSpecies, -TVK, -BRC_old, -BRC_new) |>
+  dplyr::rename("species" = "proposedSpecies") |>
+  dplyr::distinct()
+
+# Save Bryophytes data ----------------------------------------------------
+saveRDS(object = bryophytes_data, file = "./data/bundled_data/bryophytes_data.rds")  

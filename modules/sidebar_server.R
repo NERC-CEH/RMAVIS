@@ -252,7 +252,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     shiny::req(nvcAssignment())
     
     # Get all NVC communities and sub-communities from nvc assignment results
-    NVC_communities_all <- nvcAssignment()$nvcAssignmentSite |>
+    NVC_communities_all <- nvcAssignment()$nvcAssignmentSite_Czekanowski |>
       dplyr::pull(NVC.Code)
     
     # Get all NVC communities from community and sub-community codes
@@ -355,7 +355,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
   observe({
     
     # Get all NVC communities and sub-communities from nvc assignment results
-    NVC_communities_all <- nvcAssignment()$nvcAssignmentSite |> # nvcAssignment()
+    NVC_communities_all <- nvcAssignment()$nvcAssignmentSite_Czekanowski |> # nvcAssignment()
       dplyr::pull(NVC.Code)
     
     # Get all NVC communities from community and sub-community codes
@@ -515,7 +515,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     filename = function() {
       
-      paste0("pseudoMAVIS.SurveyData.",
+      paste0("MAVIS.SurveyData.",
              gsub(x = gsub(x = Sys.time(),
                            pattern = "\\s",
                            replacement = "."),
@@ -540,7 +540,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     filename = function() {
       
-      paste0("pseudoMAVIS.AcceptedSpecies.",
+      paste0("MAVIS.AcceptedSpecies.",
              gsub(x = gsub(x = Sys.time(),
                            pattern = "\\s",
                            replacement = "."),

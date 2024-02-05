@@ -1,8 +1,29 @@
+source("./data/prep_concordance/prep_concordance_nvc_pquads_noMissCodes.R", local = TRUE)
+
+# Retrieve bryophyte species present in NVC pquads ------------------------
 nvc_pquads_uniqSpecies_bryophytes <- nvc_pquads_noMissCodes |>
   dplyr::select(species, BRC) |>
   dplyr::distinct() |>
   dplyr::filter(stringr::str_detect(string = BRC, pattern = "^[8]")) |>
   dplyr::rename("BRC_old" = BRC)
+
+
+# Retrieve NBN UKSI mosses, hornworts, and liverworts ---------------------
+nbn_anthocerotophyta <- read.csv(file = "./data/raw_data/bryophytes/Anthocerotophyta.csv") |>
+  dplyr::filter(taxonRank %in% c("species", "species aggregate", "subspecies", "species sensu lato", "genus")) |>
+  dplyr::select(taxonID, scientificName)
+
+nbn_bryophyta <- read.csv(file = "./data/raw_data/bryophytes/Bryophyta.csv") |>
+  dplyr::filter(taxonRank %in% c("species", "species aggregate", "subspecies", "species sensu lato", "genus")) |>
+  dplyr::select(taxonID, scientificName)
+
+nbn_marchantiophyta <- read.csv(file = "./data/raw_data/bryophytes/Marchantiophyta.csv") |>
+  dplyr::filter(taxonRank %in% c("species", "species aggregate", "subspecies", "species sensu lato", "genus")) |>
+  dplyr::select(taxonID, scientificName)
+
+nbn_bryophytes <- rbind(nbn_anthocerotophyta, nbn_bryophyta, nbn_marchantiophyta) |>
+  dplyr::rename("TVK" = "taxonID", "proposedSpeciesNBN" = "scientificName")
+
 
 # Read National Species Inventory and filter for bryophytes
 nhm_nsi <- read.csv(file = "/home/zeke/Downloads/resource.csv")
@@ -54,6 +75,8 @@ check_nhm_nsi <- nhm_nsi_bryophytes |>
   dplyr::ungroup() |>
   dplyr::arrange(species)
 
+
+# Read BRYOATT ------------------------------------------------------------
 bryoatt_raw <- readxl::read_xls(path = "./data/raw_data/bryophytes/Bryoatt_updated_2017.xls", sheet = "BRYOATT")
 
 bryoatt_names <- bryoatt_raw |>
@@ -116,29 +139,6 @@ nvc_pquads_uniqSpecies_bryophytes_missing_fixed <- nvc_pquads_uniqSpecies_bryoph
   dplyr::select(-bryoattSpecies)
 
 
-# Check for duplicates
-# nvc_pquads_uniqSpecies_bryophytes_missing_fixed |>
-#   dplyr::group_by(proposedSpecies, species) |>
-#   dplyr::filter(dplyr::n() > 1) |>
-#   dplyr::ungroup() |>
-#   dplyr::arrange(proposedSpecies)
-# 
-# nvc_pquads_uniqSpecies_bryophytes_joined_present |>
-#   dplyr::group_by(species, bryoattSpecies) |>
-#   dplyr::filter(dplyr::n() > 1) |>
-#   dplyr::ungroup() |>
-#   dplyr::arrange(bryoattSpecies)
-# 
-# foo <- nvc_pquads_uniqSpecies_bryophytes_joined_present |>
-#   dplyr::bind_rows(nvc_pquads_uniqSpecies_bryophytes_missing_fixed) |>
-#   dplyr::left_join(nhm_nsi_bryophytes, by = "species") |>
-#   # dplyr::distinct() |>
-#   dplyr::group_by(species, bryoattSpecies) |>
-#   dplyr::filter(dplyr::n() > 1) |>
-#   dplyr::ungroup() |>
-#   dplyr::arrange(bryoattSpecies)
-
-
 nvc_pquads_uniqSpecies_bryophytes_fixedBRC <- nvc_pquads_uniqSpecies_bryophytes_joined_present |>
   dplyr::bind_rows(nvc_pquads_uniqSpecies_bryophytes_missing_fixed) |>
   # Add TVK from natural history museum species inventory
@@ -198,14 +198,22 @@ nvc_pquads_uniqSpecies_bryophytes_fixedBRC |>
   dplyr::arrange(proposedSpecies) |>
   print()
 
-
 # Check for species with no TVK
 nvc_pquads_uniqSpecies_bryophytes_noTVK <- nvc_pquads_uniqSpecies_bryophytes_fixedBRC |>
   dplyr::filter(is.na(TVK))
 
+
+# Compile Concordance for Bryophytes --------------------------------------
 concordance_bryophytes <- nvc_pquads_uniqSpecies_bryophytes_fixedBRC |>
   dplyr::filter(BRC_old %in% nvc_pquads_uniqSpecies_bryophytes$BRC_old)
+
+concordance_bryophytes_new <- concordance_bryophytes |>
+  dplyr::right_join(nbn_bryophytes, by = "TVK") |>
+  dplyr::select(assignNVCSpecies, TVK, BRC_old, BRC_new, proposedSpeciesNBN) |>
+  dplyr::rename("proposedSpecies" = "proposedSpeciesNBN")
   
+
+
 # Check that the number of plant species in nvc_pquads_uniqSpecies_bryophytes is equal to the length of concordance_bryophytes
 nrow(nvc_pquads_uniqSpecies_bryophytes) - nrow(concordance_bryophytes)
 
@@ -233,4 +241,4 @@ concordance_bryophytes_naRows <- concordance_bryophytes |>
   dplyr::filter(is.na(dplyr::if_any(dplyr::everything(), is.na)))
 
 # Save concordance
-saveRDS(object = concordance_bryophytes, file = "./data/bundled_data/concordance_bryophytes.rds")
+saveRDS(object = concordance_bryophytes_new, file = "./data/bundled_data/concordance_bryophytes.rds")

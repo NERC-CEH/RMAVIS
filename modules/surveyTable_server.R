@@ -298,6 +298,8 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
+
+## Combine Duplicates -----------------------------------------------------
   observe({
     
     # req(surveyTable_corrected_rval())
@@ -312,7 +314,8 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
 
       surveyTable_noDuplicates <- surveyTable |>
         dplyr::group_by(Year, Group, Quadrat, Species) |>
-        dplyr::summarise("Cover" = sum(Cover))
+        dplyr::summarise("Cover" = sum(Cover)) |>
+        dplyr::ungroup()
       
       
 

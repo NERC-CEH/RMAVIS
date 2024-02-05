@@ -277,22 +277,6 @@ colnames(bsbiParserData_5_prepped)
 #   # Remove incorrect duplicate code for Geranium molle
 #   dplyr::filter(BRC_old != 92041.0)
 
-# Check that the number of plant species in nvc_pquads_uniqSpecies_plants is equal to the length of concordance_plants
-# This should be -7
-nrow(nvc_pquads_uniqSpecies_plants) - nrow(concordance_plants)
-
-# Missing species - should be an empty data frame
-missing_species <- nvc_pquads_uniqSpecies_plants |>
-  dplyr::filter(!(species %in% concordance_plants$assignNVCSpecies))
-
-# Check whether there are any missing BRC_new or TVK codes
-concordance_plants_missingCodes <- concordance_plants |>
-  dplyr::filter(is.na(BRC_new) | is.na(TVK))
-
-# Check whether there is any missing data
-concordance_plants_naRows <- concordance_plants |>
-  dplyr::filter(is.na(dplyr::if_any(dplyr::everything(), is.na)))
-
 
 # Add BSBI DDb names ------------------------------------------------------
 bsbiDDb_raw <- readxl::read_xlsx(path = "./data/raw_data/ddb-taxon-list-2022-03-31.xlsx")
@@ -349,6 +333,22 @@ concordance_plants <- bsbiDDB_trimmed |>
         )
     ) |>
   dplyr::rename("TVK" = "tvk")
+
+# Check that the number of plant species in nvc_pquads_uniqSpecies_plants is equal to the length of concordance_plants
+# This should be -7
+nrow(nvc_pquads_uniqSpecies_plants) - nrow(concordance_plants)
+
+# Missing species - should be an empty data frame
+missing_species <- nvc_pquads_uniqSpecies_plants |>
+  dplyr::filter(!(species %in% concordance_plants$assignNVCSpecies))
+
+# Check whether there are any missing BRC_new or TVK codes
+concordance_plants_missingCodes <- concordance_plants |>
+  dplyr::filter(is.na(BRC_new) | is.na(TVK))
+
+# Check whether there is any missing data
+concordance_plants_naRows <- concordance_plants |>
+  dplyr::filter(is.na(dplyr::if_any(dplyr::everything(), is.na)))
 
 # Save concordance
 saveRDS(object = concordance_plants, file = "./data/bundled_data/concordance_plants.rds")

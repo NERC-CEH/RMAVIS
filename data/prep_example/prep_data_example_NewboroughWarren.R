@@ -51,7 +51,6 @@ newboroughWarren_cleanNames <- newboroughWarren_prepped |>
         Species == "Calliergon cuspidatum" ~ "Calliergonella cuspidata",
         Species == "Taraxacum officinale" ~ "Taraxacum",
         Species == "Drepanocladus sp" ~ "Drepanocladus",
-        Species == "Pseudoscleropodium purum" ~ "Scleropodium purum",
         Species == "Scirpus setaceus" ~ "Isolepis setacea",
         Species == "Barbula fallax" ~ "Didymodon fallax",
         Species == "Filaginella uliginosa" ~ "Gnaphalium uliginosum",
@@ -61,17 +60,20 @@ newboroughWarren_cleanNames <- newboroughWarren_prepped |>
         Species == "Barbula tophacea" ~ "Didymodon tophaceus",
         Species == "Campylium polygamum" ~ "Drepanocladus polygamus",
         Species == "Viola tricolor curtisii" ~ "Viola tricolor subsp. curtisii",
-        Species == "Ceratodon purpureus" ~ "Ceratodon purpureus s.l.",
         Species == "Bryum algovicum var rutheanum" ~ "Bryum algovicum",
         Species == "Hieracium sp" ~ "Hieracium",
         Species == "Daucus carota" ~ "Daucus carota subsp. carota",
-        Species == "Bryum bicolor" ~ "Bryum dichotomum s.l.",
         Species == "Tortula ruralis ssp ruraliformis" ~ "Syntrichia ruraliformis",
         Species == "Salix aurita (s)" ~ "Salix aurita",
         Species == "Bryum sp" ~ "Bryum",
+        Species == "Scleropodium purum" ~ "Pseudoscleropodium purum",
+        Species == "Rhytidiadelphus triquetrus" ~ "Hylocomiadelphus triquetrus",
         TRUE ~ as.character(Species)
       )
-  )
+  ) |>
+  dplyr::group_by(Site, Year, Group, Quadrat, Species) |>
+  dplyr::summarise("Cover" = sum(Cover)) |>
+  dplyr::ungroup()
 
 # Save Data ---------------------------------------------------------------
 saveRDS(object = newboroughWarren_cleanNames, file = "./data/bundled_data/exampleData_newboroughWarren.rds")

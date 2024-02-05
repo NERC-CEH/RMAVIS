@@ -92,8 +92,8 @@ acceptedSpecies <- concordance_all |>
   dplyr::select(
     "Accepted_Species" = "proposedSpecies",
     "BSBI_taxonId" = "bsbiTaxonId",
-    "BRC_new" = "BRC_new",
-    "BRC_old" = "BRC_old",
+    # "BRC_new" = "BRC_new",
+    # "BRC_old" = "BRC_old",
     "TVK" = "TVK",
   )
 

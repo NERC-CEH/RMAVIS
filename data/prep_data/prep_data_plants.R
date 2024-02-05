@@ -196,3 +196,7 @@ plants_data_check
 length(unique(plants_data$species)) == nrow(plants_data)
 
 
+# Save Plants Data --------------------------------------------------------
+saveRDS(object = plants_data, file = "./data/bundled_data/plants_data.rds")  
+
+

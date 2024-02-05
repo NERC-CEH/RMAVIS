@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(pseudoMAVIS)
+library(MAVIS)
 
-test_check("pseudoMAVIS")
+test_check("MAVIS")

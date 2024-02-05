@@ -25,16 +25,10 @@ nvcAssignment <- function(input, output, session, surveyTable, floristicTables, 
   # Show/Hide Results -------------------------------------------------------
   observe({
     
-    shinyjs::show(id = "nvcAssignmentSiteTable_div")
-    shinyjs::show(id = "nvcAssignmentGroupTable_div")
-    shinyjs::show(id = "nvcAssignmentQuadratTable_div")
-
+    shinyjs::show(id = "nvcAssignmentQuadratTable_Jaccard_div")
     shinyjs::show(id = "nvcAssignmentSiteTable_Czekanowski_div")
     shinyjs::show(id = "nvcAssignmentGroupTable_Czekanowski_div")
-    
-    # shinyjs::show(id = "nvcAssignmentSiteTable_div")
-    # shinyjs::show(id = "nvcAssignmentGroupTable_div")
-    # shinyjs::show(id = "nvcAssignmentQuadratTable_div")
+
     
   }) |>
     bindEvent(resultsViewNVCAssign(),
@@ -44,19 +38,7 @@ nvcAssignment <- function(input, output, session, surveyTable, floristicTables, 
   
   observe({
     
-    if("nvcAssignSitePseudo" %in% resultsViewNVCAssign()){
-      shinyjs::show(id = "nvcAssignmentSiteTable_div")
-    } else {
-      shinyjs::hide(id = "nvcAssignmentSiteTable_div")
-    }
-    
-    if("nvcAssignGroupPseudo" %in% resultsViewNVCAssign()){
-      shinyjs::show(id = "nvcAssignmentGroupTable_div")
-    } else {
-      shinyjs::hide(id = "nvcAssignmentGroupTable_div")
-    }
-    
-    if("nvcAssignQuadratPseudo" %in% resultsViewNVCAssign()){
+    if("nvcAssignQuadratJaccard" %in% resultsViewNVCAssign()){
       shinyjs::show(id = "nvcAssignmentQuadratTable_div")
     } else {
       shinyjs::hide(id = "nvcAssignmentQuadratTable_div")
@@ -92,8 +74,8 @@ nvcAssignment <- function(input, output, session, surveyTable, floristicTables, 
 
 # Calculate ALL nvcAssignment results -------------------------------------
   nvcAssignmentQuadrat_rval <- reactiveVal()
-  nvcAssignmentGroup_rval <- reactiveVal()
-  nvcAssignmentSite_rval <- reactiveVal()
+  # nvcAssignmentGroup_rval <- reactiveVal()
+  # nvcAssignmentSite_rval <- reactiveVal()
   nvcAssignmentSite_Czekanowski_rval <- reactiveVal()
   nvcAssignmentGroup_Czekanowski_rval <- reactiveVal()
   
@@ -172,42 +154,42 @@ nvcAssignment <- function(input, output, session, surveyTable, floristicTables, 
       
 
       # Calculate NVC Similarity by Group
-      nvcAssignmentGroup <- nvcAssignmentQuadrat |>
-        dplyr::select(-ID) |>
-        dplyr::group_by(Year, Group, NVC.Code) |>
-        dplyr::rename("Mean.Similarity.Quadrat" = "Mean.Similarity") |>
-        dplyr::summarise("Mean.Similarity" = mean(Mean.Similarity.Quadrat),
-                         "Standard.Deviation" = sd(Mean.Similarity.Quadrat),
-                         .groups = "drop") |>
-        dplyr::group_by(Year, Group) |>
-        dplyr::arrange(Year, Group, dplyr::desc(Mean.Similarity)) |> #
-        dplyr::slice(1:10) |>
-        dplyr::ungroup()
-      
-      nvcAssignmentGroup_prepped <- nvcAssignmentGroup |>
-        dplyr::select(Year, Group, NVC.Code, Mean.Similarity, Standard.Deviation) |>
-        dplyr::arrange(Year, Group, dplyr::desc(Mean.Similarity))
-      
-      nvcAssignmentGroup_rval(nvcAssignmentGroup_prepped)
+      # nvcAssignmentGroup <- nvcAssignmentQuadrat |>
+      #   dplyr::select(-ID) |>
+      #   dplyr::group_by(Year, Group, NVC.Code) |>
+      #   dplyr::rename("Mean.Similarity.Quadrat" = "Mean.Similarity") |>
+      #   dplyr::summarise("Mean.Similarity" = mean(Mean.Similarity.Quadrat),
+      #                    "Standard.Deviation" = sd(Mean.Similarity.Quadrat),
+      #                    .groups = "drop") |>
+      #   dplyr::group_by(Year, Group) |>
+      #   dplyr::arrange(Year, Group, dplyr::desc(Mean.Similarity)) |> #
+      #   dplyr::slice(1:10) |>
+      #   dplyr::ungroup()
+      # 
+      # nvcAssignmentGroup_prepped <- nvcAssignmentGroup |>
+      #   dplyr::select(Year, Group, NVC.Code, Mean.Similarity, Standard.Deviation) |>
+      #   dplyr::arrange(Year, Group, dplyr::desc(Mean.Similarity))
+      # 
+      # nvcAssignmentGroup_rval(nvcAssignmentGroup_prepped)
 
 
       # Calculate NVC Similarity by Site
-      nvcAssignmentSite <- nvcAssignmentQuadrat |>
-        dplyr::group_by(Year, NVC.Code) |>
-        dplyr::rename("Mean.Similarity.Quadrat" = "Mean.Similarity") |>
-        dplyr::summarise("Mean.Similarity" = mean(Mean.Similarity.Quadrat),
-                         "Standard.Deviation" = sd(Mean.Similarity.Quadrat),
-                         .groups = "drop") |>
-        dplyr::group_by(Year) |>
-        dplyr::arrange(Year, dplyr::desc(Mean.Similarity)) |>
-        dplyr::slice(1:10) |>
-        dplyr::ungroup()
-      
-      nvcAssignmentSite_prepped <- nvcAssignmentSite |>
-        dplyr::select(Year, NVC.Code, Mean.Similarity, Standard.Deviation) |>
-        dplyr::arrange(Year, dplyr::desc(Mean.Similarity))
-      
-      nvcAssignmentSite_rval(nvcAssignmentSite_prepped)
+      # nvcAssignmentSite <- nvcAssignmentQuadrat |>
+      #   dplyr::group_by(Year, NVC.Code) |>
+      #   dplyr::rename("Mean.Similarity.Quadrat" = "Mean.Similarity") |>
+      #   dplyr::summarise("Mean.Similarity" = mean(Mean.Similarity.Quadrat),
+      #                    "Standard.Deviation" = sd(Mean.Similarity.Quadrat),
+      #                    .groups = "drop") |>
+      #   dplyr::group_by(Year) |>
+      #   dplyr::arrange(Year, dplyr::desc(Mean.Similarity)) |>
+      #   dplyr::slice(1:10) |>
+      #   dplyr::ungroup()
+      # 
+      # nvcAssignmentSite_prepped <- nvcAssignmentSite |>
+      #   dplyr::select(Year, NVC.Code, Mean.Similarity, Standard.Deviation) |>
+      #   dplyr::arrange(Year, dplyr::desc(Mean.Similarity))
+      # 
+      # nvcAssignmentSite_rval(nvcAssignmentSite_prepped)
       
     })
     
@@ -316,160 +298,160 @@ nvcAssignment <- function(input, output, session, surveyTable, floristicTables, 
   
 
 # Update NVC Assignment Site Table ----------------------------------------
-  observe({
-    
-    req(nvcAssignmentSite_rval())
-    
-    nvcAssignmentSite <- nvcAssignmentSite_rval() |>
-      dplyr::group_by(Year) |>
-      dplyr::slice(1:nTopResults()) |>
-      dplyr::ungroup()
-    
-    output$nvcAssignmentSiteTable <- reactable::renderReactable({
-      
-      nvcAssignmentSiteTable <- reactable::reactable(data = nvcAssignmentSite, 
-                                                     filterable = FALSE,
-                                                     pagination = FALSE, 
-                                                     highlight = TRUE,
-                                                     bordered = TRUE,
-                                                     sortable = TRUE, 
-                                                     wrap = FALSE,
-                                                     resizable = TRUE,
-                                                     style = list(fontSize = "1rem"),
-                                                     class = "my-tbl",
-                                                     # style = list(fontSize = "1rem"),
-                                                     rowClass = "my-row",
-                                                     defaultColDef = reactable::colDef(
-                                                       format = reactable::colFormat(digits = 2),
-                                                       headerClass = "my-header",
-                                                       class = "my-col",
-                                                       align = "center" # Needed as alignment is not passing through to header
-                                                     ),
-                                                     columns = list(
-                                                       Year = reactable::colDef(
-                                                         format = reactable::colFormat(digits = 0),
-                                                         filterable = TRUE,
-                                                         filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                       return rows.filter(function(row) {
-                                                                                       return row.values[columnId] == filterValue
-                                                                                       })
-                                                                                       }")
-                                                       )
-                                                     )
-                                                     )
-      
-      return(nvcAssignmentSiteTable)
-      
-    })
-    
-  }) |>
-    bindEvent(nvcAssignmentSite_rval(), 
-              nTopResults(),
-              ignoreInit = TRUE, 
-              ignoreNULL = TRUE)
-  
-  
-  outputOptions(output, "nvcAssignmentSiteTable", suspendWhenHidden = FALSE)
+  # observe({
+  #   
+  #   req(nvcAssignmentSite_rval())
+  #   
+  #   nvcAssignmentSite <- nvcAssignmentSite_rval() |>
+  #     dplyr::group_by(Year) |>
+  #     dplyr::slice(1:nTopResults()) |>
+  #     dplyr::ungroup()
+  #   
+  #   output$nvcAssignmentSiteTable <- reactable::renderReactable({
+  #     
+  #     nvcAssignmentSiteTable <- reactable::reactable(data = nvcAssignmentSite, 
+  #                                                    filterable = FALSE,
+  #                                                    pagination = FALSE, 
+  #                                                    highlight = TRUE,
+  #                                                    bordered = TRUE,
+  #                                                    sortable = TRUE, 
+  #                                                    wrap = FALSE,
+  #                                                    resizable = TRUE,
+  #                                                    style = list(fontSize = "1rem"),
+  #                                                    class = "my-tbl",
+  #                                                    # style = list(fontSize = "1rem"),
+  #                                                    rowClass = "my-row",
+  #                                                    defaultColDef = reactable::colDef(
+  #                                                      format = reactable::colFormat(digits = 2),
+  #                                                      headerClass = "my-header",
+  #                                                      class = "my-col",
+  #                                                      align = "center" # Needed as alignment is not passing through to header
+  #                                                    ),
+  #                                                    columns = list(
+  #                                                      Year = reactable::colDef(
+  #                                                        format = reactable::colFormat(digits = 0),
+  #                                                        filterable = TRUE,
+  #                                                        filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+  #                                                                                      return rows.filter(function(row) {
+  #                                                                                      return row.values[columnId] == filterValue
+  #                                                                                      })
+  #                                                                                      }")
+  #                                                      )
+  #                                                    )
+  #                                                    )
+  #     
+  #     return(nvcAssignmentSiteTable)
+  #     
+  #   })
+  #   
+  # }) |>
+  #   bindEvent(nvcAssignmentSite_rval(), 
+  #             nTopResults(),
+  #             ignoreInit = TRUE, 
+  #             ignoreNULL = TRUE)
+  # 
+  # 
+  # outputOptions(output, "nvcAssignmentSiteTable", suspendWhenHidden = FALSE)
 
 # Initialise NVC Assignment Group Table -----------------------------------
-  nvcAssignmentGroupTable_init <- data.frame("Year" = integer(),
-                                             "Group" = character(),
-                                             "Mean.Similarity" = numeric(),
-                                             "Standard.Deviation" = numeric(),
-                                             "NVC.Code" = character()
-  )
-  
-  nvcAssignmentGroupTable_rval <- reactiveVal(nvcAssignmentGroupTable_init)
-  
-  output$nvcAssignmentGroupTable <- reactable::renderReactable({
-    
-    nvcAssignmentGroupTable <- reactable::reactable(data = nvcAssignmentGroupTable_init,
-                                                    filterable = FALSE,
-                                                    pagination = FALSE, 
-                                                    highlight = TRUE,
-                                                    bordered = TRUE,
-                                                    sortable = TRUE, 
-                                                    wrap = FALSE,
-                                                    resizable = TRUE,
-                                                    style = list(fontSize = "1rem"),
-                                                    class = "my-tbl",
-                                                    # style = list(fontSize = "1rem"),
-                                                    rowClass = "my-row",
-                                                    defaultColDef = reactable::colDef(
-                                                      format = reactable::colFormat(digits = 2),
-                                                      headerClass = "my-header",
-                                                      class = "my-col",
-                                                      align = "center" # Needed as alignment is not passing through to header
-                                                    ))
-    
-    return(nvcAssignmentGroupTable)
-    
-  })
+  # nvcAssignmentGroupTable_init <- data.frame("Year" = integer(),
+  #                                            "Group" = character(),
+  #                                            "Mean.Similarity" = numeric(),
+  #                                            "Standard.Deviation" = numeric(),
+  #                                            "NVC.Code" = character()
+  # )
+  # 
+  # nvcAssignmentGroupTable_rval <- reactiveVal(nvcAssignmentGroupTable_init)
+  # 
+  # output$nvcAssignmentGroupTable <- reactable::renderReactable({
+  #   
+  #   nvcAssignmentGroupTable <- reactable::reactable(data = nvcAssignmentGroupTable_init,
+  #                                                   filterable = FALSE,
+  #                                                   pagination = FALSE, 
+  #                                                   highlight = TRUE,
+  #                                                   bordered = TRUE,
+  #                                                   sortable = TRUE, 
+  #                                                   wrap = FALSE,
+  #                                                   resizable = TRUE,
+  #                                                   style = list(fontSize = "1rem"),
+  #                                                   class = "my-tbl",
+  #                                                   # style = list(fontSize = "1rem"),
+  #                                                   rowClass = "my-row",
+  #                                                   defaultColDef = reactable::colDef(
+  #                                                     format = reactable::colFormat(digits = 2),
+  #                                                     headerClass = "my-header",
+  #                                                     class = "my-col",
+  #                                                     align = "center" # Needed as alignment is not passing through to header
+  #                                                   ))
+  #   
+  #   return(nvcAssignmentGroupTable)
+  #   
+  # })
   
 
 # Update NVC Assignment Group Table ---------------------------------------
-  observe({
-    
-    req(nvcAssignmentGroup_rval())
-    
-    nvcAssignmentGroup <- nvcAssignmentGroup_rval() |>
-      dplyr::group_by(Year, Group) |>
-      dplyr::slice(1:nTopResults()) |>
-      dplyr::ungroup()
-    
-    output$nvcAssignmentGroupTable <- reactable::renderReactable({
-      
-      nvcAssignmentGroupTable <- reactable::reactable(data = nvcAssignmentGroup, 
-                                                      filterable = FALSE,
-                                                      pagination = FALSE, 
-                                                      highlight = TRUE,
-                                                      bordered = TRUE,
-                                                      sortable = TRUE, 
-                                                      wrap = FALSE,
-                                                      resizable = TRUE,
-                                                      style = list(fontSize = "1rem"),
-                                                      class = "my-tbl",
-                                                      # style = list(fontSize = "1rem"),
-                                                      rowClass = "my-row",
-                                                      defaultColDef = reactable::colDef(
-                                                        format = reactable::colFormat(digits = 2),
-                                                        headerClass = "my-header",
-                                                        class = "my-col",
-                                                        align = "center" # Needed as alignment is not passing through to header
-                                                      ),
-                                                      columns = list(
-                                                        Year = reactable::colDef(
-                                                          format = reactable::colFormat(digits = 0),
-                                                          filterable = TRUE,
-                                                          filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                       return rows.filter(function(row) {
-                                                                                       return row.values[columnId] == filterValue
-                                                                                       })
-                                                                                       }")
-                                                        ),
-                                                        Group = reactable::colDef(
-                                                          filterable = TRUE,
-                                                          filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                       return rows.filter(function(row) {
-                                                                                       return row.values[columnId] == filterValue
-                                                                                       })
-                                                                                       }")
-                                                        )
-                                                      )
-                                                      )
-      
-      return(nvcAssignmentGroupTable)
-      
-    })
-    
-  }) |>
-    bindEvent(nvcAssignmentGroup_rval(),
-              nTopResults(),
-              ignoreInit = TRUE, 
-              ignoreNULL = TRUE)
-  
-  
-  outputOptions(output, "nvcAssignmentGroupTable", suspendWhenHidden = FALSE)
+  # observe({
+  #   
+  #   req(nvcAssignmentGroup_rval())
+  #   
+  #   nvcAssignmentGroup <- nvcAssignmentGroup_rval() |>
+  #     dplyr::group_by(Year, Group) |>
+  #     dplyr::slice(1:nTopResults()) |>
+  #     dplyr::ungroup()
+  #   
+  #   output$nvcAssignmentGroupTable <- reactable::renderReactable({
+  #     
+  #     nvcAssignmentGroupTable <- reactable::reactable(data = nvcAssignmentGroup, 
+  #                                                     filterable = FALSE,
+  #                                                     pagination = FALSE, 
+  #                                                     highlight = TRUE,
+  #                                                     bordered = TRUE,
+  #                                                     sortable = TRUE, 
+  #                                                     wrap = FALSE,
+  #                                                     resizable = TRUE,
+  #                                                     style = list(fontSize = "1rem"),
+  #                                                     class = "my-tbl",
+  #                                                     # style = list(fontSize = "1rem"),
+  #                                                     rowClass = "my-row",
+  #                                                     defaultColDef = reactable::colDef(
+  #                                                       format = reactable::colFormat(digits = 2),
+  #                                                       headerClass = "my-header",
+  #                                                       class = "my-col",
+  #                                                       align = "center" # Needed as alignment is not passing through to header
+  #                                                     ),
+  #                                                     columns = list(
+  #                                                       Year = reactable::colDef(
+  #                                                         format = reactable::colFormat(digits = 0),
+  #                                                         filterable = TRUE,
+  #                                                         filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+  #                                                                                      return rows.filter(function(row) {
+  #                                                                                      return row.values[columnId] == filterValue
+  #                                                                                      })
+  #                                                                                      }")
+  #                                                       ),
+  #                                                       Group = reactable::colDef(
+  #                                                         filterable = TRUE,
+  #                                                         filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+  #                                                                                      return rows.filter(function(row) {
+  #                                                                                      return row.values[columnId] == filterValue
+  #                                                                                      })
+  #                                                                                      }")
+  #                                                       )
+  #                                                     )
+  #                                                     )
+  #     
+  #     return(nvcAssignmentGroupTable)
+  #     
+  #   })
+  #   
+  # }) |>
+  #   bindEvent(nvcAssignmentGroup_rval(),
+  #             nTopResults(),
+  #             ignoreInit = TRUE, 
+  #             ignoreNULL = TRUE)
+  # 
+  # 
+  # outputOptions(output, "nvcAssignmentGroupTable", suspendWhenHidden = FALSE)
   
 
 # Initialise NVC Assignment Quadrat Table ---------------------------------
@@ -778,19 +760,19 @@ nvcAssignment <- function(input, output, session, surveyTable, floristicTables, 
   
   observe({
     
-    shiny::req(nvcAssignmentSite_rval())
-    shiny::req(nvcAssignmentGroup_rval())
+    # shiny::req(nvcAssignmentSite_rval())
+    # shiny::req(nvcAssignmentGroup_rval())
     shiny::req(nvcAssignmentQuadrat_rval())
     
-    nvcAssignmentSite <- nvcAssignmentSite_rval() |>
-      dplyr::group_by(Year) |>
-      dplyr::slice(1:nTopResults()) |>
-      dplyr::ungroup()
-    
-    nvcAssignmentGroup <- nvcAssignmentGroup_rval() |>
-      dplyr::group_by(Year, Group) |>
-      dplyr::slice(1:nTopResults()) |>
-      dplyr::ungroup()
+    # nvcAssignmentSite <- nvcAssignmentSite_rval() |>
+    #   dplyr::group_by(Year) |>
+    #   dplyr::slice(1:nTopResults()) |>
+    #   dplyr::ungroup()
+    # 
+    # nvcAssignmentGroup <- nvcAssignmentGroup_rval() |>
+    #   dplyr::group_by(Year, Group) |>
+    #   dplyr::slice(1:nTopResults()) |>
+    #   dplyr::ungroup()
     
     nvcAssignmentQuadrat <- nvcAssignmentQuadrat_rval() |>
       dplyr::group_by(Year, Group, Quadrat) |>
@@ -807,8 +789,8 @@ nvcAssignment <- function(input, output, session, surveyTable, floristicTables, 
       dplyr::slice(1:nTopResults()) |>
       dplyr::ungroup()
     
-    nvcAssignmentAll_list <- list("nvcAssignmentSite" = nvcAssignmentSite,
-                                  "nvcAssignmentGroup" = nvcAssignmentGroup,
+    nvcAssignmentAll_list <- list(#"nvcAssignmentSite" = nvcAssignmentSite,
+                                  #"nvcAssignmentGroup" = nvcAssignmentGroup,
                                   "nvcAssignmentQuadrat" = nvcAssignmentQuadrat,
                                   "nvcAssignmentSite_Czekanowski" = nvcAssignmentSite_Czekanowski,
                                   "nvcAssignmentGroup_Czekanowski" = nvcAssignmentGroup_Czekanowski)
@@ -817,8 +799,10 @@ nvcAssignment <- function(input, output, session, surveyTable, floristicTables, 
     
   }) |>
     bindEvent(nTopResults(),
-              nvcAssignmentSite_rval(),
-              nvcAssignmentGroup_rval(),
+              # nvcAssignmentSite_rval(),
+              # nvcAssignmentGroup_rval(),
+              nvcAssignmentSite_Czekanowski_rval(),
+              nvcAssignmentGroup_Czekanowski_rval(),
               nvcAssignmentQuadrat_rval(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)

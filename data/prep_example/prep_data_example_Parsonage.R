@@ -133,13 +133,15 @@ pd_cleanNames <- exampleData_pd |>
         Species == "Camptothecium lutescens" ~ "Homalothecium lutescens",
         Species == "Thymus polytrichus" ~ "Thymus drucei",
         Species == "Senecio jacobaea" ~ "Jacobaea vulgaris",
-        Species == "Pseudoscleropodium purum" ~ "Scleropodium purum",
         Species == "Acrocladium cuspidatum " ~ "Calliergonella cuspidata",
         Species == "Taraxacum agg" ~ "Taraxacum",
         Species == "Rhytidiadelphus sp." ~ "Rhytidiadelphus",
         Species == "Mnium sp. " ~ "Mnium",
         Species == "Fissidens sp." ~ "Fissidens",
         Species == "Coeloglossum viride" ~ "Dactylorhiza viridis",
+        Species == "Scleropodium purum" ~ "Pseudoscleropodium purum",
+        Species == "Eurhynchium praelongum" ~ "Kindbergia praelonga",
+        Species == "Campyliadelphus chrysophyllus" ~ "Campylium chrysophyllum",
         TRUE ~ as.character(Species)
       )
   )
