@@ -30,6 +30,45 @@ sidebarUI <- function(id){
         
         shiny::div(
           
+          id = ns("includeBryophytes_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            # tags$style(".btn-group-vertical {width: 100% !important;}"),
+            
+            shinyWidgets::switchInput(inputId = ns("includeBryophytes"), 
+                                      label = "Bryophytes",
+                                      value = TRUE,
+                                      onLabel = "Yes",
+                                      offLabel = "No"),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Include Bryophytes",
+              id = ns("includeBryophytesInfo"),
+              shiny::markdown(
+                "
+                Toggle whether bryophyte taxa are available for selection and
+                are included in analyses in MAVIS. If 'Yes'
+                moss (Bryophyta), liverwort (Marchantiophyta), and hornwort 
+                (Anthocerotophyta) taxa are included. If 'No' these taxa are
+                exluded.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+          
+        ),
+        
+        shiny::div(
+          
           id = ns("inputMethod_div"),
           
           bslib::layout_columns(

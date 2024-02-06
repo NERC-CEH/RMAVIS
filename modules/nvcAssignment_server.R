@@ -1,4 +1,4 @@
-nvcAssignment <- function(input, output, session, surveyTable, floristicTables, sidebar_options) {
+nvcAssignment <- function(input, output, session, surveyTable, surveyTableSummary, floristicTables, sidebar_options) {
   
   ns <- session$ns
   
@@ -82,6 +82,7 @@ nvcAssignment <- function(input, output, session, surveyTable, floristicTables, 
   observe({
     
     shiny::req(floristicTables())
+    shiny::req(surveyTableSummary())
     
     # req(isFALSE(runAnalysis() == 0))
     
@@ -94,9 +95,18 @@ nvcAssignment <- function(input, output, session, surveyTable, floristicTables, 
     shiny::isolate({
       
       surveyTable <- surveyTable()
+      surveyTableSummary <- surveyTableSummary()
       
       # assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
+      # assign(x = "surveyTableSummary", value = surveyTableSummary, envir = .GlobalEnv)
       
+      # Retrieve the site and group ID's for which there are less than the threshold 
+      threshold <- 5
+      site_group_ids_remove <- surveyTableSummary$surveyTableStructure$quadratsPerID |>
+        dplyr::filter(n < threshold) |>
+        dplyr::pull(ID)
+      
+      # Add an ID column to the survey data table
       surveyTable_prepped <- surveyTable |>
         tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = FALSE) |>
         dplyr::rename("species" = "Species")
@@ -195,6 +205,9 @@ nvcAssignment <- function(input, output, session, surveyTable, floristicTables, 
     
     # Prepare floristicTables
     floristicTables <- floristicTables()
+    
+    # assign(x = "floristicTables", value = floristicTables, envir = .GlobalEnv)
+    
     floristicTables_prepped <- floristicTables  |>
       dplyr::mutate(
         "Constancy" = 
@@ -206,7 +219,8 @@ nvcAssignment <- function(input, output, session, surveyTable, floristicTables, 
             Constancy == "V" ~ 1.0,
             TRUE ~ as.numeric(0)
           )
-      )
+      ) |> 
+      dplyr::filter(!(ID %in% site_group_ids_remove))
     
     # Prepare nvc_floristic_tables_numeric
     if(!is.null(habitatRestriction())){
@@ -223,7 +237,6 @@ nvcAssignment <- function(input, output, session, surveyTable, floristicTables, 
     
     # assign(x = "habitatRestriction", value = habitatRestriction(), envir = .GlobalEnv)
     # assign(x = "codes_regex", value = codes_regex, envir = .GlobalEnv)
-    
     # assign(x = "floristicTables_prepped", value = floristicTables_prepped, envir = .GlobalEnv)
     # assign(x = "nvc_floristic_tables_numeric", value = nvc_floristic_tables_numeric, envir = .GlobalEnv)
     
@@ -789,11 +802,25 @@ nvcAssignment <- function(input, output, session, surveyTable, floristicTables, 
       dplyr::slice(1:nTopResults()) |>
       dplyr::ungroup()
     
+    # Get all NVC communities and sub-communities from nvc assignment results
+    NVC_communities_all <- nvcAssignmentSite_Czekanowski |>
+      dplyr::pull(NVC.Code)
+    
+    # Get all NVC communities from community and sub-community codes
+    NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
+                                                       pattern = "(\\d)[^0-9]+$", 
+                                                       replace = "\\1") |>
+      unique()
+    
+    # Create data frame containing top-fitted NVC subcommunities and communities
+    NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
+    
     nvcAssignmentAll_list <- list(#"nvcAssignmentSite" = nvcAssignmentSite,
                                   #"nvcAssignmentGroup" = nvcAssignmentGroup,
                                   "nvcAssignmentQuadrat" = nvcAssignmentQuadrat,
                                   "nvcAssignmentSite_Czekanowski" = nvcAssignmentSite_Czekanowski,
-                                  "nvcAssignmentGroup_Czekanowski" = nvcAssignmentGroup_Czekanowski)
+                                  "nvcAssignmentGroup_Czekanowski" = nvcAssignmentGroup_Czekanowski,
+                                  "topNVCCommunities" = NVC_communities_final)
     
     nvcAssignmentAll_rval(nvcAssignmentAll_list)
     

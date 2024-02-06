@@ -332,12 +332,15 @@ dataset, in order to demonstrate the functionality of the app
 <h3><span class="header-section-number">2.1.1</span> Accepted Species</h3>
 <p>The list of species available for entry is currently composed of:</p>
 <ul>
-<li>The vascular plant taxa present in the Botanical Society of Britain and Ireland’s
-database <span class="citation">(<a href="#ref-bsbi2022TaxonLists">BSBI 2022</a>)</span>; filtered to include taxa at the genus,
-species, hybrid species, and subspecies ranks which have an associated
-UK Species Inventory (UKSI) Taxon Version Key (TVK).</li>
-<li>The accepted bryophytes present in the UKSI, retrieved from the National
-Biodiversity Network (NBN).</li>
+<li>The vascular plant (Tracheophyta) taxa present in the Botanical Society of
+Britain and Ireland’s database <span class="citation">(<a href="#ref-bsbi2022TaxonLists">BSBI 2022</a>)</span>; filtered to include
+taxa at the “genus”, “species”, “hybrid species”, and “subspecies” ranks
+which have an associated UK Species Inventory (UKSI) Taxon Version Key
+(TVK).</li>
+<li>The moss (Bryophyta), liverwort (Marchantiophyta), and hornwort
+(Anthocerotophyta) taxa present in the UKSI, retrieved from the National
+Biodiversity Network (NBN), filtered to include taxa at the “species”,
+“species aggregate”, “subspecies”, “species sensu lato”, and “genus” ranks.</li>
 <li>The lichens, charophytes, and algae present in the NVC floristic tables.</li>
 </ul>
 </div>
@@ -416,6 +419,10 @@ by calculating the Jaccard similarity between the sample plots and
 pseudo-quadrats generated from the NVC floristic tables.
 This approach is noted as improving the accuracy of fit relative to the
 Czekanowski index for samples with low species richness <span class="citation">(<a href="#ref-tipping2013">Tipping et al. 2013</a>)</span>.</p>
+<blockquote>
+<p>Please note that Site and Group similarities will not be calculated for
+Years and Year-Group combinations with less than 5 sample plots</p>
+</blockquote>
 <div id="communities" class="section level3" number="2.3.1">
 <h3><span class="header-section-number">2.3.1</span> Communities</h3>
 <p>The NVC communities available in MAVIS are composed from the following

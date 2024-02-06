@@ -123,12 +123,15 @@ dataset, in order to demonstrate the functionality of the app
 
 The list of species available for entry is currently composed of:
 
--   The vascular plant taxa present in the Botanical Society of Britain and Ireland's
-    database [@bsbi2022TaxonLists]; filtered to include taxa at the genus, 
-    species, hybrid species, and subspecies ranks which have an associated
-    UK Species Inventory (UKSI) Taxon Version Key (TVK).
--   The accepted bryophytes present in the UKSI, retrieved from the National
-Biodiversity Network (NBN).
+-   The vascular plant (Tracheophyta) taxa present in the Botanical Society of 
+    Britain and Ireland's database [@bsbi2022TaxonLists]; filtered to include 
+    taxa at the "genus", "species", "hybrid species", and "subspecies" ranks 
+    which have an associated UK Species Inventory (UKSI) Taxon Version Key 
+    (TVK).
+-   The moss (Bryophyta), liverwort (Marchantiophyta), and hornwort 
+    (Anthocerotophyta) taxa present in the UKSI, retrieved from the National 
+    Biodiversity Network (NBN), filtered to include taxa at the "species", 
+    "species aggregate", "subspecies", "species sensu lato", and "genus" ranks.
 -   The lichens, charophytes, and algae present in the NVC floristic tables.
 
 
@@ -216,6 +219,9 @@ by calculating the Jaccard similarity between the sample plots and
 pseudo-quadrats generated from the NVC floristic tables.
 This approach is noted as improving the accuracy of fit relative to the 
 Czekanowski index for samples with low species richness [@tipping2013].
+
+> Please note that Site and Group similarities will not be calculated for
+> Years and Year-Group combinations with less than 5 sample plots
 
 ### Communities
 

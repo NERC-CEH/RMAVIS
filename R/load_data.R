@@ -21,17 +21,18 @@ master_data <- readRDS(file = "./data/bundled_data/master_data.rds")
 nvc_pquads_final <- readRDS(file = "./data/bundled_data/nvc_pquads_final.rds")
 
 
+# Accepted Species data ---------------------------------------------------
+# Supplied to the user via download button
+acceptedSpecies <- readRDS(file = "./data/bundled_data/acceptedSpecies.rds")
+
 # Species names -----------------------------------------------------------
 speciesNames <- readRDS(file = "./data/bundled_data/speciesNames.rds")
 
 
 # Concordance data --------------------------------------------------------
 concordance_all <- readRDS(file = "./data/bundled_data/concordance_all.rds")
-
-
-# Accepted Species data ---------------------------------------------------
-acceptedSpecies <- readRDS(file = "./data/bundled_data/acceptedSpecies.rds")
-
+concordance_plants <- readRDS(file = "./data/bundled_data/concordance_plants.rds")
+concordance_bryophytes <- readRDS(file = "./data/bundled_data/concordance_bryophytes.rds")
 
 # Pseudo-quadrat DCA scores -----------------------------------------------
 nvc_pquads_final_wide <- readRDS(file = "./data/bundled_data/nvc_pquads_final_wide.rds")

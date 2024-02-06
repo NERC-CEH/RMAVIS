@@ -10,6 +10,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     sidebar_options_list <- list(
       "inputMethod" = input$inputMethod,
+      "includeBryophytes" = input$includeBryophytes,
       # "resetTable" = input$resetTable,
       "exampleData" = input$exampleData,
       "runAnalysis" = input$runAnalysis,
@@ -40,7 +41,8 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     sidebar_options(sidebar_options_list)
     
   }) |>
-    bindEvent(input$inputMethod, 
+    bindEvent(input$inputMethod,
+              input$includeBryophytes,
               # input$resetTable, 
               input$exampleData, 
               input$runAnalysis, 
@@ -251,25 +253,17 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     shiny::req(nvcAssignment())
     
-    # Get all NVC communities and sub-communities from nvc assignment results
-    NVC_communities_all <- nvcAssignment()$nvcAssignmentSite_Czekanowski |>
-      dplyr::pull(NVC.Code)
+    nvcAssignment <- nvcAssignment()
     
-    # Get all NVC communities from community and sub-community codes
-    NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
-                                                       pattern = "(\\d)[^0-9]+$", 
-                                                       replace = "\\1") |>
-      unique()
-    
-    NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
+    topNVCCommunities <- nvcAssignment$topNVCCommunities
     
     if(input$restrictNVCFlorTablesOpts == TRUE){
       
       shiny::updateSelectizeInput(
         session = session,
         inputId = "nvcFloristicTable",
-        choices = NVC_communities_final,
-        selected = NVC_communities_final[1],
+        choices = topNVCCommunities,
+        selected = topNVCCommunities[1],
         server = TRUE
       )
       
@@ -279,7 +273,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
         session = session,
         inputId = "nvcFloristicTable",
         choices = nvc_community_codes,
-        selected = NVC_communities_final[1],
+        selected = topNVCCommunities[1],
         server = TRUE
       )
       
@@ -351,26 +345,17 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
   
   
   # Reactively update global reference DCA space selection ------------------
-  
   observe({
     
-    # Get all NVC communities and sub-communities from nvc assignment results
-    NVC_communities_all <- nvcAssignment()$nvcAssignmentSite_Czekanowski |> # nvcAssignment()
-      dplyr::pull(NVC.Code)
+    nvcAssignment <- nvcAssignment()
     
-    # Get all NVC communities from community and sub-community codes
-    NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
-                                                       pattern = "(\\d)[^0-9]+$", 
-                                                       replace = "\\1") |>
-      unique()
-    
-    NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
+    topNVCCommunities <- nvcAssignment$topNVCCommunities
     
     # shinyWidgets::updatePickerInput(
     shiny::updateSelectizeInput(
       session = session,
       inputId = "nationalReferenceSpaces",
-      selected = NVC_communities_final
+      selected = topNVCCommunities
     )
     
   }) |>

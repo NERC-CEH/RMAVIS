@@ -46,22 +46,14 @@ mvaLocalRefRestricted <- function(input, output, session, surveyTable, nvcAssign
     # Peform analysis in a reactive context without creating a reactive relationship
     shiny::isolate({
       
-      # Get all NVC communities and sub-communities from nvc assignment results
-      NVC_communities_all <- nvcAssignment()$nvcAssignmentSite_Czekanowski |>
-        dplyr::pull(NVC.Code)
+      nvcAssignment <- nvcAssignment()
       
-      # Get all NVC communities from community and sub-community codes
-      NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
-                                                         pattern = "(\\d)[^0-9]+$", 
-                                                         replace = "\\1") |>
-        unique()
-      
-      NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
+      topNVCCommunities <- nvcAssignment$topNVCCommunities
       
       # Create pattern to subset matrix rows
       codes_regex <- c()
       
-      for(code in NVC_communities_final){
+      for(code in topNVCCommunities){
         
         regex <- paste0("^(", code, ")(?<=)P")
         

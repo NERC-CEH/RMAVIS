@@ -56,13 +56,21 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
-        bslib::card_header("Survey Data"),
+        bslib::card_header("Data Input"),
         
         value = "surveyData_panel",
         
-        surveyTableUI(id = "surveyTable_id_1"),
+        surveyTableUI(id = "surveyTable_id_1")
         
-        shiny::div(shiny::br()),
+      ),
+      
+      bslib::nav_panel(
+        
+        full_screen = TRUE,
+        
+        bslib::card_header("Data Structure"),
+        
+        value = "dataStructure_panel",
         
         surveyTableSummaryUI(id = "surveyTableSummary_id_1")
         

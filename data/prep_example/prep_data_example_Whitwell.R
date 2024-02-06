@@ -34,7 +34,8 @@ whitwell_cleanNames <- whitwell_prepped |>
         Species == "Lychnis flos-cuculi" ~ "Silene flos-cuculi",
         Species == "Tortilis japonica" ~ "Torilis japonica",
         Species == "Taraxacum officinalis" ~ "Taraxacum",
-        Species == "Eurynchium praelongum" ~ "Eurhynchium praelongum",
+        Species == "Eurynchium praelongum" ~ "Kindbergia praelonga",
+        Species == "Eurhynchium praelongum" ~ "Kindbergia praelonga",
         Species == "Festuca arundinacea" ~  "Schedonorus arundinaceus",
         Species == "Vicia hirsuta" ~  "Ervilia hirsuta",
         TRUE ~ as.character(Species)

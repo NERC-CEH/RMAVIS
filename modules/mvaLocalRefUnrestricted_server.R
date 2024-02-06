@@ -46,23 +46,14 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
     # # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
       
-      # Get all NVC communities and sub-communities from nvc assignment results
-      NVC_communities_all <- nvcAssignment()$nvcAssignmentSite_Czekanowski |>
-        dplyr::pull(NVC.Code)
+      nvcAssignment <- nvcAssignment()
       
-      # Get all NVC communities from community and sub-community codes
-      NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
-                                                         pattern = "(\\d)[^0-9]+$", 
-                                                         replace = "\\1") |>
-        unique()
-      
-      NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
-      
+      topNVCCommunities <- nvcAssignment$topNVCCommunities
       
       # Create pattern to subset matrix rows
       codes_regex <- c()
       
-      for(code in NVC_communities_final){
+      for(code in topNVCCommunities){
         
         regex <- paste0("^(", code, ")(?<=)P")
         
@@ -172,7 +163,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
         dplyr::mutate(
           "Year" =
             dplyr::case_when(
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ "Reference",
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(topNVCCommunities, collapse = "|")) ~ "Reference",
               TRUE ~ stringr::str_extract(string = Quadrat, pattern = "(\\d{4})")
             ),
           .before  = "Quadrat"
@@ -180,7 +171,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
         dplyr::mutate(
           "NVC.Comm" =
             dplyr::case_when(
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"),
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(topNVCCommunities, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"),
               TRUE ~ as.character("Sample")
             ),
           .before  = "Quadrat"
@@ -188,8 +179,8 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
         dplyr::mutate(
           "Group" =
             dplyr::case_when(
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) == TRUE ~ "Reference",
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(NVC_communities_final, collapse = "|")) == FALSE ~ stringr::str_extract(string = Quadrat, pattern = "\\d{4}\\s-\\s(.*)\\s-\\s.*", group = 1),
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(topNVCCommunities, collapse = "|")) == TRUE ~ "Reference",
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(topNVCCommunities, collapse = "|")) == FALSE ~ stringr::str_extract(string = Quadrat, pattern = "\\d{4}\\s-\\s(.*)\\s-\\s.*", group = 1),
               TRUE ~ as.character("")
             ),
           .before  = "Quadrat"

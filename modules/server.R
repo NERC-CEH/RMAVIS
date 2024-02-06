@@ -12,6 +12,10 @@ server <- function(input, output, session) {
   nvcInfo <- shiny::callModule(module = nvcInfo,
                                id = "nvcInfo_id_1")
   
+  setupData <- shiny::callModule(module = setupData,
+                                 id = "setupData_id_1",
+                                 sidebar_options = sidebar_options)
+  
   uploadDataTable <- shiny::callModule(module = uploadData,
                                        id = "uploadData_id_1")
   
@@ -44,6 +48,7 @@ server <- function(input, output, session) {
   nvcAssignment <- shiny::callModule(module = nvcAssignment,
                                      id = "nvcAssignment_id_1",
                                      surveyTable = surveyTable,
+                                     surveyTableSummary = surveyTableSummary,
                                      floristicTables = floristicTables,
                                      sidebar_options = sidebar_options)
 

@@ -56,24 +56,14 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
     # shiny::req(input$habCorTable)
     shiny::req(nvcAssignment())
     
-    # # Retrieve the table, optionally modify the table without triggering recursion.
+    # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
       
-      # Get all NVC communities and sub-communities from nvc assignment results
-      NVC_communities_all <- nvcAssignment()$nvcAssignmentSite_Czekanowski |> # nvcAssignment()
-        dplyr::pull(NVC.Code)
+      nvcAssignment <- nvcAssignment()
       
-      # Get all NVC communities from community and sub-community codes
-      NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
-                                                         pattern = "(\\d)[^0-9]+$", 
-                                                         replace = "\\1") |>
-        unique()
-
-      NVC_communities_final <- data.frame(
-        "NVC.Code" = unique(c(NVC_communities_all, NVC_communities_fromSubCom))
-        )
+      topNVCCommunities_df <- data.frame("NVC.Code" = nvcAssignment$topNVCCommunities)
       
-      habCorTable <- NVC_communities_final |>
+      habCorTable <- topNVCCommunities_df |>
         dplyr::left_join(all_habCor_final, relationship = "many-to-many", by = dplyr::join_by(NVC.Code)) |>
         dplyr::filter(Classification == habCorClass()) |>
         dplyr::select(NVC.Code, Relationship, Code, Label) |>
