@@ -1,6 +1,22 @@
-surveyTableValidator <- function(input, output, session, surveyTable, sidebar_options) {
+surveyTableValidator <- function(input, output, session, setupData, surveyTable, sidebar_options) {
   
   ns <- session$ns
+  
+# Retrieve Setup Data -----------------------------------------------------
+  # speciesNames <- reactiveVal()
+  
+  observe({
+    
+    setupData <- setupData()
+    
+    # speciesNames(setupData$species_names)
+    # 
+    # print(length(speciesNames()))
+    
+  }) |>
+    bindEvent(setupData(),
+              sidebar_options(),
+              ignoreInit = FALSE)
   
 # Initialise Table to Replace Species Not In Accepted List ----------------
   speciesAdjustmentTable_init <- data.frame("Species.Submitted" = character(),

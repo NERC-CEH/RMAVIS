@@ -20,7 +20,8 @@ knitr::opts_chunk$set(
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 <!-- badges: end -->
 
-The MAVIS R shiny web application is a tool for..........
+The MAVIS R shiny web application is a tool to assist in the assignment of vegetation plot
+sample data to UK National Vegetation Classification units.
 
 ## Running the app
 
@@ -30,6 +31,12 @@ repository, calling `renv::restore()`, and then calling `shiny::runApp("app.R")`
 Future developments may support the release of MAVIS as an R package.
 
 ## Hosting
+
+### Posit Connect
+
+MAVIS is currently hosted on the UKCEH Posit Connect server:
+
+### Docker
 
 MAVIS is configured to be built with [Docker](https://www.docker.com/).
 

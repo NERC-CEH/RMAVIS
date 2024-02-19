@@ -8,6 +8,7 @@ source("R/load_data.R", local = TRUE)
 source("R/create_constants.R", local = TRUE)
 
 # Render documentation ----------------------------------------------------
+# This can be disabled if one wishes to pre-render the documentation manually.
 source("R/render_docs.R", local = TRUE)
 
 # Source functions --------------------------------------------------------
@@ -43,6 +44,8 @@ source("modules/surveyTableSummary_server.R", local = TRUE)
 source("modules/surveyTableWide_ui.R", local = TRUE)
 source("modules/surveyTableWide_server.R", local = TRUE)
 
+# source("modules/selectedPquads_server.R", local = TRUE)
+
 source("modules/nvcAssignment_ui.R", local = TRUE)
 source("modules/nvcAssignment_server.R", local = TRUE)
 
@@ -70,7 +73,6 @@ source("modules/mvaLocalRefRestricted_server.R", local = TRUE)
 source("modules/mvaLocalRefUnrestricted_ui.R", local = TRUE)
 source("modules/mvaLocalRefUnrestricted_server.R", local = TRUE)
 
-# source("modules/report_ui.R", local = TRUE)
 source("modules/report_server.R", local = TRUE)
 
 # Source main UI and Server modules ---------------------------------------

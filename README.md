@@ -6,13 +6,15 @@
 <!-- badges: start -->
 
 [![Generic
-badge](https://img.shields.io/badge/Version-0.95-green.svg)]()
+badge](https://img.shields.io/badge/Version-0.96-green.svg)]()
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 <!-- badges: end -->
 
-The MAVIS R shiny web application is a tool for……….
+The MAVIS R shiny web application is a tool to assist in the assignment
+of vegetation plot sample data to UK National Vegetation Classification
+units.
 
 ## Running the app
 
@@ -23,6 +25,12 @@ by cloning the repository, calling `renv::restore()`, and then calling
 Future developments may support the release of MAVIS as an R package.
 
 ## Hosting
+
+### Posit Connect
+
+MAVIS is currently hosted on the UKCEH Posit Connect server:
+
+### Docker
 
 MAVIS is configured to be built with [Docker](https://www.docker.com/).
 

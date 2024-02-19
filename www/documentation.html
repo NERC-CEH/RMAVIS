@@ -265,6 +265,7 @@ div.tocify {
 </div>
 
 
+<!-- * {font-family: "Montserrat", sans-serif !important;} -->
 <style type="text/css">
 :root {
   
@@ -279,7 +280,7 @@ div.tocify {
   
 }
 
-* {font-family: "Montserrat", sans-serif !important;}
+
 
 body .main-container {
   max-width: 2800px !important;
@@ -300,128 +301,154 @@ body {
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
 <p>The assignment of species compositional data to established vegetation
-classifications is a well established practice in ecology and conservation
-<span class="citation">(<a href="#ref-maciejewski2020">Maciejewski et al. 2020</a>)</span>.
-The results of this assignment process are used in various ways, including:
-informing ecological restoration objectives <span class="citation">(<a href="#ref-gann2019">Gann et al. 2019</a>)</span>,
-assisting in the phase 2 habitat survey (or NVC survey) <span class="citation">(<a href="#ref-rodwell2006national">Rodwell 2006</a>)</span> process,
-along with establishing an ecological baseline and identifying important
-ecological features such as protected habitats <span class="citation">(<a href="#ref-cieem2022">CIEEM 2022</a>)</span>.</p>
-<p>The development of computational methods and programs for the assignment of
-vegetation survey data to NVC communities began with the development of
-TABLEFIT <span class="citation">(<a href="#ref-hill1989">Hill 1989</a>; <a href="#ref-marrs2019">Marrs 2019</a>)</span>. The most recent program, the Modular Analysis of
-Vegetation Information System (MAVIS), was originally developed by
-<span class="citation">S. Smart, Goodwin, and Wallace (<a href="#ref-smart2016mavis">2016</a>)</span> as a Windows application, with the latest version released in
-2021.</p>
-<p>This R Shiny implementation of MAVIS is the newest program in this series,
-aiming to provide a web-based and easily operable system which can be updated
-and improved over time.</p>
+classifications is a well established practice in ecology and
+conservation <span class="citation">(<a href="#ref-maciejewski2020">Maciejewski et al. 2020</a>)</span>. The results of this assignment process
+are used in various ways, including: informing ecological restoration
+objectives <span class="citation">(<a href="#ref-gann2019">Gann et al. 2019</a>)</span> and assisting in the phase 2 habitat survey (or
+NVC survey) <span class="citation">(<a href="#ref-rodwell2006national">Rodwell 2006</a>)</span> process, along with establishing an
+ecological baseline and identifying important ecological features such
+as protected habitats <span class="citation">(<a href="#ref-cieem2022">CIEEM 2022</a>)</span>.</p>
+<p>The development of computational methods and programs for the assignment
+of vegetation survey data to NVC communities began with the development
+of TABLEFIT <span class="citation">(<a href="#ref-hill1989">Hill 1989</a>; <a href="#ref-marrs2019">Marrs 2019</a>)</span>. The most recent program, the
+Modular Analysis of Vegetation Information System (MAVIS), was
+originally developed by <span class="citation">S. Smart, Goodwin, and Wallace (<a href="#ref-smart2016mavis">2016</a>)</span> as a Windows application, with
+the latest version released in 2021.</p>
+<p>This R Shiny implementation of MAVIS is the newest program in this
+series, aiming to provide a web-based and easily operable system which
+can be updated and improved over time.</p>
 </div>
 <div id="instructions-and-methodology" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Instructions and Methodology</h1>
 <div id="survey-data" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Survey Data</h2>
-<p>Three methods for entering data into MAVIS are provided:
-manual, upload, and example. The manual method allows the user to enter the data
-directly via editing the cells of the survey data table, or copying the data in.
-The upload method allows the user to upload the data in one of three formats:
-long, wide, and matrix. The example method allows the user to load a bundled
-dataset, in order to demonstrate the functionality of the app
-(see Section <a href="#example-data">2.1.2</a>).</p>
+<p>Three methods for entering data into MAVIS are provided: manual, upload,
+and example. The manual method allows the user to enter the data
+directly via editing the cells of the survey data table, or copying the
+data in. The upload method allows the user to upload the data in one of
+three formats: long, wide, and matrix. The example method allows the
+user to load a bundled dataset, in order to demonstrate the
+functionality of the app (see Section <a href="#example-data">2.1.2</a>).</p>
 <div id="accepted-species" class="section level3" number="2.1.1">
 <h3><span class="header-section-number">2.1.1</span> Accepted Species</h3>
 <p>The list of species available for entry is currently composed of:</p>
 <ul>
-<li>The vascular plant (Tracheophyta) taxa present in the Botanical Society of
-Britain and Ireland’s database <span class="citation">(<a href="#ref-bsbi2022TaxonLists">BSBI 2022</a>)</span>; filtered to include
-taxa at the “genus”, “species”, “hybrid species”, and “subspecies” ranks
-which have an associated UK Species Inventory (UKSI) Taxon Version Key
-(TVK).</li>
+<li>The vascular plant (Tracheophyta) taxa present in the Botanical
+Society of Britain and Ireland’s database <span class="citation">(<a href="#ref-bsbi2022TaxonLists">BSBI 2022</a>)</span>;
+filtered to include taxa at the “genus”, “species”, “hybrid
+species”, and “subspecies” ranks which have an associated UK Species
+Inventory (UKSI) Taxon Version Keys (TVK).</li>
 <li>The moss (Bryophyta), liverwort (Marchantiophyta), and hornwort
-(Anthocerotophyta) taxa present in the UKSI, retrieved from the National
-Biodiversity Network (NBN), filtered to include taxa at the “species”,
-“species aggregate”, “subspecies”, “species sensu lato”, and “genus” ranks.</li>
-<li>The lichens, charophytes, and algae present in the NVC floristic tables.</li>
+(Anthocerotophyta) taxa present in the UKSI, retrieved from the
+National Biodiversity Network (NBN), filtered to include taxa at the
+“species”, “species aggregate”, “subspecies”, “species sensu lato”,
+and “genus” ranks.</li>
+<li>The lichens, charophytes, and algae present in the NVC floristic
+tables.</li>
 </ul>
 </div>
 <div id="example-data" class="section level3" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> Example Data</h3>
-<p>Four example datasets are available in MAVIS, which provide a
-means to explore the applications functionality.</p>
+<p>Four example datasets are available in MAVIS, which provide a means to
+explore the applications functionality.</p>
 <p><strong>Parsonage Down</strong></p>
-<p>The Parsonage Down dataset <span class="citation">(<a href="#ref-ridding2020">Ridding et al. 2020</a>)</span> contains the results of a long-term
-survey of Parsonage Down National Nature Reserve in Wiltshire, which consists of
-188ha of calcareous grassland. The site was surveyed in three years: 1970, 1990,
-and 2016. Four transects were surveyed, containing a total of 115 quadrats. The
-Domin scale of abundance system was used, with these values being converted into
-direct percentage estimates for use in MAVIS.</p>
+<p>The Parsonage Down dataset <span class="citation">(<a href="#ref-ridding2020">Ridding et al. 2020</a>)</span> contains the results of a
+long-term survey of Parsonage Down National Nature Reserve in Wiltshire,
+which consists of 188ha of calcareous grassland. The site was surveyed
+in three years: 1970, 1990, and 2016. Four transects were surveyed,
+containing a total of 115 quadrats. The Domin scale of abundance system
+was used, with these values being converted into direct percentage
+estimates for use in MAVIS.</p>
 <p><strong>Leith Hill Place Wood</strong></p>
-<p>The Leith Hill Place Wood dataset represents a subset of the Bunce woodland
-survey data, described in <span class="citation">Wood, Smart, and Bunce (<a href="#ref-wood2015">2015</a>)</span> and consists of a total of 16 plots surveyed
-in 1971, 2001, and 2021 <span class="citation">(<a href="#ref-smart2024">S. M. Smart et al. 2024</a>)</span>. Leith Hill Place Wood lies in the path of
-the October 1987 storm track, with <span class="citation">Simon M. Smart et al. (<a href="#ref-smart2014">2014</a>)</span> outlining the positive effect of
-the storm on species richness between 1971 and 2001. No cover values are
-currently provided in this example dataset.</p>
+<p>The Leith Hill Place Wood dataset represents a subset of the Bunce
+woodland survey data, described in <span class="citation">Wood, Smart, and Bunce (<a href="#ref-wood2015">2015</a>)</span> and consists of a total of
+16 plots surveyed in 1971, 2001, and 2021 <span class="citation">(<a href="#ref-smart2024">S. M. Smart et al. 2024</a>)</span>. Leith Hill Place
+Wood lies in the path of the October 1987 storm track, with <span class="citation">Simon M. Smart et al. (<a href="#ref-smart2014">2014</a>)</span>
+outlining the positive effect of the storm on species richness between
+1971 and 2001. No cover values are currently provided in this example
+dataset.</p>
 <p><strong>Whitwell Common</strong></p>
-<p>The Whitwell Common dataset is composed of a repeat survey of Whitwell Common,
-Norfolk - a soligenous mire. Thirty repeat quadrats were surveyed in 1994 and
-1997 <span class="citation">(<a href="#ref-smart2000">S. M. Smart 2000</a>)</span>.
-No cover values are currently provided in this example dataset.</p>
+<p>The Whitwell Common dataset is composed of a repeat survey of Whitwell
+Common, Norfolk - a soligenous mire. Thirty repeat quadrats were
+surveyed in 1994 and 1997 <span class="citation">(<a href="#ref-smart2000">S. M. Smart 2000</a>)</span>. No cover values are currently
+provided in this example dataset.</p>
 <p><strong>Newborough Warren</strong>.</p>
-<p>The Newborough Warren dataset contains the results of a yearly monitoring study
-at Newborough Warren (Ynys Llanddwyn SSSI, Anglesey) with four dune slacks
-surveyed over five years: 2014, 2015, 2016, 2017, and 2018
-(which contain 18, 19, 18, 24, and 24 quadrats respectively) <span class="citation">(<a href="#ref-wallace2018">Wallace and Jones 2018</a>)</span>.
-No cover values are currently provided in this example dataset.</p>
+<p>The Newborough Warren dataset contains the results of a yearly
+monitoring study at Newborough Warren (Ynys Llanddwyn SSSI, Anglesey)
+with four dune slacks surveyed over five years: 2014, 2015, 2016, 2017,
+and 2018 (which contain 18, 19, 18, 24, and 24 quadrats respectively)
+<span class="citation">(<a href="#ref-wallace2018">Wallace and Jones 2018</a>)</span>. No cover values are currently provided in this example
+dataset.</p>
 </div>
 </div>
 <div id="survey-data-validation" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Survey Data Validation</h2>
-<p>At present MAVIS is designed to analyse vegetation survey data in
-the form of grouped quadrats for a single site, with or without cover
+<p>At present MAVIS is designed to analyse vegetation survey data in the
+form of grouped quadrats for a single site, with or without cover
 estimates. However, the user may utilise the “Group” and “Quadrat”
-columns as desired, for example by using the “Group” column to delineate sites.</p>
-<p>Data entered through any of these methods must meet the following conditions.</p>
+columns as desired, for example by using the “Group” column to delineate
+sites.</p>
+<p>Data entered through any of these methods must meet the following
+conditions.</p>
 <ul>
-<li>Each species value must match a species present in the accepted species
-list, which can be downloaded in the “Download Options” section (see Section <a href="#accepted-species">2.1.1</a>).</li>
-<li>There must be no missing values in the year, group, quadrat, and species columns.</li>
-<li>Each quadrat value must be unique in each year, even if in a separate group.</li>
+<li>Each species value must match a species present in the accepted
+species list, which can be downloaded in the “Download Options”
+section (see Section <a href="#accepted-species">2.1.1</a>).</li>
+<li>There must be no missing values in the year, group, quadrat, and
+species columns.</li>
+<li>Each quadrat value must be unique in each year, even if in a
+separate group.</li>
 <li>Each group value must be unique in each year.</li>
 <li>Each year value must be a four digit integer.</li>
 <li>No quadrat must contain two entries of the same species.</li>
 </ul>
-<p>These conditions are checked and can be viewed in the <strong>Survey Data Validation</strong>
-section, accessed by pressing the “Validate Survey Data” button. Here the user
-may adjust the species which are not present in the accepted list using the
-“Species Adjustment Table”, three options are provided:</p>
+<p>These conditions are checked and can be viewed in the <strong>Survey Data
+Validation</strong> section, accessed by pressing the “Validate Survey Data”
+button. Here the user may adjust the species which are not present in
+the accepted list using the “Species Adjustment Table”, three options
+are provided:</p>
 <ul>
 <li>Replace a submitted species with a accepted species.</li>
-<li>Ignore a submitted species. This omits the species from the NVC assignment process.</li>
-<li>Remove a submitted species. This removes a species (or entry in the species column) in the survey table.</li>
+<li>Ignore a submitted species. This omits the species from the NVC
+assignment process.</li>
+<li>Remove a submitted species. This removes a species (or entry in the
+species column) in the survey table.</li>
 </ul>
-<p>The user may also combine duplicate observations of a species in quadrats using
-the “Combine Duplicates” button.</p>
-<p>Until these conditions are met MAVIS will not be able to proceed
-with as the “Run Analysis” and “Generate Report” buttons will be
-disabled.</p>
+<p>The user may also combine duplicate observations of a species in
+quadrats using the “Combine Duplicates” button.</p>
+<p>Until these conditions are met MAVIS will not be able to proceed with as
+the “Run Analysis” and “Generate Report” buttons will be disabled.</p>
 </div>
 <div id="nvc-assignment" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> NVC Assignment</h2>
-<p>In MAVIS NVC community similarities are assigned to survey data for the site and
-each group of plots by year using the Czekanowski index <span class="citation">(<a href="#ref-bloom1981">Bloom 1981</a>; <a href="#ref-hill1989">Hill 1989</a>)</span>,
-which quantifies the similarity between a floristic table composed from survey
-data plots and the NVC floristic tables, with species absent from the survey
-data, but present in the floristic tables at a constancy of 0.2
-down-weighted to 0.1.
-The similarity between individual plots and NVC communities are quantified
+<p>In MAVIS NVC community similarities are assigned to survey data for the
+site and each group of plots by year using the Czekanowski index
+<span class="citation">(<a href="#ref-bloom1981">Bloom 1981</a>; <a href="#ref-hill1989">Hill 1989</a>)</span>, which quantifies the similarity
+between 1) a floristic table composed from survey data plots and
+2) the NVC floristic tables.
+Species absent from the survey data, but present in the NVC
+floristic tables at a constancy of 0.2 are down-weighted to 0.1.</p>
+<p><span class="math display">\[\begin{equation}
+C_{jk} = 2 \cdot \frac{\sum_{i=1}^{p} min(N_{ij}, N_{ik})}{\sum_{i=1}^{p} N_{ij} + \sum_{i=1}^{p} N_{ik}}
+\end{equation}\]</span></p>
+<p>Where where <span class="math inline">\(N_{ij}\)</span> is the abundance of species <span class="math inline">\(i\)</span> at site <span class="math inline">\(j\)</span>, <span class="math inline">\(N_{ik}\)</span> is
+the abundance of species <span class="math inline">\(i\)</span> at site <span class="math inline">\(k\)</span>, <span class="math inline">\(p\)</span> is the total number of species
+in the samples.</p>
+<p>The similarity between individual plots and NVC communities are quantified
 by calculating the Jaccard similarity between the sample plots and
-pseudo-quadrats generated from the NVC floristic tables.
-This approach is noted as improving the accuracy of fit relative to the
-Czekanowski index for samples with low species richness <span class="citation">(<a href="#ref-tipping2013">Tipping et al. 2013</a>)</span>.</p>
+pseudo-quadrats generated from the NVC floristic tables. This approach
+is noted as improving the accuracy of fit relative to the Czekanowski
+index for samples with low species richness <span class="citation">(<a href="#ref-tipping2013">Tipping et al. 2013</a>)</span>.</p>
+<p><span class="math display">\[\begin{equation}
+j = \frac{a}{a + b + c} = \frac{X \cap Y}{X \cup Y}
+\end{equation}\]</span></p>
+<p>Where where <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> represent the species present in two sites,
+<span class="math inline">\(a\)</span> represents the species present in both sites (<span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>),
+<span class="math inline">\(b\)</span> represents the species present in one site but not the other (<span class="math inline">\({X \cap Y}\)</span>),
+and the converse for <span class="math inline">\(c\)</span> (<span class="math inline">\({X \cup Y}\)</span>).</p>
 <blockquote>
-<p>Please note that Site and Group similarities will not be calculated for
-Years and Year-Group combinations with less than 5 sample plots</p>
+<p>Please note that Site and Group similarities will not be calculated
+for Years and Year-Group combinations with less than 5 sample plots</p>
 </blockquote>
 <div id="communities" class="section level3" number="2.3.1">
 <h3><span class="header-section-number">2.3.1</span> Communities</h3>
@@ -429,14 +456,17 @@ Years and Year-Group combinations with less than 5 sample plots</p>
 sources:</p>
 <ul>
 <li>The original NVC floristic tables as described in <span class="citation">Rodwell, Nature Conservancy Council (Great Britain)), and Joint Nature Conservation Committee (Great Britain) (<a href="#ref-rodwell2000">2000</a>)</span>.</li>
-<li>An alternative version of MG4 (MG4v2) and the four MG4 sub-communities described
-in <span class="citation">Prosser, Wallace, and Gowing (<a href="#ref-prosser2023">2023</a>)</span> and <span class="citation">Wallace and Prosser (<a href="#ref-wallace2017">2017</a>)</span> (MG4a, MG4b, MG4c, and MG4d).</li>
+<li>An alternative version of MG4 (MG4v2) and the four MG4
+sub-communities described in <span class="citation">Prosser, Wallace, and Gowing (<a href="#ref-prosser2023">2023</a>)</span> and <span class="citation">Wallace and Prosser (<a href="#ref-wallace2017">2017</a>)</span> (MG4a,
+MG4b, MG4c, and MG4d).</li>
 <li>A new MG6 sub-community (MG6d) <span class="citation">(<a href="#ref-wallace2017">Wallace and Prosser 2017</a>)</span></li>
-<li>An alternative version of MG8 (MG8v2) and the four sub-communities described in
-<span class="citation">Wallace and Prosser (<a href="#ref-wallace2017">2017</a>)</span> (MG8a, MG8b, MG8c, and MG8d).</li>
+<li>An alternative version of MG8 (MG8v2) and the four sub-communities
+described in <span class="citation">Wallace and Prosser (<a href="#ref-wallace2017">2017</a>)</span> (MG8a, MG8b, MG8c, and MG8d).</li>
 <li>An alternative version of MG13 (MG13v2) <span class="citation">(<a href="#ref-wallace2017">Wallace and Prosser 2017</a>)</span>.</li>
-<li>A new MG community (MG14) and two sub-communities (MG14a, MG14b) <span class="citation">(<a href="#ref-wallace2017">Wallace and Prosser 2017</a>)</span>.</li>
-<li>A new MG community (MG15) and two sub-communities (MG15a, MG15b) <span class="citation">(<a href="#ref-wallace2017">Wallace and Prosser 2017</a>)</span>.</li>
+<li>A new MG community (MG14) and two sub-communities (MG14a, MG14b)
+<span class="citation">(<a href="#ref-wallace2017">Wallace and Prosser 2017</a>)</span>.</li>
+<li>A new MG community (MG15) and two sub-communities (MG15a, MG15b)
+<span class="citation">(<a href="#ref-wallace2017">Wallace and Prosser 2017</a>)</span>.</li>
 <li>A new MG community (MG16) <span class="citation">(<a href="#ref-wallace2017">Wallace and Prosser 2017</a>)</span>.</li>
 </ul>
 </div>
@@ -450,29 +480,19 @@ in <span class="citation">Prosser, Wallace, and Gowing (<a href="#ref-prosser202
 <li>Quadrat, Jaccard</li>
 </ul>
 <p><strong>Restrict Habitat</strong></p>
-<p>Optionally restrict the NVC assignment process to one or more broad NVC habitat
-types. This is recommended to increase the assignment speed, but only if the site
-being analysed unequivocally conforms to the selected NVC habitats.</p>
+<p>Optionally restrict the NVC assignment process to one or more broad NVC
+habitat types. This is recommended to increase the assignment speed, but
+only if the site being analysed unequivocally conforms to the selected
+NVC habitats.</p>
 <p><strong>Number of Top Results</strong></p>
 <p>Select the number of top-fitted NVC communities to view.</p>
-<!-- $$ -->
-<!-- \begin{equation}\label{eq:czekanowski} -->
-<!-- = 200 * \sum_{j=1} ^{t} min(REF_{j}, NS_{j}) / \sum_{j=1} ^{m} REF_{j} + \sum_{j=1} ^{n} NS_{j} -->
-<!-- \end{equation} -->
-<!-- $$ -->
-<!-- Where $REF_{j}$ is the Domin cover or constancy value of species $j$ in the  -->
-<!-- constancy table. $NS_{j}$ is the corresponding Domin cover or constancyt value  -->
-<!-- for the same species but in the new, sample data. $min(REF_{j}, NS_{j})$ is the  -->
-<!-- smaller of the two values [@smart2000]. -->
-<!-- ### Inverse Distance Metric -->
-<!-- @critchley2002. -->
 </div>
 </div>
 <div id="habitat-correspondence" class="section level2" number="2.4">
 <h2><span class="header-section-number">2.4</span> Habitat Correspondence</h2>
 <p>The <strong>Habitat Correspondence</strong> section provides a means to explore the
-habitats from alternative habitat classifications which are associated with
-the top-fitted NVC communities assigned to the survey data.</p>
+habitats from alternative habitat classifications which are associated
+with the top-fitted NVC communities assigned to the survey data.</p>
 <p>Habitat correspondence data is drawn from three sources:</p>
 <ol style="list-style-type: decimal">
 <li>The Joint Nature Conservation Committee (JNCC) Spreadsheet of
@@ -484,8 +504,9 @@ Habitat Correspondences <span class="citation">(<a href="#ref-jncc2008">JNCC 200
 <div id="options-1" class="section level3" number="2.4.1">
 <h3><span class="header-section-number">2.4.1</span> Options</h3>
 <p><strong>Classification</strong></p>
-<p>The user may select the habitat classification system from which to retrieve
-associated habitats. At present the following systems are available:</p>
+<p>The user may select the habitat classification system from which to
+retrieve associated habitats. At present the following systems are
+available:</p>
 <ul>
 <li>UKHab - Level 2 <span class="citation">(<a href="#ref-butcher2020">Butcher et al. 2020</a>)</span></li>
 <li>UKHab - Level 3 <span class="citation">(<a href="#ref-butcher2020">Butcher et al. 2020</a>)</span></li>
@@ -506,49 +527,49 @@ associated habitats. At present the following systems are available:</p>
 <h2><span class="header-section-number">2.5</span> Floristic Tables</h2>
 <p>To aid in the NVC assignment process and as an exploratory tool the
 <strong>Floristic Tables</strong> section of MAVIS allows the user to compare a
-composed floristic table to a chosen NVC floristic table. The facility to match
-the species in the composed table with the NVC table, two ways, is also provided.</p>
+composed floristic table to a chosen NVC floristic table. The facility
+to match the species in the composed table with the NVC table, two ways,
+is also provided.</p>
 <div id="options-2" class="section level3" number="2.5.1">
 <h3><span class="header-section-number">2.5.1</span> Options</h3>
 <p><strong>Restrict</strong></p>
-<p>Restrict the NVC communities available to select in the “NVC Table” option to
-the top-fitted NVC communities.</p>
+<p>Restrict the NVC communities available to select in the “NVC Table”
+option to the top-fitted NVC communities.</p>
 <p><strong>NVC Table</strong></p>
 <p>Select a NVC community to display the floristic table for.</p>
 <p><strong>Composed Table</strong></p>
-<p>Select a composed floristic table. The composed tables are formed by calculating
-the frequency class of each species across all quadrats in each year and
-year - group combination.</p>
+<p>Select a composed floristic table. The composed tables are formed by
+calculating the frequency class of each species across all quadrats in
+each year and year - group combination.</p>
 <p><strong>Match Species</strong></p>
-<p>The user may choose to re-arrange the floristic tables to match the species
-present in both tables, three options are provided:</p>
+<p>The user may choose to re-arrange the floristic tables to match the
+species present in both tables, three options are provided:</p>
 <ul>
 <li>No, the floristic tables are displayed with no re-arrangement.</li>
-<li>Composed to NVC, the composed floristic table is re-arranged to only include
-species also present in the NVC floristic table and aligned with the
-NVC floristic table.</li>
-<li>NVC to Composed, the NVC floristic table is re-arranged to only include
-species also present in the composed floristic table and aligned with the
-composed floristic table.</li>
+<li>Composed to NVC, the composed floristic table is re-arranged to only
+include species also present in the NVC floristic table and aligned
+with the NVC floristic table.</li>
+<li>NVC to Composed, the NVC floristic table is re-arranged to only
+include species also present in the composed floristic table and
+aligned with the composed floristic table.</li>
 </ul>
 </div>
 </div>
 <div id="frequency" class="section level2" number="2.6">
 <h2><span class="header-section-number">2.6</span> Frequency</h2>
 <p>The <strong>Frequency</strong> section of MAVIS summarises the number of occurrences
-of each species across all sample plots, the difference between the first
-year and last year, and a text category describing the change.</p>
+of each species across all sample plots, the difference between the
+first year and last year, and a text category describing the change.</p>
 </div>
 <div id="eivs" class="section level2" number="2.7">
 <h2><span class="header-section-number">2.7</span> EIVs</h2>
-<p>The Ecological Indicator Values (<strong>EIVs</strong>) section uses the results of the
-<strong>NVC Assignment</strong> module to calculate cover-weighted Hill-Ellenberg ecological
-indicator values for the Nitrogen Score (N) <span class="citation">(<a href="#ref-bsbi2017ellenbergN">BSBI 2017c</a>)</span>,
-Moisture Score (F) <span class="citation">(<a href="#ref-bsbi2017ellenbergF">BSBI 2017d</a>)</span>,
-Reaction Score (R) <span class="citation">(<a href="#ref-bsbi2017ellenbergR">BSBI 2017a</a>)</span>,
-Salinity Score (S) <span class="citation">(<a href="#ref-bsbi2017ellenbergS">BSBI 2017b</a>)</span>,
-and Light Score (L) <span class="citation">(<a href="#ref-bsbi2017ellenbergL">BSBI 2017e</a>)</span>.
-Data for bryophytes was taken from BRYOATT <span class="citation">(<a href="#ref-hill2007">Hill et al. 2007</a>)</span>.</p>
+<p>The Ecological Indicator Values (<strong>EIVs</strong>) section uses the results of
+the <strong>NVC Assignment</strong> module to calculate cover-weighted Hill-Ellenberg
+ecological indicator values for the Nitrogen Score (N)
+<span class="citation">(<a href="#ref-bsbi2017ellenbergN">BSBI 2017c</a>)</span>, Moisture Score (F) <span class="citation">(<a href="#ref-bsbi2017ellenbergF">BSBI 2017d</a>)</span>,
+Reaction Score (R) <span class="citation">(<a href="#ref-bsbi2017ellenbergR">BSBI 2017a</a>)</span>, Salinity Score (S)
+<span class="citation">(<a href="#ref-bsbi2017ellenbergS">BSBI 2017b</a>)</span>, and Light Score (L) <span class="citation">(<a href="#ref-bsbi2017ellenbergL">BSBI 2017e</a>)</span>. Data
+for bryophytes was taken from BRYOATT <span class="citation">(<a href="#ref-hill2007">Hill et al. 2007</a>)</span>.</p>
 <div id="options-3" class="section level3" number="2.7.1">
 <h3><span class="header-section-number">2.7.1</span> Options</h3>
 <p>At present six sets of results are available:</p>
@@ -564,128 +585,148 @@ Data for bryophytes was taken from BRYOATT <span class="citation">(<a href="#ref
 </div>
 <div id="diversity" class="section level2" number="2.8">
 <h2><span class="header-section-number">2.8</span> Diversity</h2>
-<p>The <strong>Diversity</strong> section allows the user to view a range of basic diversity
-metrics.</p>
+<p>The <strong>Diversity</strong> section allows the user to view a range of basic
+diversity metrics.</p>
 <div id="options-4" class="section level3" number="2.8.1">
 <h3><span class="header-section-number">2.8.1</span> Options</h3>
 <p><strong>Results to View</strong></p>
 <p>At present five sets of results are available:</p>
 <ul>
-<li>Site Summary Table, contains the mean alpha diversity, gamma diversity, and beta diversity of the site with years arranged column-wise.</li>
-<li>Quadrat Diversity Indices Table, contains the species richness, Shannon diversity, Simpson diversity, Inverse Simpson diversity, Shannon evenness, and Simpson evenness for each quadrat.</li>
-<li>Species Richness, by Site, contains the species richness of the site with years arranged column-wise.</li>
-<li>Species Richness, by Group, contains the species richness of each group with years arranged column-wise.</li>
-<li>Species Richness, by Quadrat, contains the species richness of each quadrat with years arranged column-wise.</li>
+<li>Site Summary Table, contains the mean alpha diversity, gamma
+diversity, and beta diversity of the site with years arranged
+column-wise.</li>
+<li>Quadrat Diversity Indices Table, contains the species richness,
+Shannon diversity, Simpson diversity, Inverse Simpson diversity,
+Shannon evenness, and Simpson evenness for each quadrat.</li>
+<li>Species Richness, by Site, contains the species richness of the site
+with years arranged column-wise.</li>
+<li>Species Richness, by Group, contains the species richness of each
+group with years arranged column-wise.</li>
+<li>Species Richness, by Quadrat, contains the species richness of each
+quadrat with years arranged column-wise.</li>
 </ul>
 </div>
 </div>
 <div id="mva" class="section level2" number="2.9">
 <h2><span class="header-section-number">2.9</span> MVA</h2>
-<p>The Multivariate Analysis (MVA) section of MAVIS aims to allow the
-user to explore the position of the survey data quadrats in an ordination space
-constructed by performing a Detrended Correspondence Analysis (DCA) <span class="citation">(<a href="#ref-hill1980dca">Hill and Gauch 1980</a>)</span>.
-The results of a Canonical Correspondence Analysis (CCA) <span class="citation">(<a href="#ref-terBraak1986">Braak 1986</a>)</span>, using
-the pseudo-quadrats as the community matrix and pre-calculated set of unweighted
-mean Hill-Ellenberg values for each pseudo-quadrat as the constraining matrix,
-are available for visualising in each MVA plot.</p>
+<p>The Multivariate Analysis (MVA) section of MAVIS aims to allow the user
+to explore the position of the survey data quadrats in an ordination
+space constructed by performing a Detrended Correspondence Analysis
+(DCA) <span class="citation">(<a href="#ref-hill1980dca">Hill and Gauch 1980</a>)</span>. The results of a Canonical Correspondence Analysis
+(CCA) <span class="citation">(<a href="#ref-terBraak1986">Braak 1986</a>)</span>, using the pseudo-quadrats as the community matrix
+and pre-calculated set of unweighted mean Hill-Ellenberg values for each
+pseudo-quadrat as the constraining matrix, are available for visualising
+in each MVA plot.</p>
 <p>Three MVA methods are provided in MAVIS, which are described below.</p>
 <div id="national-reference" class="section level3" number="2.9.1">
 <h3><span class="header-section-number">2.9.1</span> National Reference</h3>
-<p>The ordination space in the <strong>National Reference</strong> MVA was constructed by performing
-a pre-calculated DCA on the pseudo-quadrats from all NVC communities,
-with the survey quadrats added in passively in MAVIS using the mean of the
-species scores from the pre-calculated pseudo-quadrat DCA.</p>
-<p>By default the top-fitted NVC communities retrieved from the <strong>NVC Assignment</strong>
-process are displayed.</p>
+<p>The ordination space in the <strong>National Reference</strong> MVA was constructed
+by performing a pre-calculated DCA on the pseudo-quadrats from all NVC
+communities, with the survey quadrats added in passively in MAVIS using
+the mean of the species scores from the pre-calculated pseudo-quadrat
+DCA.</p>
+<p>By default the top-fitted NVC communities retrieved from the <strong>NVC
+Assignment</strong> process are displayed.</p>
 <p><strong>Advantages</strong></p>
 <ul>
-<li>The psuedo-quadrat axis scores are not influenced by the survey quadrats.</li>
-<li>The position of the pseudo-quadrat axis scores are absolute. Adding or
-removing NVC communities from the plot using the “National Reference Spaces”
-option does not change the axis scores and
+<li>The psuedo-quadrat axis scores are not influenced by the survey
+quadrats.</li>
+<li>The position of the pseudo-quadrat axis scores are absolute. Adding
+or removing NVC communities from the plot using the “National
+Reference Spaces” option does not change the axis scores and
 position of the other NVC communities or survey quadrats.</li>
-<li>The pseudo-quadrat DCA contains all the species present in the NVC floristic
-table, in comparison to the <strong>Local Reference (restricted)</strong> method.</li>
-<li>The survey quadrat positions in the ordination space accurately reflect their
-similiarity with the pseudo-quadrats, and therefore the NVC communities and
-sub-communities.</li>
+<li>The pseudo-quadrat DCA contains all the species present in the NVC
+floristic table, in comparison to the <strong>Local Reference
+(restricted)</strong> method.</li>
+<li>The survey quadrat positions in the ordination space accurately
+reflect their similiarity with the pseudo-quadrats, and therefore
+the NVC communities and sub-communities.</li>
 </ul>
 <p><strong>Disadvantages</strong></p>
 <ul>
-<li>The pseudo-quadrat DCA scores for each sub-community within a community are
-compressed by the dissimilarity with other communities. Consequently there
-is a greater degree of overlap between the sub-communities, and the
-survey quadrats and sub-communities.</li>
+<li>The pseudo-quadrat DCA scores for each sub-community within a
+community are compressed by the dissimilarity with other
+communities. Consequently there is a greater degree of overlap
+between the sub-communities, and the survey quadrats and
+sub-communities.</li>
 </ul>
 </div>
 <div id="local-reference-restricted" class="section level3" number="2.9.2">
 <h3><span class="header-section-number">2.9.2</span> Local Reference (restricted)</h3>
-<p>The ordination space in the <strong>Local Reference (restricted)</strong> MVA is constructed
-by performing a DCA on the top-fitted NVC communities retrieved from the
-<strong>NVC Assignment</strong> process with the survey quadrats added in passively using the
-mean of the species scores from the pseudo-quadrat DCA.</p>
+<p>The ordination space in the <strong>Local Reference (restricted)</strong> MVA is
+constructed by performing a DCA on the top-fitted NVC communities
+retrieved from the <strong>NVC Assignment</strong> process with the survey quadrats
+added in passively using the mean of the species scores from the
+pseudo-quadrat DCA.</p>
 <p><strong>Advantages</strong></p>
 <ul>
-<li>The psuedo-quadrat axis scores are not influenced by the survey quadrats.</li>
-<li>The pseudo-quadrat axis scores show greater variation due to the absence of
-highly dissimilar communities, in contrast to the <strong>National Reference</strong>
-method. Consequently, the (dis)similarity between the pseudo-quadrats and
-survey-quadrats is emphasised.</li>
+<li>The psuedo-quadrat axis scores are not influenced by the survey
+quadrats.</li>
+<li>The pseudo-quadrat axis scores show greater variation due to the
+absence of highly dissimilar communities, in contrast to the
+<strong>National Reference</strong> method. Consequently, the (dis)similarity
+between the pseudo-quadrats and survey-quadrats is emphasised.</li>
 </ul>
 <p><strong>Disadvantages</strong></p>
 <ul>
 <li>Species present in the survey data but absent in the top-fitted NVC
-communities are omitted from the survey quadrat axis score calculation.
-Consequently, the similiarity between the survey quadrats and pseudo-quadrats
-(and therefore NVC communities and sub-communities) is over-estimated.</li>
-<li>The axis scores and position of both the pseudo-quadrats and survey quadrats
-varies based on the NVC communities used in the pseudo-quadrat DCA.</li>
+communities are omitted from the survey quadrat axis score
+calculation. Consequently, the similiarity between the survey
+quadrats and pseudo-quadrats (and therefore NVC communities and
+sub-communities) is over-estimated.</li>
+<li>The axis scores and position of both the pseudo-quadrats and survey
+quadrats varies based on the NVC communities used in the
+pseudo-quadrat DCA.</li>
 </ul>
 </div>
 <div id="local-reference-unrestricted" class="section level3" number="2.9.3">
 <h3><span class="header-section-number">2.9.3</span> Local Reference (unrestricted)</h3>
 <p>The ordination space in the <strong>Local Reference (unrestricted)</strong> MVA is
-constructed by performing a DCA on the top-fitted NVC communities <em>and</em> the
-survey quadrats.</p>
+constructed by performing a DCA on the top-fitted NVC communities <em>and</em>
+the survey quadrats.</p>
 <p><strong>Advantages</strong></p>
 <ul>
 <li>All species present in both the survey quadrats and pseudo-quadrats
-contribute to the axis scores. Consequently, the (dis)similarity between the
-pseudo-quadrats and survey quadrats is correctly represented as in the
-<strong>National Reference</strong> method but the axis scores are not compressed by
-highly dissimilar communities.</li>
+contribute to the axis scores. Consequently, the (dis)similarity
+between the pseudo-quadrats and survey quadrats is correctly
+represented as in the <strong>National Reference</strong> method but the axis
+scores are not compressed by highly dissimilar communities.</li>
 </ul>
 <p><strong>Disadvantages</strong></p>
 <ul>
 <li>The inclusion of the survey quadrats in the DCA means that the
 pseudo-quadrats do not provide a fixed reference as in the
-<strong>National Reference</strong> and <strong>Local Reference (restricted)</strong> methods where
-the survey quadrats are added in passively.</li>
+<strong>National Reference</strong> and <strong>Local Reference (restricted)</strong> methods
+where the survey quadrats are added in passively.</li>
 </ul>
 </div>
 <div id="options-5" class="section level3" number="2.9.4">
 <h3><span class="header-section-number">2.9.4</span> Options</h3>
 <p><strong>Axis Selection</strong></p>
-<p>The user may select any combination of the first three DCA axis scores to be
-displayed in the MVA plots:</p>
+<p>The user may select any combination of the first three DCA axis scores
+to be displayed in the MVA plots:</p>
 <ul>
 <li>DCA1 vs DCA2</li>
 <li>DCA1 vs DCA3</li>
 <li>DCA2 vs DCA3</li>
 </ul>
 <p><strong>National Reference Spaces</strong></p>
-<p>Here the user may select any NVC community to display in the
-<strong>National Reference</strong> MVA plot only.</p>
+<p>Here the user may select any NVC community to display in the <strong>National
+Reference</strong> MVA plot only.</p>
 <p><strong>Survey Quadrat Selection</strong></p>
-<p>Three methods are available for subsetting the survey quadrats being displayed:</p>
+<p>Three methods are available for subsetting the survey quadrats being
+displayed:</p>
 <ul>
-<li>Select Years, where all the survey quadrats for selected years will be displayed.</li>
-<li>Select Groups, where all the survey quadrats for selected groups will be displayed.</li>
-<li>Select Quadrats, where all the survey quadrats for selected quadrats will be displayed.</li>
+<li>Select Years, where all the survey quadrats for selected years will
+be displayed.</li>
+<li>Select Groups, where all the survey quadrats for selected groups
+will be displayed.</li>
+<li>Select Quadrats, where all the survey quadrats for selected quadrats
+will be displayed.</li>
 </ul>
 <p><strong>CCA Variables</strong></p>
-<p>At present the CCA axis scores from each combination of Hill-Ellenberg values
-are available for display in each MVA plot:</p>
+<p>At present the CCA axis scores from each combination of Hill-Ellenberg
+values are available for display in each MVA plot:</p>
 <ul>
 <li>Moisture (F) x Nitrogen (N)</li>
 <li>Moisture (F) x Reaction (R)</li>
@@ -699,19 +740,20 @@ are available for display in each MVA plot:</p>
 <li>Light (L) x Salinity (S)</li>
 </ul>
 <p><strong>Axis Scores</strong></p>
-<p>The following results may be toggled on/off for display in the MVA plots.</p>
+<p>The following results may be toggled on/off for display in the MVA
+plots.</p>
 <ul>
 <li>Survey Quadrats, the survey quadrats entered in <strong>Survey Data</strong>.</li>
 <li>Pseudo-Quadrats, all pseudo-quadrats used in the DCA ordination.</li>
 <li>Reference Space, the convex hulls formed around the pseudo-quadrats.</li>
 <li>Species, the species DCA axis scores.</li>
-<li>Unique Survey Species, the species present in the survey quadrats but absent
-in the top-fitted NVC communities pseudo-quadrats.
+<li>Unique Survey Species, the species present in the survey quadrats
+but absent in the top-fitted NVC communities pseudo-quadrats.
 Displayed in <strong>Local Reference (unrestricted)</strong> only.</li>
 <li>Hill-Ellenberg, the Hill-Ellenberg CCA axis scores selected in the
 “CCA Variables” option.</li>
-<li>Survey Quadrat Change, arrows showing the direction of travel for individual
-quadrats in the ordination space.</li>
+<li>Survey Quadrat Change, arrows showing the direction of travel for
+individual quadrats in the ordination space.</li>
 </ul>
 </div>
 </div>
@@ -719,15 +761,16 @@ quadrats in the ordination space.</li>
 <h2><span class="header-section-number">2.10</span> Report</h2>
 <p>MAVIS allows the user to generate a downloadable pdf report, which by
 default contains 1) a table of the MAVIS results selected for inclusion,
-and 2) tables containing the number of quadrats sampled by year and group.</p>
+and 2) tables containing the number of quadrats sampled by year and
+group.</p>
 <div id="options-6" class="section level3" number="2.10.1">
 <h3><span class="header-section-number">2.10.1</span> Options</h3>
 <p><strong>Author</strong></p>
-<p>A text input where the user is able to enter the name of the person/s using
-MAVIS.</p>
+<p>A text input where the user is able to enter the name of the person/s
+using MAVIS.</p>
 <p><strong>Project Name</strong></p>
-<p>A text input where the user is able to enter the project name/name of the site
-being analysed in MAVIS.</p>
+<p>A text input where the user is able to enter the project name/name of
+the site being analysed in MAVIS.</p>
 <p><strong>Report Options</strong></p>
 <p>The user is able to select any of the results visualised in MAVIS for
 inclusion in the report, displayed in the table below.</p>
@@ -917,7 +960,8 @@ Survey Table
 </div>
 <div id="download" class="section level2" number="2.11">
 <h2><span class="header-section-number">2.11</span> Download</h2>
-<p>At present the <strong>Download</strong> section of MAVIS allows the user to download:</p>
+<p>At present the <strong>Download</strong> section of MAVIS allows the user to
+download:</p>
 <ul>
 <li>A csv file containing the species accepted by MAVIS.</li>
 <li>The data entered into the Survey Table.</li>
@@ -927,8 +971,9 @@ Survey Table
 <div id="acknowledgements" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Acknowledgements</h1>
 <p>We would like to thank…for testing MAVIS.</p>
-<p>We would also like to thank Laurence Jones for providing the Newborough Warren
-example dataset and Lucy Ridding for providing the Parsonage Down example dataset.</p>
+<p>We would also like to thank Laurence Jones for providing the Newborough
+Warren example dataset and Lucy Ridding for providing the Parsonage Down
+example dataset.</p>
 <!-- # Author Contribution -->
 <!-- Contributions towards the development of the application, in accordance -->
 <!-- with [CRediT (Contributor Roles Taxonomy)](https://credit.niso.org/), -->
@@ -958,7 +1003,6 @@ v0.96
 <li>Modifications:
 <ul>
 <li>Removing site and group Jaccard similarity results.</li>
-<li>Moving survey data summary information to Survey Data tab.</li>
 </ul></li>
 <li>Fixes: NA</li>
 <li>New Features: NA</li>
@@ -978,7 +1022,8 @@ v0.95
 </ul></li>
 <li>Fixes:
 <ul>
-<li>Ensuring report renders correctly using new surveyTableSummary object data.</li>
+<li>Ensuring report renders correctly using new surveyTableSummary
+object data.</li>
 </ul></li>
 <li>New Features: NA</li>
 </ul>
@@ -992,7 +1037,9 @@ v0.94
 <li>Modifications: NA</li>
 <li>Fixes:
 <ul>
-<li>Ensuring the number of quadrats per group is passed to the floristic tables module through the new survey data summary module.</li>
+<li>Ensuring the number of quadrats per group is passed to the
+floristic tables module through the new survey data summary
+module.</li>
 </ul></li>
 <li>New Features: NA</li>
 </ul>
@@ -1022,7 +1069,8 @@ v0.92
 <li>Fixes: NA</li>
 <li>New Features:
 <ul>
-<li>Adding Czekanowski index method for Site and Group NVC assignment calculations.</li>
+<li>Adding Czekanowski index method for Site and Group NVC
+assignment calculations.</li>
 </ul></li>
 </ul>
 </details>

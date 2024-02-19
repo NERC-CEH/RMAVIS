@@ -1,8 +1,0 @@
-﻿"DDb matched name (id)"	"DDb matched name (full)"	"DDb matched name (qualified name)"	"DDb matched name (taxon name)"	"DDb matched name (brc id)"	"TVK of matched name"	"DDb accepted name (full)"	"Brc id of DDb accepted name"	"taxon errors/warnings"	"Species"
-"2cd4p9h.6y9gqa"	"Nasturtium officinale W.T.Aiton s.s."	"Nasturtium officinale s.s."	"Nasturtium officinale"	"Vas_1347"	"NHMSYS0000460933"		"Vas_1347"	"matched against ddb s.s. name"	"Nasturtium officinale"
-"2cd4p9h.5rs"	"Callitriche L."	"Callitriche"	"Callitriche"	"Vas_2249"	"NHMSYS0000456299"		"Vas_2249"	"matched without agg. qualifier"	"Callitriche agg."
-"2cd4p9h.4mp"	"Alisma lanceolatum With."	"Alisma lanceolatum"	"Alisma lanceolatum"	"Vas_62"	"NBNSYS0000002102"		"Vas_62"		"Alisma lanceolatum"
-"2cd4p9h.vaq"	"Catabrosa aquatica (L.) P.Beauv."	"Catabrosa aquatica"	"Catabrosa aquatica"	"Vas_433"	"NHMSYS0000456975"		"Vas_433"		"Catabrosa aquatica"
-"2cd4p9h.btq"	"Eleocharis parvula (Roem. & Schult.) Link ex Bluff, Nees & Schauer"	"Eleocharis parvula"	"Eleocharis parvula"	"Vas_676"	"NHMSYS0100001375"		"Vas_676"		"Eleocharis parvula"
-"2cd4p9h.yn4"	"Galium palustre L."	"Galium palustre"	"Galium palustre"	"Vas_882"	"NBNSYS0000004313"		"Vas_882"		"Galium palustre"
-"2cd4p9h.4c8"	"Spartina alterniflora Loisel."	"Spartina alterniflora"	"Spartina alterniflora"	"Vas_1984"	"NHMSYS0000463854"		"Vas_1984"		"Spartina alterniflora"
