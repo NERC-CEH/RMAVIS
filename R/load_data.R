@@ -19,6 +19,7 @@ master_data <- readRDS(file = "./data/master_data.rds")
 
 # NVC Pseudo-quadrat data -------------------------------------------------
 nvc_pquads_final <- readRDS(file = "./data/nvc_pquads_final.rds")
+nvc_pquads_final_wide <- readRDS(file = "./data/nvc_pquads_final_wide.rds")
 
 
 # Accepted Species data ---------------------------------------------------
@@ -35,14 +36,21 @@ concordance_plants <- readRDS(file = "./data/concordance_plants.rds")
 concordance_bryophytes <- readRDS(file = "./data/concordance_bryophytes.rds")
 
 # Pseudo-quadrat DCA scores -----------------------------------------------
-nvc_pquads_final_wide <- readRDS(file = "./data/nvc_pquads_final_wide.rds")
 nvc_pquad_dca_all <- readRDS(file = "./data/nvc_pquad_dca_all.rds")
+nvc_pquad_dca_noBryophytes <- readRDS(file = "./data/nvc_pquad_dca_noBryophytes.rds")
 
 
 # Pseudo-quadrat hulls ----------------------------------------------------
 nvc_pquad_dca_all_hulls <- readRDS(file = "./data/nvc_pquad_dca_all_hulls.rds")
+nvc_pquad_dca_noBryophytes_hulls <- readRDS(file = "./data/nvc_pquad_dca_noBryophytes_hulls.rds")
+
+
+# Pseudo-quadrat centroids ------------------------------------------------
+nvc_pquad_dca_all_centroids <- readRDS(file = "./data/nvc_pquad_dca_all_centroids.rds")
+nvc_pquad_dca_noBryophytes_centroids <- readRDS(file = "./data/nvc_pquad_dca_noBryophytes_centroids.rds")
 
 
 # Pseudo-quadrat mean unweighted EIVs -------------------------------------
 nvc_pquads_mean_unweighted_eivs <- readRDS(file = "./data/nvc_pquads_mean_unweighted_eivs.rds")
+nvc_pquads_mean_unweighted_eivs_noBryophytes <- readRDS(file = "./data/nvc_pquads_mean_unweighted_eivs_noBryophytes.rds")
 

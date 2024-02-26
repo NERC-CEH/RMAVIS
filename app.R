@@ -8,8 +8,7 @@ source("R/load_data.R", local = TRUE)
 source("R/create_constants.R", local = TRUE)
 
 # Render documentation ----------------------------------------------------
-# This can be disabled if one wishes to pre-render the documentation manually.
-source("R/render_docs.R", local = TRUE)
+source("R/render_docs.R", local = TRUE) # This can be disabled if one wishes to pre-render the documentation manually.
 
 # Source functions --------------------------------------------------------
 source("R/syntopicTable_functions.R", local = TRUE)

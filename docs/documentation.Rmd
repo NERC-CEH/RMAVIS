@@ -169,7 +169,7 @@ Common, Norfolk - a soligenous mire. Thirty repeat quadrats were
 surveyed in 1994 and 1997 [@smart2000]. No cover values are currently
 provided in this example dataset.
 
-**Newborough Warren**.
+**Newborough Warren**
 
 The Newborough Warren dataset contains the results of a yearly
 monitoring study at Newborough Warren (Ynys Llanddwyn SSSI, Anglesey)
@@ -629,16 +629,6 @@ We would like to thank...for testing MAVIS.
 We would also like to thank Laurence Jones for providing the Newborough
 Warren example dataset and Lucy Ridding for providing the Parsonage Down
 example dataset.
-
-<!-- # Author Contribution -->
-
-<!-- Contributions towards the development of the application, in accordance -->
-
-<!-- with [CRediT (Contributor Roles Taxonomy)](https://credit.niso.org/), -->
-
-<!-- are: -->
-
-<!-- **Zeke Marshall:** **Simon Smart:** **Colin Harrower:** -->
 
 # Reccomended Citation
 
