@@ -1,6 +1,9 @@
 # Silence dplyr::summarise() messages -------------------------------------
 options(dplyr.summarise.inform = FALSE)
 
+# Load required packages --------------------------------------------------
+source("R/load_packages.R", local = TRUE)
+
 # Load data into memory ---------------------------------------------------
 source("R/load_data.R", local = TRUE)
 
