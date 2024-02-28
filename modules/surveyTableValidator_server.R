@@ -9,8 +9,6 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
     
     setupData <- setupData()
     
-    print(names(setupData))
-    
     speciesNames(setupData$species_names)
     
   }) |>

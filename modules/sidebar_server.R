@@ -26,6 +26,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
       "resultsViewEIVs"  = input$resultsViewEIVs,
       "resultsViewDiversity"  = input$resultsViewDiversity,
       "nationalReferenceSpaces" = input$nationalReferenceSpaces,
+      "groupSurveyPlots" = input$groupSurveyPlots,
       "selectSurveyMethod" = input$selectSurveyMethod,
       "selectSurveyYears" = input$selectSurveyYears,
       "selectSurveyQuadrats" = input$selectSurveyQuadrats,
@@ -58,6 +59,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
               input$resultsViewEIVs,
               input$resultsViewDiversity,
               input$nationalReferenceSpaces,
+              input$groupSurveyPlots,
               input$selectSurveyMethod,
               input$selectSurveyYears,
               input$selectSurveyQuadrats,
@@ -310,29 +312,30 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     bindEvent(floristicTables(),
               ignoreInit = TRUE)
   
+
   
-  # Reactively update DCA survey quadrat selection method -------------------
+# Reactively update DCA survey quadrat selection method -------------------
   observe({
     
-    if (input$selectSurveyMethod == "all") {
+    if(input$selectSurveyMethod == "all") {
       
       shinyjs::hide(id = "selectSurveyYears_div")
       shinyjs::hide(id = "selectSurveyQuadrats_div")
       shinyjs::hide(id = "selectSurveyGroups_div")
       
-    } else if (input$selectSurveyMethod == "selectYears") {
+    } else if(input$selectSurveyMethod == "selectYears") {
       
       shinyjs::show(id = "selectSurveyYears_div")
       shinyjs::hide(id = "selectSurveyGroups_div")
       shinyjs::hide(id = "selectSurveyQuadrats_div")
       
-    } else if (input$selectSurveyMethod == "selectGroups") {
+    } else if(input$selectSurveyMethod == "selectGroups") {
       
       shinyjs::hide(id = "selectSurveyYears_div")
       shinyjs::show(id = "selectSurveyGroups_div")
       shinyjs::hide(id = "selectSurveyQuadrats_div")
       
-    } else if (input$selectSurveyMethod == "selectQuadrats") {
+    } else if(input$selectSurveyMethod == "selectQuadrats") {
       
       shinyjs::hide(id = "selectSurveyYears_div")
       shinyjs::hide(id = "selectSurveyGroups_div")
@@ -340,8 +343,24 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
       
     }
     
+    # This goes second as it takes priority
+    if(input$groupSurveyPlots == "no"){
+      
+      shinyjs::show(id = "selectSurveyMethod_div")
+      
+    } else if(input$groupSurveyPlots == "group" || input$groupSurveyPlots == "year") {
+      
+      shinyjs::hide(id = "selectSurveyMethod_div")
+      shinyjs::hide(id = "selectSurveyYears_div")
+      shinyjs::hide(id = "selectSurveyQuadrats_div")
+      shinyjs::hide(id = "selectSurveyGroups_div")
+      
+    }
+    
   }) |>
-    bindEvent(input$selectSurveyMethod, ignoreInit = FALSE)
+    bindEvent(input$groupSurveyPlots,
+              input$selectSurveyMethod, 
+              ignoreInit = FALSE)
   
   
   # Reactively update global reference DCA space selection ------------------
@@ -381,7 +400,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
         dplyr::pull(Group) |>
         unique()
       
-      if(input$selectSurveyMethod == "all"){
+      if(input$selectSurveyMethod == "all" || input$groupSurveyPlots != "no"){
         
         shiny::updateSelectizeInput(
           session = session,
@@ -492,6 +511,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
   }) |>
     bindEvent(input$selectSurveyMethod,
+              input$groupSurveyPlots,
               ignoreInit = TRUE)
   
 

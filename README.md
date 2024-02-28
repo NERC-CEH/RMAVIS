@@ -22,6 +22,9 @@ You can run MAVIS from [GitHub](https://github.com/ZekeMarshall/MAVIS)
 by cloning the repository, calling `renv::restore()`, and then calling
 `shiny::runApp("app.R")`.
 
+If `renv::restore()` fails run
+`install.packages(unique(renv::dependencies()$Package), dependencies = TRUE)`.
+
 Future developments may support the release of MAVIS as an R package.
 
 ## Hosting

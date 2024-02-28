@@ -144,6 +144,7 @@ dcaAxisSelection_options <- c("DCA1 vs DCA2" = "dca1dca2",
 dcaVars_options <- c("Survey Quadrats" = "surveyQuadrats",
                      "Pseudo-Quadrats" = "pseudoQuadrats",
                      "Reference Space" = "referenceSpace",
+                     "Reference Centroids" = "referenceCentroids",
                      "Species" = "species",
                      "Unique Survey Species" = "uniqSurveySpecies",
                      "Hill-Ellenberg" = "hillEllenberg",
@@ -196,6 +197,11 @@ selectSurveyQuadrats_options <- c()
 
 selectSurveyGroups_options <- c()
 
+
+# Group Survey Plots Options ----------------------------------------------
+groupSurveyPlots_options <- c("No" = "no",
+                              "Group" = "group",
+                              "Year" = "year")
 
 # Report Options ----------------------------------------------------------
 reportOptions_options <- list(#`NVC Assignment Pseudo-quadrat` = c("Site" = "nvcAssignmentResultsSite",

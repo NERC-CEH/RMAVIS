@@ -685,6 +685,43 @@ sidebarUI <- function(id){
         
         shiny::div(
           
+          id = ns("groupSurveyPlots_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("groupSurveyPlots"),
+                                  label = "Group Survey Plots",
+                                  choices = groupSurveyPlots_options,
+                                  selected = NULL,
+                                  multiple = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Group Survey Plots",
+              shiny::markdown(
+                "
+                Choose whether to group the survey plots by selecting one of the
+                following options:
+                - 'No': The individual plots are left ungrouped
+                - 'Group': Mean DCA axis scores are calculated from the individual plots
+                by group.
+                - 'Year': Mean DCA axis scores are calculated from the individual plots
+                by year.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
           id = ns("selectSurveyMethod_div"),
           
           bslib::layout_columns(
@@ -876,6 +913,7 @@ sidebarUI <- function(id){
                 - 'Survey Quadrats': the DCA scores of the survey quadrats.
                 - 'Pseudo-Quadrats': the DCA scores of the pseudo-quadrats (Local Reference only).
                 - 'Reference Space': the convex hulls formed from the pseudo-quadrat DCA scores.
+                - 'Reference Centroids': the centroids formed from the pseudo-quadrat DCA scores.
                 - 'Species': the DCA scores of the species.
                 - 'Unique Survey Species': the DCA scores of the species unique to the survey data, but absent from the best fitting NVC communities pseudo-quadrats (Local Reference (unrestricted) only).
                 - 'Hill-Ellenberg': the CCA result axis scores for the Hill-Ellenberg selected in the 'CCA Variables' option.

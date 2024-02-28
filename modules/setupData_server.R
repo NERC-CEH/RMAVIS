@@ -79,8 +79,9 @@ setupData <- function(input, output, session, sidebar_options) {
     
     setupData_list <- list(
       "species_names" = species_names_selected,
-      "accepted_species" = accepted_species_selected,
-      "example_data" = example_data_selected,
+      
+      "accepted_species" = accepted_species_selected, # Do we trim this?
+      "example_data" = example_data_selected, # Do we trim this?
       "nvc_floristic_tables" = nvc_floristic_tables_selected,
       "nvc_floristic_tables_numeric" = nvc_floristic_tables_numeric_selected,
       "nvc_pquads_final" = nvc_pquads_final_selected,
@@ -92,8 +93,6 @@ setupData <- function(input, output, session, sidebar_options) {
       )
     
     setupData(setupData_list)
-    
-    print(head(setupData_list$example_data))
     
   }) |>
     bindEvent(includeBryophytes(),

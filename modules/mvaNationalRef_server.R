@@ -8,6 +8,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
   dcaVars <- reactiveVal()
   ccaVars <- reactiveVal()
   nationalReferenceSpaces <- reactiveVal()
+  groupSurveyPlots <- reactiveVal()
   selectSurveyMethod <- reactiveVal()
   selectSurveyYears <- reactiveVal()
   selectSurveyQuadrats <- reactiveVal()
@@ -20,6 +21,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
     dcaVars(sidebar_options()$dcaVars)
     ccaVars(sidebar_options()$ccaVars)
     nationalReferenceSpaces(sidebar_options()$nationalReferenceSpaces)
+    groupSurveyPlots(sidebar_options()$groupSurveyPlots)
     selectSurveyMethod(sidebar_options()$selectSurveyMethod)
     selectSurveyYears(sidebar_options()$selectSurveyYears)
     selectSurveyQuadrats(sidebar_options()$selectSurveyQuadrats)
@@ -29,7 +31,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
     bindEvent(sidebar_options(), ignoreInit = TRUE)
   
   
-  mvaNationalRefResults_rval <- reactiveVal()
+  mvaResults_rval <- reactiveVal()
   
 # Run DCA and CCA ---------------------------------------------------------
   observe({
@@ -46,11 +48,10 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
       text = "Performing National Reference MVA"
     )
     
-    # Peform analysis in a reactive context without creating a reactive relationship
+    # Isolate processes to prevent recursion when handling reactive objects not included in bindEvent
     shiny::isolate({
       
       nvcAssignment <- nvcAssignment()
-      
       topNVCCommunities <- nvcAssignment$topNVCCommunities
       
       # Create pattern to subset matrix rows
@@ -86,9 +87,8 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
       # Extract CCA scores
       selected_pquads_prepped_cca_scores <- vegan::scores(selected_pquads_prepped_cca, display = "bp")
 
-      # Extract CCA multiplier
+      # Extract CCA multiplier, not currently used.
       selected_pquads_prepped_cca_multiplier <- vegan:::ordiArrowMul(selected_pquads_prepped_cca_scores)
-
 
       # Create CCA arrow data
       CCA_arrowData <- selected_pquads_prepped_cca_scores #* selected_pquads_prepped_cca_multiplier
@@ -130,15 +130,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
                          "DCA4" = mean(DCA4, na.rm = TRUE),
                          .groups = "drop") |>
         dplyr::mutate("NVC.Comm" = "Sample", .before  = "Quadrat")
-      
-      # assign(x = "surveyTable", value = surveyTable(), envir = .GlobalEnv)
-      
-      # assign(x = "surveyTable_dca_results_quadrats", value = surveyTable_dca_results_quadrats, envir = .GlobalEnv)
-      
-      # Create convex hulls around the pseudo-quadrat DCA points.
-      # selected_pquads_dca_results_quadrats_final_hull <- surveyTable_dca_results_quadrats |>
-      #   dplyr::group_by(NVC.Comm) |>
-      #   dplyr::slice(grDevices::chull(DCA1, DCA2))
+
       
       # Prepare the data required to draw arrows between points, ordered by Year
       if(length(unique(surveyTable_dca_results_quadrats$Year)) > 1){
@@ -162,6 +154,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
         
       }
       
+      # Select DCA1vDCA2 hull scores by default
       nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls |>
         dplyr::filter(NVC %in% nationalReferenceSpaces(),
                       dcaAxes == "dca1dca2") |>
@@ -170,15 +163,15 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
     }) # close isolate
     
     # Compose list of DCA results objects
-    mvaNationalRefResults_list <- list("selected_pquads_dca_results_species_final" = selected_pquads_dca_results_species,
-                                       "selected_pquads_dca_results_quadrats_final" = selected_pquads_dca_results_quadrats_final,
-                                       "surveyTable_dca_results_quadrats" = surveyTable_dca_results_quadrats,
-                                       "selected_pquads_dca_results_quadrats_final_hull" = nvc_pquad_dca_all_hulls_selected,
-                                       "arrow_plot_data" = arrow_plot_data,
-                                       "CCA_arrowData" = CCA_arrowData
-                                       )
+    mvaResults_list <- list("selected_pquads_dca_results_species_final" = selected_pquads_dca_results_species,
+                            "selected_pquads_dca_results_quadrats_final" = selected_pquads_dca_results_quadrats_final,
+                            "surveyTable_dca_results_quadrats" = surveyTable_dca_results_quadrats,
+                            "selected_pquads_dca_results_quadrats_final_hull" = nvc_pquad_dca_all_hulls_selected,
+                            "arrow_plot_data" = arrow_plot_data,
+                            "CCA_arrowData" = CCA_arrowData
+                            )
     
-    mvaNationalRefResults_rval(mvaNationalRefResults_list)
+    mvaResults_rval(mvaResults_list)
     
     shinybusy::remove_modal_spinner()
       
@@ -197,84 +190,131 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
 # Subset data and create plot ---------------------------------------------
     observe({
       
-      shiny::req(mvaNationalRefResults_rval())
+      shiny::req(mvaResults_rval())
+      mvaResults <- mvaResults_rval()
+      dcaAxisSelection <- dcaAxisSelection()
+      groupSurveyPlots <- groupSurveyPlots()
       
-      mvaNationalRefResults <- mvaNationalRefResults_rval()
       
-      if(selectSurveyMethod() == "all"){
+      if(groupSurveyPlots == "no"){
         
-        surveyTable_dca_results_quadrats_selected <- mvaNationalRefResults$surveyTable_dca_results_quadrats
+        surveyTable_dca_results_quadrats_selected <- mvaResults$surveyTable_dca_results_quadrats
+      
         
-        # print(surveyTable_dca_results_quadrats_selected)
+      } else if(groupSurveyPlots == "group") {
         
-        arrow_plot_data_selected <- mvaNationalRefResults$arrow_plot_data
+        surveyTable_dca_results_quadrats_selected <- mvaResults$surveyTable_dca_results_quadrats |>
+          dplyr::group_by(Year, Group) |>
+          dplyr::summarise("DCA1" = mean(DCA1),
+                           "DCA2" = mean(DCA2),
+                           "DCA3" = mean(DCA3),
+                           "DCA4" = mean(DCA4)) |>
+          dplyr::ungroup()
+      
         
-      } else if(selectSurveyMethod() == "selectYears"){
+      } else if(groupSurveyPlots == "year") {
         
-        surveyTable_dca_results_quadrats_selected <- mvaNationalRefResults$surveyTable_dca_results_quadrats |>
+        surveyTable_dca_results_quadrats_selected <- mvaResults$surveyTable_dca_results_quadrats |>
+          dplyr::group_by(Year) |>
+          dplyr::summarise("DCA1" = mean(DCA1),
+                           "DCA2" = mean(DCA2),
+                           "DCA3" = mean(DCA3),
+                           "DCA4" = mean(DCA4)) |>
+          dplyr::ungroup()
+        
+      }
+      
+      # Select the survey plots and path arrows to include
+      if(groupSurveyPlots() == "no" && selectSurveyMethod() == "all"){
+        
+        surveyTable_dca_results_quadrats_selected <- mvaResults$surveyTable_dca_results_quadrats
+        
+      } else if(groupSurveyPlots() == "no" && selectSurveyMethod() == "selectYears"){
+        
+        surveyTable_dca_results_quadrats_selected <- mvaResults$surveyTable_dca_results_quadrats |>
           dplyr::filter(Year %in% selectSurveyYears())
         
-        arrow_plot_data_selected <- mvaNationalRefResults$arrow_plot_data |>
-          dplyr::filter(Year %in% selectSurveyYears())
+      } else if(groupSurveyPlots() == "no" && selectSurveyMethod() == "selectGroups"){
         
-      } else if(selectSurveyMethod() == "selectGroups"){
-        
-        surveyTable_dca_results_quadrats_selected <- mvaNationalRefResults$surveyTable_dca_results_quadrats |>
+        surveyTable_dca_results_quadrats_selected <- mvaResults$surveyTable_dca_results_quadrats |>
           dplyr::filter(Group %in% selectSurveyGroups())
         
-        arrow_plot_data_selected <- mvaNationalRefResults$arrow_plot_data |>
-          dplyr::filter(Group %in% selectSurveyGroups())
+      } else if(groupSurveyPlots() == "no" && selectSurveyMethod() == "selectQuadrats"){
         
-      } else if(selectSurveyMethod() == "selectQuadrats"){
-        
-        surveyTable_dca_results_quadrats_selected <- mvaNationalRefResults$surveyTable_dca_results_quadrats |>
-          dplyr::filter(Quadrat %in% selectSurveyQuadrats())
-        
-        arrow_plot_data_selected <- mvaNationalRefResults$arrow_plot_data |>
+        surveyTable_dca_results_quadrats_selected <- mvaResults$surveyTable_dca_results_quadrats |>
           dplyr::filter(Quadrat %in% selectSurveyQuadrats())
         
       }
       
-      dcaAxisSelection <- dcaAxisSelection()
+      # Select centroids
+      nvc_pquad_dca_all_centroids_nrs <- nvc_pquad_dca_all_centroids |>
+        dplyr::filter(NVC %in% nationalReferenceSpaces())
       
-      # assign(x = "nationalReferenceSpaces", nationalReferenceSpaces(), envir = .GlobalEnv)
+      # Select hulls
+      nvc_pquad_dca_all_hulls_nrs <- nvc_pquad_dca_all_hulls |>
+        dplyr::filter(NVC %in% nationalReferenceSpaces())
+      
+
+      # Retrieve hulls and centroids for selected DCA axes
+      if(dcaAxisSelection == "dca1dca2"){
+        
+        x_axis <- "DCA1"
+        y_axis <- "DCA2"
+        
+        nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls_nrs |>
+          dplyr::filter(dcaAxes == "dca1dca2") |>
+          dplyr::select(-dcaAxes)
+        
+        nvc_pquad_dca_all_centroids_selected <- nvc_pquad_dca_all_centroids_nrs |>
+          dplyr::select(NVC, DCA1, DCA2)
+        
+      } else if(dcaAxisSelection == "dca1dca3"){
+        
+        x_axis <- "DCA1"
+        y_axis <- "DCA3"
+        
+        nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls_nrs |>
+          dplyr::filter(dcaAxes == "dca1dca3") |>
+          dplyr::select(-dcaAxes)
+        
+        nvc_pquad_dca_all_centroids_selected <- nvc_pquad_dca_all_centroids_nrs |>
+          dplyr::select(NVC, DCA1, DCA3)
+        
+      } else if(dcaAxisSelection == "dca2dca3"){
+        
+        x_axis <- "DCA2"
+        y_axis <- "DCA3"
+        
+        nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls_nrs |>
+          dplyr::filter(dcaAxes == "dca2dca3") |>
+          dplyr::select(-dcaAxes)
+        
+        nvc_pquad_dca_all_centroids_selected <- nvc_pquad_dca_all_centroids_nrs |>
+          dplyr::select(NVC, DCA2, DCA3)
+        
+      }
+      
+      assign(x = "surveyTable_dca_results_quadrats_selected", value = surveyTable_dca_results_quadrats_selected, envir = .GlobalEnv)
+
+      # Prepare arrow data
+      if(length(unique(surveyTable_dca_results_quadrats_selected$Year)) > 1){
+        
+        arrow_plot_data <- surveyTable_dca_results_quadrats_selected |>
+          dplyr::arrange(Year) |>
+          dplyr::group_by(dplyr::across(c(-Year, -DCA1, -DCA2, -DCA3, -DCA4))) |>
+          dplyr::mutate("x" = get(x_axis), "y" = get(y_axis)) |>
+          dplyr::ungroup() |>
+          dplyr::mutate("endX" = dplyr::lead(x), "endY" = dplyr::lead(y)) |>
+          dplyr::filter(!is.na(endX))
+        
+      } else {
+        
+        arrow_plot_data <- NULL
+        
+      }
       
       # Create an interactive plot of the DCA results
       output$mvaNationalRefPlot <- plotly::renderPlotly({
-        
-        if(dcaAxisSelection == "dca1dca2"){
-          
-          x_axis <- "DCA1"
-          y_axis <- "DCA2"
-          
-          nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls |>
-            dplyr::filter(NVC %in% nationalReferenceSpaces(),
-                          dcaAxes == "dca1dca2") |>
-            dplyr::select(-dcaAxes)
-          
-        } else if(dcaAxisSelection == "dca1dca3"){
-          
-          x_axis <- "DCA1"
-          y_axis <- "DCA3"
-          
-          nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls |>
-            dplyr::filter(NVC %in% nationalReferenceSpaces(),
-                          dcaAxes == "dca1dca3") |>
-            dplyr::select(-dcaAxes)
-          
-        } else if(dcaAxisSelection == "dca2dca3"){
-          
-          x_axis <- "DCA2"
-          y_axis <- "DCA3"
-          
-          nvc_pquad_dca_all_hulls_selected <- nvc_pquad_dca_all_hulls |>
-            dplyr::filter(NVC %in% nationalReferenceSpaces(),
-                          dcaAxes == "dca2dca3") |>
-            dplyr::select(-dcaAxes)
-          
-        }
-        
-        # print(nvc_pquad_dca_all_hulls_selected)
         
         suppressWarnings(
           
@@ -284,7 +324,13 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
                                                                       mapping = ggplot2::aes(x = .data[[x_axis]], 
                                                                                              y = .data[[y_axis]],
                                                                                              fill = NVC))} +
-            {if("species" %in% dcaVars())ggplot2::geom_point(data = mvaNationalRefResults$selected_pquads_dca_results_species,
+            {if("referenceCentroids" %in% dcaVars())ggplot2::geom_point(data = nvc_pquad_dca_all_centroids_selected,
+                                                                        mapping = ggplot2::aes(x = .data[[x_axis]], 
+                                                                                               y = .data[[y_axis]],
+                                                                                               fill = NVC,
+                                                                                               color = NVC),
+                                                                                               size = 3)} +
+            {if("species" %in% dcaVars())ggplot2::geom_point(data = mvaResults$selected_pquads_dca_results_species,
                                                              color = '#32a87d',
                                                              shape = 18,
                                                              mapping = ggplot2::aes(x = .data[[x_axis]], 
@@ -292,12 +338,12 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
                                                                                     Species = Species))} +
             {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = surveyTable_dca_results_quadrats_selected,
                                                                     color = 'black',
-                                                                    mapping = ggplot2::aes(Year = Year,
-                                                                                           Group = Group,
-                                                                                           Quadrat = Quadrat,
+                                                                    mapping = ggplot2::aes("Year" = Year,
+                                                                                           "Group" = {if(groupSurveyPlots() %in% c("no", "group")) Group},
+                                                                                           "Quadrat" = {if(groupSurveyPlots() == "no") Quadrat},
                                                                                            x = .data[[x_axis]],
                                                                                            y = .data[[y_axis]]))} +
-            {if("hillEllenberg" %in% dcaVars())ggplot2::geom_segment(data = mvaNationalRefResults$CCA_arrowData,
+            {if("hillEllenberg" %in% dcaVars())ggplot2::geom_segment(data = mvaResults$CCA_arrowData,
                                                                      color = 'black',
                                                                      arrow = grid::arrow(),
                                                                      mapping = ggplot2::aes(x = 0,
@@ -305,7 +351,7 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
                                                                                             xend = CCA1,
                                                                                             yend = CCA2,
                                                                                             label = `Hill-Ellenberg`))} +
-            {if("hillEllenberg" %in% dcaVars())ggplot2::geom_text(data = mvaNationalRefResults$CCA_arrowData,
+            {if("hillEllenberg" %in% dcaVars())ggplot2::geom_text(data = mvaResults$CCA_arrowData,
                                                                   color = 'black',
                                                                   # position = ggplot2::position_dodge(width = 0.9),
                                                                   size = 5,
@@ -316,12 +362,12 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
           
         )
         
-        if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data_selected)){
+        if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data)){
           
-          if(nrow(arrow_plot_data_selected) > 0){
+          if(nrow(arrow_plot_data) > 0){
             
             mvaNationalRefPlot_plotly <- plotly::ggplotly(p = mvaNationalRefPlot_plot) |>
-              plotly::add_annotations(data = arrow_plot_data_selected,
+              plotly::add_annotations(data = arrow_plot_data,
                                       showarrow = TRUE,
                                       text = "",
                                       xref = "x", axref = "x",
@@ -346,10 +392,11 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
       })
       
     }) |>
-    bindEvent(mvaNationalRefResults_rval(),
+    bindEvent(mvaResults_rval(),
               dcaAxisSelection(),
               dcaVars(),
               nationalReferenceSpaces(),
+              groupSurveyPlots(),
               selectSurveyMethod(),
               selectSurveyYears(),
               selectSurveyGroups(),
@@ -359,6 +406,6 @@ mvaNationalRef <- function(input, output, session, surveyTable, nvcAssignment, s
     
   
   # Return list of DCA results objects
-  return(mvaNationalRefResults_rval)
+  return(mvaResults_rval)
   
 }
