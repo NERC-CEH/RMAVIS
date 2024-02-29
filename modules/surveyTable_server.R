@@ -1,25 +1,35 @@
-surveyTable <- function(input, output, session, uploadDataTable, surveyTableValidator, sidebar_options) {
+surveyTable <- function(input, output, session, uploadDataTable, setupData, surveyTableValidator, sidebar_options) {
   
   ns <- session$ns
   
+# Retrieve Setup Data -----------------------------------------------------
+  exampleData <- reactiveVal()
+  
+  observe({
+    
+    setupData <- setupData()
+    
+    exampleData(setupData$example_data)
+    
+  }) |>
+    bindEvent(setupData(),
+              ignoreInit = FALSE)
+  
 # Retrieve sidebar options ------------------------------------------------
   
-  # resetTable <- reactiveVal()
   inputMethod <- reactiveVal()
-  exampleData <- reactiveVal()
+  selectedExampleData <- reactiveVal()
   runAnalysis <- reactiveVal()
-  # coverMethod <- reactiveVal()
 
   observe({
     
-    # resetTable(sidebar_options()$resetTable)
     inputMethod(sidebar_options()$inputMethod)
-    exampleData(sidebar_options()$exampleData)
+    selectedExampleData(sidebar_options()$selectedExampleData)
     runAnalysis(sidebar_options()$runAnalysis)
-    # coverMethod(sidebar_options()$coverMethod)
 
   }) |>
-    bindEvent(sidebar_options(), ignoreInit = TRUE)
+    bindEvent(sidebar_options(), 
+              ignoreInit = TRUE)
   
 
 # Retrieve Survey Table Correction Button ---------------------------------
@@ -121,29 +131,14 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
         
       } else if(inputMethod() == "example"){
         
-        surveyTable <- example_data_all |>
-          dplyr::filter(Site == exampleData()) |>
+        surveyTable <- example_data_all |> # exampleData()
+          dplyr::filter(Site == selectedExampleData()) |>
           dplyr::select(-Site) |>
           dplyr::arrange(Year, Group, Quadrat)
-        
-        # surveyTable <- surveyTable |>
-        #   # tidyr::unite(col = "ID", c(Year, Site, Group, Quadrat), sep = " - ", remove = TRUE) |>
-        #   dplyr::select(Quadrat, Species, Cover) |>
-        #   dplyr::filter(!is.na(Cover)) |>
-        #   tidyr::pivot_wider(id_cols = Quadrat,
-        #                      names_from = Species, 
-        #                      values_from = Cover) |>
-        #   # dplyr::select(-ID) |>
-        #   tibble::column_to_rownames(var = "Quadrat")
-        # 
-        # write.csv(x = surveyTable, file = "./data/bundled_data/example_data_long.csv", row.names = FALSE)
-        # write.csv(x = surveyTable, file = "./data/bundled_data/example_data_wide.csv", row.names = TRUE)
         
       } else if(inputMethod() == "upload"){
         
         surveyTable <- rhandsontable::hot_to_r(input$surveyTable)
-        
-        # print(uploadDataTable())
         
         if(!is.null(uploadDataTable())){
           
@@ -215,7 +210,8 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
       
   }) |>
     bindEvent(inputMethod(),
-              exampleData(),
+              selectedExampleData(),
+              # exampleData(),
               uploadDataTable(),
               ignoreInit = TRUE)
   
@@ -402,11 +398,7 @@ surveyTable <- function(input, output, session, uploadDataTable, surveyTableVali
 
     # req(nrow(surveyTable_rval()) > 0)
 
-    # print(surveyTable_rval())
-
     surveyTable_rval(rhandsontable::hot_to_r(input$surveyTable))
-    
-    # print(surveyTable_rval())
 
   }) |>
     bindEvent(input$surveyTable,

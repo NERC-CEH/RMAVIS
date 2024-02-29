@@ -51,13 +51,18 @@ sidebarUI <- function(id){
               shiny::markdown(
                 "
                 Toggle whether bryophyte taxa are available for selection and
-                are included in analyses in MAVIS. If 'Yes'
-                moss (Bryophyta), liverwort (Marchantiophyta), and hornwort
+                are included in analyses in MAVIS. 
+                
+                If 'Yes' moss (Bryophyta), liverwort (Marchantiophyta), and hornwort
                 (Anthocerotophyta) taxa are included. If 'No' these taxa are
                 exluded.
+                
                 If 'Yes' the example datasets will need to be validated;
-                similarly, uploaded data included bryophyte species will need to
-                be validated.
+                similarly, uploaded data including bryophyte species will need to
+                be validated. 
+                
+                The 'Run Analysis' button must be clicked again.
+                
                 "
               ),
               placement = "bottom"
@@ -114,16 +119,16 @@ sidebarUI <- function(id){
             
             col_widths = c(11, 1),
             
-            shiny::selectizeInput(inputId = ns("exampleData"), 
-                                  label = "Example Data", 
+            shiny::selectizeInput(inputId = ns("selectedExampleData"), 
+                                  label = "Example Dataset", 
                                   choices = example_data_options, 
                                   selected = "none", 
                                   multiple = FALSE),
             
             bslib::popover(
               bsicons::bs_icon("info-circle"),
-              title = "Example Data",
-              id = ns("exampleDataInfo"),
+              title = "Example Dataset",
+              id = ns("selectedExampleDataInfo"),
               shiny::markdown(
                 "
                 Four example datasets are currently provided:

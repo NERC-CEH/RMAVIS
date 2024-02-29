@@ -3,7 +3,6 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
   ns <- session$ns
   
 # Retrieve sidebar options ------------------------------------------------
-  
   habCorClass <- reactiveVal()
 
   observe({
@@ -15,7 +14,6 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
   
 
 # Create initial habitat correspondance table -----------------------------
-  
   habCorData_init <- data.frame("NVC.Code" = character(),
                                 "Relationship" = character(),
                                 "Code" = character(),
@@ -53,7 +51,6 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
   
   observe({
     
-    # shiny::req(input$habCorTable)
     shiny::req(nvcAssignment())
     
     # Retrieve the table, optionally modify the table without triggering recursion.
@@ -69,8 +66,6 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
         dplyr::select(NVC.Code, Relationship, Code, Label) |>
         dplyr::distinct() |>
         dplyr::arrange(NVC.Code)
-      
-      # print(habCorTable)
 
     })
 

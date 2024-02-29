@@ -12,7 +12,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
       "inputMethod" = input$inputMethod,
       "includeBryophytes" = input$includeBryophytes,
       # "resetTable" = input$resetTable,
-      "exampleData" = input$exampleData,
+      "selectedExampleData" = input$selectedExampleData,
       "runAnalysis" = input$runAnalysis,
       # "coverMethod" = input$coverMethod,
       "habitatRestriction" = input$habitatRestriction,
@@ -45,7 +45,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     bindEvent(input$inputMethod,
               input$includeBryophytes,
               # input$resetTable, 
-              input$exampleData, 
+              input$selectedExampleData, 
               input$runAnalysis, 
               # input$coverMethod, 
               input$habitatRestriction, 
@@ -102,7 +102,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     if(input$inputMethod == "example"){
       
-      if(input$exampleData == "Parsonage Down"){
+      if(input$selectedExampleData == "Parsonage Down"){
         
         shiny::updateSelectizeInput(
           session = session,
@@ -116,7 +116,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
           value = "Parsonage Down"
         )
         
-      } else if(input$exampleData == "Whitwell Common"){
+      } else if(input$selectedExampleData == "Whitwell Common"){
         
         shiny::updateSelectizeInput(
           session = session,
@@ -130,7 +130,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
           value = "Whitwell Common"
         )
         
-      } else if(input$exampleData == "Leith Hill Place Wood"){
+      } else if(input$selectedExampleData == "Leith Hill Place Wood"){
         
         shiny::updateSelectizeInput(
           session = session,
@@ -144,7 +144,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
           value = "Leith Hill Place Wood"
         )
         
-      } else if(input$exampleData == "Newborough Warren"){
+      } else if(input$selectedExampleData == "Newborough Warren"){
         
         shiny::updateSelectizeInput(
           session = session,
@@ -164,7 +164,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
   }) |>
     bindEvent(input$inputMethod,
-              input$exampleData,
+              input$selectedExampleData,
               ignoreInit = TRUE)
 
 

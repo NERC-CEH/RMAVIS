@@ -1,8 +1,23 @@
-mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvcAssignment, avgEIVs, sidebar_options) {
+mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyTableWide, nvcAssignment, avgEIVs, sidebar_options) {
   
   ns <- session$ns
   
-  # Retrieve sidebar options ------------------------------------------------
+# Retrieve Setup Data -----------------------------------------------------
+  nvc_pquads_final_wide <- reactiveVal()
+  nvc_pquads_mean_unweighted_eivs <- reactiveVal()
+  
+  observe({
+    
+    setupData <- setupData()
+    
+    nvc_pquads_final_wide(setupData$nvc_pquads_final_wide)
+    nvc_pquads_mean_unweighted_eivs(setupData$nvc_pquads_mean_unweighted_eivs)
+    
+  }) |>
+    bindEvent(setupData(),
+              ignoreInit = FALSE)    
+
+# Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
   dcaAxisSelection <- reactiveVal()
   dcaVars <- reactiveVal()
@@ -28,9 +43,9 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
   
-  
+ 
+# Run DCA and CCA --------------------------------------------------------- 
   mvaResults <- reactiveVal()
-  
   observe({
     
     # shiny::req(surveyTable())
@@ -50,6 +65,8 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
       
       nvcAssignment <- nvcAssignment()
       topNVCCommunities <- nvcAssignment$topNVCCommunities
+      nvc_pquads_final_wide <- nvc_pquads_final_wide()
+      nvc_pquads_mean_unweighted_eivs <- nvc_pquads_mean_unweighted_eivs()
       
       # Create pattern to subset matrix rows
       codes_regex <- c()
@@ -245,11 +262,11 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
                             "dca_results_sample_site" = dca_results_sample_site,
                             "dca_results_pquads_site" = dca_results_pquads_site,
                             "pquad_hulls" = pquad_hulls,
-                            "uniq_survey_species" = uniq_survey_species,
                             "pquad_centroids" = pquad_centroids,
                             "sample_centroids" = sample_centroids,
                             "arrow_plot_data" = arrow_plot_data,
-                            "CCA_arrowData" = CCA_arrowData)
+                            "CCA_arrowData" = CCA_arrowData,
+                            "uniq_survey_species" = uniq_survey_species)
     
     mvaResults(mvaResults_list)
     
@@ -386,13 +403,27 @@ mvaLocalRefUnrestricted <- function(input, output, session, surveyTableWide, nvc
                                                                                          Quadrat = Quadrat,
                                                                                          x = .data[[x_axis]], 
                                                                                          y = .data[[y_axis]]))} +
-          {if("surveyQuadrats" %in% dcaVars())ggplot2::geom_point(data = dca_results_sample_site_selected,
-                                                                  color = 'black',
-                                                                  mapping = ggplot2::aes("Year" = Year,
-                                                                                         "Group" = {if(groupSurveyPlots() %in% c("no", "group")) Group},
-                                                                                         "Quadrat" = {if(groupSurveyPlots() == "no") Quadrat},
-                                                                                         x = .data[[x_axis]], 
-                                                                                         y = .data[[y_axis]]))} +
+          {if("surveyQuadrats" %in% dcaVars() && groupSurveyPlots() == "year")
+            ggplot2::geom_point(data = dca_results_sample_site_selected,
+                                color = 'black',
+                                mapping = ggplot2::aes(Year = Year,
+                                                       x = .data[[x_axis]],
+                                                       y = .data[[y_axis]]))} +
+          {if("surveyQuadrats" %in% dcaVars() && groupSurveyPlots() == "group")
+            ggplot2::geom_point(data = dca_results_sample_site_selected,
+                                color = 'black',
+                                mapping = ggplot2::aes(Year = Year,
+                                                       Group = Group,
+                                                       x = .data[[x_axis]],
+                                                       y = .data[[y_axis]]))} +
+          {if("surveyQuadrats" %in% dcaVars() && groupSurveyPlots() == "no")
+            ggplot2::geom_point(data = dca_results_sample_site_selected,
+                                color = 'black',
+                                mapping = ggplot2::aes(Year = Year,
+                                                       Group = Group,
+                                                       Quadrat = Quadrat,
+                                                       x = .data[[x_axis]],
+                                                       y = .data[[y_axis]]))} +
           {if("hillEllenberg" %in% dcaVars())ggplot2::geom_segment(data = mvaResults$CCA_arrowData,
                                                                    color = 'black',
                                                                    arrow = grid::arrow(),

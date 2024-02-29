@@ -73,7 +73,7 @@ speciesFreq <- function(input, output, session, surveyTable, surveyTableWide, si
     
     isolate({
       
-      # I need to find a better way to do this with tidy select
+      # I need to find a better way to do this with tidyselect
       max_year <- max(surveyTable$Year) |>
         as.character()
       min_year <- min(surveyTable$Year) |>

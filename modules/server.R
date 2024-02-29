@@ -21,7 +21,7 @@ server <- function(input, output, session) {
   
   surveyTable <- shiny::callModule(module = surveyTable,
                                    id = "surveyTable_id_1",
-                                   # setupData = setupData,
+                                   setupData = setupData,
                                    uploadDataTable = uploadDataTable,
                                    surveyTableValidator = surveyTableValidator,
                                    sidebar_options = sidebar_options)
@@ -34,25 +34,23 @@ server <- function(input, output, session) {
   
   surveyTableSummary <- shiny::callModule(module = surveyTableSummary,
                                           id = "surveyTableSummary_id_1",
-                                          # setupData = setupData,
                                           surveyTable = surveyTable)
   
   surveyTableWide <- shiny::callModule(module = surveyTableWide,
                                        id = "surveyTableWide_id_1",
-                                       # setupData = setupData,
                                        surveyTable = surveyTable,
                                        sidebar_options = sidebar_options)
   
   floristicTables <- shiny::callModule(module = floristicTables,
                                        id = "floristicTables_id_1",
-                                       # setupData = setupData,
+                                       # setupData = setupData, # Should use setupData to remove bryophytes from floristic tables?
                                        surveyTable = surveyTable,
                                        surveyTableSummary = surveyTableSummary,
                                        sidebar_options = sidebar_options)
   
   nvcAssignment <- shiny::callModule(module = nvcAssignment,
                                      id = "nvcAssignment_id_1",
-                                     # setupData = setupData,
+                                     setupData = setupData,
                                      surveyTable = surveyTable,
                                      surveyTableSummary = surveyTableSummary,
                                      floristicTables = floristicTables,
@@ -60,47 +58,43 @@ server <- function(input, output, session) {
 
   habCor <- shiny::callModule(module = habCor,
                               id = "habCor_id_1",
-                              # setupData = setupData,
                               nvcAssignment = nvcAssignment,
                               sidebar_options = sidebar_options)
   
   speciesFreq <- shiny::callModule(module = speciesFreq,
                                    id = "speciesFreq_id_1",
-                                   # setupData = setupData,
                                    surveyTable = surveyTable,
                                    surveyTableWide = surveyTableWide,
                                    sidebar_options = sidebar_options)
   
   avgEIVs <- shiny::callModule(module = calcAvgEIVs,
                                id = "calcAvgEIVs_id_1",
-                               # setupData = setupData,
                                surveyTable = surveyTable,
                                sidebar_options = sidebar_options)
   
   diversityAnalysis <- shiny::callModule(module = diversityAnalysis,
                                          id = "diversityAnalysis_id_1",
-                                         # setupData = setupData,
                                          surveyTable = surveyTable,
                                          surveyTableWide = surveyTableWide,
                                          sidebar_options = sidebar_options)
   
   mvaNationalRefResults <- shiny::callModule(module = mvaNationalRef,
                                              id = "mvaNationalRef_id_1",
-                                             # setupData = setupData,
+                                             setupData = setupData,
                                              surveyTable = surveyTable,
                                              nvcAssignment = nvcAssignment,
                                              sidebar_options = sidebar_options)
 
   mvaLocalRefRestrictedResults <- shiny::callModule(module = mvaLocalRefRestricted,
                                                     id = "mvaLocalRefRestricted_id_1",
-                                                    # setupData = setupData,
+                                                    setupData = setupData,
                                                     surveyTable = surveyTable,
                                                     nvcAssignment = nvcAssignment,
                                                     sidebar_options = sidebar_options)
 
   mvaLocalRefUnrestrictedResults <- shiny::callModule(module = mvaLocalRefUnrestricted,
                                                       id = "mvaLocalRefUnrestricted_id_1",
-                                                      # setupData = setupData,
+                                                      setupData = setupData,
                                                       surveyTableWide = surveyTableWide,
                                                       nvcAssignment = nvcAssignment,
                                                       avgEIVs = avgEIVs,
@@ -108,7 +102,6 @@ server <- function(input, output, session) {
   
   shiny::callModule(module = report,
                     id = "sidebar_id_1",
-                    # setupData = setupData,
                     sidebar_options = sidebar_options,
                     surveyTable = surveyTable,
                     surveyTableValidator = surveyTableValidator,

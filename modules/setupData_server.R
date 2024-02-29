@@ -22,10 +22,6 @@ setupData <- function(input, output, session, sidebar_options) {
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = FALSE)
-  
-
-
-
 
 # Update Input Data Based On includeBryophytes ----------------------------
   observe({
@@ -80,12 +76,15 @@ setupData <- function(input, output, session, sidebar_options) {
     setupData_list <- list(
       "species_names" = species_names_selected,
       
-      "accepted_species" = accepted_species_selected, # Do we trim this?
-      "example_data" = example_data_selected, # Do we trim this?
+      "accepted_species" = accepted_species_selected,
+      "example_data" = example_data_selected,
+      
       "nvc_floristic_tables" = nvc_floristic_tables_selected,
       "nvc_floristic_tables_numeric" = nvc_floristic_tables_numeric_selected,
+      
       "nvc_pquads_final" = nvc_pquads_final_selected,
       "nvc_pquads_final_wide" = nvc_pquads_final_wide_selected,
+      
       "nvc_pquad_dca_all" = nvc_pquad_dca_all_selected,
       "nvc_pquad_dca_all_hulls" = nvc_pquad_dca_all_hulls_selected,
       "nvc_pquad_dca_all_centroids" = nvc_pquad_dca_all_centroids_selected,

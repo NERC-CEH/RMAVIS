@@ -13,7 +13,6 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
     
   }) |>
     bindEvent(setupData(),
-              sidebar_options(),
               ignoreInit = FALSE)
   
 # Initialise Table to Replace Species Not In Accepted List ----------------
