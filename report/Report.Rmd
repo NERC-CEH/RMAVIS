@@ -53,6 +53,13 @@ mvaNationalRefResults <- params$mvaNationalRefResults
 mvaLocalRefRestrictedResults <- params$mvaLocalRefRestrictedResults
 mvaLocalRefUnrestrictedResults <- params$mvaLocalRefUnrestrictedResults
 
+# Sidebar options
+inputMethod <- sidebar_options$inputMethod
+includeBryophytes <- sidebar_options$includeBryophytes
+selectedExampleData <- sidebar_options$selectedExampleData
+habitatRestriction <- sidebar_options$habitatRestriction
+nTopResults <- sidebar_options$nTopResults
+
 # Report options
 reportOptions <- sidebar_options$reportOptions
 reportAuthorName <- sidebar_options$reportAuthorName
@@ -64,10 +71,7 @@ quadratsPerYear <- surveyTableStructure$quadratsPerYear
 quadratsPerYearGroup <- surveyTableStructure$quadratsPerYearGroup
 
 # NVC Assignment
-# nvcAssignmentSite <- nvcAssignment$nvcAssignmentSite
-# nvcAssignmentGroup <- nvcAssignment$nvcAssignmentGroup
 nvcAssignmentQuadrat <- nvcAssignment$nvcAssignmentQuadrat
-
 nvcAssignmentSite_Czekanowski <- nvcAssignment$nvcAssignmentSite_Czekanowski
 nvcAssignmentGroup_Czekanowski <- nvcAssignment$nvcAssignmentGroup_Czekanowski
 
@@ -87,20 +91,20 @@ speciesRichnessGroup <- diversityAnalysis$speciesRichnessGroup
 speciesRichnessQuadrat <- diversityAnalysis$speciesRichnessQuadrat
 
 # MVA Local Reference, Restricted
-mvaLocalRefRestricted_quadrats_survey <- mvaLocalRefRestrictedResults$surveyTable_dca_results_quadrats
-mvaLocalRefRestricted_hulls_pquads <- mvaLocalRefRestrictedResults$selected_pquads_dca_results_quadrats_final_hull
+mvaLocalRefRestricted_quadrats_survey <- mvaLocalRefRestrictedResults$dca_results_sample_site
+mvaLocalRefRestricted_hulls_pquads <- mvaLocalRefRestrictedResults$pquad_hulls
 mvaLocalRefRestricted_arrow_plot_data <- mvaLocalRefRestrictedResults$arrow_plot_data
 mvaLocalRefRestricted_CCA_arrowData <- mvaLocalRefRestrictedResults$CCA_arrowData
 
 # MVA Local Reference, Unrestricted
-mvaLocalRefUnrestricted_quadrats_survey <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample
-mvaLocalRefUnrestricted_hulls_pquads <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_hull
+mvaLocalRefUnrestricted_quadrats_survey <- mvaLocalRefUnrestrictedResults$dca_results_sample_site
+mvaLocalRefUnrestricted_hulls_pquads <- mvaLocalRefUnrestrictedResults$pquad_hulls
 mvaLocalRefUnrestricted_arrow_plot_data <- mvaLocalRefUnrestrictedResults$arrow_plot_data
 mvaLocalRefUnrestricted_CCA_arrowData <- mvaLocalRefUnrestrictedResults$CCA_arrowData
 
 # MVA National Reference
-mvaNationalRef_quadrats_survey <- mvaNationalRefResults$surveyTable_dca_results_quadrats
-mvaNationalRef_hulls <- mvaNationalRefResults$selected_pquads_dca_results_quadrats_final_hull
+mvaNationalRef_quadrats_survey <- mvaNationalRefResults$dca_results_sample_site
+mvaNationalRef_hulls <- mvaNationalRefResults$pquad_hulls
 mvaNationalRef_CCA_arrowData <- mvaNationalRefResults$CCA_arrowData
 
 
@@ -163,6 +167,31 @@ cat("**Date & Time:** ", as.character(format(Sys.time(), "%Y-%m-%d %H:%M:%S")), 
 
 # Introduction
 This report contains user-selected outputs of a MAVIS application session.
+
+```{r inputMethod, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+cat("**Input Method:** ", as.character(inputMethod), sep = "")
+```
+
+```{r selectedExampleData, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+if(inputMethod == "example"){
+  
+  cat("**Selected Example Data:** ", as.character(selectedExampleData), sep = "")
+  
+  }
+```
+
+```{r includeBryophytes, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+cat("**Bryophytes Included:** ", as.character(includeBryophytes), sep = "")
+```
+
+```{r habitatRestriction, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+cat("**Habitat Restriction:** ", as.character(habitatRestriction), sep = "")
+```
+
+```{r nTopResults, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+cat("**Number of Top Results:** ", as.character(nTopResults), sep = "")
+```
+
 The selected outputs are shown in Table \@ref(tab:selectedOutputs).
 
 ```{r selectedOutputs, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
