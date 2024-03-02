@@ -2,19 +2,12 @@
 FROM rocker/shiny:latest
 
 # Install linux packages
-# This needs revising if MAVIS does not need spatial libraries
 RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libssl-dev \
     libxml2-dev \
     libudunits2-dev \
     libharfbuzz-dev \
-    libfribidi-dev \
-    libgdal-dev \
-    gdal-bin \
-    libproj-dev \
-    proj-data \
-    proj-bin \
-    libgeos-dev
+    libfribidi-dev
 
 # Update linux packages
 RUN apt-get update && \

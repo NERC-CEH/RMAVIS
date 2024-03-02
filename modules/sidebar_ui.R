@@ -51,7 +51,7 @@ sidebarUI <- function(id){
               shiny::markdown(
                 "
                 Toggle whether bryophyte taxa are available for selection and
-                are included in analyses in MAVIS. 
+                are included in analyses in RMAVIS. 
                 
                 If 'Yes' moss (Bryophyta), liverwort (Marchantiophyta), and hornwort
                 (Anthocerotophyta) taxa are included. If 'No' these taxa are
@@ -199,7 +199,7 @@ sidebarUI <- function(id){
                 "
                 Open a popup window to validate the data present in the Survey Data Table.
                 All validation checks must pass before the 'Run Analysis' button is enabled
-                and MAVIS is ok to proceed.
+                and RMAVIS is ok to proceed.
                 "
               ),
               placement = "bottom"
@@ -958,7 +958,7 @@ sidebarUI <- function(id){
               title = "Report Author",
               shiny::markdown(
                 "
-                Please enter the name of the person/s using MAVIS, for attribution in the report.
+                Please enter the name of the person/s using RMAVIS, for attribution in the report.
                 "
               ),
               placement = "bottom"
@@ -986,7 +986,7 @@ sidebarUI <- function(id){
               title = "Project Name",
               shiny::markdown(
                 "
-                Please enter the name of the project/site being analysed in MAVIS.
+                Please enter the name of the project/site being analysed in RMAVIS.
                 "
               ),
               placement = "bottom"
@@ -1026,11 +1026,11 @@ sidebarUI <- function(id){
               title = "Report Options",
               shiny::markdown(
                 "
-                Select the MAVIS outputs to include in the report.
+                Select the RMAVIS outputs to include in the report.
                 
                 Please note that selecting the 'Survey Table' option may produce
                 a long report if a large quantity of data is submitted to
-                MAVIS.
+                RMAVIS.
                 "
               ),
               placement = "bottom"
@@ -1062,7 +1062,7 @@ sidebarUI <- function(id){
               title = "Download Report",
               shiny::markdown(
                 "
-                Download a pdf report of the current MAVIS analyses results.
+                Download a pdf report of the current RMAVIS analyses results.
                 "
               ),
               placement = "bottom"
@@ -1101,7 +1101,7 @@ sidebarUI <- function(id){
               title = "Download Accepted Species Data",
               shiny::markdown(
                 "
-                Download a csv containing the species names accepted by MAVIS.
+                Download a csv containing the species names accepted by RMAVIS.
                 "
               ),
               placement = "bottom"
@@ -1131,9 +1131,9 @@ sidebarUI <- function(id){
               title = "Download Survey Data",
               shiny::markdown(
                 "
-                Download the survey data displayed in the 'Survey Data' section of MAVIS.
+                Download the survey data displayed in the 'Survey Data' section of RMAVIS.
                 This data will contain any changes made in the survey data validation process
-                and allow reproduction of the results of the current MAVIS session
+                and allow reproduction of the results of the current RMAVIS session
                 at a later date.
                 "
               ),

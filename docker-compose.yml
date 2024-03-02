@@ -4,8 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: "<container registry url>/mavis:v0.96"
-    container_name: "mavis"
+    image: "<container registry url>/rmavis:v0.96"
+    container_name: "rmavis"
     restart: always
     privileged: true
     ports:

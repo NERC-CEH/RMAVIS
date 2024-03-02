@@ -11,7 +11,7 @@
 
 
 
-<title>MAVIS - Documentation</title>
+<title>RMAVIS - Documentation</title>
 
 <script src="documentation_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -259,7 +259,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">MAVIS - Documentation</h1>
+<h1 class="title toc-ignore">RMAVIS - Documentation</h1>
 <h3 class="subtitle">v0.96</h3>
 
 </div>
@@ -310,10 +310,10 @@ ecological features such as protected habitats <span class="citation">(<a href="
 <p>The development of computational methods and programs for the assignment of
 vegetation survey data to NVC communities began with the development of
 TABLEFIT <span class="citation">(<a href="#ref-hill1989">Hill 1989</a>; <a href="#ref-marrs2019">Marrs 2019</a>)</span>. The most recent program, the Modular Analysis of
-Vegetation Information System (MAVIS), was originally developed by
-<span class="citation">S. Smart, Goodwin, and Wallace (<a href="#ref-smart2016mavis">2016</a>)</span> as a Windows application, with the latest version released in
+Vegetation Information System (RMAVIS), was originally developed by
+<span class="citation">S. Smart, Goodwin, and Wallace (<a href="#ref-smart2016RMAVIS">2016</a>)</span> as a Windows application, with the latest version released in
 2021.</p>
-<p>This R Shiny implementation of MAVIS is the newest program in this series,
+<p>This R Shiny implementation of RMAVIS is the newest program in this series,
 aiming to provide a web-based and easily operable system which can be updated
 and improved over time.</p>
 </div>
@@ -321,7 +321,7 @@ and improved over time.</p>
 <h1><span class="header-section-number">2</span> Instructions and Methodology</h1>
 <div id="survey-data" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Survey Data</h2>
-<p>Three methods for entering data into MAVIS are provided:
+<p>Three methods for entering data into RMAVIS are provided:
 manual, upload, and example. The manual method allows the user to enter the data
 directly via editing the cells of the survey data table, or copying the data in.
 The upload method allows the user to upload the data in one of three formats:
@@ -344,7 +344,7 @@ Biodiversity Network (NBN).</li>
 </div>
 <div id="example-data" class="section level3" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> Example Data</h3>
-<p>Four example datasets are available in MAVIS, which provide a
+<p>Four example datasets are available in RMAVIS, which provide a
 means to explore the applications functionality.</p>
 <p><strong>Parsonage Down</strong></p>
 <p>The Parsonage Down dataset <span class="citation">(<a href="#ref-ridding2020">Ridding et al. 2020</a>)</span> contains the results of a long-term
@@ -352,7 +352,7 @@ survey of Parsonage Down National Nature Reserve in Wiltshire, which consists of
 188ha of calcareous grassland. The site was surveyed in three years: 1970, 1990,
 and 2016. Four transects were surveyed, containing a total of 115 quadrats. The
 Domin scale of abundance system was used, with these values being converted into
-direct percentage estimates for use in MAVIS.</p>
+direct percentage estimates for use in RMAVIS.</p>
 <p><strong>Leith Hill Place Wood</strong></p>
 <p>The Leith Hill Place Wood dataset represents a subset of the Bunce woodland
 survey data, described in <span class="citation">Wood, Smart, and Bunce (<a href="#ref-wood2015">2015</a>)</span> and consists of a total of 16 plots surveyed
@@ -375,7 +375,7 @@ No cover values are currently provided in this example dataset.</p>
 </div>
 <div id="survey-data-validation" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Survey Data Validation</h2>
-<p>At present MAVIS is designed to analyse vegetation survey data in
+<p>At present RMAVIS is designed to analyse vegetation survey data in
 the form of grouped quadrats for a single site, with or without cover
 estimates. However, the user may utilise the “Group” and “Quadrat”
 columns as desired, for example by using the “Group” column to delineate sites.</p>
@@ -400,13 +400,13 @@ may adjust the species which are not present in the accepted list using the
 </ul>
 <p>The user may also combine duplicate observations of a species in quadrats using
 the “Combine Duplicates” button.</p>
-<p>Until these conditions are met MAVIS will not be able to proceed
+<p>Until these conditions are met RMAVIS will not be able to proceed
 with as the “Run Analysis” and “Generate Report” buttons will be
 disabled.</p>
 </div>
 <div id="nvc-assignment" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> NVC Assignment</h2>
-<p>In MAVIS NVC community similarities are assigned to survey data for the site and
+<p>In RMAVIS NVC community similarities are assigned to survey data for the site and
 each group of plots by year using the Czekanowski index <span class="citation">(<a href="#ref-bloom1981">Bloom 1981</a>; <a href="#ref-hill1989">Hill 1989</a>)</span>,
 which quantifies the similarity between a floristic table composed from survey
 data plots and the NVC floristic tables.
@@ -417,7 +417,7 @@ This approach is noted as improving the accuracy of fit relative to the
 Czekanowski index for samples with low species richness <span class="citation">(<a href="#ref-tipping2013">Tipping et al. 2013</a>)</span>.</p>
 <div id="communities" class="section level3" number="2.3.1">
 <h3><span class="header-section-number">2.3.1</span> Communities</h3>
-<p>The NVC communities available in MAVIS are composed from the following
+<p>The NVC communities available in RMAVIS are composed from the following
 sources:</p>
 <ul>
 <li>The original NVC floristic tables as described in <span class="citation">Rodwell, Nature Conservancy Council (Great Britain)), and Joint Nature Conservation Committee (Great Britain) (<a href="#ref-rodwell2000">2000</a>)</span>.</li>
@@ -435,7 +435,7 @@ in <span class="citation">Prosser, Wallace, and Gowing (<a href="#ref-prosser202
 <div id="options" class="section level3" number="2.3.2">
 <h3><span class="header-section-number">2.3.2</span> Options</h3>
 <p><strong>Results to View</strong></p>
-<p>Three sets of NVC assignment results are available in MAVIS at present:</p>
+<p>Three sets of NVC assignment results are available in RMAVIS at present:</p>
 <ul>
 <li>Site, Czekanowski</li>
 <li>Group, Czekanowski</li>
@@ -497,7 +497,7 @@ associated habitats. At present the following systems are available:</p>
 <div id="floristic-tables" class="section level2" number="2.5">
 <h2><span class="header-section-number">2.5</span> Floristic Tables</h2>
 <p>To aid in the NVC assignment process and as an exploratory tool the
-<strong>Floristic Tables</strong> section of MAVIS allows the user to compare a
+<strong>Floristic Tables</strong> section of RMAVIS allows the user to compare a
 composed floristic table to a chosen NVC floristic table. The facility to match
 the species in the composed table with the NVC table, two ways, is also provided.</p>
 <div id="options-2" class="section level3" number="2.5.1">
@@ -527,7 +527,7 @@ composed floristic table.</li>
 </div>
 <div id="frequency" class="section level2" number="2.6">
 <h2><span class="header-section-number">2.6</span> Frequency</h2>
-<p>The <strong>Frequency</strong> section of MAVIS summarises the number of occurrences
+<p>The <strong>Frequency</strong> section of RMAVIS summarises the number of occurrences
 of each species across all sample plots, the difference between the first
 year and last year, and a text category describing the change.</p>
 </div>
@@ -573,19 +573,19 @@ metrics.</p>
 </div>
 <div id="mva" class="section level2" number="2.9">
 <h2><span class="header-section-number">2.9</span> MVA</h2>
-<p>The Multivariate Analysis (MVA) section of MAVIS aims to allow the
+<p>The Multivariate Analysis (MVA) section of RMAVIS aims to allow the
 user to explore the position of the survey data quadrats in an ordination space
 constructed by performing a Detrended Correspondence Analysis (DCA) <span class="citation">(<a href="#ref-hill1980dca">Hill and Gauch 1980</a>)</span>.
 The results of a Canonical Correspondence Analysis (CCA) <span class="citation">(<a href="#ref-terBraak1986">Braak 1986</a>)</span>, using
 the pseudo-quadrats as the community matrix and pre-calculated set of unweighted
 mean Hill-Ellenberg values for each pseudo-quadrat as the constraining matrix,
 are available for visualising in each MVA plot.</p>
-<p>Three MVA methods are provided in MAVIS, which are described below.</p>
+<p>Three MVA methods are provided in RMAVIS, which are described below.</p>
 <div id="national-reference" class="section level3" number="2.9.1">
 <h3><span class="header-section-number">2.9.1</span> National Reference</h3>
 <p>The ordination space in the <strong>National Reference</strong> MVA was constructed by performing
 a pre-calculated DCA on the pseudo-quadrats from all NVC communities,
-with the survey quadrats added in passively in MAVIS using the mean of the
+with the survey quadrats added in passively in RMAVIS using the mean of the
 species scores from the pre-calculated pseudo-quadrat DCA.</p>
 <p>By default the top-fitted NVC communities retrieved from the <strong>NVC Assignment</strong>
 process are displayed.</p>
@@ -709,19 +709,19 @@ quadrats in the ordination space.</li>
 </div>
 <div id="report" class="section level2" number="2.10">
 <h2><span class="header-section-number">2.10</span> Report</h2>
-<p>MAVIS allows the user to generate a downloadable pdf report, which by
-default contains 1) a table of the MAVIS results selected for inclusion,
+<p>RMAVIS allows the user to generate a downloadable pdf report, which by
+default contains 1) a table of the RMAVIS results selected for inclusion,
 and 2) tables containing the number of quadrats sampled by year and group.</p>
 <div id="options-6" class="section level3" number="2.10.1">
 <h3><span class="header-section-number">2.10.1</span> Options</h3>
 <p><strong>Author</strong></p>
 <p>A text input where the user is able to enter the name of the person/s using
-MAVIS.</p>
+RMAVIS.</p>
 <p><strong>Project Name</strong></p>
 <p>A text input where the user is able to enter the project name/name of the site
-being analysed in MAVIS.</p>
+being analysed in RMAVIS.</p>
 <p><strong>Report Options</strong></p>
-<p>The user is able to select any of the results visualised in MAVIS for
+<p>The user is able to select any of the results visualised in RMAVIS for
 inclusion in the report, displayed in the table below.</p>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
@@ -909,16 +909,16 @@ Survey Table
 </div>
 <div id="download" class="section level2" number="2.11">
 <h2><span class="header-section-number">2.11</span> Download</h2>
-<p>At present the <strong>Download</strong> section of MAVIS allows the user to download:</p>
+<p>At present the <strong>Download</strong> section of RMAVIS allows the user to download:</p>
 <ul>
-<li>A csv file containing the species accepted by MAVIS.</li>
+<li>A csv file containing the species accepted by RMAVIS.</li>
 <li>The data entered into the Survey Table.</li>
 </ul>
 </div>
 </div>
 <div id="acknowledgements" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Acknowledgements</h1>
-<p>We would like to thank…for testing MAVIS.</p>
+<p>We would like to thank…for testing RMAVIS.</p>
 <p>We would also like to thank Laurence Jones for providing the Newborough Warren
 example dataset and Lucy Ridding for providing the Parsonage Down example dataset.</p>
 <!-- # Author Contribution -->
@@ -929,11 +929,11 @@ example dataset and Lucy Ridding for providing the Parsonage Down example datase
 </div>
 <div id="reccomended-citation" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Reccomended Citation</h1>
-<p>Marshall, Z., Smart, S., and Harrower, C.. (2024). MAVIS.</p>
+<p>Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.</p>
 <pre><code>@misc{marshall2024,
   author = {Marshall, Z. and Smart, S. and Harrower, C.},
-  title = {MAVIS},
-  howpublished = {Available at https://connect-apps.ceh.ac.uk/MAVIS/, version 0.96},
+  title = {RMAVIS},
+  howpublished = {Available at https://connect-apps.ceh.ac.uk/RMAVIS/, version 0.96},
   month = {02},
   year  = {2024},
   note = {A R Shiny application for the assignment of vegetation survey data to National Vegetation Classification (NVC) communities, with additional exploratory analyses.}
@@ -1120,8 +1120,8 @@ Smart, S. M. 2000. <em>Biodiversity and Conservation</em> 9 (6): 811–32. <a hr
 <div id="ref-smart2024" class="csl-entry">
 Smart, S. M., C. M. Wood, F. M. Seaton, A. McMullen, S. E. Ward, R. Ward, J. O’Reilly, et al. 2024. <span>“Broadleaved Woodland Survey of Great Britain, 2020-2022.”</span> NERC EDS Environmental Information Data Centre. <a href="https://doi.org/10.5285/42C203C8-44DE-40E2-A694-B1E8CBD4C8E1">https://doi.org/10.5285/42C203C8-44DE-40E2-A694-B1E8CBD4C8E1</a>.
 </div>
-<div id="ref-smart2016mavis" class="csl-entry">
-Smart, S., A. Goodwin, and H. Wallace. 2016. <em>MAVIS (Ver 1.03) User Manual</em>. Edited by S. Smart.
+<div id="ref-smart2016RMAVIS" class="csl-entry">
+Smart, S., A. Goodwin, and H. Wallace. 2016. <em>RMAVIS (Ver 1.03) User Manual</em>. Edited by S. Smart.
 </div>
 <div id="ref-smart2014" class="csl-entry">
 Smart, Simon M., Aaron M. Ellison, Robert G. H. Bunce, Robert H. Marrs, Keith J. Kirby, Adam Kimberley, Andy W. Scott, and David R. Foster. 2014. <span>“Quantifying the Impact of an Extreme Climate Event on Species Diversity in Fragmented Temperate Forests: The Effect of the October 1987 Storm on British Broadleaved Woodlands.”</span> Edited by Frank Gilliam. <em>Journal of Ecology</em> 102 (5): 1273–87. <a href="https://doi.org/10.1111/1365-2745.12291">https://doi.org/10.1111/1365-2745.12291</a>.

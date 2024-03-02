@@ -520,7 +520,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     filename = function() {
       
-      paste0("MAVIS.SurveyData.",
+      paste0("RMAVIS.SurveyData.",
              gsub(x = gsub(x = Sys.time(),
                            pattern = "\\s",
                            replacement = "."),
@@ -545,7 +545,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     filename = function() {
       
-      paste0("MAVIS.AcceptedSpecies.",
+      paste0("RMAVIS.AcceptedSpecies.",
              gsub(x = gsub(x = Sys.time(),
                            pattern = "\\s",
                            replacement = "."),
