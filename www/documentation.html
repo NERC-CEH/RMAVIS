@@ -312,9 +312,9 @@ as protected habitats <span class="citation">(<a href="#ref-cieem2022">CIEEM 202
 of vegetation survey data to NVC communities began with the development
 of TABLEFIT <span class="citation">(<a href="#ref-hill1989">Hill 1989</a>; <a href="#ref-marrs2019">Marrs 2019</a>)</span>. The most recent program, the
 Modular Analysis of Vegetation Information System (MAVIS), was
-originally developed by <span class="citation">(<a href="#ref-smart2016mavsi"><strong>smart2016mavsi?</strong></a>)</span> as a Windows application, with
+originally developed by <span class="citation">S. Smart, Goodwin, and Wallace (<a href="#ref-smart2016mavis">2016</a>)</span> as a Windows application, with
 the latest version released in 2021.</p>
-<p>This R Shiny implementation of MAVIS - RMAVIS - is the newest program in this
+<p>This R Shiny implementation of MAVIS (<strong>RMAVIS</strong>) is the newest program in this
 series, aiming to provide a web-based and easily operable system which
 can be updated and improved over time.</p>
 </div>
@@ -993,14 +993,23 @@ example dataset.</p>
 <summary>
 v0.96
 </summary>
-<p><strong>2024/02/XX</strong></p>
+<p><strong>2024/03/02</strong></p>
 <ul>
 <li>Modifications:
 <ul>
+<li>Changing name, MAVIS -&gt; RMAVIS</li>
 <li>Removing site and group Jaccard similarity results.</li>
+<li>Refining code throughout.</li>
+<li>Trimming dependencies.</li>
 </ul></li>
 <li>Fixes: NA</li>
-<li>New Features: NA</li>
+<li>New Features:
+<ul>
+<li>Adding pseudo-quadrat and sample quadrat centroids in MVA.</li>
+<li>Adding setupData module which allows modification of bundled datasets.</li>
+<li>Adding a bryophyte switch to include/exclude bryophyte taxa.</li>
+<li>Now loading dependencies in <code>load_packages.R</code>.</li>
+</ul></li>
 </ul>
 </details>
 <details>
@@ -1170,6 +1179,9 @@ Smart, S. M. 2000. <em>Biodiversity and Conservation</em> 9 (6): 811–32. <a hr
 </div>
 <div id="ref-smart2024" class="csl-entry">
 Smart, S. M., C. M. Wood, F. M. Seaton, A. McMullen, S. E. Ward, R. Ward, J. O’Reilly, et al. 2024. <span>“Broadleaved Woodland Survey of Great Britain, 2020-2022.”</span> NERC EDS Environmental Information Data Centre. <a href="https://doi.org/10.5285/42C203C8-44DE-40E2-A694-B1E8CBD4C8E1">https://doi.org/10.5285/42C203C8-44DE-40E2-A694-B1E8CBD4C8E1</a>.
+</div>
+<div id="ref-smart2016mavis" class="csl-entry">
+Smart, S., A. Goodwin, and H. Wallace. 2016. <em>MAVIS (Ver 1.03) User Manual</em>. Edited by S. Smart.
 </div>
 <div id="ref-smart2014" class="csl-entry">
 Smart, Simon M., Aaron M. Ellison, Robert G. H. Bunce, Robert H. Marrs, Keith J. Kirby, Adam Kimberley, Andy W. Scott, and David R. Foster. 2014. <span>“Quantifying the Impact of an Extreme Climate Event on Species Diversity in Fragmented Temperate Forests: The Effect of the October 1987 Storm on British Broadleaved Woodlands.”</span> Edited by Frank Gilliam. <em>Journal of Ecology</em> 102 (5): 1273–87. <a href="https://doi.org/10.1111/1365-2745.12291">https://doi.org/10.1111/1365-2745.12291</a>.

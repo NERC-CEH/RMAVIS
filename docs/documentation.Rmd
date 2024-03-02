@@ -101,10 +101,10 @@ The development of computational methods and programs for the assignment
 of vegetation survey data to NVC communities began with the development
 of TABLEFIT [@hill1989; @marrs2019]. The most recent program, the
 Modular Analysis of Vegetation Information System (MAVIS), was
-originally developed by @smart2016mavsi as a Windows application, with
+originally developed by @smart2016mavis as a Windows application, with
 the latest version released in 2021.
 
-This R Shiny implementation of MAVIS - RMAVIS - is the newest program in this
+This R Shiny implementation of MAVIS (**RMAVIS**) is the newest program in this
 series, aiming to provide a web-based and easily operable system which
 can be updated and improved over time.
 
@@ -651,12 +651,19 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.
 
 <summary>v0.96</summary>
 
-<strong>2024/02/XX</strong>
+<strong>2024/03/02</strong>
 
 -   Modifications:
+    -   Changing name, MAVIS -> RMAVIS
     -   Removing site and group Jaccard similarity results.
+    -   Refining code throughout.
+    -   Trimming dependencies.
 -   Fixes: NA
--   New Features: NA
+-   New Features:
+    -   Adding pseudo-quadrat and sample quadrat centroids in MVA.
+    -   Adding setupData module which allows modification of bundled datasets.
+    -   Adding a bryophyte switch to include/exclude bryophyte taxa.
+    -   Now loading dependencies in `load_packages.R`.
 
 </details>
 
