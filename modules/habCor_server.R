@@ -3,7 +3,6 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
   ns <- session$ns
   
 # Retrieve sidebar options ------------------------------------------------
-  
   habCorClass <- reactiveVal()
 
   observe({
@@ -15,7 +14,6 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
   
 
 # Create initial habitat correspondance table -----------------------------
-  
   habCorData_init <- data.frame("NVC.Code" = character(),
                                 "Relationship" = character(),
                                 "Code" = character(),
@@ -41,6 +39,9 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
                                           headerClass = "my-header",
                                           class = "my-col",
                                           align = "center" # Needed as alignment is not passing through to header
+                                        ),
+                                        columns = list(
+                                          Label = reactable::colDef(minWidth = 700)
                                         )
                                         )
     
@@ -50,34 +51,21 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
   
   observe({
     
-    # shiny::req(input$habCorTable)
     shiny::req(nvcAssignment())
     
-    # # Retrieve the table, optionally modify the table without triggering recursion.
+    # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
       
-      # Get all NVC communities and sub-communities from nvc assignment results
-      NVC_communities_all <- nvcAssignment()$nvcAssignmentSite |> # nvcAssignment()
-        dplyr::pull(NVC.Code)
+      nvcAssignment <- nvcAssignment()
       
-      # Get all NVC communities from community and sub-community codes
-      NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
-                                                         pattern = "(\\d)[^0-9]+$", 
-                                                         replace = "\\1") |>
-        unique()
-
-      NVC_communities_final <- data.frame(
-        "NVC.Code" = unique(c(NVC_communities_all, NVC_communities_fromSubCom))
-        )
+      topNVCCommunities_df <- data.frame("NVC.Code" = nvcAssignment$topNVCCommunities)
       
-      habCorTable <- NVC_communities_final |>
+      habCorTable <- topNVCCommunities_df |>
         dplyr::left_join(all_habCor_final, relationship = "many-to-many", by = dplyr::join_by(NVC.Code)) |>
         dplyr::filter(Classification == habCorClass()) |>
         dplyr::select(NVC.Code, Relationship, Code, Label) |>
         dplyr::distinct() |>
         dplyr::arrange(NVC.Code)
-      
-      # print(habCorTable)
 
     })
 
@@ -98,6 +86,12 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
                                             headerClass = "my-header",
                                             class = "my-col",
                                             align = "center" # Needed as alignment is not passing through to header
+                                          ),
+                                          columns = list(
+                                            NVC.Code = reactable::colDef(maxWidth = 150),
+                                            Relationship = reactable::colDef(maxWidth = 300),
+                                            Code = reactable::colDef(maxWidth = 150),
+                                            Label = reactable::colDef(minWidth = 600)
                                           )
                                           )
       

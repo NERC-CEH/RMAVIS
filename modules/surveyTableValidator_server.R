@@ -1,6 +1,19 @@
-surveyTableValidator <- function(input, output, session, surveyTable, sidebar_options) {
+surveyTableValidator <- function(input, output, session, setupData, surveyTable, sidebar_options) {
   
   ns <- session$ns
+  
+# Retrieve Setup Data -----------------------------------------------------
+  speciesNames <- reactiveVal()
+
+  observe({
+    
+    setupData <- setupData()
+    
+    speciesNames(setupData$species_names)
+    
+  }) |>
+    bindEvent(setupData(),
+              ignoreInit = FALSE)
   
 # Initialise Table to Replace Species Not In Accepted List ----------------
   speciesAdjustmentTable_init <- data.frame("Species.Submitted" = character(),
@@ -24,14 +37,14 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
         col = "Species.Submitted",
         readOnly = TRUE,
       ) |>
-      rhandsontable::hot_col(
-        col = "Species.Adjusted",
-        readOnly = FALSE,
-        type = "dropdown",
-        source = speciesNames,
-        strict = TRUE,
-        default = as.character(NA_character_)
-      ) |>
+      # rhandsontable::hot_col(
+      #   col = "Species.Adjusted",
+      #   readOnly = FALSE,
+      #   type = "dropdown",
+      #   source = speciesNames,
+      #   strict = TRUE,
+      #   default = as.character(NA_character_)
+      # ) |>
       rhandsontable::hot_cols(colWidths = c(200, 200, 200, 200)) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
@@ -100,8 +113,10 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
   observe({
     
     shiny::req(surveyTable())
+    shiny::req(speciesNames())
     
     surveyTable <- surveyTable()
+    speciesNames <- speciesNames()
     
     # print(rhandsontable::hot_to_r(input$speciesAdjustmentTable))
 
@@ -228,6 +243,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
 
   }) |>
     bindEvent(surveyTable(),
+              speciesNames(),
               input$adjustSpecies,
               speciesAdjustmentTable_rval(),
               ignoreInit = TRUE,
@@ -239,8 +255,10 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
   observe({
 
     shiny::req(surveyTableValidation_rval())
+    shiny::req(speciesNames())
 
     surveyTableValidation <- surveyTableValidation_rval()
+    speciesNames <- speciesNames()
 
     if(length(surveyTableValidation$speciesNotAccepted) > 0){
 
@@ -305,6 +323,7 @@ surveyTableValidator <- function(input, output, session, surveyTable, sidebar_op
   }) |>
     bindEvent(input$adjustSpecies,
               surveyTableValidation_rval(),
+              speciesNames(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   

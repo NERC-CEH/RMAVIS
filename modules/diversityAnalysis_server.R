@@ -17,7 +17,6 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
   
 
 # Show/Hide Results -------------------------------------------------------
-  
   observe({
     
     shinyjs::show(id = "diversitySummaryTable_div")
@@ -129,8 +128,6 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
                                            "InverseSimpson.Diversity" = double(),
                                            "Shannon.Evenness" = double(),
                                            "Simpson.Evenness" = double()
-                                           # "" = double(),
-                                           # "" = double()
                                            )
   
   diversityIndicesTable_rval <- reactiveVal(diversityIndicesTable_init)
@@ -281,9 +278,6 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
     isolate({
 
 # Species Richness --------------------------------------------------------
-      
-      # assign(x = "surveyTable", value = surveyTable, envir = .GlobalEnv)
-      # assign(x = "surveyTableWide", value = surveyTableWide, envir = .GlobalEnv)
   
       # Species Richness - Quadrat
       speciesRichness_quadrat <- surveyTable |>
@@ -605,12 +599,8 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
                              "speciesRichnessSite" = speciesRichnessSiteTable_rval(),
                              "speciesRichnessGroup" = speciesRichnessGroupTable_rval(),
                              "speciesRichnessQuadrat" = speciesRichnessQuadratTable_rval())
-    
-    
-    
+
     diversityDataAll_rval(diversityDataAll)
-    
-    # print(diversityDataAll_rval())
     
     shinybusy::remove_modal_spinner()
     

@@ -13,6 +13,7 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
   --ceh-mid-2 #3F9280;
   --ceh-mid-3 #459A62;
   --text-title-color: #575656;
+  --modal-background-color: #575656;
   
 }
 
@@ -26,7 +27,7 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
 
 .modal-backdrop{
   opacity: 0 !important;
-  background-color: var(--text-title-color) !important;
+  background-color: var(--modal-background-color) !important;
 }
 
 /* Title header flex container*/

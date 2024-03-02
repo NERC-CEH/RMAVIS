@@ -107,11 +107,11 @@ matchSpecies_options <- c("No" = "No",
 
 
 # Results to View NVC Assignment ------------------------------------------
-resultsViewNVCAssign_options <- c("Site, Pseudo-quadrat" = "nvcAssignSitePseudo",
-                                  "Group, Pseudo-quadrat" = "nvcAssignGroupPseudo",
-                                  "Quadrat, Pseudo-quadrat" = "nvcAssignQuadratPseudo",
+resultsViewNVCAssign_options <- c(#"Site, Jaccard" = "nvcAssignSiteJaccard",
+                                  #"Group, Jaccard" = "nvcAssignGroupJaccard",
                                   "Site, Czekanowski" = "nvcAssignSiteCzekanowski",
-                                  "Group, Czekanowski" = "nvcAssignGroupCzekanowski"#,
+                                  "Group, Czekanowski" = "nvcAssignGroupCzekanowski",
+                                  "Quadrat, Jaccard" = "nvcAssignQuadratJaccard"#,
                                   # "Quadrat, Czekanowski" = "nvcAssignQuadratCzekanowski"
                                   )
 
@@ -144,6 +144,7 @@ dcaAxisSelection_options <- c("DCA1 vs DCA2" = "dca1dca2",
 dcaVars_options <- c("Survey Quadrats" = "surveyQuadrats",
                      "Pseudo-Quadrats" = "pseudoQuadrats",
                      "Reference Space" = "referenceSpace",
+                     "Reference Centroids" = "referenceCentroids",
                      "Species" = "species",
                      "Unique Survey Species" = "uniqSurveySpecies",
                      "Hill-Ellenberg" = "hillEllenberg",
@@ -181,7 +182,7 @@ ccaVars_options <- c("Moisture (F) x Nitrogen (N)" = "FN",
 
 
 # Global Reference DCA Space Options --------------------------------------
-nationalReferenceSpaces_options <- sort(c(c("A", "CG", "H", "M", "MC", "MG", "OV", "S", "SD", "SM", "U", "W"), setdiff(readRDS(file = "./data/bundled_data/nvc_community_codes.rds"), c("SM1", "SM1a", "SM1b"))))
+nationalReferenceSpaces_options <- sort(c(c("A", "CG", "H", "M", "MC", "MG", "OV", "S", "SD", "SM", "U", "W"), setdiff(readRDS(file = "./data/nvc_community_codes.rds"), c("SM1", "SM1a", "SM1b"))))
 
 
 # DCA Survey Quadrat Options ----------------------------------------------
@@ -197,12 +198,18 @@ selectSurveyQuadrats_options <- c()
 selectSurveyGroups_options <- c()
 
 
+# Group Survey Plots Options ----------------------------------------------
+groupSurveyPlots_options <- c("No" = "no",
+                              "Group" = "group",
+                              "Year" = "year")
+
 # Report Options ----------------------------------------------------------
-reportOptions_options <- list(`NVC Assignment Pseudo-quadrat` = c("Site" = "nvcAssignmentResultsSite",
-                                                                  "Group" = "nvcAssignmentResultsGroup",
-                                                                  "Quadrat" = "nvcAssignmentResultsQuadrat"),
-                              `NVC Assignment Czekanowski` = c("Site" = "nvcAssignmentResultsSite_Czekanowski",
-                                                               "Group" = "nvcAssignmentResultsGroup_Czekanowski"),
+reportOptions_options <- list(#`NVC Assignment Pseudo-quadrat` = c("Site" = "nvcAssignmentResultsSite",
+                              #                                    "Group" = "nvcAssignmentResultsGroup",
+                              #                                    "Quadrat, Jaccard" = "nvcAssignmentResultsQuadrat_Jaccard"),
+                              `NVC Assignment` = c("Site, Czekanowski" = "nvcAssignmentResultsSite_Czekanowski",
+                                                   "Group, Czekanowski" = "nvcAssignmentResultsGroup_Czekanowski",
+                                                   "Quadrat, Jaccard" = "nvcAssignmentResultsQuadrat_Jaccard"),
                               `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
                                                      "Group" = "composedFloristicTablesGroup"),
                               `Species Frequency` = c("Species Frequency" = "speciesFrequencyTable"),

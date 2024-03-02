@@ -311,9 +311,9 @@ surveyTableValidatorUI <- function(id){
               id = ns("okToProceedTextInfo"),
               shiny::markdown(
                 "
-                If TRUE all of the required validation conditions are met and psuedoMAVIS is ok to proceed with the analysis. The 'Run Analysis' button is enabled.
+                If TRUE all of the required validation conditions are met and RMAVIS is ok to proceed with the analysis. The 'Run Analysis' button is enabled.
                 
-                If FALSE one or more of the required validation conditions are not met and psuedoMAVIS is not ok to proceed with the analysis. The 'Run Analysis' button is disabled.
+                If FALSE one or more of the required validation conditions are not met and RMAVIS is not ok to proceed with the analysis. The 'Run Analysis' button is disabled.
 
                 "
               ),

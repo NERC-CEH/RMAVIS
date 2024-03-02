@@ -34,7 +34,7 @@ uploadDataUI <- function(id) {
       
       shiny::markdown(
         "
-        MAVIS expects data to be uploaded as a .csv file in one of three formats: long, wide, or matrix.
+        RMAVIS expects data to be uploaded as a .csv file in one of three formats: long, wide, or matrix.
         Use the 'Data Entry Format' option to view the format required by each option, and select the format to upload.
         
         "

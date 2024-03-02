@@ -24,7 +24,7 @@ link-citations: yes
 editor_options: 
   markdown: 
     wrap: 72
-title: \textbf{\textcolor{ceh.dark.blue}{pseudoMAVIS}}
+title: \textbf{\textcolor{ceh.dark.blue}{RMAVIS}}
 subtitle: \textbf{\textcolor{ceh.dark.blue}{Report}}
 # date: \textbf{\textcolor{ceh.dark.blue}{`r Sys.Date()`}}
 ---
@@ -53,6 +53,13 @@ mvaNationalRefResults <- params$mvaNationalRefResults
 mvaLocalRefRestrictedResults <- params$mvaLocalRefRestrictedResults
 mvaLocalRefUnrestrictedResults <- params$mvaLocalRefUnrestrictedResults
 
+# Sidebar options
+inputMethod <- sidebar_options$inputMethod
+includeBryophytes <- sidebar_options$includeBryophytes
+selectedExampleData <- sidebar_options$selectedExampleData
+habitatRestriction <- sidebar_options$habitatRestriction
+nTopResults <- sidebar_options$nTopResults
+
 # Report options
 reportOptions <- sidebar_options$reportOptions
 reportAuthorName <- sidebar_options$reportAuthorName
@@ -64,10 +71,7 @@ quadratsPerYear <- surveyTableStructure$quadratsPerYear
 quadratsPerYearGroup <- surveyTableStructure$quadratsPerYearGroup
 
 # NVC Assignment
-nvcAssignmentSite <- nvcAssignment$nvcAssignmentSite
-nvcAssignmentGroup <- nvcAssignment$nvcAssignmentGroup
 nvcAssignmentQuadrat <- nvcAssignment$nvcAssignmentQuadrat
-
 nvcAssignmentSite_Czekanowski <- nvcAssignment$nvcAssignmentSite_Czekanowski
 nvcAssignmentGroup_Czekanowski <- nvcAssignment$nvcAssignmentGroup_Czekanowski
 
@@ -87,29 +91,27 @@ speciesRichnessGroup <- diversityAnalysis$speciesRichnessGroup
 speciesRichnessQuadrat <- diversityAnalysis$speciesRichnessQuadrat
 
 # MVA Local Reference, Restricted
-mvaLocalRefRestricted_quadrats_survey <- mvaLocalRefRestrictedResults$surveyTable_dca_results_quadrats
-mvaLocalRefRestricted_hulls_pquads <- mvaLocalRefRestrictedResults$selected_pquads_dca_results_quadrats_final_hull
+mvaLocalRefRestricted_quadrats_survey <- mvaLocalRefRestrictedResults$dca_results_sample_site
+mvaLocalRefRestricted_hulls_pquads <- mvaLocalRefRestrictedResults$pquad_hulls
 mvaLocalRefRestricted_arrow_plot_data <- mvaLocalRefRestrictedResults$arrow_plot_data
 mvaLocalRefRestricted_CCA_arrowData <- mvaLocalRefRestrictedResults$CCA_arrowData
 
 # MVA Local Reference, Unrestricted
-mvaLocalRefUnrestricted_quadrats_survey <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_sample
-mvaLocalRefUnrestricted_hulls_pquads <- mvaLocalRefUnrestrictedResults$pquads_surveyTable_dca_results_quadrats_hull
+mvaLocalRefUnrestricted_quadrats_survey <- mvaLocalRefUnrestrictedResults$dca_results_sample_site
+mvaLocalRefUnrestricted_hulls_pquads <- mvaLocalRefUnrestrictedResults$pquad_hulls
 mvaLocalRefUnrestricted_arrow_plot_data <- mvaLocalRefUnrestrictedResults$arrow_plot_data
 mvaLocalRefUnrestricted_CCA_arrowData <- mvaLocalRefUnrestrictedResults$CCA_arrowData
 
 # MVA National Reference
-mvaNationalRef_quadrats_survey <- mvaNationalRefResults$surveyTable_dca_results_quadrats
-mvaNationalRef_hulls <- mvaNationalRefResults$selected_pquads_dca_results_quadrats_final_hull
+mvaNationalRef_quadrats_survey <- mvaNationalRefResults$dca_results_sample_site
+mvaNationalRef_hulls <- mvaNationalRefResults$pquad_hulls
 mvaNationalRef_CCA_arrowData <- mvaNationalRefResults$CCA_arrowData
 
 
 # Report options. Load from create_constants.R!!!
-reportOptions_options <- list(`NVC Assignment Pseudo-quadrat` = c("Site" = "nvcAssignmentResultsSite",
-                                                                  "Group" = "nvcAssignmentResultsGroup",
-                                                                  "Quadrat" = "nvcAssignmentResultsQuadrat"),
-                              `NVC Assignment Czekanowski` = c("Site" = "nvcAssignmentResultsSite_Czekanowski",
-                                                               "Group" = "nvcAssignmentResultsGroup_Czekanowski"),
+reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAssignmentResultsSite_Czekanowski",
+                                                   "Group, Czekanowski" = "nvcAssignmentResultsGroup_Czekanowski",
+                                                   "Quadrat, Jaccard" = "nvcAssignmentResultsQuadrat_Jaccard"),
                               `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
                                                      "Group" = "composedFloristicTablesGroup"),
                               `Species Frequency` = c("Species Frequency" = "speciesFrequencyTable"),
@@ -133,9 +135,9 @@ reportOptions_options <- list(`NVC Assignment Pseudo-quadrat` = c("Site" = "nvcA
 
 \vspace{-10truemm}
 
-```{r pseudoMAVISVersion, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r RMAVISVersion, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-cat("**Version:** ", as.character("v0.95"), sep = "")
+cat("**Version:** ", as.character("v0.96"), sep = "")
 
 ```
 
@@ -164,7 +166,32 @@ cat("**Date & Time:** ", as.character(format(Sys.time(), "%Y-%m-%d %H:%M:%S")), 
 \newpage
 
 # Introduction
-This report contains user-selected outputs of a pseudoMAVIS application session.
+This report contains user-selected outputs of a RMAVIS application session.
+
+```{r inputMethod, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+cat("**Input Method:** ", as.character(inputMethod), sep = "")
+```
+
+```{r selectedExampleData, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+if(inputMethod == "example"){
+  
+  cat("**Selected Example Data:** ", as.character(selectedExampleData), sep = "")
+  
+  }
+```
+
+```{r includeBryophytes, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+cat("**Bryophytes Included:** ", as.character(includeBryophytes), sep = "")
+```
+
+```{r habitatRestriction, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+cat("**Habitat Restriction:** ", as.character(habitatRestriction), sep = "")
+```
+
+```{r nTopResults, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+cat("**Number of Top Results:** ", as.character(nTopResults), sep = "")
+```
+
 The selected outputs are shown in Table \@ref(tab:selectedOutputs).
 
 ```{r selectedOutputs, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
@@ -190,7 +217,7 @@ selectedOutputs <- reportOptions_options_named_df |>
 
 kableExtra::kbl(x = selectedOutputs, format = "latex", booktabs = TRUE,
                 longtable = TRUE, linesep = "",
-                caption = "The pseudoMAVIS results selected for inclusion in this report.") |>
+                caption = "The RMAVIS results selected for inclusion in this report.") |>
   kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
 
 
@@ -200,13 +227,11 @@ kableExtra::kbl(x = selectedOutputs, format = "latex", booktabs = TRUE,
 
 # Survey Data Structure
 
-As detailed in the survey data validation section of pseudoMAVIS a sample size 
-of at least five quadrats are reccomended per group and per year.
-Smaller sample sizes may result in inaccuracies in 
-the NVC assignment process and the composition of representative floristic tables.
-However, at present pseudoMAVIS does not prevent analysis if the number
-of quadrats per group and year is less than five, leaving the user to interpret
-their the results in the context of the submitted data. 
+As detailed in the survey data validation section of RMAVIS
+NVC similarities for groups and years are not calculated when there are
+less than five sample plots per year-group and per year.
+Smaller sample sizes may also result in the failure of the composition of 
+representative floristic tables.
 See Table \@ref(tab:quadratsPerYear) and Table \@ref(tab:quadratsPerYearGroup)
 for the sample sizes present in the survey data.
 
@@ -236,60 +261,6 @@ if(any(reportOptions_nvcAssignment %in% reportOptions)){
   
   cat("\\newpage")
   cat("# NVC Assignment")
-  
-}
-
-```
-
-```{r nvcAssignmentResultsSite, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-
-if("nvcAssignmentResultsSite" %in% reportOptions){
-  
-  cat("## NVC Assignment, by Site")
-  
-  nvcAssignmentSite_prepped <- nvcAssignmentSite |>
-    dplyr::mutate_if(is.numeric, round, digits = 2)
-
-  kableExtra::kbl(x = nvcAssignmentSite_prepped, format = "latex", booktabs = TRUE,
-                  longtable = TRUE, linesep = "",
-                  caption = "The top NVC communities fitted using the pseudo-quadrat method, for the site by year.") |>
-    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
-  
-}
-
-```
-
-```{r nvcAssignmentResultsGroup, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-
-if("nvcAssignmentResultsGroup" %in% reportOptions){
-  
-  cat("## NVC Assignment, by Group")
-  
-  nvcAssignmentGroup_prepped <- nvcAssignmentGroup |>
-    dplyr::mutate_if(is.numeric, round, digits = 2)
-
-  kableExtra::kbl(x = nvcAssignmentGroup_prepped, format = "latex", booktabs = TRUE,
-                  longtable = TRUE, linesep = "",
-                  caption = "The top NVC communities fitted using the pseudo-quadrat method, by group and year") |>
-    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
-  
-}
-
-```
-
-```{r nvcAssignmentResultsQuadrat, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-
-if("nvcAssignmentResultsQuadrat" %in% reportOptions){
-  
-  cat("## NVC Assignment, by Quadrat")
-  
-  nvcAssignmentQuadrat_prepped <- nvcAssignmentQuadrat |>
-    dplyr::mutate_if(is.numeric, round, digits = 2)
-
-  kableExtra::kbl(x = nvcAssignmentQuadrat_prepped, format = "latex", booktabs = TRUE,
-                  longtable = TRUE, linesep = "",
-                  caption = "The top NVC communities fitted using the pseudo-quadrat method, by quadrat, group, and year") |>
-    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }
 
@@ -327,6 +298,24 @@ if("nvcAssignmentResultsGroup_Czekanowski" %in% reportOptions){
                   longtable = TRUE, linesep = "",
                   caption = "The top NVC communities fitted using the Czekanowski method, by group and year"
                   ) |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
+
+```
+
+```{r nvcAssignmentResultsQuadrat, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("nvcAssignmentResultsQuadrat_Jaccard" %in% reportOptions){
+  
+  cat("## NVC Assignment Jaccard, by Quadrat")
+  
+  nvcAssignmentQuadrat_prepped <- nvcAssignmentQuadrat |>
+    dplyr::mutate_if(is.numeric, round, digits = 2)
+
+  kableExtra::kbl(x = nvcAssignmentQuadrat_prepped, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "The top NVC communities fitted using the pseudo-quadrat method, by quadrat, group, and year") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }
@@ -547,8 +536,10 @@ if("diversitySummary" %in% reportOptions){
 ```{r diversityIndices, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
 if("diversityIndices" %in% reportOptions){
-  
+   
   cat("## Diversity Indices")
+  
+  # cat("\\begin{landscape}")
   
   diversityIndices_prepped <- diversityIndices |>
     dplyr::mutate_if(is.numeric, round, digits = 2)
@@ -560,6 +551,8 @@ if("diversityIndices" %in% reportOptions){
     # kableExtra::kable_styling(font_size = 7) |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position")) |>
     kableExtra::landscape()
+  
+   # cat("\\end{landscape}")
   
 }
 

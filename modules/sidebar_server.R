@@ -10,8 +10,9 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     sidebar_options_list <- list(
       "inputMethod" = input$inputMethod,
+      "includeBryophytes" = input$includeBryophytes,
       # "resetTable" = input$resetTable,
-      "exampleData" = input$exampleData,
+      "selectedExampleData" = input$selectedExampleData,
       "runAnalysis" = input$runAnalysis,
       # "coverMethod" = input$coverMethod,
       "habitatRestriction" = input$habitatRestriction,
@@ -25,6 +26,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
       "resultsViewEIVs"  = input$resultsViewEIVs,
       "resultsViewDiversity"  = input$resultsViewDiversity,
       "nationalReferenceSpaces" = input$nationalReferenceSpaces,
+      "groupSurveyPlots" = input$groupSurveyPlots,
       "selectSurveyMethod" = input$selectSurveyMethod,
       "selectSurveyYears" = input$selectSurveyYears,
       "selectSurveyQuadrats" = input$selectSurveyQuadrats,
@@ -40,9 +42,10 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     sidebar_options(sidebar_options_list)
     
   }) |>
-    bindEvent(input$inputMethod, 
+    bindEvent(input$inputMethod,
+              input$includeBryophytes,
               # input$resetTable, 
-              input$exampleData, 
+              input$selectedExampleData, 
               input$runAnalysis, 
               # input$coverMethod, 
               input$habitatRestriction, 
@@ -56,6 +59,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
               input$resultsViewEIVs,
               input$resultsViewDiversity,
               input$nationalReferenceSpaces,
+              input$groupSurveyPlots,
               input$selectSurveyMethod,
               input$selectSurveyYears,
               input$selectSurveyQuadrats,
@@ -98,7 +102,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     if(input$inputMethod == "example"){
       
-      if(input$exampleData == "Parsonage Down"){
+      if(input$selectedExampleData == "Parsonage Down"){
         
         shiny::updateSelectizeInput(
           session = session,
@@ -112,7 +116,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
           value = "Parsonage Down"
         )
         
-      } else if(input$exampleData == "Whitwell Common"){
+      } else if(input$selectedExampleData == "Whitwell Common"){
         
         shiny::updateSelectizeInput(
           session = session,
@@ -126,7 +130,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
           value = "Whitwell Common"
         )
         
-      } else if(input$exampleData == "Leith Hill Place Wood"){
+      } else if(input$selectedExampleData == "Leith Hill Place Wood"){
         
         shiny::updateSelectizeInput(
           session = session,
@@ -140,12 +144,12 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
           value = "Leith Hill Place Wood"
         )
         
-      } else if(input$exampleData == "Newborough Warren"){
+      } else if(input$selectedExampleData == "Newborough Warren"){
         
         shiny::updateSelectizeInput(
           session = session,
           inputId = "habitatRestriction",
-          selected = NULL
+          selected = "SD"
         )
         
         shiny::updateTextInput(
@@ -160,7 +164,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
   }) |>
     bindEvent(input$inputMethod,
-              input$exampleData,
+              input$selectedExampleData,
               ignoreInit = TRUE)
 
 
@@ -251,25 +255,17 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     shiny::req(nvcAssignment())
     
-    # Get all NVC communities and sub-communities from nvc assignment results
-    NVC_communities_all <- nvcAssignment()$nvcAssignmentSite |>
-      dplyr::pull(NVC.Code)
+    nvcAssignment <- nvcAssignment()
     
-    # Get all NVC communities from community and sub-community codes
-    NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
-                                                       pattern = "(\\d)[^0-9]+$", 
-                                                       replace = "\\1") |>
-      unique()
-    
-    NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
+    topNVCCommunities <- nvcAssignment$topNVCCommunities
     
     if(input$restrictNVCFlorTablesOpts == TRUE){
       
       shiny::updateSelectizeInput(
         session = session,
         inputId = "nvcFloristicTable",
-        choices = NVC_communities_final,
-        selected = NVC_communities_final[1],
+        choices = topNVCCommunities,
+        selected = topNVCCommunities[1],
         server = TRUE
       )
       
@@ -279,7 +275,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
         session = session,
         inputId = "nvcFloristicTable",
         choices = nvc_community_codes,
-        selected = NVC_communities_final[1],
+        selected = topNVCCommunities[1],
         server = TRUE
       )
       
@@ -316,29 +312,30 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     bindEvent(floristicTables(),
               ignoreInit = TRUE)
   
+
   
-  # Reactively update DCA survey quadrat selection method -------------------
+# Reactively update DCA survey quadrat selection method -------------------
   observe({
     
-    if (input$selectSurveyMethod == "all") {
+    if(input$selectSurveyMethod == "all") {
       
       shinyjs::hide(id = "selectSurveyYears_div")
       shinyjs::hide(id = "selectSurveyQuadrats_div")
       shinyjs::hide(id = "selectSurveyGroups_div")
       
-    } else if (input$selectSurveyMethod == "selectYears") {
+    } else if(input$selectSurveyMethod == "selectYears") {
       
       shinyjs::show(id = "selectSurveyYears_div")
       shinyjs::hide(id = "selectSurveyGroups_div")
       shinyjs::hide(id = "selectSurveyQuadrats_div")
       
-    } else if (input$selectSurveyMethod == "selectGroups") {
+    } else if(input$selectSurveyMethod == "selectGroups") {
       
       shinyjs::hide(id = "selectSurveyYears_div")
       shinyjs::show(id = "selectSurveyGroups_div")
       shinyjs::hide(id = "selectSurveyQuadrats_div")
       
-    } else if (input$selectSurveyMethod == "selectQuadrats") {
+    } else if(input$selectSurveyMethod == "selectQuadrats") {
       
       shinyjs::hide(id = "selectSurveyYears_div")
       shinyjs::hide(id = "selectSurveyGroups_div")
@@ -346,31 +343,38 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
       
     }
     
+    # This goes second as it takes priority
+    if(input$groupSurveyPlots == "no"){
+      
+      shinyjs::show(id = "selectSurveyMethod_div")
+      
+    } else if(input$groupSurveyPlots == "group" || input$groupSurveyPlots == "year") {
+      
+      shinyjs::hide(id = "selectSurveyMethod_div")
+      shinyjs::hide(id = "selectSurveyYears_div")
+      shinyjs::hide(id = "selectSurveyQuadrats_div")
+      shinyjs::hide(id = "selectSurveyGroups_div")
+      
+    }
+    
   }) |>
-    bindEvent(input$selectSurveyMethod, ignoreInit = FALSE)
+    bindEvent(input$groupSurveyPlots,
+              input$selectSurveyMethod, 
+              ignoreInit = FALSE)
   
   
   # Reactively update global reference DCA space selection ------------------
-  
   observe({
     
-    # Get all NVC communities and sub-communities from nvc assignment results
-    NVC_communities_all <- nvcAssignment()$nvcAssignmentSite |> # nvcAssignment()
-      dplyr::pull(NVC.Code)
+    nvcAssignment <- nvcAssignment()
     
-    # Get all NVC communities from community and sub-community codes
-    NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
-                                                       pattern = "(\\d)[^0-9]+$", 
-                                                       replace = "\\1") |>
-      unique()
-    
-    NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
+    topNVCCommunities <- nvcAssignment$topNVCCommunities
     
     # shinyWidgets::updatePickerInput(
     shiny::updateSelectizeInput(
       session = session,
       inputId = "nationalReferenceSpaces",
-      selected = NVC_communities_final
+      selected = topNVCCommunities
     )
     
   }) |>
@@ -396,7 +400,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
         dplyr::pull(Group) |>
         unique()
       
-      if(input$selectSurveyMethod == "all"){
+      if(input$selectSurveyMethod == "all" || input$groupSurveyPlots != "no"){
         
         shiny::updateSelectizeInput(
           session = session,
@@ -507,6 +511,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
   }) |>
     bindEvent(input$selectSurveyMethod,
+              input$groupSurveyPlots,
               ignoreInit = TRUE)
   
 
@@ -515,7 +520,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     filename = function() {
       
-      paste0("pseudoMAVIS.SurveyData.",
+      paste0("RMAVIS.SurveyData.",
              gsub(x = gsub(x = Sys.time(),
                            pattern = "\\s",
                            replacement = "."),
@@ -540,7 +545,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     filename = function() {
       
-      paste0("pseudoMAVIS.AcceptedSpecies.",
+      paste0("RMAVIS.AcceptedSpecies.",
              gsub(x = gsub(x = Sys.time(),
                            pattern = "\\s",
                            replacement = "."),

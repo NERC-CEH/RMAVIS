@@ -1,7 +1,10 @@
 ---
-title: "pseudoMAVIS - Documentation"
-subtitle: "v0.95"
-output: 
+title: "RMAVIS - Documentation"
+subtitle: "v0.96"
+# output: 
+#   bookdown::word_document2:
+# always_allow_html: true
+output:
   bookdown::html_document2:
     toc: true
     toc_float: true
@@ -20,6 +23,8 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+<!-- * {font-family: "Montserrat", sans-serif !important;} -->
+
 ```{css, echo=FALSE}
 :root {
   
@@ -34,7 +39,7 @@ knitr::opts_chunk$set(echo = TRUE)
   
 }
 
-* {font-family: "Montserrat", sans-serif !important;}
+
 
 body .main-container {
   max-width: 2800px !important;
@@ -53,201 +58,247 @@ body {
 }
 ```
 
+```{r constants, echo=FALSE}
+
+# Report options. Load from create_constants.R!!!
+reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAssignmentResultsSite_Czekanowski",
+                                                   "Group, Czekanowski" = "nvcAssignmentResultsGroup_Czekanowski",
+                                                   "Quadrat, Jaccard" = "nvcAssignmentResultsQuadrat_Jaccard"),
+                              `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
+                                                     "Group" = "composedFloristicTablesGroup"),
+                              `Species Frequency` = c("Species Frequency" = "speciesFrequencyTable"),
+                              `EIVs (incl. Mean Hill-Ellenberg)` = c("Weighted, Site" = "weightedMeanHEValuesSite",
+                                                                     "Unweighted, Site" = "unweightedMeanHEValuesSite",
+                                                                     "Weighted, Group" = "weightedMeanHEValuesGroup",
+                                                                     "Unweighted, Group" = "unweightedMeanHEValuesGroup",
+                                                                     "Weighted, Quadrat" = "weightedMeanHEValuesQuadrat",
+                                                                     "Unweighted, Quadrat" = "unweightedMeanHEValuesQuadrat"),
+                              `Diversity` = c("Summary" = "diversitySummary",
+                                              "Quadrat Indices" = "diversityIndices",
+                                              "Richness, Site" = "speciesRichnessSite",
+                                              "Richness, Group" = "speciesRichnessGroup",
+                                              "Richness, Quadrat" = "speciesRichnessQuadrat"),
+                              `MVA` = c("National" = "mvaNationalReference",
+                                        "Local (restricted)" = "mvaLocalReferenceRestricted",
+                                        "Local (unrestricted)" = "mvaLocalReferenceUnrestricted"),
+                              `Survey Table` = c("Survey Table" = "surveyTable")
+    )
+
+```
+
 # Introduction
 
-The assignment of species compositional data to established vegetation 
-classifications is a well established practice in ecology and conservation 
-[@maciejewski2020].
-The results of this assignment process are used in various ways, including: 
-informing ecological restoration objectives [@gann2019],
-assisting in the phase 2 habitat survey (or NVC survey) [@rodwell2006national] process,
-along with establishing an ecological baseline and identifying important 
-ecological features such as protected habitats [@cieem2022].
+The assignment of species compositional data to established vegetation
+classifications is a well established practice in ecology and
+conservation [@maciejewski2020]. The results of this assignment process
+are used in various ways, including: informing ecological restoration
+objectives [@gann2019] and assisting in the phase 2 habitat survey (or
+NVC survey) [@rodwell2006national] process, along with establishing an
+ecological baseline and identifying important ecological features such
+as protected habitats [@cieem2022].
 
-The development of computational methods and programs for the assignment of 
-vegetation survey data to NVC communities began with the development of 
-TABLEFIT [@hill1989; @marrs2019]. The most recent program, the Modular Analysis of 
-Vegetation Information System (MAVIS), was originally developed by 
-@smart2016mavis as a Windows application, with the latest version released in 
-2021.
-pseudoMAVIS is the newest program in this series, aiming to provide a web-based 
-and easily operable system which can be updated and improved over time. 
-The prefix *pseudo* in pseudoMAVIS emphasises the fundamental role of 
-*pseudo-quadrats* in the NVC assignment process.
-<!-- (see Section \@ref(pseudo-quadrat-generation)). -->
+The development of computational methods and programs for the assignment
+of vegetation survey data to NVC communities began with the development
+of TABLEFIT [@hill1989; @marrs2019]. The most recent program, the
+Modular Analysis of Vegetation Information System (MAVIS), was
+originally developed by @smart2016mavis as a Windows application, with
+the latest version released in 2021.
+
+This R Shiny implementation of MAVIS (**RMAVIS**) is the newest program in this
+series, aiming to provide a web-based and easily operable system which
+can be updated and improved over time.
 
 # Instructions and Methodology
 
 ## Survey Data
 
-Three methods for entering data into pseudoMAVIS are provided:
-manual, upload, and example. The manual method allows the user to enter the data
-directly via editing the cells of the survey data table, or copying the data in.
-The upload method allows the user to upload the data in one of three formats:
-long, wide, and matrix. The example method allows the user to load a bundled
-dataset, in order to demonstrate the functionality of the app
-(see Section \@ref(example-data)).
+Three methods for entering data into RMAVIS are provided: manual, upload,
+and example. The manual method allows the user to enter the data
+directly via editing the cells of the survey data table, or copying the
+data in. The upload method allows the user to upload the data in one of
+three formats: long, wide, and matrix. The example method allows the
+user to load a bundled dataset, in order to demonstrate the
+functionality of the app (see Section \@ref(example-data)).
 
 ### Accepted Species
 
 The list of species available for entry is currently composed of:
 
--   The vascular plant taxa present in the Botanical Society of Britain and Ireland's
-    database [@bsbi2022TaxonLists]; filtered to include taxa at the genus, 
-    species, hybrid species, and subspecies ranks which have an associated
-    UK Species Inventory Taxon Version Key (TVK).
-<!-- -   The bryophytes present in @blockeel2021. -->
--   The bryophytes, lichens, charophytes, and Algae present in the NVC floristic tables.
-
+-   The vascular plant (Tracheophyta) taxa present in the Botanical
+    Society of Britain and Ireland's database [@bsbi2022TaxonLists];
+    filtered to include taxa at the "genus", "species", "hybrid
+    species", and "subspecies" ranks which have an associated UK Species
+    Inventory (UKSI) Taxon Version Keys (TVK).
+-   The moss (Bryophyta), liverwort (Marchantiophyta), and hornwort
+    (Anthocerotophyta) taxa present in the UKSI, retrieved from the
+    National Biodiversity Network (NBN), filtered to include taxa at the
+    "species", "species aggregate", "subspecies", "species sensu lato",
+    and "genus" ranks.
+-   The lichens, charophytes, and algae present in the NVC floristic
+    tables.
 
 ### Example Data
 
-Four example datasets are available in pseudoMAVIS, which provide a
-means to explore the applications functionality.
+Four example datasets are available in RMAVIS, which provide a means to
+explore the applications functionality.
 
 **Parsonage Down**
 
-The Parsonage Down dataset [@ridding2020] contains the results of a long-term survey
-of Parsonage Down National Nature Reserve in Wiltshire, which consists of 188ha
-of calcareous grassland. The site was surveyed in three years: 1970, 1990, and 
-2016. Four transects were surveyed, containing a total of 115 quadrats. The 
-Domin scale of abundance system was used, with these values being converted into
-direct percentage estimates for use in pseudoMAVIS.
+The Parsonage Down dataset [@ridding2020] contains the results of a
+long-term survey of Parsonage Down National Nature Reserve in Wiltshire,
+which consists of 188ha of calcareous grassland. The site was surveyed
+in three years: 1970, 1990, and 2016. Four transects were surveyed,
+containing a total of 115 quadrats. The Domin scale of abundance system
+was used, with these values being converted into direct percentage
+estimates for use in RMAVIS.
 
 **Leith Hill Place Wood**
 
-The Leith Hill Place Wood dataset represents a subset of the Bunce woodland
-survey data, described in @wood2015 and consists of a total of 16 plots surveyed 
-in 1971, 2001, and 2021. Leith Hill Place Wood lies in the path of the
-October 1987 storm track, with @smart2014 outlining the positive effect of the
-storm on species richness between 1971 and 2001. No cover values are currently
-provided in this example dataset.
+The Leith Hill Place Wood dataset represents a subset of the Bunce
+woodland survey data, described in @wood2015 and consists of a total of
+16 plots surveyed in 1971, 2001, and 2021 [@smart2024]. Leith Hill Place
+Wood lies in the path of the October 1987 storm track, with @smart2014
+outlining the positive effect of the storm on species richness between
+1971 and 2001. No cover values are currently provided in this example
+dataset.
 
 **Whitwell Common**
 
-The Whitwell Common dataset is composed of a repeat survey of Whitwell Common,
-Norfolk - a soligenous mire. Thirty repeat quadrats were surveyed in 1994 and 1997 [@smart2000].
-No cover values are currently provided in this example dataset.
+The Whitwell Common dataset is composed of a repeat survey of Whitwell
+Common, Norfolk - a soligenous mire. Thirty repeat quadrats were
+surveyed in 1994 and 1997 [@smart2000]. No cover values are currently
+provided in this example dataset.
 
-**Newborough Warren**.
+**Newborough Warren**
 
-The Newborough Warren dataset contains the results of a yearly monitoring study
-at Newborough Warren (Ynys Llanddwyn SSSI, Anglesey) with four dune slacks
-surveyed over five years: 2014, 2015, 2016, 2017, and 2018 
-(which contain 18, 19, 18, 24, and 24 quadrats respectively) [@wallace2018].
-No cover values are currently provided in this example dataset.
+The Newborough Warren dataset contains the results of a yearly
+monitoring study at Newborough Warren (Ynys Llanddwyn SSSI, Anglesey)
+with four dune slacks surveyed over five years: 2014, 2015, 2016, 2017,
+and 2018 (which contain 18, 19, 18, 24, and 24 quadrats respectively)
+[@wallace2018]. No cover values are currently provided in this example
+dataset.
 
 ## Survey Data Validation
 
-At present pseudoMAVIS is designed to analyse vegetation survey data in
-the form of grouped quadrats for a single site, with or without cover
+At present RMAVIS is designed to analyse vegetation survey data in the
+form of grouped quadrats for a single site, with or without cover
 estimates. However, the user may utilise the "Group" and "Quadrat"
-columns as desired, for example by using the "Group" column to delineate sites.
+columns as desired, for example by using the "Group" column to delineate
+sites.
 
-Data entered through any of these methods must meet the following conditions.
+Data entered through any of these methods must meet the following
+conditions.
 
--   Each species value must match a species present in the accepted species 
-list, which can be downloaded in the "Download Options" section (see Section \@ref(accepted-species)).
--   There must be no missing values in the year, group, quadrat, and species columns.
--   Each quadrat value must be unique in each year, even if in a separate group.
+-   Each species value must match a species present in the accepted
+    species list, which can be downloaded in the "Download Options"
+    section (see Section \@ref(accepted-species)).
+-   There must be no missing values in the year, group, quadrat, and
+    species columns.
+-   Each quadrat value must be unique in each year, even if in a
+    separate group.
 -   Each group value must be unique in each year.
 -   Each year value must be a four digit integer.
 -   No quadrat must contain two entries of the same species.
 
-These conditions are checked and can be viewed in the **Survey Data Validation** 
-section, accessed by pressing the "Validate Survey Data" button. Here the user
-may adjust the species which are not present in the accepted list using the
-"Species Adjustment Table", three options are provided:
+These conditions are checked and can be viewed in the **Survey Data
+Validation** section, accessed by pressing the "Validate Survey Data"
+button. Here the user may adjust the species which are not present in
+the accepted list using the "Species Adjustment Table", three options
+are provided:
 
 -   Replace a submitted species with a accepted species.
--   Ignore a submitted species. This omits the species from the NVC assignment process.
--   Remove a submitted species. This removes a species (or entry in the species column) in the survey table.
+-   Ignore a submitted species. This omits the species from the NVC
+    assignment process.
+-   Remove a submitted species. This removes a species (or entry in the
+    species column) in the survey table.
 
-The user may also combine duplicate observations of a species in quadrats using
-the "Combine Duplicates" button.
+The user may also combine duplicate observations of a species in
+quadrats using the "Combine Duplicates" button.
 
-Until these conditions are met pseudoMAVIS will not be able to proceed 
-with the analysis and the "Run Analysis" and "Generate Report" buttons will be 
-disabled.
+Until these conditions are met RMAVIS will not be able to proceed with as
+the "Run Analysis" and "Generate Report" buttons will be disabled.
 
 ## NVC Assignment
 
-In MAVIS NVC community similarities were assigned to survey data based on the 
-the Czekanowski index [@bloom1981; @hill1989], which quantifies the similarity 
-between a floristic table composed from survey data and the NVC floristic tables.
+In RMAVIS NVC community similarities are assigned to survey data for the
+site and each group of plots by year using the Czekanowski index
+[@bloom1981; @hill1989], which quantifies the similarity 
+between 1) a floristic table composed from survey data plots and 
+2) the NVC floristic tables. 
+Species absent from the survey data, but present in the NVC
+floristic tables at a constancy of 0.2 are down-weighted to 0.1. 
 
-In pseudoMAVIS the Czekanowski index method is also used, however the primary
-and reccomended method is the Jaccard similarity. Which is calculated 
-between user-inputted sample quadrats and a set of pseudo-quadrats generated 
-from the NVC floristic tables.
-This approach is noted as improving the accuracy of fit relative to the 
-Czekanowski index for samples with low species richness [@tipping2013].
+\begin{equation}
+C_{jk} = 2 \cdot \frac{\sum_{i=1}^{p} min(N_{ij}, N_{ik})}{\sum_{i=1}^{p} N_{ij} + \sum_{i=1}^{p} N_{ik}}
+\end{equation}
+
+Where where $N_{ij}$ is the abundance of species $i$ at site $j$, $N_{ik}$ is 
+the abundance of species $i$ at site $k$, $p$ is the total number of species 
+in the samples.
+
+The similarity between individual plots and NVC communities are quantified
+by calculating the Jaccard similarity between the sample plots and
+pseudo-quadrats generated from the NVC floristic tables. This approach
+is noted as improving the accuracy of fit relative to the Czekanowski
+index for samples with low species richness [@tipping2013].
+
+\begin{equation}
+j = \frac{a}{a + b + c} = \frac{X \cap Y}{X \cup Y}
+\end{equation}
+
+Where where $X$ and $Y$ represent the species present in two sites, 
+$a$ represents the species present in both sites ($X$ and $Y$), 
+$b$ represents the species present in one site but not the other (${X \cap Y}$), 
+and the converse for $c$ (${X \cup Y}$).
+
+> Please note that Site and Group similarities will not be calculated
+> for Years and Year-Group combinations with less than 5 sample plots
 
 ### Communities
 
-The NVC communities available in pseudoMAVIS are composed from the following
+The NVC communities available in RMAVIS are composed from the following
 sources:
 
 -   The original NVC floristic tables as described in @rodwell2000.
--   An alternative version of MG4 (MG4v2) and the four MG4 sub-communities described
-in @prosser2023 and @wallace2017  (MG4a, MG4b, MG4c, and MG4d).
+-   An alternative version of MG4 (MG4v2) and the four MG4
+    sub-communities described in @prosser2023 and @wallace2017 (MG4a,
+    MG4b, MG4c, and MG4d).
 -   A new MG6 sub-community (MG6d) [@wallace2017]
--   An alternative version of MG8 (MG8v2) and the four sub-communities described in
-@wallace2017 (MG8a, MG8b, MG8c, and MG8d).
+-   An alternative version of MG8 (MG8v2) and the four sub-communities
+    described in @wallace2017 (MG8a, MG8b, MG8c, and MG8d).
 -   An alternative version of MG13 (MG13v2) [@wallace2017].
--   A new MG community (MG14) and two sub-communities (MG14a, MG14b) [@wallace2017].
--   A new MG community (MG15) and two sub-communities (MG15a, MG15b) [@wallace2017].
+-   A new MG community (MG14) and two sub-communities (MG14a, MG14b)
+    [@wallace2017].
+-   A new MG community (MG15) and two sub-communities (MG15a, MG15b)
+    [@wallace2017].
 -   A new MG community (MG16) [@wallace2017].
 
 ### Options
 
 **Results to View**
 
-Three sets of NVC assignment results are available in pseudoMAVIS at present:
+Three sets of NVC assignment results are available in RMAVIS at present:
 
--   Site, Pseudo-quadrat
--   Group, Pseudo-quadrat
--   Quadrat, Pseudo-quadrat
 -   Site, Czekanowski
 -   Group, Czekanowski
+-   Quadrat, Jaccard
 
 **Restrict Habitat**
 
-Optionally restrict the NVC assignment process to one or more broad NVC habitat 
-types. This is recommended to increase the assignment speed, but only if the site 
-being analysed unequivocally conforms to the selected NVC habitats.
+Optionally restrict the NVC assignment process to one or more broad NVC
+habitat types. This is recommended to increase the assignment speed, but
+only if the site being analysed unequivocally conforms to the selected
+NVC habitats.
 
 **Number of Top Results**
 
 Select the number of top-fitted NVC communities to view.
 
-<!-- $$ -->
-
-<!-- \begin{equation}\label{eq:czekanowski} -->
-
-<!-- = 200 * \sum_{j=1} ^{t} min(REF_{j}, NS_{j}) / \sum_{j=1} ^{m} REF_{j} + \sum_{j=1} ^{n} NS_{j} -->
-
-<!-- \end{equation} -->
-
-<!-- $$ -->
-
-<!-- Where $REF_{j}$ is the Domin cover or constancy value of species $j$ in the  -->
-
-<!-- constancy table. $NS_{j}$ is the corresponding Domin cover or constancyt value  -->
-
-<!-- for the same species but in the new, sample data. $min(REF_{j}, NS_{j})$ is the  -->
-
-<!-- smaller of the two values [@smart2000]. -->
-
-<!-- ### Inverse Distance Metric -->
-
-<!-- @critchley2002. -->
-
 ## Habitat Correspondence
 
 The **Habitat Correspondence** section provides a means to explore the
-habitats from alternative habitat classifications which are associated with
-the top-fitted NVC communities assigned to the survey data.
+habitats from alternative habitat classifications which are associated
+with the top-fitted NVC communities assigned to the survey data.
 
 Habitat correspondence data is drawn from three sources:
 
@@ -256,13 +307,14 @@ Habitat correspondence data is drawn from three sources:
 2.  UKHab V1.1 [@butcher2020].
 3.  For the National Plant Monitoring Scheme (NPMS) data is drawn from
     [@pescott2019].
-    
+
 ### Options
 
 **Classification**
 
-The user may select the habitat classification system from which to retrieve
-associated habitats. At present the following systems are available:
+The user may select the habitat classification system from which to
+retrieve associated habitats. At present the following systems are
+available:
 
 -   UKHab - Level 2 [@butcher2020]
 -   UKHab - Level 3 [@butcher2020]
@@ -280,16 +332,17 @@ associated habitats. At present the following systems are available:
 ## Floristic Tables
 
 To aid in the NVC assignment process and as an exploratory tool the
-**Floristic Tables** section of pseudoMAVIS allows the user to compare a
-composed floristic table to a chosen NVC floristic table. The facility to match
-the species in the composed table with the NVC table, two ways, is also provided.
+**Floristic Tables** section of RMAVIS allows the user to compare a
+composed floristic table to a chosen NVC floristic table. The facility
+to match the species in the composed table with the NVC table, two ways,
+is also provided.
 
 ### Options
 
 **Restrict**
 
-Restrict the NVC communities available to select in the "NVC Table" option to
-the top-fitted NVC communities.
+Restrict the NVC communities available to select in the "NVC Table"
+option to the top-fitted NVC communities.
 
 **NVC Table**
 
@@ -297,39 +350,38 @@ Select a NVC community to display the floristic table for.
 
 **Composed Table**
 
-Select a composed floristic table. The composed tables are formed by calculating
-the frequency class of each species across all quadrats in each year and 
-year - group combination.
+Select a composed floristic table. The composed tables are formed by
+calculating the frequency class of each species across all quadrats in
+each year and year - group combination.
 
 **Match Species**
 
-The user may choose to re-arrange the floristic tables to match the species
-present in both tables, three options are provided:
+The user may choose to re-arrange the floristic tables to match the
+species present in both tables, three options are provided:
 
 -   No, the floristic tables are displayed with no re-arrangement.
--   Composed to NVC, the composed floristic table is re-arranged to only include
-    species also present in the NVC floristic table and aligned with the
-    NVC floristic table.
--   NVC to Composed, the NVC floristic table is re-arranged to only include
-    species also present in the composed floristic table and aligned with the
-    composed floristic table.
+-   Composed to NVC, the composed floristic table is re-arranged to only
+    include species also present in the NVC floristic table and aligned
+    with the NVC floristic table.
+-   NVC to Composed, the NVC floristic table is re-arranged to only
+    include species also present in the composed floristic table and
+    aligned with the composed floristic table.
 
 ## Frequency
 
-The **Frequency** section of pseudoMAVIS summarises the number of occurrences
-of each species across all sample quadrats, the difference between the first
-year and last year, and a text category describing the change.
+The **Frequency** section of RMAVIS summarises the number of occurrences
+of each species across all sample plots, the difference between the
+first year and last year, and a text category describing the change.
 
 ## EIVs
 
-The Ecological Indicator Values (**EIVs**) section uses the results of the
-**NVC Assignment** module to calculate cover-weighted Hill-Ellenberg ecological 
-indicator values for the Nitrogen Score (N) [@bsbi2017ellenbergN],
-Moisture Score (F) [@bsbi2017ellenbergF], 
-Reaction Score (R) [@bsbi2017ellenbergR],
-Salinity Score (S) [@bsbi2017ellenbergS],
-and Light Score (L) [@bsbi2017ellenbergL].
-Data for bryophytes was taken from BRYOATT [@hill2007].
+The Ecological Indicator Values (**EIVs**) section uses the results of
+the **NVC Assignment** module to calculate cover-weighted Hill-Ellenberg
+ecological indicator values for the Nitrogen Score (N)
+[@bsbi2017ellenbergN], Moisture Score (F) [@bsbi2017ellenbergF],
+Reaction Score (R) [@bsbi2017ellenbergR], Salinity Score (S)
+[@bsbi2017ellenbergS], and Light Score (L) [@bsbi2017ellenbergL]. Data
+for bryophytes was taken from BRYOATT [@hill2007].
 
 ### Options
 
@@ -344,8 +396,8 @@ At present six sets of results are available:
 
 ## Diversity
 
-The **Diversity** section allows the user to view a range of basic diversity
-metrics.
+The **Diversity** section allows the user to view a range of basic
+diversity metrics.
 
 ### Options
 
@@ -353,107 +405,121 @@ metrics.
 
 At present five sets of results are available:
 
--   Site Summary Table, contains the mean alpha diversity, gamma diversity, and beta diversity of the site with years arranged column-wise.
--   Quadrat Diversity Indices Table, contains the species richness, Shannon diversity, Simpson diversity, Inverse Simpson diversity, Shannon evenness, and Simpson evenness for each quadrat.
--   Species Richness, by Site, contains the species richness of the site with years arranged column-wise.
--   Species Richness, by Group, contains the species richness of each group with years arranged column-wise.
--   Species Richness, by Quadrat, contains the species richness of each quadrat with years arranged column-wise.
+-   Site Summary Table, contains the mean alpha diversity, gamma
+    diversity, and beta diversity of the site with years arranged
+    column-wise.
+-   Quadrat Diversity Indices Table, contains the species richness,
+    Shannon diversity, Simpson diversity, Inverse Simpson diversity,
+    Shannon evenness, and Simpson evenness for each quadrat.
+-   Species Richness, by Site, contains the species richness of the site
+    with years arranged column-wise.
+-   Species Richness, by Group, contains the species richness of each
+    group with years arranged column-wise.
+-   Species Richness, by Quadrat, contains the species richness of each
+    quadrat with years arranged column-wise.
 
 ## MVA
 
-The Multivariate Analysis (MVA) section of pseudoMAVIS aims to allow the
-user to explore the position of the survey data quadrats in an ordination space
-constructed by performing a Detrended Correspondence Analysis (DCA) [@hill1980dca].
-The results of a Canonical Correspondence Analysis (CCA) [@terBraak1986], using
-the pseudo-quadrats as the community matrix and pre-calculated set of unweighted
-mean Hill-Ellenberg values for each pseudo-quadrat as the constraining matrix,
-are available for visualising in each MVA plot.
+The Multivariate Analysis (MVA) section of RMAVIS aims to allow the user
+to explore the position of the survey data quadrats in an ordination
+space constructed by performing a Detrended Correspondence Analysis
+(DCA) [@hill1980dca]. The results of a Canonical Correspondence Analysis
+(CCA) [@terBraak1986], using the pseudo-quadrats as the community matrix
+and pre-calculated set of unweighted mean Hill-Ellenberg values for each
+pseudo-quadrat as the constraining matrix, are available for visualising
+in each MVA plot.
 
-Three MVA methods are provided in pseudoMAVIS, which are described below.
+Three MVA methods are provided in RMAVIS, which are described below.
 
 ### National Reference
 
-The ordination space in the **National Reference** MVA was constructed by performing
-a pre-calculated DCA on the pseudo-quadrats from all NVC communities, 
-with the survey quadrats added in passively in pseudoMAVIS using the mean of the 
-species scores from the pre-calculated pseudo-quadrat DCA.
+The ordination space in the **National Reference** MVA was constructed
+by performing a pre-calculated DCA on the pseudo-quadrats from all NVC
+communities, with the survey quadrats added in passively in RMAVIS using
+the mean of the species scores from the pre-calculated pseudo-quadrat
+DCA.
 
-By default the top-fitted NVC communities retrieved from the **NVC Assignment** 
-process are displayed.
+By default the top-fitted NVC communities retrieved from the **NVC
+Assignment** process are displayed.
 
 **Advantages**
 
--   The psuedo-quadrat axis scores are not influenced by the survey quadrats.
--   The position of the pseudo-quadrat axis scores are absolute. Adding or 
-    removing NVC communities from the plot using the "National Reference Spaces"
-    option does not change the axis scores and
+-   The psuedo-quadrat axis scores are not influenced by the survey
+    quadrats.
+-   The position of the pseudo-quadrat axis scores are absolute. Adding
+    or removing NVC communities from the plot using the "National
+    Reference Spaces" option does not change the axis scores and
     position of the other NVC communities or survey quadrats.
--   The pseudo-quadrat DCA contains all the species present in the NVC floristic
-    table, in comparison to the **Local Reference (restricted)** method.
--   The survey quadrat positions in the ordination space accurately reflect their
-    similiarity with the pseudo-quadrats, and therefore the NVC communities and
-    sub-communities.
-
+-   The pseudo-quadrat DCA contains all the species present in the NVC
+    floristic table, in comparison to the **Local Reference
+    (restricted)** method.
+-   The survey quadrat positions in the ordination space accurately
+    reflect their similiarity with the pseudo-quadrats, and therefore
+    the NVC communities and sub-communities.
 
 **Disadvantages**
 
--   The pseudo-quadrat DCA scores for each sub-community within a community are
-    compressed by the dissimilarity with other communities. Consequently there 
-    is a greater degree of overlap between the sub-communities, and the
-    survey quadrats and sub-communities.
+-   The pseudo-quadrat DCA scores for each sub-community within a
+    community are compressed by the dissimilarity with other
+    communities. Consequently there is a greater degree of overlap
+    between the sub-communities, and the survey quadrats and
+    sub-communities.
 
 ### Local Reference (restricted)
 
-The ordination space in the **Local Reference (restricted)** MVA is constructed
-by performing a DCA on the top-fitted NVC communities retrieved from the
-**NVC Assignment** process with the survey quadrats added in passively using the 
-mean of the species scores from the pseudo-quadrat DCA.
+The ordination space in the **Local Reference (restricted)** MVA is
+constructed by performing a DCA on the top-fitted NVC communities
+retrieved from the **NVC Assignment** process with the survey quadrats
+added in passively using the mean of the species scores from the
+pseudo-quadrat DCA.
 
 **Advantages**
 
--   The psuedo-quadrat axis scores are not influenced by the survey quadrats.
--   The pseudo-quadrat axis scores show greater variation due to the absence of 
-    highly dissimilar communities, in contrast to the **National Reference**
-    method. Consequently, the pseudo-quadrats and survey-quadrats show greater
-    dissimilarity.
+-   The psuedo-quadrat axis scores are not influenced by the survey
+    quadrats.
+-   The pseudo-quadrat axis scores show greater variation due to the
+    absence of highly dissimilar communities, in contrast to the
+    **National Reference** method. Consequently, the (dis)similarity
+    between the pseudo-quadrats and survey-quadrats is emphasised.
 
 **Disadvantages**
 
 -   Species present in the survey data but absent in the top-fitted NVC
-    communities are omitted from the survey quadrat axis score calculation.
-    Consequently, the similiarity between the survey quadrats and pseudo-quadrats
-    (and therefore NVC communities and sub-communities) is over-estimated.
--   The axis scores and position of both the pseudo-quadrats and survey quadrats
-    varies based on the NVC communities used in the pseudo-quadrat DCA.
-
+    communities are omitted from the survey quadrat axis score
+    calculation. Consequently, the similiarity between the survey
+    quadrats and pseudo-quadrats (and therefore NVC communities and
+    sub-communities) is over-estimated.
+-   The axis scores and position of both the pseudo-quadrats and survey
+    quadrats varies based on the NVC communities used in the
+    pseudo-quadrat DCA.
 
 ### Local Reference (unrestricted)
 
 The ordination space in the **Local Reference (unrestricted)** MVA is
-constructed by performing a DCA on the top-fitted NVC communities *and* the
-survey quadrats.
+constructed by performing a DCA on the top-fitted NVC communities *and*
+the survey quadrats.
 
 **Advantages**
 
 -   All species present in both the survey quadrats and pseudo-quadrats
-    contribute to the axis scores. Consequently, the (dis)similarity between the
-    pseudo-quadrats and survey quadrats is correctly represented as in the
-    **National Reference** method but the axis scores are not compressed by
-    highly dissimilar communities.
+    contribute to the axis scores. Consequently, the (dis)similarity
+    between the pseudo-quadrats and survey quadrats is correctly
+    represented as in the **National Reference** method but the axis
+    scores are not compressed by highly dissimilar communities.
 
 **Disadvantages**
 
 -   The inclusion of the survey quadrats in the DCA means that the
-    pseudo-quadrats do not provide a fixed reference as in the 
-    **National Reference** and **Local Reference (restricted)** methods where
-    the survey quadrats are added in passively.
+    pseudo-quadrats do not provide a fixed reference as in the
+    **National Reference** and **Local Reference (restricted)** methods
+    where the survey quadrats are added in passively.
 
 ### Options
 
 **Axis Selection**
 
-The user may select any combination of the first three DCA axis scores to be 
-displayed in the MVA plots:
+The user may select any combination of the first three DCA axis scores
+to be displayed in the MVA plots:
 
 -   DCA1 vs DCA2
 -   DCA1 vs DCA3
@@ -461,21 +527,25 @@ displayed in the MVA plots:
 
 **National Reference Spaces**
 
-Here the user may select any NVC community to display in the 
-**National Reference** MVA plot only.
+Here the user may select any NVC community to display in the **National
+Reference** MVA plot only.
 
 **Survey Quadrat Selection**
 
-Three methods are available for subsetting the survey quadrats being displayed:
+Three methods are available for subsetting the survey quadrats being
+displayed:
 
--   Select Years, where all the survey quadrats for selected years will be displayed. 
--   Select Groups, where all the survey quadrats for selected groups will be displayed.
--   Select Quadrats, where all the survey quadrats for selected quadrats will be displayed.
+-   Select Years, where all the survey quadrats for selected years will
+    be displayed.
+-   Select Groups, where all the survey quadrats for selected groups
+    will be displayed.
+-   Select Quadrats, where all the survey quadrats for selected quadrats
+    will be displayed.
 
 **CCA Variables**
 
-At present the CCA axis scores from each combination of Hill-Ellenberg values 
-are available for display in each MVA plot:
+At present the CCA axis scores from each combination of Hill-Ellenberg
+values are available for display in each MVA plot:
 
 -   Moisture (F) x Nitrogen (N)
 -   Moisture (F) x Reaction (R)
@@ -490,44 +560,46 @@ are available for display in each MVA plot:
 
 **Axis Scores**
 
-The following results may be toggled on/off for display in the MVA plots.
+The following results may be toggled on/off for display in the MVA
+plots.
 
 -   Survey Quadrats, the survey quadrats entered in **Survey Data**.
 -   Pseudo-Quadrats, all pseudo-quadrats used in the DCA ordination.
 -   Reference Space, the convex hulls formed around the pseudo-quadrats.
 -   Species, the species DCA axis scores.
--   Unique Survey Species, the species present in the survey quadrats but absent
-    in the top-fitted NVC communities pseudo-quadrats. 
+-   Unique Survey Species, the species present in the survey quadrats
+    but absent in the top-fitted NVC communities pseudo-quadrats.
     Displayed in **Local Reference (unrestricted)** only.
--   Hill-Ellenberg, the Hill-Ellenberg CCA axis scores selected in the 
+-   Hill-Ellenberg, the Hill-Ellenberg CCA axis scores selected in the
     "CCA Variables" option.
--   Survey Quadrat Change, arrows showing the direction of travel for individual 
-    quadrats in the ordination space.
+-   Survey Quadrat Change, arrows showing the direction of travel for
+    individual quadrats in the ordination space.
 
 ## Report
 
-pseudoMAVIS allows the user to generate a downloadable pdf report, which by
-default contains 1) a table of the pseudoMAVIS results selected for inclusion, 
-and 2) tables containing the number of quadrats sampled by year and group.
+RMAVIS allows the user to generate a downloadable pdf report, which by
+default contains 1) a table of the RMAVIS results selected for inclusion,
+and 2) tables containing the number of quadrats sampled by year and
+group.
 
 ### Options
 
 **Author**
 
-A text input where the user is able to enter the name of the person/s using
-pseudoMAVIS.
+A text input where the user is able to enter the name of the person/s
+using RMAVIS.
 
 **Project Name**
 
-A text input where the user is able to enter the project name/name of the site
-being analysed in pseudoMAVIS.
+A text input where the user is able to enter the project name/name of
+the site being analysed in RMAVIS.
 
 **Report Options**
 
-The user is able to select any of the results visualised in pseudoMAVIS for
+The user is able to select any of the results visualised in RMAVIS for
 inclusion in the report, displayed in the table below.
 
-```{r reportOptions_table, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="The pseudoMAVIS results available for inclusion in the pdf report."}
+```{r reportOptions_table, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="The RMAVIS results available for inclusion in the pdf report."}
 
 reportOptions_table <- stack(lapply(reportOptions_options, names)) |>
   as.data.frame() |>
@@ -542,42 +614,31 @@ kableExtra::kbl(x = reportOptions_table,
 
 ```
 
-
-
 ## Download
 
-At present the **Download** section of pseudoMAVIS allows the user to download:
+At present the **Download** section of RMAVIS allows the user to
+download:
 
--   A csv file containing the species accepted by pseudoMAVIS.
+-   A csv file containing the species accepted by RMAVIS.
 -   The data entered into the Survey Table.
-
 
 # Acknowledgements
 
-We would like to thank...
+We would like to thank...for testing RMAVIS.
 
-for testing pseudoMAVIS.
-
-We would also like to thank Laurence Jones for providing the Newborough Warren
-example dataset and Lucy Ridding for providing the Parsonage Down example dataset.
-
-<!-- # Author Contribution -->
-
-<!-- Contributions towards the development of the application, in accordance -->
-<!-- with [CRediT (Contributor Roles Taxonomy)](https://credit.niso.org/), -->
-<!-- are: -->
-
-<!-- **Zeke Marshall:** **Simon Smart:** **Colin Harrower:** -->
+We would also like to thank Laurence Jones for providing the Newborough
+Warren example dataset and Lucy Ridding for providing the Parsonage Down
+example dataset.
 
 # Reccomended Citation
 
-Marshall, Z., Smart, S., and Harrower, C.. (2024). pseudoMAVIS.
+Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.
 
 ```         
 @misc{marshall2024,
   author = {Marshall, Z. and Smart, S. and Harrower, C.},
-  title = {pseudoMAVIS},
-  howpublished = {Available at https://connect-apps.ceh.ac.uk/pseudoMAVIS/, version 0.95},
+  title = {RMAVIS},
+  howpublished = {Available at https://connect-apps.ceh.ac.uk/RMAVIS/, version 0.96},
   month = {02},
   year  = {2024},
   note = {A R Shiny application for the assignment of vegetation survey data to National Vegetation Classification (NVC) communities, with additional exploratory analyses.}
@@ -586,30 +647,63 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). pseudoMAVIS.
 
 # Release Log
 
-[v0.95]{style="font-size:2em;font-weight:700;"}
+<details>
 
-**2024/01/24**
+<summary>v0.96</summary>
+
+<strong>2024/03/02</strong>
 
 -   Modifications:
-    - Removing unnecessary upload data checks.
-    - Making survey data availability table searchable.
-    - Changing nomenclature for releve to plot.
+    -   Changing name, MAVIS -> RMAVIS
+    -   Removing site and group Jaccard similarity results.
+    -   Refining code throughout.
+    -   Trimming dependencies.
+-   Fixes: NA
+-   New Features:
+    -   Adding pseudo-quadrat and sample quadrat centroids in MVA.
+    -   Adding setupData module which allows modification of bundled datasets.
+    -   Adding a bryophyte switch to include/exclude bryophyte taxa.
+    -   Now loading dependencies in `load_packages.R`.
+
+</details>
+
+<details>
+
+<summary>v0.95</summary>
+
+<strong>2024/01/24</strong>
+
+-   Modifications:
+    -   Removing unnecessary upload data checks.
+    -   Making survey data availability table searchable.
+    -   Changing nomenclature for releve to plot.
 -   Fixes:
-    - Ensuring report renders correctly using new surveyTableSummary object data.
+    -   Ensuring report renders correctly using new surveyTableSummary
+        object data.
 -   New Features: NA
 
-[v0.94]{style="font-size:2em;font-weight:700;"}
+</details>
 
-**2024/01/18**
+<details>
+
+<summary>v0.94</summary>
+
+<strong>2024/01/18</strong>
 
 -   Modifications: NA
 -   Fixes:
-    - Ensuring the number of quadrats per group is passed to the floristic tables module through the new survey data summary module.
+    -   Ensuring the number of quadrats per group is passed to the
+        floristic tables module through the new survey data summary
+        module.
 -   New Features: NA
 
-[v0.93]{style="font-size:2em;font-weight:700;"}
+</details>
 
-**2024/01/18**
+<details>
+
+<summary>v0.93</summary>
+
+<strong>2024/01/18</strong>
 
 -   Modifications: NA
 -   Fixes: NA
@@ -617,22 +711,46 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). pseudoMAVIS.
     -   Adding survey data summary module.
     -   Adding quadrat re-grouping tool.
 
-[v0.92]{style="font-size:2em;font-weight:700;"}
+</details>
 
-**2024/01/18**
+<details>
+
+<summary>v0.92</summary>
+
+<strong>2024/01/18</strong>
 
 -   Modifications: NA
 -   Fixes: NA
 -   New Features:
-    -   Adding Czekanowski index method for Site and Group NVC assignment calculations.
+    -   Adding Czekanowski index method for Site and Group NVC
+        assignment calculations.
 
-[v0.91]{style="font-size:2em;font-weight:700;"}
+</details>
 
-**2024/01/09**
+<details>
+
+<summary>v0.91</summary>
+
+<strong>2024/01/11</strong>
+
+-   Modifications: NA
+-   Fixes: NA
+-   New Features:
+    -   Adding privacy policy section
+
+</details>
+
+<details>
+
+<summary>v0.9</summary>
+
+<strong>2024/01/09</strong>
 
 -   First release for user testing.
 -   Modifications: NA
 -   Fixes: NA
 -   New Features: NA
+
+</details>
 
 # References

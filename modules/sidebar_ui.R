@@ -29,6 +29,53 @@ sidebarUI <- function(id){
         icon = bsicons::bs_icon("clipboard-data"),
         
         shiny::div(
+
+          id = ns("includeBryophytes_div"),
+
+          bslib::layout_columns(
+
+            col_widths = c(11, 1),
+
+            # tags$style(".btn-group-vertical {width: 100% !important;}"),
+
+            shinyWidgets::switchInput(inputId = ns("includeBryophytes"),
+                                      label = "Bryophytes",
+                                      value = TRUE,
+                                      onLabel = "Yes",
+                                      offLabel = "No"),
+
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Include Bryophytes",
+              id = ns("includeBryophytesInfo"),
+              shiny::markdown(
+                "
+                Toggle whether bryophyte taxa are available for selection and
+                are included in analyses in RMAVIS. 
+                
+                If 'Yes' moss (Bryophyta), liverwort (Marchantiophyta), and hornwort
+                (Anthocerotophyta) taxa are included. If 'No' these taxa are
+                exluded.
+                
+                If 'Yes' the example datasets will need to be validated;
+                similarly, uploaded data including bryophyte species will need to
+                be validated. 
+                
+                The 'Run Analysis' button must be clicked again.
+                
+                "
+              ),
+              placement = "bottom"
+            )
+
+          ),
+
+          shiny::div(shiny::br())
+
+
+        ),
+        
+        shiny::div(
           
           id = ns("inputMethod_div"),
           
@@ -72,16 +119,16 @@ sidebarUI <- function(id){
             
             col_widths = c(11, 1),
             
-            shiny::selectizeInput(inputId = ns("exampleData"), 
-                                  label = "Example Data", 
+            shiny::selectizeInput(inputId = ns("selectedExampleData"), 
+                                  label = "Example Dataset", 
                                   choices = example_data_options, 
                                   selected = "none", 
                                   multiple = FALSE),
             
             bslib::popover(
               bsicons::bs_icon("info-circle"),
-              title = "Example Data",
-              id = ns("exampleDataInfo"),
+              title = "Example Dataset",
+              id = ns("selectedExampleDataInfo"),
               shiny::markdown(
                 "
                 Four example datasets are currently provided:
@@ -152,7 +199,7 @@ sidebarUI <- function(id){
                 "
                 Open a popup window to validate the data present in the Survey Data Table.
                 All validation checks must pass before the 'Run Analysis' button is enabled
-                and pseudoMAVIS is ok to proceed.
+                and RMAVIS is ok to proceed.
                 "
               ),
               placement = "bottom"
@@ -171,12 +218,6 @@ sidebarUI <- function(id){
         
         icon = bsicons::bs_icon("ui-checks-grid"),
         
-        # shiny::selectizeInput(inputId = ns("nvcAssignMethods"),
-        #                       label = "Methods",
-        #                       choices = nvcAssignMethods_options,
-        #                       selected = "pseudoQuadratSite",
-        #                       multiple = TRUE),
-        
         shiny::div(
           
           id = ns("resultsViewNVCAssign_div"),
@@ -188,7 +229,7 @@ sidebarUI <- function(id){
             shiny::selectizeInput(inputId = ns("resultsViewNVCAssign"),
                                   label = "Results to View",
                                   choices = resultsViewNVCAssign_options,
-                                  selected = c("nvcAssignSitePseudo"),
+                                  selected = c("nvcAssignSiteCzekanowski"),
                                   multiple = FALSE),
             
             bslib::popover(
@@ -198,9 +239,9 @@ sidebarUI <- function(id){
               shiny::markdown(
                 "
                 Three sets of NVC assigment results are currently available:
-                - 'Site, Pseudo-quadrat'
-                - 'Group, Pseudo-quadrat'
-                - 'Quadrat, Pseudo-quadrat'
+                -  Quadrat, Jaccard
+                -  Site, Czekanowski
+                -  Group, Czekanowski
                 "
               ),
               placement = "bottom"
@@ -649,6 +690,43 @@ sidebarUI <- function(id){
         
         shiny::div(
           
+          id = ns("groupSurveyPlots_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("groupSurveyPlots"),
+                                  label = "Group Survey Plots",
+                                  choices = groupSurveyPlots_options,
+                                  selected = NULL,
+                                  multiple = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Group Survey Plots",
+              shiny::markdown(
+                "
+                Choose whether to group the survey plots by selecting one of the
+                following options:
+                - 'No': The individual plots are left ungrouped
+                - 'Group': Mean DCA axis scores are calculated from the individual plots
+                by group.
+                - 'Year': Mean DCA axis scores are calculated from the individual plots
+                by year.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
           id = ns("selectSurveyMethod_div"),
           
           bslib::layout_columns(
@@ -840,6 +918,7 @@ sidebarUI <- function(id){
                 - 'Survey Quadrats': the DCA scores of the survey quadrats.
                 - 'Pseudo-Quadrats': the DCA scores of the pseudo-quadrats (Local Reference only).
                 - 'Reference Space': the convex hulls formed from the pseudo-quadrat DCA scores.
+                - 'Reference Centroids': the centroids formed from the pseudo-quadrat DCA scores.
                 - 'Species': the DCA scores of the species.
                 - 'Unique Survey Species': the DCA scores of the species unique to the survey data, but absent from the best fitting NVC communities pseudo-quadrats (Local Reference (unrestricted) only).
                 - 'Hill-Ellenberg': the CCA result axis scores for the Hill-Ellenberg selected in the 'CCA Variables' option.
@@ -879,7 +958,7 @@ sidebarUI <- function(id){
               title = "Report Author",
               shiny::markdown(
                 "
-                Please enter the name of the person/s using pseudoMAVIS, for attribution in the report.
+                Please enter the name of the person/s using RMAVIS, for attribution in the report.
                 "
               ),
               placement = "bottom"
@@ -907,7 +986,7 @@ sidebarUI <- function(id){
               title = "Project Name",
               shiny::markdown(
                 "
-                Please enter the name of the project/site being analysed in pseudoMAVIS.
+                Please enter the name of the project/site being analysed in RMAVIS.
                 "
               ),
               placement = "bottom"
@@ -929,7 +1008,7 @@ sidebarUI <- function(id){
             shinyWidgets::pickerInput(inputId = ns("reportOptions"),
                                       label = "Report Options",
                                       choices = reportOptions_options,
-                                      selected = c("nvcAssignmentResultsSite", 
+                                      selected = c("nvcAssignmentResultsSite_Czekanowski", 
                                                    "composedFloristicTablesSite", 
                                                    "speciesFrequencyTable"),
                                       options = shinyWidgets::pickerOptions(
@@ -947,11 +1026,11 @@ sidebarUI <- function(id){
               title = "Report Options",
               shiny::markdown(
                 "
-                Select the pseudoMAVIS outputs to include in the report.
+                Select the RMAVIS outputs to include in the report.
                 
                 Please note that selecting the 'Survey Table' option may produce
                 a long report if a large quantity of data is submitted to
-                pseudoMAVIS.
+                RMAVIS.
                 "
               ),
               placement = "bottom"
@@ -983,7 +1062,7 @@ sidebarUI <- function(id){
               title = "Download Report",
               shiny::markdown(
                 "
-                Download a pdf report of the current pseudoMAVIS analyses results.
+                Download a pdf report of the current RMAVIS analyses results.
                 "
               ),
               placement = "bottom"
@@ -1022,7 +1101,7 @@ sidebarUI <- function(id){
               title = "Download Accepted Species Data",
               shiny::markdown(
                 "
-                Download a csv containing the species names accepted by pseudoMAVIS.
+                Download a csv containing the species names accepted by RMAVIS.
                 "
               ),
               placement = "bottom"
@@ -1052,9 +1131,9 @@ sidebarUI <- function(id){
               title = "Download Survey Data",
               shiny::markdown(
                 "
-                Download the survey data displayed in the 'Survey Data' section of pseudoMAVIS.
+                Download the survey data displayed in the 'Survey Data' section of RMAVIS.
                 This data will contain any changes made in the survey data validation process
-                and allow reproduction of the results of the current pseudoMAVIS session
+                and allow reproduction of the results of the current RMAVIS session
                 at a later date.
                 "
               ),

@@ -12,6 +12,8 @@
 #' @param samp_group_name 
 #' @param comp_group_name 
 #' @param samp_weight_name 
+#' @param downweight_threshold If 0 no downeighting occurs.
+#' @param downweight_value
 #'
 #' @return
 #' @export
@@ -20,7 +22,17 @@
 similarityCzekanowski <- function(samp_df, comp_df, 
                                   samp_species_col, comp_species_col, 
                                   samp_group_name, comp_group_name,
-                                  samp_weight_name, comp_weight_name){
+                                  samp_weight_name, comp_weight_name,
+                                  downweight_threshold = 0.2, downweight_value = 0.1){
+  
+  assign(x = "samp_df", value = samp_df, envir = .GlobalEnv)
+  assign(x = "comp_df", value = comp_df, envir = .GlobalEnv)
+  assign(x = "samp_species_col", value = samp_species_col, envir = .GlobalEnv)
+  assign(x = "comp_species_col", value = comp_species_col, envir = .GlobalEnv)
+  assign(x = "samp_group_name", value = samp_group_name, envir = .GlobalEnv)
+  assign(x = "comp_group_name", value = comp_group_name, envir = .GlobalEnv)
+  assign(x = "samp_weight_name", value = samp_weight_name, envir = .GlobalEnv)
+  assign(x = "comp_weight_name", value = comp_weight_name, envir = .GlobalEnv)
   
   # Check argument types are correct
   checkmate::assertDataFrame(samp_df)
@@ -31,6 +43,8 @@ similarityCzekanowski <- function(samp_df, comp_df,
   checkmate::assert_character(comp_group_name, any.missing = FALSE)
   checkmate::assert_character(samp_weight_name, any.missing = FALSE)
   checkmate::assert_character(comp_weight_name, any.missing = FALSE)
+  checkmate::assert_numeric(downweight_threshold)
+  checkmate::assert_numeric(downweight_value)
   
   # Split input data frames into iterable lists
   samp_df_split <- split(samp_df, samp_df[[samp_group_name]])
@@ -60,11 +74,17 @@ similarityCzekanowski <- function(samp_df, comp_df,
       
       eval_table[is.na(eval_table)] <- 0
       
-      eval_table["min"] <- apply(eval_table[c(paste0(samp_weight_name, "_samp"), paste0(comp_weight_name, "_comp"))], 1, min)
+      comp_weight_name_new <- paste0(comp_weight_name, "_comp")
+      samp_weight_name_new <- paste0(samp_weight_name, "_samp")
       
-      eval_table_sum <- colSums(eval_table[,c(paste0(samp_weight_name, "_samp"), paste0(comp_weight_name, "_comp"), "min")], na.rm = TRUE)
+      # Down-weight species absent in the sample data but present in the comparison data at a constancy of downweight_threshold to downweight_value
+      eval_table[[comp_weight_name_new]][eval_table[[samp_weight_name_new]] == 0 & eval_table[[comp_weight_name_new]] == downweight_threshold] <- downweight_value
       
-      similarity <- (2 * eval_table_sum[["min"]]) / (eval_table_sum[[paste0(samp_weight_name, "_samp")]] + eval_table_sum[[paste0(comp_weight_name, "_comp")]])
+      eval_table["min"] <- apply(eval_table[c(samp_weight_name_new, comp_weight_name_new)], 1, min)
+      
+      eval_table_sum <- colSums(eval_table[,c(samp_weight_name_new, comp_weight_name_new, "min")], na.rm = TRUE)
+      
+      similarity <- (2 * eval_table_sum[["min"]]) / (eval_table_sum[[samp_weight_name_new]] + eval_table_sum[[comp_weight_name_new]])
       
       similarity_list <- list(samp_group_name = samp_id, comp_group_name = comp_id, "Similarity" = similarity)
       names(similarity_list) <- c(samp_group_name , comp_group_name, "Similarity")

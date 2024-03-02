@@ -12,7 +12,7 @@ ui <- bslib::page_navbar(
       bslib::card_image(file = "www/ukceh_logo_long_720x170_rgb.png", fill = FALSE, width = "300px"),
 
       # App Title
-      shiny::div(shiny::h1("pseudoMAVIS")),
+      shiny::div(shiny::h1("RMAVIS")),
       
       # bslib::card_image(file = "www/nationalReference.png", fill = FALSE, max_height = "62px"),
       
@@ -56,7 +56,7 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
-        bslib::card_header("Survey Data"),
+        bslib::card_header("Data Input"),
         
         value = "surveyData_panel",
         
@@ -68,9 +68,9 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
-        bslib::card_header("Data Summary"),
+        bslib::card_header("Data Structure"),
         
-        value = "surveyTableSummary_panel",
+        value = "dataStructure_panel",
         
         surveyTableSummaryUI(id = "surveyTableSummary_id_1")
         

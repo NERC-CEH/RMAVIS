@@ -1,14 +1,17 @@
 # Silence dplyr::summarise() messages -------------------------------------
 options(dplyr.summarise.inform = FALSE)
 
+# Load required packages --------------------------------------------------
+source("R/load_packages.R", local = TRUE)
+
 # Load data into memory ---------------------------------------------------
 source("R/load_data.R", local = TRUE)
 
-# Load constants into memory ----------------------------------------------
+# Create constants and hold in memory -------------------------------------
 source("R/create_constants.R", local = TRUE)
 
 # Render documentation ----------------------------------------------------
-source("R/render_docs.R", local = TRUE)
+source("R/render_docs.R", local = TRUE) # This can be disabled if one wishes to pre-render the documentation manually.
 
 # Source functions --------------------------------------------------------
 source("R/syntopicTable_functions.R", local = TRUE)
@@ -26,7 +29,7 @@ source("modules/nvcInfo_server.R", local = TRUE)
 source("modules/sidebar_ui.R", local = TRUE)
 source("modules/sidebar_server.R", local = TRUE)
 
-# source("modules/setupData_server.R", local = TRUE)
+source("modules/setupData_server.R", local = TRUE)
 
 source("modules/uploadData_ui.R", local = TRUE)
 source("modules/uploadData_server.R", local = TRUE)
@@ -42,6 +45,8 @@ source("modules/surveyTableSummary_server.R", local = TRUE)
 
 source("modules/surveyTableWide_ui.R", local = TRUE)
 source("modules/surveyTableWide_server.R", local = TRUE)
+
+# source("modules/selectedPquads_server.R", local = TRUE)
 
 source("modules/nvcAssignment_ui.R", local = TRUE)
 source("modules/nvcAssignment_server.R", local = TRUE)
@@ -70,7 +75,6 @@ source("modules/mvaLocalRefRestricted_server.R", local = TRUE)
 source("modules/mvaLocalRefUnrestricted_ui.R", local = TRUE)
 source("modules/mvaLocalRefUnrestricted_server.R", local = TRUE)
 
-# source("modules/report_ui.R", local = TRUE)
 source("modules/report_server.R", local = TRUE)
 
 # Source main UI and Server modules ---------------------------------------
