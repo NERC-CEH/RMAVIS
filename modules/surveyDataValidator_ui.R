@@ -1,4 +1,4 @@
-surveyTableValidatorUI <- function(id){
+surveyDataValidatorUI <- function(id){
   
   ns <- NS(id)
   
@@ -223,7 +223,7 @@ surveyTableValidatorUI <- function(id){
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Species Quadrat Duplicates",
-              id = ns("speciesQuadratDuplicatesTextInfo"),
+              id = ns("speciesQuadratUniqueTextInfo"),
               shiny::markdown(
                 "
                 If TRUE all species are recorded only once per quadrat.
@@ -235,7 +235,7 @@ surveyTableValidatorUI <- function(id){
               placement = "bottom"
             ),
             
-            shiny::htmlOutput(outputId = ns("speciesQuadratDuplicatesText"))
+            shiny::htmlOutput(outputId = ns("speciesQuadratUniqueText"))
             
           ),
           

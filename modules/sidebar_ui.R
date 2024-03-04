@@ -180,7 +180,7 @@ sidebarUI <- function(id){
 
         shiny::div(
           
-          id = ns("validateSurveyTable_div"),
+          id = ns("validatesurveyData_div"),
           
           shiny::div(shiny::h6("Validation")),
           
@@ -188,13 +188,13 @@ sidebarUI <- function(id){
             
             col_widths = c(11, 1),
             
-            shiny::actionButton(inputId = ns("validateSurveyTable"),
+            shiny::actionButton(inputId = ns("validatesurveyData"),
                                 label = "Validate Survey Data"),
             
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Validate Survey Table Data",
-              id = ns("validateSurveyTableInfo"),
+              id = ns("validatesurveyDataInfo"),
               shiny::markdown(
                 "
                 Open a popup window to validate the data present in the Survey Data Table.

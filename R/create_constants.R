@@ -111,7 +111,7 @@ resultsViewNVCAssign_options <- c(#"Site, Jaccard" = "nvcAssignSiteJaccard",
                                   #"Group, Jaccard" = "nvcAssignGroupJaccard",
                                   "Site, Czekanowski" = "nvcAssignSiteCzekanowski",
                                   "Group, Czekanowski" = "nvcAssignGroupCzekanowski",
-                                  "Quadrat, Jaccard" = "nvcAssignQuadratJaccard"#,
+                                  "Quadrat, Jaccard" = "nvcAssignPlotJaccard"#,
                                   # "Quadrat, Czekanowski" = "nvcAssignQuadratCzekanowski"
                                   )
 
@@ -227,6 +227,6 @@ reportOptions_options <- list(#`NVC Assignment Pseudo-quadrat` = c("Site" = "nvc
                               `MVA` = c("National" = "mvaNationalReference",
                                         "Local (restricted)" = "mvaLocalReferenceRestricted",
                                         "Local (unrestricted)" = "mvaLocalReferenceUnrestricted"),
-                              `Survey Table` = c("Survey Table" = "surveyTable")
+                              `Survey Table` = c("Survey Table" = "surveyData")
     )
 

@@ -81,7 +81,7 @@ reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAss
                               `MVA` = c("National" = "mvaNationalReference",
                                         "Local (restricted)" = "mvaLocalReferenceRestricted",
                                         "Local (unrestricted)" = "mvaLocalReferenceUnrestricted"),
-                              `Survey Table` = c("Survey Table" = "surveyTable")
+                              `Survey Table` = c("Survey Table" = "surveyData")
     )
 
 ```
@@ -678,7 +678,7 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.
     -   Making survey data availability table searchable.
     -   Changing nomenclature for releve to plot.
 -   Fixes:
-    -   Ensuring report renders correctly using new surveyTableSummary
+    -   Ensuring report renders correctly using new surveyDataSummary
         object data.
 -   New Features: NA
 

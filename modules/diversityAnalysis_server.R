@@ -1,4 +1,4 @@
-diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWide, sidebar_options) {
+diversityAnalysis <- function(input, output, session, surveyData, sidebar_options) {
   
   ns <- session$ns
   
@@ -269,18 +269,18 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       text = "Calculating Diversity Metrics"
     )
     
-    shiny::req(surveyTable())
-    shiny::req(surveyTableWide())
+    shiny::req(surveyData())
     
-    surveyTable <- surveyTable()
-    surveyTableWide <- surveyTableWide()
+    surveyData <- surveyData()
+    surveyData_long <- surveyData$surveyData_long
+    surveyData_mat <- surveyData$surveyData_mat
     
     isolate({
 
 # Species Richness --------------------------------------------------------
   
       # Species Richness - Quadrat
-      speciesRichness_quadrat <- surveyTable |>
+      speciesRichness_quadrat <- surveyData_long |>
         dplyr::group_by(Year, Group, Quadrat) |>
         dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
         dplyr::ungroup()
@@ -295,7 +295,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       
       
       # Species Richness - Group
-      speciesRichness_group <- surveyTable |>
+      speciesRichness_group <- surveyData_long |>
         dplyr::group_by(Year, Group) |>
         dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
         dplyr::ungroup()
@@ -309,7 +309,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
         tidyr::unite(col = "ID", c(Year, Group), sep = " - ", remove = TRUE)
       
       # Species Richness - Site
-      speciesRichness_site <- surveyTable |>
+      speciesRichness_site <- surveyData_long |>
         dplyr::group_by(Year) |>
         dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
         dplyr::ungroup()
@@ -323,7 +323,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
       speciesRichness_site_long <- speciesRichness_site
       
       # Summary table concordance
-      surveyTable_conc <- surveyTable |>
+      surveyData_conc <- surveyData_long |>
         tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = FALSE) |>
         dplyr::select(ID, Year, Group, Quadrat) |>
         dplyr::distinct()
@@ -340,19 +340,19 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
         tibble::as_tibble(rownames = "Metric")
       
       # Shannon Diversity
-      shannonDiversity <- surveyTableWide |>
+      shannonDiversity <- surveyData_mat |>
         vegan::diversity(index = "shannon") |>
         tibble::as_tibble(rownames = "ID") |>
         dplyr::rename("Shannon.Diversity" = "value")
       
       # Simpson Diversity
-      simpsonDiversity <- surveyTableWide |>
+      simpsonDiversity <- surveyData_mat |>
         vegan::diversity(index = "simpson") |>
         tibble::as_tibble(rownames = "ID") |>
         dplyr::rename("Simpson.Diversity" = "value")
       
       # Inverse Simpson Diversity
-      inverseSimpsonDiversity <- surveyTableWide |>
+      inverseSimpsonDiversity <- surveyData_mat |>
         vegan::diversity(index = "invsimpson") |>
         tibble::as_tibble(rownames = "ID") |>
         dplyr::rename("InverseSimpson.Diversity" = "value")
@@ -369,7 +369,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
         dplyr::mutate("Simpson.Evenness" = (InverseSimpson.Diversity / Richness), .keep = "unused")
       
       # Rényi diversities and Hill Numbers
-      # vegan::renyi(surveyTableWide)
+      # vegan::renyi(surveyDataWide)
       
       # Diversity Metrics Table
       diversityIndicesTable <- speciesRichness_quadrat_long |>
@@ -378,7 +378,7 @@ diversityAnalysis <- function(input, output, session, surveyTable, surveyTableWi
         dplyr::left_join(inverseSimpsonDiversity, by = "ID") |>
         dplyr::left_join(shannonsEvenness, by = "ID") |>
         dplyr::left_join(simpsonEvenness, by = "ID") |>
-        dplyr::left_join(surveyTable_conc, by = "ID") |>
+        dplyr::left_join(surveyData_conc, by = "ID") |>
         dplyr::select(Year, Group, Quadrat, Richness, Shannon.Diversity, Simpson.Diversity, InverseSimpson.Diversity, Shannon.Evenness, Simpson.Evenness)
       
       

@@ -11,7 +11,8 @@ source("R/load_data.R", local = TRUE)
 source("R/create_constants.R", local = TRUE)
 
 # Render documentation ----------------------------------------------------
-source("R/render_docs.R", local = TRUE) # This can be disabled if one wishes to pre-render the documentation manually.
+# This can be disabled if one wishes to pre-render the documentation manually.
+source("R/render_docs.R", local = TRUE)
 
 # Source functions --------------------------------------------------------
 source("R/syntopicTable_functions.R", local = TRUE)
@@ -34,17 +35,17 @@ source("modules/setupData_server.R", local = TRUE)
 source("modules/uploadData_ui.R", local = TRUE)
 source("modules/uploadData_server.R", local = TRUE)
 
-source("modules/surveyTable_ui.R", local = TRUE)
-source("modules/surveyTable_server.R", local = TRUE)
+source("modules/surveyData_ui.R", local = TRUE)
+source("modules/surveyData_server.R", local = TRUE)
 
-source("modules/surveyTableValidator_ui.R", local = TRUE)
-source("modules/surveyTableValidator_server.R", local = TRUE)
+source("modules/surveyDataValidator_ui.R", local = TRUE)
+source("modules/surveyDataValidator_server.R", local = TRUE)
 
-source("modules/surveyTableSummary_ui.R", local = TRUE)
-source("modules/surveyTableSummary_server.R", local = TRUE)
+source("modules/surveyDataSummary_ui.R", local = TRUE)
+source("modules/surveyDataSummary_server.R", local = TRUE)
 
-source("modules/surveyTableWide_ui.R", local = TRUE)
-source("modules/surveyTableWide_server.R", local = TRUE)
+source("modules/floristicTables_ui.R", local = TRUE)
+source("modules/floristicTables_server.R", local = TRUE)
 
 # source("modules/selectedPquads_server.R", local = TRUE)
 
@@ -53,9 +54,6 @@ source("modules/nvcAssignment_server.R", local = TRUE)
 
 source("modules/habCor_ui.R", local = TRUE)
 source("modules/habCor_server.R", local = TRUE)
-
-source("modules/floristicTables_ui.R", local = TRUE)
-source("modules/floristicTables_server.R", local = TRUE)
 
 source("modules/speciesFreq_ui.R", local = TRUE)
 source("modules/speciesFreq_server.R", local = TRUE)

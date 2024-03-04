@@ -60,7 +60,7 @@ ui <- bslib::page_navbar(
         
         value = "surveyData_panel",
         
-        surveyTableUI(id = "surveyTable_id_1")
+        surveyDataUI(id = "surveyData_id_1")
         
       ),
       
@@ -72,7 +72,7 @@ ui <- bslib::page_navbar(
         
         value = "dataStructure_panel",
         
-        surveyTableSummaryUI(id = "surveyTableSummary_id_1")
+        surveyDataSummaryUI(id = "surveyDataSummary_id_1")
         
       ),
       

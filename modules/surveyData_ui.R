@@ -1,4 +1,4 @@
-surveyTableUI <- function(id) {
+surveyDataUI <- function(id) {
   ns <- NS(id)
 
 # Basic Inputs ------------------------------------------------------------
@@ -9,7 +9,7 @@ surveyTableUI <- function(id) {
       shiny::h5("Survey Data Table"),
       
       shiny::div(
-        rhandsontable::rHandsontableOutput(outputId = ns("surveyTable"))
+        rhandsontable::rHandsontableOutput(outputId = ns("surveyData"))
       )
     )
   )

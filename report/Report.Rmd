@@ -7,9 +7,9 @@ output:
       in_header: "Report.preamble.tex"
 params: 
     sidebar_options: NULL
-    surveyTable: NULL
-    surveyTableValidator: NULL
-    surveyTableSummary: NULL
+    surveyData: NULL
+    surveyDataValidator: NULL
+    surveyDataSummary: NULL
     nvcAssignment: NULL
     floristicTables: NULL
     speciesFreq: NULL
@@ -40,9 +40,9 @@ library(kableExtra)
 # sys.source("./create_constants.R", envir = knitr::knit_global())
 
 # Retrieve report parameters
-surveyTable <- params$surveyTable
-surveyTableValidator <- params$surveyTableValidator
-surveyTableSummary <- params$surveyTableSummary
+surveyData <- params$surveyData
+surveyDataValidator <- params$surveyDataValidator
+surveyDataSummary <- params$surveyDataSummary
 nvcAssignment <- params$nvcAssignment
 sidebar_options <- params$sidebar_options
 floristicTables <- params$floristicTables
@@ -66,12 +66,12 @@ reportAuthorName <- sidebar_options$reportAuthorName
 reportProjectName <- sidebar_options$reportProjectName
 
 # Data Structure
-surveyTableStructure <- surveyTableSummary$surveyTableStructure
-quadratsPerYear <- surveyTableStructure$quadratsPerYear
-quadratsPerYearGroup <- surveyTableStructure$quadratsPerYearGroup
+surveyDataStructure <- surveyDataSummary$surveyDataStructure
+quadratsPerYear <- surveyDataStructure$quadratsPerYear
+quadratsPerYearGroup <- surveyDataStructure$quadratsPerYearGroup
 
 # NVC Assignment
-nvcAssignmentQuadrat <- nvcAssignment$nvcAssignmentQuadrat
+nvcAssignmentPlot_Jaccard <- nvcAssignment$nvcAssignmentPlot_Jaccard
 nvcAssignmentSite_Czekanowski <- nvcAssignment$nvcAssignmentSite_Czekanowski
 nvcAssignmentGroup_Czekanowski <- nvcAssignment$nvcAssignmentGroup_Czekanowski
 
@@ -129,7 +129,7 @@ reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAss
                               `MVA` = c("National" = "mvaNationalReference",
                                         "Local (restricted)" = "mvaLocalReferenceRestricted",
                                         "Local (unrestricted)" = "mvaLocalReferenceUnrestricted"),
-                              `Survey Table` = c("Survey Table" = "surveyTable")
+                              `Survey Table` = c("Survey Table" = "surveyData")
     )
 ```
 
@@ -310,10 +310,10 @@ if("nvcAssignmentResultsQuadrat_Jaccard" %in% reportOptions){
   
   cat("## NVC Assignment Jaccard, by Quadrat")
   
-  nvcAssignmentQuadrat_prepped <- nvcAssignmentQuadrat |>
+  nvcAssignmentPlot_Jaccard_prepped <- nvcAssignmentPlot_Jaccard |>
     dplyr::mutate_if(is.numeric, round, digits = 2)
 
-  kableExtra::kbl(x = nvcAssignmentQuadrat_prepped, format = "latex", booktabs = TRUE,
+  kableExtra::kbl(x = nvcAssignmentPlot_Jaccard_prepped, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
                   caption = "The top NVC communities fitted using the pseudo-quadrat method, by quadrat, group, and year") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
@@ -775,14 +775,14 @@ if("mvaLocalReferenceUnrestricted" %in% reportOptions){
 \newpage
 # Appendix
 
-```{r surveyTable, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r surveyData, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-if("surveyTable" %in% reportOptions){
+if("surveyData" %in% reportOptions){
   
   cat("\\newpage")
   cat("## Survey Data Table")
 
-  kableExtra::kbl(x = surveyTable, format = "latex", booktabs = TRUE,
+  kableExtra::kbl(x = surveyData, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
                   caption = "Survey Data Table") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))

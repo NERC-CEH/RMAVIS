@@ -25,15 +25,6 @@ similarityCzekanowski <- function(samp_df, comp_df,
                                   samp_weight_name, comp_weight_name,
                                   downweight_threshold = 0.2, downweight_value = 0.1){
   
-  assign(x = "samp_df", value = samp_df, envir = .GlobalEnv)
-  assign(x = "comp_df", value = comp_df, envir = .GlobalEnv)
-  assign(x = "samp_species_col", value = samp_species_col, envir = .GlobalEnv)
-  assign(x = "comp_species_col", value = comp_species_col, envir = .GlobalEnv)
-  assign(x = "samp_group_name", value = samp_group_name, envir = .GlobalEnv)
-  assign(x = "comp_group_name", value = comp_group_name, envir = .GlobalEnv)
-  assign(x = "samp_weight_name", value = samp_weight_name, envir = .GlobalEnv)
-  assign(x = "comp_weight_name", value = comp_weight_name, envir = .GlobalEnv)
-  
   # Check argument types are correct
   checkmate::assertDataFrame(samp_df)
   checkmate::assertDataFrame(comp_df)
