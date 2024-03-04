@@ -53,6 +53,9 @@ mvaNationalRefResults <- params$mvaNationalRefResults
 mvaLocalRefRestrictedResults <- params$mvaLocalRefRestrictedResults
 mvaLocalRefUnrestrictedResults <- params$mvaLocalRefUnrestrictedResults
 
+# Survey data
+surveyData_long <- surveyData$surveyData_long
+
 # Sidebar options
 inputMethod <- sidebar_options$inputMethod
 includeBryophytes <- sidebar_options$includeBryophytes
@@ -74,6 +77,7 @@ quadratsPerYearGroup <- surveyDataStructure$quadratsPerYearGroup
 nvcAssignmentPlot_Jaccard <- nvcAssignment$nvcAssignmentPlot_Jaccard
 nvcAssignmentSite_Czekanowski <- nvcAssignment$nvcAssignmentSite_Czekanowski
 nvcAssignmentGroup_Czekanowski <- nvcAssignment$nvcAssignmentGroup_Czekanowski
+topNVCCommunities <- nvcAssignment$topNVCCommunities
 
 # EIVs
 weightedMeanHEValuesSite <- avgEIVs$weightedMeanHEValuesSite
@@ -631,12 +635,16 @@ if("mvaNationalReference" %in% reportOptions){
 
 if("mvaNationalReference" %in% reportOptions){
   
-  # cat("## National Reference")
+  dcaAxisSelection <- "dca1dca2"
+  x_axis <- "DCA1"
+  y_axis <- "DCA2"
   
   mvaNationalRefPlot <- ggplot2::ggplot() +
-    ggplot2::geom_polygon(data = mvaNationalRef_hulls, alpha = 0.2,
-                          mapping = ggplot2::aes(x = DCA1,
-                                                 y = DCA2,
+    ggplot2::geom_polygon(data = mvaNationalRef_hulls |> dplyr::filter(dcaAxes == dcaAxisSelection,
+                                                                       NVC %in% topNVCCommunities), 
+                          alpha = 0.2,
+                          mapping = ggplot2::aes(x = .data[[x_axis]],
+                                                 y = .data[[y_axis]],
                                                  fill = NVC
                                                  )) +
     ggplot2::geom_point(data = mvaNationalRef_quadrats_survey,
@@ -683,12 +691,15 @@ if("mvaLocalReferenceRestricted" %in% reportOptions){
 
 if("mvaLocalReferenceRestricted" %in% reportOptions){
   
-  # cat("## Local Reference, Restricted")
+  dcaAxisSelection <- "dca1dca2"
+  x_axis <- "DCA1"
+  y_axis <- "DCA2"
   
   mvaLocalRefRestrictedPlot <- ggplot2::ggplot() +
-    ggplot2::geom_polygon(data = mvaLocalRefRestricted_hulls_pquads, alpha = 0.2,
-                          mapping = ggplot2::aes(x = DCA1, 
-                                                 y = DCA2, 
+    ggplot2::geom_polygon(data = mvaLocalRefRestricted_hulls_pquads  |> dplyr::filter(dcaAxes == dcaAxisSelection), 
+                          alpha = 0.2,
+                          mapping = ggplot2::aes(x = .data[[x_axis]],
+                                                 y = .data[[y_axis]],
                                                  fill = NVC.Comm
                                                  )) +
     ggplot2::geom_point(data = mvaLocalRefRestricted_quadrats_survey,
@@ -735,12 +746,15 @@ if("mvaLocalReferenceUnrestricted" %in% reportOptions){
 
 if("mvaLocalReferenceUnrestricted" %in% reportOptions){
   
-  # cat("## Local Reference, Unrestricted")
+  dcaAxisSelection <- "dca1dca2"
+  x_axis <- "DCA1"
+  y_axis <- "DCA2"
   
   mvaLocalRefUnrestrictedPlot <- ggplot2::ggplot() +
-    ggplot2::geom_polygon(data = mvaLocalRefUnrestricted_hulls_pquads, alpha = 0.2,
-                          mapping = ggplot2::aes(x = DCA1, 
-                                                 y = DCA2, 
+    ggplot2::geom_polygon(data = mvaLocalRefUnrestricted_hulls_pquads |> dplyr::filter(dcaAxes == dcaAxisSelection), 
+                          alpha = 0.2,
+                          mapping = ggplot2::aes(x = .data[[x_axis]],
+                                                 y = .data[[y_axis]], 
                                                  fill = NVC.Comm
                                                  )) +
     ggplot2::geom_point(data = mvaLocalRefUnrestricted_quadrats_survey,
@@ -782,7 +796,7 @@ if("surveyData" %in% reportOptions){
   cat("\\newpage")
   cat("## Survey Data Table")
 
-  kableExtra::kbl(x = surveyData, format = "latex", booktabs = TRUE,
+  kableExtra::kbl(x = surveyData_long, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
                   caption = "Survey Data Table") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
