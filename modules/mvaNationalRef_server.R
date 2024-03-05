@@ -1,4 +1,4 @@
-mvaNationalRef <- function(input, output, session, setupData, surveyTable, nvcAssignment, sidebar_options) {
+mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAssignment, sidebar_options) {
   
   ns <- session$ns
   
@@ -58,7 +58,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyTable, nvcAs
   observe({
     
     # Require selected objects are not NULL
-    shiny::req(surveyTable())
+    shiny::req(surveyData())
     shiny::req(runAnalysis() != 0)
     shiny::req(nvcAssignment())
     
@@ -74,6 +74,8 @@ mvaNationalRef <- function(input, output, session, setupData, surveyTable, nvcAs
       
       nvcAssignment <- nvcAssignment()
       topNVCCommunities <- nvcAssignment$topNVCCommunities
+      surveyData <- surveyData()
+      surveyData_long <- surveyData$surveyData_long
       
       nvc_pquads_final_wide <- nvc_pquads_final_wide()
       nvc_pquad_dca_all <- nvc_pquad_dca_all()
@@ -144,8 +146,8 @@ mvaNationalRef <- function(input, output, session, setupData, surveyTable, nvcAs
         dplyr::mutate("Group" = "Reference", .before  = "Quadrat") |>
         dplyr::mutate("NVC.Comm" = stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"), .before  = "Quadrat")
       
-      # Calculate the surveyTable DCA results using the pseudo-quadrat species scores
-      dca_results_sample_site <- surveyTable() |> #()
+      # Calculate the surveyData DCA results using the pseudo-quadrat species scores
+      dca_results_sample_site <- surveyData_long |> #()
         tibble::as_tibble() |>
         dplyr::select(-Cover) |>
         dplyr::left_join(dca_results_pquads_species, by = "Species") |>

@@ -8,6 +8,7 @@ library(shinyjs)
 library(shinybusy)
 
 # General
+library(R6)
 library(rmarkdown)
 library(bookdown)
 library(tidyverse)

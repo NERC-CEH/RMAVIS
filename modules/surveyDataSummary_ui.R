@@ -1,4 +1,4 @@
-surveyTableSummaryUI <- function(id){
+surveyDataSummaryUI <- function(id){
   
   ns <- NS(id)
   

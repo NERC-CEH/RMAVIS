@@ -1,4 +1,4 @@
-calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
+calcAvgEIVs <- function(input, output, session, surveyData, sidebar_options) {
   
   ns <- session$ns
 
@@ -268,7 +268,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
   
   observe({
     
-    shiny::req(surveyTable())
+    shiny::req(surveyData())
     
     shinybusy::show_modal_spinner(
       spin = "fading-circle",
@@ -279,13 +279,14 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
     # Isolate reactive objects
     shiny::isolate({
       
-      surveyTable <- surveyTable()
+      surveyData <- surveyData()
+      surveyData_long <- surveyData$surveyData_long
       
 
 # Calculate Weighted Mean HE Values ---------------------------------------
       
       # By Quadrat
-      weightedMeanHEValuesQuadrat <- surveyTable |>
+      weightedMeanHEValuesQuadrat <- surveyData_long |>
         dplyr::rename("species" = "Species") |>
         dplyr::left_join(master_data, by = "species",
                          relationship = "many-to-many") |>
@@ -340,7 +341,7 @@ calcAvgEIVs <- function(input, output, session, surveyTable, sidebar_options) {
 # Calculate Unweighted Mean HE Values -------------------------------------
       
       # By Quadrat
-      unweightedMeanHEValuesQuadrat <- surveyTable |>
+      unweightedMeanHEValuesQuadrat <- surveyData_long |>
         dplyr::rename("species" = "Species") |>
         dplyr::left_join(master_data, by = "species",
                          relationship = "many-to-many") |>

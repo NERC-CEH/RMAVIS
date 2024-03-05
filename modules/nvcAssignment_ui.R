@@ -33,12 +33,12 @@ nvcAssignmentUI <- function(id){
       # ),
       
       shiny::div(
-        id = ns("nvcAssignmentQuadratTable_div"),
+        id = ns("nvcAssignmentPlot_Jaccard_div"),
         
         shiny::h5("Quadrat Similarities"),
         
         shiny::div(
-          reactable::reactableOutput(outputId = ns("nvcAssignmentQuadratTable"))
+          reactable::reactableOutput(outputId = ns("nvcAssignmentPlot_JaccardTable"))
         ),
         
         shiny::div(shiny::br())

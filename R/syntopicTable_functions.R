@@ -1,7 +1,7 @@
-# Compose floristic tables from surveyTable
-composeSyntopicTables <- function(surveyTable, group_cols, species_col_name = "Species", plot_col_name = "Quadrat"){
+# Compose floristic tables from surveyData
+composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Species", plot_col_name = "Quadrat"){
   
-  syntopicTables <- surveyTable |>
+  syntopicTables <- surveyData |>
     tidyr::unite(col = "ID", group_cols, sep = " - ", remove = TRUE) |>
     dplyr::select(ID, plot_col_name, species_col_name) |>
     dplyr::mutate("Present" = 1) |>

@@ -4,7 +4,7 @@
 <!-- badges: start -->
 
 [![Generic
-badge](https://img.shields.io/badge/Version-0.96-green.svg)]()
+badge](https://img.shields.io/badge/Version-0.97-green.svg)]()
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -12,7 +12,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 
 The RMAVIS R shiny web application is a tool to assist in the assignment
 of vegetation plot sample data to UK National Vegetation Classification
-units, with additional exploratory analysis.
+units, with additional exploratory analyses.
 
 ## Running the app
 
@@ -22,6 +22,8 @@ by cloning the repository, calling `renv::restore()`, and then calling
 
 If `renv::restore()` fails run
 `install.packages(unique(renv::dependencies()$Package), dependencies = TRUE)`.
+Note that whilst the correct dependencies will be installed, the
+versions may not match those in the renv.lock file.
 
 Future developments may support the release of RMAVIS as an R package.
 
@@ -30,6 +32,7 @@ Future developments may support the release of RMAVIS as an R package.
 ### Posit Connect
 
 RMAVIS is currently hosted on the UKCEH Posit Connect server:
+<https://connect-apps.ceh.ac.uk/RMAVIS/>
 
 ### Docker
 

@@ -1,4 +1,4 @@
-sidebar <- function(input, output, session, surveyTable, surveyTableValidator, nvcAssignment, floristicTables, mvaLocalRefRestrictedResults) {
+sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvcAssignment, floristicTables, mvaLocalRefRestrictedResults) {
   
   ns <- session$ns
   
@@ -179,7 +179,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
       shiny::modalDialog(
         
         title = "Validate Survey Table Data",
-        id = "validateSurveyTableDataModal",
+        id = "validatesurveyDataDataModal",
         footer = shiny::tagList(
           shiny::modalButton("Close")
         ),
@@ -187,24 +187,24 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
         easyClose = FALSE,
         fade = TRUE,
         
-        surveyTableValidatorUI(id = "surveyTableValidator_id_1")
+        surveyDataValidatorUI(id = "surveyDataValidator_id_1")
         
       )
     )
     
   }) |>
-    bindEvent(input$validateSurveyTable,
+    bindEvent(input$validatesurveyData,
               ignoreInit = TRUE)
 
 
 # Disable selected action buttons if okToProceed == FALSE ---------------
   observe({
 
-    surveyTableValidator <- surveyTableValidator()
+    surveyDataValidator <- surveyDataValidator()
 
-    okToProceed <- surveyTableValidator$surveyTableValidation$okToProceed
+    okToProceed <- surveyDataValidator$surveyDataValidation$okToProceed
 
-    if(okToProceed == TRUE & nrow(surveyTable()) > 0){
+    if(okToProceed == TRUE & nrow(surveyData()$surveyData_long) > 0){
 
       shinyjs::enable(id = "runAnalysis")
       shinyjs::enable(id = "generateReport")
@@ -217,7 +217,7 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     }
 
   }) |>
-    bindEvent(surveyTableValidator(),
+    bindEvent(surveyDataValidator(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
@@ -384,19 +384,20 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
   # Reactively update DCA survey quadrat selection options ------------------
   observe({
     
-    # print(mvaLocalRefRestrictedResults())
+    surveyData <- surveyData()
+    surveyData_long <- surveyData$surveyData_long
     
     if(is.null(mvaLocalRefRestrictedResults()) == FALSE){
       
-      uniq_years <- surveyTable() |>
+      uniq_years <- surveyData_long |>
         dplyr::pull(Year) |>
         unique()
       
-      uniq_quadrats <- surveyTable() |>
+      uniq_quadrats <- surveyData_long |>
         dplyr::pull(Quadrat) |>
         unique()
       
-      uniq_groups <- surveyTable() |>
+      uniq_groups <- surveyData_long |>
         dplyr::pull(Group) |>
         unique()
       
@@ -533,9 +534,10 @@ sidebar <- function(input, output, session, surveyTable, surveyTableValidator, n
     
     content = function(file) {
       
-      surveyTable <- surveyTable()
+      surveyData <- surveyData()
+      surveyData_long <- surveyData$surveyData_long
       
-      write.csv(x = surveyTable, file, row.names = FALSE, fileEncoding = "UTF-8")
+      write.csv(x = surveyData_long, file, row.names = FALSE, fileEncoding = "UTF-8")
       
     }
   )
