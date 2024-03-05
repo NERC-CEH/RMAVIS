@@ -1,4 +1,4 @@
-mvaLocalRefRestricted <- function(input, output, session, setupData, surveyTable, nvcAssignment, sidebar_options) {
+mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData, nvcAssignment, sidebar_options) {
   
   ns <- session$ns
   
@@ -49,7 +49,7 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyTable
   observe({
     
     # Require selected objects are not NULL
-    shiny::req(surveyTable())
+    shiny::req(surveyData())
     shiny::req(nvcAssignment())
     
     # Start busy spinner
@@ -66,6 +66,8 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyTable
       topNVCCommunities <- nvcAssignment$topNVCCommunities
       nvc_pquads_final_wide <- nvc_pquads_final_wide()
       nvc_pquads_mean_unweighted_eivs <- nvc_pquads_mean_unweighted_eivs()
+      surveyData <- surveyData()
+      surveyData_long <- surveyData$surveyData_long
       
       # Create pattern to subset matrix rows
       codes_regex <- c()
@@ -131,8 +133,8 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyTable
         dplyr::mutate("NVC.Comm" = stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"), .before  = "Quadrat")
       
     
-      # Calculate the surveyTable DCA results using the pseudo-quadrat species scores
-      dca_results_sample_site <- surveyTable() |>
+      # Calculate the surveyData DCA results using the pseudo-quadrat species scores
+      dca_results_sample_site <- surveyData_long |>
         tibble::as_tibble() |>
         dplyr::select(-Cover) |>
         dplyr::left_join(dca_results_pquads_species, by = "Species") |>

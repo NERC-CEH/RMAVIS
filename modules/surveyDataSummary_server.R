@@ -1,24 +1,25 @@
-surveyTableSummary <- function(input, output, session, surveyTable) {
+surveyDataSummary <- function(input, output, session, surveyData) {
   
   ns <- session$ns
   
   # Create Survey Data Structure Table data ------------------------------
-  surveyTableStructure_rval <- reactiveVal()
+  surveyDataStructure_rval <- reactiveVal()
   
   observe({
     
-    shiny::req(surveyTable())
+    shiny::req(surveyData())
     
-    surveyTable <- surveyTable()
+    surveyData <- surveyData()
+    surveyData_long <- surveyData$surveyData_long
     
     # Create a list of dataframes containing the number of quadrats, per group, per year
-    quadratsPerYear <- surveyTable |>
+    quadratsPerYear <- surveyData_long |>
       dplyr::select(Year, Group, Quadrat) |>
       dplyr::distinct() |>
       dplyr::group_by(Year) |>
       dplyr::summarise(quadratsPerYear = dplyr::n())
     
-    quadratsPerYearGroup <- surveyTable |>
+    quadratsPerYearGroup <- surveyData_long |>
       dplyr::select(Year, Group, Quadrat) |>
       dplyr::distinct() |>
       dplyr::group_by(Year, Group) |>
@@ -36,14 +37,14 @@ surveyTableSummary <- function(input, output, session, surveyTable) {
     
     quadratsPerID <- rbind(quadratsPerYearID, quadratsPerYearGroupID)
     
-    surveyTable_quadratsPerYearGroup <- list("quadratsPerYear" = quadratsPerYear,
+    surveyData_quadratsPerYearGroup <- list("quadratsPerYear" = quadratsPerYear,
                                              "quadratsPerYearGroup" = quadratsPerYearGroup,
                                              "quadratsPerID" = quadratsPerID)
     
-    surveyTableStructure_rval(surveyTable_quadratsPerYearGroup)
+    surveyDataStructure_rval(surveyData_quadratsPerYearGroup)
     
   }) |>
-    bindEvent(surveyTable(),
+    bindEvent(surveyData(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
@@ -52,11 +53,12 @@ surveyTableSummary <- function(input, output, session, surveyTable) {
   
   observe({
     
-    shiny::req(surveyTable())
+    shiny::req(surveyData())
     
-    surveyTable <- surveyTable()
+    surveyData <- surveyData()
+    surveyData_long <- surveyData$surveyData_long
     
-    speciesDataAvailability <- surveyTable |>
+    speciesDataAvailability <- surveyData_long |>
       dplyr::select("Species") |>
       dplyr::distinct() |>
       dplyr::mutate(
@@ -78,11 +80,11 @@ surveyTableSummary <- function(input, output, session, surveyTable) {
     speciesDataAvailability_rval(speciesDataAvailability)
     
   }) |>
-    bindEvent(surveyTable(),
+    bindEvent(surveyData(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
-  # Initialise speciesDataAvailability Table ------------------------------
+# Initialise speciesDataAvailability Table ------------------------------
   speciesDataAvailabilityTable_init <- data.frame("Species" = integer(),
                                                   "Hill-Ellenberg" = character(),
                                                   "NVC" = character()
@@ -186,9 +188,9 @@ surveyTableSummary <- function(input, output, session, surveyTable) {
   # Update quadratsPerYear Table --------------------------------------------
   observe({
     
-    req(surveyTableStructure_rval())
+    req(surveyDataStructure_rval())
     
-    quadratsPerYear <- surveyTableStructure_rval()$quadratsPerYear |>
+    quadratsPerYear <- surveyDataStructure_rval()$quadratsPerYear |>
       dplyr::mutate("n" = quadratsPerYear, .keep = "unused")
     
     output$quadratsPerYearTable <- reactable::renderReactable({
@@ -217,7 +219,7 @@ surveyTableSummary <- function(input, output, session, surveyTable) {
     })
     
   }) |>
-    bindEvent(surveyTableStructure_rval(),
+    bindEvent(surveyDataStructure_rval(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
@@ -225,9 +227,9 @@ surveyTableSummary <- function(input, output, session, surveyTable) {
   # Update quadratsPerYearGroup Table ---------------------------------------
   observe({
     
-    req(surveyTableStructure_rval())
+    req(surveyDataStructure_rval())
     
-    quadratsPerYearGroup <- surveyTableStructure_rval()$quadratsPerYearGroup|>
+    quadratsPerYearGroup <- surveyDataStructure_rval()$quadratsPerYearGroup|>
       dplyr::mutate("n" = quadratsPerYearGroup, .keep = "unused")
     
     output$quadratsPerYearGroupTable <- reactable::renderReactable({
@@ -256,7 +258,7 @@ surveyTableSummary <- function(input, output, session, surveyTable) {
     })
     
   }) |>
-    bindEvent(surveyTableStructure_rval(),
+    bindEvent(surveyDataStructure_rval(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
@@ -323,23 +325,21 @@ surveyTableSummary <- function(input, output, session, surveyTable) {
   
   
   # Compose Data Object to Return -------------------------------------------
-  surveyTableSummary_rval <- reactiveVal()
+  surveyDataSummary_rval <- reactiveVal()
   
   observe({
     
-    surveyTableSummary <- list(
-      "surveyTableStructure" = surveyTableStructure_rval()
+    surveyDataSummary <- list(
+      "surveyDataStructure" = surveyDataStructure_rval()
     )
     
-    # print(surveyTableValidatorData)
-    
-    surveyTableSummary_rval(surveyTableSummary)
+    surveyDataSummary_rval(surveyDataSummary)
     
   }) |>
-    bindEvent(surveyTableStructure_rval(),
+    bindEvent(surveyDataStructure_rval(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
-  return(surveyTableSummary_rval)
+  return(surveyDataSummary_rval)
   
 }

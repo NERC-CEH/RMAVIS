@@ -260,7 +260,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">RMAVIS - Documentation</h1>
-<h3 class="subtitle">v0.96</h3>
+<h3 class="subtitle">v0.97</h3>
 
 </div>
 
@@ -713,6 +713,15 @@ to be displayed in the MVA plots:</p>
 <p><strong>National Reference Spaces</strong></p>
 <p>Here the user may select any NVC community to display in the <strong>National
 Reference</strong> MVA plot only.</p>
+<p><strong>Group Survey Plots</strong></p>
+<p>Three options are available to ‘group’ the survey quadrat/plot data:</p>
+<ul>
+<li>No, the individual plots are left ungrouped.</li>
+<li>Group, mean DCA axis scores are calculated from the individual plots
+by group.</li>
+<li>Year, mean DCA axis scores are calculated from the individual plots
+by year.</li>
+</ul>
 <p><strong>Survey Quadrat Selection</strong></p>
 <p>Three methods are available for subsetting the survey quadrats being
 displayed:</p>
@@ -746,6 +755,7 @@ plots.</p>
 <li>Survey Quadrats, the survey quadrats entered in <strong>Survey Data</strong>.</li>
 <li>Pseudo-Quadrats, all pseudo-quadrats used in the DCA ordination.</li>
 <li>Reference Space, the convex hulls formed around the pseudo-quadrats.</li>
+<li>Reference Centroids, the centroids formed from the pseudo-quadrat DCA scores.</li>
 <li>Species, the species DCA axis scores.</li>
 <li>Unique Survey Species, the species present in the survey quadrats
 but absent in the top-fitted NVC communities pseudo-quadrats.
@@ -981,7 +991,7 @@ example dataset.</p>
 <pre><code>@misc{marshall2024,
   author = {Marshall, Z. and Smart, S. and Harrower, C.},
   title = {RMAVIS},
-  howpublished = {Available at https://connect-apps.ceh.ac.uk/RMAVIS/, version 0.96},
+  howpublished = {Available at https://connect-apps.ceh.ac.uk/RMAVIS/, version 0.97},
   month = {02},
   year  = {2024},
   note = {A R Shiny application for the assignment of vegetation survey data to National Vegetation Classification (NVC) communities, with additional exploratory analyses.}
@@ -989,6 +999,21 @@ example dataset.</p>
 </div>
 <div id="release-log" class="section level1" number="5">
 <h1><span class="header-section-number">5</span> Release Log</h1>
+<details>
+<summary>
+v0.97
+</summary>
+<p><strong>2024/03/XX</strong></p>
+<ul>
+<li>Modifications: NA</li>
+<li>Fixes:
+<ul>
+<li>Updating documentation to reflect new MVA functionality.</li>
+<li>Fixing group survey plots option in MVA module.</li>
+</ul></li>
+<li>New Features: NA</li>
+</ul>
+</details>
 <details>
 <summary>
 v0.96
@@ -1026,7 +1051,7 @@ v0.95
 </ul></li>
 <li>Fixes:
 <ul>
-<li>Ensuring report renders correctly using new surveyTableSummary
+<li>Ensuring report renders correctly using new surveyDataSummary
 object data.</li>
 </ul></li>
 <li>New Features: NA</li>

@@ -1,4 +1,4 @@
-speciesFreq <- function(input, output, session, surveyTable, surveyTableWide, sidebar_options) {
+speciesFreq <- function(input, output, session, surveyData, sidebar_options) {
   
   ns <- session$ns
   
@@ -65,21 +65,21 @@ speciesFreq <- function(input, output, session, surveyTable, surveyTableWide, si
       text = "Compiling Frequency Table"
     )
     
-    shiny::req(surveyTable())
-    shiny::req(surveyTableWide())
+    shiny::req(surveyData())
     
-    surveyTable <- surveyTable()
-    surveyTableWide <- surveyTableWide()
+    surveyData <- surveyData()
+    surveyData_long <- surveyData$surveyData_long
+    surveyData_wide <- surveyData$wide
     
     isolate({
       
       # I need to find a better way to do this with tidyselect
-      max_year <- max(surveyTable$Year) |>
+      max_year <- max(surveyData_long$Year) |>
         as.character()
-      min_year <- min(surveyTable$Year) |>
+      min_year <- min(surveyData_long$Year) |>
         as.character()
       
-      speciesFrequency <- surveyTable |>
+      speciesFrequency <- surveyData_long |>
         dplyr::group_by(Year, Species) |>
         dplyr::summarise(Frequency = dplyr::n()) |>
         tidyr::pivot_wider(id_cols = Species,
@@ -108,7 +108,7 @@ speciesFreq <- function(input, output, session, surveyTable, surveyTableWide, si
       
       speciesFrequencyTable_rval(speciesFrequency)
       
-    })
+    }) # close isolate
     
     output$speciesFrequencyTable <- reactable::renderReactable({
       

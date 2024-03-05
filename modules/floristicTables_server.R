@@ -1,4 +1,4 @@
-floristicTables <- function(input, output, session, surveyTable, surveyTableSummary, sidebar_options) {
+floristicTables <- function(input, output, session, surveyData, surveyDataSummary, sidebar_options) {
   
   ns <- session$ns
   
@@ -53,9 +53,10 @@ floristicTables <- function(input, output, session, surveyTable, surveyTableSumm
   
   observe({
     
-    shiny::req(surveyTable())
+    shiny::req(surveyData())
 
-    surveyTable <- surveyTable()
+    surveyData <- surveyData()
+    surveyData_long <- surveyData$surveyData_long
     
     floristicTables_composed_all <- data.frame("ID" = character(),
                                                "Species" = character(),
@@ -63,12 +64,12 @@ floristicTables <- function(input, output, session, surveyTable, surveyTableSumm
     
 # Create composed floristic tables across all groups ----------------------
     
-    floristicTables_composed_year_group <- composeSyntopicTables(surveyTable = surveyTable, 
+    floristicTables_composed_year_group <- composeSyntopicTables(surveyData = surveyData_long, 
                                                                  group_cols = c("Year", "Group"), 
                                                                  species_col_name = "Species", 
                                                                  plot_col_name = "Quadrat")
     
-    floristicTables_composed_year <- composeSyntopicTables(surveyTable = surveyTable, 
+    floristicTables_composed_year <- composeSyntopicTables(surveyData = surveyData_long, 
                                                            group_cols = c("Year"), 
                                                            species_col_name = "Species", 
                                                            plot_col_name = "Quadrat")
@@ -76,8 +77,6 @@ floristicTables <- function(input, output, session, surveyTable, surveyTableSumm
     floristicTables_composed_all <- rbind(floristicTables_composed_year, floristicTables_composed_year_group)
     
     floristicTables_composed_all_rval(floristicTables_composed_all)
-    
-    # assign(x = "floristicTables_composed_all", value = floristicTables_composed_all, envir = .GlobalEnv)
 
   }) |>
     bindEvent(runAnalysis(),
@@ -175,10 +174,10 @@ floristicTables <- function(input, output, session, surveyTable, surveyTableSumm
   
   observe({
     
-    shiny::req(surveyTableSummary())
+    shiny::req(surveyDataSummary())
     shiny::req(composedFloristicTable())
     
-    quadratsPerID <- surveyTableSummary()$surveyTableStructure$quadratsPerID
+    quadratsPerID <- surveyDataSummary()$surveyDataStructure$quadratsPerID
     
     composedFloristicTable_n <- quadratsPerID |>
       dplyr::filter(ID == composedFloristicTable()) |>
@@ -195,7 +194,7 @@ floristicTables <- function(input, output, session, surveyTable, surveyTableSumm
     composedFloristicTableTitle_rval(composedFloristicTableTitle)
     
   }) |>
-    bindEvent(surveyTableSummary(), 
+    bindEvent(surveyDataSummary(), 
               composedFloristicTable(),
               ignoreInit = TRUE, ignoreNULL = TRUE)
   
@@ -330,7 +329,7 @@ floristicTables <- function(input, output, session, surveyTable, surveyTableSumm
   
   observe({
     
-    shiny::req(surveyTableSummary())
+    shiny::req(surveyDataSummary())
     shiny::req(nvcFloristicTable())
     shiny::req(composedFloristicTable())
     
@@ -341,7 +340,7 @@ floristicTables <- function(input, output, session, surveyTable, surveyTableSumm
     nvcFloristicTableTitle_rval(nvcFloristicTableTitle)
     
   }) |>
-    bindEvent(surveyTableSummary(), 
+    bindEvent(surveyDataSummary(), 
               nvcFloristicTable(), 
               composedFloristicTable(),
               ignoreInit = TRUE, ignoreNULL = TRUE)

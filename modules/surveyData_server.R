@@ -1,4 +1,4 @@
-surveyTable <- function(input, output, session, uploadDataTable, setupData, surveyTableValidator, sidebar_options) {
+surveyData <- function(input, output, session, uploadDataTable, setupData, surveyDataValidator, sidebar_options) {
   
   ns <- session$ns
   
@@ -16,7 +16,6 @@ surveyTable <- function(input, output, session, uploadDataTable, setupData, surv
               ignoreInit = FALSE)
   
 # Retrieve sidebar options ------------------------------------------------
-  
   inputMethod <- reactiveVal()
   selectedExampleData <- reactiveVal()
   runAnalysis <- reactiveVal()
@@ -39,44 +38,44 @@ surveyTable <- function(input, output, session, uploadDataTable, setupData, surv
   speciesAdjustmentTable <- reactiveVal()
   reallocateGroupsTable <- reactiveVal()
   combineDuplicates <- reactiveVal()
+  surveyDataValidation <- reactiveVal()
+  okToProceed <- reactiveVal()
   
   observe({
     
-    adjustSpecies(surveyTableValidator()$adjustSpecies)
-    reallocateGroups(surveyTableValidator()$reallocateGroups)
-    combineDuplicates(surveyTableValidator()$combineDuplicates)
-    speciesAdjustmentTable(surveyTableValidator()$speciesAdjustmentTable)
-    reallocateGroupsTable(surveyTableValidator()$reallocateGroupsTable)
-    combineDuplicates(surveyTableValidator()$combineDuplicates)
+    adjustSpecies(surveyDataValidator()$adjustSpecies)
+    reallocateGroups(surveyDataValidator()$reallocateGroups)
+    combineDuplicates(surveyDataValidator()$combineDuplicates)
+    speciesAdjustmentTable(surveyDataValidator()$speciesAdjustmentTable)
+    reallocateGroupsTable(surveyDataValidator()$reallocateGroupsTable)
+    combineDuplicates(surveyDataValidator()$combineDuplicates)
+    surveyDataValidation(surveyDataValidator()$surveyDataValidation)
+    okToProceed(surveyDataValidator()$okToProceed)
     
   }) |>
-    bindEvent(surveyTableValidator(),
+    bindEvent(surveyDataValidator(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
 
 
 # Initial survey table data -----------------------------------------------
-
-  surveyTable_init <- data.frame("Year" = as.integer(rep(as.numeric(format(Sys.Date(), "%Y")), 20)),
-                                 "Group" = as.character(rep("A", 20)),
-                                 "Quadrat" = as.character(rep("1", 20)),
-                                 "Species" = as.character(rep("", 20)),
-                                 "Cover" = as.numeric(rep(NA, 20)))
+  surveyData_long_init <- data.frame("Year" = as.integer(rep(as.numeric(format(Sys.Date(), "%Y")), 20)),
+                                     "Group" = as.character(rep("A", 20)),
+                                     "Quadrat" = as.character(rep("1", 20)),
+                                     "Species" = as.character(rep("", 20)),
+                                     "Cover" = as.numeric(rep(NA, 20)))
   
 # Survey Data Entry Table -------------------------------------------------
-  
-  surveyTable_rval <- reactiveVal(surveyTable_init)
-  
-  output$surveyTable <- rhandsontable::renderRHandsontable({
+  output$surveyData <- rhandsontable::renderRHandsontable({
     
-    surveyTable <- rhandsontable::rhandsontable(data = surveyTable_init,
+    surveyData <- rhandsontable::rhandsontable(data = surveyData_long_init,
                                                 height = 600,
                                                 rowHeaders = NULL,
                                                 width = "100%"#,
                                                 # overflow = "visible"
                                                 # stretchH = "all"
     ) |>
-      rhandsontable::hot_col(col = colnames(surveyTable_init), halign = "htCenter") |>
+      rhandsontable::hot_col(col = colnames(surveyData_long_init), halign = "htCenter") |>
       rhandsontable::hot_col(
         col = "Year",
         readOnly = FALSE,
@@ -117,7 +116,7 @@ surveyTable <- function(input, output, session, uploadDataTable, setupData, surv
           })
         }")
     
-    return(surveyTable)
+    return(surveyData)
     
   })
   
@@ -127,22 +126,22 @@ surveyTable <- function(input, output, session, uploadDataTable, setupData, surv
       
       if(inputMethod() == "manual"){
         
-        surveyTable <- rhandsontable::hot_to_r(input$surveyTable)
+        surveyData <- rhandsontable::hot_to_r(input$surveyData)
         
       } else if(inputMethod() == "example"){
         
-        surveyTable <- example_data_all |> # exampleData()
+        surveyData <- example_data_all |> # exampleData()
           dplyr::filter(Site == selectedExampleData()) |>
           dplyr::select(-Site) |>
           dplyr::arrange(Year, Group, Quadrat)
         
       } else if(inputMethod() == "upload"){
         
-        surveyTable <- rhandsontable::hot_to_r(input$surveyTable)
+        surveyData <- rhandsontable::hot_to_r(input$surveyData)
         
         if(!is.null(uploadDataTable())){
           
-          surveyTable <- uploadDataTable()
+          surveyData <- uploadDataTable()
           
         }
         
@@ -150,16 +149,16 @@ surveyTable <- function(input, output, session, uploadDataTable, setupData, surv
       
     })
 
-    output$surveyTable <- rhandsontable::renderRHandsontable({
+    output$surveyData <- rhandsontable::renderRHandsontable({
 
-      surveyTable <- rhandsontable::rhandsontable(data = surveyTable,
+      surveyData <- rhandsontable::rhandsontable(data = surveyData,
                                                   height = 600,
                                                   rowHeaders = NULL,
                                                   width = "100%"#,
                                                   # overflow = "visible",
                                                   # stretchH = "all"
                                                   ) |>
-        rhandsontable::hot_col(col = colnames(surveyTable), halign = "htCenter") |>
+        rhandsontable::hot_col(col = colnames(surveyData), halign = "htCenter") |>
         rhandsontable::hot_col(
           col = "Year",
           readOnly = FALSE,
@@ -191,7 +190,6 @@ surveyTable <- function(input, output, session, uploadDataTable, setupData, surv
         ) |>
         rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE) |>
         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        # rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames) |>
         htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot
@@ -200,13 +198,9 @@ surveyTable <- function(input, output, session, uploadDataTable, setupData, surv
           })
         }")
 
-      return(surveyTable)
+      return(surveyData)
 
     })
-      
-    # surveyTable_rval(rhandsontable::hot_to_r(input$surveyTable))
-    # 
-    # print(head(surveyTable_rval()))
       
   }) |>
     bindEvent(inputMethod(),
@@ -220,19 +214,17 @@ surveyTable <- function(input, output, session, uploadDataTable, setupData, surv
 
 
 # Survey Table Validation Actions -----------------------------------------
-  surveyTable_corrected_rval <- reactiveVal()
+  surveyData_corrected_rval <- reactiveVal()
   
 ## Adjust Species Names ---------------------------------------------------
   observe({
 
     req(speciesAdjustmentTable())
-    req(input$surveyTable)
-    
-    # print(speciesAdjustmentTable())
+    req(input$surveyData)
 
     isolate({
       
-      surveyTable <- rhandsontable::hot_to_r(input$surveyTable)
+      surveyData <- rhandsontable::hot_to_r(input$surveyData)
 
       if(!is.null(speciesAdjustmentTable())){
 
@@ -240,7 +232,7 @@ surveyTable <- function(input, output, session, uploadDataTable, setupData, surv
           dplyr::rename("Species" = Species.Submitted) |>
           dplyr::select(-Species.Ignore)
 
-        surveyTable_corrected <- surveyTable |>
+        surveyData_corrected <- surveyData |>
           tibble::as_tibble() |>
           dplyr::left_join(speciesAdjustmentTable, by = "Species") |>
           dplyr::mutate(
@@ -252,7 +244,7 @@ surveyTable <- function(input, output, session, uploadDataTable, setupData, surv
           dplyr::filter(Species.Remove != TRUE | is.na(Species.Remove)) |>
           dplyr::select(-Species.Adjusted, -Species.Remove)
         
-        surveyTable_corrected_rval(surveyTable_corrected)
+        surveyData_corrected_rval(surveyData_corrected)
 
       }
 
@@ -267,23 +259,23 @@ surveyTable <- function(input, output, session, uploadDataTable, setupData, surv
   observe({
     
     req(reallocateGroupsTable())
-    req(input$surveyTable)
+    req(input$surveyData)
     
     isolate({
       
-      surveyTable <- rhandsontable::hot_to_r(input$surveyTable)
+      surveyData <- rhandsontable::hot_to_r(input$surveyData)
       
       if(!is.null(reallocateGroupsTable())){
         
         reallocateGroupsTable <- reallocateGroupsTable()
         
-        surveyTable_corrected <- surveyTable |>
+        surveyData_corrected <- surveyData |>
           tibble::as_tibble() |>
           dplyr::select(-Group) |>
           dplyr::left_join(reallocateGroupsTable, by = "Quadrat") |>
           dplyr::select(Year, Group, Quadrat, Species, Cover)
         
-        surveyTable_corrected_rval(surveyTable_corrected)
+        surveyData_corrected_rval(surveyData_corrected)
         
       }
       
@@ -298,24 +290,19 @@ surveyTable <- function(input, output, session, uploadDataTable, setupData, surv
 ## Combine Duplicates -----------------------------------------------------
   observe({
     
-    # req(surveyTable_corrected_rval())
-    req(input$surveyTable)
+    req(input$surveyData)
     
     isolate({
       
-      surveyTable <- rhandsontable::hot_to_r(input$surveyTable)
-      surveyTable_corrected <- surveyTable_corrected_rval()
+      surveyData <- rhandsontable::hot_to_r(input$surveyData)
+      surveyData_corrected <- surveyData_corrected_rval()
 
-      # print(surveyTable)
-
-      surveyTable_noDuplicates <- surveyTable |>
+      surveyData_noDuplicates <- surveyData |>
         dplyr::group_by(Year, Group, Quadrat, Species) |>
         dplyr::summarise("Cover" = sum(Cover)) |>
         dplyr::ungroup()
-      
-      
 
-      surveyTable_corrected_rval(surveyTable_noDuplicates)
+      surveyData_corrected_rval(surveyData_noDuplicates)
 
     })
     
@@ -326,22 +313,20 @@ surveyTable <- function(input, output, session, uploadDataTable, setupData, surv
   
   observe({
     
-    shiny::req(surveyTable_corrected_rval())
+    shiny::req(surveyData_corrected_rval())
     
-    surveyTable_corrected <- surveyTable_corrected_rval()
+    surveyData_corrected <- surveyData_corrected_rval()
     
-    # print(head(surveyTable_corrected))
-    
-    output$surveyTable <- rhandsontable::renderRHandsontable({
+    output$surveyData <- rhandsontable::renderRHandsontable({
       
-      surveyTable <- rhandsontable::rhandsontable(data = surveyTable_corrected,
+      surveyData <- rhandsontable::rhandsontable(data = surveyData_corrected,
                                                   height = 600,
                                                   rowHeaders = NULL,
                                                   width = "100%"#,
                                                   # overflow = "visible",
                                                   # stretchH = "all"
       ) |>
-        rhandsontable::hot_col(col = colnames(surveyTable_corrected), halign = "htCenter") |>
+        rhandsontable::hot_col(col = colnames(surveyData_corrected), halign = "htCenter") |>
         rhandsontable::hot_col(
           col = "Year",
           readOnly = FALSE,
@@ -382,33 +367,108 @@ surveyTable <- function(input, output, session, uploadDataTable, setupData, surv
           })
         }")
       
-      return(surveyTable)
+      return(surveyData)
       
     })
     
   }) |>
-    bindEvent(surveyTable_corrected_rval(),
+    bindEvent(surveyData_corrected_rval(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
 
   
 
 # Save Survey Table to Reactive Val ---------------------------------------
+  # surveyData_rval <- reactiveVal(surveyDataR6)
+  surveyData_rval <- reactiveVal(list(
+    "surveyData_long" = NULL,
+    "surveyData_wide" = NULL,
+    "surveyData_mat" = NULL
+  ))
+  
   observe({
-
-    # req(nrow(surveyTable_rval()) > 0)
-
-    surveyTable_rval(rhandsontable::hot_to_r(input$surveyTable))
+    
+    surveyData_long <- rhandsontable::hot_to_r(input$surveyData)
+    surveyData <- surveyData_rval()
+    surveyData$surveyData_long <- surveyData_long
+    surveyData_rval(surveyData)
 
   }) |>
-    bindEvent(input$surveyTable,
+    bindEvent(input$surveyData,
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+  
+
+# Save Survey Data Wide and Mat -------------------------------------------
+  observe({
+
+    # Require the following conditions to be true to create surveyData_wide and
+    # surveyData_mat.
+    # This is to prevent list columns, empty column names, and incomplete row
+    # names (mat) or incomplete ID columns (wide) when pivoting wide.
+    shiny::req(isTRUE(surveyDataValidation()$yearComplete))
+    shiny::req(isTRUE(surveyDataValidation()$groupComplete))
+    shiny::req(isTRUE(surveyDataValidation()$quadratComplete))
+    shiny::req(isTRUE(surveyDataValidation()$speciesComplete))
+    shiny::req(isTRUE(surveyDataValidation()$quadratIDUnique))
+    shiny::req(isTRUE(surveyDataValidation()$groupIDUnique))
+
+    # Retrieve long survey table
+    surveyData <- surveyData_rval()
+    surveyData_long <- surveyData$surveyData_long
+
+    # Check whether there are any cover values supplied
+    # noCoverValues <- isFALSE(surveyDataValidation()$coverSupplied)
+    noCoverValues <- isTRUE(surveyData_long$Cover |> unique() |> is.na())
+
+    if(noCoverValues == TRUE){
+
+      surveyData_wide <- surveyData_long |>
+        dplyr::mutate("Cover" = 1) |>
+        tidyr::pivot_wider(names_from = Species,
+                           values_from = Cover) |>
+        dplyr::mutate_all(~replace(., is.na(.), 0))
+
+      surveyData_mat <- surveyData_long |>
+        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
+        dplyr::mutate("Cover" = 1) |>
+        tidyr::pivot_wider(names_from = Species,
+                           values_from = Cover) |>
+        tibble::column_to_rownames(var = "ID") |>
+        dplyr::mutate_all(~replace(., is.na(.), 0)) |>
+        as.matrix()
+
+    } else if(noCoverValues == FALSE){
+
+      surveyData_wide <- surveyData_long |>
+        tidyr::pivot_wider(names_from = Species,
+                           values_from = Cover) |>
+        dplyr::mutate_all(~replace(., is.na(.), 0))
+
+      surveyData_mat <- surveyData_long |>
+        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
+        tidyr::pivot_wider(names_from = Species,
+                           values_from = Cover) |>
+        tibble::column_to_rownames(var = "ID") |>
+        dplyr::mutate_all(~replace(., is.na(.), 0)) |>
+        as.matrix()
+
+    }
+    
+    surveyData$surveyData_wide <- surveyData_wide
+    surveyData$surveyData_mat <- surveyData_mat
+    surveyData_rval(surveyData)
+
+  }) |>
+    bindEvent(surveyData_rval(),
+              input$surveyData,
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
     
+  # Ensure table 
+  outputOptions(output, "surveyData", suspendWhenHidden = FALSE)
   
-  outputOptions(output, "surveyTable", suspendWhenHidden = FALSE)
   
-  
-  return(surveyTable_rval)
+  return(surveyData_rval)
 
 }

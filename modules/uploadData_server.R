@@ -148,8 +148,6 @@ uploadData <- function(input, output, session) {
     
     # shinyjs::click(id = "confirmUpload")
     
-    # print(uploadDataTable_rval)
-    
   }) |>
     bindEvent(input$confirmUpload,
               ignoreInit = TRUE,

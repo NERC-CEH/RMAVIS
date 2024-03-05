@@ -1,4 +1,4 @@
-nvcAssignment <- function(input, output, session, setupData, surveyTable, surveyTableSummary, floristicTables, sidebar_options) {
+nvcAssignment <- function(input, output, session, setupData, surveyData, surveyDataSummary, floristicTables, sidebar_options) {
   
   ns <- session$ns
   
@@ -39,7 +39,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyTable, survey
 # Show/Hide Results -------------------------------------------------------
   observe({
     
-    shinyjs::show(id = "nvcAssignmentQuadratTable_Jaccard_div")
+    shinyjs::show(id = "nvcAssignmentPlot_Jaccard_div")
     shinyjs::show(id = "nvcAssignmentSiteTable_Czekanowski_div")
     shinyjs::show(id = "nvcAssignmentGroupTable_Czekanowski_div")
 
@@ -52,10 +52,10 @@ nvcAssignment <- function(input, output, session, setupData, surveyTable, survey
   
   observe({
     
-    if("nvcAssignQuadratJaccard" %in% resultsViewNVCAssign()){
-      shinyjs::show(id = "nvcAssignmentQuadratTable_div")
+    if("nvcAssignPlotJaccard" %in% resultsViewNVCAssign()){
+      shinyjs::show(id = "nvcAssignmentPlot_Jaccard_div")
     } else {
-      shinyjs::hide(id = "nvcAssignmentQuadratTable_div")
+      shinyjs::hide(id = "nvcAssignmentPlot_Jaccard_div")
     }
     
     if("nvcAssignSiteCzekanowski" %in% resultsViewNVCAssign()){
@@ -87,14 +87,14 @@ nvcAssignment <- function(input, output, session, setupData, surveyTable, survey
   
 
 # Calculate ALL nvcAssignment results -------------------------------------
-  nvcAssignmentQuadrat_rval <- reactiveVal()
+  nvcAssignmentPlot_Jaccard_rval <- reactiveVal()
   nvcAssignmentSite_Czekanowski_rval <- reactiveVal()
   nvcAssignmentGroup_Czekanowski_rval <- reactiveVal()
   
   observe({
     
     shiny::req(floristicTables())
-    shiny::req(surveyTableSummary())
+    shiny::req(surveyDataSummary())
     
     # req(isFALSE(runAnalysis() == 0))
     
@@ -106,22 +106,23 @@ nvcAssignment <- function(input, output, session, setupData, surveyTable, survey
     
     shiny::isolate({
       
-      surveyTable <- surveyTable()
-      surveyTableSummary <- surveyTableSummary()
+      surveyData <- surveyData()
+      surveyData_long <- surveyData$surveyData_long
+      surveyDataSummary <- surveyDataSummary()
       
       # Retrieve the site and group ID's for which there are less than the threshold 
       threshold <- 5
-      site_group_ids_remove <- surveyTableSummary$surveyTableStructure$quadratsPerID |>
+      site_group_ids_remove <- surveyDataSummary$surveyDataStructure$quadratsPerID |>
         dplyr::filter(n < threshold) |>
         dplyr::pull(ID)
       
       # Add an ID column to the survey data table
-      surveyTable_prepped <- surveyTable |>
+      surveyData_prepped <- surveyData_long |>
         tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = FALSE) |>
         dplyr::rename("species" = "Species")
       
       # Create a concordance to join back on to the results of nva_average_sim
-      surveyTable_IDs <- surveyTable_prepped |>
+      surveyData_IDs <- surveyData_prepped |>
         dplyr::select(ID, Year, Group, Quadrat) |>
         dplyr::distinct()
       
@@ -148,11 +149,11 @@ nvcAssignment <- function(input, output, session, setupData, surveyTable, survey
       }
 
       # Calculate NVC Similarity by Quadrat
-      nvcAssignmentQuadrat <- assignNVC::nvc_average_sim(samp_df = surveyTable_prepped,
-                                                         comp_df = pquads_to_use,
-                                                         spp_col = "species",
-                                                         samp_id = "ID",
-                                                         comp_id = "Pid3") |>
+      nvcAssignmentPlot_Jaccard <- assignNVC::nvc_average_sim(samp_df = surveyData_prepped,
+                                                              comp_df = pquads_to_use,
+                                                              spp_col = "species",
+                                                              samp_id = "ID",
+                                                              comp_id = "Pid3") |>
         dplyr::select("ID" = FOCAL_ID,
                       "Mean.Similarity" = MEAN_SIM, 
                       "Standard.Deviation" = SD,
@@ -160,16 +161,16 @@ nvcAssignment <- function(input, output, session, setupData, surveyTable, survey
         dplyr::group_by(ID) |>
         dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
         dplyr::ungroup() |>
-        dplyr::left_join(surveyTable_IDs, by = "ID")
+        dplyr::left_join(surveyData_IDs, by = "ID")
       
-      nvcAssignmentQuadrat_prepped <- nvcAssignmentQuadrat |>
+      nvcAssignmentPlot_Jaccard_prepped <- nvcAssignmentPlot_Jaccard |>
         dplyr::select(Year, Group, Quadrat, NVC.Code, Mean.Similarity, Standard.Deviation)|>
         dplyr::group_by(Year, Group, Quadrat) |>
         dplyr::slice(1:10) |>
         dplyr::ungroup() |>
         dplyr::arrange(Year, Group, Quadrat, dplyr::desc(Mean.Similarity))
         
-      nvcAssignmentQuadrat_rval(nvcAssignmentQuadrat_prepped)
+      nvcAssignmentPlot_Jaccard_rval(nvcAssignmentPlot_Jaccard_prepped)
       
     })
     
@@ -232,8 +233,6 @@ nvcAssignment <- function(input, output, session, setupData, surveyTable, survey
     
   }) |>
     bindEvent(runAnalysis(),
-              # nvc_pquads_final(),
-              # nvc_floristic_tables_numeric(),
               ignoreInit = TRUE)
 
 
@@ -271,7 +270,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyTable, survey
   
 
 # Initialise NVC Assignment Quadrat Table ---------------------------------
-  nvcAssignmentQuadratTable_init <- data.frame("Year" = integer(),
+  nvcAssignmentPlot_JaccardTable_init <- data.frame("Year" = integer(),
                                                "Group" = character(),
                                                "Quadrat" = character(),
                                                "Mean.Similarity" = numeric(),
@@ -279,11 +278,11 @@ nvcAssignment <- function(input, output, session, setupData, surveyTable, survey
                                                "NVC.Code" = character()
   )
   
-  nvcAssignmentQuadratTable_rval <- reactiveVal(nvcAssignmentQuadratTable_init)
+  nvcAssignmentPlot_JaccardTable_rval <- reactiveVal(nvcAssignmentPlot_JaccardTable_init)
   
-  output$nvcAssignmentQuadratTable <- reactable::renderReactable({
+  output$nvcAssignmentPlot_JaccardTable <- reactable::renderReactable({
     
-    nvcAssignmentQuadratTable <- reactable::reactable(data = nvcAssignmentQuadratTable_init,
+    nvcAssignmentPlot_JaccardTable <- reactable::reactable(data = nvcAssignmentPlot_JaccardTable_init,
                                                       filterable = FALSE,
                                                       pagination = FALSE, 
                                                       highlight = TRUE,
@@ -302,7 +301,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyTable, survey
                                                         align = "center" # Needed as alignment is not passing through to header
                                                       ))
     
-    return(nvcAssignmentQuadratTable)
+    return(nvcAssignmentPlot_JaccardTable)
     
   })
   
@@ -310,16 +309,16 @@ nvcAssignment <- function(input, output, session, setupData, surveyTable, survey
 # Update NVC Assignment Quadrat Table -------------------------------------
   observe({
     
-    req(nvcAssignmentQuadrat_rval())
+    req(nvcAssignmentPlot_Jaccard_rval())
     
-    nvcAssignmentQuadrat <- nvcAssignmentQuadrat_rval() |>
+    nvcAssignmentPlot_Jaccard <- nvcAssignmentPlot_Jaccard_rval() |>
       dplyr::group_by(Year, Group, Quadrat) |>
       dplyr::slice(1:nTopResults()) |>
       dplyr::ungroup()
     
-    output$nvcAssignmentQuadratTable <- reactable::renderReactable({
+    output$nvcAssignmentPlot_JaccardTable <- reactable::renderReactable({
       
-      nvcAssignmentQuadratTable <- reactable::reactable(data = nvcAssignmentQuadrat, 
+      nvcAssignmentPlot_JaccardTable <- reactable::reactable(data = nvcAssignmentPlot_Jaccard, 
                                                         filterable = FALSE,
                                                         pagination = FALSE, 
                                                         highlight = TRUE,
@@ -365,18 +364,18 @@ nvcAssignment <- function(input, output, session, setupData, surveyTable, survey
                                                         )
                                                         )
       
-      return(nvcAssignmentQuadratTable)
+      return(nvcAssignmentPlot_JaccardTable)
       
     })
     
   }) |>
-    bindEvent(nvcAssignmentQuadrat_rval(),
+    bindEvent(nvcAssignmentPlot_Jaccard_rval(),
               nTopResults(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
   
-  outputOptions(output, "nvcAssignmentQuadratTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "nvcAssignmentPlot_JaccardTable", suspendWhenHidden = FALSE)
   
   # Intialise NVC Assignment Site Czekanowski Table -----------------------
   nvcAssignmentSiteTable_Czekanowski_init <- data.frame("Year" = integer(),
@@ -572,14 +571,14 @@ nvcAssignment <- function(input, output, session, setupData, surveyTable, survey
   
 
 # Compose All NVC Assignment Results --------------------------------------
-  nvcAssignmentAll_rval <- reactiveVal()
+  nvcAssignment_rval <- reactiveVal()
   
   observe({
     
-    shiny::req(nvcAssignmentQuadrat_rval())
+    shiny::req(nvcAssignmentPlot_Jaccard_rval())
     
     # Select the top-N fitted commmunities
-    nvcAssignmentQuadrat <- nvcAssignmentQuadrat_rval() |>
+    nvcAssignmentPlot_Jaccard <- nvcAssignmentPlot_Jaccard_rval() |>
       dplyr::group_by(Year, Group, Quadrat) |>
       dplyr::slice(1:nTopResults()) |>
       dplyr::ungroup()
@@ -605,25 +604,25 @@ nvcAssignment <- function(input, output, session, setupData, surveyTable, survey
       unique()
     
     # Create data frame containing top-fitted NVC subcommunities and communities
-    NVC_communities_final <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
+    topNVCCommunities <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
     
-    nvcAssignmentAll_list <- list("nvcAssignmentQuadrat" = nvcAssignmentQuadrat,
-                                  "nvcAssignmentSite_Czekanowski" = nvcAssignmentSite_Czekanowski,
-                                  "nvcAssignmentGroup_Czekanowski" = nvcAssignmentGroup_Czekanowski,
-                                  "topNVCCommunities" = NVC_communities_final)
+    nvcAssignment_list <- list("nvcAssignmentPlot_Jaccard" = nvcAssignmentPlot_Jaccard,
+                               "nvcAssignmentSite_Czekanowski" = nvcAssignmentSite_Czekanowski,
+                               "nvcAssignmentGroup_Czekanowski" = nvcAssignmentGroup_Czekanowski,
+                               "topNVCCommunities" = topNVCCommunities)
     
-    nvcAssignmentAll_rval(nvcAssignmentAll_list)
+    nvcAssignment_rval(nvcAssignment_list)
     
   }) |>
     bindEvent(nTopResults(),
               nvcAssignmentSite_Czekanowski_rval(),
               nvcAssignmentGroup_Czekanowski_rval(),
-              nvcAssignmentQuadrat_rval(),
+              nvcAssignmentPlot_Jaccard_rval(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
 
 
 # Return NVC Assignment Data ----------------------------------------------
-  return(nvcAssignmentAll_rval)
+  return(nvcAssignment_rval)
   
 }

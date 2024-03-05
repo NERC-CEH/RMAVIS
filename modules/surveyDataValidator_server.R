@@ -1,4 +1,4 @@
-surveyTableValidator <- function(input, output, session, setupData, surveyTable, sidebar_options) {
+surveyDataValidator <- function(input, output, session, setupData, surveyData, sidebar_options) {
   
   ns <- session$ns
   
@@ -37,21 +37,13 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
         col = "Species.Submitted",
         readOnly = TRUE,
       ) |>
-      # rhandsontable::hot_col(
-      #   col = "Species.Adjusted",
-      #   readOnly = FALSE,
-      #   type = "dropdown",
-      #   source = speciesNames,
-      #   strict = TRUE,
-      #   default = as.character(NA_character_)
-      # ) |>
       rhandsontable::hot_cols(colWidths = c(200, 200, 200, 200)) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
       htmlwidgets::onRender("
       function(el, x) {
         var hot = this.hot
-        $('a[data-value=\"validateSurveyTable\"').on('click', function(){
+        $('a[data-value=\"validatesurveyData\"').on('click', function(){
           setTimeout(function() {hot.render();}, 0);
         })
       }")
@@ -81,7 +73,7 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
       htmlwidgets::onRender("
       function(el, x) {
         var hot = this.hot
-        $('a[data-value=\"validateSurveyTable\"').on('click', function(){
+        $('a[data-value=\"validatesurveyData\"').on('click', function(){
           setTimeout(function() {hot.render();}, 0);
         })
       }")
@@ -90,8 +82,8 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
     
   })
 
-# Perform Validation Checks on surveyTable --------------------------------
-  surveyTableValidation_rval <- reactiveVal(
+# Perform Validation Checks on surveyData --------------------------------
+  surveyDataValidation_rval <- reactiveVal(
     list(
       "speciesInAccepted" = FALSE,
       "speciesNotAccepted" = FALSE,
@@ -101,25 +93,28 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
       "groupComplete" = FALSE,
       "quadratComplete" = FALSE,
       "speciesComplete" = FALSE,
-      "speciesQuadratDuplicates" = FALSE,
+      "speciesQuadratUnique" = FALSE,
       "quadratIDUnique" = FALSE,
       "quadratIDDuplicates" = FALSE,
       "groupIDUnique" = FALSE,
       "groupIDDuplicates" = FALSE,
+      "surveyData_wide_ok" = FALSE,
+      "surveyData_mat_ok" = FALSE,
       "okToProceed" = FALSE
     )
   )
   
   observe({
     
-    shiny::req(surveyTable())
+    shiny::req(surveyData())
     shiny::req(speciesNames())
     
-    surveyTable <- surveyTable()
-    speciesNames <- speciesNames()
+    surveyData <- surveyData()
+    surveyData_long <- surveyData$surveyData_long
     
-    # print(rhandsontable::hot_to_r(input$speciesAdjustmentTable))
-
+    surveyData_wide <- surveyData$surveyData_wide
+    surveyData_mat <- surveyData$surveyData_mat
+    speciesNames <- speciesNames()
 
     # Check all species are accepted
     if(!is.null(input$speciesAdjustmentTable)){
@@ -128,55 +123,52 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
         dplyr::filter(Species.Ignore == TRUE) |>
         dplyr::pull(Species.Submitted)
 
-      surveyTable_speciesToIgnore <- speciesToIgnore
+      surveyData_speciesToIgnore <- speciesToIgnore
 
-      species_to_check <- setdiff(unique(surveyTable$Species), speciesToIgnore)
+      species_to_check <- setdiff(unique(surveyData_long$Species), speciesToIgnore)
 
-      surveyTable_speciesInAccepted <- isTRUE(all(species_to_check %in% speciesNames))
+      surveyData_speciesInAccepted <- isTRUE(all(species_to_check %in% speciesNames))
 
     } else {
 
-      surveyTable_speciesToIgnore <- c()
+      surveyData_speciesToIgnore <- c()
 
-      surveyTable_speciesInAccepted <- isTRUE(all(unique(surveyTable$Species) %in% speciesNames))
+      surveyData_speciesInAccepted <- isTRUE(all(unique(surveyData_long$Species) %in% speciesNames))
 
     }
 
-    # print(surveyTable_speciesInAccepted)
-
     # Check which species are not accepted
-    surveyTable_speciesNotAccepted <- setdiff(unique(surveyTable$Species), speciesNames)
+    surveyData_speciesNotAccepted <- setdiff(unique(surveyData_long$Species), speciesNames)
 
     # Check whether any cover estimates are supplied
-    surveyTable_coverSupplied <- isTRUE(!is.na(unique(surveyTable$Cover)))
+    surveyData_coverSupplied <- isTRUE(!is.na(unique(surveyData_long$Cover)))
 
     # Check whether all cover estimates are supplied
-    surveyTable_coverSuppliedAll <- isTRUE(all(!is.na(surveyTable$Cover)))
+    surveyData_coverSuppliedAll <- isTRUE(all(!is.na(surveyData_long$Cover)))
 
     # Check whether there is any missing data in the Year column
-    surveyTable_yearComplete <- isTRUE(all(!is.na(surveyTable$Year)))
+    surveyData_yearComplete <- isTRUE(all(!is.na(surveyData_long$Year)))
 
     # Check whether there is any missing data in the Group column
-    surveyTable_groupComplete <- isTRUE(all(!(surveyTable$Group == "")))
+    surveyData_groupComplete <- isTRUE(all(!(surveyData_long$Group == "")))
 
     # Check whether there is any missing data in the Quadrat column
-    surveyTable_quadratComplete <- isTRUE(all(!(surveyTable$Quadrat == "")))
+    surveyData_quadratComplete <- isTRUE(all(!(surveyData_long$Quadrat == "")))
 
     # Check whether there is any missing data in the Species column
-    surveyTable_speciesComplete <- isTRUE(all(!(surveyTable$Species == "")))
+    surveyData_speciesComplete <- isTRUE(all(!(surveyData_long$Species == "")))
 
     # Check whether there are any species-quadrat double-entries
-    surveyTable_speciesQuadratDuplicates <- surveyTable |>
+    surveyData_speciesQuadratUnique_df <- surveyData_long |>
       dplyr::select(Year, Group, Quadrat, Species) |>
       dplyr::group_by(Year, Group, Quadrat, Species) |>
       dplyr::filter(dplyr::n() > 1) |>
       dplyr::ungroup()
 
-    surveyTable_speciesQuadratDuplicates <- isTRUE(nrow(surveyTable_speciesQuadratDuplicates) == 0)
-    surveyTable_speciesQuadratDuplicates <- surveyTable_speciesQuadratDuplicates
+    surveyData_speciesQuadratUnique <- isTRUE(nrow(surveyData_speciesQuadratUnique_df) == 0)
 
     # Check whether each quadrat ID is unique
-    surveyTable_quadratIDUnique_df <- surveyTable |>
+    surveyData_quadratIDUnique_df <- surveyData_long |>
       dplyr::select(Year, Group, Quadrat) |>
       dplyr::distinct() |>
       dplyr::select(Group, Quadrat) |>
@@ -185,68 +177,71 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
       dplyr::filter(dplyr::n() > 1) |>
       dplyr::ungroup()
 
-    surveyTable_quadratIDUnique <- isTRUE(nrow(surveyTable_quadratIDUnique_df) == 0)
+    surveyData_quadratIDUnique <- isTRUE(nrow(surveyData_quadratIDUnique_df) == 0)
 
-    surveyTable_quadratIDDuplicates <- surveyTable_quadratIDUnique_df |>
+    surveyData_quadratIDDuplicates <- surveyData_quadratIDUnique_df |>
       dplyr::pull(Quadrat)
-    # surveyTable_quadratIDUnique <- surveyTable |>
-    #   dplyr::select(Year, Group, Quadrat) |>
-    #   dplyr::distinct() |>
-    #   dplyr::group_by(Year, Group, Quadrat) |>
-    #   dplyr::filter(dplyr::n() > 1) |>
-    #   dplyr::pull(Quadrat)
-    #
-    # surveyTable_quadratIDUnique <- isTRUE(length(surveyTable_quadratIDUnique) == 0)
-    # surveyTable_quadratIDDuplicates <- surveyTable_quadratIDUnique
 
     # Check whether each group ID is unique
-    surveyTable_groupIDUnique <- surveyTable |>
+    surveyData_groupIDUnique_df <- surveyData_long |>
       dplyr::select(Year, Group) |>
       dplyr::distinct() |>
       dplyr::group_by(Year, Group) |>
       dplyr::filter(dplyr::n() > 1) |>
-      dplyr::pull(Group)
+      dplyr::ungroup()
 
-    surveyTable_groupIDUnique <- isTRUE(length(surveyTable_groupIDUnique) == 0)
-    surveyTable_groupIDDuplicates <- surveyTable_groupIDUnique
+    surveyData_groupIDDuplicates <- surveyData_groupIDUnique_df
+    surveyData_groupIDUnique <- isTRUE(nrow(surveyData_groupIDUnique_df) == 0)
+    
+    # Check whether it is ok to create the wide and mat surveyData objects
+    okToCreateWideMat <- isTRUE(all(surveyData_yearComplete,
+                                    surveyData_groupComplete, surveyData_quadratComplete,
+                                    surveyData_speciesComplete, surveyData_quadratIDUnique,
+                                    surveyData_groupIDUnique))
+    
+    # Check whether the survey data wide object is ok
+    surveyData_wide_ok <- isTRUE(!is.null(surveyData_wide))
+    
+    # Check whether the survey data mat object is ok
+    surveyData_mat_ok <- isTRUE(!is.null(surveyData_mat))
 
     # Check whether the analysis is ok to proceed
-    okToProceed <- isTRUE(all(surveyTable_speciesInAccepted, surveyTable_yearComplete,
-                              surveyTable_groupComplete, surveyTable_quadratComplete,
-                              surveyTable_speciesQuadratDuplicates,
-                              surveyTable_speciesComplete, surveyTable_quadratIDUnique,
-                              surveyTable_groupIDUnique))
+    okToProceed <- isTRUE(all(surveyData_speciesInAccepted, surveyData_yearComplete,
+                              surveyData_groupComplete, surveyData_quadratComplete,
+                              surveyData_speciesComplete, surveyData_quadratIDUnique,
+                              surveyData_wide_ok, surveyData_mat_ok,
+                              surveyData_groupIDUnique))
 
 
     # Create list of validation checkes
-    surveyTableValidation <- list(
-      "speciesToIgnore" = surveyTable_speciesToIgnore,
-      "speciesInAccepted" = surveyTable_speciesInAccepted,
-      "speciesNotAccepted" = surveyTable_speciesNotAccepted,
-      "coverSupplied" = surveyTable_coverSupplied,
-      "coverSuppliedAll" = surveyTable_coverSuppliedAll,
-      "yearComplete" = surveyTable_yearComplete,
-      "groupComplete" = surveyTable_groupComplete,
-      "quadratComplete" = surveyTable_quadratComplete,
-      "speciesComplete" = surveyTable_speciesComplete,
-      "speciesQuadratDuplicates" = surveyTable_speciesQuadratDuplicates,
-      "quadratIDUnique" = surveyTable_quadratIDUnique,
-      "quadratIDDuplicates" = surveyTable_quadratIDDuplicates,
-      "groupIDUnique" = surveyTable_groupIDUnique,
-      "groupIDDuplicates" = surveyTable_groupIDDuplicates,
+    surveyDataValidation <- list(
+      "speciesToIgnore" = surveyData_speciesToIgnore,
+      "speciesInAccepted" = surveyData_speciesInAccepted,
+      "speciesNotAccepted" = surveyData_speciesNotAccepted,
+      "coverSupplied" = surveyData_coverSupplied,
+      "coverSuppliedAll" = surveyData_coverSuppliedAll,
+      "yearComplete" = surveyData_yearComplete,
+      "groupComplete" = surveyData_groupComplete,
+      "quadratComplete" = surveyData_quadratComplete,
+      "speciesComplete" = surveyData_speciesComplete,
+      "speciesQuadratUnique" = surveyData_speciesQuadratUnique,
+      "quadratIDUnique" = surveyData_quadratIDUnique,
+      "quadratIDDuplicates" = surveyData_quadratIDDuplicates,
+      "groupIDUnique" = surveyData_groupIDUnique,
+      "groupIDDuplicates" = surveyData_groupIDDuplicates,
+      "surveyData_wide_ok" = surveyData_wide_ok,
+      "surveyData_mat_ok" = surveyData_mat_ok,
       "okToProceed" = okToProceed
     )
 
-    # print(surveyTableValidation)
-
-    surveyTableValidation_rval(surveyTableValidation)
+    surveyDataValidation_rval(surveyDataValidation)
 
   }) |>
-    bindEvent(surveyTable(),
+    bindEvent(surveyData(),
               speciesNames(),
               input$adjustSpecies,
               speciesAdjustmentTable_rval(),
-              ignoreInit = TRUE,
+              ignoreInit = FALSE,
               ignoreNULL = TRUE)
 
 # Update Table to Replace Species Not In Accepted List --------------------
@@ -254,22 +249,22 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
 
   observe({
 
-    shiny::req(surveyTableValidation_rval())
+    shiny::req(surveyDataValidation_rval())
     shiny::req(speciesNames())
 
-    surveyTableValidation <- surveyTableValidation_rval()
+    surveyDataValidation <- surveyDataValidation_rval()
     speciesNames <- speciesNames()
 
-    if(length(surveyTableValidation$speciesNotAccepted) > 0){
+    if(length(surveyDataValidation$speciesNotAccepted) > 0){
 
-      speciesAdjustmentTable <- data.frame("Species.Submitted" = surveyTableValidation$speciesNotAccepted,
+      speciesAdjustmentTable <- data.frame("Species.Submitted" = surveyDataValidation$speciesNotAccepted,
                                            "Species.Adjusted" = as.character(NA_character_),
                                            "Species.Ignore" = FALSE,
                                            "Species.Remove" = FALSE) |>
         dplyr::mutate(
           "Species.Ignore" =
             dplyr::case_when(
-              Species.Submitted %in% surveyTableValidation$speciesToIgnore ~ TRUE,
+              Species.Submitted %in% surveyDataValidation$speciesToIgnore ~ TRUE,
               TRUE ~ as.logical(FALSE)
             )
         )
@@ -309,7 +304,7 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
         htmlwidgets::onRender("
           function(el, x) {
             var hot = this.hot
-            $('a[data-value=\"validateSurveyTable\"').on('click', function(){
+            $('a[data-value=\"validatesurveyData\"').on('click', function(){
               setTimeout(function() {hot.render();}, 0);
             })
           }")
@@ -322,7 +317,7 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
 
   }) |>
     bindEvent(input$adjustSpecies,
-              surveyTableValidation_rval(),
+              surveyDataValidation_rval(),
               speciesNames(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
@@ -332,13 +327,15 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
   
   observe({
     
+    shiny::req(!is.null(surveyData()$surveyData_long))
     shiny::req(reallocateGroups_rval())
     
-    surveyTable <- surveyTable()
+    surveyData <- surveyData()
+    surveyData_long <- surveyData$surveyData_long
     
     reallocateGroups <- reallocateGroups_rval()
       
-    reallocateGroupsTable <- surveyTable |>
+    reallocateGroupsTable <- surveyData_long |>
       dplyr::select(Quadrat, Group) |>
       dplyr::distinct()
     
@@ -357,7 +354,7 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
         htmlwidgets::onRender("
           function(el, x) {
             var hot = this.hot
-            $('a[data-value=\"validateSurveyTable\"').on('click', function(){
+            $('a[data-value=\"validatesurveyData\"').on('click', function(){
               setTimeout(function() {hot.render();}, 0);
             })
           }")
@@ -369,7 +366,7 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
     reallocateGroupsTable_rval(reallocateGroupsTable)
     
   }) |>
-    bindEvent(surveyTable(),
+    bindEvent(surveyData(),
               ignoreInit = FALSE,
               ignoreNULL = TRUE)
   
@@ -377,22 +374,22 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
 # Create Text Validation Outputs ------------------------------------------
   observe({
     
-    surveyTableValidation <- surveyTableValidation_rval()
+    surveyDataValidation <- surveyDataValidation_rval()
     
-    speciesInAccepted <- surveyTableValidation$speciesInAccepted
-    speciesNotAccepted <- surveyTableValidation$speciesNotAccepted
-    coverSupplied <- surveyTableValidation$coverSupplied
-    coverSuppliedAll <- surveyTableValidation$coverSuppliedAll
-    yearComplete <- surveyTableValidation$yearComplete
-    groupComplete <- surveyTableValidation$groupComplete
-    quadratComplete <- surveyTableValidation$quadratComplete
-    speciesComplete <- surveyTableValidation$speciesComplete
-    speciesQuadratDuplicates <- surveyTableValidation$speciesQuadratDuplicates
-    quadratIDUnique <- surveyTableValidation$quadratIDUnique
-    quadratIDDuplicates <- surveyTableValidation$quadratIDDuplicates
-    groupIDUnique <- surveyTableValidation$groupIDUnique
-    groupIDDuplicates <- surveyTableValidation$groupIDDuplicates
-    okToProceed <- surveyTableValidation$okToProceed
+    speciesInAccepted <- surveyDataValidation$speciesInAccepted
+    speciesNotAccepted <- surveyDataValidation$speciesNotAccepted
+    coverSupplied <- surveyDataValidation$coverSupplied
+    coverSuppliedAll <- surveyDataValidation$coverSuppliedAll
+    yearComplete <- surveyDataValidation$yearComplete
+    groupComplete <- surveyDataValidation$groupComplete
+    quadratComplete <- surveyDataValidation$quadratComplete
+    speciesComplete <- surveyDataValidation$speciesComplete
+    speciesQuadratUnique <- surveyDataValidation$speciesQuadratUnique
+    quadratIDUnique <- surveyDataValidation$quadratIDUnique
+    quadratIDDuplicates <- surveyDataValidation$quadratIDDuplicates
+    groupIDUnique <- surveyDataValidation$groupIDUnique
+    groupIDDuplicates <- surveyDataValidation$groupIDDuplicates
+    okToProceed <- surveyDataValidation$okToProceed
     
     
 
@@ -504,16 +501,16 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
     })
 
 # Quadrat Names Unique Text -----------------------------------------------
-    output$speciesQuadratDuplicatesText <- shiny::renderText({
+    output$speciesQuadratUniqueText <- shiny::renderText({
       
       paste0("No Duplicate Species Within Quadrats: ",
              ifelse(
-               as.character(speciesQuadratDuplicates) == TRUE,
+               as.character(speciesQuadratUnique) == TRUE,
                paste('<font color="green"><b>', 
-                     as.character(speciesQuadratDuplicates), 
+                     as.character(speciesQuadratUnique), 
                      '</b></font>'),
                paste('<font color="red"><b>', 
-                     as.character(speciesQuadratDuplicates), 
+                     as.character(speciesQuadratUnique), 
                      '</b></font>')
              )
       )
@@ -574,25 +571,25 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
     })
     
   }) |>
-    bindEvent(surveyTableValidation_rval(),
+    bindEvent(surveyDataValidation_rval(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
 # Compose Data Object to Return -------------------------------------------
-  surveyTableValidatorData_rval <- reactiveVal()
+  surveyDataValidatorData_rval <- reactiveVal()
   
   observe({
 
-    surveyTableValidatorData <- list(
+    surveyDataValidatorData <- list(
       "adjustSpecies" = input$adjustSpecies,
       "reallocateGroups" = input$reallocateGroups,
       "combineDuplicates" = input$combineDuplicates,
       "speciesAdjustmentTable" = rhandsontable::hot_to_r(input$speciesAdjustmentTable),
       "reallocateGroupsTable" = rhandsontable::hot_to_r(input$reallocateGroupsTable),
-      "surveyTableValidation" = surveyTableValidation_rval()
+      "surveyDataValidation" = surveyDataValidation_rval()
     )
 
-    surveyTableValidatorData_rval(surveyTableValidatorData)
+    surveyDataValidatorData_rval(surveyDataValidatorData)
     
   }) |>
     bindEvent(input$adjustSpecies,
@@ -600,7 +597,7 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
               input$combineDuplicates,
               input$speciesAdjustmentTable,
               input$reallocateGroupsTable,
-              surveyTableValidation_rval(),
+              surveyDataValidation_rval(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
@@ -608,6 +605,6 @@ surveyTableValidator <- function(input, output, session, setupData, surveyTable,
   
   outputOptions(output, "speciesAdjustmentTable", suspendWhenHidden = TRUE)
   
-  return(surveyTableValidatorData_rval)
+  return(surveyDataValidatorData_rval)
   
 }

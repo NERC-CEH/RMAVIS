@@ -73,23 +73,33 @@ setupData <- function(input, output, session, sidebar_options) {
       
     }
     
+    # setupDataR6$species_names <- species_names_selected
+    # setupDataR6$accepted_species <- accepted_species_selected
+    # setupDataR6$example_data <- example_data_selected
+    # setupDataR6$nvc_floristic_tables <- nvc_floristic_tables_selected
+    # setupDataR6$nvc_floristic_tables_numeric <- nvc_floristic_tables_numeric_selected
+    # setupDataR6$nvc_pquads_final <- nvc_pquads_final_selected
+    # setupDataR6$nvc_pquads_final_wide <- nvc_pquads_final_wide_selected
+    # setupDataR6$nvc_pquad_dca_all <- nvc_pquad_dca_all_selected
+    # setupDataR6$nvc_pquad_dca_all_hulls <- nvc_pquad_dca_all_hulls_selected
+    # setupDataR6$nvc_pquad_dca_all_centroids <- nvc_pquad_dca_all_centroids_selected
+    # setupDataR6$nvc_pquads_mean_unweighted_eivs <- nvc_pquads_mean_unweighted_eivs_selected
+    # 
+    # setupData(setupDataR6)
+    
     setupData_list <- list(
       "species_names" = species_names_selected,
-      
       "accepted_species" = accepted_species_selected,
       "example_data" = example_data_selected,
-      
       "nvc_floristic_tables" = nvc_floristic_tables_selected,
       "nvc_floristic_tables_numeric" = nvc_floristic_tables_numeric_selected,
-      
       "nvc_pquads_final" = nvc_pquads_final_selected,
       "nvc_pquads_final_wide" = nvc_pquads_final_wide_selected,
-      
       "nvc_pquad_dca_all" = nvc_pquad_dca_all_selected,
       "nvc_pquad_dca_all_hulls" = nvc_pquad_dca_all_hulls_selected,
       "nvc_pquad_dca_all_centroids" = nvc_pquad_dca_all_centroids_selected,
       "nvc_pquads_mean_unweighted_eivs" = nvc_pquads_mean_unweighted_eivs_selected
-      )
+    )
     
     setupData(setupData_list)
     
