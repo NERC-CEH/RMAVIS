@@ -606,14 +606,6 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     # Create data frame containing top-fitted NVC subcommunities and communities
     topNVCCommunities <- unique(c(NVC_communities_all, NVC_communities_fromSubCom))
     
-    # Update nvcAssignmentR6 object
-    # nvcAssignmentR6$nvcAssignmentPlot_Jaccard <- nvcAssignmentPlot_Jaccard
-    # nvcAssignmentR6$nvcAssignmentGroup_Czekanowski <- nvcAssignmentGroup_Czekanowski
-    # nvcAssignmentR6$nvcAssignmentSite_Czekanowski <- nvcAssignmentSite_Czekanowski
-    # nvcAssignmentR6$topNVCCommunities <- topNVCCommunities
-    # 
-    # nvcAssignment_rval(nvcAssignmentR6)
-    
     nvcAssignment_list <- list("nvcAssignmentPlot_Jaccard" = nvcAssignmentPlot_Jaccard,
                                "nvcAssignmentSite_Czekanowski" = nvcAssignmentSite_Czekanowski,
                                "nvcAssignmentGroup_Czekanowski" = nvcAssignmentGroup_Czekanowski,

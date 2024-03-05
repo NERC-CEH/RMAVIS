@@ -384,17 +384,20 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
   # Reactively update DCA survey quadrat selection options ------------------
   observe({
     
+    surveyData <- surveyData()
+    surveyData_long <- surveyData$surveyData_long
+    
     if(is.null(mvaLocalRefRestrictedResults()) == FALSE){
       
-      uniq_years <- surveyData() |>
+      uniq_years <- surveyData_long |>
         dplyr::pull(Year) |>
         unique()
       
-      uniq_quadrats <- surveyData() |>
+      uniq_quadrats <- surveyData_long |>
         dplyr::pull(Quadrat) |>
         unique()
       
-      uniq_groups <- surveyData() |>
+      uniq_groups <- surveyData_long |>
         dplyr::pull(Group) |>
         unique()
       
@@ -532,8 +535,9 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
     content = function(file) {
       
       surveyData <- surveyData()
+      surveyData_long <- surveyData$surveyData_long
       
-      write.csv(x = surveyData, file, row.names = FALSE, fileEncoding = "UTF-8")
+      write.csv(x = surveyData_long, file, row.names = FALSE, fileEncoding = "UTF-8")
       
     }
   )

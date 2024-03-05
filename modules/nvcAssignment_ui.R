@@ -33,7 +33,7 @@ nvcAssignmentUI <- function(id){
       # ),
       
       shiny::div(
-        id = ns("nvcAssignmentPlot_JaccardTable_div"),
+        id = ns("nvcAssignmentPlot_Jaccard_div"),
         
         shiny::h5("Quadrat Similarities"),
         

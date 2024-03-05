@@ -1,6 +1,6 @@
 ---
 title: "RMAVIS - Documentation"
-subtitle: "v0.96"
+subtitle: "v0.97"
 # output: 
 #   bookdown::word_document2:
 # always_allow_html: true
@@ -530,6 +530,16 @@ to be displayed in the MVA plots:
 Here the user may select any NVC community to display in the **National
 Reference** MVA plot only.
 
+**Group Survey Plots**
+
+Three options are available to 'group' the survey quadrat/plot data:
+
+-   No, the individual plots are left ungrouped.
+-   Group, mean DCA axis scores are calculated from the individual plots 
+    by group.
+-   Year, mean DCA axis scores are calculated from the individual plots
+    by year.
+
 **Survey Quadrat Selection**
 
 Three methods are available for subsetting the survey quadrats being
@@ -566,6 +576,7 @@ plots.
 -   Survey Quadrats, the survey quadrats entered in **Survey Data**.
 -   Pseudo-Quadrats, all pseudo-quadrats used in the DCA ordination.
 -   Reference Space, the convex hulls formed around the pseudo-quadrats.
+-   Reference Centroids, the centroids formed from the pseudo-quadrat DCA scores.
 -   Species, the species DCA axis scores.
 -   Unique Survey Species, the species present in the survey quadrats
     but absent in the top-fitted NVC communities pseudo-quadrats.
@@ -638,7 +649,7 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.
 @misc{marshall2024,
   author = {Marshall, Z. and Smart, S. and Harrower, C.},
   title = {RMAVIS},
-  howpublished = {Available at https://connect-apps.ceh.ac.uk/RMAVIS/, version 0.96},
+  howpublished = {Available at https://connect-apps.ceh.ac.uk/RMAVIS/, version 0.97},
   month = {02},
   year  = {2024},
   note = {A R Shiny application for the assignment of vegetation survey data to National Vegetation Classification (NVC) communities, with additional exploratory analyses.}
@@ -646,6 +657,20 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.
 ```
 
 # Release Log
+
+<details>
+
+<summary>v0.97</summary>
+
+<strong>2024/03/XX</strong>
+
+-   Modifications: NA
+-   Fixes:
+      -   Updating documentation to reflect new MVA functionality.
+      -   Fixing group survey plots option in MVA module.
+-   New Features: NA
+
+</details>
 
 <details>
 
