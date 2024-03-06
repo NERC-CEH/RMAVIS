@@ -26,13 +26,6 @@ server <- function(input, output, session) {
                                   surveyDataValidator = surveyDataValidator,
                                   sidebar_options = sidebar_options)
   
-  # observe({
-  #   
-  #   print(surveyData()$surveyData_long)
-  #   
-  # }) |>
-  #   bindEvent(surveyData())
-  
   surveyDataValidator <- shiny::callModule(module = surveyDataValidator,
                                            id = "surveyDataValidator_id_1",
                                            setupData = setupData,

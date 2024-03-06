@@ -141,7 +141,7 @@ reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAss
 
 ```{r RMAVISVersion, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-cat("**Version:** ", as.character("v0.97"), sep = "")
+cat("**Version:** ", as.character("v0.98"), sep = "")
 
 ```
 
@@ -281,14 +281,18 @@ if("nvcAssignmentResultsSite_Czekanowski" %in% reportOptions){
   
   cat("## NVC Assignment Czekanowski, by Site")
   
-  nvcAssignmentSite_Czekanowski_prepped <- nvcAssignmentSite_Czekanowski |>
-    dplyr::mutate_if(is.numeric, round, digits = 2)
+   if(!is.null(nvcAssignmentSite_Czekanowski)){
+     
+    nvcAssignmentSite_Czekanowski_prepped <- nvcAssignmentSite_Czekanowski |>
+      dplyr::mutate_if(is.numeric, round, digits = 2)
 
-  kableExtra::kbl(x = nvcAssignmentSite_Czekanowski_prepped, format = "latex", booktabs = TRUE,
-                  longtable = TRUE, linesep = "",
-                  caption = "The top NVC communities fitted using the Czekanowski method, for the site by year."
-                  ) |>
-    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+    kableExtra::kbl(x = nvcAssignmentSite_Czekanowski_prepped, format = "latex", booktabs = TRUE,
+                    longtable = TRUE, linesep = "",
+                    caption = "The top NVC communities fitted using the Czekanowski method, for the site by year."
+                    ) |>
+      kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+     
+   }
   
 }
 
@@ -300,14 +304,19 @@ if("nvcAssignmentResultsGroup_Czekanowski" %in% reportOptions){
   
   cat("## NVC Assignment Czekanowski, by Group")
   
-  nvcAssignmentGroup_Czekanowski_prepped <- nvcAssignmentGroup_Czekanowski |>
-    dplyr::mutate_if(is.numeric, round, digits = 2)
+  if(!is.null(nvcAssignmentGroup_Czekanowski)){
+    
+    nvcAssignmentGroup_Czekanowski_prepped <- nvcAssignmentGroup_Czekanowski |>
+      dplyr::mutate_if(is.numeric, round, digits = 2)
 
-  kableExtra::kbl(x = nvcAssignmentGroup_Czekanowski_prepped, format = "latex", booktabs = TRUE,
-                  longtable = TRUE, linesep = "",
-                  caption = "The top NVC communities fitted using the Czekanowski method, by group and year"
-                  ) |>
-    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+    kableExtra::kbl(x = nvcAssignmentGroup_Czekanowski_prepped, format = "latex", booktabs = TRUE,
+                    longtable = TRUE, linesep = "",
+                    caption = "The top NVC communities fitted using the Czekanowski method, by group and year"
+                    ) |>
+      kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+    
+    
+  }
   
 }
 
