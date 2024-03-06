@@ -5,7 +5,22 @@ setupData <- function(input, output, session, sidebar_options) {
 # Establish reactive objects ----------------------------------------------
   # uploadedTaxonomicBackbone <- reactiveVal()
   # finalTaxonomicBackbone <- reactiveVal()
-  setupData <- reactiveVal()
+  
+  setupData_init <- list(
+    "species_names" = speciesNames,
+    "accepted_species" = acceptedSpecies,
+    "example_data" = example_data_all,
+    "nvc_floristic_tables" = nvc_floristic_tables,
+    "nvc_floristic_tables_numeric" = nvc_floristic_tables_numeric,
+    "nvc_pquads_final" = nvc_pquads_final,
+    "nvc_pquads_final_wide" = nvc_pquads_final_wide,
+    "nvc_pquad_dca_all" = nvc_pquad_dca_all,
+    "nvc_pquad_dca_all_hulls" = nvc_pquad_dca_all_hulls,
+    "nvc_pquad_dca_all_centroids" = nvc_pquad_dca_all_centroids,
+    "nvc_pquads_mean_unweighted_eivs" = nvc_pquads_mean_unweighted_eivs
+  )
+  
+  setupData <- reactiveVal(setupData_init)
 
 # Retrieve sidebar options ------------------------------------------------
   # selectedTaxonomicBackboneMethod <- reactiveVal()
@@ -21,7 +36,8 @@ setupData <- function(input, output, session, sidebar_options) {
     # wcvpCountries(sidebar_options()$wcvpCountries)
     
   }) |>
-    bindEvent(sidebar_options(), ignoreInit = FALSE)
+    bindEvent(sidebar_options(), 
+              ignoreInit = FALSE)
 
 # Update Input Data Based On includeBryophytes ----------------------------
   observe({
@@ -73,20 +89,6 @@ setupData <- function(input, output, session, sidebar_options) {
       
     }
     
-    # setupDataR6$species_names <- species_names_selected
-    # setupDataR6$accepted_species <- accepted_species_selected
-    # setupDataR6$example_data <- example_data_selected
-    # setupDataR6$nvc_floristic_tables <- nvc_floristic_tables_selected
-    # setupDataR6$nvc_floristic_tables_numeric <- nvc_floristic_tables_numeric_selected
-    # setupDataR6$nvc_pquads_final <- nvc_pquads_final_selected
-    # setupDataR6$nvc_pquads_final_wide <- nvc_pquads_final_wide_selected
-    # setupDataR6$nvc_pquad_dca_all <- nvc_pquad_dca_all_selected
-    # setupDataR6$nvc_pquad_dca_all_hulls <- nvc_pquad_dca_all_hulls_selected
-    # setupDataR6$nvc_pquad_dca_all_centroids <- nvc_pquad_dca_all_centroids_selected
-    # setupDataR6$nvc_pquads_mean_unweighted_eivs <- nvc_pquads_mean_unweighted_eivs_selected
-    # 
-    # setupData(setupDataR6)
-    
     setupData_list <- list(
       "species_names" = species_names_selected,
       "accepted_species" = accepted_species_selected,
@@ -105,7 +107,7 @@ setupData <- function(input, output, session, sidebar_options) {
     
   }) |>
     bindEvent(includeBryophytes(),
-              ignoreInit = TRUE,
+              ignoreInit = FALSE,
               ignoreNULL = TRUE)
   
 # Return Setup Data -------------------------------------------------------

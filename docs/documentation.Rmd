@@ -1,6 +1,6 @@
 ---
 title: "RMAVIS - Documentation"
-subtitle: "v0.97"
+subtitle: "v0.98"
 # output: 
 #   bookdown::word_document2:
 # always_allow_html: true
@@ -660,9 +660,23 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.
 
 <details>
 
+<summary>v0.98</summary>
+
+<strong>2024/03/06</strong>
+
+-   Modifications: NA
+-   Fixes:
+      -   Ensuring manual entry works.
+      -   Ensuring single plot samples work.
+-   New Features: NA
+
+</details>
+
+<details>
+
 <summary>v0.97</summary>
 
-<strong>2024/03/XX</strong>
+<strong>2024/03/05</strong>
 
 -   Modifications: NA
 -   Fixes:

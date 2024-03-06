@@ -191,43 +191,51 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
       ) |> 
       dplyr::filter(!(ID %in% site_group_ids_remove))
     
-    # Prepare nvc_floristic_tables_numeric
-    if(!is.null(habitatRestriction())){
+    # Only use Czekanowski index to calculate site and group similarities if there
+    # are floristic tables composed from more than 5 quadrats.
+    if(nrow(floristicTables_prepped) > 0){
       
-      nvc_floristic_tables_numeric_prepped <- nvc_floristic_tables_numeric() |>
-        dplyr::filter(stringr::str_detect(string = NVC.Code, pattern = codes_regex))
+      # Prepare nvc_floristic_tables_numeric
+      if(!is.null(habitatRestriction())){
+        
+        nvc_floristic_tables_numeric_prepped <- nvc_floristic_tables_numeric() |>
+          dplyr::filter(stringr::str_detect(string = NVC.Code, pattern = codes_regex))
+        
+      } else {
+        
+        nvc_floristic_tables_numeric_prepped <- nvc_floristic_tables_numeric()
+        
+      }
       
-    } else {
+      # Calculate NVC Similarity by Site using the Czekanowski index
+      nvcAssignmentSiteGroup_Czekanowski <- similarityCzekanowski(samp_df = floristicTables_prepped,
+                                                                  comp_df = nvc_floristic_tables_numeric_prepped,
+                                                                  samp_species_col = "Species",
+                                                                  comp_species_col = "Species",
+                                                                  samp_group_name = "ID",
+                                                                  comp_group_name = "NVC.Code",
+                                                                  samp_weight_name = "Constancy",
+                                                                  comp_weight_name = "Constancy")
       
-      nvc_floristic_tables_numeric_prepped <- nvc_floristic_tables_numeric()
+      print(floristicTables_prepped)
+      
+      nvcAssignmentSite_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
+        dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$")) |>
+        dplyr::mutate("Year" = ID) |>
+        dplyr::select(Year, NVC.Code, Similarity)|>
+        dplyr::arrange(Year, dplyr::desc(Similarity))
+      
+      nvcAssignmentGroup_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
+        dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$", negate = TRUE)) |>
+        dplyr::mutate("Year" = stringr::str_extract(string = ID, pattern = "\\d{4}")) |>
+        dplyr::mutate("Group" = stringr::str_extract(string = ID, pattern = "(?<=\\s-\\s).*$")) |>
+        dplyr::select(Year, Group, NVC.Code, Similarity) |>
+        dplyr::arrange(Year, Group, dplyr::desc(Similarity))
+      
+      nvcAssignmentSite_Czekanowski_rval(nvcAssignmentSite_Czekanowski)
+      nvcAssignmentGroup_Czekanowski_rval(nvcAssignmentGroup_Czekanowski)
       
     }
-    
-    # Calculate NVC Similarity by Site using the Czekanowski index
-    nvcAssignmentSiteGroup_Czekanowski <- similarityCzekanowski(samp_df = floristicTables_prepped,
-                                                                comp_df = nvc_floristic_tables_numeric_prepped,
-                                                                samp_species_col = "Species",
-                                                                comp_species_col = "Species",
-                                                                samp_group_name = "ID",
-                                                                comp_group_name = "NVC.Code",
-                                                                samp_weight_name = "Constancy",
-                                                                comp_weight_name = "Constancy")
-    
-    nvcAssignmentSite_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
-      dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$")) |>
-      dplyr::mutate("Year" = ID) |>
-      dplyr::select(Year, NVC.Code, Similarity)|>
-      dplyr::arrange(Year, dplyr::desc(Similarity))
-    
-    nvcAssignmentGroup_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
-      dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$", negate = TRUE)) |>
-      dplyr::mutate("Year" = stringr::str_extract(string = ID, pattern = "\\d{4}")) |>
-      dplyr::mutate("Group" = stringr::str_extract(string = ID, pattern = "(?<=\\s-\\s).*$")) |>
-      dplyr::select(Year, Group, NVC.Code, Similarity) |>
-      dplyr::arrange(Year, Group, dplyr::desc(Similarity))
-    
-    nvcAssignmentSite_Czekanowski_rval(nvcAssignmentSite_Czekanowski)
-    nvcAssignmentGroup_Czekanowski_rval(nvcAssignmentGroup_Czekanowski)
     
     shinybusy::remove_modal_spinner()
     
@@ -583,19 +591,39 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
       dplyr::slice(1:nTopResults()) |>
       dplyr::ungroup()
     
-    nvcAssignmentSite_Czekanowski <- nvcAssignmentSite_Czekanowski_rval() |>
-      dplyr::group_by(Year) |>
-      dplyr::slice(1:nTopResults()) |>
-      dplyr::ungroup()
+    if(!is.null(nvcAssignmentSite_Czekanowski_rval())){
+      
+      nvcAssignmentSite_Czekanowski <- nvcAssignmentSite_Czekanowski_rval() |>
+        dplyr::group_by(Year) |>
+        dplyr::slice(1:nTopResults()) |>
+        dplyr::ungroup()
+      
+      # Get all NVC communities and sub-communities from nvc assignment results
+      NVC_communities_all <- nvcAssignmentSite_Czekanowski |>
+        dplyr::pull(NVC.Code)
+      
+    } else {
+      
+      nvcAssignmentSite_Czekanowski <- NULL
+      
+      # Get all NVC communities and sub-communities from nvc assignment results
+      NVC_communities_all <- nvcAssignmentPlot_Jaccard |>
+        dplyr::pull(NVC.Code)
+      
+    }
     
-    nvcAssignmentGroup_Czekanowski <- nvcAssignmentGroup_Czekanowski_rval() |>
-      dplyr::group_by(Year, Group) |>
-      dplyr::slice(1:nTopResults()) |>
-      dplyr::ungroup()
-    
-    # Get all NVC communities and sub-communities from nvc assignment results
-    NVC_communities_all <- nvcAssignmentSite_Czekanowski |>
-      dplyr::pull(NVC.Code)
+    if(!is.null(nvcAssignmentGroup_Czekanowski_rval())){
+      
+      nvcAssignmentGroup_Czekanowski <- nvcAssignmentGroup_Czekanowski_rval() |>
+        dplyr::group_by(Year, Group) |>
+        dplyr::slice(1:nTopResults()) |>
+        dplyr::ungroup()
+      
+    } else {
+      
+      nvcAssignmentGroup_Czekanowski <- NULL
+        
+    }
     
     # Get all NVC communities from community and sub-community codes
     NVC_communities_fromSubCom <- stringr::str_replace(string = NVC_communities_all, 
