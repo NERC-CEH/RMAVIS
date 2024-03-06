@@ -662,7 +662,7 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.
 
 <summary>v0.97</summary>
 
-<strong>2024/03/XX</strong>
+<strong>2024/03/05</strong>
 
 -   Modifications: NA
 -   Fixes:

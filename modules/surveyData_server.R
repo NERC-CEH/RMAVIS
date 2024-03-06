@@ -395,7 +395,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
 
   }) |>
     bindEvent(input$surveyData,
-              ignoreInit = TRUE,
+              ignoreInit = FALSE,
               ignoreNULL = TRUE)
   
 
