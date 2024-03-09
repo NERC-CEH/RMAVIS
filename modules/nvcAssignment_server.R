@@ -217,8 +217,6 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
                                                                   samp_weight_name = "Constancy",
                                                                   comp_weight_name = "Constancy")
       
-      print(floristicTables_prepped)
-      
       nvcAssignmentSite_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
         dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$")) |>
         dplyr::mutate("Year" = ID) |>

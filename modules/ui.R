@@ -12,7 +12,7 @@ ui <- bslib::page_navbar(
       bslib::card_image(file = "www/ukceh_logo_long_720x170_rgb.png", fill = FALSE, width = "300px"),
 
       # App Title
-      shiny::div(shiny::h1("RMAVIS")),
+      shiny::div(shiny::h1("RMAVIS - Beta")),
       
       # bslib::card_image(file = "www/nationalReference.png", fill = FALSE, max_height = "62px"),
       

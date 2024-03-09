@@ -2,7 +2,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
   
   ns <- session$ns
   
-  
 # Retrieve Setup Data -----------------------------------------------------
   speciesNames <- reactiveVal()
 
@@ -19,15 +18,15 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
 # Initialise Table to Replace Species Not In Accepted List ----------------
   speciesAdjustmentTable_init <- data.frame("Species.Submitted" = character(),
                                             "Species.Adjusted" = character(),
-                                            "Species.Ignore" = logical(),
-                                            "Species.Remove" = logical())
+                                            "Species.Ignore" = character(),
+                                            "Species.Remove" = character())
   
   speciesAdjustmentTable_rval <- reactiveVal(speciesAdjustmentTable_init)
   
   output$speciesAdjustmentTable <- rhandsontable::renderRHandsontable({
     
     speciesAdjustmentTable <- rhandsontable::rhandsontable(data = speciesAdjustmentTable_init,
-                                                           height = 300,
+                                                           height = 500,
                                                            rowHeaders = NULL,
                                                            width = "100%"#,
                                                            # overflow = "visible",
@@ -37,6 +36,22 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
       rhandsontable::hot_col(
         col = "Species.Submitted",
         readOnly = TRUE,
+      ) |>
+      rhandsontable::hot_col(
+        col = "Species.Ignore",
+        readOnly = FALSE,
+        type = "dropdown",
+        source = c("No", "Yes"),
+        strict = TRUE,
+        default = as.character("No")
+      ) |>
+      rhandsontable::hot_col(
+        col = "Species.Remove",
+        readOnly = FALSE,
+        type = "dropdown",
+        source = c("No", "Yes"),
+        strict = TRUE,
+        default = as.character("No")
       ) |>
       rhandsontable::hot_cols(colWidths = c(200, 200, 200, 200)) |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
@@ -210,6 +225,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     okToProceed <- isTRUE(all(surveyData_speciesInAccepted, surveyData_yearComplete,
                               surveyData_groupComplete, surveyData_quadratComplete,
                               surveyData_speciesComplete, surveyData_quadratIDUnique,
+                              surveyData_speciesQuadratUnique,
                               surveyData_wide_ok, surveyData_mat_ok,
                               surveyData_groupIDUnique))
 
@@ -260,13 +276,13 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
 
       speciesAdjustmentTable <- data.frame("Species.Submitted" = surveyDataValidation$speciesNotAccepted,
                                            "Species.Adjusted" = as.character(NA_character_),
-                                           "Species.Ignore" = FALSE,
-                                           "Species.Remove" = FALSE) |>
+                                           "Species.Ignore" = "No",
+                                           "Species.Remove" = "No") |>
         dplyr::mutate(
           "Species.Ignore" =
             dplyr::case_when(
-              Species.Submitted %in% surveyDataValidation$speciesToIgnore ~ TRUE,
-              TRUE ~ as.logical(FALSE)
+              Species.Submitted %in% surveyDataValidation$speciesToIgnore ~ "Yes",
+              TRUE ~ as.character("No")
             )
         )
 
@@ -279,7 +295,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     output$speciesAdjustmentTable <- rhandsontable::renderRHandsontable({
 
       speciesAdjustmentTable <- rhandsontable::rhandsontable(data = speciesAdjustmentTable,
-                                                             height = 300,
+                                                             height = 500,
                                                              rowHeaders = NULL,
                                                              width = "100%"#,
                                                              # overflow = "visible",
@@ -297,6 +313,22 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
           source = speciesNames,
           strict = TRUE,
           default = as.character(NA_character_)
+        ) |>
+        rhandsontable::hot_col(
+          col = "Species.Ignore",
+          readOnly = FALSE,
+          type = "dropdown",
+          source = c("No", "Yes"),
+          strict = TRUE,
+          default = as.character("No")
+        ) |>
+        rhandsontable::hot_col(
+          col = "Species.Remove",
+          readOnly = FALSE,
+          type = "dropdown",
+          source = c("No", "Yes"),
+          strict = TRUE,
+          default = as.character("No")
         ) |>
         rhandsontable::hot_cols(colWidths = c(200, 200, 200, 200)) |>
         # rhandsontable::hot_validate_character(cols = "Species.Adjusted", choices = speciesNames) |> # Can't use this when speciesNames is too large!!

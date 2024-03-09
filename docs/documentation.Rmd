@@ -1,6 +1,6 @@
 ---
 title: "RMAVIS - Documentation"
-subtitle: "v0.98"
+subtitle: "v0.981"
 # output: 
 #   bookdown::word_document2:
 # always_allow_html: true
@@ -649,7 +649,7 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.
 @misc{marshall2024,
   author = {Marshall, Z. and Smart, S. and Harrower, C.},
   title = {RMAVIS},
-  howpublished = {Available at https://connect-apps.ceh.ac.uk/RMAVIS/, version 0.97},
+  howpublished = {Available at https://connect-apps.ceh.ac.uk/RMAVIS/, version 0.981},
   month = {02},
   year  = {2024},
   note = {A R Shiny application for the assignment of vegetation survey data to National Vegetation Classification (NVC) communities, with additional exploratory analyses.}
@@ -657,6 +657,18 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.
 ```
 
 # Release Log
+
+<summary>v0.981</summary>
+
+<strong>2024/03/09</strong>
+
+-   Modifications: NA
+-   Fixes:
+      -   Ensuring species-quadrat duplicate check is included in ok to proceed.
+      -   Fixing jump issue in species adjustment table, now using Yes and No.
+-   New Features: NA
+
+</details>
 
 <details>
 
