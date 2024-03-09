@@ -2,26 +2,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
   
   ns <- session$ns
   
-
-# Retrieve Survey Data ----------------------------------------------------
-  surveyData_long <- reactiveVal()
-  surveyData_wide <- reactiveVal()
-  surveyData_mat <- reactiveVal()
-  
-  observe({
-    
-    surveyData <- surveyData()
-    
-    surveyData_long(surveyData$surveyData_long)
-    surveyData_wide(surveyData$surveyData_wide)
-    surveyData_mat(surveyData$surveyData_mat)
-    
-  }) |>
-    bindEvent(surveyData(),
-              ignoreInit = TRUE,
-              ignoreNULL = TRUE)
-  
-  
 # Retrieve Setup Data -----------------------------------------------------
   speciesNames <- reactiveVal()
 
@@ -142,6 +122,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
   
   observe({
     
+    shiny::req(surveyData())
     shiny::req(speciesNames())
     
     surveyData <- surveyData()
@@ -227,16 +208,16 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
 
     surveyData_groupIDDuplicates <- surveyData_groupIDUnique_df
     surveyData_groupIDUnique <- isTRUE(nrow(surveyData_groupIDUnique_df) == 0)
-    
+
     # Check whether it is ok to create the wide and mat surveyData objects
     okToCreateWideMat <- isTRUE(all(surveyData_yearComplete,
                                     surveyData_groupComplete, surveyData_quadratComplete,
                                     surveyData_speciesComplete, surveyData_quadratIDUnique,
                                     surveyData_groupIDUnique))
-    
+
     # Check whether the survey data wide object is ok
     surveyData_wide_ok <- isTRUE(!is.null(surveyData_wide))
-    
+
     # Check whether the survey data mat object is ok
     surveyData_mat_ok <- isTRUE(!is.null(surveyData_mat))
 
@@ -244,6 +225,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     okToProceed <- isTRUE(all(surveyData_speciesInAccepted, surveyData_yearComplete,
                               surveyData_groupComplete, surveyData_quadratComplete,
                               surveyData_speciesComplete, surveyData_quadratIDUnique,
+                              surveyData_speciesQuadratUnique,
                               surveyData_wide_ok, surveyData_mat_ok,
                               surveyData_groupIDUnique))
 
@@ -276,7 +258,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
               speciesNames(),
               input$adjustSpecies,
               speciesAdjustmentTable_rval(),
-              ignoreInit = FALSE,
+              ignoreInit = TRUE,
               ignoreNULL = TRUE)
 
 # Update Table to Replace Species Not In Accepted List --------------------

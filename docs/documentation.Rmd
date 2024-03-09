@@ -1,6 +1,6 @@
 ---
 title: "RMAVIS - Documentation"
-subtitle: "v0.97"
+subtitle: "v0.981"
 # output: 
 #   bookdown::word_document2:
 # always_allow_html: true
@@ -657,6 +657,32 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.
 ```
 
 # Release Log
+
+<summary>v0.981</summary>
+
+<strong>2024/03/09</strong>
+
+-   Modifications: NA
+-   Fixes:
+      -   Ensuring species-quadrat duplicate check is included in ok to proceed.
+      -   Fixing jump issue in species adjustment table, now using Yes and No.
+-   New Features: NA
+
+</details>
+
+<details>
+
+<summary>v0.98</summary>
+
+<strong>2024/03/06</strong>
+
+-   Modifications: NA
+-   Fixes:
+      -   Ensuring manual entry works.
+      -   Ensuring single plot samples work.
+-   New Features: NA
+
+</details>
 
 <details>
 

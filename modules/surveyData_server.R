@@ -417,11 +417,11 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     surveyData <- surveyData_rval()
     surveyData_long <- surveyData$surveyData_long
 
-    # Check whether there are any cover values supplied
-    # noCoverValues <- isFALSE(surveyDataValidation()$coverSupplied)
-    noCoverValues <- isTRUE(surveyData_long$Cover |> unique() |> is.na())
+    # Check whether any and all cover values are supplied
+    coverSupplied <- surveyDataValidation()$coverSupplied
+    # coverSuppliedAll <- surveyDataValidation()$coverSuppliedAll
 
-    if(noCoverValues == TRUE){
+    if(coverSupplied == FALSE){
 
       surveyData_wide <- surveyData_long |>
         dplyr::mutate("Cover" = 1) |>
@@ -438,7 +438,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         dplyr::mutate_all(~replace(., is.na(.), 0)) |>
         as.matrix()
 
-    } else if(noCoverValues == FALSE){
+    } else if(coverSupplied == TRUE){
 
       surveyData_wide <- surveyData_long |>
         tidyr::pivot_wider(names_from = Species,
@@ -460,7 +460,8 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     surveyData_rval(surveyData)
 
   }) |>
-    bindEvent(surveyData_rval(),
+    bindEvent(surveyDataValidation(),
+              surveyData_rval(),
               input$surveyData,
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
