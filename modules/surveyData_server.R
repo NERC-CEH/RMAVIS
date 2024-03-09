@@ -205,7 +205,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   }) |>
     bindEvent(inputMethod(),
               selectedExampleData(),
-              # exampleData(),
               uploadDataTable(),
               ignoreInit = TRUE)
   
@@ -225,10 +224,11 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     isolate({
       
       surveyData <- rhandsontable::hot_to_r(input$surveyData)
+      speciesAdjustmentTable <- speciesAdjustmentTable()
 
-      if(!is.null(speciesAdjustmentTable())){
+      if(!is.null(speciesAdjustmentTable)){
 
-        speciesAdjustmentTable <- speciesAdjustmentTable() |>
+        speciesAdjustmentTable <- speciesAdjustmentTable |>
           dplyr::rename("Species" = Species.Submitted) |>
           dplyr::select(-Species.Ignore)
 
@@ -241,7 +241,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
               TRUE ~ as.character(Species.Adjusted)
             )
           ) |>
-          dplyr::filter(Species.Remove != TRUE | is.na(Species.Remove)) |>
+          dplyr::filter(Species.Remove != "Yes" | is.na(Species.Remove)) |>
           dplyr::select(-Species.Adjusted, -Species.Remove)
         
         surveyData_corrected_rval(surveyData_corrected)

@@ -649,7 +649,7 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.
 @misc{marshall2024,
   author = {Marshall, Z. and Smart, S. and Harrower, C.},
   title = {RMAVIS},
-  howpublished = {Available at https://connect-apps.ceh.ac.uk/RMAVIS/, version 0.97},
+  howpublished = {Available at https://connect-apps.ceh.ac.uk/RMAVIS/, version 0.981},
   month = {02},
   year  = {2024},
   note = {A R Shiny application for the assignment of vegetation survey data to National Vegetation Classification (NVC) communities, with additional exploratory analyses.}

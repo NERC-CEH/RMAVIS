@@ -110,6 +110,8 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
       surveyData_long <- surveyData$surveyData_long
       surveyDataSummary <- surveyDataSummary()
       
+      assign(x = "surveyData_long", value = surveyData_long, envir = .GlobalEnv)
+      
       # Retrieve the site and group ID's for which there are less than the threshold 
       threshold <- 5
       site_group_ids_remove <- surveyDataSummary$surveyDataStructure$quadratsPerID |>

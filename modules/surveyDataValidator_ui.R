@@ -228,7 +228,7 @@ surveyDataValidatorUI <- function(id){
                 "
                 If TRUE all species are recorded only once per quadrat.
                 
-                If FALSE there are quadrats with a species recordeded twice or more. Species must only be recorded once per quadrat.
+                If FALSE there are quadrats with a species recorded twice or more. Species must only be recorded once per quadrat.
 
                 "
               ),
