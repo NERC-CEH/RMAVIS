@@ -58,7 +58,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     )
     
     # Isolate processes to prevent recursion when handling reactive objects not included in bindEvent
-    # shiny::isolate({
+    shiny::isolate({
       
       nvcAssignment <- nvcAssignment()
       topNVCCommunities <- nvcAssignment$topNVCCommunities
@@ -253,7 +253,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
         dplyr::ungroup()
       
       
-    # }) # Close isolate
+    }) # Close isolate
     
     shinybusy::remove_modal_spinner()
     

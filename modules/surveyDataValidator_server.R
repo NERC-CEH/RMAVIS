@@ -136,7 +136,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     if(!is.null(input$speciesAdjustmentTable)){
 
       speciesToIgnore <- rhandsontable::hot_to_r(input$speciesAdjustmentTable) |>
-        dplyr::filter(Species.Ignore == TRUE) |>
+        dplyr::filter(Species.Ignore == "Yes") |>
         dplyr::pull(Species.Submitted)
 
       surveyData_speciesToIgnore <- speciesToIgnore
