@@ -85,7 +85,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("inputMethod"), 
                                   label = "Input Method", 
-                                  choices = inputMethod_options, 
+                                  choices = RMAVIS:::inputMethod_options, 
                                   selected = "none", 
                                   multiple = FALSE),
             
@@ -121,7 +121,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("selectedExampleData"), 
                                   label = "Example Dataset", 
-                                  choices = example_data_options, 
+                                  choices = RMAVIS:::example_data_options, 
                                   selected = "none", 
                                   multiple = FALSE),
             
@@ -228,7 +228,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("resultsViewNVCAssign"),
                                   label = "Results to View",
-                                  choices = resultsViewNVCAssign_options,
+                                  choices = RMAVIS:::resultsViewNVCAssign_options,
                                   selected = c("nvcAssignSiteCzekanowski"),
                                   multiple = FALSE),
             
@@ -263,7 +263,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("habitatRestriction"),
                                   label = "Restrict Habitat",
-                                  choices = habitatRestriction_options,
+                                  choices = RMAVIS:::habitatRestriction_options,
                                   selected = NULL,
                                   multiple = TRUE
             ),
@@ -339,7 +339,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("habCorClass"),
                                   label = "Classification",
-                                  choices = all_habCor_classifications,
+                                  choices = RMAVIS::all_habCor_classifications,
                                   selected = "UKHab - Level5",
                                   multiple = FALSE),
             
@@ -369,6 +369,70 @@ sidebarUI <- function(id){
         "Floristic Tables", 
         
         icon = bsicons::bs_icon("table"),
+        
+        shiny::div(
+          
+          id = ns("floristicTablesViewOpts_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("floristicTablesView"), 
+                                  label = "View Options", 
+                                  choices = RMAVIS:::floristicTablesView_options, 
+                                  selected = "singleComposedVsNVC", 
+                                  multiple = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "View Options",
+              shiny::markdown(
+                "
+                Select a set of floristic tables to view, one of two options:
+                1. Single Composed vs NVC
+                2. Multiple Composed
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("floristicTablesSetViewOpts_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("floristicTablesSetView"), 
+                                  label = "View Options", 
+                                  choices = RMAVIS:::floristicTablesSetView_options, 
+                                  selected = "all", 
+                                  multiple = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "View Options",
+              shiny::markdown(
+                "
+                Select a set of composed floristic tables to view.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
         
         shiny::div(
           
@@ -479,7 +543,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("matchSpecies"), 
                                   label = "Match Species",
-                                  choices = matchSpecies_options, 
+                                  choices = RMAVIS:::matchSpecies_options, 
                                   selected = "", 
                                   multiple = FALSE),
             
@@ -515,7 +579,6 @@ sidebarUI <- function(id){
         
         icon = bsicons::bs_icon("graph-up-arrow")
         
-        
       ),
 
 
@@ -536,7 +599,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("resultsViewEIVs"),
                                   label = "Results to View",
-                                  choices = resultsViewEIVs_options,
+                                  choices = RMAVIS:::resultsViewEIVs_options,
                                   selected = c("unweightedMeanHEValuesSite"),
                                   multiple = FALSE),
             
@@ -582,7 +645,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("resultsViewDiversity"),
                                   label = "Results to View",
-                                  choices = resultsViewDiversity_options,
+                                  choices = RMAVIS:::resultsViewDiversity_options,
                                   selected = c("diversitySummaryTable"),
                                   multiple = FALSE),
             
@@ -627,7 +690,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("dcaAxisSelection"),
                                   label = "Axis Selection",
-                                  choices = dcaAxisSelection_options,
+                                  choices = RMAVIS:::dcaAxisSelection_options,
                                   selected = "dca1dca2",
                                   multiple = FALSE),
             
@@ -663,7 +726,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("nationalReferenceSpaces"),
                                   label = "National Reference Spaces",
-                                  choices = nationalReferenceSpaces_options,
+                                  choices = RMAVIS:::nationalReferenceSpaces_options,
                                   selected = NULL,
                                   multiple = TRUE),
             
@@ -698,7 +761,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("groupSurveyPlots"),
                                   label = "Group Survey Plots",
-                                  choices = groupSurveyPlots_options,
+                                  choices = RMAVIS:::groupSurveyPlots_options,
                                   selected = NULL,
                                   multiple = FALSE),
             
@@ -735,7 +798,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("selectSurveyMethod"),
                                   label = "Survey Quadrat Selection",
-                                  choices = surveyQuadratSelection_options,
+                                  choices = RMAVIS:::surveyQuadratSelection_options,
                                   selected = NULL,
                                   multiple = FALSE),
             
@@ -770,7 +833,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("selectSurveyYears"),
                                   label = "Select Survey Years",
-                                  choices = selectSurveyYears_options,
+                                  choices = RMAVIS:::selectSurveyYears_options,
                                   selected = NULL,
                                   multiple = TRUE,
                                   options = list(minItems = 1)),
@@ -804,7 +867,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("selectSurveyGroups"),
                                   label = "Select Survey Groups",
-                                  choices = selectSurveyGroups_options,
+                                  choices = RMAVIS:::selectSurveyGroups_options,
                                   selected = c("F", "N"),
                                   multiple = TRUE,
                                   options = list(minItems = 1)),
@@ -838,7 +901,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("selectSurveyQuadrats"),
                                   label = "Select Survey Quadrats",
-                                  choices = selectSurveyQuadrats_options,
+                                  choices = RMAVIS:::selectSurveyQuadrats_options,
                                   selected = NULL,
                                   multiple = TRUE,
                                   options = list(minItems = 1)),
@@ -872,7 +935,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("ccaVars"),
                                   label = "CCA Variables",
-                                  choices = ccaVars_options,
+                                  choices = RMAVIS:::ccaVars_options,
                                   selected = "Moisture (F) x Nitrogen (N)",
                                   multiple = FALSE),
             
@@ -904,7 +967,7 @@ sidebarUI <- function(id){
             
             shiny::checkboxGroupInput(inputId = ns("dcaVars"),
                                       label = "Axis Scores",
-                                      choices = dcaVars_options,
+                                      choices = RMAVIS:::dcaVars_options,
                                       selected = c("referenceSpace", "surveyQuadrats", "hillEllenberg")),
             
             bslib::popover(
@@ -1007,7 +1070,7 @@ sidebarUI <- function(id){
             
             shinyWidgets::pickerInput(inputId = ns("reportOptions"),
                                       label = "Report Options",
-                                      choices = reportOptions_options,
+                                      choices = RMAVIS:::reportOptions_options,
                                       selected = c("nvcAssignmentResultsSite_Czekanowski", 
                                                    "composedFloristicTablesSite", 
                                                    "speciesFrequencyTable"),

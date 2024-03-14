@@ -19,6 +19,8 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
       "nTopResults" = input$nTopResults,
       "resultsViewNVCAssign" = input$resultsViewNVCAssign,
       "habCorClass" = input$habCorClass,
+      "floristicTablesView" = input$floristicTablesView,
+      "floristicTablesSetView" = input$floristicTablesSetView,
       "composedFloristicTable" = input$composedFloristicTable,
       "nvcFloristicTable" = input$nvcFloristicTable,
       "matchSpecies" = input$matchSpecies,
@@ -52,6 +54,8 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
               input$nTopResults,
               input$resultsViewNVCAssign,
               input$habCorClass, 
+              input$floristicTablesView,
+              input$floristicTablesSetView,
               input$composedFloristicTable,
               input$nvcFloristicTable, 
               input$matchSpecies,
@@ -75,17 +79,17 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
 # Show/Hide inputMethod-related inputs ------------------------------------
   observe({
     
-    if (input$inputMethod == "manual") {
+    if(input$inputMethod == "manual") {
       
       shinyjs::hide(id = "exampleData_div")
       shinyjs::hide(id = "uploadData_div")
       
-    } else if (input$inputMethod == "example") {
+    } else if(input$inputMethod == "example") {
       
       shinyjs::show(id = "exampleData_div")
       shinyjs::hide(id = "uploadData_div")
       
-    } else if (input$inputMethod == "upload") {
+    } else if(input$inputMethod == "upload") {
       
       shinyjs::hide(id = "exampleData_div")
       shinyjs::show(id = "uploadData_div")
@@ -169,7 +173,6 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
 
 
 # Validate Survey Table Data Modal Popup ----------------------------------
-  
   observe({
     
     shiny::showModal(
@@ -222,7 +225,6 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
               ignoreNULL = TRUE)
   
 # Upload Data Modal Popup -------------------------------------------------
-  
   observe({
     
     shiny::showModal(
@@ -249,6 +251,32 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
     bindEvent(input$uploadData,
               ignoreInit = TRUE)
   
+
+  # Show/Hide Floristic Table Options ---------------------------------------
+  observe({
+    
+    if(input$floristicTablesView == "singleComposedVsNVC") {
+      
+      shinyjs::hide(id = "floristicTablesSetViewOpts_div")
+      shinyjs::show(id = "restrictNVCFlorTablesOpts_div")
+      shinyjs::show(id = "nvcFloristicTable_div")
+      shinyjs::show(id = "composedFloristicTable_div")
+      shinyjs::show(id = "matchSpecies_div")
+      
+    } else if(input$floristicTablesView == "multipleComposed") {
+      
+      shinyjs::show(id = "floristicTablesSetViewOpts_div")
+      shinyjs::hide(id = "restrictNVCFlorTablesOpts_div")
+      shinyjs::hide(id = "nvcFloristicTable_div")
+      shinyjs::hide(id = "composedFloristicTable_div")
+      shinyjs::hide(id = "matchSpecies_div")
+      
+    }
+    
+  }) |>
+    bindEvent(input$floristicTablesView,
+              ignoreInit = FALSE)
+  
   
   # Reactively update nvcFloristicTable options -----------------------------
   observe({
@@ -274,7 +302,7 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
       shiny::updateSelectizeInput(
         session = session,
         inputId = "nvcFloristicTable",
-        choices = nvc_community_codes,
+        choices = RMAVIS::nvc_community_codes,
         selected = topNVCCommunities[1],
         server = TRUE
       )
@@ -286,13 +314,39 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
               nvcAssignment(),
               ignoreInit = TRUE)
   
+
+  # Reactively update floristicTablesSetView options ------------------------
+  observe({
+    
+    if(nrow(floristicTables()$floristicTables_composed_all_wide) != 0){
+      
+      uniq_IDs <- floristicTables()$floristicTables_composed_all_wide |>
+        dplyr::pull(Group) |>
+        unique()
+      
+      names(uniq_IDs) <- uniq_IDs
+      
+      shiny::updateSelectizeInput(
+        session = session,
+        inputId = "floristicTablesSetView",
+        choices = uniq_IDs,
+        selected = NULL,
+        server = FALSE
+      )
+      
+    }
+    
+  }) |>
+    bindEvent(floristicTables(),
+              ignoreInit = TRUE)
+  
   
   # Reactively update composedFloristicTable options ------------------------
   observe({
     
-    if(nrow(floristicTables()) != 0){
+    if(nrow(floristicTables()$floristicTables_composed_all) != 0){
       
-      uniq_IDs <- floristicTables() |>
+      uniq_IDs <- floristicTables()$floristicTables_composed_all |>
         dplyr::pull(ID) |>
         unique()
       
@@ -312,7 +366,6 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
     bindEvent(floristicTables(),
               ignoreInit = TRUE)
   
-
   
 # Reactively update DCA survey quadrat selection method -------------------
   observe({
@@ -560,7 +613,7 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
     
     content = function(file) {
       
-      write.csv(x = acceptedSpecies, file, row.names = FALSE, fileEncoding = "UTF-8")
+      write.csv(x = RMAVIS::acceptedSpecies, file, row.names = FALSE, fileEncoding = "UTF-8")
       
     }
   )

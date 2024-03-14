@@ -118,7 +118,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
                                                 unweightedMeanHEValuesQuadrat_prepped)
       
       # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
-      nvc_pquads_final_wide_prepped_wsurveyDataWide_cca  <- vegan::cca(as.formula(paste0("nvc_pquads_final_wide_prepped_wsurveyDataWide ~ ", paste0(c(ccaVars_vals[[ccaVars()]]), collapse = " + "))), # nvc_pquads_final_wide_prepped_wsurveyDataWide ~ `F` + `L` + `N`
+      nvc_pquads_final_wide_prepped_wsurveyDataWide_cca  <- vegan::cca(as.formula(paste0("nvc_pquads_final_wide_prepped_wsurveyDataWide ~ ", paste0(c(RMAVIS:::ccaVars_vals[[ccaVars()]]), collapse = " + "))), # nvc_pquads_final_wide_prepped_wsurveyDataWide ~ `F` + `L` + `N`
                                                                        data = all_mean_unweighted_eivs_prepped,
                                                                        na.action = na.exclude)
       
@@ -351,7 +351,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
       dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
         dplyr::filter(Group %in% selectSurveyGroups())
 
-    } else if(groupSurveyPlots == "no" && selectSurveyMethod == "selectQuadrats"){
+    } else if(groupSurveyPlots == "no" && selectSurveyMethod() == "selectQuadrats"){
       
       dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
         dplyr::filter(Quadrat %in% selectSurveyQuadrats())

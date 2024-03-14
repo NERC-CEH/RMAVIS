@@ -1,6 +1,6 @@
 ---
 title: "RMAVIS - Documentation"
-subtitle: "v0.982"
+subtitle: "v0.983"
 # output: 
 #   bookdown::word_document2:
 # always_allow_html: true
@@ -640,6 +640,7 @@ Lindsay Maskell,
 Lucy Ridding,
 Barry Jobson,
 Colin Conroy,
+Rob Marrs,
 for testing RMAVIS.
 
 
@@ -647,7 +648,7 @@ We would also like to thank Laurence Jones for providing the Newborough
 Warren example dataset and Lucy Ridding for providing the Parsonage Down
 example dataset.
 
-# Reccomended Citation
+# Recommended Citation
 
 Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.
 
@@ -655,14 +656,29 @@ Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.
 @misc{marshall2024,
   author = {Marshall, Z. and Smart, S. and Harrower, C.},
   title = {RMAVIS},
-  howpublished = {Available at https://connect-apps.ceh.ac.uk/RMAVIS/, version 0.982},
-  month = {02},
+  howpublished = {Available at https://connect-apps.ceh.ac.uk/RMAVIS/, version 0.983},
+  month = {03},
   year  = {2024},
   note = {A R Shiny application for the assignment of vegetation survey data to National Vegetation Classification (NVC) communities, with additional exploratory analyses.}
 }
 ```
 
 # Release Log
+
+<details>
+
+<summary>v0.983</summary>
+
+<strong>2024/03/14</strong>
+
+-   Modifications:
+      -   Converting to R package format.
+-   Fixes:
+      -   Fixing MVA select quadrats.
+-   New Features:
+      -   Adding multiple composed floristic tables.
+
+</details>
 
 <details>
 

@@ -1,0 +1,32 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: RMAVIS
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Zeke
+    family-names: Marshall
+    email: zekmar@ceh.ac.uk
+    affiliation: UKCEH
+    orcid: 'https://orcid.org/0000-0001-9260-7827'
+  - given-names: Simon Smart
+    family-names: Marshall
+    email: ssma@ceh.ac.uk
+    affiliation: UKCEH
+    orcid: 'https://orcid.org/0000-0003-2750-7832'
+  - given-names: Colin Harrower
+    family-names: Marshall
+    email: corr@ceh.ac.uk
+    affiliation: UKCEH
+    orcid: 'https://orcid.org/0000-0001-5070-5293'
+repository-code: 'https://github.com/ZekeMarshall/RMAVIS'
+abstract: 'A R Shiny application for the assignment of vegetation survey plot data to GB NVC communities with additional exploratory analyses.'
+keywords:
+  - NVC
+  - Vegetation Science
+  - Vegetation Survey
+license: MIT

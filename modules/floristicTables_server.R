@@ -4,6 +4,8 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
   
 # Retrieve sidebar options ------------------------------------------------
   
+  floristicTablesView <- reactiveVal()
+  floristicTablesSetView <- reactiveVal()
   composedFloristicTable <- reactiveVal()
   nvcFloristicTable <- reactiveVal()
   matchSpecies <- reactiveVal()
@@ -11,6 +13,8 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
 
   observe({
 
+    floristicTablesView(sidebar_options()$floristicTablesView)
+    floristicTablesSetView(sidebar_options()$floristicTablesSetView)
     composedFloristicTable(sidebar_options()$composedFloristicTable)
     nvcFloristicTable(sidebar_options()$nvcFloristicTable)
     matchSpecies(sidebar_options()$matchSpecies)
@@ -18,8 +22,74 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
 
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
+  
 
-# Initialise Composed Floristic Tables ------------------------------------
+# Create object containing all composed tables ----------------------------
+  floristicTables_composed_all_rval <- reactiveVal()
+  floristicTables_composed_all_wide_rval <- reactiveVal()
+  floristicTables <- reactiveVal()
+  
+  observe({
+    
+    shiny::req(surveyData())
+
+    surveyData <- surveyData()
+    surveyData_long <- surveyData$surveyData_long
+    
+    floristicTables_composed_all <- data.frame("ID" = character(),
+                                               "Species" = character(),
+                                               "Constancy" = factor())
+    
+    ## Create composed floristic tables across all groups ----------------------
+    floristicTables_composed_year_group <- RMAVIS::composeSyntopicTables(surveyData = surveyData_long, 
+                                                                         group_cols = c("Year", "Group"), 
+                                                                         species_col_name = "Species", 
+                                                                         plot_col_name = "Quadrat")
+    
+    floristicTables_composed_year <- RMAVIS::composeSyntopicTables(surveyData = surveyData_long, 
+                                                                   group_cols = c("Year"), 
+                                                                   species_col_name = "Species", 
+                                                                   plot_col_name = "Quadrat")
+    
+    floristicTables_composed_all <- rbind(floristicTables_composed_year, floristicTables_composed_year_group)
+    
+    floristicTables_composed_all_rval(floristicTables_composed_all)
+
+    ## Create wide composed floristic tables -----------------------------------
+
+    floristicTables_composed_all_wide <- floristicTables_composed_all |>
+      dplyr::mutate("Year" = stringr::str_extract(string = ID, pattern = "\\d{4}")) |>
+      dplyr::mutate("Group" = stringr::str_extract(string = ID, pattern = "(?<=\\s-\\s).*$"))
+    
+    floristicTables_composed_all_wide_year <- floristicTables_composed_all_wide |>
+      dplyr::filter(is.na(Group)) |>
+      tidyr::pivot_wider(id_cols = c(Species), names_from = Year, values_from = Constancy) |>
+      dplyr::mutate("Group" = "All", .before = Species)
+    
+    floristicTables_composed_all_wide_yearGroup <- floristicTables_composed_all_wide |>
+      dplyr::filter(!is.na(Group)) |>
+      dplyr::arrange(Group) |>
+      tidyr::pivot_wider(id_cols = c(Group, Species), names_from = Year, values_from = Constancy)
+    
+    floristicTables_composed_all_wide_all <- rbind(floristicTables_composed_all_wide_year,
+                                                   floristicTables_composed_all_wide_yearGroup)
+    
+    
+    floristicTables_composed_all_wide_rval(floristicTables_composed_all_wide_all)
+    
+
+    ## Compose Object to Return From Module ------------------------------------
+    floristicTables(list("floristicTables_composed_all" = floristicTables_composed_all_rval(),
+                         "floristicTables_composed_all_wide" = floristicTables_composed_all_wide_rval()))
+
+  }) |>
+    bindEvent(runAnalysis(),
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE)
+
+  # Create Composed Floristic Table -----------------------------------------
+  
+  ## Initialise Composed Floristic Tables ------------------------------------
   floristicTables_composed_init <- data.frame("Species" = character(),
                                               "Constancy" = character())
   
@@ -41,48 +111,13 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
                                                         class = "my-col",
                                                         align = "center" # Needed as alignment is not passing through to header
                                                       )
-                                                      )
+    )
     
     return(floristicTables_composed)
     
   })
-  
 
-# Create object containing all composed tables ----------------------------
-  floristicTables_composed_all_rval <- reactiveVal()
-  
-  observe({
-    
-    shiny::req(surveyData())
-
-    surveyData <- surveyData()
-    surveyData_long <- surveyData$surveyData_long
-    
-    floristicTables_composed_all <- data.frame("ID" = character(),
-                                               "Species" = character(),
-                                               "Constancy" = factor())
-    
-# Create composed floristic tables across all groups ----------------------
-    
-    floristicTables_composed_year_group <- composeSyntopicTables(surveyData = surveyData_long, 
-                                                                 group_cols = c("Year", "Group"), 
-                                                                 species_col_name = "Species", 
-                                                                 plot_col_name = "Quadrat")
-    
-    floristicTables_composed_year <- composeSyntopicTables(surveyData = surveyData_long, 
-                                                           group_cols = c("Year"), 
-                                                           species_col_name = "Species", 
-                                                           plot_col_name = "Quadrat")
-    
-    floristicTables_composed_all <- rbind(floristicTables_composed_year, floristicTables_composed_year_group)
-    
-    floristicTables_composed_all_rval(floristicTables_composed_all)
-
-  }) |>
-    bindEvent(runAnalysis(),
-              ignoreInit = TRUE, ignoreNULL = TRUE)
-
-# Create Composed Floristic Table -----------------------------------------
+  ## Update Composed Floristic Tables ----------------------------------------
   observe({
     
     shiny::req(floristicTables_composed_all_rval())
@@ -97,7 +132,7 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
         dplyr::filter(ID == composedFloristicTable()) |>
         dplyr::select(-ID)
       
-      floristicTables_nvc <- nvc_floristic_tables |>
+      floristicTables_nvc <- RMAVIS::nvc_floristic_tables |>
         dplyr::filter(NVC.Code == nvcFloristicTable()) |>
         dplyr::select(-NVC.Code) |>
         dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
@@ -206,11 +241,134 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
     
   })
   
+  # Create All Wide Composed Year Floristic Table ------------------------------
+  
+  ## Initialise All Wide Composed Year Floristic Table -------------------------
+  floristicTablesWide_composed_init <- data.frame("Species" = character(),
+                                                  "Constancy" = character())
 
-# NVC Floristic Tables ----------------------------------------------------
+  output$floristicTablesWide_composed <- reactable::renderReactable({
 
+    floristicTablesWide_composed <-  reactable::reactable(data = floristicTablesWide_composed_init,
+                                                          filterable = FALSE,
+                                                          pagination = FALSE,
+                                                          highlight = TRUE,
+                                                          bordered = TRUE,
+                                                          sortable = TRUE,
+                                                          wrap = FALSE,
+                                                          resizable = TRUE,
+                                                          class = "my-tbl",
+                                                          # style = list(fontSize = "1rem"),
+                                                          rowClass = "my-row",
+                                                          defaultColDef = reactable::colDef(
+                                                            headerClass = "my-header",
+                                                            class = "my-col",
+                                                            align = "center" # Needed as alignment is not passing through to header
+                                                          ),
+                                                          columns = list(
+                                                            Species = reactable::colDef(
+                                                              minWidth = 275,
+                                                              sticky = "left",
+                                                              style = list(borderRight = "1px solid #eee"),
+                                                              headerStyle = list(borderRight = "1px solid #eee")
+                                                            )
+                                                          )
+       )
 
-# Intialise NVC Floristic Table -------------------------------------------
+    return(floristicTablesWide_composed)
+
+  })
+  
+  ## Update All Wide Composed Year Floristic Tables ---------------------------
+  observe({
+    
+    shiny::req(floristicTables_composed_all_wide_rval())
+    
+    # Retrieve the table, optionally modify the table without triggering recursion.
+    shiny::isolate({
+      
+      floristicTables_composed_all_wide <- floristicTables_composed_all_wide_rval()
+      
+      floristicTables_composed_all_wide_selected <-floristicTables_composed_all_wide |>
+        dplyr::filter(Group == floristicTablesSetView()) |>
+        dplyr::select(-Group)
+      
+    }) # close isolate
+    
+    output$floristicTablesWide_composed <- reactable::renderReactable({
+
+      floristicTablesWide_composed <- reactable::reactable(data = floristicTables_composed_all_wide_selected,
+                                                           filterable = FALSE,
+                                                           pagination = FALSE,
+                                                           highlight = TRUE,
+                                                           bordered = TRUE,
+                                                           sortable = TRUE,
+                                                           wrap = FALSE,
+                                                           resizable = TRUE,
+                                                           class = "my-tbl",
+                                                           # style = list(fontSize = "1rem"),
+                                                           rowClass = "my-row",
+                                                           defaultColDef = reactable::colDef(
+                                                             headerClass = "my-header",
+                                                             class = "my-col",
+                                                             align = "center" # Needed as alignment is not passing through to header
+                                                           ),
+                                                           columns = list(
+                                                             Species = reactable::colDef(
+                                                               minWidth = 275,
+                                                               sticky = "left",
+                                                               style = list(borderRight = "1px solid #eee"),
+                                                               headerStyle = list(borderRight = "1px solid #eee")
+                                                             )
+                                                           )
+          )
+
+      return(floristicTablesWide_composed)
+
+    })
+    
+  }) |>
+    bindEvent(floristicTables_composed_all_wide_rval(),
+              floristicTablesSetView(),
+              ignoreInit = TRUE, ignoreNULL = TRUE)
+  
+  
+  outputOptions(output, "floristicTablesWide_composed", suspendWhenHidden = FALSE)
+  
+  ## Create All Wide Composed Year Floristic Table Title -----------------
+  floristicTablesWide_composedTitle_rval <- reactiveVal(paste("<font size=4.75>",
+                                                        "Composed Floristic Tables ",
+                                                        "</font>") 
+                                                        )
+  
+  observe({
+    
+    shiny::req(surveyDataSummary())
+    shiny::req(floristicTables_composed_all_wide_rval())
+    
+    floristicTablesWide_composedTitle <- paste("<font size=4.75>",
+                                               floristicTablesSetView(),
+                                               "</font>",
+                                               sep = "")
+
+    floristicTablesWide_composedTitle_rval(floristicTablesWide_composedTitle)
+    
+  }) |>
+    bindEvent(surveyDataSummary(), 
+              floristicTablesSetView(),
+              ignoreInit = TRUE, ignoreNULL = TRUE)
+  
+  output$floristicTablesWide_composedTitle <- renderText({ 
+    
+    floristicTablesWide_composedTitle <- floristicTablesWide_composedTitle_rval()
+    
+    paste(floristicTablesWide_composedTitle) 
+    
+  })
+
+  # NVC Floristic Tables ----------------------------------------------------
+
+  ## Intialise NVC Floristic Table -------------------------------------------
   floristicTables_nvc_init <- data.frame("Species" = character(),
                                          "Constancy" = character())
   
@@ -238,6 +396,8 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
     
   })
   
+
+  ## Update NVC Floristic Table ----------------------------------------------
   observe({
     
     # shiny::req(input$floristicTables_nvc)
@@ -253,7 +413,7 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
         dplyr::filter(ID == composedFloristicTable()) |>
         dplyr::select(-ID)
       
-      floristicTables_nvc <- nvc_floristic_tables |>
+      floristicTables_nvc <- RMAVIS::nvc_floristic_tables |>
         dplyr::filter(NVC.Code == nvcFloristicTable()) |>
         dplyr::select(-NVC.Code) |>
         dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
@@ -321,7 +481,7 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
   outputOptions(output, "floristicTables_nvc", suspendWhenHidden = FALSE)
   
   
-  ## Create Composed Floristic Table Title -----------------------------------
+  ## Create NVC Floristic Table Title -----------------------------------
   nvcFloristicTableTitle_rval <- reactiveVal(paste("<font size=4.75>",
                                                    "NVC Floristic Table ",
                                                    "</font>") 
@@ -354,7 +514,27 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
   })
   
 
-# Return Data -------------------------------------------------------------
-  return(floristicTables_composed_all_rval)
+  # Show/Hide Selected Tables -----------------------------------------------
+  observe({
+    
+    if(floristicTablesView() == "singleComposedVsNVC") {
+      
+      shinyjs::show(id = "singleComposedVsNVC_div")
+      shinyjs::hide(id = "multipleComposed_div")
+      
+    } else if(floristicTablesView() == "multipleComposed") {
+      
+      shinyjs::hide(id = "singleComposedVsNVC_div")
+      shinyjs::show(id = "multipleComposed_div")
+      
+    }
+    
+  }) |>
+    bindEvent(floristicTablesView(), 
+              ignoreInit = FALSE)
+  
+
+  # Return Data -------------------------------------------------------------
+  return(floristicTables)
   
 }

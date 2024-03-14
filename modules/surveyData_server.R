@@ -95,7 +95,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         col = "Species",
         readOnly = FALSE,
         type = "dropdown",
-        source = speciesNames,
+        source = RMAVIS::speciesNames,
         strict = FALSE,
         default = as.character(NA_character_)
       ) |>
@@ -130,7 +130,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         
       } else if(inputMethod() == "example"){
         
-        surveyData <- example_data_all |> # exampleData()
+        surveyData <- RMAVIS::example_data_all |>
           dplyr::filter(Site == selectedExampleData()) |>
           dplyr::select(-Site) |>
           dplyr::arrange(Year, Group, Quadrat)
@@ -178,7 +178,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
           col = "Species",
           readOnly = FALSE,
           type = "dropdown",
-          source = speciesNames,
+          source = RMAVIS::speciesNames,
           strict = FALSE,
           default = as.character(NA_character_)
         ) |>

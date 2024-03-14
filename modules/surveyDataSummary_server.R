@@ -64,14 +64,14 @@ surveyDataSummary <- function(input, output, session, surveyData) {
       dplyr::mutate(
         "Hill-Ellenberg" = 
           dplyr::case_when(
-            Species %in% unique(dplyr::filter(master_data, !is.na(`F`)) |> dplyr::pull(species)) ~ "Yes",
+            Species %in% unique(dplyr::filter(RMAVIS::master_data, !is.na(`F`)) |> dplyr::pull(species)) ~ "Yes",
             TRUE ~ as.character("No")
           )
       ) |>
       dplyr::mutate(
         "NVC" = 
           dplyr::case_when(
-            Species %in% unique(nvc_floristic_tables$Species) ~ "Yes",
+            Species %in% unique(RMAVIS::nvc_floristic_tables$Species) ~ "Yes",
             TRUE ~ as.character("No")
           )
       )
