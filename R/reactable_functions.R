@@ -1,6 +1,6 @@
 #' Modify a reactable table to provide a dropdown menu
 #' 
-#' Modify a `reactable` table to provide a dropdown mene containing all unique values in a column.
+#' Modify a `reactable` table to provide a dropdown menu containing all unique values in a column.
 #' Apply this function in a column definition within the 'columns' or 'defaultColDef' argument of `reactable::reactable()` using `reactable::colDef()`.
 #'
 #' Taken from the `reactable` documentation found here: https://glin.github.io/reactable/articles/custom-filtering.html
