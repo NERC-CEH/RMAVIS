@@ -143,7 +143,7 @@ reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAss
 
 ```{r RMAVISVersion, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-cat("**Version:** ", as.character("v0.983"), sep = "")
+cat("**Version:** ", as.character("v0.99"), sep = "")
 
 ```
 

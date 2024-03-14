@@ -3,13 +3,11 @@ taxonomicBackboneMethod_options <- c("Bundled" = "bundled",
                                      "Upload" = "upload",
                                      "Kew WCVP" = "wcvp",
                                      "Syntopic Tables" = "syntopicTables")
-usethis::use_data(taxonomicBackboneMethod_options, overwrite = TRUE, internal = TRUE)
 
 # Input method options ----------------------------------------------------
 inputMethod_options <- c("Manual" = "manual",
                          "Example" = "example",
                          "Upload" = "upload")
-usethis::use_data(inputMethod_options, overwrite = TRUE, internal = TRUE)
 
 # Example data options ----------------------------------------------------
 example_data_options <- c("None" = "none", 
@@ -17,14 +15,12 @@ example_data_options <- c("None" = "none",
                           "Whitwell Common (M)" = "Whitwell Common",
                           "Leith Hill Place Wood (W)" = "Leith Hill Place Wood",
                           "Newborough Warren (SD)" = "Newborough Warren")
-usethis::use_data(example_data_options, overwrite = TRUE, internal = TRUE)
 
 # Data Entry Format Options -----------------------------------------------
 dataEntryFormat_options <- c("Long" = "long",
                              "Wide" = "wide",
                              "Matrix" = "matrix",
                              "MAVIS" = "mavis")
-usethis::use_data(dataEntryFormat_options, overwrite = TRUE, internal = TRUE)
 
 # Domin Cover -------------------------------------------------------------
 dominCoverMidPointPerc <- c("10" = 0.955,
@@ -37,7 +33,6 @@ dominCoverMidPointPerc <- c("10" = 0.955,
                             "3" = 0.04,
                             "2" = 0.025,
                             "1" = 0.01)
-usethis::use_data(dominCoverMidPointPerc, overwrite = TRUE, internal = TRUE)
 
 dominCoverVals <- c("91-100%" = 10,
                     "76-90%" = 9,
@@ -49,7 +44,6 @@ dominCoverVals <- c("91-100%" = 10,
                     "<4% (many individuals)" = 3,
                     "<4% (several individuals)" = 2,
                     "<4% (few individuals)" = 1)
-usethis::use_data(dominCoverVals, overwrite = TRUE, internal = TRUE)
 
 dominCoverValsRev <- c("10" = "91-100%",
                        "9" = "76-90%",
@@ -61,7 +55,6 @@ dominCoverValsRev <- c("10" = "91-100%",
                        "3" = "<4% (many individuals)",
                        "2" = "<4% (several individuals)",
                        "1" = "<4% (few individuals)")
-usethis::use_data(dominCoverValsRev, overwrite = TRUE, internal = TRUE)
 
 # Frequency Classes -------------------------------------------------------
 freqClasses_numToPerc <- list(
@@ -71,7 +64,6 @@ freqClasses_numToPerc <- list(
   "IV" = "61-80%",
   "V" = "81-100%"
 )
-usethis::use_data(freqClasses_numToPerc, overwrite = TRUE, internal = TRUE)
 
 freqClasses_numToName <- list(
   "I" = "Scarce",
@@ -80,14 +72,12 @@ freqClasses_numToName <- list(
   "IV" = "Constant",
   "V" = "Contant"
 )
-usethis::use_data(freqClasses_numToName, overwrite = TRUE, internal = TRUE)
 
 # Cover Method Options ----------------------------------------------------
 coverMethod_options <- list(
   "Direct Percentage" = "directPercentage",
   "Domin Class" = "dominCover"
 )
-usethis::use_data(coverMethod_options, overwrite = TRUE, internal = TRUE)
 
 # Habitat Restriction Options ---------------------------------------------
 habitatRestriction_options <- list(
@@ -104,27 +94,22 @@ habitatRestriction_options <- list(
   "Maritime cliff communities (MC)" = "MC",
   "Vegetation of open habitats (OV)" = "OV"
 )
-usethis::use_data(habitatRestriction_options, overwrite = TRUE, internal = TRUE)
 
 # Floristic Tables Options ------------------------------------------------
 floristicTablesView_options <- c("Single Composed vs NVC" = "singleComposedVsNVC",
                                  "Multiple Composed" = "multipleComposed")
-usethis::use_data(floristicTablesView_options, overwrite = TRUE, internal = TRUE)
 
 # Initialise the set of floristic tables to view, will be updated in sidebar_server
 floristicTablesSetView_options <- c("all")
-usethis::use_data(floristicTablesSetView_options, overwrite = TRUE, internal = TRUE)
 
 matchSpecies_options <- c("No" = "No",
                           "Composed to NVC" = "compToNVC",
                           "NVC to Composed" = "NVCToComp")
-usethis::use_data(matchSpecies_options, overwrite = TRUE, internal = TRUE)
 
 # Results to View NVC Assignment ------------------------------------------
 resultsViewNVCAssign_options <- c("Site, Czekanowski" = "nvcAssignSiteCzekanowski",
                                   "Group, Czekanowski" = "nvcAssignGroupCzekanowski",
                                   "Quadrat, Jaccard" = "nvcAssignPlotJaccard")
-usethis::use_data(resultsViewNVCAssign_options, overwrite = TRUE, internal = TRUE)
 
 # Results to View EIVs ----------------------------------------------------
 resultsViewEIVs_options <- c("Weighted Mean Hill-Ellenberg Values, by Site" = "weightedMeanHEValuesSite",
@@ -133,7 +118,6 @@ resultsViewEIVs_options <- c("Weighted Mean Hill-Ellenberg Values, by Site" = "w
                              "Unweighted Mean Hill-Ellenberg Values, by Group" = "unweightedMeanHEValuesGroup",
                              "Weighted Mean Hill-Ellenberg Values, by Quadrat" = "weightedMeanHEValuesQuadrat",
                              "Unweighted Mean Hill-Ellenberg Values, by Quadrat" = "unweightedMeanHEValuesQuadrat")
-usethis::use_data(resultsViewEIVs_options, overwrite = TRUE, internal = TRUE)
 
 # Results to View Diversity -----------------------------------------------
 resultsViewDiversity_options <- c("Site Summary Table"  = "diversitySummaryTable",
@@ -141,13 +125,11 @@ resultsViewDiversity_options <- c("Site Summary Table"  = "diversitySummaryTable
                                   "Species Richness, by Site" = "speciesRichnessSite",
                                   "Species Richness, by Group" = "speciesRichnessGroup",
                                   "Species Richness, by Quadrat" = "speciesRichnessQuadrat")
-usethis::use_data(resultsViewDiversity_options, overwrite = TRUE, internal = TRUE)
 
 # DCA Axis Selection Options ----------------------------------------------
 dcaAxisSelection_options <- c("DCA1 vs DCA2" = "dca1dca2",
                               "DCA1 vs DCA3" = "dca1dca3",
                               "DCA2 vs DCA3" = "dca2dca3")
-usethis::use_data(dcaAxisSelection_options, overwrite = TRUE, internal = TRUE)
 
 # DCA Variable Options To Show --------------------------------------------
 dcaVars_options <- c("Survey Quadrats" = "surveyQuadrats",
@@ -158,7 +140,6 @@ dcaVars_options <- c("Survey Quadrats" = "surveyQuadrats",
                      "Unique Survey Species" = "uniqSurveySpecies",
                      "Hill-Ellenberg" = "hillEllenberg",
                      "Survey Quadrat Change" = "surveyQuadratChange")
-usethis::use_data(dcaVars_options, overwrite = TRUE, internal = TRUE)
 
 # CCA options -------------------------------------------------------------
 ccaVars_vals <- list("FN" = c("F", "N"),
@@ -171,7 +152,6 @@ ccaVars_vals <- list("FN" = c("F", "N"),
                      "RL" = c("R", "L"),
                      "RS" = c("R", "S"),
                      "LS" = c("L", "S"))
-usethis::use_data(ccaVars_vals, overwrite = TRUE, internal = TRUE)
 
 ccaVars_options <- c("Moisture (F) x Nitrogen (N)" = "FN",
                      "Moisture (F) x Reaction (R)" = "FR",
@@ -183,33 +163,26 @@ ccaVars_options <- c("Moisture (F) x Nitrogen (N)" = "FN",
                      "Reaction (R) x Light (L)" = "RL",
                      "Reaction (R) x Salinity (S)" = "RS",
                      "Light (L) x Salinity (S)" = "LS")
-usethis::use_data(ccaVars_options, overwrite = TRUE, internal = TRUE)
 
 # Global Reference DCA Space Options --------------------------------------
 nationalReferenceSpaces_options <- sort(c(c("A", "CG", "H", "M", "MC", "MG", "OV", "S", "SD", "SM", "U", "W"), setdiff(readRDS(file = "./inst/extdata/nvc_community_codes.rds"), c("SM1", "SM1a", "SM1b"))))
-usethis::use_data(nationalReferenceSpaces_options, overwrite = TRUE, internal = TRUE)
 
 # DCA Survey Quadrat Options ----------------------------------------------
 surveyQuadratSelection_options <- c("All" = "all",
                                     "Select Years" = "selectYears",
                                     "Select Groups" = "selectGroups",
                                     "Select Quadrats" = "selectQuadrats")
-usethis::use_data(surveyQuadratSelection_options, overwrite = TRUE, internal = TRUE)
 
 selectSurveyYears_options <- c()
-usethis::use_data(selectSurveyYears_options, overwrite = TRUE, internal = TRUE)
 
 selectSurveyQuadrats_options <- c()
-usethis::use_data(selectSurveyQuadrats_options, overwrite = TRUE, internal = TRUE)
 
 selectSurveyGroups_options <- c()
-usethis::use_data(selectSurveyGroups_options, overwrite = TRUE, internal = TRUE)
 
 # Group Survey Plots Options ----------------------------------------------
 groupSurveyPlots_options <- c("No" = "no",
                               "Group" = "group",
                               "Year" = "year")
-usethis::use_data(groupSurveyPlots_options, overwrite = TRUE, internal = TRUE)
 
 # Report Options ----------------------------------------------------------
 reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAssignmentResultsSite_Czekanowski",
@@ -234,4 +207,36 @@ reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAss
                                         "Local (unrestricted)" = "mvaLocalReferenceUnrestricted"),
                               `Survey Table` = c("Survey Table" = "surveyData")
     )
-usethis::use_data(reportOptions_options, overwrite = TRUE, internal = TRUE)
+
+
+# Save all constants as internal data -------------------------------------
+usethis::use_data(taxonomicBackboneMethod_options,
+                  inputMethod_options,
+                  example_data_options,
+                  dataEntryFormat_options,
+                  dominCoverMidPointPerc,
+                  dominCoverVals,
+                  dominCoverValsRev,
+                  freqClasses_numToPerc,
+                  freqClasses_numToName,
+                  coverMethod_options,
+                  habitatRestriction_options,
+                  floristicTablesView_options,
+                  floristicTablesSetView_options,
+                  matchSpecies_options,
+                  resultsViewNVCAssign_options,
+                  resultsViewEIVs_options,
+                  resultsViewDiversity_options,
+                  dcaAxisSelection_options,
+                  dcaVars_options,
+                  ccaVars_vals,
+                  ccaVars_options,
+                  nationalReferenceSpaces_options,
+                  surveyQuadratSelection_options,
+                  selectSurveyYears_options,
+                  selectSurveyQuadrats_options,
+                  selectSurveyGroups_options,
+                  groupSurveyPlots_options,
+                  reportOptions_options,
+                  overwrite = TRUE,
+                  internal = TRUE)

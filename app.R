@@ -1,6 +1,9 @@
 # Silence dplyr::summarise() messages -------------------------------------
 options(dplyr.summarise.inform = FALSE)
 
+# Load the RMAVIS package -------------------------------------------------
+pkgload::load_all(path = ".")
+
 # Load required packages --------------------------------------------------
 # Shiny-related
 library(shiny)
