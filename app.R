@@ -2,22 +2,30 @@
 options(dplyr.summarise.inform = FALSE)
 
 # Load required packages --------------------------------------------------
-source("R/load_packages.R", local = TRUE)
+# Shiny-related
+library(shiny)
+library(rhandsontable)
+library(reactable)
+library(bslib)
+library(shinyWidgets)
+library(shinyjs)
+library(shinybusy)
 
-# Load data into memory ---------------------------------------------------
-source("R/load_data.R", local = TRUE)
+# General
+library(rmarkdown)
+library(bookdown)
+library(tidyverse)
+library(plotly)
+library(kableExtra)
+library(checkmate)
+library(janitor)
 
-# Create constants and hold in memory -------------------------------------
-source("R/create_constants.R", local = TRUE)
+# Ecology
+library(assignNVC)
+library(vegan)
 
 # Render documentation ----------------------------------------------------
-# This can be disabled if one wishes to pre-render the documentation manually.
-source("R/render_docs.R", local = TRUE)
-
-# Source functions --------------------------------------------------------
-source("R/syntopicTable_functions.R", local = TRUE)
-source("R/similarity_functions.R", local = TRUE)
-source("R/reactable_functions.R", local = TRUE)
+rmarkdown::render(input = "docs/documentation.Rmd",  output_dir = "www")
 
 # Source sub-modules ------------------------------------------------------
 source("modules/privacy_ui.R", local = TRUE)
@@ -46,8 +54,6 @@ source("modules/surveyDataSummary_server.R", local = TRUE)
 
 source("modules/floristicTables_ui.R", local = TRUE)
 source("modules/floristicTables_server.R", local = TRUE)
-
-# source("modules/selectedPquads_server.R", local = TRUE)
 
 source("modules/nvcAssignment_ui.R", local = TRUE)
 source("modules/nvcAssignment_server.R", local = TRUE)

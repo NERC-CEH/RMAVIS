@@ -11,7 +11,7 @@ nvcInfo <- function(input, output, session, sidebar_options) {
   
   # Initial survey table data -----------------------------------------------
   
-  nvcInfoLookupTable_init <- nvc_community_namesCodes |>
+  nvcInfoLookupTable_init <- RMAVIS::nvc_community_namesCodes |>
     dplyr::select(NVC.Code, NVC.Name)
   
   # Survey Data Entry Table -------------------------------------------------

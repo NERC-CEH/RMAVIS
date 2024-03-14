@@ -1,4 +1,14 @@
-# Compose floristic tables from surveyData
+#' Compose a set of syntopic tables
+#'
+#' @param surveyData A n-column dataframe containing atleast one ID columns, for example year and group.
+#' @param group_cols A vector of columns to group the surveyData by and from which to compose syntopic tables
+#' @param species_col_name The name of the species column
+#' @param plot_col_name The name of the plot ID column
+#'
+#' @return A  
+#' @export
+#'
+#' @example 
 composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Species", plot_col_name = "Quadrat"){
   
   syntopicTables <- surveyData |>

@@ -46,6 +46,8 @@ surveyDataSummary <- params$surveyDataSummary
 nvcAssignment <- params$nvcAssignment
 sidebar_options <- params$sidebar_options
 floristicTables <- params$floristicTables
+floristicTables_composed_all <- floristicTables$floristicTables_composed_all
+floristicTables_composed_all_wide <- floristicTables$floristicTables_composed_all_wide
 speciesFreq <- params$speciesFreq
 avgEIVs <- params$avgEIVs
 diversityAnalysis <- params$diversityAnalysis
@@ -141,7 +143,7 @@ reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAss
 
 ```{r RMAVISVersion, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-cat("**Version:** ", as.character("v0.982"), sep = "")
+cat("**Version:** ", as.character("v0.983"), sep = "")
 
 ```
 
@@ -359,9 +361,9 @@ if("composedFloristicTablesSite" %in% reportOptions){
   
   cat("## Composed Floristic Tables, by Site")
   
-  for(id in unique(floristicTables$ID)){
+  for(id in unique(floristicTables_composed_all$ID)){
 
-    floristicTables_selected <- floristicTables |>
+    floristicTables_selected <- floristicTables_composed_all |>
       dplyr::filter(ID == id) |>
       dplyr::select(-ID)
   
@@ -383,9 +385,9 @@ if("composedFloristicTablesGroup" %in% reportOptions){
   
   cat("## Composed Floristic Tables, by Group")
   
-  for(id in unique(floristicTables$ID)){
+  for(id in unique(floristicTables_composed_all$ID)){
 
-    floristicTables_selected <- floristicTables |>
+    floristicTables_selected <- floristicTables_composed_all |>
       dplyr::filter(ID == id) |>
       dplyr::select(-ID)
   

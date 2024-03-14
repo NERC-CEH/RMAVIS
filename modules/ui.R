@@ -30,15 +30,6 @@ ui <- bslib::page_navbar(
   id = "nav",
   
   sidebar = sidebarUI(id = "sidebar_id_1"),
-  
-  # sidebar = bslib::sidebar(
-  # 
-  #   shiny::conditionalPanel(
-  #     condition = "input.nav === 'Application'",
-  #     sidebarUI(id = "sidebar_id_1")
-  #   )
-  #   
-  # ),
 
   tags$head(includeCSS("www/style.css")),
   

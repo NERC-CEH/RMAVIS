@@ -96,8 +96,6 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     shiny::req(floristicTables())
     shiny::req(surveyDataSummary())
     
-    # req(isFALSE(runAnalysis() == 0))
-    
     shinybusy::show_modal_spinner(
       spin = "fading-circle",
       color = "#3F9280",
@@ -172,12 +170,13 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
         
       nvcAssignmentPlot_Jaccard_rval(nvcAssignmentPlot_Jaccard_prepped)
       
-    })
+    }) # close isolate
     
     # Prepare composed floristicTables
     floristicTables <- floristicTables()
+    floristicTables_composed_all <- floristicTables$floristicTables_composed_all
     
-    floristicTables_prepped <- floristicTables  |>
+    floristicTables_prepped <- floristicTables_composed_all  |>
       dplyr::mutate(
         "Constancy" = 
           dplyr::case_when(
@@ -208,14 +207,14 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
       }
       
       # Calculate NVC Similarity by Site using the Czekanowski index
-      nvcAssignmentSiteGroup_Czekanowski <- similarityCzekanowski(samp_df = floristicTables_prepped,
-                                                                  comp_df = nvc_floristic_tables_numeric_prepped,
-                                                                  samp_species_col = "Species",
-                                                                  comp_species_col = "Species",
-                                                                  samp_group_name = "ID",
-                                                                  comp_group_name = "NVC.Code",
-                                                                  samp_weight_name = "Constancy",
-                                                                  comp_weight_name = "Constancy")
+      nvcAssignmentSiteGroup_Czekanowski <- RMAVIS::similarityCzekanowski(samp_df = floristicTables_prepped,
+                                                                          comp_df = nvc_floristic_tables_numeric_prepped,
+                                                                          samp_species_col = "Species",
+                                                                          comp_species_col = "Species",
+                                                                          samp_group_name = "ID",
+                                                                          comp_group_name = "NVC.Code",
+                                                                          samp_weight_name = "Constancy",
+                                                                          comp_weight_name = "Constancy")
       
       nvcAssignmentSite_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
         dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$")) |>
@@ -239,7 +238,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     
   }) |>
     bindEvent(runAnalysis(),
-              ignoreInit = TRUE)
+              ignoreInit = FALSE)
 
 
 # Intialise NVC Assignment Site Table -------------------------------------

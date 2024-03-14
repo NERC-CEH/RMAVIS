@@ -38,7 +38,6 @@ server <- function(input, output, session) {
   
   floristicTables <- shiny::callModule(module = floristicTables,
                                        id = "floristicTables_id_1",
-                                       # setupData = setupData, # Should use setupData to remove bryophytes from floristic tables?
                                        surveyData = surveyData,
                                        surveyDataSummary = surveyDataSummary,
                                        sidebar_options = sidebar_options)

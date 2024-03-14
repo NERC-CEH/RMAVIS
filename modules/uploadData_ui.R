@@ -21,7 +21,7 @@ uploadDataUI <- function(id) {
         
         shiny::selectizeInput(inputId = ns("dataEntryFormat"),
                               label = "Data Entry Format",
-                              choices = dataEntryFormat_options,
+                              choices = RMAVIS:::dataEntryFormat_options,
                               selected = "table",
                               multiple = FALSE),
         

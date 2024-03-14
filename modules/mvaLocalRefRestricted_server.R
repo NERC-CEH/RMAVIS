@@ -95,7 +95,7 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
         tibble::column_to_rownames(var = "Pid3")
   
       # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
-      selected_pquads_prepped_cca  <- vegan::cca(as.formula(paste0("selected_pquads_prepped ~ ", paste0(c(ccaVars_vals[[ccaVars()]]), collapse = " + "))), # selected_pquads_prepped ~ `F` + `L` + `N`
+      selected_pquads_prepped_cca  <- vegan::cca(as.formula(paste0("selected_pquads_prepped ~ ", paste0(c(RMAVIS:::ccaVars_vals[[ccaVars()]]), collapse = " + "))), # selected_pquads_prepped ~ `F` + `L` + `N`
                                                  data = nvc_pquads_mean_unweighted_eivs_prepped,
                                                  na.action = na.exclude)
       
