@@ -22,62 +22,40 @@ dataEntryFormat_options <- c("Long" = "long",
                              "Matrix" = "matrix",
                              "MAVIS" = "mavis")
 
-# Domin Cover -------------------------------------------------------------
-dominCoverMidPointPerc <- c("10" = 0.955,
-                            "9" = 0.83,
-                            "8" = 0.58,
-                            "7" = 0.42,
-                            "6" = 0.295,
-                            "5" = 0.18,
-                            "4" = 0.07,
-                            "3" = 0.04,
-                            "2" = 0.025,
-                            "1" = 0.01)
 
-dominCoverVals <- c("91-100%" = 10,
-                    "76-90%" = 9,
-                    "51-75%" = 8,
-                    "34-50%" = 7,
-                    "26-33%" = 6,
-                    "11-25%" = 5,
-                    "4-10%" = 4,
-                    "<4% (many individuals)" = 3,
-                    "<4% (several individuals)" = 2,
-                    "<4% (few individuals)" = 1)
+# Cover Scale Options -----------------------------------------------------
+coverScale_options <- c("None" = "none",
+                        "Percentage" = "percentage",
+                        "Proportional" = "proportional",
+                        "Domin" = "domin",
+                        "Braun-Blanquet" = "braunBlanquet")
 
-dominCoverValsRev <- c("10" = "91-100%",
-                       "9" = "76-90%",
-                       "8" = "51-75%",
-                       "7" = "34-50%",
-                       "6" = "26-33%",
-                       "5" = "11-25%",
-                       "4" = "4-10%",
-                       "3" = "<4% (many individuals)",
-                       "2" = "<4% (several individuals)",
-                       "1" = "<4% (few individuals)")
+domin_options <- c("+", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
 
-# Frequency Classes -------------------------------------------------------
-freqClasses_numToPerc <- list(
-  "I" = "1-20%",
-  "II" = "21-40%",
-  "III" = "41-60%",
-  "IV" = "61-80%",
-  "V" = "81-100%"
-)
+braunBlanquet_options <- c("+", "1", "2", "3", "4", "5")
 
-freqClasses_numToName <- list(
-  "I" = "Scarce",
-  "II" = "Occasional",
-  "III" = "Frequent",
-  "IV" = "Constant",
-  "V" = "Contant"
-)
 
-# Cover Method Options ----------------------------------------------------
-coverMethod_options <- list(
-  "Direct Percentage" = "directPercentage",
-  "Domin Class" = "dominCover"
-)
+# Cover Scale Conversion Values -------------------------------------------
+dominConvert <- c("10" = 0.955,
+                  "9" = 0.83,
+                  "8" = 0.63,
+                  "7" = 0.42,
+                  "6" = 0.30,
+                  "5" = 0.18,
+                  "4" = 0.08,
+                  "3" = 0.03,
+                  "2" = 0.005,
+                  "1" = 0.003,
+                  "+" = 0.001) |>
+  tibble::enframe(name = "Cover", value = "Value")
+
+braunBlanquetConvert <- c("5" = 0.875,
+                          "4" = 0.625,
+                          "3" = 0.375,
+                          "2" = 0.175,
+                          "1" = 0.05,
+                          "+" = 0.01) |>
+  tibble::enframe(name = "Cover", value = "Value")
 
 # Habitat Restriction Options ---------------------------------------------
 habitatRestriction_options <- list(
@@ -190,6 +168,7 @@ reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAss
                                                    "Quadrat, Jaccard" = "nvcAssignmentResultsQuadrat_Jaccard"),
                               `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
                                                      "Group" = "composedFloristicTablesGroup"),
+                              `Habitat Correspondence` = c("Site" = "habitatCorrespondenceSite"),
                               `Species Frequency` = c("Species Frequency" = "speciesFrequencyTable"),
                               `EIVs (incl. Mean Hill-Ellenberg)` = c("Weighted, Site" = "weightedMeanHEValuesSite",
                                                                      "Unweighted, Site" = "unweightedMeanHEValuesSite",
@@ -214,12 +193,11 @@ usethis::use_data(taxonomicBackboneMethod_options,
                   inputMethod_options,
                   example_data_options,
                   dataEntryFormat_options,
-                  dominCoverMidPointPerc,
-                  dominCoverVals,
-                  dominCoverValsRev,
-                  freqClasses_numToPerc,
-                  freqClasses_numToName,
-                  coverMethod_options,
+                  coverScale_options,
+                  domin_options,
+                  braunBlanquet_options,
+                  dominConvert,
+                  braunBlanquetConvert,
                   habitatRestriction_options,
                   floristicTablesView_options,
                   floristicTablesSetView_options,

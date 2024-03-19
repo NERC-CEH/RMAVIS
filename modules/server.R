@@ -5,8 +5,12 @@ server <- function(input, output, session) {
                                        id = "sidebar_id_1",
                                        surveyData = surveyData,
                                        surveyDataValidator = surveyDataValidator,
-                                       nvcAssignment = nvcAssignment,
                                        floristicTables = floristicTables,
+                                       nvcAssignment = nvcAssignment,
+                                       habCor = habCor,
+                                       speciesFreq = speciesFreq,
+                                       avgEIVs = avgEIVs,
+                                       diversityAnalysis = diversityAnalysis,
                                        mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults)
   
   nvcInfo <- shiny::callModule(module = nvcInfo,
@@ -99,6 +103,7 @@ server <- function(input, output, session) {
                     surveyDataValidator = surveyDataValidator,
                     surveyDataSummary = surveyDataSummary,
                     nvcAssignment = nvcAssignment,
+                    habCor = habCor,
                     floristicTables = floristicTables,
                     speciesFreq = speciesFreq,
                     avgEIVs = avgEIVs,
@@ -111,19 +116,19 @@ server <- function(input, output, session) {
   # Save module outputs to global environment, uncomment for development only!
   # observe({
   # 
-  #   assign(x = "sidebar_options", value = sidebar_options(), envir = .GlobalEnv)
-  #   assign(x = "surveyData", value = surveyData(), envir = .GlobalEnv)
-  #   assign(x = "surveyDataValidator", value = surveyDataValidator(), envir = .GlobalEnv)
-  #   assign(x = "surveyDataSummary", surveyDataSummary(), envir = .GlobalEnv)
-  #   assign(x = "nvcAssignment", value = nvcAssignment(), envir = .GlobalEnv)
-  #   assign(x = "habCor", value = habCor(), envir = .GlobalEnv)
-  #   assign(x = "floristicTables", value = floristicTables(), envir = .GlobalEnv)
-  #   assign(x = "speciesFreq", value = speciesFreq(), envir = .GlobalEnv)
-  #   assign(x = "avgEIVs", value = avgEIVs(), envir = .GlobalEnv)
-  #   assign(x = "diversityAnalysis", value = diversityAnalysis(), envir = .GlobalEnv)
-  #   assign(x = "mvaNationalRefResults", value = mvaNationalRefResults(), envir = .GlobalEnv)
-  #   assign(x = "mvaLocalRefRestrictedResults", value = mvaLocalRefRestrictedResults(), envir = .GlobalEnv)
-  #   assign(x = "mvaLocalRefUnrestrictedResults", value = mvaLocalRefUnrestrictedResults(), envir = .GlobalEnv)
+  #   # assign(x = "sidebar_options", value = sidebar_options(), envir = .GlobalEnv)
+  #   # assign(x = "surveyData", value = surveyData(), envir = .GlobalEnv)
+  #   # assign(x = "surveyDataValidator", value = surveyDataValidator(), envir = .GlobalEnv)
+  #   # assign(x = "surveyDataSummary", surveyDataSummary(), envir = .GlobalEnv)
+  #   # assign(x = "floristicTables", value = floristicTables(), envir = .GlobalEnv)
+  #   # assign(x = "nvcAssignment", value = nvcAssignment(), envir = .GlobalEnv)
+  #   # assign(x = "habCor", value = habCor(), envir = .GlobalEnv)
+  #   # assign(x = "speciesFreq", value = speciesFreq(), envir = .GlobalEnv)
+  #   # assign(x = "avgEIVs", value = avgEIVs(), envir = .GlobalEnv)
+  #   # assign(x = "diversityAnalysis", value = diversityAnalysis(), envir = .GlobalEnv)
+  #   # assign(x = "mvaNationalRefResults", value = mvaNationalRefResults(), envir = .GlobalEnv)
+  #   # assign(x = "mvaLocalRefRestrictedResults", value = mvaLocalRefRestrictedResults(), envir = .GlobalEnv)
+  #   # assign(x = "mvaLocalRefUnrestrictedResults", value = mvaLocalRefUnrestrictedResults(), envir = .GlobalEnv)
   # 
   # })
 

@@ -517,6 +517,17 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
   # Show/Hide Selected Tables -----------------------------------------------
   observe({
     
+    shinyjs::show(id = "singleComposedVsNVC_div")
+    shinyjs::show(id = "multipleComposed_div")
+    
+  }) |>
+    bindEvent(floristicTablesView(), 
+              ignoreNULL = FALSE,
+              ignoreInit = FALSE,
+              once = TRUE)
+  
+  observe({
+    
     if(floristicTablesView() == "singleComposedVsNVC") {
       
       shinyjs::show(id = "singleComposedVsNVC_div")
@@ -532,6 +543,16 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
   }) |>
     bindEvent(floristicTablesView(), 
               ignoreInit = FALSE)
+  
+  observe({
+    
+    shinyjs::show(id = "singleComposedVsNVC_div")
+    
+  }) |>
+    bindEvent(floristicTablesView(), 
+              ignoreNULL = FALSE,
+              ignoreInit = FALSE,
+              once = TRUE)
   
 
   # Return Data -------------------------------------------------------------

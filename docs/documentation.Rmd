@@ -1,6 +1,6 @@
 ---
 title: "RMAVIS - Documentation"
-subtitle: "v0.99"
+subtitle: "v0.991"
 # output: 
 #   bookdown::word_document2:
 # always_allow_html: true
@@ -64,6 +64,7 @@ body {
 reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAssignmentResultsSite_Czekanowski",
                                                    "Group, Czekanowski" = "nvcAssignmentResultsGroup_Czekanowski",
                                                    "Quadrat, Jaccard" = "nvcAssignmentResultsQuadrat_Jaccard"),
+                              `Habitat Correspondence` = c("Site" = "habitatCorrespondenceSite"),
                               `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
                                                      "Group" = "composedFloristicTablesGroup"),
                               `Species Frequency` = c("Species Frequency" = "speciesFrequencyTable"),
@@ -148,9 +149,7 @@ The Parsonage Down dataset [@ridding2020] contains the results of a
 long-term survey of Parsonage Down National Nature Reserve in Wiltshire,
 which consists of 188ha of calcareous grassland. The site was surveyed
 in three years: 1970, 1990, and 2016. Four transects were surveyed,
-containing a total of 115 quadrats. The Domin scale of abundance system
-was used, with these values being converted into direct percentage
-estimates for use in RMAVIS.
+containing a total of 115 quadrats. Domin cover values are provided.
 
 **Leith Hill Place Wood**
 
@@ -175,8 +174,16 @@ The Newborough Warren dataset contains the results of a yearly
 monitoring study at Newborough Warren (Ynys Llanddwyn SSSI, Anglesey)
 with four dune slacks surveyed over five years: 2014, 2015, 2016, 2017,
 and 2018 (which contain 18, 19, 18, 24, and 24 quadrats respectively)
-[@wallace2018]. No cover values are currently provided in this example
-dataset.
+[@wallace2018]. Percentage cover values are provided.
+
+## Cover Scales
+
+Four cover scales are available for selection.
+
+1. Percentage
+2. Proportional
+3. Domin
+4. Braun-Blanquet (5 point)
 
 ## Survey Data Validation
 
@@ -635,6 +642,10 @@ download:
 
 # Acknowledgements
 
+The development of this app was partly supported by the UK‐SCAPE program 
+delivering National Capability (NE/R016429/1) funded by the Natural Environment 
+Research Council.
+
 We would like to thank
 Lindsay Maskell,
 Lucy Ridding,
@@ -650,209 +661,8 @@ example dataset.
 
 # Recommended Citation
 
-Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.
-
 ```         
-@misc{marshall2024,
-  author = {Marshall, Z. and Smart, S. and Harrower, C.},
-  title = {RMAVIS},
-  howpublished = {Available at https://connect-apps.ceh.ac.uk/RMAVIS/, version 0.99},
-  month = {03},
-  year  = {2024},
-  note = {A R Shiny application for the assignment of vegetation survey data to National Vegetation Classification (NVC) communities, with additional exploratory analyses.}
-}
+
 ```
-
-# Release Log
-
-<details>
-
-<summary>v0.99</summary>
-
-<strong>2024/03/14</strong>
-
--   Modifications: NA
--   Fixes:
-      -   Ensuring all constants are bundled in sysdata.rda.
-      -   Ensuring `RMAVIS` package contents are loaded when starting app.
--   New Features: NA
-
-</details>
-
-<details>
-
-<summary>v0.983</summary>
-
-<strong>2024/03/14</strong>
-
--   Modifications:
-      -   Converting to R package format.
--   Fixes:
-      -   Fixing MVA select quadrats.
--   New Features:
-      -   Adding multiple composed floristic tables.
-
-</details>
-
-<details>
-
-<summary>v0.982</summary>
-
-<strong>2024/03/11</strong>
-
--   Modifications: NA
--   Fixes:
-      -   Fixing Species.Ignore == "Yes"
--   New Features: NA
-
-</details>
-
-<details>
-
-<summary>v0.981</summary>
-
-<strong>2024/03/09</strong>
-
--   Modifications: NA
--   Fixes:
-      -   Ensuring species-quadrat duplicate check is included in ok to proceed.
-      -   Fixing jump issue in species adjustment table, now using Yes and No.
--   New Features: NA
-
-</details>
-
-<details>
-
-<summary>v0.98</summary>
-
-<strong>2024/03/06</strong>
-
--   Modifications: NA
--   Fixes:
-      -   Ensuring manual entry works.
-      -   Ensuring single plot samples work.
--   New Features: NA
-
-</details>
-
-<details>
-
-<summary>v0.97</summary>
-
-<strong>2024/03/05</strong>
-
--   Modifications: NA
--   Fixes:
-      -   Updating documentation to reflect new MVA functionality.
-      -   Fixing group survey plots option in MVA module.
--   New Features: NA
-
-</details>
-
-<details>
-
-<summary>v0.96</summary>
-
-<strong>2024/03/02</strong>
-
--   Modifications:
-    -   Changing name, MAVIS -> RMAVIS
-    -   Removing site and group Jaccard similarity results.
-    -   Refining code throughout.
-    -   Trimming dependencies.
--   Fixes: NA
--   New Features:
-    -   Adding pseudo-quadrat and sample quadrat centroids in MVA.
-    -   Adding setupData module which allows modification of bundled datasets.
-    -   Adding a bryophyte switch to include/exclude bryophyte taxa.
-    -   Now loading dependencies in `load_packages.R`.
-
-</details>
-
-<details>
-
-<summary>v0.95</summary>
-
-<strong>2024/01/24</strong>
-
--   Modifications:
-    -   Removing unnecessary upload data checks.
-    -   Making survey data availability table searchable.
-    -   Changing nomenclature for releve to plot.
--   Fixes:
-    -   Ensuring report renders correctly using new surveyDataSummary
-        object data.
--   New Features: NA
-
-</details>
-
-<details>
-
-<summary>v0.94</summary>
-
-<strong>2024/01/18</strong>
-
--   Modifications: NA
--   Fixes:
-    -   Ensuring the number of quadrats per group is passed to the
-        floristic tables module through the new survey data summary
-        module.
--   New Features: NA
-
-</details>
-
-<details>
-
-<summary>v0.93</summary>
-
-<strong>2024/01/18</strong>
-
--   Modifications: NA
--   Fixes: NA
--   New Features:
-    -   Adding survey data summary module.
-    -   Adding quadrat re-grouping tool.
-
-</details>
-
-<details>
-
-<summary>v0.92</summary>
-
-<strong>2024/01/18</strong>
-
--   Modifications: NA
--   Fixes: NA
--   New Features:
-    -   Adding Czekanowski index method for Site and Group NVC
-        assignment calculations.
-
-</details>
-
-<details>
-
-<summary>v0.91</summary>
-
-<strong>2024/01/11</strong>
-
--   Modifications: NA
--   Fixes: NA
--   New Features:
-    -   Adding privacy policy section
-
-</details>
-
-<details>
-
-<summary>v0.9</summary>
-
-<strong>2024/01/09</strong>
-
--   First release for user testing.
--   Modifications: NA
--   Fixes: NA
--   New Features: NA
-
-</details>
 
 # References

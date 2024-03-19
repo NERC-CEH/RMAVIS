@@ -8,11 +8,11 @@
 #' @examples
 read_mavis_data <- function(filepath){
  
-  mavisData_raw <- readr::read_table(file, 
+  mavisData_raw <- readr::read_table(filepath, 
                                      col_names = c("Group", "BRCNumber", "?", "Genus", "SpeciesEpithet", "CoverOrSuffix", "EmptyOrCover"), 
                                      skip_empty_rows = FALSE)
   
-  mavisData_plotData <- mavisData |>
+  mavisData_plotData <- mavisData_raw |>
     dplyr::mutate(
       "Cover" = dplyr::case_when(
         !is.na(EmptyOrCover) ~ as.numeric(EmptyOrCover),

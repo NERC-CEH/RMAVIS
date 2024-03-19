@@ -142,6 +142,21 @@ uploadDataUI <- function(id) {
         
       ),
       
+      shiny::div(
+        
+        id = ns("mavis_description"),
+        
+        shiny::markdown(
+          "
+          Upload data saved from the Windows MAVIS application.
+          
+          Formatting checks are displayed below.
+          
+          "
+        )
+        
+      ),
+      
       # shiny::div(shiny::br()),
       
       shiny::div(
