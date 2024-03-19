@@ -3,6 +3,12 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
+# RMAVIS 0.992 (2024-03-19)
+*   Modifications: NA
+*   Fixes:
+      -   Fixing bryophyte filtering from example data.
+*   New Features: NA
+
 # RMAVIS 0.991 (2024-03-19)
 *   Modifications: NA
 *   Fixes:
