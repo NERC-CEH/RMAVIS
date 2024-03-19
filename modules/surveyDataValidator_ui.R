@@ -76,35 +76,6 @@ surveyDataValidatorUI <- function(id){
           ),
           
           bslib::layout_columns(
-
-            col_widths = c(1, 11),
-
-            fill = FALSE,
-
-            fillable = TRUE,
-
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Cover Supplied",
-              id = ns("coverSuppliedTextInfo"),
-              shiny::markdown(
-                "
-                If TRUE cover values are supplied.
-                
-                If FALSE cover values are not supplied.
-                
-                Note that cover values are not required to proceed.
-
-                "
-              ),
-              placement = "bottom"
-            ),
-            
-            shiny::htmlOutput(outputId = ns("coverSuppliedText"))
-
-          ),
-          
-          bslib::layout_columns(
             
             col_widths = c(1, 11),
             
@@ -290,6 +261,35 @@ surveyDataValidatorUI <- function(id){
             ),
             
             shiny::htmlOutput(outputId = ns("groupIDUniqueText"))
+            
+          ),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(1, 11),
+            
+            fill = FALSE,
+            
+            fillable = TRUE,
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Cover Values OK",
+              id = ns("coverValuesOKTextInfo"),
+              shiny::markdown(
+                "
+                If TRUE all cover values are within the range or match the levels of the
+                selected cover scale.
+                
+                If FALSE there are cover values which are not within the range or
+                do not match the levels of the selected cover scale.
+
+                "
+              ),
+              placement = "bottom"
+            ),
+            
+            shiny::htmlOutput(outputId = ns("coverValuesOKText"))
             
           )
           

@@ -15,6 +15,17 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     bindEvent(setupData(),
               ignoreInit = FALSE)
   
+# Retrieve sidebar options ------------------------------------------------
+  coverScale <- reactiveVal()
+  
+  observe({
+    
+    coverScale(sidebar_options()$coverScale)
+    
+  }) |>
+    bindEvent(sidebar_options(), 
+              ignoreInit = FALSE)
+  
 # Initialise Table to Replace Species Not In Accepted List ----------------
   speciesAdjustmentTable_init <- data.frame("Species.Submitted" = character(),
                                             "Species.Adjusted" = character(),
@@ -114,6 +125,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
       "quadratIDDuplicates" = FALSE,
       "groupIDUnique" = FALSE,
       "groupIDDuplicates" = FALSE,
+      "coverValuesOK" = FALSE,
       "surveyData_wide_ok" = FALSE,
       "surveyData_mat_ok" = FALSE,
       "okToProceed" = FALSE
@@ -126,11 +138,14 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     shiny::req(speciesNames())
     
     surveyData <- surveyData()
+    surveyData_original <- surveyData$surveyData_original
     surveyData_long <- surveyData$surveyData_long
     surveyData_wide <- surveyData$surveyData_wide
     surveyData_mat <- surveyData$surveyData_mat
     
     speciesNames <- speciesNames()
+    
+    coverScale <- coverScale()
 
     # Check all species are accepted
     if(!is.null(input$speciesAdjustmentTable)){
@@ -214,6 +229,29 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
                                     surveyData_groupComplete, surveyData_quadratComplete,
                                     surveyData_speciesComplete, surveyData_quadratIDUnique,
                                     surveyData_groupIDUnique))
+    
+    # Check whether the cover values are ok
+    if(coverScale == "none"){
+      
+      surveyData_coverValuesOK <- isTRUE(all(is.na(surveyData_original$Cover)))
+      
+    } else if(coverScale == "percentage"){
+
+      surveyData_coverValuesOK <- isTRUE(all(all(surveyData_original$Cover > 0), all(surveyData_original$Cover <= 100)))
+
+    } else if(coverScale == "proportional"){
+
+      surveyData_coverValuesOK <- isTRUE(all(all(surveyData_original$Cover > 0), all(surveyData_original$Cover <= 1)))
+
+    } else if(coverScale == "domin"){
+
+      surveyData_coverValuesOK <- isTRUE(all(levels(surveyData_original$Cover) %in% RMAVIS:::dominConvert$Cover))
+
+    } else if(coverScale == "braunBlanquet"){
+
+      surveyData_coverValuesOK <- isTRUE(all(levels(surveyData_original$Cover) %in% RMAVIS:::braunBlanquetConvert$Cover))
+
+    }
 
     # Check whether the survey data wide object is ok
     surveyData_wide_ok <- isTRUE(!is.null(surveyData_wide))
@@ -226,6 +264,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
                               surveyData_groupComplete, surveyData_quadratComplete,
                               surveyData_speciesComplete, surveyData_quadratIDUnique,
                               surveyData_speciesQuadratUnique,
+                              surveyData_coverValuesOK,
                               surveyData_wide_ok, surveyData_mat_ok,
                               surveyData_groupIDUnique))
 
@@ -246,6 +285,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
       "quadratIDDuplicates" = surveyData_quadratIDDuplicates,
       "groupIDUnique" = surveyData_groupIDUnique,
       "groupIDDuplicates" = surveyData_groupIDDuplicates,
+      "coverValuesOK" = surveyData_coverValuesOK,
       "surveyData_wide_ok" = surveyData_wide_ok,
       "surveyData_mat_ok" = surveyData_mat_ok,
       "okToProceed" = okToProceed
@@ -422,6 +462,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     quadratIDDuplicates <- surveyDataValidation$quadratIDDuplicates
     groupIDUnique <- surveyDataValidation$groupIDUnique
     groupIDDuplicates <- surveyDataValidation$groupIDDuplicates
+    coverValuesOK <- surveyDataValidation$coverValuesOK
     okToProceed <- surveyDataValidation$okToProceed
     
     
@@ -440,25 +481,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
                      '</b></font>')
              )
       )
-      
-    })
-    
-
-# Cover Supplied Text -----------------------------------------------------
-    output$coverSuppliedText <- shiny::renderText({
-      
-      paste0("Are Cover Estimate Values Provided: ",
-             ifelse(
-               as.character(coverSupplied) == TRUE,
-               paste('<font color="green"><b>', 
-                     as.character(coverSupplied), 
-                     '</b></font>'),
-               paste('<font color="red"><b>', 
-                     as.character(coverSupplied), 
-                     '</b></font>')
-             )
-      )
-      
       
     })
 
@@ -579,6 +601,24 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
                      '</b></font>'),
                paste('<font color="red"><b>', 
                      as.character(groupIDUnique), 
+                     '</b></font>')
+             )
+      )
+      
+    })
+    
+
+# Cover Values OK Text ----------------------------------------------------
+    output$coverValuesOKText <- shiny::renderText({
+      
+      paste0("Cover Values OK: ",
+             ifelse(
+               as.character(coverValuesOK) == TRUE,
+               paste('<font color="green"><b>', 
+                     as.character(coverValuesOK), 
+                     '</b></font>'),
+               paste('<font color="red"><b>', 
+                     as.character(coverValuesOK), 
                      '</b></font>')
              )
       )

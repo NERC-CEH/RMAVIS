@@ -22,6 +22,7 @@ library(plotly)
 library(kableExtra)
 library(checkmate)
 library(janitor)
+library(writexl)
 
 # Ecology
 library(assignNVC)

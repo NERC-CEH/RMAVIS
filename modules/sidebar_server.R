@@ -1,4 +1,7 @@
-sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvcAssignment, floristicTables, mvaLocalRefRestrictedResults) {
+sidebar <- function(input, output, session, surveyData, surveyDataValidator, 
+                    floristicTables, nvcAssignment, habCor, speciesFreq,
+                    avgEIVs, diversityAnalysis, 
+                    mvaLocalRefRestrictedResults) {
   
   ns <- session$ns
   
@@ -11,10 +14,9 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
     sidebar_options_list <- list(
       "inputMethod" = input$inputMethod,
       "includeBryophytes" = input$includeBryophytes,
-      # "resetTable" = input$resetTable,
       "selectedExampleData" = input$selectedExampleData,
+      "coverScale" = input$coverScale,
       "runAnalysis" = input$runAnalysis,
-      # "coverMethod" = input$coverMethod,
       "habitatRestriction" = input$habitatRestriction,
       "nTopResults" = input$nTopResults,
       "resultsViewNVCAssign" = input$resultsViewNVCAssign,
@@ -46,10 +48,9 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
   }) |>
     bindEvent(input$inputMethod,
               input$includeBryophytes,
-              # input$resetTable, 
               input$selectedExampleData, 
-              input$runAnalysis, 
-              # input$coverMethod, 
+              input$coverScale,
+              input$runAnalysis,
               input$habitatRestriction, 
               input$nTopResults,
               input$resultsViewNVCAssign,
@@ -74,7 +75,7 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
               input$reportAuthorName,
               input$reportProjectName,
               input$reportOptions,
-              ignoreInit = TRUE)
+              ignoreInit = FALSE)
 
 # Show/Hide inputMethod-related inputs ------------------------------------
   observe({
@@ -83,16 +84,19 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
       
       shinyjs::hide(id = "exampleData_div")
       shinyjs::hide(id = "uploadData_div")
+      shinyjs::enable(id = "coverScale")
       
     } else if(input$inputMethod == "example") {
       
       shinyjs::show(id = "exampleData_div")
       shinyjs::hide(id = "uploadData_div")
+      shinyjs::disable(id = "coverScale")
       
     } else if(input$inputMethod == "upload") {
       
       shinyjs::hide(id = "exampleData_div")
       shinyjs::show(id = "uploadData_div")
+      shinyjs::enable(id = "coverScale")
       
     }
     
@@ -100,8 +104,8 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
     bindEvent(input$inputMethod, ignoreInit = FALSE)
 
 
-# Update habitat restriction if example is used ---------------------------
-  
+
+  # Update Options Based On Example Data ------------------------------------
   observe({
     
     if(input$inputMethod == "example"){
@@ -120,6 +124,12 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
           value = "Parsonage Down"
         )
         
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "coverScale",
+          selected = "domin"
+        )
+        
       } else if(input$selectedExampleData == "Whitwell Common"){
         
         shiny::updateSelectizeInput(
@@ -132,6 +142,12 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
           session = session,
           inputId = "reportProjectName",
           value = "Whitwell Common"
+        )
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "coverScale",
+          selected = "none"
         )
         
       } else if(input$selectedExampleData == "Leith Hill Place Wood"){
@@ -148,6 +164,12 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
           value = "Leith Hill Place Wood"
         )
         
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "coverScale",
+          selected = "none"
+        )
+        
       } else if(input$selectedExampleData == "Newborough Warren"){
         
         shiny::updateSelectizeInput(
@@ -160,6 +182,12 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
           session = session,
           inputId = "reportProjectName",
           value = "Newborough Warren"
+        )
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "coverScale",
+          selected = "percentage"
         )
         
       }
@@ -567,7 +595,53 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
     bindEvent(input$selectSurveyMethod,
               input$groupSurveyPlots,
               ignoreInit = TRUE)
-  
+
+# Download RMAVIS Results -----------------------------------------------
+  output$downloadRMAVISResults <- downloadHandler(
+    
+    filename = function() {
+      
+      paste0("RMAVIS.Results.",
+             format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
+             ".xlsx",
+             sep="")
+      
+    },
+    
+    content = function(file) {
+      
+      floristicTables <- floristicTables() 
+      nvcAssignment <- nvcAssignment()
+      habCor <- habCor()
+      speciesFreq <- speciesFreq()
+      avgEIVs <- avgEIVs()
+      diversityAnalysis <- diversityAnalysis()
+      
+      sheets <- list(
+        "Floristic Tables - Long" = floristicTables$floristicTables_composed_all,
+        "Floristic Tables - Wide" = floristicTables$floristicTables_composed_all_wide,
+        "NVC Assignment - Quadrat" = nvcAssignment$nvcAssignmentPlot_Jaccard,
+        "NVC Assignment - Group" = nvcAssignment$nvcAssignmentGroup_Czekanowski,
+        "NVC Assignment - Site" = nvcAssignment$nvcAssignmentSite_Czekanowski,
+        "Habitat Correspondences" = habCor,
+        "Frequency Table" = speciesFreq,
+        "EIVs, Weighted, Site" = avgEIVs$weightedMeanHEValuesSite,
+        "EIVs, Unweighted, Site" = avgEIVs$unweightedMeanHEValuesSite,
+        "EIVs, Weighted, Group" = avgEIVs$weightedMeanHEValuesGroup,
+        "EIVs, Unweighted, Group" = avgEIVs$unweightedMeanHEValuesGroup,
+        "EIVs, Weighted, Quadrat" = avgEIVs$weightedMeanHEValuesQuadrat,
+        "EIVs, Unweighted, Quadrat" = avgEIVs$unweightedMeanHEValuesQuadrat,
+        "Diversity, Summary" = diversityAnalysis$diversitySummary,
+        "Diversity, Quadrat Indices" = diversityAnalysis$diversityIndices,
+        "Diversity, Richness, Site" = diversityAnalysis$speciesRichnessSite,
+        "Diversity, Richness, Group" = diversityAnalysis$speciesRichnessGroup,
+        "Diversity, Richness, Quadrat" = diversityAnalysis$speciesRichnessQuadrat
+      )
+      
+      writexl::write_xlsx(x = sheets, path = file)
+      
+    }
+  )
 
 # Download Survey Data ----------------------------------------------------
   output$downloadSurveyData <- downloadHandler(
@@ -575,12 +649,7 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
     filename = function() {
       
       paste0("RMAVIS.SurveyData.",
-             gsub(x = gsub(x = Sys.time(),
-                           pattern = "\\s",
-                           replacement = "."),
-                  pattern = ":",
-                  replacement = "-"),
-             ".csv",
+             format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
              sep="")
       
     },
@@ -601,12 +670,7 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
     filename = function() {
       
       paste0("RMAVIS.AcceptedSpecies.",
-             gsub(x = gsub(x = Sys.time(),
-                           pattern = "\\s",
-                           replacement = "."),
-                  pattern = ":",
-                  replacement = "-"),
-             ".csv",
+             format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
              sep="")
       
     },
@@ -618,7 +682,7 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator, nvc
     }
   )
 
-
+  
 # Return sidebar options --------------------------------------------------
   return(sidebar_options)
   

@@ -8,7 +8,6 @@ uploadData <- function(input, output, session) {
   
 
 # Show/Hide Long/Wide descriptions ----------------------------------------
-  
   observe({
     
     if(input$dataEntryFormat == "long") {
@@ -16,23 +15,34 @@ uploadData <- function(input, output, session) {
       shinyjs::showElement(id = "long_description")
       shinyjs::hideElement(id = "wide_description")
       shinyjs::hideElement(id = "matrix_description")
+      shinyjs::hideElement(id = "mavis_description")
       
     } else if(input$dataEntryFormat == "wide") {
       
       shinyjs::hideElement(id = "long_description")
       shinyjs::showElement(id = "wide_description")
       shinyjs::hideElement(id = "matrix_description")
+      shinyjs::hideElement(id = "mavis_description")
       
     } else if(input$dataEntryFormat == "matrix") {
       
       shinyjs::hideElement(id = "long_description")
       shinyjs::hideElement(id = "wide_description")
       shinyjs::showElement(id = "matrix_description")
+      shinyjs::hideElement(id = "mavis_description")
+      
+    } else if(input$dataEntryFormat == "mavis") {
+      
+      shinyjs::hideElement(id = "long_description")
+      shinyjs::hideElement(id = "wide_description")
+      shinyjs::hideElement(id = "matrix_description")
+      shinyjs::showElement(id = "mavis_description")
       
     }
     
   }) |>
-    bindEvent(input$dataEntryFormat, ignoreInit = FALSE)
+    bindEvent(input$dataEntryFormat, 
+              ignoreInit = FALSE)
   
 
 # Initialise table --------------------------------------------------------
@@ -91,6 +101,10 @@ uploadData <- function(input, output, session) {
         dplyr::select(Year, Group, Quadrat, Species, Cover) |>
         dplyr::filter(!is.na(Cover))
       
+    } else if(input$dataEntryFormat == "mavis"){
+      
+      uploaded_data_raw <- read_mavis_data(input$uploadDataInput$datapath)
+      
     }
     
     output$uploadDataTable <- rhandsontable::renderRHandsontable({
@@ -101,22 +115,13 @@ uploadData <- function(input, output, session) {
                                                       ) |>
         rhandsontable::hot_col(col = colnames(uploaded_data_raw), halign = "htCenter") |>
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") #|>
-        # rhandsontable::hot_col(
-        #   col = "Species",
-        #   readOnly = FALSE,
-        #   type = "dropdown",
-        #   source = speciesNames,
-        #   strict = FALSE
-        # ) |>
-        # rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames, allowInvalid = FALSE) # speciesNames
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
       
       return(uploadDataTable)
       
     })
     
     # First check that the column names are correct
-    
     columnNames_correct <- all(colnames(uploaded_data_raw) %in% c("Year", "Group", "Quadrat", "Species", "Cover"))
     columnNames_correct(columnNames_correct)
     
@@ -138,22 +143,41 @@ uploadData <- function(input, output, session) {
     
   }) |>
     bindEvent(input$uploadDataInput,
-              # input$dataEntryFormat,
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
+  # Enable/Disable Confirm Upload -------------------------------------------
+  observe({
+    
+    columnNames_correct <- columnNames_correct()
+    
+    if(columnNames_correct == TRUE){
+      
+      shinyjs::enable(id = "confirmUpload")
+      
+    } else if(columnNames_correct == FALSE){
+      
+      shinyjs::disable(id = "confirmUpload")
+      
+    }
+    
+  }) |>
+    bindEvent(columnNames_correct(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+  
+  
+  # Store Uploaded Data in Reactive Object ----------------------------------
   observe({
     
     uploadDataTable_rval(rhandsontable::hot_to_r(input$uploadDataTable))
-    
-    # shinyjs::click(id = "confirmUpload")
     
   }) |>
     bindEvent(input$confirmUpload,
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
 
-  # outputOptions(output, "uploadDataTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "uploadDataTable", suspendWhenHidden = FALSE)
   
   return(uploadDataTable_rval)
   

@@ -11,6 +11,7 @@ params:
     surveyDataValidator: NULL
     surveyDataSummary: NULL
     nvcAssignment: NULL
+    habCor: NULL
     floristicTables: NULL
     speciesFreq: NULL
     avgEIVs: NULL
@@ -44,6 +45,7 @@ surveyData <- params$surveyData
 surveyDataValidator <- params$surveyDataValidator
 surveyDataSummary <- params$surveyDataSummary
 nvcAssignment <- params$nvcAssignment
+habCor <- params$habCor
 sidebar_options <- params$sidebar_options
 floristicTables <- params$floristicTables
 floristicTables_composed_all <- floristicTables$floristicTables_composed_all
@@ -80,6 +82,9 @@ nvcAssignmentPlot_Jaccard <- nvcAssignment$nvcAssignmentPlot_Jaccard
 nvcAssignmentSite_Czekanowski <- nvcAssignment$nvcAssignmentSite_Czekanowski
 nvcAssignmentGroup_Czekanowski <- nvcAssignment$nvcAssignmentGroup_Czekanowski
 topNVCCommunities <- nvcAssignment$topNVCCommunities
+
+# Habitat Correspondences
+# habCor <- habCor$
 
 # EIVs
 weightedMeanHEValuesSite <- avgEIVs$weightedMeanHEValuesSite
@@ -118,6 +123,7 @@ mvaNationalRef_CCA_arrowData <- mvaNationalRefResults$CCA_arrowData
 reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAssignmentResultsSite_Czekanowski",
                                                    "Group, Czekanowski" = "nvcAssignmentResultsGroup_Czekanowski",
                                                    "Quadrat, Jaccard" = "nvcAssignmentResultsQuadrat_Jaccard"),
+                              `Habitat Correspondence` = c("Site" = "habitatCorrespondenceSite"),
                               `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
                                                      "Group" = "composedFloristicTablesGroup"),
                               `Species Frequency` = c("Species Frequency" = "speciesFrequencyTable"),
@@ -143,7 +149,7 @@ reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAss
 
 ```{r RMAVISVersion, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-cat("**Version:** ", as.character("v0.99"), sep = "")
+cat("**Version:** ", as.character("v0.991"), sep = "")
 
 ```
 
@@ -337,6 +343,36 @@ if("nvcAssignmentResultsQuadrat_Jaccard" %in% reportOptions){
                   longtable = TRUE, linesep = "",
                   caption = "The top NVC communities fitted using the pseudo-quadrat method, by quadrat, group, and year") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
+  
+}
+
+```
+
+```{r habitatCorrespondenceTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("habitatCorrespondenceSite" %in% reportOptions){
+  
+  cat("# Habitat Correspondences")
+  
+}
+
+```
+
+```{r habitatCorrespondenceSite, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+if("habitatCorrespondenceSite" %in% reportOptions){
+  
+  cat("## Habitat Correspondences, by Site")
+  
+  habCor_prepped <- habCor |>
+    dplyr::mutate_all(~replace(., is.na(.), ""))
+  
+  kableExtra::kbl(x = habCor_prepped, format = "latex", booktabs = TRUE,
+                  longtable = TRUE, linesep = "",
+                  caption = "The habitats associated with the top-N fitting NVC communities according to other") |>
+    kableExtra::kable_styling(font_size = 7) |>
+    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position")) |>
+    kableExtra::landscape()
   
 }
 

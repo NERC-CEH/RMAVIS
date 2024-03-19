@@ -77,7 +77,6 @@ diversityAnalysis <- function(input, output, session, surveyData, sidebar_option
   observe({
     
     shinyjs::show(id = "diversitySummaryTable_div")
-    shinyjs::show(id = "diversityIndicesTable_div")
   
   }) |>
     bindEvent(resultsViewDiversity(),

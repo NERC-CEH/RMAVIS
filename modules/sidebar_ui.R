@@ -177,6 +177,51 @@ sidebarUI <- function(id){
           shiny::div(shiny::br())
           
         ),
+        
+        shiny::div(
+          
+          id = ns("coverScale_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("coverScale"),
+                                  label = "Cover Scale",
+                                  choices = coverScale_options,
+                                  selected = "percentage",
+                                  multiple = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Cover Scale",
+              id = ns("coverScaleInfo"),
+              shiny::markdown(
+                "
+                Select the cover scale for data entry.
+                
+                At present four options are available:
+                
+                1. Percentage
+                2. Proportional
+                3. Domin
+                4. Braun-Blanquet (5 point)
+                
+                The format of the cover values entered in the table
+                will be checked against the selected cover scale
+                in the validation module.
+                
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+          
+        ),
 
         shiny::div(
           
@@ -1144,6 +1189,38 @@ sidebarUI <- function(id){
         
         icon = bsicons::bs_icon("download"),
         
+        ## Download NVC Assignment Results -----------------------------------------
+        shiny::div(
+          
+          id = ns("downloadRMAVISResults_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            downloadButton(
+              outputId = ns("downloadRMAVISResults"),
+              label = "RMAVIS Results",
+              class = NULL,
+              icon = NULL
+            ),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Download RMAVIS Results",
+              shiny::markdown(
+                "
+                
+                "
+              ),
+              placement = "bottom"
+            )
+          )
+        ),
+        
+        shiny::div(shiny::br()),
+
+        ## Download Accepted Species -----------------------------------------------
         shiny::div(
           
           id = ns("downloadSpeciesData_div"),
@@ -1154,7 +1231,7 @@ sidebarUI <- function(id){
             
             shiny::downloadButton(
               outputId = ns("downloadSpeciesData"),
-              label = "Download Accepted Species",
+              label = "Accepted Species",
               class = NULL,
               icon = NULL
             ),
@@ -1173,7 +1250,8 @@ sidebarUI <- function(id){
         ),
         
         shiny::div(shiny::br()),
-        
+
+        ## Download Survey Data ----------------------------------------------------
         shiny::div(
           
           id = ns("downloadSurveyData_div"),
@@ -1184,7 +1262,7 @@ sidebarUI <- function(id){
             
             downloadButton(
               outputId = ns("downloadSurveyData"),
-              label = "Download Survey Data",
+              label = "Survey Data",
               class = NULL,
               icon = NULL
             ),
@@ -1204,7 +1282,9 @@ sidebarUI <- function(id){
             )
           )
         )
-      )
+        
+      ) # Close Download Options
+
     )
   )
   

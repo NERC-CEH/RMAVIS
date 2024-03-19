@@ -3,6 +3,16 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
+# RMAVIS 0.991 (2024-03-19)
+*   Modifications: NA
+*   Fixes:
+      -   Ensuring "Confirm Upload" button is disabled when the uploaded data column names are incorrect.
+*   New Features:
+      -   Adding downloadable .xslx containing RMAVIS results.
+      -   Adding Cover Scale option.
+      -   Adding option to upload old MAVIS files.
+      -   Adding Habitat Correspondences to report.
+
 # RMAVIS 0.99 (2024-03-14)
 *   Modifications: NA
 *   Fixes:

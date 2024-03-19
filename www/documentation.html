@@ -260,7 +260,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">RMAVIS - Documentation</h1>
-<h3 class="subtitle">v0.99</h3>
+<h3 class="subtitle">v0.991</h3>
 
 </div>
 
@@ -356,9 +356,7 @@ explore the applications functionality.</p>
 long-term survey of Parsonage Down National Nature Reserve in Wiltshire,
 which consists of 188ha of calcareous grassland. The site was surveyed
 in three years: 1970, 1990, and 2016. Four transects were surveyed,
-containing a total of 115 quadrats. The Domin scale of abundance system
-was used, with these values being converted into direct percentage
-estimates for use in RMAVIS.</p>
+containing a total of 115 quadrats. Domin cover values are provided.</p>
 <p><strong>Leith Hill Place Wood</strong></p>
 <p>The Leith Hill Place Wood dataset represents a subset of the Bunce
 woodland survey data, described in <span class="citation">Wood, Smart, and Bunce (<a href="#ref-wood2015">2015</a>)</span> and consists of a total of
@@ -377,12 +375,21 @@ provided in this example dataset.</p>
 monitoring study at Newborough Warren (Ynys Llanddwyn SSSI, Anglesey)
 with four dune slacks surveyed over five years: 2014, 2015, 2016, 2017,
 and 2018 (which contain 18, 19, 18, 24, and 24 quadrats respectively)
-<span class="citation">(<a href="#ref-wallace2018">Wallace and Jones 2018</a>)</span>. No cover values are currently provided in this example
-dataset.</p>
+<span class="citation">(<a href="#ref-wallace2018">Wallace and Jones 2018</a>)</span>. Percentage cover values are provided.</p>
 </div>
 </div>
-<div id="survey-data-validation" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Survey Data Validation</h2>
+<div id="cover-scales" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Cover Scales</h2>
+<p>Four cover scales are available for selection.</p>
+<ol style="list-style-type: decimal">
+<li>Percentage</li>
+<li>Proportional</li>
+<li>Domin</li>
+<li>Braun-Blanquet (5 point)</li>
+</ol>
+</div>
+<div id="survey-data-validation" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Survey Data Validation</h2>
 <p>At present RMAVIS is designed to analyse vegetation survey data in the
 form of grouped quadrats for a single site, with or without cover
 estimates. However, the user may utilise the “Group” and “Quadrat”
@@ -419,8 +426,8 @@ quadrats using the “Combine Duplicates” button.</p>
 <p>Until these conditions are met RMAVIS will not be able to proceed with as
 the “Run Analysis” and “Generate Report” buttons will be disabled.</p>
 </div>
-<div id="nvc-assignment" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> NVC Assignment</h2>
+<div id="nvc-assignment" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> NVC Assignment</h2>
 <p>In RMAVIS NVC community similarities are assigned to survey data for the
 site and each group of plots by year using the Czekanowski index
 <span class="citation">(<a href="#ref-bloom1981">Bloom 1981</a>; <a href="#ref-hill1989">Hill 1989</a>)</span>, which quantifies the similarity
@@ -450,8 +457,8 @@ and the converse for <span class="math inline">\(c\)</span> (<span class="math i
 <p>Please note that Site and Group similarities will not be calculated
 for Years and Year-Group combinations with less than 5 sample plots</p>
 </blockquote>
-<div id="communities" class="section level3" number="2.3.1">
-<h3><span class="header-section-number">2.3.1</span> Communities</h3>
+<div id="communities" class="section level3" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> Communities</h3>
 <p>The NVC communities available in RMAVIS are composed from the following
 sources:</p>
 <ul>
@@ -470,8 +477,8 @@ described in <span class="citation">Wallace and Prosser (<a href="#ref-wallace20
 <li>A new MG community (MG16) <span class="citation">(<a href="#ref-wallace2017">Wallace and Prosser 2017</a>)</span>.</li>
 </ul>
 </div>
-<div id="options" class="section level3" number="2.3.2">
-<h3><span class="header-section-number">2.3.2</span> Options</h3>
+<div id="options" class="section level3" number="2.4.2">
+<h3><span class="header-section-number">2.4.2</span> Options</h3>
 <p><strong>Results to View</strong></p>
 <p>Three sets of NVC assignment results are available in RMAVIS at present:</p>
 <ul>
@@ -488,8 +495,8 @@ NVC habitats.</p>
 <p>Select the number of top-fitted NVC communities to view.</p>
 </div>
 </div>
-<div id="habitat-correspondence" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Habitat Correspondence</h2>
+<div id="habitat-correspondence" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Habitat Correspondence</h2>
 <p>The <strong>Habitat Correspondence</strong> section provides a means to explore the
 habitats from alternative habitat classifications which are associated
 with the top-fitted NVC communities assigned to the survey data.</p>
@@ -501,8 +508,8 @@ Habitat Correspondences <span class="citation">(<a href="#ref-jncc2008">JNCC 200
 <li>For the National Plant Monitoring Scheme (NPMS) data is drawn from
 <span class="citation">(<a href="#ref-pescott2019">Pescott et al. 2019</a>)</span>.</li>
 </ol>
-<div id="options-1" class="section level3" number="2.4.1">
-<h3><span class="header-section-number">2.4.1</span> Options</h3>
+<div id="options-1" class="section level3" number="2.5.1">
+<h3><span class="header-section-number">2.5.1</span> Options</h3>
 <p><strong>Classification</strong></p>
 <p>The user may select the habitat classification system from which to
 retrieve associated habitats. At present the following systems are
@@ -523,15 +530,15 @@ available:</p>
 </ul>
 </div>
 </div>
-<div id="floristic-tables" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Floristic Tables</h2>
+<div id="floristic-tables" class="section level2" number="2.6">
+<h2><span class="header-section-number">2.6</span> Floristic Tables</h2>
 <p>To aid in the NVC assignment process and as an exploratory tool the
 <strong>Floristic Tables</strong> section of RMAVIS allows the user to compare a
 composed floristic table to a chosen NVC floristic table. The facility
 to match the species in the composed table with the NVC table, two ways,
 is also provided.</p>
-<div id="options-2" class="section level3" number="2.5.1">
-<h3><span class="header-section-number">2.5.1</span> Options</h3>
+<div id="options-2" class="section level3" number="2.6.1">
+<h3><span class="header-section-number">2.6.1</span> Options</h3>
 <p><strong>Restrict</strong></p>
 <p>Restrict the NVC communities available to select in the “NVC Table”
 option to the top-fitted NVC communities.</p>
@@ -555,14 +562,14 @@ aligned with the composed floristic table.</li>
 </ul>
 </div>
 </div>
-<div id="frequency" class="section level2" number="2.6">
-<h2><span class="header-section-number">2.6</span> Frequency</h2>
+<div id="frequency" class="section level2" number="2.7">
+<h2><span class="header-section-number">2.7</span> Frequency</h2>
 <p>The <strong>Frequency</strong> section of RMAVIS summarises the number of occurrences
 of each species across all sample plots, the difference between the
 first year and last year, and a text category describing the change.</p>
 </div>
-<div id="eivs" class="section level2" number="2.7">
-<h2><span class="header-section-number">2.7</span> EIVs</h2>
+<div id="eivs" class="section level2" number="2.8">
+<h2><span class="header-section-number">2.8</span> EIVs</h2>
 <p>The Ecological Indicator Values (<strong>EIVs</strong>) section uses the results of
 the <strong>NVC Assignment</strong> module to calculate cover-weighted Hill-Ellenberg
 ecological indicator values for the Nitrogen Score (N)
@@ -570,8 +577,8 @@ ecological indicator values for the Nitrogen Score (N)
 Reaction Score (R) <span class="citation">(<a href="#ref-bsbi2017ellenbergR">BSBI 2017a</a>)</span>, Salinity Score (S)
 <span class="citation">(<a href="#ref-bsbi2017ellenbergS">BSBI 2017b</a>)</span>, and Light Score (L) <span class="citation">(<a href="#ref-bsbi2017ellenbergL">BSBI 2017e</a>)</span>. Data
 for bryophytes was taken from BRYOATT <span class="citation">(<a href="#ref-hill2007">Hill et al. 2007</a>)</span>.</p>
-<div id="options-3" class="section level3" number="2.7.1">
-<h3><span class="header-section-number">2.7.1</span> Options</h3>
+<div id="options-3" class="section level3" number="2.8.1">
+<h3><span class="header-section-number">2.8.1</span> Options</h3>
 <p>At present six sets of results are available:</p>
 <ul>
 <li>Unweighted Mean Hill-Ellenberg Values, by Site</li>
@@ -583,12 +590,12 @@ for bryophytes was taken from BRYOATT <span class="citation">(<a href="#ref-hill
 </ul>
 </div>
 </div>
-<div id="diversity" class="section level2" number="2.8">
-<h2><span class="header-section-number">2.8</span> Diversity</h2>
+<div id="diversity" class="section level2" number="2.9">
+<h2><span class="header-section-number">2.9</span> Diversity</h2>
 <p>The <strong>Diversity</strong> section allows the user to view a range of basic
 diversity metrics.</p>
-<div id="options-4" class="section level3" number="2.8.1">
-<h3><span class="header-section-number">2.8.1</span> Options</h3>
+<div id="options-4" class="section level3" number="2.9.1">
+<h3><span class="header-section-number">2.9.1</span> Options</h3>
 <p><strong>Results to View</strong></p>
 <p>At present five sets of results are available:</p>
 <ul>
@@ -607,8 +614,8 @@ quadrat with years arranged column-wise.</li>
 </ul>
 </div>
 </div>
-<div id="mva" class="section level2" number="2.9">
-<h2><span class="header-section-number">2.9</span> MVA</h2>
+<div id="mva" class="section level2" number="2.10">
+<h2><span class="header-section-number">2.10</span> MVA</h2>
 <p>The Multivariate Analysis (MVA) section of RMAVIS aims to allow the user
 to explore the position of the survey data quadrats in an ordination
 space constructed by performing a Detrended Correspondence Analysis
@@ -618,8 +625,8 @@ and pre-calculated set of unweighted mean Hill-Ellenberg values for each
 pseudo-quadrat as the constraining matrix, are available for visualising
 in each MVA plot.</p>
 <p>Three MVA methods are provided in RMAVIS, which are described below.</p>
-<div id="national-reference" class="section level3" number="2.9.1">
-<h3><span class="header-section-number">2.9.1</span> National Reference</h3>
+<div id="national-reference" class="section level3" number="2.10.1">
+<h3><span class="header-section-number">2.10.1</span> National Reference</h3>
 <p>The ordination space in the <strong>National Reference</strong> MVA was constructed
 by performing a pre-calculated DCA on the pseudo-quadrats from all NVC
 communities, with the survey quadrats added in passively in RMAVIS using
@@ -651,8 +658,8 @@ between the sub-communities, and the survey quadrats and
 sub-communities.</li>
 </ul>
 </div>
-<div id="local-reference-restricted" class="section level3" number="2.9.2">
-<h3><span class="header-section-number">2.9.2</span> Local Reference (restricted)</h3>
+<div id="local-reference-restricted" class="section level3" number="2.10.2">
+<h3><span class="header-section-number">2.10.2</span> Local Reference (restricted)</h3>
 <p>The ordination space in the <strong>Local Reference (restricted)</strong> MVA is
 constructed by performing a DCA on the top-fitted NVC communities
 retrieved from the <strong>NVC Assignment</strong> process with the survey quadrats
@@ -679,8 +686,8 @@ quadrats varies based on the NVC communities used in the
 pseudo-quadrat DCA.</li>
 </ul>
 </div>
-<div id="local-reference-unrestricted" class="section level3" number="2.9.3">
-<h3><span class="header-section-number">2.9.3</span> Local Reference (unrestricted)</h3>
+<div id="local-reference-unrestricted" class="section level3" number="2.10.3">
+<h3><span class="header-section-number">2.10.3</span> Local Reference (unrestricted)</h3>
 <p>The ordination space in the <strong>Local Reference (unrestricted)</strong> MVA is
 constructed by performing a DCA on the top-fitted NVC communities <em>and</em>
 the survey quadrats.</p>
@@ -700,8 +707,8 @@ pseudo-quadrats do not provide a fixed reference as in the
 where the survey quadrats are added in passively.</li>
 </ul>
 </div>
-<div id="options-5" class="section level3" number="2.9.4">
-<h3><span class="header-section-number">2.9.4</span> Options</h3>
+<div id="options-5" class="section level3" number="2.10.4">
+<h3><span class="header-section-number">2.10.4</span> Options</h3>
 <p><strong>Axis Selection</strong></p>
 <p>The user may select any combination of the first three DCA axis scores
 to be displayed in the MVA plots:</p>
@@ -767,14 +774,14 @@ individual quadrats in the ordination space.</li>
 </ul>
 </div>
 </div>
-<div id="report" class="section level2" number="2.10">
-<h2><span class="header-section-number">2.10</span> Report</h2>
+<div id="report" class="section level2" number="2.11">
+<h2><span class="header-section-number">2.11</span> Report</h2>
 <p>RMAVIS allows the user to generate a downloadable pdf report, which by
 default contains 1) a table of the RMAVIS results selected for inclusion,
 and 2) tables containing the number of quadrats sampled by year and
 group.</p>
-<div id="options-6" class="section level3" number="2.10.1">
-<h3><span class="header-section-number">2.10.1</span> Options</h3>
+<div id="options-6" class="section level3" number="2.11.1">
+<h3><span class="header-section-number">2.11.1</span> Options</h3>
 <p><strong>Author</strong></p>
 <p>A text input where the user is able to enter the name of the person/s
 using RMAVIS.</p>
@@ -818,6 +825,14 @@ NVC Assignment
 </td>
 <td style="text-align:left;">
 Quadrat, Jaccard
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Habitat Correspondence
+</td>
+<td style="text-align:left;">
+Site
 </td>
 </tr>
 <tr>
@@ -968,8 +983,8 @@ Survey Table
 </table>
 </div>
 </div>
-<div id="download" class="section level2" number="2.11">
-<h2><span class="header-section-number">2.11</span> Download</h2>
+<div id="download" class="section level2" number="2.12">
+<h2><span class="header-section-number">2.12</span> Download</h2>
 <p>At present the <strong>Download</strong> section of RMAVIS allows the user to
 download:</p>
 <ul>
@@ -980,6 +995,9 @@ download:</p>
 </div>
 <div id="acknowledgements" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Acknowledgements</h1>
+<p>The development of this app was partly supported by the UK‐SCAPE program
+delivering National Capability (NE/R016429/1) funded by the Natural Environment
+Research Council.</p>
 <p>We would like to thank
 Lindsay Maskell,
 Lucy Ridding,
@@ -993,227 +1011,7 @@ example dataset.</p>
 </div>
 <div id="recommended-citation" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Recommended Citation</h1>
-<p>Marshall, Z., Smart, S., and Harrower, C.. (2024). RMAVIS.</p>
-<pre><code>@misc{marshall2024,
-  author = {Marshall, Z. and Smart, S. and Harrower, C.},
-  title = {RMAVIS},
-  howpublished = {Available at https://connect-apps.ceh.ac.uk/RMAVIS/, version 0.99},
-  month = {03},
-  year  = {2024},
-  note = {A R Shiny application for the assignment of vegetation survey data to National Vegetation Classification (NVC) communities, with additional exploratory analyses.}
-}</code></pre>
-</div>
-<div id="release-log" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> Release Log</h1>
-<details>
-<summary>
-v0.99
-</summary>
-<p><strong>2024/03/14</strong></p>
-<ul>
-<li>Modifications: NA</li>
-<li>Fixes:
-<ul>
-<li>Ensuring all constants are bundled in sysdata.rda.</li>
-<li>Ensuring <code>RMAVIS</code> package contents are loaded when starting app.</li>
-</ul></li>
-<li>New Features: NA</li>
-</ul>
-</details>
-<details>
-<summary>
-v0.983
-</summary>
-<p><strong>2024/03/14</strong></p>
-<ul>
-<li>Modifications:
-<ul>
-<li>Converting to R package format.</li>
-</ul></li>
-<li>Fixes:
-<ul>
-<li>Fixing MVA select quadrats.</li>
-</ul></li>
-<li>New Features:
-<ul>
-<li>Adding multiple composed floristic tables.</li>
-</ul></li>
-</ul>
-</details>
-<details>
-<summary>
-v0.982
-</summary>
-<p><strong>2024/03/11</strong></p>
-<ul>
-<li>Modifications: NA</li>
-<li>Fixes:
-<ul>
-<li>Fixing Species.Ignore == “Yes”</li>
-</ul></li>
-<li>New Features: NA</li>
-</ul>
-</details>
-<details>
-<summary>
-v0.981
-</summary>
-<p><strong>2024/03/09</strong></p>
-<ul>
-<li>Modifications: NA</li>
-<li>Fixes:
-<ul>
-<li>Ensuring species-quadrat duplicate check is included in ok to proceed.</li>
-<li>Fixing jump issue in species adjustment table, now using Yes and No.</li>
-</ul></li>
-<li>New Features: NA</li>
-</ul>
-</details>
-<details>
-<summary>
-v0.98
-</summary>
-<p><strong>2024/03/06</strong></p>
-<ul>
-<li>Modifications: NA</li>
-<li>Fixes:
-<ul>
-<li>Ensuring manual entry works.</li>
-<li>Ensuring single plot samples work.</li>
-</ul></li>
-<li>New Features: NA</li>
-</ul>
-</details>
-<details>
-<summary>
-v0.97
-</summary>
-<p><strong>2024/03/05</strong></p>
-<ul>
-<li>Modifications: NA</li>
-<li>Fixes:
-<ul>
-<li>Updating documentation to reflect new MVA functionality.</li>
-<li>Fixing group survey plots option in MVA module.</li>
-</ul></li>
-<li>New Features: NA</li>
-</ul>
-</details>
-<details>
-<summary>
-v0.96
-</summary>
-<p><strong>2024/03/02</strong></p>
-<ul>
-<li>Modifications:
-<ul>
-<li>Changing name, MAVIS -&gt; RMAVIS</li>
-<li>Removing site and group Jaccard similarity results.</li>
-<li>Refining code throughout.</li>
-<li>Trimming dependencies.</li>
-</ul></li>
-<li>Fixes: NA</li>
-<li>New Features:
-<ul>
-<li>Adding pseudo-quadrat and sample quadrat centroids in MVA.</li>
-<li>Adding setupData module which allows modification of bundled datasets.</li>
-<li>Adding a bryophyte switch to include/exclude bryophyte taxa.</li>
-<li>Now loading dependencies in <code>load_packages.R</code>.</li>
-</ul></li>
-</ul>
-</details>
-<details>
-<summary>
-v0.95
-</summary>
-<p><strong>2024/01/24</strong></p>
-<ul>
-<li>Modifications:
-<ul>
-<li>Removing unnecessary upload data checks.</li>
-<li>Making survey data availability table searchable.</li>
-<li>Changing nomenclature for releve to plot.</li>
-</ul></li>
-<li>Fixes:
-<ul>
-<li>Ensuring report renders correctly using new surveyDataSummary
-object data.</li>
-</ul></li>
-<li>New Features: NA</li>
-</ul>
-</details>
-<details>
-<summary>
-v0.94
-</summary>
-<p><strong>2024/01/18</strong></p>
-<ul>
-<li>Modifications: NA</li>
-<li>Fixes:
-<ul>
-<li>Ensuring the number of quadrats per group is passed to the
-floristic tables module through the new survey data summary
-module.</li>
-</ul></li>
-<li>New Features: NA</li>
-</ul>
-</details>
-<details>
-<summary>
-v0.93
-</summary>
-<p><strong>2024/01/18</strong></p>
-<ul>
-<li>Modifications: NA</li>
-<li>Fixes: NA</li>
-<li>New Features:
-<ul>
-<li>Adding survey data summary module.</li>
-<li>Adding quadrat re-grouping tool.</li>
-</ul></li>
-</ul>
-</details>
-<details>
-<summary>
-v0.92
-</summary>
-<p><strong>2024/01/18</strong></p>
-<ul>
-<li>Modifications: NA</li>
-<li>Fixes: NA</li>
-<li>New Features:
-<ul>
-<li>Adding Czekanowski index method for Site and Group NVC
-assignment calculations.</li>
-</ul></li>
-</ul>
-</details>
-<details>
-<summary>
-v0.91
-</summary>
-<p><strong>2024/01/11</strong></p>
-<ul>
-<li>Modifications: NA</li>
-<li>Fixes: NA</li>
-<li>New Features:
-<ul>
-<li>Adding privacy policy section</li>
-</ul></li>
-</ul>
-</details>
-<details>
-<summary>
-v0.9
-</summary>
-<p><strong>2024/01/09</strong></p>
-<ul>
-<li>First release for user testing.</li>
-<li>Modifications: NA</li>
-<li>Fixes: NA</li>
-<li>New Features: NA</li>
-</ul>
-</details>
+<pre><code></code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1>References</h1>

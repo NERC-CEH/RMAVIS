@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: "<container registry url>/rmavis:v0.99"
+    image: "<container registry url>/rmavis:v0.991"
     container_name: "rmavis"
     restart: always
     privileged: true

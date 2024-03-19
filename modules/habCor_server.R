@@ -20,8 +20,6 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
                                 "Label" = character()
                                 )
   
-  habCorTable_rval <- reactiveVal(habCorData_init)
-  
   output$habCorTable <- reactable::renderReactable({
     
     habCorTable <- reactable::reactable(data = habCorData_init,
@@ -49,6 +47,8 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
     
   })
   
+  habCor_rval <- reactiveVal()
+  
   observe({
     
     shiny::req(nvcAssignment())
@@ -60,14 +60,18 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
       
       topNVCCommunities_df <- data.frame("NVC.Code" = nvcAssignment$topNVCCommunities)
       
-      habCorTable <- topNVCCommunities_df |>
-        dplyr::left_join(RMAVIS::all_habCor_final, relationship = "many-to-many", by = dplyr::join_by(NVC.Code)) |>
+      habCor <- topNVCCommunities_df |>
+        dplyr::left_join(RMAVIS::all_habCor_final, relationship = "many-to-many", by = dplyr::join_by(NVC.Code))
+      
+      habCorTable <- habCor |>
         dplyr::filter(Classification == habCorClass()) |>
         dplyr::select(NVC.Code, Relationship, Code, Label) |>
         dplyr::distinct() |>
         dplyr::arrange(NVC.Code)
 
     })
+    
+    habCor_rval(habCor)
 
     output$habCorTable <- rhandsontable::renderRHandsontable({
       
@@ -99,8 +103,6 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
       
     })
     
-    habCorTable_rval(habCorTable)
-    
   }) |>
     bindEvent(nvcAssignment(),
               habCorClass(), 
@@ -111,6 +113,6 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
   
   outputOptions(output, "habCorTable", suspendWhenHidden = FALSE)
   
-  return(habCorTable_rval)
+  return(habCor_rval)
   
 }
