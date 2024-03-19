@@ -66,7 +66,7 @@ setupData <- function(input, output, session, sidebar_options) {
         dplyr::filter(Accepted_Species %in% RMAVIS::concordance_plants$proposedSpecies)
       
       example_data_selected <- RMAVIS::example_data_all |>
-        dplyr::filter(Species %in% RMAVIS::concordance_plants$proposedSpecies)
+        purrr::map(~dplyr::filter(., Species %in% RMAVIS::concordance_plants$proposedSpecies))
       
       nvc_floristic_tables_selected <- RMAVIS::nvc_floristic_tables |>
         dplyr::filter(Species %in% RMAVIS::concordance_plants$proposedSpecies)
