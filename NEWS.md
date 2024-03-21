@@ -3,6 +3,12 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
+# RMAVIS 0.993 (2024-03-19)
+*   Modifications: NA
+*   Fixes:
+      -   Fixing MAVIS upload.
+*   New Features: NA
+
 # RMAVIS 0.992 (2024-03-19)
 *   Modifications: NA
 *   Fixes:

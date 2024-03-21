@@ -40,9 +40,14 @@ read_mavis_data <- function(filepath){
     dplyr::left_join(mavisData_plots, by = "Group") |>
     dplyr::filter(!is.na(Cover)) |>
     dplyr::select(Quadrat, Species, Cover) |>
-    dplyr::mutate(Year = 2023, .before = 1) |>
+    dplyr::mutate(Year = as.integer(format(Sys.Date(), "%Y")), .before = 1) |>
     dplyr::mutate(Group = "A", .after = 1) |>
-    dplyr::mutate(Cover = Cover / 100)
+    dplyr::mutate(
+      Cover = dplyr::case_when(
+        Cover == 0 ~ 0.1,
+        TRUE ~ Cover
+      )
+    )
   
   return(mavisData_final)
   
