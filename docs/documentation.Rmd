@@ -1,6 +1,6 @@
 ---
 title: "RMAVIS - Documentation"
-subtitle: "v0.992"
+subtitle: "v0.993"
 # output: 
 #   bookdown::word_document2:
 # always_allow_html: true
@@ -183,7 +183,10 @@ Four cover scales are available for selection.
 1. Percentage
 2. Proportional
 3. Domin
-4. Braun-Blanquet (5 point)
+4. Braun-Blanquet (5 point) [@braun-blanquet1964]
+
+We recommend the use of percentage cover where possible to avoid information
+loss [@dengler2023].
 
 ## Survey Data Validation
 
