@@ -1,4 +1,4 @@
-sidebar <- function(input, output, session, surveyData, surveyDataValidator, 
+sidebar <- function(input, output, session, surveyData, surveyDataValidator,
                     floristicTables, nvcAssignment, habCor, speciesFreq,
                     avgEIVs, diversityAnalysis, 
                     mvaLocalRefRestrictedResults) {
@@ -14,6 +14,7 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator,
     sidebar_options_list <- list(
       "inputMethod" = input$inputMethod,
       "includeBryophytes" = input$includeBryophytes,
+      "clearTable" = input$clearTable,
       "selectedExampleData" = input$selectedExampleData,
       "coverScale" = input$coverScale,
       "runAnalysis" = input$runAnalysis,
@@ -48,6 +49,7 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator,
   }) |>
     bindEvent(input$inputMethod,
               input$includeBryophytes,
+              input$clearTable,
               input$selectedExampleData, 
               input$coverScale,
               input$runAnalysis,
@@ -610,7 +612,7 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator,
     
     content = function(file) {
       
-      floristicTables <- floristicTables() 
+      floristicTables <- floristicTables()
       nvcAssignment <- nvcAssignment()
       habCor <- habCor()
       speciesFreq <- speciesFreq()
@@ -621,8 +623,6 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator,
         "Floristic Tables - Long" = floristicTables$floristicTables_composed_all,
         "Floristic Tables - Wide" = floristicTables$floristicTables_composed_all_wide,
         "NVC Assignment - Quadrat" = nvcAssignment$nvcAssignmentPlot_Jaccard,
-        "NVC Assignment - Group" = nvcAssignment$nvcAssignmentGroup_Czekanowski,
-        "NVC Assignment - Site" = nvcAssignment$nvcAssignmentSite_Czekanowski,
         "Habitat Correspondences" = habCor,
         "Frequency Table" = speciesFreq,
         "EIVs, Weighted, Site" = avgEIVs$weightedMeanHEValuesSite,
@@ -637,6 +637,14 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator,
         "Diversity, Richness, Group" = diversityAnalysis$speciesRichnessGroup,
         "Diversity, Richness, Quadrat" = diversityAnalysis$speciesRichnessQuadrat
       )
+      
+      if(!is.null(nvcAssignment$nvcAssignmentGroup_Czekanowski)){
+        sheets[["NVC Assignment - Group"]] <- nvcAssignment$nvcAssignmentGroup_Czekanowski
+      }
+      
+      if(!is.null(nvcAssignment$nvcAssignmentSite_Czekanowski)){
+        sheets[["NVC Assignment - Site"]] <- nvcAssignment$nvcAssignmentSite_Czekanowski
+      }
       
       writexl::write_xlsx(x = sheets, path = file)
       

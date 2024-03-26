@@ -16,6 +16,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
               ignoreInit = FALSE)
   
 # Retrieve sidebar options ------------------------------------------------
+  clearTable <- reactiveVal()
   inputMethod <- reactiveVal()
   selectedExampleData <- reactiveVal()
   coverScale <- reactiveVal()
@@ -23,6 +24,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
 
   observe({
     
+    clearTable(sidebar_options()$clearTable)
     inputMethod(sidebar_options()$inputMethod)
     selectedExampleData(sidebar_options()$selectedExampleData)
     coverScale(sidebar_options()$coverScale)
@@ -123,13 +125,123 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     
   })
   
+  
+
+# Reset Survey Data Table -------------------------------------------------
+  observe({
+    
+    coverScale <- coverScale()
+    
+    if(coverScale == "none"){
+      
+      cover_type <- "numeric"
+      cover_format <- NULL
+      cover_source <- NULL
+      surveyData_reset <- surveyData_long_init
+      
+    } else if(coverScale == "percentage"){
+      
+      cover_type <- "numeric"
+      cover_format <- "0.00" #0%
+      cover_source <- NULL
+      surveyData_reset <- surveyData_long_init
+      
+    } else if(coverScale == "proportional"){
+      
+      cover_type <- "numeric"
+      cover_format <- "0.000"
+      cover_source <- NULL
+      surveyData_reset <- surveyData_long_init
+      
+    } else if(coverScale == "domin"){
+      
+      cover_type <- "dropdown"
+      cover_format <- NULL
+      cover_source <- domin_options
+      surveyData_reset <- surveyData_long_init |>
+        dplyr::mutate(Cover = as.factor("+"))
+      
+    } else if(coverScale == "braunBlanquet"){
+      
+      cover_type <- "dropdown"
+      cover_format <- NULL
+      cover_source <- braunBlanquet_options
+      surveyData_reset <- surveyData_long_init |>
+        dplyr::mutate(Cover = as.factor("+"))
+      
+    }
+    
+    output$surveyData <- rhandsontable::renderRHandsontable({
+      
+      surveyData <- rhandsontable::rhandsontable(data = surveyData_reset,
+                                                 height = 600,
+                                                 rowHeaders = NULL,
+                                                 width = "100%"#,
+                                                 # overflow = "visible"
+                                                 # stretchH = "all"
+      ) |>
+        rhandsontable::hot_col(col = colnames(surveyData_long_init), halign = "htCenter") |>
+        rhandsontable::hot_col(
+          col = "Year",
+          readOnly = FALSE,
+          type = "numeric"
+        ) |>
+        rhandsontable::hot_col(
+          col = "Group",
+          readOnly = FALSE,
+          type = "text"
+        ) |>
+        rhandsontable::hot_col(
+          col = "Quadrat",
+          readOnly = FALSE,
+          type = "text"
+        ) |>
+        rhandsontable::hot_col(
+          col = "Species",
+          readOnly = FALSE,
+          type = "dropdown",
+          source = RMAVIS::speciesNames,
+          strict = FALSE,
+          default = as.character(NA_character_)
+        ) |>
+        rhandsontable::hot_col(
+          col = "Cover",
+          readOnly = FALSE,
+          type = cover_type,
+          strict = FALSE,
+          format = cover_format,
+          source = cover_source
+        ) |>
+        rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE) |>
+        rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
+        # rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames) |>
+        htmlwidgets::onRender("
+        function(el, x) {
+          var hot = this.hot
+          $('a[data-value=\"surveyData_panel\"').on('click', function(){
+            setTimeout(function() {hot.render();}, 0);
+          })
+        }")
+      
+      return(surveyData)
+      
+    })
+    
+  }) |>
+    bindEvent(clearTable(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+  
+
+# Update Survey Data Table ------------------------------------------------
   observe({
     
     inputMethod <- inputMethod()
     selectedExampleData <- selectedExampleData()
-    coverScale <- coverScale()
     
     shiny::isolate({
+      
+      coverScale <- coverScale()
       
       if(inputMethod == "manual"){
         
@@ -161,11 +273,11 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       }
       
       if(coverScale == "none"){
-        
+
         cover_type <- "numeric"
         cover_format <- NULL
         cover_source <- NULL
-        
+
       } else if(coverScale == "percentage"){
 
         cover_type <- "numeric"
@@ -192,17 +304,17 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
 
       }
       
-    })
+    }) # close isolate
 
     output$surveyData <- rhandsontable::renderRHandsontable({
 
       surveyData <- rhandsontable::rhandsontable(data = surveyData,
-                                                  height = 600,
-                                                  rowHeaders = NULL,
-                                                  width = "100%"#,
-                                                  # overflow = "visible",
-                                                  # stretchH = "all"
-                                                  ) |>
+                                                 height = 600,
+                                                 rowHeaders = NULL,
+                                                 width = "100%"#,
+                                                 # overflow = "visible",
+                                                 # stretchH = "all"
+                                                 ) |>
         rhandsontable::hot_col(col = colnames(surveyData), halign = "htCenter") |>
         rhandsontable::hot_col(
           col = "Year",
@@ -255,7 +367,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
               selectedExampleData(),
               uploadDataTable(),
               ignoreInit = TRUE)
-  
 
 # Survey Table Validation Actions -----------------------------------------
   surveyData_corrected_rval <- reactiveVal()
@@ -356,11 +467,46 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
+
+# Adjust/Correct Species Names --------------------------------------------
   observe({
     
     shiny::req(surveyData_corrected_rval())
     
     surveyData_corrected <- surveyData_corrected_rval()
+    coverScale <- coverScale()
+    
+    if(coverScale == "none"){
+      
+      cover_type <- "numeric"
+      cover_format <- NULL
+      cover_source <- NULL
+      
+    } else if(coverScale == "percentage"){
+      
+      cover_type <- "numeric"
+      cover_format <- "0.00" #0%
+      cover_source <- NULL
+      
+    } else if(coverScale == "proportional"){
+      
+      cover_type <- "numeric"
+      cover_format <- "0.000"
+      cover_source <- NULL
+      
+    } else if(coverScale == "domin"){
+      
+      cover_type <- "dropdown"
+      cover_format <- NULL
+      cover_source <- domin_options
+      
+    } else if(coverScale == "braunBlanquet"){
+      
+      cover_type <- "dropdown"
+      cover_format <- NULL
+      cover_source <- braunBlanquet_options
+      
+    }
     
     output$surveyData <- rhandsontable::renderRHandsontable({
       
@@ -398,12 +544,13 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         rhandsontable::hot_col(
           col = "Cover",
           readOnly = FALSE,
-          type = "numeric",
-          strict = FALSE
+          type = cover_type,
+          strict = FALSE,
+          format = cover_format,
+          source = cover_source
         ) |>
         rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE) |>
         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        # rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames) |>
         htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot
@@ -421,8 +568,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
 
-  
-
 # Save Survey Table to Reactive Val ---------------------------------------
   # surveyData_rval <- reactiveVal(surveyDataR6)
   surveyData_rval <- reactiveVal(list(
@@ -435,23 +580,26 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   observe({
     
     coverScale <- coverScale()
+    surveyData <- surveyData_rval()
+    
+    surveyData$surveyData_original <- rhandsontable::hot_to_r(input$surveyData)
     
     if(coverScale == "none"){
       
-      surveyData_long <- rhandsontable::hot_to_r(input$surveyData)
+      surveyData_long <- surveyData$surveyData_original
       
     } else if(coverScale == "percentage"){
       
-      surveyData_long <- rhandsontable::hot_to_r(input$surveyData) |>
+      surveyData_long <- surveyData$surveyData_original |>
         dplyr::mutate("Cover" = Cover / 100)
       
     } else if(coverScale == "proportional"){
       
-      surveyData_long <- rhandsontable::hot_to_r(input$surveyData)
+      surveyData_long <- surveyData$surveyData_original
       
     } else if(coverScale == "domin"){
       
-      surveyData_long <- rhandsontable::hot_to_r(input$surveyData) |>
+      surveyData_long <- surveyData$surveyData_original |>
         dplyr::mutate("Cover" = as.character(Cover)) |>
         dplyr::left_join(RMAVIS:::dominConvert, by = c("Cover")) |>
         dplyr::select(-Cover) |>
@@ -467,14 +615,11 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       
     }
     
-    surveyData <- surveyData_rval()
-    surveyData$surveyData_original <- rhandsontable::hot_to_r(input$surveyData)
     surveyData$surveyData_long <- surveyData_long
     surveyData_rval(surveyData)
 
   }) |>
     bindEvent(input$surveyData,
-              # coverScale(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
@@ -499,7 +644,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     
     # Check whether any and all cover values are supplied
     coverSupplied <- surveyDataValidation()$coverSupplied
-    # coverSuppliedAll <- surveyDataValidation()$coverSuppliedAll
 
     if(coverSupplied == FALSE){
 
@@ -541,14 +685,14 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
 
   }) |>
     bindEvent(surveyDataValidation(),
-              surveyData_rval(),
-              input$surveyData, # Need this?
+              # Don't need to use these as surveyDataValidation occurs every time the table changes, and must do so before we retrieve new data.
+              # surveyData_rval(),
+              # input$surveyData,
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
     
   # Ensure table 
   outputOptions(output, "surveyData", suspendWhenHidden = FALSE)
-  
   
   return(surveyData_rval)
 

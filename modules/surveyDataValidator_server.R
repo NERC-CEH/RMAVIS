@@ -245,11 +245,11 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
 
     } else if(coverScale == "domin"){
 
-      surveyData_coverValuesOK <- isTRUE(all(levels(surveyData_original$Cover) %in% RMAVIS:::dominConvert$Cover))
+      surveyData_coverValuesOK <- isTRUE(all(surveyData_original$Cover %in% RMAVIS:::dominConvert$Cover)) # & all(!is.null(levels(surveyData_original$Cover))))
 
     } else if(coverScale == "braunBlanquet"){
 
-      surveyData_coverValuesOK <- isTRUE(all(levels(surveyData_original$Cover) %in% RMAVIS:::braunBlanquetConvert$Cover))
+      surveyData_coverValuesOK <- isTRUE(all(surveyData_original$Cover %in% RMAVIS:::braunBlanquetConvert$Cover)) # & all(!is.null(levels(surveyData_original$Cover))))
 
     }
 
@@ -296,6 +296,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
   }) |>
     bindEvent(surveyData(),
               speciesNames(),
+              # coverScale(),
               input$adjustSpecies,
               speciesAdjustmentTable_rval(),
               ignoreInit = TRUE,
