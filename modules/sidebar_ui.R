@@ -250,6 +250,37 @@ sidebarUI <- function(id){
               placement = "bottom"
             )
             
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("clearTable_div"),
+          
+          shiny::div(shiny::h6("Clear Survey Data Table")),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::actionButton(inputId = ns("clearTable"),
+                                label = "Clear"),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Clear Survey Data Table",
+              id = ns("clearTableInfo"),
+              shiny::markdown(
+                "
+                Clear the survey data table.
+                "
+              ),
+              placement = "bottom"
+            )
+            
           )
         )
         

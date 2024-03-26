@@ -1,7 +1,7 @@
 Package: RMAVIS
 Title: Assign Vegetation Survey Data to GB NVC Communities
-Version: 0.993
-Date: 2024-03-21
+Version: 0.994
+Date: 2024-03-26
 Authors@R: c(person(given = "Zeke",
                     family = "Marshall",
                     role = c("aut", "cre"),

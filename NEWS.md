@@ -3,7 +3,16 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
-# RMAVIS 0.993 (2024-03-19)
+# RMAVIS 0.994 (2024-03-26)
+*   Modifications: NA
+*   Fixes:
+      -   Ensuring cover scale is correctly linked to survey data table.
+      -   Ensuring RMAVIS results .xlsx can be downloaded if the number of plots per group and year-group are less than 5.
+      -   Fixing NPMS M habitat correspondences.
+*   New Features:
+      -   Adding button to clear survey data table.
+
+# RMAVIS 0.993 (2024-03-21)
 *   Modifications: NA
 *   Fixes:
       -   Fixing MAVIS upload.
