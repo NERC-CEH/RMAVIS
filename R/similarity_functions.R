@@ -68,6 +68,12 @@ similarityCzekanowski <- function(samp_df, comp_df,
       comp_weight_name_new <- paste0(comp_weight_name, "_comp")
       samp_weight_name_new <- paste0(samp_weight_name, "_samp")
       
+      # comp_weight_name_new <- paste0("freq_comp")
+      # samp_weight_name_new <- paste0("freq_samp")
+      # 
+      # names(eval_table)[names(eval_table) == comp_weight_name] <- comp_weight_name_new
+      # names(eval_table)[names(eval_table) == samp_weight_name] <- samp_weight_name_new
+      
       # Down-weight species absent in the sample data but present in the comparison data at a constancy of downweight_threshold to downweight_value
       eval_table[[comp_weight_name_new]][eval_table[[samp_weight_name_new]] == 0 & eval_table[[comp_weight_name_new]] == downweight_threshold] <- downweight_value
       

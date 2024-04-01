@@ -68,6 +68,14 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
       surveyData_mat <- surveyData$surveyData_mat
       avgEIVs <- avgEIVs()
       
+      # assign(x = "nvcAssignment", value = nvcAssignment, envir = .GlobalEnv)
+      # assign(x = "topNVCCommunities", value = topNVCCommunities, envir = .GlobalEnv)
+      # assign(x = "nvc_pquads_final_wide", value = nvc_pquads_final_wide, envir = .GlobalEnv)
+      # assign(x = "nvc_pquads_mean_unweighted_eivs", value = nvc_pquads_mean_unweighted_eivs, envir = .GlobalEnv)
+      # assign(x = "surveyData", value = surveyData, envir = .GlobalEnv)
+      # assign(x = "surveyData_mat", value = surveyData_mat, envir = .GlobalEnv)
+      # assign(x = "avgEIVs", value = avgEIVs, envir = .GlobalEnv)
+      
       # Create pattern to subset matrix rows
       codes_regex <- c()
       

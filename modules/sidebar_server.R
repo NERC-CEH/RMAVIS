@@ -658,6 +658,7 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator,
       
       paste0("RMAVIS.SurveyData.",
              format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
+             ".csv",
              sep="")
       
     },
@@ -679,6 +680,7 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator,
       
       paste0("RMAVIS.AcceptedSpecies.",
              format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
+             ".csv",
              sep="")
       
     },
