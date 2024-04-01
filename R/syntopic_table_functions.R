@@ -11,27 +11,35 @@
 #' @example 
 composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Species", plot_col_name = "Quadrat"){
   
+  # Determine the total number of quadrats per group
+  plot_n <- surveyData |>
+    tidyr::unite(col = "ID", group_cols, sep = " - ", remove = TRUE) |>
+    dplyr::select(ID, plot_col_name) |>
+    dplyr::distinct() |>
+    dplyr::group_by(ID) |>
+    dplyr::tally() |>
+    dplyr::ungroup()
+  
+  # Calculate the absolute frequency and relative frequency of species 
+  # occurrence across all plots by group
   syntopicTables <- surveyData |>
     tidyr::unite(col = "ID", group_cols, sep = " - ", remove = TRUE) |>
     dplyr::select(ID, plot_col_name, species_col_name) |>
     dplyr::mutate("Present" = 1) |>
-    tidyr::pivot_wider(id_cols = c(ID, species_col_name),
-                       values_from = Present,
-                       names_from = plot_col_name) |>
-    dplyr::rowwise() |>
-    dplyr::mutate("Sum" = sum(dplyr::c_across(dplyr::where(is.numeric)), na.rm = TRUE)) |>
+    dplyr::group_by(ID, .data[[species_col_name]]) |>
+    dplyr::summarise("Frequency" = sum(Present)) |>
     dplyr::ungroup() |>
-    dplyr::mutate("Frequency" = Sum / (ncol(dplyr::pick(dplyr::everything())) - 3)) |> # -2
-    dplyr::select(ID, species_col_name, Sum, Frequency) |>
+    dplyr::left_join(plot_n, by = c("ID")) |>
+    dplyr::mutate("Relative Frequency" = Frequency / n) |>
     dplyr::mutate(
       "Constancy" =
         dplyr::case_when(
-          Frequency <= 0.2 ~ "I",
-          Frequency <= 0.4 ~ "II",
-          Frequency <= 0.6 ~ "III",
-          Frequency <= 0.8 ~ "IV",
-          Frequency <= 1.0 ~ "V",
-          TRUE ~ as.character(Frequency)
+          `Relative Frequency` <= 0.2 ~ "I",
+          `Relative Frequency` <= 0.4 ~ "II",
+          `Relative Frequency` <= 0.6 ~ "III",
+          `Relative Frequency` <= 0.8 ~ "IV",
+          `Relative Frequency` <= 1.0 ~ "V",
+          TRUE ~ as.character(`Relative Frequency`)
         )
     ) |>
     dplyr::select(ID, species_col_name, Constancy) |>

@@ -3,6 +3,13 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
+# RMAVIS 0.995 (2024-04-01)
+*   Modifications:
+      - Improving function to compose syntopic tables.
+*   Fixes:
+      -   Adding .csv extension to downloadable csv files.
+*   New Features: NA
+
 # RMAVIS 0.994 (2024-03-26)
 *   Modifications: NA
 *   Fixes:
