@@ -5,7 +5,7 @@
 \alias{example_data_all}
 \title{A dataset containing}
 \format{
-A data frame with 11143 rows and 6 columns, the definitions of which are:
+A data frame with  rows and  columns, the definitions of which are:
 \describe{
 \item{}{}
 }

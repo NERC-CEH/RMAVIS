@@ -5,7 +5,7 @@
 \alias{nvc_floristic_tables_numeric}
 \title{A dataset containing}
 \format{
-A data frame with 48218 rows and 3 columns, the definitions of which are:
+A data frame with 49781 rows and 3 columns, the definitions of which are:
 \describe{
 \item{}{}
 }

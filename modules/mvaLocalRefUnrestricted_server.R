@@ -67,27 +67,10 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
       surveyData <- surveyData()
       surveyData_mat <- surveyData$surveyData_mat
       avgEIVs <- avgEIVs()
-      
-      # assign(x = "nvcAssignment", value = nvcAssignment, envir = .GlobalEnv)
-      # assign(x = "topNVCCommunities", value = topNVCCommunities, envir = .GlobalEnv)
-      # assign(x = "nvc_pquads_final_wide", value = nvc_pquads_final_wide, envir = .GlobalEnv)
-      # assign(x = "nvc_pquads_mean_unweighted_eivs", value = nvc_pquads_mean_unweighted_eivs, envir = .GlobalEnv)
-      # assign(x = "surveyData", value = surveyData, envir = .GlobalEnv)
-      # assign(x = "surveyData_mat", value = surveyData_mat, envir = .GlobalEnv)
-      # assign(x = "avgEIVs", value = avgEIVs, envir = .GlobalEnv)
+      ccaVars <- ccaVars()
       
       # Create pattern to subset matrix rows
-      codes_regex <- c()
-      
-      for(code in topNVCCommunities){
-        
-        regex <- paste0("^(", code, ")(?<=)P")
-        
-        codes_regex <- c(codes_regex, regex)
-        
-        codes_regex <- stringr::str_c(codes_regex, collapse = "|")
-        
-      }
+      codes_regex <- paste0("^(", stringr::str_c(topNVCCommunities, collapse = "|"), ")(?<=)P")
       
       # Subset pseudo-quadrats for selected communities
       nvc_pquads_final_wide_trimmed <- nvc_pquads_final_wide[stringr::str_detect(string = row.names(nvc_pquads_final_wide), pattern = codes_regex), ]
@@ -126,7 +109,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
                                                 unweightedMeanHEValuesQuadrat_prepped)
       
       # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
-      nvc_pquads_final_wide_prepped_wsurveyDataWide_cca  <- vegan::cca(as.formula(paste0("nvc_pquads_final_wide_prepped_wsurveyDataWide ~ ", paste0(c(RMAVIS:::ccaVars_vals[[ccaVars()]]), collapse = " + "))), # nvc_pquads_final_wide_prepped_wsurveyDataWide ~ `F` + `L` + `N`
+      nvc_pquads_final_wide_prepped_wsurveyDataWide_cca  <- vegan::cca(as.formula(paste0("nvc_pquads_final_wide_prepped_wsurveyDataWide ~ ", paste0(c(RMAVIS:::ccaVars_vals[[ccaVars]]), collapse = " + "))), # nvc_pquads_final_wide_prepped_wsurveyDataWide ~ `F` + `L` + `N`
                                                                        data = all_mean_unweighted_eivs_prepped,
                                                                        na.action = na.exclude)
       
@@ -279,8 +262,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     mvaResults(mvaResults_list)
     
   }) |>
-    bindEvent(runAnalysis(),
-              nvcAssignment(),
+    bindEvent(nvcAssignment(), # Changes every time the analysis is re-run
               ccaVars(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)

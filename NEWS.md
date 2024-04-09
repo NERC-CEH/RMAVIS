@@ -3,9 +3,18 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
+# RMAVIS 1.000 (2024-04-XX)
+*   Modifications:
+      -   A
+*   Fixes:
+      -   
+*   New Features:
+      -   Adding option to disable the calculation of similarities for quadrats.
+      -   Adding Scottish oceanic wet grassland communities.
+
 # RMAVIS 0.995 (2024-04-01)
 *   Modifications:
-      - Improving function to compose syntopic tables.
+      -   Improving function to compose syntopic tables.
 *   Fixes:
       -   Adding .csv extension to downloadable csv files.
 *   New Features: NA

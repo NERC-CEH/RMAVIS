@@ -1,7 +1,7 @@
 ---
 title: "RMAVIS - Documentation"
-subtitle: "v0.995"
-# output: 
+subtitle: "v1.0"
+# output:
 #   bookdown::word_document2:
 # always_allow_html: true
 output:
@@ -89,23 +89,26 @@ reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAss
 
 # Introduction
 
-The assignment of species compositional data to established vegetation
-classifications is a well established practice in ecology and
-conservation [@maciejewski2020]. The results of this assignment process
-are used in various ways, including: informing ecological restoration
-objectives [@gann2019] and assisting in the phase 2 habitat survey (or
-NVC survey) [@rodwell2006national] process, along with establishing an
-ecological baseline and identifying important ecological features such
-as protected habitats [@cieem2022].
+The assignment of vegetation sample plot data to established vegetation 
+classification units using computational methods is a well established and 
+recognised practice [@maciejewski2020]. 
+The results of this assignment process are used in various ways, 
+including assisting in the phase 2 habitat survey
+(or NVC survey) [@rodwell2006national] process; 
+establishing an ecological baseline and identifying important ecological 
+features such as protected habitats [@cieem2022]; 
+and in ecological restoration by providing a proxy for historical reference 
+ecosystems to target and against which to measure restoration progress 
+[@pywell2002; @gann2019; @sturbois2023].
 
-The development of computational methods and programs for the assignment
-of vegetation survey data to NVC communities began with the development
-of TABLEFIT [@hill1989; @marrs2019]. The most recent program, the
-Modular Analysis of Vegetation Information System (MAVIS), was
-originally developed by @smart2016mavis as a Windows application, with
-the latest version released in 2021.
+In the Great Britain (GB) the development of computational methods and programs 
+for the assignment of vegetation survey data to NVC communities began with the 
+development of TABLEFIT [@hill1989; @marrs2019] and was followed by MATCH 
+[@malloch1998].
+The most recent program, the Modular Analysis of Vegetation Information System 
+(MAVIS), was developed by @smart2016 with the latest version released in 2021.
 
-This R Shiny implementation of MAVIS (**RMAVIS**) is the newest program in this
+This R Shiny implementation of MAVIS (`RMAVIS`) is the newest program in this
 series, aiming to provide a web-based and easily operable system which
 can be updated and improved over time.
 
@@ -113,7 +116,7 @@ can be updated and improved over time.
 
 ## Survey Data
 
-Three methods for entering data into RMAVIS are provided: manual, upload,
+Three methods for entering data into `RMAVIS` are provided: manual, upload,
 and example. The manual method allows the user to enter the data
 directly via editing the cells of the survey data table, or copying the
 data in. The upload method allows the user to upload the data in one of
@@ -135,12 +138,12 @@ The list of species available for entry is currently composed of:
     National Biodiversity Network (NBN), filtered to include taxa at the
     "species", "species aggregate", "subspecies", "species sensu lato",
     and "genus" ranks.
--   The lichens, charophytes, and algae present in the NVC floristic
-    tables.
+-   The limited number of lichen, charophyte, and algae taxa present in the NVC 
+    floristic tables.
 
 ### Example Data
 
-Four example datasets are available in RMAVIS, which provide a means to
+Four example datasets are available in `RMAVIS`, which provide a means to
 explore the applications functionality.
 
 **Parsonage Down**
@@ -182,7 +185,7 @@ Four cover scales are available for selection.
 
 1. Percentage
 2. Proportional
-3. Domin
+3. Domin [@rodwell2006national]
 4. Braun-Blanquet (5 point) [@braun-blanquet1964]
 
 We recommend the use of percentage cover where possible to avoid information
@@ -190,7 +193,7 @@ loss [@dengler2023].
 
 ## Survey Data Validation
 
-At present RMAVIS is designed to analyse vegetation survey data in the
+At present `RMAVIS` is designed to analyse vegetation survey data in the
 form of grouped quadrats for a single site, with or without cover
 estimates. However, the user may utilise the "Group" and "Quadrat"
 columns as desired, for example by using the "Group" column to delineate
@@ -225,18 +228,22 @@ are provided:
 The user may also combine duplicate observations of a species in
 quadrats using the "Combine Duplicates" button.
 
-Until these conditions are met RMAVIS will not be able to proceed with as
+Until these conditions are met `RMAVIS` will not be able to proceed as
 the "Run Analysis" and "Generate Report" buttons will be disabled.
 
 ## NVC Assignment
 
-In RMAVIS NVC community similarities are assigned to survey data for the
-site and each group of plots by year using the Czekanowski index
-[@bloom1981; @hill1989], which quantifies the similarity 
+In `RMAVIS` NVC community similarities are assigned to survey data for the
+site and each group of plots by year using the Czekanowski quantitative
+coefficient of similarity [@bloom1981; @hill1989],
+as implemented in MATCH [@malloch1999], and also known as the Steinhaus 
+coefficient.
+The Czekanowski coefficient quantifies the similarity 
 between 1) a floristic table composed from survey data plots and 
-2) the NVC floristic tables. 
+2) the NVC floristic tables; with the ordinal constancy classes of I-V, replaced
+with the numeric values 1-5.
 Species absent from the survey data, but present in the NVC
-floristic tables at a constancy of 0.2 are down-weighted to 0.1. 
+floristic tables at a constancy of 1 are down-weighted to 0.1. 
 
 \begin{equation}
 C_{jk} = 2 \cdot \frac{\sum_{i=1}^{p} min(N_{ij}, N_{ik})}{\sum_{i=1}^{p} N_{ij} + \sum_{i=1}^{p} N_{ik}}
@@ -247,13 +254,13 @@ the abundance of species $i$ at site $k$, $p$ is the total number of species
 in the samples.
 
 The similarity between individual plots and NVC communities are quantified
-by calculating the Jaccard similarity between the sample plots and
-pseudo-quadrats generated from the NVC floristic tables. This approach
+by calculating the Jaccard coefficient of similarity between the sample plots 
+and pseudo-quadrats generated from the NVC floristic tables. This approach
 is noted as improving the accuracy of fit relative to the Czekanowski
-index for samples with low species richness [@tipping2013].
+coefficient for samples with low species richness [@tipping2013].
 
 \begin{equation}
-j = \frac{a}{a + b + c} = \frac{X \cap Y}{X \cup Y}
+j = \frac{a}{a + b + c} = \frac{X \cap Y}{X \cup Y} = \frac{X \cap Y}{X + Y - X \cap Y}
 \end{equation}
 
 Where where $X$ and $Y$ represent the species present in two sites, 
@@ -264,9 +271,26 @@ and the converse for $c$ (${X \cup Y}$).
 > Please note that Site and Group similarities will not be calculated
 > for Years and Year-Group combinations with less than 5 sample plots
 
+The pseudo-quadrat method as outlined in @tipping2013
+uses a Bernoulli trial to determine the presence or
+absence of each species, with the probability of a successful trial
+equal to the relative frequency of occurrence of each species in a NVC
+community or sub-community (unit). The relative frequency/probability
+values are derived from the ordinal constancy classes used in the NVC 
+[@rodwell2006national], specifically the mid-point of the percentage ranges which form 
+the constancy classes, such that V (81-100%) = 0.9, IV (61-80%) = 0.7, III
+(41-60%) = 0.5, II (21-40%) = 0.3, and I (1-20%) = 0.1. These values were
+taken in the absence of the actual relative frequencies of each species
+in each NVC unit.
+The number of pseudo-quadrats is currently equal to the number of samples
+used to define the original unit, with the exception of the Scottish oceanic
+wet grassland communities for which 25 pseudo-quadrats were generated, which
+represents the estimated optimum.
+Work to determine the optimum number of pseudo-quadrats is ongoing.
+
 ### Communities
 
-The NVC communities available in RMAVIS are composed from the following
+The NVC communities available in `RMAVIS` are composed from the following
 sources:
 
 -   The original NVC floristic tables as described in @rodwell2000.
@@ -282,12 +306,26 @@ sources:
 -   A new MG community (MG15) and two sub-communities (MG15a, MG15b)
     [@wallace2017].
 -   A new MG community (MG16) [@wallace2017].
+-   A new set of Scottish Oceanic Wet Grassland Communities as
+    described in @wallace2023.
 
 ### Options
 
+**Assign Quadrats**
+
+Optionally calculate similarity values for individual quadrats.
+If the user only wishes to assign NVC community similarity values for
+groups of quadrats or all quadrats in a year disable this option.
+Note that the Jaccard similarity calculations for individual quadrats can take
+a long time for large samples, so it may also be desirable to disable then.
+If there are less than five quadrats per year `RMAVIS` this option is set to 'Yes'
+and disabled, as similarity values for years and/or groups which contain
+less than five quadrats must be calculated using the Jaccard coefficient and 
+reference pseudo-quadrats.
+
 **Results to View**
 
-Three sets of NVC assignment results are available in RMAVIS at present:
+Three sets of NVC assignment results are available in `RMAVIS` at present:
 
 -   Site, Czekanowski
 -   Group, Czekanowski
@@ -342,7 +380,7 @@ available:
 ## Floristic Tables
 
 To aid in the NVC assignment process and as an exploratory tool the
-**Floristic Tables** section of RMAVIS allows the user to compare a
+**Floristic Tables** section of `RMAVIS` allows the user to compare a
 composed floristic table to a chosen NVC floristic table. The facility
 to match the species in the composed table with the NVC table, two ways,
 is also provided.
@@ -379,7 +417,7 @@ species present in both tables, three options are provided:
 
 ## Frequency
 
-The **Frequency** section of RMAVIS summarises the number of occurrences
+The **Frequency** section of `RMAVIS` summarises the number of occurrences
 of each species across all sample plots, the difference between the
 first year and last year, and a text category describing the change.
 
@@ -430,7 +468,7 @@ At present five sets of results are available:
 
 ## MVA
 
-The Multivariate Analysis (MVA) section of RMAVIS aims to allow the user
+The Multivariate Analysis (MVA) section of `RMAVIS` aims to allow the user
 to explore the position of the survey data quadrats in an ordination
 space constructed by performing a Detrended Correspondence Analysis
 (DCA) [@hill1980dca]. The results of a Canonical Correspondence Analysis
@@ -439,13 +477,13 @@ and pre-calculated set of unweighted mean Hill-Ellenberg values for each
 pseudo-quadrat as the constraining matrix, are available for visualising
 in each MVA plot.
 
-Three MVA methods are provided in RMAVIS, which are described below.
+Three MVA methods are provided in `RMAVIS`, which are described below.
 
 ### National Reference
 
 The ordination space in the **National Reference** MVA was constructed
 by performing a pre-calculated DCA on the pseudo-quadrats from all NVC
-communities, with the survey quadrats added in passively in RMAVIS using
+communities, with the survey quadrats added in passively in `RMAVIS` using
 the mean of the species scores from the pre-calculated pseudo-quadrat
 DCA.
 
@@ -598,8 +636,8 @@ plots.
 
 ## Report
 
-RMAVIS allows the user to generate a downloadable pdf report, which by
-default contains 1) a table of the RMAVIS results selected for inclusion,
+`RMAVIS` allows the user to generate a downloadable pdf report, which by
+default contains 1) a table of the `RMAVIS` results selected for inclusion,
 and 2) tables containing the number of quadrats sampled by year and
 group.
 
@@ -608,16 +646,16 @@ group.
 **Author**
 
 A text input where the user is able to enter the name of the person/s
-using RMAVIS.
+using `RMAVIS`.
 
 **Project Name**
 
 A text input where the user is able to enter the project name/name of
-the site being analysed in RMAVIS.
+the site being analysed in `RMAVIS`.
 
 **Report Options**
 
-The user is able to select any of the results visualised in RMAVIS for
+The user is able to select any of the results visualised in `RMAVIS` for
 inclusion in the report, displayed in the table below.
 
 ```{r reportOptions_table, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="The RMAVIS results available for inclusion in the pdf report."}
@@ -637,10 +675,11 @@ kableExtra::kbl(x = reportOptions_table,
 
 ## Download
 
-At present the **Download** section of RMAVIS allows the user to
+At present the **Download** section of `RMAVIS` allows the user to
 download:
 
--   A csv file containing the species accepted by RMAVIS.
+-   A xlsx file containing all the results from the `RMAVIS` session.
+-   A csv file containing the species accepted by `RMAVIS`.
 -   The data entered into the Survey Table.
 
 # Acknowledgements
@@ -655,7 +694,14 @@ Lucy Ridding,
 Barry Jobson,
 Colin Conroy,
 Rob Marrs,
-for testing RMAVIS.
+Andy McMullen,
+John Handley,
+Michael Tso,
+Simon Rolph,
+Cristina Martin Hernandez,
+and
+George Linney
+for testing `RMAVIS`.
 
 
 We would also like to thank Laurence Jones for providing the Newborough
@@ -664,8 +710,13 @@ example dataset.
 
 # Recommended Citation
 
-```         
+To reference `RMAVIS` please cite the JOSS paper (in prep)
 
 ```
+
+```
+
+and the Zenodo repository for the particular version used, which can be found
+here https://zenodo.org/records/10903218.
 
 # References

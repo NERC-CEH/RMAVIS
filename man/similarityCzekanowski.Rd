@@ -13,7 +13,7 @@ similarityCzekanowski(
   comp_group_name,
   samp_weight_name,
   comp_weight_name,
-  downweight_threshold = 0.2,
+  downweight_threshold = 1,
   downweight_value = 0.1
 )
 }

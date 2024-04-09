@@ -1,4 +1,5 @@
-sidebar <- function(input, output, session, surveyData, surveyDataValidator,
+sidebar <- function(input, output, session, 
+                    surveyData, surveyDataValidator, surveyDataSummary,
                     floristicTables, nvcAssignment, habCor, speciesFreq,
                     avgEIVs, diversityAnalysis, 
                     mvaLocalRefRestrictedResults) {
@@ -18,6 +19,7 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator,
       "selectedExampleData" = input$selectedExampleData,
       "coverScale" = input$coverScale,
       "runAnalysis" = input$runAnalysis,
+      "assignQuadrats" = input$assignQuadrats,
       "habitatRestriction" = input$habitatRestriction,
       "nTopResults" = input$nTopResults,
       "resultsViewNVCAssign" = input$resultsViewNVCAssign,
@@ -53,6 +55,7 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator,
               input$selectedExampleData, 
               input$coverScale,
               input$runAnalysis,
+              input$assignQuadrats,
               input$habitatRestriction, 
               input$nTopResults,
               input$resultsViewNVCAssign,
@@ -307,8 +310,53 @@ sidebar <- function(input, output, session, surveyData, surveyDataValidator,
     bindEvent(input$floristicTablesView,
               ignoreInit = FALSE)
   
-  
-  # Reactively update nvcFloristicTable options -----------------------------
+
+# Update assignQuadrats Switch --------------------------------------------
+  observe({
+    
+    req(surveyDataSummary())
+    
+    surveyDataSummary <- surveyDataSummary()
+    
+    # If there are any years with less than n (the threshold) quadrats, enable
+    # assignQuadrats as the group similarities will no be calculated.
+    threshold <- 5
+    years_quadrats_less_threshold <- surveyDataSummary$surveyDataStructure$quadratsPerYear |>
+      dplyr::filter(quadratsPerYear < threshold) |>
+      nrow()
+    fix_assignQuadrats_enabled <- isTRUE(years_quadrats_less_threshold > 0)
+    
+    if(fix_assignQuadrats_enabled == TRUE){
+      
+      shinyWidgets::updateSwitchInput(
+        session = session,
+        inputId = "assignQuadrats",
+        value = TRUE,
+        disabled = TRUE
+      )
+      
+      # shinyjs::disable(id = "resultsViewNVCAssign")
+      
+    } else if(fix_assignQuadrats_enabled == FALSE){
+      
+      shinyWidgets::updateSwitchInput(
+        session = session,
+        inputId = "assignQuadrats",
+        value = NULL,
+        disabled = FALSE
+      )
+      
+      # shinyjs::enable(id = "resultsViewNVCAssign")
+      
+    }
+    
+  }) |>
+    bindEvent(#input$assignQuadrats,
+              surveyDataSummary(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+
+# Reactively update nvcFloristicTable options -----------------------------
   observe({
     
     shiny::req(nvcAssignment())

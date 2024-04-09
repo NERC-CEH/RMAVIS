@@ -23,6 +23,17 @@ dataEntryFormat_options <- c("Long" = "long",
                              "MAVIS" = "mavis")
 
 
+# Constancy Conversion ----------------------------------------------------
+constancyConversion <- tibble::tibble(
+  "Class" = c("I", "II", "III", "IV", "V"), 
+  "ClassNumeric" = c(1, 2, 3, 4, 5),
+  "ClassPercentMid" = c(10, 30, 50, 70, 90), 
+  "ClassProportionMid" = c(0.1, 0.3, 0.5, 0.7, 0.9),
+  "ClassPercentLower" = c(0, 20, 40, 60, 80),
+  "ClassPercentUpper" = c(20, 40, 60, 80, 100)
+  
+)
+
 # Cover Scale Options -----------------------------------------------------
 coverScale_options <- c("None" = "none",
                         "Percentage" = "percentage",
@@ -70,7 +81,26 @@ habitatRestriction_options <- list(
   "Salt-marsh communities (SM)" = "SM",
   "Shingle, strandline and sand-dune communities (SD)" = "SD",
   "Maritime cliff communities (MC)" = "MC",
-  "Vegetation of open habitats (OV)" = "OV"
+  "Vegetation of open habitats (OV)" = "OV",
+  "Scottish Oceanic Wet Grasslands (SOWG)" = "SOWG"
+)
+
+
+# Habitat Restriction Prefixes --------------------------------------------
+habitatRestrictionPrefixes <- list(
+  "W" = c("W"),
+  "M" = c("M"),
+  "H" = c("H"),
+  "MG" = c("MG"),
+  "CG" = c("CG"),
+  "U" = c("U"),
+  "A" = c("A"),
+  "S" = c("S"),
+  "SM" = c("SM"),
+  "SD" = c("SD"),
+  "MC" = c("MC"),
+  "OV" = c("OV"),
+  "SOWG" = c("AgBp", "AgCf", "CaCn", "CnPe", "MG")
 )
 
 # Floristic Tables Options ------------------------------------------------
@@ -193,12 +223,14 @@ usethis::use_data(taxonomicBackboneMethod_options,
                   inputMethod_options,
                   example_data_options,
                   dataEntryFormat_options,
+                  constancyConversion,
                   coverScale_options,
                   domin_options,
                   braunBlanquet_options,
                   dominConvert,
                   braunBlanquetConvert,
                   habitatRestriction_options,
+                  habitatRestrictionPrefixes,
                   floristicTablesView_options,
                   floristicTablesSetView_options,
                   matchSpecies_options,

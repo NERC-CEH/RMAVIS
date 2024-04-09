@@ -38,8 +38,8 @@ surveyDataSummary <- function(input, output, session, surveyData) {
     quadratsPerID <- rbind(quadratsPerYearID, quadratsPerYearGroupID)
     
     surveyData_quadratsPerYearGroup <- list("quadratsPerYear" = quadratsPerYear,
-                                             "quadratsPerYearGroup" = quadratsPerYearGroup,
-                                             "quadratsPerID" = quadratsPerID)
+                                            "quadratsPerYearGroup" = quadratsPerYearGroup,
+                                            "quadratsPerID" = quadratsPerID)
     
     surveyDataStructure_rval(surveyData_quadratsPerYearGroup)
     
@@ -121,7 +121,8 @@ surveyDataSummary <- function(input, output, session, surveyData) {
   
   # Initialise quadratsPerYear Table ----------------------------------------
   quadratsPerYearTable_init <- data.frame("Year" = integer(),
-                                          "n" = numeric()
+                                          "n" = numeric(),
+                                          "Similarities.Calculable?" = character()
   )
   
   quadratsPerYearTable_rval <- reactiveVal(quadratsPerYearTable_init)
@@ -154,7 +155,8 @@ surveyDataSummary <- function(input, output, session, surveyData) {
   # Initialise quadratsPerYearGroup Table -----------------------------------
   quadratsPerYearGroupTable_init <- data.frame("Year" = integer(),
                                                "Group" = character(),
-                                               "n" = numeric()
+                                               "n" = numeric(),
+                                               "Similarities.Calculable?" = character()
   )
   
   quadratsPerYearGroupTable_rval <- reactiveVal(quadratsPerYearGroupTable_init)
@@ -191,7 +193,14 @@ surveyDataSummary <- function(input, output, session, surveyData) {
     req(surveyDataStructure_rval())
     
     quadratsPerYear <- surveyDataStructure_rval()$quadratsPerYear |>
-      dplyr::mutate("n" = quadratsPerYear, .keep = "unused")
+      dplyr::mutate("n" = quadratsPerYear, .keep = "unused") |>
+      dplyr::mutate(
+        "Similarities.Calculable?" = 
+          dplyr::case_when(
+            n < 5 ~ "No",
+            TRUE ~ as.character("Yes")
+          )
+      )
     
     output$quadratsPerYearTable <- reactable::renderReactable({
       
@@ -230,7 +239,14 @@ surveyDataSummary <- function(input, output, session, surveyData) {
     req(surveyDataStructure_rval())
     
     quadratsPerYearGroup <- surveyDataStructure_rval()$quadratsPerYearGroup|>
-      dplyr::mutate("n" = quadratsPerYearGroup, .keep = "unused")
+      dplyr::mutate("n" = quadratsPerYearGroup, .keep = "unused") |>
+      dplyr::mutate(
+        "Similarities.Calculable?" = 
+          dplyr::case_when(
+            n < 5 ~ "No",
+            TRUE ~ as.character("Yes")
+          )
+      )
     
     output$quadratsPerYearGroupTable <- reactable::renderReactable({
       

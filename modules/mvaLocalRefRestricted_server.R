@@ -70,17 +70,7 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
       surveyData_long <- surveyData$surveyData_long
       
       # Create pattern to subset matrix rows
-      codes_regex <- c()
-      
-      for(code in topNVCCommunities){
-        
-        regex <- paste0("^(", code, ")(?<=)P")
-        
-        codes_regex <- c(codes_regex, regex)
-        
-        codes_regex <- stringr::str_c(codes_regex, collapse = "|")
-        
-      }
+      codes_regex <- paste0("^(", stringr::str_c(topNVCCommunities, collapse = "|"), ")(?<=)P")
       
       # Subset pseudo-quadrats for selected communities
       selected_pquads <- nvc_pquads_final_wide[stringr::str_detect(string = row.names(nvc_pquads_final_wide), pattern = codes_regex), ]
@@ -228,16 +218,13 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
       
       
   }) |>
-    bindEvent(runAnalysis(),
-              nvcAssignment(),
+    bindEvent(nvcAssignment(), # Changes every time the analysis is re-run
               ccaVars(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
   
-  
-
-   # Subset data and create plot ---------------------------------------------
+# Subset data and create plot ---------------------------------------------
     observe({
       
       shiny::req(mvaResults())

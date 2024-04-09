@@ -5,7 +5,7 @@
 \alias{nvc_pquad_dca_all_hulls}
 \title{A dataset containing}
 \format{
-A data frame with 25388 rows and 7 columns, the definitions of which are:
+A data frame with 25956 rows and 7 columns, the definitions of which are:
 \describe{
 \item{}{}
 }

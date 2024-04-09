@@ -20,6 +20,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
 # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
   coverMethod <- reactiveVal()
+  assignQuadrats <- reactiveVal(FALSE)
   habitatRestriction <- reactiveVal()
   nTopResults <- reactiveVal()
   resultsViewNVCAssign <- reactiveVal()
@@ -28,6 +29,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
 
     runAnalysis(sidebar_options()$runAnalysis)
     coverMethod(sidebar_options()$coverMethod)
+    assignQuadrats(sidebar_options()$assignQuadrats)
     habitatRestriction(sidebar_options()$habitatRestriction)
     nTopResults(sidebar_options()$nTopResults)
     resultsViewNVCAssign(sidebar_options()$resultsViewNVCAssign)
@@ -52,11 +54,19 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   
   observe({
     
+    # if(assignQuadrats() == TRUE){
+    #   
     if("nvcAssignPlotJaccard" %in% resultsViewNVCAssign()){
       shinyjs::show(id = "nvcAssignmentPlot_Jaccard_div")
     } else {
       shinyjs::hide(id = "nvcAssignmentPlot_Jaccard_div")
     }
+    #   
+    # } else if(assignQuadrats() == FALSE){
+    #   
+    #   shinyjs::hide(id = "nvcAssignmentPlot_Jaccard_div")
+    #   
+    # }
     
     if("nvcAssignSiteCzekanowski" %in% resultsViewNVCAssign()){
       shinyjs::show(id = "nvcAssignmentSiteTable_Czekanowski_div")
@@ -71,7 +81,8 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     }
     
   }) |>
-    bindEvent(resultsViewNVCAssign(),
+    bindEvent(assignQuadrats(),
+              resultsViewNVCAssign(),
               ignoreInit = FALSE,
               ignoreNULL = FALSE)
   
@@ -86,20 +97,18 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
               once = TRUE)
   
 
-# Calculate ALL nvcAssignment results -------------------------------------
+# Calculate Quadrat Jaccard Similarities ----------------------------------
   nvcAssignmentPlot_Jaccard_rval <- reactiveVal()
-  nvcAssignmentSite_Czekanowski_rval <- reactiveVal()
-  nvcAssignmentGroup_Czekanowski_rval <- reactiveVal()
-  
   observe({
     
-    shiny::req(floristicTables())
+    shiny::req(surveyData())
     shiny::req(surveyDataSummary())
+    shiny::req(assignQuadrats() == TRUE)
     
     shinybusy::show_modal_spinner(
       spin = "fading-circle",
       color = "#3F9280",
-      text = "Calculating NVC Community Similarity"
+      text = "Calculating Similarities - Quadrats"
     )
     
     shiny::isolate({
@@ -108,16 +117,10 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
       surveyData_long <- surveyData$surveyData_long
       surveyDataSummary <- surveyDataSummary()
       
-      # Retrieve the site and group ID's for which there are less than the threshold 
-      threshold <- 5
-      site_group_ids_remove <- surveyDataSummary$surveyDataStructure$quadratsPerID |>
-        dplyr::filter(n < threshold) |>
-        dplyr::pull(ID)
-      
       # Add an ID column to the survey data table
       surveyData_prepped <- surveyData_long |>
         tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = FALSE) |>
-        dplyr::rename("species" = "Species")
+        dplyr::rename("species" = "Species") 
       
       # Create a concordance to join back on to the results of nva_average_sim
       surveyData_IDs <- surveyData_prepped |>
@@ -129,23 +132,10 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
       
       if(!is.null(habitatRestriction())){
         
-        codes_regex <- c()
-        
-        for(code in habitatRestriction()){
-          
-          regex <- paste0("^", code, "\\d{1,}.+(?![a-z*][P])")
-          
-          codes_regex <- c(codes_regex, regex)
-          
-          codes_regex <- stringr::str_c(codes_regex, collapse = "|")
-          
-        }
-        
-        pquads_to_use <- nvc_pquads_final() |>
-          dplyr::filter(stringr::str_detect(string = Pid3, pattern = codes_regex))
+        pquads_to_use <- RMAVIS::subset_psquads(nvc_data = nvc_pquads_final(), habitatRestriction = habitatRestriction(), col_name = "NVC")
         
       }
-
+      
       # Calculate NVC Similarity by Quadrat
       nvcAssignmentPlot_Jaccard <- assignNVC::nvc_average_sim(samp_df = surveyData_prepped,
                                                               comp_df = pquads_to_use,
@@ -153,86 +143,137 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
                                                               samp_id = "ID",
                                                               comp_id = "Pid3") |>
         dplyr::select("ID" = FOCAL_ID,
-                      "Mean.Similarity" = MEAN_SIM, 
-                      "Standard.Deviation" = SD,
+                      "Mean.Similarity" = MEAN_SIM,
+                      # "Standard.Deviation" = SD,
                       "NVC.Code" = NVC) |>
         dplyr::group_by(ID) |>
         dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
         dplyr::ungroup() |>
         dplyr::left_join(surveyData_IDs, by = "ID")
       
+      # nvcAssignmentPlot_Jaccard <- RMAVIS::similarityJaccard(samp_df = surveyData_prepped,
+      #                                                        comp_df = pquads_to_use,
+      #                                                        samp_species_col = "species",
+      #                                                        comp_species_col = "species",
+      #                                                        samp_group_name = "ID",
+      #                                                        comp_group_name = "Pid3",
+      #                                                        comp_groupID_name = "NVC",
+      #                                                        average_comp = TRUE) |>
+      #           dplyr::select("ID" = ID,
+      #                         "Mean.Similarity" = Similarity,
+      #                         "NVC.Code" = NVC)|>
+      #           dplyr::group_by(ID) |>
+      #           dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
+      #           dplyr::ungroup() |>
+      #           dplyr::left_join(surveyData_IDs, by = "ID")
+      
       nvcAssignmentPlot_Jaccard_prepped <- nvcAssignmentPlot_Jaccard |>
-        dplyr::select(Year, Group, Quadrat, NVC.Code, Mean.Similarity, Standard.Deviation)|>
+        dplyr::select(Year, Group, Quadrat, NVC.Code, Mean.Similarity)|>
         dplyr::group_by(Year, Group, Quadrat) |>
         dplyr::slice(1:10) |>
         dplyr::ungroup() |>
         dplyr::arrange(Year, Group, Quadrat, dplyr::desc(Mean.Similarity))
-        
+      
       nvcAssignmentPlot_Jaccard_rval(nvcAssignmentPlot_Jaccard_prepped)
       
     }) # close isolate
     
-    # Prepare composed floristicTables
-    floristicTables <- floristicTables()
-    floristicTables_composed_all <- floristicTables$floristicTables_composed_all
+    shinybusy::remove_modal_spinner()
     
-    floristicTables_prepped <- floristicTables_composed_all  |>
-      dplyr::mutate(
-        "Constancy" = 
-          dplyr::case_when(
-            Constancy == "I" ~ 0.2,
-            Constancy == "II" ~ 0.4,
-            Constancy == "III" ~ 0.6,
-            Constancy == "IV" ~ 0.8,
-            Constancy == "V" ~ 1.0,
-            TRUE ~ as.numeric(0)
-          )
-      ) |> 
-      dplyr::filter(!(ID %in% site_group_ids_remove))
+  }) |>
+    bindEvent(runAnalysis(),
+              ignoreInit = FALSE)
+
+# Calculate Group and Year Czekanowski Similarities -----------------------
+  nvcAssignmentSite_Czekanowski_rval <- reactiveVal()
+  nvcAssignmentGroup_Czekanowski_rval <- reactiveVal()
+  
+  observe({
     
-    # Only use Czekanowski index to calculate site and group similarities if there
-    # are floristic tables composed from more than 5 quadrats.
-    if(nrow(floristicTables_prepped) > 0){
+    shiny::req(floristicTables())
+    shiny::req(surveyDataSummary())
+    
+    shinybusy::show_modal_spinner(
+      spin = "fading-circle",
+      color = "#3F9280",
+      text = "Calculating Similarities - Groups"
+    )
+    
+    shiny::isolate({
       
-      # Prepare nvc_floristic_tables_numeric
-      if(!is.null(habitatRestriction())){
+      surveyDataSummary <- surveyDataSummary()
+      
+      # Retrieve the site and group ID's for which there are less than the threshold 
+      threshold <- 5
+      site_group_ids_remove <- surveyDataSummary$surveyDataStructure$quadratsPerID |>
+        dplyr::filter(n < threshold) |>
+        dplyr::pull(ID)
+      
+      # Prepare composed floristicTables
+      floristicTables <- floristicTables()
+      floristicTables_composed_all <- floristicTables$floristicTables_composed_all
+      
+      floristicTables_prepped <- floristicTables_composed_all  |>
+        dplyr::mutate(
+          "Constancy" = 
+            dplyr::case_when(
+              Constancy == "I" ~ 1,
+              Constancy == "II" ~ 2,
+              Constancy == "III" ~ 3,
+              Constancy == "IV" ~ 4,
+              Constancy == "V" ~ 5,
+              TRUE ~ as.numeric(0)
+            )
+        ) |> 
+        dplyr::filter(!(ID %in% site_group_ids_remove))
+      
+      # Only use Czekanowski index to calculate site and group similarities if there
+      # are floristic tables composed from more than 5 quadrats.
+      if(nrow(floristicTables_prepped) > 0){
         
-        nvc_floristic_tables_numeric_prepped <- nvc_floristic_tables_numeric() |>
-          dplyr::filter(stringr::str_detect(string = NVC.Code, pattern = codes_regex))
+        # Prepare nvc_floristic_tables_numeric
+        if(!is.null(habitatRestriction())){
+          
+          nvc_floristic_tables_numeric_prepped <- RMAVIS::subset_psquads(nvc_data = nvc_floristic_tables_numeric(), habitatRestriction = habitatRestriction(), col_name = "NVC.Code")
+          
+        } else {
+          
+          nvc_floristic_tables_numeric_prepped <- nvc_floristic_tables_numeric()
+          
+        }
         
-      } else {
+        # Calculate NVC Similarity by Site using the Czekanowski index
+        nvcAssignmentSiteGroup_Czekanowski <- RMAVIS::similarityCzekanowski(samp_df = floristicTables_prepped,
+                                                                            comp_df = nvc_floristic_tables_numeric_prepped,
+                                                                            samp_species_col = "Species",
+                                                                            comp_species_col = "Species",
+                                                                            samp_group_name = "ID",
+                                                                            comp_group_name = "NVC.Code",
+                                                                            samp_weight_name = "Constancy",
+                                                                            comp_weight_name = "Constancy",
+                                                                            downweight_threshold = 1, 
+                                                                            downweight_value = 0.1)
         
-        nvc_floristic_tables_numeric_prepped <- nvc_floristic_tables_numeric()
+        nvcAssignmentSite_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
+          dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$")) |>
+          dplyr::mutate("Year" = ID) |>
+          dplyr::select(Year, NVC.Code, Similarity)|>
+          dplyr::arrange(Year, dplyr::desc(Similarity))
+        
+        nvcAssignmentGroup_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
+          dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$", negate = TRUE)) |>
+          dplyr::mutate("Year" = stringr::str_extract(string = ID, pattern = "\\d{4}")) |>
+          dplyr::mutate("Group" = stringr::str_extract(string = ID, pattern = "(?<=\\s-\\s).*$")) |>
+          dplyr::select(Year, Group, NVC.Code, Similarity) |>
+          dplyr::arrange(Year, Group, dplyr::desc(Similarity))
+        
+        nvcAssignmentSite_Czekanowski_rval(nvcAssignmentSite_Czekanowski)
+        nvcAssignmentGroup_Czekanowski_rval(nvcAssignmentGroup_Czekanowski)
         
       }
       
-      # Calculate NVC Similarity by Site using the Czekanowski index
-      nvcAssignmentSiteGroup_Czekanowski <- RMAVIS::similarityCzekanowski(samp_df = floristicTables_prepped,
-                                                                          comp_df = nvc_floristic_tables_numeric_prepped,
-                                                                          samp_species_col = "Species",
-                                                                          comp_species_col = "Species",
-                                                                          samp_group_name = "ID",
-                                                                          comp_group_name = "NVC.Code",
-                                                                          samp_weight_name = "Constancy",
-                                                                          comp_weight_name = "Constancy")
-      
-      nvcAssignmentSite_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
-        dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$")) |>
-        dplyr::mutate("Year" = ID) |>
-        dplyr::select(Year, NVC.Code, Similarity)|>
-        dplyr::arrange(Year, dplyr::desc(Similarity))
-      
-      nvcAssignmentGroup_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
-        dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$", negate = TRUE)) |>
-        dplyr::mutate("Year" = stringr::str_extract(string = ID, pattern = "\\d{4}")) |>
-        dplyr::mutate("Group" = stringr::str_extract(string = ID, pattern = "(?<=\\s-\\s).*$")) |>
-        dplyr::select(Year, Group, NVC.Code, Similarity) |>
-        dplyr::arrange(Year, Group, dplyr::desc(Similarity))
-      
-      nvcAssignmentSite_Czekanowski_rval(nvcAssignmentSite_Czekanowski)
-      nvcAssignmentGroup_Czekanowski_rval(nvcAssignmentGroup_Czekanowski)
-      
-    }
+    }) # close isolate
+    
     
     shinybusy::remove_modal_spinner()
     
@@ -244,7 +285,6 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
 # Intialise NVC Assignment Site Table -------------------------------------
   nvcAssignmentSiteTable_init <- data.frame("Year" = integer(),
                                             "Mean.Similarity" = numeric(),
-                                            "Standard.Deviation" = numeric(),
                                             "NVC.Code" = character()
   )
   
@@ -279,7 +319,6 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
                                                "Group" = character(),
                                                "Quadrat" = character(),
                                                "Mean.Similarity" = numeric(),
-                                               "Standard.Deviation" = numeric(),
                                                "NVC.Code" = character()
   )
   
@@ -580,13 +619,20 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   
   observe({
     
-    shiny::req(nvcAssignmentPlot_Jaccard_rval())
+    shiny::req(isTRUE(!is.null(nvcAssignmentPlot_Jaccard_rval()) | !is.null(nvcAssignmentSite_Czekanowski_rval())))
     
-    # Select the top-N fitted commmunities
-    nvcAssignmentPlot_Jaccard <- nvcAssignmentPlot_Jaccard_rval() |>
-      dplyr::group_by(Year, Group, Quadrat) |>
-      dplyr::slice(1:nTopResults()) |>
-      dplyr::ungroup()
+    if(!is.null(nvcAssignmentPlot_Jaccard_rval())){
+      
+      nvcAssignmentPlot_Jaccard <- nvcAssignmentPlot_Jaccard_rval() |>
+        dplyr::group_by(Year, Group, Quadrat) |>
+        dplyr::slice(1:nTopResults()) |>
+        dplyr::ungroup()
+      
+    } else {
+      
+      nvcAssignmentPlot_Jaccard <- NULL
+      
+    }
     
     if(!is.null(nvcAssignmentSite_Czekanowski_rval())){
       

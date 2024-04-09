@@ -5,7 +5,7 @@
 \alias{nvc_pquads_mean_unweighted_eivs}
 \title{A dataset containing}
 \format{
-A data frame with 57391 rows and 6 columns, the definitions of which are:
+A data frame with 57716 rows and 6 columns, the definitions of which are:
 \describe{
 \item{}{}
 }

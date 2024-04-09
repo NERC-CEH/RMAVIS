@@ -5,7 +5,7 @@
 \alias{nvc_community_codes}
 \title{A vector of NVC community codes}
 \format{
-A vector with 883 entries.
+A vector with 896 entries.
 }
 \usage{
 nvc_community_codes

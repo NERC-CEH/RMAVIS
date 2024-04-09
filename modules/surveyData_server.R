@@ -66,7 +66,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   surveyData_long_init <- data.frame("Year" = as.integer(rep(as.numeric(format(Sys.Date(), "%Y")), 20)),
                                      "Group" = as.character(rep("A", 20)),
                                      "Quadrat" = as.character(rep("1", 20)),
-                                     "Species" = as.character(rep("", 20)),
+                                     "Species" = as.character(rep(NA, 20)),
                                      "Cover" = as.numeric(rep(NA, 20)))
   
 # Survey Data Entry Table -------------------------------------------------
@@ -637,61 +637,73 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     shiny::req(isTRUE(surveyDataValidation()$speciesComplete))
     shiny::req(isTRUE(surveyDataValidation()$quadratIDUnique))
     shiny::req(isTRUE(surveyDataValidation()$groupIDUnique))
-
-    # Retrieve long survey table
-    surveyData <- surveyData_rval()
-    surveyData_long <- surveyData$surveyData_long
     
-    # Check whether any and all cover values are supplied
-    coverSupplied <- surveyDataValidation()$coverSupplied
-
-    if(coverSupplied == FALSE){
-
-      surveyData_wide <- surveyData_long |>
-        dplyr::mutate("Cover" = 1) |>
-        tidyr::pivot_wider(names_from = Species,
-                           values_from = Cover) |>
-        dplyr::mutate_all(~replace(., is.na(.), 0))
-
-      surveyData_mat <- surveyData_long |>
-        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
-        dplyr::mutate("Cover" = 1) |>
-        tidyr::pivot_wider(names_from = Species,
-                           values_from = Cover) |>
-        tibble::column_to_rownames(var = "ID") |>
-        dplyr::mutate_all(~replace(., is.na(.), 0)) |>
-        as.matrix()
-
-    } else if(coverSupplied == TRUE){
-
-      surveyData_wide <- surveyData_long |>
-        tidyr::pivot_wider(names_from = Species,
-                           values_from = Cover) |>
-        dplyr::mutate_all(~replace(., is.na(.), 0))
-
-      surveyData_mat <- surveyData_long |>
-        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
-        tidyr::pivot_wider(names_from = Species,
-                           values_from = Cover) |>
-        tibble::column_to_rownames(var = "ID") |>
-        dplyr::mutate_all(~replace(., is.na(.), 0)) |>
-        as.matrix()
-
-    }
-    
-    surveyData$surveyData_wide <- surveyData_wide
-    surveyData$surveyData_mat <- surveyData_mat
-    surveyData_rval(surveyData)
+    # isolate({
+      
+      # Retrieve long survey table
+      surveyData <- surveyData_rval()
+      surveyData_long <- surveyData$surveyData_long
+      
+      # I currently need this if statement as the surveyDataValidation()$speciesComplete statement isn't being triggered correctly.
+      if(all(!is.na(surveyData_long$Species))){
+        
+        # Check whether any and all cover values are supplied
+        coverSupplied <- surveyDataValidation()$coverSupplied
+        
+        if(coverSupplied == FALSE){
+          
+          surveyData_wide <- surveyData_long |>
+            dplyr::mutate("Cover" = 1) |>
+            tidyr::pivot_wider(names_from = Species,
+                               values_from = Cover) |>
+            dplyr::mutate_all(~replace(., is.na(.), 0))
+          
+          surveyData_mat <- surveyData_long |>
+            tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
+            dplyr::mutate("Cover" = 1) |>
+            tidyr::pivot_wider(names_from = Species,
+                               values_from = Cover) |>
+            tibble::column_to_rownames(var = "ID") |>
+            dplyr::mutate_all(~replace(., is.na(.), 0)) |>
+            as.matrix()
+          
+        } else if(coverSupplied == TRUE){
+          
+          surveyData_wide <- surveyData_long |>
+            tidyr::pivot_wider(names_from = Species,
+                               values_from = Cover) |>
+            dplyr::mutate_all(~replace(., is.na(.), 0))
+          
+          surveyData_mat <- surveyData_long |>
+            tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
+            tidyr::pivot_wider(names_from = Species,
+                               values_from = Cover) |>
+            tibble::column_to_rownames(var = "ID") |>
+            dplyr::mutate_all(~replace(., is.na(.), 0)) |>
+            as.matrix()
+          
+        } else {
+          
+          surveyData_wide <- NULL
+          surveyData_mat <- NULL
+        }
+        
+        surveyData$surveyData_wide <- surveyData_wide
+        surveyData$surveyData_mat <- surveyData_mat
+        surveyData_rval(surveyData)
+        
+        
+      }
+      
+    # })
 
   }) |>
     bindEvent(surveyDataValidation(),
-              # Don't need to use these as surveyDataValidation occurs every time the table changes, and must do so before we retrieve new data.
-              # surveyData_rval(),
-              # input$surveyData,
+              surveyData_rval(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
     
-  # Ensure table 
+  # Ensure table is created whilst hidden.
   outputOptions(output, "surveyData", suspendWhenHidden = FALSE)
   
   return(surveyData_rval)

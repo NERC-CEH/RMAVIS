@@ -13,7 +13,7 @@ dataListFilter(tableId, style = "width: 100\%; height: 28px;")
 A modified \code{reactable} table with a dropdown
 }
 \description{
-Modify a \code{reactable} table to provide a dropdown mene containing all unique values in a column.
+Modify a \code{reactable} table to provide a dropdown menu containing all unique values in a column.
 Apply this function in a column definition within the 'columns' or 'defaultColDef' argument of \code{reactable::reactable()} using \code{reactable::colDef()}.
 }
 \details{

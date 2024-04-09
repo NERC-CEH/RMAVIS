@@ -5,7 +5,7 @@
 \alias{nvc_pquads_final}
 \title{A dataset containing}
 \format{
-A data frame with 974717 rows and 6 columns, the definitions of which are:
+A data frame with 981749 rows and 3 columns, the definitions of which are:
 \describe{
 \item{}{}
 }

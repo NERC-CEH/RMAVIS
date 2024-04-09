@@ -5,7 +5,7 @@
 \alias{nvc_pquad_dca_all_centroids}
 \title{A dataset containing}
 \format{
-A data frame with 875 rows and 5 columns, the definitions of which are:
+A data frame with 888 rows and 5 columns, the definitions of which are:
 \describe{
 \item{}{}
 }

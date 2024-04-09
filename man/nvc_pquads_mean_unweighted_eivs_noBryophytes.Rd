@@ -5,7 +5,7 @@
 \alias{nvc_pquads_mean_unweighted_eivs_noBryophytes}
 \title{A dataset containing}
 \format{
-A data frame with 57379 rows and 6 columns, the definitions of which are:
+A data frame with 57704 rows and 6 columns, the definitions of which are:
 \describe{
 \item{}{}
 }

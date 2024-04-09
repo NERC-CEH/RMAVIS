@@ -5,7 +5,7 @@
 \alias{nvc_community_namesCodes}
 \title{A dataset containing}
 \format{
-A data frame with 883 rows and 3 columns, the definitions of which are:
+A data frame with 896 rows and 3 columns, the definitions of which are:
 \describe{
 \item{}{}
 }
