@@ -100,7 +100,7 @@ modules summarised in the following table.
 
 
 
-![The MVA module of `RMAVIS`, showing the trajectory of all sample plots from the Leith Hill Wood example dataset in the ordination spaces over time.](images/Screenshot from 2024-03-05 12-25-49.png)
+![The MVA module of `RMAVIS`, showing the trajectory of all sample plots from the Leith Hill Wood example dataset in the ordination spaces over time.](joss_screenshot.png)
 
 # Data sources
 
