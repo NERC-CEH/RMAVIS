@@ -1,21 +1,22 @@
-#' Calculate the similarity between vegetation data using the Czekanowski index
+#' Calculate the similarity between two vegetation plot datasets using the Czekanowski coefficient
 #'
-#' Calculate the Czekanowski's Quantitative Index using either a set of sample 
-#' vegetation plots and a set of reference vegetation plots; or a set of composed
-#' floristic/syntopic tables and a set of references floristic/syntopic tables.
-#' Method follows Bray and Curtis (1957) and  Field and McFarlane (1968).
+#' Calculate the Czekanowski's quantitative index/coefficient of similarity 
+#' using either a set of sample vegetation plots and a set of reference 
+#' vegetation plots; or a set of composed floristic/syntopic tables and a set of 
+#' references floristic/syntopic tables. Method follows Malloch (1998).
 #'
 #' @param samp_df A data frame containing either sample vegetation plot data with cover values, or a syntopic/floristic table composed from sample vegetation plot data.
 #' @param comp_df  A data frame containing either
-#' @param samp_species_col 
-#' @param comp_species_col 
-#' @param samp_group_name 
-#' @param comp_group_name 
-#' @param samp_weight_name 
-#' @param downweight_threshold If 0 no downeighting occurs.
-#' @param downweight_value
+#' @param samp_species_col The name of the column in samp_df containing the species names.
+#' @param comp_species_col The name of the column in comp_df containing the species names.
+#' @param samp_group_name The name of the column in samp_df containing the group name.
+#' @param comp_group_name The name of the column in comp_df containing the group name.
+#' @param samp_weight_name The name of the column in samp_df containing the numeric weight values.
+#' @param comp_weight_name The name of the column in comp_df containing the numeric weight values.
+#' @param downweight_threshold A numeric value to replace with downweight_threshold.
+#' @param downweight_value A numeric value to replace down_weight threshold with.
 #'
-#' @return
+#' @return A three column data frame containing the samp_group_name values, comp_group_name values, and similarity results (Similarity).
 #' @export
 #'
 #' @examples
@@ -81,12 +82,32 @@ similarityCzekanowski <- function(samp_df, comp_df,
 }
 
 
-# I need to optimise this function before moving from the current {assignNVC}
-# implementation.
+#' Calculate the similarity between two vegetation plot datasets using the Jaccard coefficient
+#' 
+#' Calculate the Jaccard coefficient of similarity between two sets of vegetation
+#' plot data. The Jaccard coefficient is a binary, presence/absence only
+#' measure of similarity.
+#'
+#' @param samp_df A data frame containing species presences (recorded in the samp_species_col column) by plot ID (recorded in the samp_species_col) column
+#' @param comp_df A data frame containing species presences (recorded in the comp_species_col column) by plot ID (recorded in the comp_species_col) column with plot ID groups (recorded in the comp_groupID_column)
+#' @param samp_species_col The name of the column in samp_df containing the species names.
+#' @param comp_species_col The name of the column in comp_df containing the species names.
+#' @param samp_group_name The name of the column in samp_df containing the group name.
+#' @param comp_group_name The name of the column in comp_df containing the group name.
+#' @param comp_groupID_name The name of the column containing the groups for each
+#'                          comp_group_name value.
+#' @param remove_zero_matches Exclude any results with a similarity of 0.
+#' @param average_comp Take the mean average across the groups in comp_group_name by comp_groupID_name.
+#'
+#' @return A three column data frame containing the samp_group_name values, comp_group_name values or comp_groupID_name values, and similarity results (Similarity).
+#' @export
+#'
+#' @examples
 similarityJaccard <- function(samp_df, comp_df,
                               samp_species_col, comp_species_col,
                               samp_group_name = "ID", comp_group_name = "Pid3",
-                              comp_groupID_name = "NVC", average_comp = TRUE){
+                              comp_groupID_name = "NVC", 
+                              remove_zero_matches = TRUE, average_comp = TRUE){
   
   # Create a comp_groupID_name to comp_group_name concordance to join back on later
   comp_conc <- comp_df[,c(comp_group_name, comp_groupID_name)] |> unique()
@@ -116,49 +137,32 @@ similarityJaccard <- function(samp_df, comp_df,
       samp_spp <- samp_spp_list[[X]]
       comp_spp <- comp_spp_list[[Y]]
       
-      # Contingency Table Approach as per Legendre & Legendre (2012)
-      # # Species present in samp AND comp
-      # a <- length(intersect(samp_spp, comp_spp))
-      # 
-      # # Species present in samp BUT NOT comp
-      # b <- length(setdiff(samp_spp, comp_spp))
-      # 
-      # # Species present in comp BUT NOT samp
-      # c <- length(setdiff(comp_spp, samp_spp))
-      # 
-      # # Jaccard coefficient of similarity
-      # j <- a / (a + b + c)
-      
-      # Standard Method
+      # # Standard Method
       x <- x_list[[X]]
       y <- y_list[[Y]]
       x_n_y <- sum(samp_spp %in% comp_spp)
       # x_n_y <- length(intersect(samp_spp, comp_spp)) # %in% faster than intersect
+      
       j <- x_n_y / (x + y - x_n_y)
       
-      # !!! Both of the methods above produce identical results !!!
+      # similarity_list <- list(samp_group = X, comp_group = Y, "Similarity" = j)
+      # names(similarity_list) <- c(samp_group_name , comp_group_name, "Similarity")
       
-      similarity_list <- list(samp_group_name = X, comp_group_name = Y, "Similarity" = j)
-      names(similarity_list) <- c(samp_group_name , comp_group_name, "Similarity")
-      
-      return(similarity_list)
+      return(j)
       
     }
     
   )
   
   # Collapse list to data frame
-  similarity_df <- do.call(rbind.data.frame, similarity_results)
+  # similarity_df <- do.call(rbind.data.frame, similarity_results)
+  similarity_results_df <- data.frame("Similarity" = do.call(rbind, similarity_results))
+  
+  # Bind similarity results to ID values
+  similarity_df <- cbind(eval_combinations, similarity_results_df)
   
   # Add NVC codes
   similarity_df <- merge(similarity_df, comp_conc, by = comp_group_name)
-  
-  # Optionally remove zero matches
-  if(remove_zero_matches == TRUE){
-    
-    similarity_df <- similarity_df[similarity_df["Similarity"] != 0, ]
-    
-  }
   
   # Optionally take the mean across all similarities by comp_group_name
   if(average_comp == TRUE){
@@ -178,6 +182,14 @@ similarityJaccard <- function(samp_df, comp_df,
     
   }
   
+  # Optionally remove zero matches
+  if(remove_zero_matches == TRUE){
+    
+    similarity_df <- similarity_df[similarity_df["Similarity"] != 0, ]
+    
+  }
+  
+  # Return similarity results
   return(similarity_df)
   
 }

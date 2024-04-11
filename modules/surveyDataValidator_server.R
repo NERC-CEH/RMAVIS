@@ -372,7 +372,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
           default = as.character("No")
         ) |>
         rhandsontable::hot_cols(colWidths = c(200, 200, 200, 200)) |>
-        # rhandsontable::hot_validate_character(cols = "Species.Adjusted", choices = speciesNames) |> # Can't use this when speciesNames is too large!!
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
         htmlwidgets::onRender("

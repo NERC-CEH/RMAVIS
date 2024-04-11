@@ -1,9 +1,3 @@
-# Taxonomic Backbone Methods ----------------------------------------------
-taxonomicBackboneMethod_options <- c("Bundled" = "bundled",
-                                     "Upload" = "upload",
-                                     "Kew WCVP" = "wcvp",
-                                     "Syntopic Tables" = "syntopicTables")
-
 # Input method options ----------------------------------------------------
 inputMethod_options <- c("Manual" = "manual",
                          "Example" = "example",
@@ -173,7 +167,9 @@ ccaVars_options <- c("Moisture (F) x Nitrogen (N)" = "FN",
                      "Light (L) x Salinity (S)" = "LS")
 
 # Global Reference DCA Space Options --------------------------------------
-nationalReferenceSpaces_options <- sort(c(c("A", "CG", "H", "M", "MC", "MG", "OV", "S", "SD", "SM", "U", "W"), setdiff(readRDS(file = "./inst/extdata/nvc_community_codes.rds"), c("SM1", "SM1a", "SM1b"))))
+nationalReferenceSpaces_options <- sort(c(c("A", "CG", "H", "M", "MC", "MG", "OV", "S", "SD", "SM", "U", "W"), # Add community prefixes
+                                          setdiff(readRDS(file = "./inst/extdata/nvc_community_namesCodes.rds")[["NVC.Code"]], # Retrieve community codes
+                                                  c("SM1", "SM1a", "SM1b")))) # remove SM communities which weren't used in the ordination space creatinon
 
 # DCA Survey Quadrat Options ----------------------------------------------
 surveyQuadratSelection_options <- c("All" = "all",

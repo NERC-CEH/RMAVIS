@@ -5,7 +5,7 @@
 #'
 #' @param nvc_data A data frame of pseudo-quadrats.
 #' @param habitatRestriction A vector of habitat codes, see `RMAVIS:::habitatRestriction_options`.
-#' @param col_name The name of the column containing NVC codes.
+#' @param col_name The name of the column containing NVC pseudo-quadrat names with NVC code prefixes.
 #'
 #' @return A data frame containing the supplied NVC data for selected habitats
 #' @export
@@ -21,7 +21,7 @@ subset_psquads <- function(nvc_data, habitatRestriction, col_name){
                         ")", 
                         "[^(", 
                         stringr::str_c(prefixes_not_match, collapse = "|"), 
-                        ")]") # (.+)+$
+                        ")]")
   
   nvc_data_to_use <- nvc_data |>
     dplyr::filter(stringr::str_detect(string = .data[[col_name]], pattern = codes_regex))

@@ -63,8 +63,7 @@ uploadData <- function(input, output, session) {
                                                     ) |>
       rhandsontable::hot_col(col = colnames(uploaded_data_init), halign = "htCenter") |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
-      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") #|>
-      # rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames, allowInvalid = FALSE)
+      rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all")
     
     return(uploadDataTable)
     
@@ -83,7 +82,7 @@ uploadData <- function(input, output, session) {
         tidyr::pivot_longer(cols = -c(Year, Group, Quadrat),
                             names_to = "Species",
                             values_to = "Cover",
-                            values_transform = list(Cover = as.numeric)) |> # as.numeric
+                            values_transform = list(Cover = as.numeric)) |>
         dplyr::select(Year, Group, Quadrat, Species, Cover) |>
         dplyr::filter(!is.na(Cover))
       

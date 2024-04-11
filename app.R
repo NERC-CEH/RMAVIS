@@ -6,6 +6,9 @@
 # Silence dplyr::summarise() messages -------------------------------------
 options(dplyr.summarise.inform = FALSE)
 
+# Prevent auto-loading of all functions in /R -----------------------------
+options(shiny.autoload.r = FALSE)
+
 # Load the RMAVIS package -------------------------------------------------
 pkgload::load_all(path = ".")
 
@@ -29,11 +32,11 @@ library(janitor)
 library(writexl)
 
 # Ecology
-library(assignNVC)
 library(vegan)
 
 # Render documentation ----------------------------------------------------
-rmarkdown::render(input = "docs/documentation.Rmd",  output_dir = "www")
+# Disabled by default, uncomment to re-render documentation upon running app
+# rmarkdown::render(input = "docs/documentation.Rmd",  output_dir = "www")
 
 # Source sub-modules ------------------------------------------------------
 source("modules/privacy_ui.R", local = TRUE)

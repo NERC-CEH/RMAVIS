@@ -302,8 +302,6 @@ sidebarUI <- function(id){
             
             col_widths = c(11, 1),
             
-            # tags$style(".btn-group-vertical {width: 100% !important;}"),
-            
             shinyWidgets::switchInput(inputId = ns("assignQuadrats"),
                                       label = "Quadrats",
                                       value = FALSE,
@@ -464,7 +462,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("habCorClass"),
                                   label = "Classification",
-                                  choices = RMAVIS::all_habCor_classifications,
+                                  choices = RMAVIS::habCor_classifications,
                                   selected = "UKHab - Level5",
                                   multiple = FALSE),
             

@@ -1,11 +1,15 @@
 #' Compose a set of syntopic tables
+#' 
+#' Compose a set of syntopic/floristic/constancy tables for a 
+#' data frame containing plot ids, species names, and any number
+#' of group columns which are concatenated into a ID column
 #'
 #' @param surveyData A n-column dataframe containing atleast one ID columns, for example year and group.
 #' @param group_cols A vector of columns to group the surveyData by and from which to compose syntopic tables
 #' @param species_col_name The name of the species column
 #' @param plot_col_name The name of the plot ID column
 #'
-#' @return A  
+#' @return A three column data frame containing the groups ID, species, and constancy.
 #' @export
 #'
 #' @example 

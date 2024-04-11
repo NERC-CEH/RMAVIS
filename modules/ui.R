@@ -20,10 +20,11 @@ ui <- bslib::page_navbar(
       cellArgs = list(style = "vertical-align: middle !important; color: #565656 !important;")
 
     ),
-
-      # Tab Title
-      shiny::tagList(tags$head(tags$title(paste0(" | UK Centre for Ecology & Hydrology")),
-                       tags$link(rel = "shortcut icon", href = "https://brandroom.ceh.ac.uk/themes/custom/ceh/favicon.ico")))
+    
+    # Tab Title
+    tags$head(tags$title(paste0(" | UK Centre for Ecology & Hydrology")),
+              tags$link(rel = "shortcut icon", href = "https://brandroom.ceh.ac.uk/themes/custom/ceh/favicon.ico")
+              )
   
    ),
   
@@ -179,8 +180,6 @@ ui <- bslib::page_navbar(
       full_screen = FALSE,
       
       fill = TRUE,
-      
-      # bslib::card_header("NVC Lookup"),
       
       nvcInfoUI(id = "nvcInfo_id_1")
       

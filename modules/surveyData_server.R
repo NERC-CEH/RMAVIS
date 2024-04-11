@@ -4,12 +4,14 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   
 # Retrieve Setup Data -----------------------------------------------------
   exampleData <- reactiveVal()
+  speciesNames <- reactiveVal()
   
   observe({
     
     setupData <- setupData()
     
     exampleData(setupData$example_data)
+    speciesNames(setupData$species_names)
     
   }) |>
     bindEvent(setupData(),
@@ -99,7 +101,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         col = "Species",
         readOnly = FALSE,
         type = "dropdown",
-        source = RMAVIS::speciesNames,
+        source = speciesNames(),
         strict = FALSE,
         default = as.character(NA_character_)
       ) |>
@@ -112,7 +114,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       ) |>
       rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      # rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames) |>
       htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot
@@ -200,7 +201,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
           col = "Species",
           readOnly = FALSE,
           type = "dropdown",
-          source = RMAVIS::speciesNames,
+          source = speciesNames(),
           strict = FALSE,
           default = as.character(NA_character_)
         ) |>
@@ -214,7 +215,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         ) |>
         rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE) |>
         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        # rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames) |>
         htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot
@@ -253,7 +253,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         
         if(selectedExampleData != "none"){
           
-          surveyData <- RMAVIS::example_data_all |>
+          surveyData <- RMAVIS::example_data |>
             magrittr::extract2(selectedExampleData) |>
             dplyr::select(-Site) |>
             dplyr::arrange(Year, Group, Quadrat)
@@ -335,7 +335,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
           col = "Species",
           readOnly = FALSE,
           type = "dropdown",
-          source = RMAVIS::speciesNames,
+          source = speciesNames(),
           strict = FALSE,
           default = as.character(NA_character_)
         ) |>
@@ -537,7 +537,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
           col = "Species",
           readOnly = FALSE,
           type = "dropdown",
-          source = speciesNames,
+          source = speciesNames(),
           strict = FALSE,
           default = as.character(NA_character_)
         ) |>

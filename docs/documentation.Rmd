@@ -11,7 +11,7 @@ output:
     toc_collapsed: true
     number_sections: true
     mathjax: "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML.js"
-    self_contained: false
+    self_contained: true
 bibliography: references.bib
 link-citations: yes
 editor_options: 
@@ -106,15 +106,17 @@ for the assignment of vegetation survey data to NVC communities began with the
 development of TABLEFIT [@hill1989; @marrs2019] and was followed by MATCH 
 [@malloch1998].
 The most recent program, the Modular Analysis of Vegetation Information System 
-(MAVIS), was developed by @smart2016 with the latest version released in 2021.
+(MAVIS), was developed as a windows application in 2000 and was a DEFRA-funded
+output of the ECOFACT project [@bunce1999].
+The latest version released in 2016 [@smart2016mavis].
 
 This R Shiny implementation of MAVIS (`RMAVIS`) is the newest program in this
 series, aiming to provide a web-based and easily operable system which
-can be updated and improved over time.
+can be updated and improved over time in response to user needs.
 
 # Instructions and Methodology
 
-## Survey Data
+## Data Input
 
 Three methods for entering data into `RMAVIS` are provided: manual, upload,
 and example. The manual method allows the user to enter the data
@@ -123,6 +125,22 @@ data in. The upload method allows the user to upload the data in one of
 three formats: long, wide, and matrix. The example method allows the
 user to load a bundled dataset, in order to demonstrate the
 functionality of the app (see Section \@ref(example-data)).
+The basic unit of data consists of a five column table containing the following
+information:
+
+-   **Year**: The year the quadrat was surveyed.
+-   **Group**: Names for each group of quadrats.
+-   **Quadrat**: Names for each sample quadrat.
+-   **Species**: Taxon names.
+-   **Cover**: Optionally, cover values.
+
+
+```{r dataEntryScreenshot, echo = FALSE, fig.cap = "The Data Input section of `RMAVIS` displaying the input data from Whitwell Common example dataset, which is correctly formatted. Note that the absence of cover values requires the 'None' to be selected in the 'Cover Scale' option.", out.width = '100%', fig.align='center'}
+knitr::include_graphics("./screenshots/data_entry.png", rel_path = FALSE)
+```
+
+
+At present `RMAVIS` does not support the entry of constancy tables.
 
 ### Accepted Species
 
@@ -183,21 +201,19 @@ and 2018 (which contain 18, 19, 18, 24, and 24 quadrats respectively)
 
 Four cover scales are available for selection.
 
-1. Percentage
-2. Proportional
-3. Domin [@rodwell2006national]
-4. Braun-Blanquet (5 point) [@braun-blanquet1964]
+-   **Percentage**: A value greater than 0 and less than equal to 100.
+-   **Proportional**: A value greater than 0 and less than or equal to 1.
+-   **Domin**: The Domin cover scale as outlined in @rodwell2006national (+, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10).
+-   **Braun-Blanquet**: The 5 point Braun-Blanquet cover scale as outlined in @braun-blanquet1964 (+, 1, 2, 3, 4, 5).
 
-We recommend the use of percentage cover where possible to avoid information
-loss [@dengler2023].
+We recommend the use of percentage or proportional cover values where possible 
+to avoid information loss [@dengler2023].
 
-## Survey Data Validation
+## Validation
 
 At present `RMAVIS` is designed to analyse vegetation survey data in the
 form of grouped quadrats for a single site, with or without cover
-estimates. However, the user may utilise the "Group" and "Quadrat"
-columns as desired, for example by using the "Group" column to delineate
-sites.
+estimates.
 
 Data entered through any of these methods must meet the following
 conditions.
@@ -327,16 +343,22 @@ reference pseudo-quadrats.
 
 Three sets of NVC assignment results are available in `RMAVIS` at present:
 
--   Site, Czekanowski
--   Group, Czekanowski
--   Quadrat, Jaccard
+-   **Site, Czekanowski**
+-   **Group, Czekanowski**
+-   **Quadrat, Jaccard**
 
 **Restrict Habitat**
 
 Optionally restrict the NVC assignment process to one or more broad NVC
-habitat types. This is recommended to increase the assignment speed, but
-only if the site being analysed unequivocally conforms to the selected
-NVC habitats.
+habitat types. This is recommended to increase the assignment speed.
+Restricting habitat types in this way allows users to match quadrats to a
+baseline reference and a target set of units.
+For example, if restoring heathland from acid grassland you would choose just 
+'H' and 'U' as containing the baseline and target habitats respectively.
+However, in the case where some of the baseline plots might not fit in 'U' 
+or if re-surveyed plots do not fit in 'U' or 'H' the plots may be wrongly 
+assigned, as such the restriction of reference MNVC habitats should be carefully
+considered.
 
 **Number of Top Results**
 
@@ -364,28 +386,37 @@ The user may select the habitat classification system from which to
 retrieve associated habitats. At present the following systems are
 available:
 
--   UKHab - Level 2 [@butcher2020]
--   UKHab - Level 3 [@butcher2020]
--   UKHab - Level 4 [@butcher2020]
--   UKHab - Level 5 [@butcher2020]
--   Biodiversity Action Plan Priority Habitats [@jncc2008]
--   Phase 1 Habitat Classification [@jncc2008]
--   Biodiversity Action Plan Broad Habitats [@jncc2008]
--   EUNIS Classification [@jncc2008]
--   Vegetation communities of British lakes [@jncc2008]
--   EU Habitats Directive Annex 1 [@jncc2008]
--   NPMS Broad [@pescott2019]
--   NPMS Fine [@pescott2019]
+-   **UKHab - Level 2** [@butcher2020]
+-   **UKHab - Level 3** [@butcher2020]
+-   **UKHab - Level 4** [@butcher2020]
+-   **UKHab - Level 5** [@butcher2020]
+-   **Biodiversity Action Plan Priority Habitats** [@jncc2008]
+-   **Phase 1 Habitat Classification** [@jncc2008]
+-   **Biodiversity Action Plan Broad Habitats** [@jncc2008]
+-   **EUNIS Classification** [@jncc2008]
+-   **Vegetation communities of British lakes** [@jncc2008]
+-   **EU Habitats Directive Annex 1** [@jncc2008]
+-   **NPMS Broad** [@pescott2019]
+-   **NPMS Fine** [@pescott2019]
 
 ## Floristic Tables
 
 To aid in the NVC assignment process and as an exploratory tool the
 **Floristic Tables** section of `RMAVIS` allows the user to compare a
-composed floristic table to a chosen NVC floristic table. The facility
-to match the species in the composed table with the NVC table, two ways,
-is also provided.
+composed i.e. newly inputted, floristic table to a chosen NVC floristic table. 
+Matching of the species in the composed table with NVC tables can be carries out
+two ways as described below.
 
 ### Options
+
+**View Options**
+
+The user may choose to compare composed and NVC floristic tables, or view 
+all composed tables across each year, or a groups composed tables each year by
+selecting one of the two options below:
+
+-   **Single Composed vs NVC**
+-   **Multiple Composed**
 
 **Restrict**
 
@@ -407,13 +438,19 @@ each year and year - group combination.
 The user may choose to re-arrange the floristic tables to match the
 species present in both tables, three options are provided:
 
--   No, the floristic tables are displayed with no re-arrangement.
--   Composed to NVC, the composed floristic table is re-arranged to only
+-   **No**: the floristic tables are displayed with no re-arrangement.
+-   **Composed to NVC**: the composed floristic table is re-arranged to only
     include species also present in the NVC floristic table and aligned
     with the NVC floristic table.
--   NVC to Composed, the NVC floristic table is re-arranged to only
+-   **NVC to Composed**: the NVC floristic table is re-arranged to only
     include species also present in the composed floristic table and
     aligned with the composed floristic table.
+
+
+```{r floristicTableScreenshot, echo = FALSE, fig.cap = "The Floristic Tables section of `RMAVIS` displaying a composed floristic table from all plots in 1994 from the Whitwell Common example dataset, with 'Composed to NVC' selected from the 'Match Species' option.", out.width = '100%', fig.align='center'}
+knitr::include_graphics("./screenshots/floristic_table.png", rel_path = FALSE)
+```
+
 
 ## Frequency
 
@@ -435,12 +472,12 @@ for bryophytes was taken from BRYOATT [@hill2007].
 
 At present six sets of results are available:
 
--   Unweighted Mean Hill-Ellenberg Values, by Site
--   Weighted Mean Hill-Ellenberg Values, by Site
--   Unweighted Mean Hill-Ellenberg Values, by Group
--   Weighted Mean Hill-Ellenberg Values, by Group
--   Unweighted Mean Hill-Ellenberg Values, by Quadrat
--   Weighted Mean Hill-Ellenberg Values, by Quadrat
+-   **Unweighted Mean Hill-Ellenberg Values, by Site**
+-   **Weighted Mean Hill-Ellenberg Values, by Site**
+-   **Unweighted Mean Hill-Ellenberg Values, by Group**
+-   **Weighted Mean Hill-Ellenberg Values, by Group**
+-   **Unweighted Mean Hill-Ellenberg Values, by Quadrat**
+-   **Weighted Mean Hill-Ellenberg Values, by Quadrat**
 
 ## Diversity
 
@@ -453,17 +490,17 @@ diversity metrics.
 
 At present five sets of results are available:
 
--   Site Summary Table, contains the mean alpha diversity, gamma
+-   **Site Summary Table**: contains the mean alpha diversity, gamma
     diversity, and beta diversity of the site with years arranged
     column-wise.
--   Quadrat Diversity Indices Table, contains the species richness,
+-   **Quadrat Diversity Indices Table**: contains the species richness,
     Shannon diversity, Simpson diversity, Inverse Simpson diversity,
     Shannon evenness, and Simpson evenness for each quadrat.
--   Species Richness, by Site, contains the species richness of the site
+-   **Species Richness, by Site**: contains the species richness of the site
     with years arranged column-wise.
--   Species Richness, by Group, contains the species richness of each
+-   **Species Richness, by Group**: contains the species richness of each
     group with years arranged column-wise.
--   Species Richness, by Quadrat, contains the species richness of each
+-   **Species Richness, by Quadrat**: contains the species richness of each
     quadrat with years arranged column-wise.
 
 ## MVA
@@ -569,9 +606,9 @@ the survey quadrats.
 The user may select any combination of the first three DCA axis scores
 to be displayed in the MVA plots:
 
--   DCA1 vs DCA2
--   DCA1 vs DCA3
--   DCA2 vs DCA3
+-   **DCA1 vs DCA2**
+-   **DCA1 vs DCA3**
+-   **DCA2 vs DCA3**
 
 **National Reference Spaces**
 
@@ -582,22 +619,33 @@ Reference** MVA plot only.
 
 Three options are available to 'group' the survey quadrat/plot data:
 
--   No, the individual plots are left ungrouped.
--   Group, mean DCA axis scores are calculated from the individual plots 
+-   **No**: the individual plots are left ungrouped.
+-   **Group**: mean DCA axis scores are calculated from the individual plots 
     by group.
--   Year, mean DCA axis scores are calculated from the individual plots
+-   **Year**: mean DCA axis scores are calculated from the individual plots
     by year.
+    
+    
+```{r mvaUngroupedScreenshot, echo = FALSE, fig.cap = "The MVA section of `RMAVIS` displaying the position of the sample plots from the Whitwell Common example dataset in an ordination space constructed using the top-fitting NVC communities, with the 'Group Survey Plots' option set to 'No'.", out.width = '100%', fig.align='center'}
+knitr::include_graphics("./screenshots/mva_ungrouped.png", rel_path = FALSE)
+```
+
+
+```{r mvaGroupedScreenshot, echo = FALSE, fig.cap = "The MVA section of `RMAVIS` displaying the position of the sample plots from the Whitwell Common example dataset in an ordination space constructed using the top-fitting NVC communities, with the 'Group Survey Plots' option set to 'Year'.", out.width = '100%', fig.align='center'}
+knitr::include_graphics("./screenshots/mva_grouped.png", rel_path = FALSE)
+```
+
 
 **Survey Quadrat Selection**
 
 Three methods are available for subsetting the survey quadrats being
 displayed:
 
--   Select Years, where all the survey quadrats for selected years will
+-   **Select Years**: where all the survey quadrats for selected years will
     be displayed.
--   Select Groups, where all the survey quadrats for selected groups
+-   **Select Groups**: where all the survey quadrats for selected groups
     will be displayed.
--   Select Quadrats, where all the survey quadrats for selected quadrats
+-   **Select Quadrats**: where all the survey quadrats for selected quadrats
     will be displayed.
 
 **CCA Variables**
@@ -605,33 +653,33 @@ displayed:
 At present the CCA axis scores from each combination of Hill-Ellenberg
 values are available for display in each MVA plot:
 
--   Moisture (F) x Nitrogen (N)
--   Moisture (F) x Reaction (R)
--   Moisture (F) x Light (L)
--   Moisture (F) x Salinity (S)
--   Nitrogen (N) x Reaction (R)
--   Nitrogen (N) x Light (L)
--   Nitrogen (N) x Salinity (S)
--   Reaction (R) x Light (L)
--   Reaction (R) x Salinity (S)
--   Light (L) x Salinity (S)
+-   **Moisture (F) x Nitrogen (N)**
+-   **Moisture (F) x Reaction (R)**
+-   **Moisture (F) x Light (L)**
+-   **Moisture (F) x Salinity (S)**
+-   **Nitrogen (N) x Reaction (R)**
+-   **Nitrogen (N) x Light (L)**
+-   **Nitrogen (N) x Salinity (S)**
+-   **Reaction (R) x Light (L)**
+-   **Reaction (R) x Salinity (S)**
+-   **Light (L) x Salinity (S)**
 
 **Axis Scores**
 
 The following results may be toggled on/off for display in the MVA
 plots.
 
--   Survey Quadrats, the survey quadrats entered in **Survey Data**.
--   Pseudo-Quadrats, all pseudo-quadrats used in the DCA ordination.
--   Reference Space, the convex hulls formed around the pseudo-quadrats.
--   Reference Centroids, the centroids formed from the pseudo-quadrat DCA scores.
--   Species, the species DCA axis scores.
--   Unique Survey Species, the species present in the survey quadrats
+-   **Survey Quadrats**: the survey quadrats entered in **Survey Data**.
+-   **Pseudo-Quadrats**: all pseudo-quadrats used in the DCA ordination.
+-   **Reference Space**: the convex hulls formed around the pseudo-quadrats.
+-   **Reference Centroids**: the centroids formed from the pseudo-quadrat DCA scores.
+-   **Species**: the species DCA axis scores.
+-   **Unique Survey Species**: the species present in the survey quadrats
     but absent in the top-fitted NVC communities pseudo-quadrats.
     Displayed in **Local Reference (unrestricted)** only.
--   Hill-Ellenberg, the Hill-Ellenberg CCA axis scores selected in the
+-   **Hill-Ellenberg**: the Hill-Ellenberg CCA axis scores selected in the
     "CCA Variables" option.
--   Survey Quadrat Change, arrows showing the direction of travel for
+-   **Survey Quadrat Change**: arrows showing the direction of travel for
     individual quadrats in the ordination space.
 
 ## Report

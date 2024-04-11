@@ -54,19 +54,11 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   
   observe({
     
-    # if(assignQuadrats() == TRUE){
-    #   
     if("nvcAssignPlotJaccard" %in% resultsViewNVCAssign()){
       shinyjs::show(id = "nvcAssignmentPlot_Jaccard_div")
     } else {
       shinyjs::hide(id = "nvcAssignmentPlot_Jaccard_div")
     }
-    #   
-    # } else if(assignQuadrats() == FALSE){
-    #   
-    #   shinyjs::hide(id = "nvcAssignmentPlot_Jaccard_div")
-    #   
-    # }
     
     if("nvcAssignSiteCzekanowski" %in% resultsViewNVCAssign()){
       shinyjs::show(id = "nvcAssignmentSiteTable_Czekanowski_div")
@@ -137,35 +129,22 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
       }
       
       # Calculate NVC Similarity by Quadrat
-      nvcAssignmentPlot_Jaccard <- assignNVC::nvc_average_sim(samp_df = surveyData_prepped,
-                                                              comp_df = pquads_to_use,
-                                                              spp_col = "species",
-                                                              samp_id = "ID",
-                                                              comp_id = "Pid3") |>
-        dplyr::select("ID" = FOCAL_ID,
-                      "Mean.Similarity" = MEAN_SIM,
-                      # "Standard.Deviation" = SD,
-                      "NVC.Code" = NVC) |>
+      nvcAssignmentPlot_Jaccard <- RMAVIS::similarityJaccard(samp_df = surveyData_prepped,
+                                                             comp_df = pquads_to_use,
+                                                             samp_species_col = "species",
+                                                             comp_species_col = "species",
+                                                             samp_group_name = "ID",
+                                                             comp_group_name = "Pid3",
+                                                             comp_groupID_name = "NVC",
+                                                             remove_zero_matches = TRUE,
+                                                             average_comp = TRUE) |>
+        dplyr::select("ID" = ID,
+                      "Mean.Similarity" = Similarity,
+                      "NVC.Code" = NVC)|>
         dplyr::group_by(ID) |>
         dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
         dplyr::ungroup() |>
         dplyr::left_join(surveyData_IDs, by = "ID")
-      
-      # nvcAssignmentPlot_Jaccard <- RMAVIS::similarityJaccard(samp_df = surveyData_prepped,
-      #                                                        comp_df = pquads_to_use,
-      #                                                        samp_species_col = "species",
-      #                                                        comp_species_col = "species",
-      #                                                        samp_group_name = "ID",
-      #                                                        comp_group_name = "Pid3",
-      #                                                        comp_groupID_name = "NVC",
-      #                                                        average_comp = TRUE) |>
-      #           dplyr::select("ID" = ID,
-      #                         "Mean.Similarity" = Similarity,
-      #                         "NVC.Code" = NVC)|>
-      #           dplyr::group_by(ID) |>
-      #           dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
-      #           dplyr::ungroup() |>
-      #           dplyr::left_join(surveyData_IDs, by = "ID")
       
       nvcAssignmentPlot_Jaccard_prepped <- nvcAssignmentPlot_Jaccard |>
         dplyr::select(Year, Group, Quadrat, NVC.Code, Mean.Similarity)|>

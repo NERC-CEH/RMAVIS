@@ -216,9 +216,7 @@ sidebar <- function(input, output, session,
         
         title = "Validate Survey Table Data",
         id = "validatesurveyDataDataModal",
-        footer = shiny::tagList(
-          shiny::modalButton("Close")
-        ),
+        footer = shiny::modalButton("Close"),
         size = "xl",
         easyClose = FALSE,
         fade = TRUE,
@@ -268,9 +266,7 @@ sidebar <- function(input, output, session,
         
         title = "Upload Data",
         id = "uploadDataModal",
-        footer = shiny::tagList(
-          shiny::modalButton("Close")
-        ),
+        footer = shiny::modalButton("Close"),
         size = "xl",
         easyClose = FALSE,
         fade = TRUE,
@@ -380,7 +376,7 @@ sidebar <- function(input, output, session,
       shiny::updateSelectizeInput(
         session = session,
         inputId = "nvcFloristicTable",
-        choices = RMAVIS::nvc_community_codes,
+        choices = RMAVIS::nvc_community_namesCodes[["NVC.Code"]],
         selected = topNVCCommunities[1],
         server = TRUE
       )

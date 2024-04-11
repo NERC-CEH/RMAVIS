@@ -129,13 +129,13 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
       pquads_surveyData_dca_results <- vegan::decorana(veg = nvc_pquads_final_wide_prepped_wsurveyDataWide)
       
       # Extract the DCA results species axis scores
-      dca_results_all_species <- vegan::scores(pquads_surveyData_dca_results, tidy = TRUE) |>
+      dca_results_species <- vegan::scores(pquads_surveyData_dca_results, tidy = TRUE) |>
         dplyr::filter(score == "species") |>
         dplyr::select(-score, -weight) |>
         dplyr::rename("Species" = label)
       
       # Determine the unique survey species, i.e. the species present in the survey data but absent in the pseudo-quadrats
-      uniq_survey_species <- dca_results_all_species |>
+      uniq_survey_species <- dca_results_species |>
         dplyr::filter(Species %in% setdiff(colnames(surveyData_mat), colnames(nvc_pquads_final_wide_prepped)))
       
       # Extract the DCA results sample axis scores
@@ -249,7 +249,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     shinybusy::remove_modal_spinner()
     
     # Compose list of DCA results objects
-    mvaResults_list <- list("dca_results_all_species" = dca_results_all_species,
+    mvaResults_list <- list("dca_results_species" = dca_results_species,
                             "dca_results_sample_site" = dca_results_sample_site,
                             "dca_results_pquads_site" = dca_results_pquads_site,
                             "pquad_hulls" = pquad_hulls,
@@ -382,7 +382,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
                                                                                              fill = NVC.Comm,
                                                                                              color = NVC.Comm),
                                                                       size = 3)} +
-          {if("species" %in% dcaVars())ggplot2::geom_point(data = mvaResults$dca_results_all_species,
+          {if("species" %in% dcaVars())ggplot2::geom_point(data = mvaResults$dca_results_species,
                                                            color = '#32a87d',
                                                            shape = 18,
                                                            mapping = ggplot2::aes(x = .data[[x_axis]], 

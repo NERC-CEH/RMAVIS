@@ -20,7 +20,7 @@ affiliations:
     index: 1
   - name: UK Centre for Ecology \& Hydrology, Maclean Building, Benson Lane, Crowmarsh Gifford, Wallingford, Oxfordshire, OX10 8BB, United Kingdom
     index: 2
-date: "2024-04-09"
+date: "2024-04-11"
 bibliography: paper.bib
 output:
   html_document:
@@ -50,7 +50,9 @@ for the assignment of vegetation survey data to NVC communities began with the
 development of TABLEFIT [@hill1989; @marrs2019] and was followed by MATCH 
 [@malloch1998].
 The most recent program, the Modular Analysis of Vegetation Information System 
-(MAVIS), was developed by @smart2016 with the latest version released in 2021.
+(MAVIS), was developed as a windows application in 2000 and was a DEFRA-funded
+output of the ECOFACT project [@bunce1999].
+The latest version released in 2016 [@smart2016mavis].
 
 
 # Statement of need
@@ -72,7 +74,7 @@ tool [@perrin2018; @perrin2019a] developed for Ireland.
 # Application structure
 
 Inspired by the extensible structure of the species niche and distribution 
-modelling `shiny` application `wallace` [@kass2023], we constructed `RMAVIS` with 
+modelling R shiny application `wallace` [@kass2023], we constructed `RMAVIS` with 
 a modular architecture, enabling both the easy maintenance of existing modules, 
 and easy development of additional modules in the future.
 
@@ -98,15 +100,12 @@ modules summarised in the following table.
 
 
 
-<div class="figure">
-<img src="images/Screenshot from 2024-03-05 12-25-49.png" alt="The MVA module of `RMAVIS`, showing the trajectory of all sample plots from the Leith Hill Wood example dataset in the ordination spaces over time." width="1921" />
-<p class="caption">The MVA module of `RMAVIS`, showing the trajectory of all sample plots from the Leith Hill Wood example dataset in the ordination spaces over time.</p>
-</div>
+![The MVA module of `RMAVIS`, showing the trajectory of all sample plots from the Leith Hill Wood example dataset in the ordination spaces over time.](images/Screenshot from 2024-03-05 12-25-49.png)
 
 # Data sources
 
-`RMAVIS` depends on a number of individual datasets which are bundled with the
-application, the sources of which are as follows.
+`RMAVIS` depends on a number of individual datasets, 
+the sources of which are as follows.
 The list of accepted species was constructed using 
 the vascular plant (*Tracheophyta*) taxa present in the 
 Botanical Society of Britain and Ireland's (BSBI) database 
@@ -151,13 +150,11 @@ We plan to maintain, optimise, and expand the functionality found in v1.0 of
 `RMAVIS` and hope that it acts as a useful tool for the GB ecology and 
 conservation community.
 
-# Funding
+# Acknowledgements
 
 The development of `RMAVIS` was partly supported by the UK‐SCAPE program 
 delivering National Capability (NE/R016429/1) funded by the Natural Environment 
 Research Council.
-
-# Acknowledgements
 
 We would like to thank
 Lindsay Maskell,
