@@ -95,69 +95,76 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     
     shiny::req(surveyData())
     shiny::req(surveyDataSummary())
-    shiny::req(assignQuadrats() == TRUE)
     
-    shinybusy::show_modal_spinner(
-      spin = "fading-circle",
-      color = "#3F9280",
-      text = "Calculating Similarities - Quadrats"
-    )
-    
-    shiny::isolate({
+    if(assignQuadrats() == TRUE){
       
-      surveyData <- surveyData()
-      surveyData_long <- surveyData$surveyData_long
-      surveyDataSummary <- surveyDataSummary()
+      shinybusy::show_modal_spinner(
+        spin = "fading-circle",
+        color = "#3F9280",
+        text = "Calculating Similarities - Quadrats"
+      )
       
-      # Add an ID column to the survey data table
-      surveyData_prepped <- surveyData_long |>
-        tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = FALSE) |>
-        dplyr::rename("species" = "Species") 
-      
-      # Create a concordance to join back on to the results of nva_average_sim
-      surveyData_IDs <- surveyData_prepped |>
-        dplyr::select(ID, Year, Group, Quadrat) |>
-        dplyr::distinct()
-      
-      # Select the pseudo-quadrats to use in the NVC assignment process
-      pquads_to_use <- nvc_pquads_final()
-      
-      if(!is.null(habitatRestriction())){
+      shiny::isolate({
         
-        pquads_to_use <- RMAVIS::subset_psquads(nvc_data = nvc_pquads_final(), habitatRestriction = habitatRestriction(), col_name = "NVC")
+        surveyData <- surveyData()
+        surveyData_long <- surveyData$surveyData_long
+        surveyDataSummary <- surveyDataSummary()
         
-      }
+        # Add an ID column to the survey data table
+        surveyData_prepped <- surveyData_long |>
+          tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = FALSE) |>
+          dplyr::rename("species" = "Species") 
+        
+        # Create a concordance to join back on to the results of nva_average_sim
+        surveyData_IDs <- surveyData_prepped |>
+          dplyr::select(ID, Year, Group, Quadrat) |>
+          dplyr::distinct()
+        
+        # Select the pseudo-quadrats to use in the NVC assignment process
+        pquads_to_use <- nvc_pquads_final()
+        
+        if(!is.null(habitatRestriction())){
+          
+          pquads_to_use <- RMAVIS::subset_psquads(nvc_data = nvc_pquads_final(), habitatRestriction = habitatRestriction(), col_name = "NVC")
+          
+        }
+        
+        # Calculate NVC Similarity by Quadrat
+        nvcAssignmentPlot_Jaccard <- RMAVIS::similarityJaccard(samp_df = surveyData_prepped,
+                                                               comp_df = pquads_to_use,
+                                                               samp_species_col = "species",
+                                                               comp_species_col = "species",
+                                                               samp_group_name = "ID",
+                                                               comp_group_name = "Pid3",
+                                                               comp_groupID_name = "NVC",
+                                                               remove_zero_matches = TRUE,
+                                                               average_comp = TRUE) |>
+          dplyr::select("ID" = ID,
+                        "Mean.Similarity" = Similarity,
+                        "NVC.Code" = NVC)|>
+          dplyr::group_by(ID) |>
+          dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
+          dplyr::ungroup() |>
+          dplyr::left_join(surveyData_IDs, by = "ID")
+        
+        nvcAssignmentPlot_Jaccard_prepped <- nvcAssignmentPlot_Jaccard |>
+          dplyr::select(Year, Group, Quadrat, NVC.Code, Mean.Similarity)|>
+          dplyr::group_by(Year, Group, Quadrat) |>
+          dplyr::slice(1:10) |>
+          dplyr::ungroup() |>
+          dplyr::arrange(Year, Group, Quadrat, dplyr::desc(Mean.Similarity))
+        
+        nvcAssignmentPlot_Jaccard_rval(nvcAssignmentPlot_Jaccard_prepped)
+        
+      }) # close isolate
       
-      # Calculate NVC Similarity by Quadrat
-      nvcAssignmentPlot_Jaccard <- RMAVIS::similarityJaccard(samp_df = surveyData_prepped,
-                                                             comp_df = pquads_to_use,
-                                                             samp_species_col = "species",
-                                                             comp_species_col = "species",
-                                                             samp_group_name = "ID",
-                                                             comp_group_name = "Pid3",
-                                                             comp_groupID_name = "NVC",
-                                                             remove_zero_matches = TRUE,
-                                                             average_comp = TRUE) |>
-        dplyr::select("ID" = ID,
-                      "Mean.Similarity" = Similarity,
-                      "NVC.Code" = NVC)|>
-        dplyr::group_by(ID) |>
-        dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
-        dplyr::ungroup() |>
-        dplyr::left_join(surveyData_IDs, by = "ID")
+      shinybusy::remove_modal_spinner()
       
-      nvcAssignmentPlot_Jaccard_prepped <- nvcAssignmentPlot_Jaccard |>
-        dplyr::select(Year, Group, Quadrat, NVC.Code, Mean.Similarity)|>
-        dplyr::group_by(Year, Group, Quadrat) |>
-        dplyr::slice(1:10) |>
-        dplyr::ungroup() |>
-        dplyr::arrange(Year, Group, Quadrat, dplyr::desc(Mean.Similarity))
+    } else if(assignQuadrats() == FALSE){
       
-      nvcAssignmentPlot_Jaccard_rval(nvcAssignmentPlot_Jaccard_prepped)
+      nvcAssignmentPlot_Jaccard_rval(NULL)
       
-    }) # close isolate
-    
-    shinybusy::remove_modal_spinner()
+    }
     
   }) |>
     bindEvent(runAnalysis(),
@@ -249,6 +256,11 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
         nvcAssignmentSite_Czekanowski_rval(nvcAssignmentSite_Czekanowski)
         nvcAssignmentGroup_Czekanowski_rval(nvcAssignmentGroup_Czekanowski)
         
+      } else {
+        
+        nvcAssignmentSite_Czekanowski_rval(NULL)
+        nvcAssignmentGroup_Czekanowski_rval(NULL)
+        
       }
       
     }) # close isolate
@@ -295,10 +307,10 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
 
 # Initialise NVC Assignment Quadrat Table ---------------------------------
   nvcAssignmentPlot_JaccardTable_init <- data.frame("Year" = integer(),
-                                               "Group" = character(),
-                                               "Quadrat" = character(),
-                                               "Mean.Similarity" = numeric(),
-                                               "NVC.Code" = character()
+                                                    "Group" = character(),
+                                                    "Quadrat" = character(),
+                                                    "Mean.Similarity" = numeric(),
+                                                    "NVC.Code" = character()
   )
   
   nvcAssignmentPlot_JaccardTable_rval <- reactiveVal(nvcAssignmentPlot_JaccardTable_init)
@@ -332,60 +344,66 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
 # Update NVC Assignment Quadrat Table -------------------------------------
   observe({
     
-    req(nvcAssignmentPlot_Jaccard_rval())
-    
-    nvcAssignmentPlot_Jaccard <- nvcAssignmentPlot_Jaccard_rval() |>
-      dplyr::group_by(Year, Group, Quadrat) |>
-      dplyr::slice(1:nTopResults()) |>
-      dplyr::ungroup()
+    if(!is.null(nvcAssignmentPlot_Jaccard_rval())){
+      
+      nvcAssignmentPlot_Jaccard <- nvcAssignmentPlot_Jaccard_rval() |>
+        dplyr::group_by(Year, Group, Quadrat) |>
+        dplyr::slice(1:nTopResults()) |>
+        dplyr::ungroup()
+      
+    } else if(is.null(nvcAssignmentPlot_Jaccard_rval())){
+      
+      nvcAssignmentPlot_Jaccard <- nvcAssignmentPlot_JaccardTable_init
+      
+    }
     
     output$nvcAssignmentPlot_JaccardTable <- reactable::renderReactable({
       
       nvcAssignmentPlot_JaccardTable <- reactable::reactable(data = nvcAssignmentPlot_Jaccard, 
-                                                        filterable = FALSE,
-                                                        pagination = FALSE, 
-                                                        highlight = TRUE,
-                                                        bordered = TRUE,
-                                                        sortable = TRUE, 
-                                                        wrap = FALSE,
-                                                        resizable = TRUE,
-                                                        class = "my-tbl",
-                                                        # style = list(fontSize = "1rem"),
-                                                        rowClass = "my-row",
-                                                        defaultColDef = reactable::colDef(
-                                                          format = reactable::colFormat(digits = 2),
-                                                          headerClass = "my-header",
-                                                          class = "my-col",
-                                                          align = "center" # Needed as alignment is not passing through to header
-                                                        ),
-                                                        columns = list(
-                                                          Year = reactable::colDef(
-                                                            format = reactable::colFormat(digits = 0),
-                                                            filterable = TRUE,
-                                                            filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                       return rows.filter(function(row) {
-                                                                                       return row.values[columnId] == filterValue
-                                                                                       })
-                                                                                       }")
-                                                            ),
-                                                          Group = reactable::colDef(
-                                                            filterable = TRUE,
-                                                            filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                       return rows.filter(function(row) {
-                                                                                       return row.values[columnId] == filterValue
-                                                                                       })
-                                                                                       }")
-                                                          ),
-                                                          Quadrat = reactable::colDef(
-                                                            filterable = TRUE,
-                                                            filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                       return rows.filter(function(row) {
-                                                                                       return row.values[columnId] == filterValue
-                                                                                       })
-                                                                                       }")
-                                                          )
-                                                        )
-                                                        )
+                                                             filterable = FALSE,
+                                                             pagination = FALSE, 
+                                                             highlight = TRUE,
+                                                             bordered = TRUE,
+                                                             sortable = TRUE, 
+                                                             wrap = FALSE,
+                                                             resizable = TRUE,
+                                                             class = "my-tbl",
+                                                             # style = list(fontSize = "1rem"),
+                                                             rowClass = "my-row",
+                                                             defaultColDef = reactable::colDef(
+                                                               format = reactable::colFormat(digits = 2),
+                                                               headerClass = "my-header",
+                                                               class = "my-col",
+                                                               align = "center" # Needed as alignment is not passing through to header
+                                                             ),
+                                                             columns = list(
+                                                               Year = reactable::colDef(
+                                                                 format = reactable::colFormat(digits = 0),
+                                                                 filterable = TRUE,
+                                                                 filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                            return rows.filter(function(row) {
+                                                                                            return row.values[columnId] == filterValue
+                                                                                            })
+                                                                                            }")
+                                                                 ),
+                                                               Group = reactable::colDef(
+                                                                 filterable = TRUE,
+                                                                 filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                            return rows.filter(function(row) {
+                                                                                            return row.values[columnId] == filterValue
+                                                                                            })
+                                                                                            }")
+                                                               ),
+                                                               Quadrat = reactable::colDef(
+                                                                 filterable = TRUE,
+                                                                 filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                              return rows.filter(function(row) {
+                                                                                              return row.values[columnId] == filterValue
+                                                                                              })
+                                                                                              }")
+                                                                 )
+                                                              )
+                                                            )
       
       return(nvcAssignmentPlot_JaccardTable)
       
@@ -395,7 +413,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     bindEvent(nvcAssignmentPlot_Jaccard_rval(),
               nTopResults(),
               ignoreInit = TRUE, 
-              ignoreNULL = TRUE)
+              ignoreNULL = FALSE)
   
   
   outputOptions(output, "nvcAssignmentPlot_JaccardTable", suspendWhenHidden = FALSE)
@@ -437,13 +455,18 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   # Update NVC Assignment Site Czekanowski Table --------------------------
   observe({
     
-    
-    shiny::req(nvcAssignmentSite_Czekanowski_rval())
-    
-    nvcAssignmentSite_Czekanowski <- nvcAssignmentSite_Czekanowski_rval() |>
-      dplyr::group_by(Year) |>
-      dplyr::slice(1:nTopResults()) |>
-      dplyr::ungroup()
+    if(!is.null(nvcAssignmentSite_Czekanowski_rval())){
+      
+      nvcAssignmentSite_Czekanowski <- nvcAssignmentSite_Czekanowski_rval() |>
+        dplyr::group_by(Year) |>
+        dplyr::slice(1:nTopResults()) |>
+        dplyr::ungroup()
+      
+    } else if(is.null(nvcAssignmentSite_Czekanowski_rval())){
+      
+      nvcAssignmentSite_Czekanowski <- nvcAssignmentSiteTable_Czekanowski_init
+      
+    }
     
     output$nvcAssignmentSiteTable_Czekanowski <- reactable::renderReactable({
       
@@ -486,7 +509,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     bindEvent(nvcAssignmentSite_Czekanowski_rval(), 
               nTopResults(),
               ignoreInit = TRUE, 
-              ignoreNULL = TRUE)
+              ignoreNULL = FALSE)
   
   
   outputOptions(output, "nvcAssignmentSiteTable_Czekanowski", suspendWhenHidden = FALSE)
@@ -531,12 +554,18 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   # Update NVC Assignment Group CzekanowskiTable ------------------------
   observe({
     
-    req(nvcAssignmentGroup_Czekanowski_rval())
-    
-    nvcAssignmentGroup_Czekanowski <- nvcAssignmentGroup_Czekanowski_rval() |>
-      dplyr::group_by(Year, Group) |>
-      dplyr::slice(1:nTopResults()) |>
-      dplyr::ungroup()
+    if(!is.null(nvcAssignmentGroup_Czekanowski_rval())){
+      
+      nvcAssignmentGroup_Czekanowski <- nvcAssignmentGroup_Czekanowski_rval() |>
+        dplyr::group_by(Year, Group) |>
+        dplyr::slice(1:nTopResults()) |>
+        dplyr::ungroup()
+      
+    } else if(is.null(nvcAssignmentGroup_Czekanowski_rval())){
+      
+      nvcAssignmentGroup_Czekanowski <- nvcAssignmentGroupTable_Czekanowski_init
+      
+    }
     
     output$nvcAssignmentGroupTable_Czekanowski <- reactable::renderReactable({
       
@@ -587,7 +616,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     bindEvent(nvcAssignmentGroup_Czekanowski_rval(),
               nTopResults(),
               ignoreInit = TRUE, 
-              ignoreNULL = TRUE)
+              ignoreNULL = FALSE)
   
   
   outputOptions(output, "nvcAssignmentGroupTable_Czekanowski", suspendWhenHidden = FALSE)

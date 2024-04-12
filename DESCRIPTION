@@ -42,5 +42,5 @@ Suggests:
 URL: https://github.com/ZekeMarshall/RMAVIS
 BugReports: https://github.com/ZekeMarshall/RMAVIS/issues
 Depends: 
-    R (>= 2.10)
+    R (>= 4.3.2)
 LazyData: true

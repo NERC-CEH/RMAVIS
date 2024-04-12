@@ -247,9 +247,13 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         
         surveyData <- rhandsontable::hot_to_r(input$surveyData)
         
+        readOnly_value <- FALSE
+        
       } else if(inputMethod == "example"){
         
         surveyData <- rhandsontable::hot_to_r(input$surveyData)
+        
+        readOnly_value <- TRUE
         
         if(selectedExampleData != "none"){
           
@@ -263,6 +267,8 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       } else if(inputMethod == "upload"){
         
         surveyData <- rhandsontable::hot_to_r(input$surveyData)
+        
+        readOnly_value <- FALSE
         
         if(!is.null(uploadDataTable())){
           
@@ -318,22 +324,22 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         rhandsontable::hot_col(col = colnames(surveyData), halign = "htCenter") |>
         rhandsontable::hot_col(
           col = "Year",
-          readOnly = FALSE,
+          readOnly = readOnly_value,
           type = "numeric"
         ) |>
         rhandsontable::hot_col(
           col = "Group",
-          readOnly = FALSE,
+          readOnly = readOnly_value,
           type = "text"
         ) |>
         rhandsontable::hot_col(
           col = "Quadrat",
-          readOnly = FALSE,
+          readOnly = readOnly_value,
           type = "text"
         ) |>
         rhandsontable::hot_col(
           col = "Species",
-          readOnly = FALSE,
+          readOnly = readOnly_value,
           type = "dropdown",
           source = speciesNames(),
           strict = FALSE,
@@ -341,7 +347,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         ) |>
         rhandsontable::hot_col(
           col = "Cover",
-          readOnly = FALSE,
+          readOnly = readOnly_value,
           type = cover_type,
           strict = FALSE,
           format = cover_format,
