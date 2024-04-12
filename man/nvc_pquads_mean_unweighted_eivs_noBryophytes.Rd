@@ -3,17 +3,27 @@
 \docType{data}
 \name{nvc_pquads_mean_unweighted_eivs_noBryophytes}
 \alias{nvc_pquads_mean_unweighted_eivs_noBryophytes}
-\title{\code{}}
+\title{The mean unweighted Hill-Ellenberg values for all pseudo-quadrats, excluding bryophytes}
 \format{
 A data frame with 57704 rows and 6 columns, the definitions of which are:
 \describe{
-\item{}{}
+\item{Pid3}{The pseudo-quadrat ID.}
+\item{F}{The mean unweighted Hill-Ellenberg moisture value}
+\item{L}{The mean unweighted Hill-Ellenberg light value}
+\item{N}{The mean unweighted Hill-Ellenberg nitrogen value}
+\item{R}{The mean unweighted Hill-Ellenberg reaction value}
+\item{S}{The mean unweighted Hill-Ellenberg salinity value}
 }
 }
 \usage{
 nvc_pquads_mean_unweighted_eivs_noBryophytes
 }
 \description{
-\code{}
+A data frame containing the mean unweighted Hill-Ellenberg values for all
+pseudo-quadrats excluding bryophytes, calculated using
+\code{RMAVIS::nvc_pquad_dca_noBryophytes} and \code{RMAVIS::master_data}.
+}
+\details{
+\code{nvc_pquads_mean_unweighted_eivs_noBryophytes}
 }
 \keyword{datasets}

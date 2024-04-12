@@ -3,17 +3,21 @@
 \docType{data}
 \name{nvc_community_namesCodes}
 \alias{nvc_community_namesCodes}
-\title{A dataset containing}
+\title{NVC community names and codes.}
 \format{
 A data frame with 896 rows and 2 columns, the definitions of which are:
 \describe{
-\item{}{}
+\item{NVC.Code}{The code associated with the NVC community named in the NVC.Name column.}
+\item{NVC.Name}{The name of each NVC community.}
 }
 }
 \usage{
 nvc_community_namesCodes
 }
 \description{
-\code{}
+A data frame containing the names and codes of each NVC community.
+}
+\details{
+\code{nvc_community_namesCodes}
 }
 \keyword{datasets}

@@ -1,0 +1,284 @@
+0 <OC084 West Plot 1> 
+0 9204842 0 Cupressus [spp] 15
+0 9202119 100344 Ulmus glabra (g) 1
+0 920557 100076 Corylus avellana 60
+0 920569 100079 Crataegus monogyna 1
+0 9202022 0 Symphoricarpos albus 0
+0 9201188 100110 Lonicera periclymenum 0
+0 920952 100099 Hedera helix 2
+0 9203 100045 Acer campestre 2
+0 9201640 100170 Quercus robur 60
+0 920105 0 Anemone nemorosa 95
+0 920687 0 Hyacinthoides non-scripta 95
+0 9201728 100216 Rubus fruticosus agg. 1
+0 920125 0 Anthriscus sylvestris 0
+0 920421 0 Carex sylvatica 1
+0 9202126 100349 Urtica dioica 0
+0 9202218 0 Viola riviniana 1
+0 920176 0 Arum maculatum 1
+0 920841 100094 Fraxinus excelsior (c) 5
+0 9201023 100102 Ilex aquifolium 0
+0 9202032 0 Tamus communis 0
+0 9201753 0 Rumex sanguineus 0
+0 9201617 100152 Prunus spinosa 0
+0 9202172 0 Veronica montana 0
+0 9201296 0 Milium effusum 0
+0 9201488 0 Plantago major 0
+0 920271 0 Bromus racemosus 0
+0 9202010 0 Stellaria holostea 2
+0 9201596 0 Potentilla sterilis 2
+0 920925 0 Geum urbanum 0
+0 9201899 0 Senecio jacobaea 0
+0 9202034 0 Taraxacum agg. 0
+0 920931 0 Glechoma hederacea 0
+0 920918 0 Geranium robertianum 0
+0 920328 0 Cardamine flexuosa 1
+0 910661 0 Dryopteris dilatata 0
+0 910665 0 Dryopteris filix-mas 1
+0 920695 0 Epilobium montanum 0
+0 9201789 100298 Salix cinerea 3
+0 920873 0 Galium aparine 0
+0 9201230 100111 Malus sylvestris 10
+0 920250 0 Brachypodium sylvaticum 0
+0 9201645 0 Ranunculus auricomus 0
+1 <OC084 West Plot 1 Quadrat> 
+1 920557 100076 Corylus avellana 10
+1 920569 100079 Crataegus monogyna 5
+1 920952 100099 Hedera helix 0
+1 920105 0 Anemone nemorosa 90
+1 920687 0 Hyacinthoides non-scripta 90
+1 9201728 100216 Rubus fruticosus agg. 5
+1 920925 0 Geum urbanum 0
+1 920250 0 Brachypodium sylvaticum 1
+1 9201645 0 Ranunculus auricomus 1
+2 <OC084 West Plot 2> 
+2 920841 100094 Fraxinus excelsior (c) 5
+2 920841 100095 Fraxinus excelsior (g) 0
+2 920557 100076 Corylus avellana 25
+2 9204842 0 Cupressus [spp] 20
+2 9201640 100168 Quercus robur (c) 65
+2 920569 100077 Crataegus monogyna (c) 5
+2 920569 100078 Crataegus monogyna (g) 0
+2 9201977 100328 Sorbus torminalis 3
+2 9201617 100152 Prunus spinosa 0
+2 9203 100043 Acer campestre (c) 5
+2 9203 100044 Acer campestre (g) 2
+2 9201230 100111 Malus sylvestris 2
+2 9201728 100216 Rubus fruticosus agg. 5
+2 920687 0 Hyacinthoides non-scripta 70
+2 920105 0 Anemone nemorosa 70
+2 920952 100099 Hedera helix 0
+2 920873 0 Galium aparine 50
+2 9201954 0 Sonchus oleraceus 0
+2 9202034 0 Taraxacum agg. 0
+2 920824 0 Festuca rubra agg. 0
+2 920983 0 Holcus lanatus 2
+2 9201867 0 Scrophularia nodosa 0
+2 920695 0 Epilobium montanum 0
+2 920607 0 Dactylis glomerata 0
+2 9201296 0 Milium effusum 1
+2 9201705 0 Rosa seedling/sp 0
+2 9201899 0 Senecio jacobaea 0
+2 9201317 0 Myosotis arvensis 0
+2 920918 0 Geranium robertianum 0
+2 9201188 100110 Lonicera periclymenum 0
+2 9202005 0 Stachys sylvatica 0
+2 920272 0 Bromopsis ramosa 0
+2 9202010 0 Stellaria holostea 1
+2 920925 0 Geum urbanum 0
+2 9201259 0 Silene dioica 0
+2 920176 0 Arum maculatum 0
+2 9201183 0 Lolium perenne 0
+2 9201507 0 Poa trivialis 0
+2 9201104 0 Lapsana communis 0
+2 920169 0 Arrhenatherum elatius 0
+2 920467 0 Cerastium fontanum 0
+2 920240 100059 Betula pubescens 0
+2 9201753 0 Rumex sanguineus 0
+2 9201063 0 Juncus conglomeratus 0
+2 9204579 0 Agrostis [spp] 0
+2 9201729 100285 Rubus idaeus 0
+2 9202228 0 Vulpia myuros 1
+2 9201305 0 Moehringia trinervia 0
+2 9201789 100298 Salix cinerea 0
+2 920515 0 Cirsium arvense 0
+2 9201094 0 Lactuca serriola 0
+3 <OC084 West Plot 2 Quadrat> 
+3 920841 100095 Fraxinus excelsior (g) 1
+3 920557 100076 Corylus avellana 30
+3 920569 100079 Crataegus monogyna 0
+3 9203 100043 Acer campestre (c) 0
+3 9201728 100216 Rubus fruticosus agg. 10
+3 920686 0 Hyacinthoides hispanica 85
+3 920925 0 Geum urbanum 70
+3 920952 100099 Hedera helix 0
+3 920873 0 Galium aparine 50
+3 9202034 0 Taraxacum agg. 1
+3 920983 0 Holcus lanatus 1
+3 920169 0 Arrhenatherum elatius 1
+3 9204579 0 Agrostis [spp] 3
+4 <OC084 West Plot 3> 
+4 920841 100094 Fraxinus excelsior (c) 50
+4 920841 100095 Fraxinus excelsior (g) 0
+4 9204842 0 Cupressus [spp] 10
+4 920569 100079 Crataegus monogyna 1
+4 920557 100076 Corylus avellana 3
+4 9201640 100170 Quercus robur 25
+4 9201555 100141 Populus tremula (s) 90
+4 920105 0 Anemone nemorosa 70
+4 920687 0 Hyacinthoides non-scripta 50
+4 9201867 0 Scrophularia nodosa 0
+4 9201905 0 Senecio vulgaris 0
+4 920513 0 Circaea lutetiana 2
+4 9201507 0 Poa trivialis 0
+4 92046 0 Ajuga reptans 0
+4 920873 0 Galium aparine 0
+4 920952 100099 Hedera helix 0
+4 9201728 100216 Rubus fruticosus agg. 1
+4 9202172 0 Veronica montana 1
+4 920918 0 Geranium robertianum 0
+4 920176 0 Arum maculatum 0
+4 910665 0 Dryopteris filix-mas 0
+4 9201305 0 Moehringia trinervia 1
+4 9201296 0 Milium effusum 0
+4 920695 0 Epilobium montanum 0
+4 9201705 0 Rosa seedling/sp 0
+4 9201259 0 Silene dioica 0
+4 920421 0 Carex sylvatica 1
+4 9201188 100110 Lonicera periclymenum 0
+4 920522 0 Cirsium vulgare 0
+4 920983 0 Holcus lanatus 0
+4 9201642 0 Ranunculus acris 0
+4 9201649 0 Ranunculus ficaria 0
+4 9202032 0 Tamus communis 0
+4 920250 0 Brachypodium sylvaticum 0
+4 920627 0 Deschampsia cespitosa 0
+4 9201899 0 Senecio jacobaea 0
+4 9202218 0 Viola riviniana 1
+4 9201063 0 Juncus conglomeratus 0
+4 920925 0 Geum urbanum 0
+5 <OC084 West Plot 3 Quadrat> 
+5 920841 100095 Fraxinus excelsior (g) 6
+5 9201555 100141 Populus tremula (s) 60
+5 920105 0 Anemone nemorosa 70
+5 920687 0 Hyacinthoides non-scripta 20
+5 9201867 0 Scrophularia nodosa 10
+5 9201899 0 Senecio jacobaea 2
+5 920513 0 Circaea lutetiana 5
+5 9201507 0 Poa trivialis 15
+5 9202218 0 Viola riviniana 5
+5 9201063 0 Juncus conglomeratus 3
+5 920873 0 Galium aparine 3
+5 9201728 100216 Rubus fruticosus agg. 3
+5 920176 0 Arum maculatum 1
+5 9201296 0 Milium effusum 1
+5 920421 0 Carex sylvatica 1
+5 9201905 0 Senecio vulgaris 1
+6 <OC084 West Plot 4> 
+6 920240 100057 Betula pubescens (c) 10
+6 9204842 0 Cupressus [spp] 30
+6 920557 100076 Corylus avellana 20
+6 920569 100079 Crataegus monogyna 7
+6 9201023 100100 Ilex aquifolium (c) 5
+6 9201640 100169 Quercus robur (g) 0
+6 920841 100094 Fraxinus excelsior (c) 10
+6 920841 100095 Fraxinus excelsior (g) 1
+6 9201728 100216 Rubus fruticosus agg. 50
+6 9201555 100139 Populus tremula 0
+6 9201789 100298 Salix cinerea 0
+6 9201729 100285 Rubus idaeus 0
+6 910661 0 Dryopteris dilatata 1
+6 9101548 0 Polystichum setiferum 0
+6 920695 0 Epilobium montanum 0
+6 920477 0 Chamerion angustifolium 0
+6 920105 0 Anemone nemorosa 25
+6 920687 0 Hyacinthoides non-scripta 70
+6 920918 0 Geranium robertianum 0
+6 9201507 0 Poa trivialis 8
+6 920873 0 Galium aparine 30
+6 920522 0 Cirsium vulgare 0
+6 920925 0 Geum urbanum 0
+6 9201617 100152 Prunus spinosa 0
+6 9201899 0 Senecio jacobaea 1
+6 920983 0 Holcus lanatus 1
+6 9201296 0 Milium effusum 0
+6 920952 100099 Hedera helix 0
+6 910665 0 Dryopteris filix-mas 0
+6 920272 0 Bromopsis ramosa 0
+6 9201020 0 Hypochaeris radicata 0
+6 9201305 0 Moehringia trinervia 0
+6 9201188 100110 Lonicera periclymenum 0
+6 9203 100043 Acer campestre (c) 5
+6 9202012 0 Stellaria media 0
+6 9201867 0 Scrophularia nodosa 0
+6 9201259 0 Silene dioica 0
+6 9202005 0 Stachys sylvatica 0
+6 920515 0 Cirsium arvense 0
+6 9202034 0 Taraxacum agg. 0
+6 920502 0 Leucanthemum vulgare 0
+6 9201953 0 Sonchus asper 0
+6 9202032 0 Tamus communis 0
+7 <OC084 West Plot 4 Quadrat> 
+7 9204842 0 Cupressus [spp] 5
+7 920557 100076 Corylus avellana 10
+7 920841 100096 Fraxinus excelsior (s) 1
+7 9201728 100216 Rubus fruticosus agg. 1
+7 920105 0 Anemone nemorosa 55
+7 920687 0 Hyacinthoides non-scripta 20
+7 920873 0 Galium aparine 60
+7 920952 100099 Hedera helix 10
+7 9201188 100110 Lonicera periclymenum 3
+7 9202032 0 Tamus communis 1
+8 <OC084 West Plot 5> 
+8 9203 100043 Acer campestre (c) 10
+8 9203 100044 Acer campestre (g) 1
+8 920557 100076 Corylus avellana 50
+8 920841 100094 Fraxinus excelsior (c) 70
+8 9201640 100168 Quercus robur (c) 30
+8 9201023 100102 Ilex aquifolium 10
+8 9201815 100316 Sambucus nigra 3
+8 920541 0 Conopodium majus 0
+8 9202010 0 Stellaria holostea 20
+8 920687 0 Hyacinthoides non-scripta 80
+8 9201728 100216 Rubus fruticosus agg. 50
+8 920873 0 Galium aparine 50
+8 9201507 0 Poa trivialis 10
+8 920925 0 Geum urbanum 0
+8 9201259 0 Silene dioica 0
+8 920918 0 Geranium robertianum 1
+8 9201296 0 Milium effusum 20
+8 920952 100099 Hedera helix 20
+8 910665 0 Dryopteris filix-mas 1
+8 920105 0 Anemone nemorosa 0
+8 920176 0 Arum maculatum 0
+8 910661 0 Dryopteris dilatata 0
+8 9201063 0 Juncus conglomeratus 0
+8 920515 0 Cirsium arvense 0
+8 9201317 0 Myosotis arvensis 0
+8 920640 0 Digitalis purpurea 0
+8 9201649 0 Ranunculus ficaria 0
+8 9201867 0 Scrophularia nodosa 0
+8 9202005 0 Stachys sylvatica 0
+8 9201899 0 Senecio jacobaea 0
+8 9202218 0 Viola riviniana 0
+8 9202032 0 Tamus communis 0
+8 9201188 100110 Lonicera periclymenum 0
+8 920931 0 Glechoma hederacea 0
+8 920692 0 Epilobium hirsutum 0
+8 9202012 0 Stellaria media 0
+8 920569 100078 Crataegus monogyna (g) 0
+9 <OC084 West Plot 5 Quadrat> 
+9 9203 100044 Acer campestre (g) 0
+9 920841 100094 Fraxinus excelsior (c) 1
+9 920687 0 Hyacinthoides non-scripta 25
+9 9201728 100216 Rubus fruticosus agg. 5
+9 920873 0 Galium aparine 3
+9 920925 0 Geum urbanum 1
+9 9201259 0 Silene dioica 5
+9 9201296 0 Milium effusum 25
+9 920952 100099 Hedera helix 25
+9 920105 0 Anemone nemorosa 1
+9 920176 0 Arum maculatum 5
+9 9202005 0 Stachys sylvatica 1
+9 920569 100079 Crataegus monogyna 0
+9 9201507 0 Poa trivialis 25

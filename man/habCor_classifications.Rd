@@ -11,7 +11,7 @@ An object of class \code{character} of length 12.
 habCor_classifications
 }
 \description{
-A vector containing the names of the habitat classification for which there is correspondence data in \code{RMAVIS::habCor_data}
+A vector containing the names of the habitat classification systems for which there is correspondence data in \code{RMAVIS::habCor_data}
 }
 \details{
 \code{habCor_classifications}

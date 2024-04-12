@@ -35,8 +35,7 @@ library(writexl)
 library(vegan)
 
 # Render documentation ----------------------------------------------------
-# Disabled by default, uncomment to re-render documentation upon running app
-# rmarkdown::render(input = "docs/documentation.Rmd",  output_dir = "www")
+rmarkdown::render(input = "docs/documentation.Rmd",  output_dir = "www")
 
 # Source sub-modules ------------------------------------------------------
 source("modules/privacy_ui.R", local = TRUE)

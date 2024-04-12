@@ -44,3 +44,16 @@ Calculate the Jaccard coefficient of similarity between two sets of vegetation
 plot data. The Jaccard coefficient is a binary, presence/absence only
 measure of similarity.
 }
+\examples{
+RMAVIS::similarityJaccard(samp_df = RMAVIS::example_data[["Parsonage Down"]], 
+                          comp_df = RMAVIS::subset_nvcData(nvc_data = RMAVIS::nvc_pquads, 
+                                                           habitatRestriction = c("CG"), 
+                                                           col_name = "Pid3"),
+                          samp_species_col = "Species", 
+                          comp_species_col = "species",
+                          samp_group_name = "Quadrat", 
+                          comp_group_name = "Pid3",
+                          comp_groupID_name = "NVC", 
+                          remove_zero_matches = TRUE, 
+                          average_comp = TRUE)
+}

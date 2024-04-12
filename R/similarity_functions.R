@@ -20,6 +20,22 @@
 #' @export
 #'
 #' @examples
+#' RMAVIS::similarityCzekanowski(samp_df = RMAVIS::composeSyntopicTables(surveyData = RMAVIS::example_data[["Parsonage Down"]], 
+#'                                                                       group_cols = c("Year", "Group"), 
+#'                                                                       species_col_name = "Species", 
+#'                                                                       plot_col_name = "Quadrat",
+#'                                                                       numeric_constancy = TRUE), 
+#'                               comp_df = RMAVIS::subset_nvcData(nvc_data = RMAVIS::nvc_floristic_tables_numeric, 
+#'                                                                habitatRestriction = c("CG"), 
+#'                                                                col_name = "NVC.Code"), 
+#'                               samp_species_col = "Species", 
+#'                               comp_species_col = "Species", 
+#'                               samp_group_name = "ID", 
+#'                               comp_group_name = "NVC.Code",
+#'                               samp_weight_name = "Constancy", 
+#'                               comp_weight_name = "Constancy",
+#'                               downweight_threshold = 1, 
+#'                               downweight_value = 0.1)
 similarityCzekanowski <- function(samp_df, comp_df, 
                                   samp_species_col, comp_species_col, 
                                   samp_group_name, comp_group_name,
@@ -103,6 +119,17 @@ similarityCzekanowski <- function(samp_df, comp_df,
 #' @export
 #'
 #' @examples
+#' RMAVIS::similarityJaccard(samp_df = RMAVIS::example_data[["Parsonage Down"]], 
+#'                           comp_df = RMAVIS::subset_nvcData(nvc_data = RMAVIS::nvc_pquads, 
+#'                                                            habitatRestriction = c("CG"), 
+#'                                                            col_name = "Pid3"),
+#'                           samp_species_col = "Species", 
+#'                           comp_species_col = "species",
+#'                           samp_group_name = "Quadrat", 
+#'                           comp_group_name = "Pid3",
+#'                           comp_groupID_name = "NVC", 
+#'                           remove_zero_matches = TRUE, 
+#'                           average_comp = TRUE)
 similarityJaccard <- function(samp_df, comp_df,
                               samp_species_col, comp_species_col,
                               samp_group_name = "ID", comp_group_name = "Pid3",
@@ -141,12 +168,7 @@ similarityJaccard <- function(samp_df, comp_df,
       x <- x_list[[X]]
       y <- y_list[[Y]]
       x_n_y <- sum(samp_spp %in% comp_spp)
-      # x_n_y <- length(intersect(samp_spp, comp_spp)) # %in% faster than intersect
-      
       j <- x_n_y / (x + y - x_n_y)
-      
-      # similarity_list <- list(samp_group = X, comp_group = Y, "Similarity" = j)
-      # names(similarity_list) <- c(samp_group_name , comp_group_name, "Similarity")
       
       return(j)
       
@@ -155,7 +177,6 @@ similarityJaccard <- function(samp_df, comp_df,
   )
   
   # Collapse list to data frame
-  # similarity_df <- do.call(rbind.data.frame, similarity_results)
   similarity_results_df <- data.frame("Similarity" = do.call(rbind, similarity_results))
   
   # Bind similarity results to ID values

@@ -3,17 +3,19 @@
 \docType{data}
 \name{nvc_pquad_dca_noBryophytes}
 \alias{nvc_pquad_dca_noBryophytes}
-\title{A dataset containing}
+\title{The DCA results for all pseudo-quadrats, excluding bryophytes}
 \format{
-A data frame with  rows and  columns, the definitions of which are:
-\describe{
-\item{}{}
-}
+An object of class "decorana". See \code{vegan::decanora}.
 }
 \usage{
 nvc_pquad_dca_noBryophytes
 }
 \description{
-\code{}
+The results of a Detrended Correspondence Analysis (DCA) performed on all
+pseudo-quadrats present in \code{RMAVIS::nvc_pquads_wide},
+exluding bryophyte taxa.
+}
+\details{
+\code{nvc_pquad_dca_noBryophytes}
 }
 \keyword{datasets}

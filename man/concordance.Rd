@@ -12,6 +12,7 @@ A data frame with 16500 rows and 6 columns, the definitions of which are:
 \item{ddb_name}{The taxon name as present in the BSBI database.}
 \item{assignNVCSpecies}{The taxon name as present in assignNVC}
 \item{proposedSpecies}{The proposed species name - the name used in RMAVIS}
+\item{TaxonGroup}{The name of the taxonomic group that species belongs to.}
 }
 }
 \usage{

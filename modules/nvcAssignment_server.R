@@ -3,14 +3,14 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   ns <- session$ns
   
 # Retrieve Setup Data -----------------------------------------------------
-  nvc_pquads_final <- reactiveVal()
+  nvc_pquads <- reactiveVal()
   nvc_floristic_tables_numeric <- reactiveVal()
   
   observe({
     
     setupData <- setupData()
     
-    nvc_pquads_final(setupData$nvc_pquads_final)
+    nvc_pquads(setupData$nvc_pquads)
     nvc_floristic_tables_numeric(setupData$nvc_floristic_tables_numeric)
     
   }) |>
@@ -121,11 +121,11 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
           dplyr::distinct()
         
         # Select the pseudo-quadrats to use in the NVC assignment process
-        pquads_to_use <- nvc_pquads_final()
+        pquads_to_use <- nvc_pquads()
         
         if(!is.null(habitatRestriction())){
           
-          pquads_to_use <- RMAVIS::subset_psquads(nvc_data = nvc_pquads_final(), habitatRestriction = habitatRestriction(), col_name = "NVC")
+          pquads_to_use <- RMAVIS::subset_nvcData(nvc_data = nvc_pquads(), habitatRestriction = habitatRestriction(), col_name = "NVC")
           
         }
         
@@ -220,7 +220,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
         # Prepare nvc_floristic_tables_numeric
         if(!is.null(habitatRestriction())){
           
-          nvc_floristic_tables_numeric_prepped <- RMAVIS::subset_psquads(nvc_data = nvc_floristic_tables_numeric(), habitatRestriction = habitatRestriction(), col_name = "NVC.Code")
+          nvc_floristic_tables_numeric_prepped <- RMAVIS::subset_nvcData(nvc_data = nvc_floristic_tables_numeric(), habitatRestriction = habitatRestriction(), col_name = "NVC.Code")
           
         } else {
           
@@ -271,38 +271,6 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   }) |>
     bindEvent(runAnalysis(),
               ignoreInit = FALSE)
-
-
-# Intialise NVC Assignment Site Table -------------------------------------
-  nvcAssignmentSiteTable_init <- data.frame("Year" = integer(),
-                                            "Mean.Similarity" = numeric(),
-                                            "NVC.Code" = character()
-  )
-  
-  output$nvcAssignmentSiteTable <- reactable::renderReactable({
-    
-    nvcAssignmentSiteTable <- reactable::reactable(data = nvcAssignmentSiteTable_init,
-                                                   filterable = FALSE,
-                                                   pagination = FALSE, 
-                                                   highlight = TRUE,
-                                                   bordered = TRUE,
-                                                   sortable = TRUE, 
-                                                   wrap = FALSE,
-                                                   resizable = TRUE,
-                                                   style = list(fontSize = "1rem"),
-                                                   class = "my-tbl",
-                                                   # style = list(fontSize = "1rem"),
-                                                   rowClass = "my-row",
-                                                   defaultColDef = reactable::colDef(
-                                                     format = reactable::colFormat(digits = 2),
-                                                     headerClass = "my-header",
-                                                     class = "my-col",
-                                                     align = "center" # Needed as alignment is not passing through to header
-                                                   ))
-    
-    return(nvcAssignmentSiteTable)
-    
-  })
   
 
 # Initialise NVC Assignment Quadrat Table ---------------------------------
@@ -318,23 +286,23 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   output$nvcAssignmentPlot_JaccardTable <- reactable::renderReactable({
     
     nvcAssignmentPlot_JaccardTable <- reactable::reactable(data = nvcAssignmentPlot_JaccardTable_init,
-                                                      filterable = FALSE,
-                                                      pagination = FALSE, 
-                                                      highlight = TRUE,
-                                                      bordered = TRUE,
-                                                      sortable = TRUE, 
-                                                      wrap = FALSE,
-                                                      resizable = TRUE,
-                                                      style = list(fontSize = "1rem"),
-                                                      class = "my-tbl",
-                                                      # style = list(fontSize = "1rem"),
-                                                      rowClass = "my-row",
-                                                      defaultColDef = reactable::colDef(
-                                                        format = reactable::colFormat(digits = 2),
-                                                        headerClass = "my-header",
-                                                        class = "my-col",
-                                                        align = "center" # Needed as alignment is not passing through to header
-                                                      ))
+                                                           filterable = FALSE,
+                                                           pagination = FALSE, 
+                                                           highlight = TRUE,
+                                                           bordered = TRUE,
+                                                           sortable = TRUE, 
+                                                           wrap = FALSE,
+                                                           resizable = TRUE,
+                                                           style = list(fontSize = "1rem"),
+                                                           class = "my-tbl",
+                                                           # style = list(fontSize = "1rem"),
+                                                           rowClass = "my-row",
+                                                           defaultColDef = reactable::colDef(
+                                                             format = reactable::colFormat(digits = 2),
+                                                             headerClass = "my-header",
+                                                             class = "my-col",
+                                                             align = "center" # Needed as alignment is not passing through to header
+                                                            ))
     
     return(nvcAssignmentPlot_JaccardTable)
     
@@ -418,7 +386,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   
   outputOptions(output, "nvcAssignmentPlot_JaccardTable", suspendWhenHidden = FALSE)
   
-  # Intialise NVC Assignment Site Czekanowski Table -----------------------
+  # Initialise NVC Assignment Site Czekanowski Table -----------------------
   nvcAssignmentSiteTable_Czekanowski_init <- data.frame("Year" = integer(),
                                                         "Similarity" = numeric(),
                                                         "NVC.Code" = character()

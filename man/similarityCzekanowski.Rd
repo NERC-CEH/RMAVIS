@@ -47,3 +47,21 @@ using either a set of sample vegetation plots and a set of reference
 vegetation plots; or a set of composed floristic/syntopic tables and a set of
 references floristic/syntopic tables. Method follows Malloch (1998).
 }
+\examples{
+RMAVIS::similarityCzekanowski(samp_df = RMAVIS::composeSyntopicTables(surveyData = RMAVIS::example_data[["Parsonage Down"]], 
+                                                                      group_cols = c("Year", "Group"), 
+                                                                      species_col_name = "Species", 
+                                                                      plot_col_name = "Quadrat",
+                                                                      numeric_constancy = TRUE), 
+                              comp_df = RMAVIS::subset_nvcData(nvc_data = RMAVIS::nvc_floristic_tables_numeric, 
+                                                               habitatRestriction = c("CG"), 
+                                                               col_name = "NVC.Code"), 
+                              samp_species_col = "Species", 
+                              comp_species_col = "Species", 
+                              samp_group_name = "ID", 
+                              comp_group_name = "NVC.Code",
+                              samp_weight_name = "Constancy", 
+                              comp_weight_name = "Constancy",
+                              downweight_threshold = 1, 
+                              downweight_value = 0.1)
+}

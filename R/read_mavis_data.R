@@ -17,6 +17,7 @@
 #' @export
 #'
 #' @examples
+#' RMAVIS::read_mavis_data(filepath = system.file("testdata", "mavis_testdata.txt", package = "RMAVIS"))
 read_mavis_data <- function(filepath){
  
   mavisData_raw <- readr::read_table(filepath, 

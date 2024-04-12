@@ -621,6 +621,12 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       
     }
     
+    # Ensure Group and Quadrat columns are of class character
+    surveyData_long <- surveyData_long |>
+      dplyr::mutate(Group = as.character(Group),
+                    Quadrat = as.character(Quadrat))
+    
+    # Store surveyData_long
     surveyData$surveyData_long <- surveyData_long
     surveyData_rval(surveyData)
 

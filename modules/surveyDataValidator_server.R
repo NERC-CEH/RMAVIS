@@ -39,9 +39,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     speciesAdjustmentTable <- rhandsontable::rhandsontable(data = speciesAdjustmentTable_init,
                                                            height = 500,
                                                            rowHeaders = NULL,
-                                                           width = "100%"#,
-                                                           # overflow = "visible",
-                                                           # stretchH = "all"
+                                                           width = "100%"
                                                            ) |>
       rhandsontable::hot_col(col = colnames(speciesAdjustmentTable_init), halign = "htCenter") |>
       rhandsontable::hot_col(
@@ -90,9 +88,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     reallocateGroupsTable <- rhandsontable::rhandsontable(data = reallocateGroups_init,
                                                           height = 300,
                                                           rowHeaders = NULL,
-                                                          width = "100%"#,
-                                                          # overflow = "visible",
-                                                          # stretchH = "all"
+                                                          width = "100%"
                                                           ) |>
       rhandsontable::hot_col(col = colnames(reallocateGroups_init), halign = "htCenter") |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
@@ -338,9 +334,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
       speciesAdjustmentTable <- rhandsontable::rhandsontable(data = speciesAdjustmentTable,
                                                              height = 500,
                                                              rowHeaders = NULL,
-                                                             width = "100%"#,
-                                                             # overflow = "visible",
-                                                             # stretchH = "all"
+                                                             width = "100%"
       ) |>
         rhandsontable::hot_col(col = colnames(speciesAdjustmentTable), halign = "htCenter") |>
         rhandsontable::hot_col(

@@ -3,7 +3,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
   ns <- session$ns
   
 # Retrieve Setup Data -----------------------------------------------------
-  nvc_pquads_final_wide <- reactiveVal()
+  nvc_pquads_wide <- reactiveVal()
   nvc_pquad_dca <- reactiveVal()
   nvc_pquad_dca_hulls <- reactiveVal()
   pquad_centroids <- reactiveVal()
@@ -13,7 +13,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
     
     setupData <- setupData()
     
-    nvc_pquads_final_wide(setupData$nvc_pquads_final_wide)
+    nvc_pquads_wide(setupData$nvc_pquads_wide)
     nvc_pquad_dca(setupData$nvc_pquad_dca)
     nvc_pquad_dca_hulls(setupData$nvc_pquad_dca_hulls)
     pquad_centroids(setupData$nvc_pquad_dca_centroids)
@@ -77,7 +77,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
       surveyData <- surveyData()
       surveyData_long <- surveyData$surveyData_long
       
-      nvc_pquads_final_wide <- nvc_pquads_final_wide()
+      nvc_pquads_wide <- nvc_pquads_wide()
       nvc_pquad_dca <- nvc_pquad_dca()
       pquad_hulls <- nvc_pquad_dca_hulls()
       pquad_centroids <- pquad_centroids()
@@ -87,7 +87,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
       codes_regex <- paste0("^(", stringr::str_c(topNVCCommunities, collapse = "|"), ")(?<=)P")
       
       # Subset pseudo-quadrats for selected communities
-      selected_pquads <- nvc_pquads_final_wide[stringr::str_detect(string = row.names(nvc_pquads_final_wide), pattern = codes_regex), ]
+      selected_pquads <- nvc_pquads_wide[stringr::str_detect(string = row.names(nvc_pquads_wide), pattern = codes_regex), ]
       
       # Remove columns (species) that are absent in all selected communities
       selected_pquads_prepped <- selected_pquads[, colSums(abs(selected_pquads)) != 0] |>

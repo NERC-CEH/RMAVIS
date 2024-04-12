@@ -3,17 +3,28 @@
 \docType{data}
 \name{nvc_pquad_dca_noBryophytes_centroids}
 \alias{nvc_pquad_dca_noBryophytes_centroids}
-\title{A dataset containing}
+\title{The centroids of each NVC communities pseudo-quadrats, excluding bryophytes}
 \format{
 A data frame with 888 rows and 5 columns, the definitions of which are:
 \describe{
-\item{}{}
+\item{NVC}{The NVC community code.}
+\item{DCA1}{The DCA scores for axis 1.}
+\item{DCA2}{The DCA scores for axis 2.}
+\item{DCA3}{The DCA scores for axis 3.}
+\item{DCA4}{The DCA scores for axis 4.}
 }
 }
 \usage{
 nvc_pquad_dca_noBryophytes_centroids
 }
 \description{
-\code{}
+A data frame containing the centroids of each NVC communities pseudo-quadrats
+in an ordination space constructed by performing a Detrended Correspondence
+Analysis on all pseudo-quadrats present in \code{RMAVIS::nvc_pquads_wide}
+with bryophyte taxa removed, and returned in
+\code{RMAVIS::nvc_pquad_dca_noBryophytes}.
+}
+\details{
+\code{nvc_pquad_dca_noBryophytes_centroids}
 }
 \keyword{datasets}

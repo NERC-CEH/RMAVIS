@@ -8,7 +8,8 @@ composeSyntopicTables(
   surveyData,
   group_cols,
   species_col_name = "Species",
-  plot_col_name = "Quadrat"
+  plot_col_name = "Quadrat",
+  numeric_constancy = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ composeSyntopicTables(
 \item{species_col_name}{The name of the species column}
 
 \item{plot_col_name}{The name of the plot ID column}
+
+\item{numeric_constancy}{If TRUE the ordinal constancy classes (I, II, III, IV, V) are transformed into numeric values (1, 2, 3, 4, 5).}
 }
 \value{
 A three column data frame containing the groups ID, species, and constancy.
@@ -27,4 +30,11 @@ A three column data frame containing the groups ID, species, and constancy.
 Compose a set of syntopic/floristic/constancy tables for a
 data frame containing plot ids, species names, and any number
 of group columns which are concatenated into a ID column
+}
+\examples{
+RMAVIS::composeSyntopicTables(surveyData = RMAVIS::example_data[["Parsonage Down"]], 
+                              group_cols = c("Year", "Group"), 
+                              species_col_name = "Species", 
+                              plot_col_name = "Quadrat",
+                              numeric_constancy = FALSE)
 }

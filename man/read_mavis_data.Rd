@@ -24,3 +24,6 @@ columns:
 \item{Cover}{The cover values, note that 0 is replaced with 0.1}
 }
 }
+\examples{
+RMAVIS::read_mavis_data(filepath = system.file("testdata", "mavis_testdata.txt", package = "RMAVIS"))
+}

@@ -8,12 +8,18 @@
 #' @param group_cols A vector of columns to group the surveyData by and from which to compose syntopic tables
 #' @param species_col_name The name of the species column
 #' @param plot_col_name The name of the plot ID column
+#' @param numeric_constancy If TRUE the ordinal constancy classes (I, II, III, IV, V) are transformed into numeric values (1, 2, 3, 4, 5).
 #'
 #' @return A three column data frame containing the groups ID, species, and constancy.
 #' @export
 #'
-#' @example 
-composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Species", plot_col_name = "Quadrat"){
+#' @examples
+#' RMAVIS::composeSyntopicTables(surveyData = RMAVIS::example_data[["Parsonage Down"]], 
+#'                               group_cols = c("Year", "Group"), 
+#'                               species_col_name = "Species", 
+#'                               plot_col_name = "Quadrat",
+#'                               numeric_constancy = FALSE)
+composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Species", plot_col_name = "Quadrat", numeric_constancy = FALSE){
   
   # Determine the total number of quadrats per group
   plot_n <- surveyData |>
@@ -49,6 +55,23 @@ composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Sp
     dplyr::select(ID, species_col_name, Constancy) |>
     dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
     dplyr::arrange(ID, Constancy, species_col_name)
+  
+  if(numeric_constancy == TRUE){
+    
+    syntopicTables <- syntopicTables |>
+      dplyr::mutate(
+        "Constancy" = 
+          dplyr::case_when(
+            Constancy == "I" ~ 1,
+            Constancy == "II" ~ 2,
+            Constancy == "III" ~ 3,
+            Constancy == "IV" ~ 4,
+            Constancy == "V" ~ 5,
+            TRUE ~ as.numeric(0)
+          )
+      )
+    
+  }
   
   return(syntopicTables)
   

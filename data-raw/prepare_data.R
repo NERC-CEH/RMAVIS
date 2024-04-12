@@ -19,16 +19,34 @@ usethis::use_data(habCor_data, overwrite = TRUE)
 habCor_classifications <- readRDS(file = "./inst/extdata/habCor_classifications.rds")
 usethis::use_data(habCor_classifications, overwrite = TRUE)
 
+# Habitat Restriction Prefixes --------------------------------------------
+habitatRestrictionPrefixes <- list(
+  "W" = c("W"),
+  "M" = c("M"),
+  "H" = c("H"),
+  "MG" = c("MG"),
+  "CG" = c("CG"),
+  "U" = c("U"),
+  "A" = c("A"),
+  "S" = c("S"),
+  "SM" = c("SM"),
+  "SD" = c("SD"),
+  "MC" = c("MC"),
+  "OV" = c("OV"),
+  "SOWG" = c("AgBp", "AgCf", "CaCn", "CnPe", "MG")
+)
+usethis::use_data(habitatRestrictionPrefixes, overwrite = TRUE)
+
 # Master data -------------------------------------------------------------
 master_data <- readRDS(file = "./inst/extdata/master_data.rds")
 usethis::use_data(master_data, overwrite = TRUE)
 
 # NVC Pseudo-quadrat data -------------------------------------------------
-nvc_pquads_final <- readRDS(file = "./inst/extdata/nvc_pquads_final.rds")
-usethis::use_data(nvc_pquads_final, overwrite = TRUE)
+nvc_pquads <- readRDS(file = "./inst/extdata/nvc_pquads.rds")
+usethis::use_data(nvc_pquads, overwrite = TRUE)
 
-nvc_pquads_final_wide <- readRDS(file = "./inst/extdata/nvc_pquads_final_wide.rds")
-usethis::use_data(nvc_pquads_final_wide, overwrite = TRUE)
+nvc_pquads_wide <- readRDS(file = "./inst/extdata/nvc_pquads_wide.rds")
+usethis::use_data(nvc_pquads_wide, overwrite = TRUE)
 
 # Accepted Species data ---------------------------------------------------
 acceptedSpecies <- readRDS(file = "./inst/extdata/acceptedSpecies.rds")

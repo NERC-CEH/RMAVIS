@@ -19,7 +19,7 @@ habCor_data
 }
 \description{
 A dataset containing habitat correspondences between NVC communities and the
-following classifications.
+following classification systems.
 \itemize{
 \item UKHab - Level 2
 \item UKHab - Level 3

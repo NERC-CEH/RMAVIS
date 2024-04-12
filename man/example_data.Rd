@@ -3,17 +3,23 @@
 \docType{data}
 \name{example_data}
 \alias{example_data}
-\title{A dataset containing}
+\title{Example vegetation survey data}
 \format{
-A data frame with  rows and  columns, the definitions of which are:
+A list with 4 entries:
 \describe{
-\item{}{}
+\item{Parsonage Down}{}
+\item{Leith Hill Place Wood}{}
+\item{Whitwell Common}{}
+\item{Newborough Warren}{}
 }
 }
 \usage{
 example_data
 }
 \description{
-\code{}
+A list of data frames containing four example vegetation survey datasets.
+}
+\details{
+\code{example_data}
 }
 \keyword{datasets}

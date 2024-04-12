@@ -79,24 +79,6 @@ habitatRestriction_options <- list(
   "Scottish Oceanic Wet Grasslands (SOWG)" = "SOWG"
 )
 
-
-# Habitat Restriction Prefixes --------------------------------------------
-habitatRestrictionPrefixes <- list(
-  "W" = c("W"),
-  "M" = c("M"),
-  "H" = c("H"),
-  "MG" = c("MG"),
-  "CG" = c("CG"),
-  "U" = c("U"),
-  "A" = c("A"),
-  "S" = c("S"),
-  "SM" = c("SM"),
-  "SD" = c("SD"),
-  "MC" = c("MC"),
-  "OV" = c("OV"),
-  "SOWG" = c("AgBp", "AgCf", "CaCn", "CnPe", "MG")
-)
-
 # Floristic Tables Options ------------------------------------------------
 floristicTablesView_options <- c("Single Composed vs NVC" = "singleComposedVsNVC",
                                  "Multiple Composed" = "multipleComposed")
@@ -226,7 +208,6 @@ usethis::use_data(taxonomicBackboneMethod_options,
                   dominConvert,
                   braunBlanquetConvert,
                   habitatRestriction_options,
-                  habitatRestrictionPrefixes,
                   floristicTablesView_options,
                   floristicTablesSetView_options,
                   matchSpecies_options,
@@ -246,3 +227,7 @@ usethis::use_data(taxonomicBackboneMethod_options,
                   reportOptions_options,
                   overwrite = TRUE,
                   internal = TRUE)
+
+# Compress sysdata.rda
+tools::resaveRdaFiles(paths = "./R", compress = "xz")
+tools::checkRdaFiles(paths = "./R")

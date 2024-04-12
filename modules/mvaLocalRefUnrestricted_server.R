@@ -3,14 +3,14 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
   ns <- session$ns
   
 # Retrieve Setup Data -----------------------------------------------------
-  nvc_pquads_final_wide <- reactiveVal()
+  nvc_pquads_wide <- reactiveVal()
   nvc_pquads_mean_unweighted_eivs <- reactiveVal()
   
   observe({
     
     setupData <- setupData()
     
-    nvc_pquads_final_wide(setupData$nvc_pquads_final_wide)
+    nvc_pquads_wide(setupData$nvc_pquads_wide)
     nvc_pquads_mean_unweighted_eivs(setupData$nvc_pquads_mean_unweighted_eivs)
     
   }) |>
@@ -62,7 +62,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
       
       nvcAssignment <- nvcAssignment()
       topNVCCommunities <- nvcAssignment$topNVCCommunities
-      nvc_pquads_final_wide <- nvc_pquads_final_wide()
+      nvc_pquads_wide <- nvc_pquads_wide()
       nvc_pquads_mean_unweighted_eivs <- nvc_pquads_mean_unweighted_eivs()
       surveyData <- surveyData()
       surveyData_mat <- surveyData$surveyData_mat
@@ -73,10 +73,10 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
       codes_regex <- paste0("^(", stringr::str_c(topNVCCommunities, collapse = "|"), ")(?<=)P")
       
       # Subset pseudo-quadrats for selected communities
-      nvc_pquads_final_wide_trimmed <- nvc_pquads_final_wide[stringr::str_detect(string = row.names(nvc_pquads_final_wide), pattern = codes_regex), ]
+      nvc_pquads_wide_trimmed <- nvc_pquads_wide[stringr::str_detect(string = row.names(nvc_pquads_wide), pattern = codes_regex), ]
       
       # Remove columns (species) that are absent in all selected communities
-      nvc_pquads_final_wide_prepped <- nvc_pquads_final_wide_trimmed[, colSums(abs(nvc_pquads_final_wide_trimmed)) != 0] |>
+      nvc_pquads_wide_prepped <- nvc_pquads_wide_trimmed[, colSums(abs(nvc_pquads_wide_trimmed)) != 0] |>
         as.data.frame()
       
       # Prepare wide survey table
@@ -85,14 +85,14 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
         dplyr::mutate_if(is.numeric, ~1 * (. != 0))
         
       # Combine the pseudo-quadrats and survey data into a single matrix
-      nvc_pquads_final_wide_prepped_wsurveyDataWide <- nvc_pquads_final_wide_prepped |>
+      nvc_pquads_wide_prepped_wsurveyDataWide <- nvc_pquads_wide_prepped |>
         dplyr::bind_rows(surveyDataWide_prepped) |>
         dplyr::mutate_all(~replace(., is.na(.), 0)) |>
         as.matrix()
       
       # Retrieve the un-weighted mean Hill-Ellenberg scores for the pseudo-quadrats
       nvc_pquads_mean_unweighted_eivs_prepped <- nvc_pquads_mean_unweighted_eivs |>
-        dplyr::filter(Pid3 %in% rownames(nvc_pquads_final_wide_prepped)) |>
+        dplyr::filter(Pid3 %in% rownames(nvc_pquads_wide_prepped)) |>
         tibble::column_to_rownames(var = "Pid3")
       
       # Join the sample quadrat un-weighted mean Hill-Ellenberg scores
@@ -109,24 +109,24 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
                                                 unweightedMeanHEValuesQuadrat_prepped)
       
       # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
-      nvc_pquads_final_wide_prepped_wsurveyDataWide_cca  <- vegan::cca(as.formula(paste0("nvc_pquads_final_wide_prepped_wsurveyDataWide ~ ", paste0(c(RMAVIS:::ccaVars_vals[[ccaVars]]), collapse = " + "))), # nvc_pquads_final_wide_prepped_wsurveyDataWide ~ `F` + `L` + `N`
+      nvc_pquads_wide_prepped_wsurveyDataWide_cca  <- vegan::cca(as.formula(paste0("nvc_pquads_wide_prepped_wsurveyDataWide ~ ", paste0(c(RMAVIS:::ccaVars_vals[[ccaVars]]), collapse = " + "))), # nvc_pquads_wide_prepped_wsurveyDataWide ~ `F` + `L` + `N`
                                                                        data = all_mean_unweighted_eivs_prepped,
                                                                        na.action = na.exclude)
       
       # Extract CCA scores
-      nvc_pquads_final_wide_prepped_wsurveyDataWide_cca_scores <- vegan::scores(nvc_pquads_final_wide_prepped_wsurveyDataWide_cca, display = "bp")
+      nvc_pquads_wide_prepped_wsurveyDataWide_cca_scores <- vegan::scores(nvc_pquads_wide_prepped_wsurveyDataWide_cca, display = "bp")
       
       # Extract CCA multiplier
-      nvc_pquads_final_wide_prepped_wsurveyDataWide_cca_multiplier <- vegan:::ordiArrowMul(nvc_pquads_final_wide_prepped_wsurveyDataWide_cca_scores)
+      nvc_pquads_wide_prepped_wsurveyDataWide_cca_multiplier <- vegan:::ordiArrowMul(nvc_pquads_wide_prepped_wsurveyDataWide_cca_scores)
       
       # Create CCA arrow data
-      CCA_arrowData <- nvc_pquads_final_wide_prepped_wsurveyDataWide_cca_scores #* nvc_pquads_final_wide_prepped_wsurveyDataWide_cca_multiplier
+      CCA_arrowData <- nvc_pquads_wide_prepped_wsurveyDataWide_cca_scores #* nvc_pquads_wide_prepped_wsurveyDataWide_cca_multiplier
       CCA_arrowData <- CCA_arrowData |>
         tibble::as_tibble(rownames = NA) |>
         tibble::rownames_to_column(var = "Hill-Ellenberg")
       
       # Perform a DCA on the combined pseudo-quadrat and survey data
-      pquads_surveyData_dca_results <- vegan::decorana(veg = nvc_pquads_final_wide_prepped_wsurveyDataWide)
+      pquads_surveyData_dca_results <- vegan::decorana(veg = nvc_pquads_wide_prepped_wsurveyDataWide)
       
       # Extract the DCA results species axis scores
       dca_results_species <- vegan::scores(pquads_surveyData_dca_results, tidy = TRUE) |>
@@ -136,7 +136,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
       
       # Determine the unique survey species, i.e. the species present in the survey data but absent in the pseudo-quadrats
       uniq_survey_species <- dca_results_species |>
-        dplyr::filter(Species %in% setdiff(colnames(surveyData_mat), colnames(nvc_pquads_final_wide_prepped)))
+        dplyr::filter(Species %in% setdiff(colnames(surveyData_mat), colnames(nvc_pquads_wide_prepped)))
       
       # Extract the DCA results sample axis scores
       pquads_surveyData_dca_results_quadrats <- vegan::scores(pquads_surveyData_dca_results, tidy = TRUE) |>
