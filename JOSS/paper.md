@@ -20,7 +20,7 @@ affiliations:
     index: 1
   - name: UK Centre for Ecology \& Hydrology, Maclean Building, Benson Lane, Crowmarsh Gifford, Wallingford, Oxfordshire, OX10 8BB, United Kingdom
     index: 2
-date: "2024-04-11"
+date: "2024-04-12"
 bibliography: paper.bib
 output:
   html_document:
@@ -104,12 +104,11 @@ modules summarised in the following table.
 
 # Data sources
 
-`RMAVIS` depends on a number of individual datasets, 
-the sources of which are as follows.
+`RMAVIS` depends on a number of individual datasets.
 The list of accepted species was constructed using 
 the vascular plant (*Tracheophyta*) taxa present in the 
 Botanical Society of Britain and Ireland's (BSBI) database 
-[@bsbi2022TaxonLists];
+[@bsbi2024TaxonLists];
 filtered to include taxa at the genus, species, hybrid species, and subspecies 
 ranks which have an associated UK Species Inventory (UKSI) Taxon Version Key 
 (TVK); the moss (*Bryophyta*), liverwort (*Marchantiophyta*), 

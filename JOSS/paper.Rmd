@@ -106,12 +106,11 @@ knitr::include_graphics("joss_screenshot.png")
 
 # Data sources
 
-`RMAVIS` depends on a number of individual datasets, 
-the sources of which are as follows.
+`RMAVIS` depends on a number of individual datasets.
 The list of accepted species was constructed using 
 the vascular plant (*Tracheophyta*) taxa present in the 
 Botanical Society of Britain and Ireland's (BSBI) database 
-[@bsbi2022TaxonLists];
+[@bsbi2024TaxonLists];
 filtered to include taxa at the genus, species, hybrid species, and subspecies 
 ranks which have an associated UK Species Inventory (UKSI) Taxon Version Key 
 (TVK); the moss (*Bryophyta*), liverwort (*Marchantiophyta*), 

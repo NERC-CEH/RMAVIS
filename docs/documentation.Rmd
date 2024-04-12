@@ -255,7 +255,7 @@ The clear table button resets the survey data input table.
 The list of species available for entry is currently composed of:
 
 -   The vascular plant (Tracheophyta) taxa present in the Botanical
-    Society of Britain and Ireland's database [@bsbi2022TaxonLists];
+    Society of Britain and Ireland's database [@bsbi2024TaxonLists];
     filtered to include taxa at the "genus", "species", "hybrid
     species", and "subspecies" ranks which have an associated UK Species
     Inventory (UKSI) Taxon Version Keys (TVK).
