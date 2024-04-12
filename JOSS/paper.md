@@ -1,5 +1,5 @@
 ---
-title: '`RMAVIS` v1.0: a R Shiny application for the analysis of vegetation survey data and assignment to UK NVC communities.'
+title: '`RMAVIS` v1.0: a R Shiny application for the analysis of vegetation survey data and assignment to GB NVC communities.'
 tags:
   - Vegetation science
   - NVC
