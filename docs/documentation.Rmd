@@ -329,7 +329,8 @@ Work to determine the optimum number of pseudo-quadrats is ongoing.
 The NVC communities available in `RMAVIS` are composed from the following
 sources:
 
--   The original NVC floristic tables as described in @rodwell2000.
+-   The original NVC floristic tables as described in the original NVC volumes
+    [@rodwell1991;@rodwell1992;@rodwell1992a;@rodwell1995;@rodwell2000].
 -   An alternative version of MG4 (MG4v2) and the four MG4
     sub-communities described in @prosser2023 and @wallace2017 (MG4a,
     MG4b, MG4c, and MG4d).

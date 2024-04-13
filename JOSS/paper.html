@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2024-04-12" />
+<meta name="date" content="2024-04-13" />
 
 <title>RMAVIS v1.0: a R Shiny application for the analysis of vegetation survey data and assignment to GB NVC communities.</title>
 
@@ -374,7 +374,7 @@ display: none;
 <h1 class="title toc-ignore"><code>RMAVIS</code> v1.0: a R Shiny
 application for the analysis of vegetation survey data and assignment to
 GB NVC communities.</h1>
-<h4 class="date">2024-04-12</h4>
+<h4 class="date">2024-04-13</h4>
 
 </div>
 
@@ -383,9 +383,8 @@ GB NVC communities.</h1>
 <h1>Summary</h1>
 <p><code>RMAVIS</code> is a R Shiny application for the assignment of
 vegetation sample plot data to British National Vegetation
-Classification (NVC) communities <span class="citation">(Rodwell, Nature
-Conservancy Council, and Joint Nature Conservation Committee
-2000)</span>.</p>
+Classification (NVC) communities <span class="citation">(Rodwell 1991,
+1992a, 1992b, 1995, 2000)</span>.</p>
 <p>The assignment of vegetation sample plot data to established
 vegetation classification units using computational methods is a well
 established and recognised practice <span class="citation">(Maciejewski
@@ -405,7 +404,7 @@ MATCH <span class="citation">(Malloch 1998)</span>. The most recent
 program, the Modular Analysis of Vegetation Information System (MAVIS),
 was developed as a windows application in 2000 and was a DEFRA-funded
 output of the ECOFACT project <span class="citation">(Bunce et al.
-1999)</span>. The latest version released in 2016 <span class="citation">(S. Smart, Goodwin, and Wallace 2016)</span>.</p>
+1999)</span>. The latest version released in 2016 <span class="citation">(Smart, Goodwin, and Wallace 2016)</span>.</p>
 </div>
 <div id="statement-of-need" class="section level1">
 <h1>Statement of need</h1>
@@ -418,8 +417,8 @@ continuous development of such NVC assignment software. We developed
 <code>RMAVIS</code> considering these needs, with the view to providing
 a reliable system for use by the GB ecology and conservation community,
 analogous to the Engine for Relevés to Irish Communities Assignment
-(ERICA) tool <span class="citation">(P. Perrin, Fitzpatrick, and Lynn
-2018; P. M. Perrin 2019)</span> developed for Ireland.</p>
+(ERICA) tool <span class="citation">(Perrin, Fitzpatrick, and Lynn 2018;
+Perrin 2019)</span> developed for Ireland.</p>
 </div>
 <div id="application-structure" class="section level1">
 <h1>Application structure</h1>
@@ -539,13 +538,11 @@ aggregate, subspecies, species sensu lato, and genus ranks; and the
 limited number of lichen (<em>Lecanoromycetes</em>) and charophyte
 (<em>Charophyta</em>) taxa, along with one unspecified ‘algae’ taxon
 present in the NVC floristic tables. The NVC communities present in
-<code>RMAVIS</code> are composed from <span class="citation">Rodwell,
-Nature Conservancy Council, and Joint Nature Conservation Committee
-(2000)</span>, <span class="citation">Wallace and Prosser (2017)</span>,
-and <span class="citation">Prosser, Wallace, and Gowing (2023)</span>.
-Data for habitat correspondences is derived from: the Joint Nature
-Conservation Committee (JNCC) Spreadsheet of Habitat Correspondences
-<span class="citation">(JNCC 2008)</span>, UKHab V1.1 <span class="citation">(Butcher et al. 2020)</span>, and the National Plant
+<code>RMAVIS</code> are composed from <span class="citation">Rodwell
+(1991)</span>, <span class="citation">Rodwell (1992a)</span>, <span class="citation">Rodwell (1992b)</span>, <span class="citation">Rodwell
+(1995)</span>, <span class="citation">Rodwell (2000)</span>, <span class="citation">Wallace and Prosser (2017)</span>, and <span class="citation">Prosser, Wallace, and Gowing (2023)</span>. Data for
+habitat correspondences is derived from: the Joint Nature Conservation
+Committee (JNCC) Spreadsheet of Habitat Correspondences <span class="citation">(JNCC 2008)</span>, UKHab V1.1 <span class="citation">(Butcher et al. 2020)</span>, and the National Plant
 Monitoring Scheme (NPMS) habitat correspondences <span class="citation">(Pescott et al. 2019)</span>. Data for the vascular
 plant Hill-Ellenberg values were retrieved from the BSBI checklists,
 specifically the Nitrogen Score (N) <span class="citation">(BSBI
@@ -556,8 +553,8 @@ specifically the Nitrogen Score (N) <span class="citation">(BSBI
 2017e)</span>. The corresponding data for bryophytes was taken from
 BRYOATT <span class="citation">(Hill et al. 2007)</span>. Four example
 datasets are bundled with <code>RMAVIS</code>: 1) Parsonage Down <span class="citation">(Ridding et al. 2020)</span>, 2) Leith Hill Place Wood
-<span class="citation">(Wood, Smart, and Bunce 2015; S. M. Smart et al.
-2024)</span>, 3) Whitwell Common <span class="citation">(S. M. Smart
+<span class="citation">(Wood, Smart, and Bunce 2015; Smart et al.
+2024)</span>, 3) Whitwell Common <span class="citation">(Smart
 2000)</span>, and 4) Newborough Warren <span class="citation">(Wallace
 and Jones 2018)</span>.</p>
 </div>
@@ -676,21 +673,20 @@ Programs for the Identification of Vegetation Types According to the
 Software.”</span> Other. <span>Wallingford</span>: <span>Centre for
 Ecology &amp; Hydrology</span>.
 </div>
-<div id="ref-perrin2018" class="csl-entry">
-Perrin, Philip, Úna Fitzpatrick, and Deirdre Lynn. 2018. <span>“The
-<span>Irish Vegetation Classification</span> - an Overview of Concepts,
-Structure and Tools.”</span> <em>CIEEM in Practice</em> 102 (December):
-14–19.
-</div>
 <div id="ref-perrin2019a" class="csl-entry">
-Perrin, Phillip M. 2019. <span>“<span>ERICA</span> - <span>Engine</span>
-for <span class="nocase">Relev<span class="nocase">é</span>s</span> to
-<span>Irish Communities Assignment V5</span>.0 <span>User</span>’s
-<span>Manual</span>.”</span> BEC Consultants Ltd.
+Perrin, P. 2019. <span>“<span>ERICA</span> - <span>Engine</span> for
+<span class="nocase">Relev<span class="nocase">é</span>s</span> to
+<span>Irish Communities Assignment V5.0</span> <span class="nocase">User’s</span> <span>Manual</span>.”</span> BEC
+Consultants Ltd. <a href="https://biodiversityireland.shinyapps.io/vegetation-classification/_w_6fddd58f/manual.pdf">https://biodiversityireland.shinyapps.io/vegetation-classification/_w_6fddd58f/manual.pdf</a>.
+</div>
+<div id="ref-perrin2018" class="csl-entry">
+Perrin, P., Ú. Fitzpatrick, and D. Lynn. 2018. <span>“The <span>Irish
+Vegetation Classification</span> - an Overview of Concepts, Structure
+and Tools.”</span> <em>CIEEM in Practice</em> 102 (December): 14–19. <a href="http://www.botanicalenvironmental.com/wp-content/uploads/2018/12/IVC-CIEEM-Article.pdf">http://www.botanicalenvironmental.com/wp-content/uploads/2018/12/IVC-CIEEM-Article.pdf</a>.
 </div>
 <div id="ref-pescott2019" class="csl-entry">
 Pescott, Oliver, Kevin Walker, Felicity Harris, Hayley New, Christine
-Cheffings, Niki Newton, Mark Jitlal, John Redhead, Simon Smart, and D.
+Cheffings, Niki Newton, Mark Jitlal, John Redhead, S. M. Smart, and D.
 B. Roy. 2019. <span>“S1 File.”</span> <a href="https://www.researchgate.net/publication/333011121_S1_File">https://www.researchgate.net/publication/333011121_S1_File</a>.
 </div>
 <div id="ref-prosser2023" class="csl-entry">
@@ -715,30 +711,57 @@ in Calcareous Grassland Vegetation and Drivers over Three Time Periods
 Between 1970 and 2016.”</span> <em>Plant Ecology</em> 221 (5): 377–94.
 <a href="https://doi.org/10.1007/s11258-020-01016-1">https://doi.org/10.1007/s11258-020-01016-1</a>.
 </div>
-<div id="ref-rodwell2006national" class="csl-entry">
-Rodwell, J. S. 2006. <em>National Vegetation Classification: Users’
-Handbook</em>. Joint Nature Conservation Committee (JNCC) Peterborough.
-<a href="https://data.jncc.gov.uk/data/a407ebfc-2859-49cf-9710-1bde9c8e28c7/JNCC-NVC-UsersHandbook-2006.pdf">https://data.jncc.gov.uk/data/a407ebfc-2859-49cf-9710-1bde9c8e28c7/JNCC-NVC-UsersHandbook-2006.pdf</a>.
+<div id="ref-rodwell1991" class="csl-entry">
+Rodwell, J. S., ed. 1991. <em>British <span>Plant Communities</span>:
+<span>Volume</span> 1: <span>Woodlands</span> and
+<span>Scrub</span></em>. Vol. 1. British <span>Plant Communities</span>.
+Cambridge: Cambridge University Press. <a href="https://doi.org/10.1017/9780521235587">https://doi.org/10.1017/9780521235587</a>.
+</div>
+<div id="ref-rodwell1992" class="csl-entry">
+———, ed. 1992a. <em>British <span>Plant Communities</span>:
+<span>Volume</span> 2: <span>Mires</span> and <span>Heaths</span></em>.
+Vol. 2. British <span>Plant Communities</span>. Cambridge: Cambridge
+University Press. <a href="https://doi.org/10.1017/9780521391658">https://doi.org/10.1017/9780521391658</a>.
+</div>
+<div id="ref-rodwell1992a" class="csl-entry">
+———, ed. 1992b. <em>British <span>Plant Communities</span>:
+<span>Volume</span> 3: <span>Grasslands</span> and <span>Montane
+Communities</span></em>. Vol. 3. British <span>Plant Communities</span>.
+Cambridge: Cambridge University Press. <a href="https://doi.org/10.1017/9780521391665">https://doi.org/10.1017/9780521391665</a>.
+</div>
+<div id="ref-rodwell1995" class="csl-entry">
+———, ed. 1995. <em>British <span>Plant Communities</span>:
+<span>Volume</span> 4: <span>Aquatic Communities</span>,
+<span>Swamps</span> and <span>Tall-Herb Fens</span></em>. Vol. 4.
+British <span>Plant Communities</span>. Cambridge: Cambridge University
+Press. <a href="https://doi.org/10.1017/9781107340817">https://doi.org/10.1017/9781107340817</a>.
 </div>
 <div id="ref-rodwell2000" class="csl-entry">
-Rodwell, J. S., Nature Conservancy Council, and Joint Nature
-Conservation Committee. 2000. <em>British Plant Communities Set of
-Volumes 1 to 5</em>. Cambridge University Press.
+———, ed. 2000. <em>British <span>Plant Communities</span>:
+<span>Volume</span> 5: <span>Maritime Communities</span> and
+<span>Vegetation</span> of <span>Open Habitats</span></em>. Vol. 5.
+British <span>Plant Communities</span>. Cambridge: Cambridge University
+Press. <a href="https://doi.org/10.1017/CBO9780511541834">https://doi.org/10.1017/CBO9780511541834</a>.
+</div>
+<div id="ref-rodwell2006national" class="csl-entry">
+———, ed. 2006. <em>National Vegetation Classification: Users’
+Handbook</em>. Joint Nature Conservation Committee (JNCC) Peterborough.
+<a href="https://data.jncc.gov.uk/data/a407ebfc-2859-49cf-9710-1bde9c8e28c7/JNCC-NVC-UsersHandbook-2006.pdf">https://data.jncc.gov.uk/data/a407ebfc-2859-49cf-9710-1bde9c8e28c7/JNCC-NVC-UsersHandbook-2006.pdf</a>.
 </div>
 <div id="ref-smart2000" class="csl-entry">
 Smart, S. M. 2000. <span>“Ecological Assessment of Vegetation from a
 Nature Reserve Using Regional Reference Data and Indicator
 Scores.”</span> <em>Biodiversity and Conservation</em> 9 (6): 811–32. <a href="https://doi.org/10.1023/a:1008948602316">https://doi.org/10.1023/a:1008948602316</a>.
 </div>
+<div id="ref-smart2016mavis" class="csl-entry">
+Smart, S. M., A. Goodwin, and H. Wallace. 2016. <em>MAVIS (Ver 1.03)
+User Manual</em>. Edited by S. M. Smart.
+</div>
 <div id="ref-smart2024" class="csl-entry">
 Smart, S. M., C. M. Wood, F. M. Seaton, A. McMullen, S. E. Ward, R.
 Ward, J. O’Reilly, et al. 2024. <span>“Broadleaved Woodland Survey of
 Great Britain, 2020-2022.”</span> NERC EDS Environmental Information
 Data Centre. <a href="https://doi.org/10.5285/42C203C8-44DE-40E2-A694-B1E8CBD4C8E1">https://doi.org/10.5285/42C203C8-44DE-40E2-A694-B1E8CBD4C8E1</a>.
-</div>
-<div id="ref-smart2016mavis" class="csl-entry">
-Smart, S., A. Goodwin, and H. Wallace. 2016. <em>MAVIS (Ver 1.03) User
-Manual</em>. Edited by S. Smart.
 </div>
 <div id="ref-sturbois2023" class="csl-entry">
 Sturbois, Anthony, Miquel De Cáceres, Aline Bifolchi, Frédéric Bioret,

@@ -20,7 +20,7 @@ affiliations:
     index: 1
   - name: UK Centre for Ecology \& Hydrology, Maclean Building, Benson Lane, Crowmarsh Gifford, Wallingford, Oxfordshire, OX10 8BB, United Kingdom
     index: 2
-date: "2024-04-12"
+date: "2024-04-13"
 bibliography: paper.bib
 output:
   html_document:
@@ -31,7 +31,7 @@ output:
 
 `RMAVIS` is a R Shiny application for the assignment of vegetation sample
 plot data to British National Vegetation Classification (NVC) 
-communities [@rodwell2000].
+communities [@rodwell1991;@rodwell1992;@rodwell1992a;@rodwell1995;@rodwell2000].
 
 The assignment of vegetation sample plot data to established vegetation 
 classification units using computational methods is a well established and 
@@ -118,7 +118,8 @@ at the species, species aggregate, subspecies, species sensu lato,
 and genus ranks; and the limited number of lichen (*Lecanoromycetes*) and 
 charophyte (*Charophyta*) taxa, along with one unspecified 'algae' taxon present 
 in the NVC floristic tables.
-The NVC communities present in `RMAVIS` are composed from @rodwell2000, 
+The NVC communities present in `RMAVIS` are composed from @rodwell1991, 
+@rodwell1992, @rodwell1992a, @rodwell1995, @rodwell2000, 
 @wallace2017, and @prosser2023.
 Data for habitat correspondences is derived from: 
 the Joint Nature Conservation Committee (JNCC) Spreadsheet of Habitat 
