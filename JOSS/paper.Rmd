@@ -51,8 +51,8 @@ development of TABLEFIT [@hill1989; @marrs2019] and was followed by MATCH
 [@malloch1998].
 The most recent program, the Modular Analysis of Vegetation Information System 
 (MAVIS), was developed as a windows application in 2000 and was a DEFRA-funded
-output of the ECOFACT project [@bunce1999].
-The latest version released in 2016 [@smart2016mavis].
+output of the ECOFACT project [@bunce1999], with the latest version released in 
+2016 [@smart2016mavis].
 
 
 # Statement of need
@@ -133,7 +133,7 @@ Data for the vascular plant Hill-Ellenberg values were retrieved from the
 BSBI checklists, specifically the Nitrogen Score (N)
 [@bsbi2017ellenbergN], Moisture Score (F) [@bsbi2017ellenbergF],
 Reaction Score (R) [@bsbi2017ellenbergR], Salinity Score (S)
-[@bsbi2017ellenbergS], and Light Score (L) [@bsbi2017ellenbergL]. 
+[@bsbi2017ellenbergS], and Light Score (L) [@bsbi2017ellenbergL] checklists. 
 The corresponding data for bryophytes was taken from BRYOATT [@hill2007].
 Four example datasets are bundled with `RMAVIS`: 
 1) Parsonage Down [@ridding2020],
