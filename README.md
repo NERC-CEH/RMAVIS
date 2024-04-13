@@ -8,7 +8,7 @@
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![DOI](https://zenodo.org/badge/722095560.svg)](https://zenodo.org/badge/latestdoi/722095560)
-[![R-CMD-check](https://github.com/ZekeMarshall/RMAVIS/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ZekeMarshall/RMAVIS/actions/workflows/R-CMD-check.yaml)
+[![status](https://joss.theoj.org/papers/460c6f934a108fcf5a16d0f2ab77492e/status.svg)](https://joss.theoj.org/papers/460c6f934a108fcf5a16d0f2ab77492e)
 <!-- badges: end -->
 
 The RMAVIS R Shiny web application is a tool to assist in the assignment
