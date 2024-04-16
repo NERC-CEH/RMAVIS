@@ -1,5 +1,13 @@
+# To run app --------------------------------------------------------------
+# 1. Ensure the dependencies are installed by running `renv::activate()` and 
+#    `renv::restore()`
+# 2. Run the app with `shiny::runApp("app.R")`
+
 # Silence dplyr::summarise() messages -------------------------------------
 options(dplyr.summarise.inform = FALSE)
+
+# Prevent auto-loading of all functions in /R -----------------------------
+options(shiny.autoload.r = FALSE)
 
 # Load the RMAVIS package -------------------------------------------------
 pkgload::load_all(path = ".")
@@ -20,12 +28,10 @@ library(bookdown)
 library(tidyverse)
 library(plotly)
 library(kableExtra)
-library(checkmate)
 library(janitor)
 library(writexl)
 
 # Ecology
-library(assignNVC)
 library(vegan)
 
 # Render documentation ----------------------------------------------------

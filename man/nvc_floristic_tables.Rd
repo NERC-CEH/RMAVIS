@@ -3,17 +3,26 @@
 \docType{data}
 \name{nvc_floristic_tables}
 \alias{nvc_floristic_tables}
-\title{A dataset containing}
+\title{The NVC floristic tables}
 \format{
-A data frame with 48218 rows and 3 columns, the definitions of which are:
+A data frame with 49781 rows and 3 columns, the definitions of which are:
 \describe{
-\item{}{}
+\item{Species}{The name of the taxon in a given floristic table.}
+\item{NVC.Code}{The code of the NVC community.}
+\item{Constancy}{The ordinal constancy value.}
 }
 }
 \usage{
 nvc_floristic_tables
 }
 \description{
-\code{}
+A dataset containing the floristic tables for each NVC community, with
+ordinal constancy classes representing the ranges of each species
+relative frequency of occurrence across the samples which constitute the
+NVC unit, which are as follows: I (1-20\%), II (21-40\%), III (41-60\%),
+IV (61-80\%), and V(81-100\%).
+}
+\details{
+\code{nvc_floristic_tables}
 }
 \keyword{datasets}

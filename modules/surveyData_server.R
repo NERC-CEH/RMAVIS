@@ -4,12 +4,14 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   
 # Retrieve Setup Data -----------------------------------------------------
   exampleData <- reactiveVal()
+  speciesNames <- reactiveVal()
   
   observe({
     
     setupData <- setupData()
     
     exampleData(setupData$example_data)
+    speciesNames(setupData$species_names)
     
   }) |>
     bindEvent(setupData(),
@@ -66,7 +68,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   surveyData_long_init <- data.frame("Year" = as.integer(rep(as.numeric(format(Sys.Date(), "%Y")), 20)),
                                      "Group" = as.character(rep("A", 20)),
                                      "Quadrat" = as.character(rep("1", 20)),
-                                     "Species" = as.character(rep("", 20)),
+                                     "Species" = as.character(rep(NA, 20)),
                                      "Cover" = as.numeric(rep(NA, 20)))
   
 # Survey Data Entry Table -------------------------------------------------
@@ -99,7 +101,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         col = "Species",
         readOnly = FALSE,
         type = "dropdown",
-        source = RMAVIS::speciesNames,
+        source = speciesNames(),
         strict = FALSE,
         default = as.character(NA_character_)
       ) |>
@@ -112,7 +114,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       ) |>
       rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE) |>
       rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-      # rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames) |>
       htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot
@@ -200,7 +201,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
           col = "Species",
           readOnly = FALSE,
           type = "dropdown",
-          source = RMAVIS::speciesNames,
+          source = speciesNames(),
           strict = FALSE,
           default = as.character(NA_character_)
         ) |>
@@ -214,7 +215,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         ) |>
         rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE) |>
         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
-        # rhandsontable::hot_validate_character(cols = "Species", choices = speciesNames) |>
         htmlwidgets::onRender("
         function(el, x) {
           var hot = this.hot
@@ -247,13 +247,17 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         
         surveyData <- rhandsontable::hot_to_r(input$surveyData)
         
+        readOnly_value <- FALSE
+        
       } else if(inputMethod == "example"){
         
         surveyData <- rhandsontable::hot_to_r(input$surveyData)
         
+        readOnly_value <- TRUE
+        
         if(selectedExampleData != "none"){
           
-          surveyData <- RMAVIS::example_data_all |>
+          surveyData <- RMAVIS::example_data |>
             magrittr::extract2(selectedExampleData) |>
             dplyr::select(-Site) |>
             dplyr::arrange(Year, Group, Quadrat)
@@ -263,6 +267,8 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       } else if(inputMethod == "upload"){
         
         surveyData <- rhandsontable::hot_to_r(input$surveyData)
+        
+        readOnly_value <- FALSE
         
         if(!is.null(uploadDataTable())){
           
@@ -318,30 +324,30 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         rhandsontable::hot_col(col = colnames(surveyData), halign = "htCenter") |>
         rhandsontable::hot_col(
           col = "Year",
-          readOnly = FALSE,
+          readOnly = readOnly_value,
           type = "numeric"
         ) |>
         rhandsontable::hot_col(
           col = "Group",
-          readOnly = FALSE,
+          readOnly = readOnly_value,
           type = "text"
         ) |>
         rhandsontable::hot_col(
           col = "Quadrat",
-          readOnly = FALSE,
+          readOnly = readOnly_value,
           type = "text"
         ) |>
         rhandsontable::hot_col(
           col = "Species",
-          readOnly = FALSE,
+          readOnly = readOnly_value,
           type = "dropdown",
-          source = RMAVIS::speciesNames,
+          source = speciesNames(),
           strict = FALSE,
           default = as.character(NA_character_)
         ) |>
         rhandsontable::hot_col(
           col = "Cover",
-          readOnly = FALSE,
+          readOnly = readOnly_value,
           type = cover_type,
           strict = FALSE,
           format = cover_format,
@@ -537,7 +543,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
           col = "Species",
           readOnly = FALSE,
           type = "dropdown",
-          source = speciesNames,
+          source = speciesNames(),
           strict = FALSE,
           default = as.character(NA_character_)
         ) |>
@@ -615,6 +621,12 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       
     }
     
+    # Ensure Group and Quadrat columns are of class character
+    surveyData_long <- surveyData_long |>
+      dplyr::mutate(Group = as.character(Group),
+                    Quadrat = as.character(Quadrat))
+    
+    # Store surveyData_long
     surveyData$surveyData_long <- surveyData_long
     surveyData_rval(surveyData)
 
@@ -637,61 +649,73 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     shiny::req(isTRUE(surveyDataValidation()$speciesComplete))
     shiny::req(isTRUE(surveyDataValidation()$quadratIDUnique))
     shiny::req(isTRUE(surveyDataValidation()$groupIDUnique))
-
-    # Retrieve long survey table
-    surveyData <- surveyData_rval()
-    surveyData_long <- surveyData$surveyData_long
     
     # Check whether any and all cover values are supplied
     coverSupplied <- surveyDataValidation()$coverSupplied
-
-    if(coverSupplied == FALSE){
-
-      surveyData_wide <- surveyData_long |>
-        dplyr::mutate("Cover" = 1) |>
-        tidyr::pivot_wider(names_from = Species,
-                           values_from = Cover) |>
-        dplyr::mutate_all(~replace(., is.na(.), 0))
-
-      surveyData_mat <- surveyData_long |>
-        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
-        dplyr::mutate("Cover" = 1) |>
-        tidyr::pivot_wider(names_from = Species,
-                           values_from = Cover) |>
-        tibble::column_to_rownames(var = "ID") |>
-        dplyr::mutate_all(~replace(., is.na(.), 0)) |>
-        as.matrix()
-
-    } else if(coverSupplied == TRUE){
-
-      surveyData_wide <- surveyData_long |>
-        tidyr::pivot_wider(names_from = Species,
-                           values_from = Cover) |>
-        dplyr::mutate_all(~replace(., is.na(.), 0))
-
-      surveyData_mat <- surveyData_long |>
-        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
-        tidyr::pivot_wider(names_from = Species,
-                           values_from = Cover) |>
-        tibble::column_to_rownames(var = "ID") |>
-        dplyr::mutate_all(~replace(., is.na(.), 0)) |>
-        as.matrix()
-
-    }
     
-    surveyData$surveyData_wide <- surveyData_wide
-    surveyData$surveyData_mat <- surveyData_mat
-    surveyData_rval(surveyData)
+    # isolate({
+      
+      # Retrieve long survey table
+      surveyData <- surveyData_rval()
+      surveyData_long <- surveyData$surveyData_long
+      
+      # I currently need this if statement as the surveyDataValidation()$speciesComplete statement isn't being triggered correctly.
+      if(all(!is.na(surveyData_long$Species))){
+        
+        if(coverSupplied == FALSE){
+          
+          surveyData_wide <- surveyData_long |>
+            dplyr::mutate("Cover" = 1) |>
+            tidyr::pivot_wider(names_from = Species,
+                               values_from = Cover) |>
+            dplyr::mutate_all(~replace(., is.na(.), 0))
+          
+          surveyData_mat <- surveyData_long |>
+            tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
+            dplyr::mutate("Cover" = 1) |>
+            tidyr::pivot_wider(names_from = Species,
+                               values_from = Cover) |>
+            tibble::column_to_rownames(var = "ID") |>
+            dplyr::mutate_all(~replace(., is.na(.), 0)) |>
+            as.matrix()
+          
+        } else if(coverSupplied == TRUE){
+          
+          surveyData_wide <- surveyData_long |>
+            tidyr::pivot_wider(names_from = Species,
+                               values_from = Cover) |>
+            dplyr::mutate_all(~replace(., is.na(.), 0))
+          
+          surveyData_mat <- surveyData_long |>
+            tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
+            tidyr::pivot_wider(names_from = Species,
+                               values_from = Cover) |>
+            tibble::column_to_rownames(var = "ID") |>
+            dplyr::mutate_all(~replace(., is.na(.), 0)) |>
+            as.matrix()
+          
+        } else {
+          
+          surveyData_wide <- NULL
+          surveyData_mat <- NULL
+        }
+        
+        surveyData$surveyData_wide <- surveyData_wide
+        surveyData$surveyData_mat <- surveyData_mat
+        surveyData_rval(surveyData)
+        
+        
+      }
+      
+    # })
 
   }) |>
     bindEvent(surveyDataValidation(),
-              # Don't need to use these as surveyDataValidation occurs every time the table changes, and must do so before we retrieve new data.
-              # surveyData_rval(),
-              # input$surveyData,
+              surveyData_rval(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
     
-  # Ensure table 
+  # Ensure table is created whilst hidden.
   outputOptions(output, "surveyData", suspendWhenHidden = FALSE)
   
   return(surveyData_rval)

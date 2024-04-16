@@ -39,7 +39,7 @@ surveyDataValidatorUI <- function(id){
       
       bslib::layout_columns(
 
-        col_widths = c(6, 6),
+        col_widths = c(7, 5),
 
         fill = FALSE,
 
@@ -71,7 +71,7 @@ surveyDataValidatorUI <- function(id){
               placement = "bottom"
             ),
             
-            shiny::htmlOutput(outputId = ns("speciesInAcceptedText"))
+            shiny::htmlOutput(outputId = ns("speciesInAcceptedText"), inline = TRUE)
             
           ),
           
@@ -98,7 +98,7 @@ surveyDataValidatorUI <- function(id){
               placement = "bottom"
             ),
             
-            shiny::htmlOutput(outputId = ns("yearCompleteText"))
+            shiny::htmlOutput(outputId = ns("yearCompleteText"), inline = TRUE)
             
           ),
           
@@ -125,7 +125,7 @@ surveyDataValidatorUI <- function(id){
               placement = "bottom"
             ),
             
-            shiny::htmlOutput(outputId = ns("groupCompleteText"))
+            shiny::htmlOutput(outputId = ns("groupCompleteText"), inline = TRUE)
             
           ),
           
@@ -152,7 +152,7 @@ surveyDataValidatorUI <- function(id){
               placement = "bottom"
             ),
             
-            shiny::htmlOutput(outputId = ns("quadratCompleteText"))
+            shiny::htmlOutput(outputId = ns("quadratCompleteText"), inline = TRUE)
             
           ),
           
@@ -179,7 +179,7 @@ surveyDataValidatorUI <- function(id){
               placement = "bottom"
             ),
             
-            shiny::htmlOutput(outputId = ns("speciesCompleteText"))
+            shiny::htmlOutput(outputId = ns("speciesCompleteText"), inline = TRUE)
             
           ),
           
@@ -206,7 +206,7 @@ surveyDataValidatorUI <- function(id){
               placement = "bottom"
             ),
             
-            shiny::htmlOutput(outputId = ns("speciesQuadratUniqueText"))
+            shiny::htmlOutput(outputId = ns("speciesQuadratUniqueText"), inline = TRUE)
             
           ),
           
@@ -233,7 +233,7 @@ surveyDataValidatorUI <- function(id){
               placement = "bottom"
             ),
             
-            shiny::htmlOutput(outputId = ns("quadratIDUniqueText"))
+            shiny::htmlOutput(outputId = ns("quadratIDUniqueText"), inline = TRUE)
             
           ),
           
@@ -260,7 +260,7 @@ surveyDataValidatorUI <- function(id){
               placement = "bottom"
             ),
             
-            shiny::htmlOutput(outputId = ns("groupIDUniqueText"))
+            shiny::htmlOutput(outputId = ns("groupIDUniqueText"), inline = TRUE)
             
           ),
           
@@ -289,7 +289,7 @@ surveyDataValidatorUI <- function(id){
               placement = "bottom"
             ),
             
-            shiny::htmlOutput(outputId = ns("coverValuesOKText"))
+            shiny::htmlOutput(outputId = ns("coverValuesOKText"), inline = TRUE)
             
           )
           
@@ -320,7 +320,7 @@ surveyDataValidatorUI <- function(id){
               placement = "bottom"
             ),
             
-            shiny::htmlOutput(outputId = ns("okToProceedText"))
+            shiny::htmlOutput(outputId = ns("okToProceedText"), inline = TRUE)
             
           )
         )

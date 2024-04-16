@@ -36,15 +36,17 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
   justify-content: center !important;
 }
 
-/* Remove spacing below header flex container*/
-.bslib-mb-spacing {
-  margin-bottom: 0 !important;
-}
-
 #title{
   margin-bottom: 0 !important;
   color: var(--text-title-color) !important;
   font-weight: bold !important;
+}
+
+/*--------------------------------- bslib ------------------------------------*/
+
+/* Remove spacing below header flex container*/
+.bslib-mb-spacing {
+  margin-bottom: 0 !important;
 }
 
 .navbar {
@@ -70,15 +72,26 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
 }
 
 /* Align bslib info icons */
-.g-col-md-1.bslib-grid-item.bslib-gap-spacing.html-fill-container{
+.grid .g-col-sm-1{
   align-items: center !important;
   justify-content: center !important;
 }
 
+.card {
+  background-color: white !important
+}
+
+
+.bslib-card .card-header{
+  font-weight: inherit !important; /* Inherit the font weight from .nav-link */
+}
+
 .nav-link.active{
-  background-color: var(--ceh-background-grey) !important;
+  font-weight: bold !important;
+  /*background-color: var(--ceh-background-grey) !important;*/
   color: black !important;
 }
+
 .nav-link{
   background-color: white !important;
   color: black !important;
@@ -96,17 +109,7 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
   font-size: 1rem !important;
 }
 
-.card {
-  background-color: white !important
-}
-
-.card-header{
-  color: black !important
-  background-color: var(--ceh-background-grey) !important;
-}
-
-
-/* rhandsontable */
+/* ---------------------------- rhandsontable --------------------------------*/
 .handsontable {
   overflow: hidden;
 }
@@ -129,9 +132,9 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
 }
 
 
-/* Custom {reactable} css classes */
-/* Row height needs to be 24px; Header height needs to be 26px */
+/*-------------------------------- reactable ---------------------------------*/
 
+/* Row height needs to be 24px; Header height needs to be 26px */
 .my-tbl {
   text-align: center !important;
   font-size: 1rem !important;

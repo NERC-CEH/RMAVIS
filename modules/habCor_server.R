@@ -61,7 +61,7 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
       topNVCCommunities_df <- data.frame("NVC.Code" = nvcAssignment$topNVCCommunities)
       
       habCor <- topNVCCommunities_df |>
-        dplyr::left_join(RMAVIS::all_habCor_final, relationship = "many-to-many", by = dplyr::join_by(NVC.Code))
+        dplyr::left_join(RMAVIS::habCor_data, relationship = "many-to-many", by = dplyr::join_by(NVC.Code))
       
       habCorTable <- habCor |>
         dplyr::filter(Classification == habCorClass()) |>

@@ -3,17 +3,28 @@
 \docType{data}
 \name{master_data}
 \alias{master_data}
-\title{A dataset containing}
+\title{Hill-Ellenberg values for vascular plant and bryophyte taxa.}
 \format{
-A data frame with 3096 rows and 9 columns, the definitions of which are:
+A data frame with 3096 rows and 6 columns, the definitions of which are:
 \describe{
-\item{}{}
+\item{species}{The taxon name}
+\item{F}{The Hill-Ellnberg moisture score}
+\item{L}{The Hill-Ellnberg light score}
+\item{N}{The Hill-Ellnberg nitrogen score}
+\item{R}{The Hill-Ellnberg reaction score}
+\item{S}{The Hill-Ellnberg salinity score}
 }
 }
 \usage{
 master_data
 }
 \description{
-\code{}
+A data frame containing the Hill-Ellenberg environmental indicator values for
+vascular plant and bryophyte taxa.
+Named 'master_data' as additional trait and conservation status data will be
+added in the future.
+}
+\details{
+\code{master_data}
 }
 \keyword{datasets}

@@ -1,11 +1,23 @@
-#' Title
+#' Read an input file downloaded from MAVIS
+#' 
+#' Read an input file downloaded from the desktop MAVIS application and wrangle
+#' it into the format required by RMAVIS. Namely a data frame with the folowing
+#' columns:
+#' \describe{
+#'   \item{Year}{The year, set to the year the function was used.}
+#'   \item{Group}{The group, set to "A" by default.}
+#'   \item{Quadrat}{The quadrat ID.}
+#'   \item{Species}{The species name.}
+#'   \item{Cover}{The cover values, note that 0 is replaced with 0.1}
+#' }
 #'
 #' @param filepath The file path to a .txt file produced by MAVIS.
 #'
-#' @return
+#' @return A five column data frame containing the MAVIS input data in RMAVIS format.
 #' @export
 #'
 #' @examples
+#' RMAVIS::read_mavis_data(filepath = system.file("testdata", "mavis_testdata.txt", package = "RMAVIS"))
 read_mavis_data <- function(filepath){
  
   mavisData_raw <- readr::read_table(filepath, 

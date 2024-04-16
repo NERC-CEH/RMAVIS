@@ -1,9 +1,3 @@
-# Taxonomic Backbone Methods ----------------------------------------------
-taxonomicBackboneMethod_options <- c("Bundled" = "bundled",
-                                     "Upload" = "upload",
-                                     "Kew WCVP" = "wcvp",
-                                     "Syntopic Tables" = "syntopicTables")
-
 # Input method options ----------------------------------------------------
 inputMethod_options <- c("Manual" = "manual",
                          "Example" = "example",
@@ -22,6 +16,17 @@ dataEntryFormat_options <- c("Long" = "long",
                              "Matrix" = "matrix",
                              "MAVIS" = "mavis")
 
+
+# Constancy Conversion ----------------------------------------------------
+constancyConversion <- tibble::tibble(
+  "Class" = c("I", "II", "III", "IV", "V"), 
+  "ClassNumeric" = c(1, 2, 3, 4, 5),
+  "ClassPercentMid" = c(10, 30, 50, 70, 90), 
+  "ClassProportionMid" = c(0.1, 0.3, 0.5, 0.7, 0.9),
+  "ClassPercentLower" = c(0, 20, 40, 60, 80),
+  "ClassPercentUpper" = c(20, 40, 60, 80, 100)
+  
+)
 
 # Cover Scale Options -----------------------------------------------------
 coverScale_options <- c("None" = "none",
@@ -70,7 +75,8 @@ habitatRestriction_options <- list(
   "Salt-marsh communities (SM)" = "SM",
   "Shingle, strandline and sand-dune communities (SD)" = "SD",
   "Maritime cliff communities (MC)" = "MC",
-  "Vegetation of open habitats (OV)" = "OV"
+  "Vegetation of open habitats (OV)" = "OV",
+  "Scottish Oceanic Wet Grasslands (SOWG)" = "SOWG"
 )
 
 # Floristic Tables Options ------------------------------------------------
@@ -143,7 +149,9 @@ ccaVars_options <- c("Moisture (F) x Nitrogen (N)" = "FN",
                      "Light (L) x Salinity (S)" = "LS")
 
 # Global Reference DCA Space Options --------------------------------------
-nationalReferenceSpaces_options <- sort(c(c("A", "CG", "H", "M", "MC", "MG", "OV", "S", "SD", "SM", "U", "W"), setdiff(readRDS(file = "./inst/extdata/nvc_community_codes.rds"), c("SM1", "SM1a", "SM1b"))))
+nationalReferenceSpaces_options <- sort(c(c("A", "CG", "H", "M", "MC", "MG", "OV", "S", "SD", "SM", "U", "W"), # Add community prefixes
+                                          setdiff(readRDS(file = "./inst/extdata/nvc_community_namesCodes.rds")[["NVC.Code"]], # Retrieve community codes
+                                                  c("SM1", "SM1a", "SM1b")))) # remove SM communities which weren't used in the ordination space creatinon
 
 # DCA Survey Quadrat Options ----------------------------------------------
 surveyQuadratSelection_options <- c("All" = "all",
@@ -193,6 +201,7 @@ usethis::use_data(taxonomicBackboneMethod_options,
                   inputMethod_options,
                   example_data_options,
                   dataEntryFormat_options,
+                  constancyConversion,
                   coverScale_options,
                   domin_options,
                   braunBlanquet_options,
@@ -218,3 +227,7 @@ usethis::use_data(taxonomicBackboneMethod_options,
                   reportOptions_options,
                   overwrite = TRUE,
                   internal = TRUE)
+
+# Compress sysdata.rda
+tools::resaveRdaFiles(paths = "./R", compress = "xz")
+tools::checkRdaFiles(paths = "./R")

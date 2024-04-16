@@ -3,17 +3,23 @@
 \docType{data}
 \name{acceptedSpecies}
 \alias{acceptedSpecies}
-\title{A dataset containing}
+\title{The taxa accepted by RMAVIS}
 \format{
 A data frame with 16500 rows and 3 columns, the definitions of which are:
 \describe{
-\item{}{}
+\item{Accepted_Species}{The taxon names accepted by RMAVIS.}
+\item{BSBI_taxonId}{The BSBI taxonId associated with the accepted taxon, vascular plants only.}
+\item{TVK}{The United Kingdom Species Inventory (UKSI) Taxon Version Key (TVK) associated with the accepted taxon.}
 }
 }
 \usage{
 acceptedSpecies
 }
 \description{
-\code{}
+A three-column data frame containing the accepted taxon names, associated
+BSBI taxonID (if a vascular plant), and associated TVK.
+}
+\details{
+\code{acceptedSpecies}
 }
 \keyword{datasets}

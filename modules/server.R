@@ -5,6 +5,7 @@ server <- function(input, output, session) {
                                        id = "sidebar_id_1",
                                        surveyData = surveyData,
                                        surveyDataValidator = surveyDataValidator,
+                                       surveyDataSummary = surveyDataSummary,
                                        floristicTables = floristicTables,
                                        nvcAssignment = nvcAssignment,
                                        habCor = habCor,

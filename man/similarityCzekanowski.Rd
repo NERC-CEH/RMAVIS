@@ -2,7 +2,7 @@
 % Please edit documentation in R/similarity_functions.R
 \name{similarityCzekanowski}
 \alias{similarityCzekanowski}
-\title{Calculate the similarity between vegetation data using the Czekanowski index}
+\title{Calculate the similarity between two vegetation plot datasets using the Czekanowski coefficient}
 \usage{
 similarityCzekanowski(
   samp_df,
@@ -13,7 +13,7 @@ similarityCzekanowski(
   comp_group_name,
   samp_weight_name,
   comp_weight_name,
-  downweight_threshold = 0.2,
+  downweight_threshold = 1,
   downweight_value = 0.1
 )
 }
@@ -22,23 +22,46 @@ similarityCzekanowski(
 
 \item{comp_df}{A data frame containing either}
 
-\item{samp_species_col}{}
+\item{samp_species_col}{The name of the column in samp_df containing the species names.}
 
-\item{comp_species_col}{}
+\item{comp_species_col}{The name of the column in comp_df containing the species names.}
 
-\item{samp_group_name}{}
+\item{samp_group_name}{The name of the column in samp_df containing the group name.}
 
-\item{comp_group_name}{}
+\item{comp_group_name}{The name of the column in comp_df containing the group name.}
 
-\item{samp_weight_name}{}
+\item{samp_weight_name}{The name of the column in samp_df containing the numeric weight values.}
 
-\item{downweight_threshold}{If 0 no downeighting occurs.}
+\item{comp_weight_name}{The name of the column in comp_df containing the numeric weight values.}
 
-\item{downweight_value}{}
+\item{downweight_threshold}{A numeric value to replace with downweight_threshold.}
+
+\item{downweight_value}{A numeric value to replace down_weight threshold with.}
+}
+\value{
+A three column data frame containing the samp_group_name values, comp_group_name values, and similarity results (Similarity).
 }
 \description{
-Calculate the Czekanowski's Quantitative Index using either a set of sample
-vegetation plots and a set of reference vegetation plots; or a set of composed
-floristic/syntopic tables and a set of references floristic/syntopic tables.
-Method follows Bray and Curtis (1957) and  Field and McFarlane (1968).
+Calculate the Czekanowski's quantitative index/coefficient of similarity
+using either a set of sample vegetation plots and a set of reference
+vegetation plots; or a set of composed floristic/syntopic tables and a set of
+references floristic/syntopic tables. Method follows Malloch (1998).
+}
+\examples{
+RMAVIS::similarityCzekanowski(samp_df = RMAVIS::composeSyntopicTables(surveyData = RMAVIS::example_data[["Parsonage Down"]], 
+                                                                      group_cols = c("Year", "Group"), 
+                                                                      species_col_name = "Species", 
+                                                                      plot_col_name = "Quadrat",
+                                                                      numeric_constancy = TRUE), 
+                              comp_df = RMAVIS::subset_nvcData(nvc_data = RMAVIS::nvc_floristic_tables_numeric, 
+                                                               habitatRestriction = c("CG"), 
+                                                               col_name = "NVC.Code"), 
+                              samp_species_col = "Species", 
+                              comp_species_col = "Species", 
+                              samp_group_name = "ID", 
+                              comp_group_name = "NVC.Code",
+                              samp_weight_name = "Constancy", 
+                              comp_weight_name = "Constancy",
+                              downweight_threshold = 1, 
+                              downweight_value = 0.1)
 }

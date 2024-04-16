@@ -39,9 +39,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     speciesAdjustmentTable <- rhandsontable::rhandsontable(data = speciesAdjustmentTable_init,
                                                            height = 500,
                                                            rowHeaders = NULL,
-                                                           width = "100%"#,
-                                                           # overflow = "visible",
-                                                           # stretchH = "all"
+                                                           width = "100%"
                                                            ) |>
       rhandsontable::hot_col(col = colnames(speciesAdjustmentTable_init), halign = "htCenter") |>
       rhandsontable::hot_col(
@@ -90,9 +88,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     reallocateGroupsTable <- rhandsontable::rhandsontable(data = reallocateGroups_init,
                                                           height = 300,
                                                           rowHeaders = NULL,
-                                                          width = "100%"#,
-                                                          # overflow = "visible",
-                                                          # stretchH = "all"
+                                                          width = "100%"
                                                           ) |>
       rhandsontable::hot_col(col = colnames(reallocateGroups_init), halign = "htCenter") |>
       rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
@@ -172,7 +168,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     surveyData_speciesNotAccepted <- setdiff(unique(surveyData_long$Species), speciesNames)
 
     # Check whether any cover estimates are supplied
-    surveyData_coverSupplied <- isTRUE(!is.na(unique(surveyData_long$Cover)))
+    surveyData_coverSupplied <- isTRUE(all(!is.na(unique(surveyData_long$Cover))))
 
     # Check whether all cover estimates are supplied
     surveyData_coverSuppliedAll <- isTRUE(all(!is.na(surveyData_long$Cover)))
@@ -181,13 +177,13 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     surveyData_yearComplete <- isTRUE(all(!is.na(surveyData_long$Year)))
 
     # Check whether there is any missing data in the Group column
-    surveyData_groupComplete <- isTRUE(all(!(surveyData_long$Group == "")))
+    surveyData_groupComplete <- isTRUE(all(surveyData_long$Group != ""))
 
     # Check whether there is any missing data in the Quadrat column
-    surveyData_quadratComplete <- isTRUE(all(!(surveyData_long$Quadrat == "")))
+    surveyData_quadratComplete <- isTRUE(all(surveyData_long$Quadrat != ""))
 
     # Check whether there is any missing data in the Species column
-    surveyData_speciesComplete <- isTRUE(all(!(surveyData_long$Species == "")))
+    surveyData_speciesComplete <- isTRUE(all(surveyData_long$Species != ""))
 
     # Check whether there are any species-quadrat double-entries
     surveyData_speciesQuadratUnique_df <- surveyData_long |>
@@ -338,9 +334,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
       speciesAdjustmentTable <- rhandsontable::rhandsontable(data = speciesAdjustmentTable,
                                                              height = 500,
                                                              rowHeaders = NULL,
-                                                             width = "100%"#,
-                                                             # overflow = "visible",
-                                                             # stretchH = "all"
+                                                             width = "100%"
       ) |>
         rhandsontable::hot_col(col = colnames(speciesAdjustmentTable), halign = "htCenter") |>
         rhandsontable::hot_col(
@@ -372,7 +366,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
           default = as.character("No")
         ) |>
         rhandsontable::hot_cols(colWidths = c(200, 200, 200, 200)) |>
-        # rhandsontable::hot_validate_character(cols = "Species.Adjusted", choices = speciesNames) |> # Can't use this when speciesNames is too large!!
         rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE) |>
         rhandsontable::hot_table(highlightCol = TRUE, highlightRow = TRUE, stretchH = "all") |>
         htmlwidgets::onRender("

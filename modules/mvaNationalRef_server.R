@@ -3,9 +3,9 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
   ns <- session$ns
   
 # Retrieve Setup Data -----------------------------------------------------
-  nvc_pquads_final_wide <- reactiveVal()
-  nvc_pquad_dca_all <- reactiveVal()
-  nvc_pquad_dca_all_hulls <- reactiveVal()
+  nvc_pquads_wide <- reactiveVal()
+  nvc_pquad_dca <- reactiveVal()
+  nvc_pquad_dca_hulls <- reactiveVal()
   pquad_centroids <- reactiveVal()
   nvc_pquads_mean_unweighted_eivs <- reactiveVal()
   
@@ -13,10 +13,10 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
     
     setupData <- setupData()
     
-    nvc_pquads_final_wide(setupData$nvc_pquads_final_wide)
-    nvc_pquad_dca_all(setupData$nvc_pquad_dca_all)
-    nvc_pquad_dca_all_hulls(setupData$nvc_pquad_dca_all_hulls)
-    pquad_centroids(setupData$nvc_pquad_dca_all_centroids)
+    nvc_pquads_wide(setupData$nvc_pquads_wide)
+    nvc_pquad_dca(setupData$nvc_pquad_dca)
+    nvc_pquad_dca_hulls(setupData$nvc_pquad_dca_hulls)
+    pquad_centroids(setupData$nvc_pquad_dca_centroids)
     nvc_pquads_mean_unweighted_eivs(setupData$nvc_pquads_mean_unweighted_eivs)
     
   }) |>
@@ -77,27 +77,17 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
       surveyData <- surveyData()
       surveyData_long <- surveyData$surveyData_long
       
-      nvc_pquads_final_wide <- nvc_pquads_final_wide()
-      nvc_pquad_dca_all <- nvc_pquad_dca_all()
-      pquad_hulls <- nvc_pquad_dca_all_hulls()
+      nvc_pquads_wide <- nvc_pquads_wide()
+      nvc_pquad_dca <- nvc_pquad_dca()
+      pquad_hulls <- nvc_pquad_dca_hulls()
       pquad_centroids <- pquad_centroids()
       nvc_pquads_mean_unweighted_eivs <- nvc_pquads_mean_unweighted_eivs()
       
       # Create pattern to subset matrix rows
-      codes_regex <- c()
-      
-      for(code in topNVCCommunities){
-        
-        regex <- paste0("^(", code, ")(?<=)P")
-        
-        codes_regex <- c(codes_regex, regex)
-        
-        codes_regex <- stringr::str_c(codes_regex, collapse = "|")
-        
-      }
+      codes_regex <- paste0("^(", stringr::str_c(topNVCCommunities, collapse = "|"), ")(?<=)P")
       
       # Subset pseudo-quadrats for selected communities
-      selected_pquads <- nvc_pquads_final_wide[stringr::str_detect(string = row.names(nvc_pquads_final_wide), pattern = codes_regex), ]
+      selected_pquads <- nvc_pquads_wide[stringr::str_detect(string = row.names(nvc_pquads_wide), pattern = codes_regex), ]
       
       # Remove columns (species) that are absent in all selected communities
       selected_pquads_prepped <- selected_pquads[, colSums(abs(selected_pquads)) != 0] |>
@@ -126,7 +116,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
         tibble::rownames_to_column(var = "Hill-Ellenberg")
       
       # Retrieve pre-calculated cca scores
-      selected_pquads_dca_results <- nvc_pquad_dca_all
+      selected_pquads_dca_results <- nvc_pquad_dca
       
       # Extract the DCA results species axis scores
       dca_results_pquads_species <- vegan::scores(selected_pquads_dca_results, tidy = TRUE) |>
@@ -201,8 +191,8 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
       
       
   }) |>
-    bindEvent(runAnalysis(),
-              nationalReferenceSpaces(),
+    bindEvent(#runAnalysis(),
+              nationalReferenceSpaces(), # Changes every time the analysis is re-run
               ccaVars(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)

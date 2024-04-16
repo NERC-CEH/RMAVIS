@@ -4,11 +4,12 @@
 <!-- badges: start -->
 
 [![Generic
-badge](https://img.shields.io/badge/Version-0.995-green.svg)]()
+badge](https://img.shields.io/badge/Version-0.999-green.svg)]()
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![DOI](https://zenodo.org/badge/722095560.svg)](https://zenodo.org/badge/latestdoi/722095560)
+[![status](https://joss.theoj.org/papers/460c6f934a108fcf5a16d0f2ab77492e/status.svg)](https://joss.theoj.org/papers/460c6f934a108fcf5a16d0f2ab77492e)
 <!-- badges: end -->
 
 The RMAVIS R Shiny web application is a tool to assist in the assignment
@@ -24,4 +25,5 @@ by cloning the repository, calling `renv::restore()`, and then calling
 If `renv::restore()` fails run
 `install.packages(unique(renv::dependencies()$Package), dependencies = TRUE)`.
 Note that whilst the correct dependencies will be installed, the
-versions may not match those in the renv.lock file.
+versions may not match those in the renv.lock file, and so the correct
+functioning of the app cannot be guaranteed.

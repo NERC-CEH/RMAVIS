@@ -3,14 +3,14 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   ns <- session$ns
   
 # Retrieve Setup Data -----------------------------------------------------
-  nvc_pquads_final <- reactiveVal()
+  nvc_pquads <- reactiveVal()
   nvc_floristic_tables_numeric <- reactiveVal()
   
   observe({
     
     setupData <- setupData()
     
-    nvc_pquads_final(setupData$nvc_pquads_final)
+    nvc_pquads(setupData$nvc_pquads)
     nvc_floristic_tables_numeric(setupData$nvc_floristic_tables_numeric)
     
   }) |>
@@ -20,6 +20,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
 # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
   coverMethod <- reactiveVal()
+  assignQuadrats <- reactiveVal(FALSE)
   habitatRestriction <- reactiveVal()
   nTopResults <- reactiveVal()
   resultsViewNVCAssign <- reactiveVal()
@@ -28,6 +29,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
 
     runAnalysis(sidebar_options()$runAnalysis)
     coverMethod(sidebar_options()$coverMethod)
+    assignQuadrats(sidebar_options()$assignQuadrats)
     habitatRestriction(sidebar_options()$habitatRestriction)
     nTopResults(sidebar_options()$nTopResults)
     resultsViewNVCAssign(sidebar_options()$resultsViewNVCAssign)
@@ -71,7 +73,8 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     }
     
   }) |>
-    bindEvent(resultsViewNVCAssign(),
+    bindEvent(assignQuadrats(),
+              resultsViewNVCAssign(),
               ignoreInit = FALSE,
               ignoreNULL = FALSE)
   
@@ -86,8 +89,88 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
               once = TRUE)
   
 
-# Calculate ALL nvcAssignment results -------------------------------------
+# Calculate Quadrat Jaccard Similarities ----------------------------------
   nvcAssignmentPlot_Jaccard_rval <- reactiveVal()
+  observe({
+    
+    shiny::req(surveyData())
+    shiny::req(surveyDataSummary())
+    
+    if(assignQuadrats() == TRUE){
+      
+      shinybusy::show_modal_spinner(
+        spin = "fading-circle",
+        color = "#3F9280",
+        text = "Calculating Similarities - Quadrats"
+      )
+      
+      shiny::isolate({
+        
+        surveyData <- surveyData()
+        surveyData_long <- surveyData$surveyData_long
+        surveyDataSummary <- surveyDataSummary()
+        
+        # Add an ID column to the survey data table
+        surveyData_prepped <- surveyData_long |>
+          tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = FALSE) |>
+          dplyr::rename("species" = "Species") 
+        
+        # Create a concordance to join back on to the results of nva_average_sim
+        surveyData_IDs <- surveyData_prepped |>
+          dplyr::select(ID, Year, Group, Quadrat) |>
+          dplyr::distinct()
+        
+        # Select the pseudo-quadrats to use in the NVC assignment process
+        pquads_to_use <- nvc_pquads()
+        
+        if(!is.null(habitatRestriction())){
+          
+          pquads_to_use <- RMAVIS::subset_nvcData(nvc_data = nvc_pquads(), habitatRestriction = habitatRestriction(), col_name = "NVC")
+          
+        }
+        
+        # Calculate NVC Similarity by Quadrat
+        nvcAssignmentPlot_Jaccard <- RMAVIS::similarityJaccard(samp_df = surveyData_prepped,
+                                                               comp_df = pquads_to_use,
+                                                               samp_species_col = "species",
+                                                               comp_species_col = "species",
+                                                               samp_group_name = "ID",
+                                                               comp_group_name = "Pid3",
+                                                               comp_groupID_name = "NVC",
+                                                               remove_zero_matches = TRUE,
+                                                               average_comp = TRUE) |>
+          dplyr::select("ID" = ID,
+                        "Mean.Similarity" = Similarity,
+                        "NVC.Code" = NVC)|>
+          dplyr::group_by(ID) |>
+          dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
+          dplyr::ungroup() |>
+          dplyr::left_join(surveyData_IDs, by = "ID")
+        
+        nvcAssignmentPlot_Jaccard_prepped <- nvcAssignmentPlot_Jaccard |>
+          dplyr::select(Year, Group, Quadrat, NVC.Code, Mean.Similarity)|>
+          dplyr::group_by(Year, Group, Quadrat) |>
+          dplyr::slice(1:10) |>
+          dplyr::ungroup() |>
+          dplyr::arrange(Year, Group, Quadrat, dplyr::desc(Mean.Similarity))
+        
+        nvcAssignmentPlot_Jaccard_rval(nvcAssignmentPlot_Jaccard_prepped)
+        
+      }) # close isolate
+      
+      shinybusy::remove_modal_spinner()
+      
+    } else if(assignQuadrats() == FALSE){
+      
+      nvcAssignmentPlot_Jaccard_rval(NULL)
+      
+    }
+    
+  }) |>
+    bindEvent(runAnalysis(),
+              ignoreInit = FALSE)
+
+# Calculate Group and Year Czekanowski Similarities -----------------------
   nvcAssignmentSite_Czekanowski_rval <- reactiveVal()
   nvcAssignmentGroup_Czekanowski_rval <- reactiveVal()
   
@@ -99,13 +182,11 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     shinybusy::show_modal_spinner(
       spin = "fading-circle",
       color = "#3F9280",
-      text = "Calculating NVC Community Similarity"
+      text = "Calculating Similarities - Groups"
     )
     
     shiny::isolate({
       
-      surveyData <- surveyData()
-      surveyData_long <- surveyData$surveyData_long
       surveyDataSummary <- surveyDataSummary()
       
       # Retrieve the site and group ID's for which there are less than the threshold 
@@ -114,173 +195,90 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
         dplyr::filter(n < threshold) |>
         dplyr::pull(ID)
       
-      # Add an ID column to the survey data table
-      surveyData_prepped <- surveyData_long |>
-        tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = FALSE) |>
-        dplyr::rename("species" = "Species")
+      # Prepare composed floristicTables
+      floristicTables <- floristicTables()
+      floristicTables_composed_all <- floristicTables$floristicTables_composed_all
       
-      # Create a concordance to join back on to the results of nva_average_sim
-      surveyData_IDs <- surveyData_prepped |>
-        dplyr::select(ID, Year, Group, Quadrat) |>
-        dplyr::distinct()
+      floristicTables_prepped <- floristicTables_composed_all  |>
+        dplyr::mutate(
+          "Constancy" = 
+            dplyr::case_when(
+              Constancy == "I" ~ 1,
+              Constancy == "II" ~ 2,
+              Constancy == "III" ~ 3,
+              Constancy == "IV" ~ 4,
+              Constancy == "V" ~ 5,
+              TRUE ~ as.numeric(0)
+            )
+        ) |> 
+        dplyr::filter(!(ID %in% site_group_ids_remove))
       
-      # Select the pseudo-quadrats to use in the NVC assignment process
-      pquads_to_use <- nvc_pquads_final()
-      
-      if(!is.null(habitatRestriction())){
+      # Only use Czekanowski index to calculate site and group similarities if there
+      # are floristic tables composed from more than 5 quadrats.
+      if(nrow(floristicTables_prepped) > 0){
         
-        codes_regex <- c()
-        
-        for(code in habitatRestriction()){
+        # Prepare nvc_floristic_tables_numeric
+        if(!is.null(habitatRestriction())){
           
-          regex <- paste0("^", code, "\\d{1,}.+(?![a-z*][P])")
+          nvc_floristic_tables_numeric_prepped <- RMAVIS::subset_nvcData(nvc_data = nvc_floristic_tables_numeric(), habitatRestriction = habitatRestriction(), col_name = "NVC.Code")
           
-          codes_regex <- c(codes_regex, regex)
+        } else {
           
-          codes_regex <- stringr::str_c(codes_regex, collapse = "|")
+          nvc_floristic_tables_numeric_prepped <- nvc_floristic_tables_numeric()
           
         }
         
-        pquads_to_use <- nvc_pquads_final() |>
-          dplyr::filter(stringr::str_detect(string = Pid3, pattern = codes_regex))
+        # Calculate NVC Similarity by Site using the Czekanowski index
+        nvcAssignmentSiteGroup_Czekanowski <- RMAVIS::similarityCzekanowski(samp_df = floristicTables_prepped,
+                                                                            comp_df = nvc_floristic_tables_numeric_prepped,
+                                                                            samp_species_col = "Species",
+                                                                            comp_species_col = "Species",
+                                                                            samp_group_name = "ID",
+                                                                            comp_group_name = "NVC.Code",
+                                                                            samp_weight_name = "Constancy",
+                                                                            comp_weight_name = "Constancy",
+                                                                            downweight_threshold = 1, 
+                                                                            downweight_value = 0.1)
         
-      }
-
-      # Calculate NVC Similarity by Quadrat
-      nvcAssignmentPlot_Jaccard <- assignNVC::nvc_average_sim(samp_df = surveyData_prepped,
-                                                              comp_df = pquads_to_use,
-                                                              spp_col = "species",
-                                                              samp_id = "ID",
-                                                              comp_id = "Pid3") |>
-        dplyr::select("ID" = FOCAL_ID,
-                      "Mean.Similarity" = MEAN_SIM, 
-                      "Standard.Deviation" = SD,
-                      "NVC.Code" = NVC) |>
-        dplyr::group_by(ID) |>
-        dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
-        dplyr::ungroup() |>
-        dplyr::left_join(surveyData_IDs, by = "ID")
-      
-      nvcAssignmentPlot_Jaccard_prepped <- nvcAssignmentPlot_Jaccard |>
-        dplyr::select(Year, Group, Quadrat, NVC.Code, Mean.Similarity, Standard.Deviation)|>
-        dplyr::group_by(Year, Group, Quadrat) |>
-        dplyr::slice(1:10) |>
-        dplyr::ungroup() |>
-        dplyr::arrange(Year, Group, Quadrat, dplyr::desc(Mean.Similarity))
+        nvcAssignmentSite_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
+          dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$")) |>
+          dplyr::mutate("Year" = ID) |>
+          dplyr::select(Year, NVC.Code, Similarity)|>
+          dplyr::arrange(Year, dplyr::desc(Similarity))
         
-      nvcAssignmentPlot_Jaccard_rval(nvcAssignmentPlot_Jaccard_prepped)
-      
-    }) # close isolate
-    
-    # Prepare composed floristicTables
-    floristicTables <- floristicTables()
-    floristicTables_composed_all <- floristicTables$floristicTables_composed_all
-    
-    floristicTables_prepped <- floristicTables_composed_all  |>
-      dplyr::mutate(
-        "Constancy" = 
-          dplyr::case_when(
-            Constancy == "I" ~ 0.2,
-            Constancy == "II" ~ 0.4,
-            Constancy == "III" ~ 0.6,
-            Constancy == "IV" ~ 0.8,
-            Constancy == "V" ~ 1.0,
-            TRUE ~ as.numeric(0)
-          )
-      ) |> 
-      dplyr::filter(!(ID %in% site_group_ids_remove))
-    
-    # Only use Czekanowski index to calculate site and group similarities if there
-    # are floristic tables composed from more than 5 quadrats.
-    if(nrow(floristicTables_prepped) > 0){
-      
-      # Prepare nvc_floristic_tables_numeric
-      if(!is.null(habitatRestriction())){
+        nvcAssignmentGroup_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
+          dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$", negate = TRUE)) |>
+          dplyr::mutate("Year" = stringr::str_extract(string = ID, pattern = "\\d{4}")) |>
+          dplyr::mutate("Group" = stringr::str_extract(string = ID, pattern = "(?<=\\s-\\s).*$")) |>
+          dplyr::select(Year, Group, NVC.Code, Similarity) |>
+          dplyr::arrange(Year, Group, dplyr::desc(Similarity))
         
-        nvc_floristic_tables_numeric_prepped <- nvc_floristic_tables_numeric() |>
-          dplyr::filter(stringr::str_detect(string = NVC.Code, pattern = codes_regex))
+        nvcAssignmentSite_Czekanowski_rval(nvcAssignmentSite_Czekanowski)
+        nvcAssignmentGroup_Czekanowski_rval(nvcAssignmentGroup_Czekanowski)
         
       } else {
         
-        nvc_floristic_tables_numeric_prepped <- nvc_floristic_tables_numeric()
+        nvcAssignmentSite_Czekanowski_rval(NULL)
+        nvcAssignmentGroup_Czekanowski_rval(NULL)
         
       }
       
-      # Calculate NVC Similarity by Site using the Czekanowski index
-      nvcAssignmentSiteGroup_Czekanowski <- RMAVIS::similarityCzekanowski(samp_df = floristicTables_prepped,
-                                                                          comp_df = nvc_floristic_tables_numeric_prepped,
-                                                                          samp_species_col = "Species",
-                                                                          comp_species_col = "Species",
-                                                                          samp_group_name = "ID",
-                                                                          comp_group_name = "NVC.Code",
-                                                                          samp_weight_name = "Constancy",
-                                                                          comp_weight_name = "Constancy")
-      
-      nvcAssignmentSite_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
-        dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$")) |>
-        dplyr::mutate("Year" = ID) |>
-        dplyr::select(Year, NVC.Code, Similarity)|>
-        dplyr::arrange(Year, dplyr::desc(Similarity))
-      
-      nvcAssignmentGroup_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
-        dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$", negate = TRUE)) |>
-        dplyr::mutate("Year" = stringr::str_extract(string = ID, pattern = "\\d{4}")) |>
-        dplyr::mutate("Group" = stringr::str_extract(string = ID, pattern = "(?<=\\s-\\s).*$")) |>
-        dplyr::select(Year, Group, NVC.Code, Similarity) |>
-        dplyr::arrange(Year, Group, dplyr::desc(Similarity))
-      
-      nvcAssignmentSite_Czekanowski_rval(nvcAssignmentSite_Czekanowski)
-      nvcAssignmentGroup_Czekanowski_rval(nvcAssignmentGroup_Czekanowski)
-      
-    }
+    }) # close isolate
+    
     
     shinybusy::remove_modal_spinner()
     
   }) |>
     bindEvent(runAnalysis(),
               ignoreInit = FALSE)
-
-
-# Intialise NVC Assignment Site Table -------------------------------------
-  nvcAssignmentSiteTable_init <- data.frame("Year" = integer(),
-                                            "Mean.Similarity" = numeric(),
-                                            "Standard.Deviation" = numeric(),
-                                            "NVC.Code" = character()
-  )
-  
-  output$nvcAssignmentSiteTable <- reactable::renderReactable({
-    
-    nvcAssignmentSiteTable <- reactable::reactable(data = nvcAssignmentSiteTable_init,
-                                                   filterable = FALSE,
-                                                   pagination = FALSE, 
-                                                   highlight = TRUE,
-                                                   bordered = TRUE,
-                                                   sortable = TRUE, 
-                                                   wrap = FALSE,
-                                                   resizable = TRUE,
-                                                   style = list(fontSize = "1rem"),
-                                                   class = "my-tbl",
-                                                   # style = list(fontSize = "1rem"),
-                                                   rowClass = "my-row",
-                                                   defaultColDef = reactable::colDef(
-                                                     format = reactable::colFormat(digits = 2),
-                                                     headerClass = "my-header",
-                                                     class = "my-col",
-                                                     align = "center" # Needed as alignment is not passing through to header
-                                                   ))
-    
-    return(nvcAssignmentSiteTable)
-    
-  })
   
 
 # Initialise NVC Assignment Quadrat Table ---------------------------------
   nvcAssignmentPlot_JaccardTable_init <- data.frame("Year" = integer(),
-                                               "Group" = character(),
-                                               "Quadrat" = character(),
-                                               "Mean.Similarity" = numeric(),
-                                               "Standard.Deviation" = numeric(),
-                                               "NVC.Code" = character()
+                                                    "Group" = character(),
+                                                    "Quadrat" = character(),
+                                                    "Mean.Similarity" = numeric(),
+                                                    "NVC.Code" = character()
   )
   
   nvcAssignmentPlot_JaccardTable_rval <- reactiveVal(nvcAssignmentPlot_JaccardTable_init)
@@ -288,23 +286,23 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   output$nvcAssignmentPlot_JaccardTable <- reactable::renderReactable({
     
     nvcAssignmentPlot_JaccardTable <- reactable::reactable(data = nvcAssignmentPlot_JaccardTable_init,
-                                                      filterable = FALSE,
-                                                      pagination = FALSE, 
-                                                      highlight = TRUE,
-                                                      bordered = TRUE,
-                                                      sortable = TRUE, 
-                                                      wrap = FALSE,
-                                                      resizable = TRUE,
-                                                      style = list(fontSize = "1rem"),
-                                                      class = "my-tbl",
-                                                      # style = list(fontSize = "1rem"),
-                                                      rowClass = "my-row",
-                                                      defaultColDef = reactable::colDef(
-                                                        format = reactable::colFormat(digits = 2),
-                                                        headerClass = "my-header",
-                                                        class = "my-col",
-                                                        align = "center" # Needed as alignment is not passing through to header
-                                                      ))
+                                                           filterable = FALSE,
+                                                           pagination = FALSE, 
+                                                           highlight = TRUE,
+                                                           bordered = TRUE,
+                                                           sortable = TRUE, 
+                                                           wrap = FALSE,
+                                                           resizable = TRUE,
+                                                           style = list(fontSize = "1rem"),
+                                                           class = "my-tbl",
+                                                           # style = list(fontSize = "1rem"),
+                                                           rowClass = "my-row",
+                                                           defaultColDef = reactable::colDef(
+                                                             format = reactable::colFormat(digits = 2),
+                                                             headerClass = "my-header",
+                                                             class = "my-col",
+                                                             align = "center" # Needed as alignment is not passing through to header
+                                                            ))
     
     return(nvcAssignmentPlot_JaccardTable)
     
@@ -314,60 +312,66 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
 # Update NVC Assignment Quadrat Table -------------------------------------
   observe({
     
-    req(nvcAssignmentPlot_Jaccard_rval())
-    
-    nvcAssignmentPlot_Jaccard <- nvcAssignmentPlot_Jaccard_rval() |>
-      dplyr::group_by(Year, Group, Quadrat) |>
-      dplyr::slice(1:nTopResults()) |>
-      dplyr::ungroup()
+    if(!is.null(nvcAssignmentPlot_Jaccard_rval())){
+      
+      nvcAssignmentPlot_Jaccard <- nvcAssignmentPlot_Jaccard_rval() |>
+        dplyr::group_by(Year, Group, Quadrat) |>
+        dplyr::slice(1:nTopResults()) |>
+        dplyr::ungroup()
+      
+    } else if(is.null(nvcAssignmentPlot_Jaccard_rval())){
+      
+      nvcAssignmentPlot_Jaccard <- nvcAssignmentPlot_JaccardTable_init
+      
+    }
     
     output$nvcAssignmentPlot_JaccardTable <- reactable::renderReactable({
       
       nvcAssignmentPlot_JaccardTable <- reactable::reactable(data = nvcAssignmentPlot_Jaccard, 
-                                                        filterable = FALSE,
-                                                        pagination = FALSE, 
-                                                        highlight = TRUE,
-                                                        bordered = TRUE,
-                                                        sortable = TRUE, 
-                                                        wrap = FALSE,
-                                                        resizable = TRUE,
-                                                        class = "my-tbl",
-                                                        # style = list(fontSize = "1rem"),
-                                                        rowClass = "my-row",
-                                                        defaultColDef = reactable::colDef(
-                                                          format = reactable::colFormat(digits = 2),
-                                                          headerClass = "my-header",
-                                                          class = "my-col",
-                                                          align = "center" # Needed as alignment is not passing through to header
-                                                        ),
-                                                        columns = list(
-                                                          Year = reactable::colDef(
-                                                            format = reactable::colFormat(digits = 0),
-                                                            filterable = TRUE,
-                                                            filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                       return rows.filter(function(row) {
-                                                                                       return row.values[columnId] == filterValue
-                                                                                       })
-                                                                                       }")
-                                                            ),
-                                                          Group = reactable::colDef(
-                                                            filterable = TRUE,
-                                                            filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                       return rows.filter(function(row) {
-                                                                                       return row.values[columnId] == filterValue
-                                                                                       })
-                                                                                       }")
-                                                          ),
-                                                          Quadrat = reactable::colDef(
-                                                            filterable = TRUE,
-                                                            filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                       return rows.filter(function(row) {
-                                                                                       return row.values[columnId] == filterValue
-                                                                                       })
-                                                                                       }")
-                                                          )
-                                                        )
-                                                        )
+                                                             filterable = FALSE,
+                                                             pagination = FALSE, 
+                                                             highlight = TRUE,
+                                                             bordered = TRUE,
+                                                             sortable = TRUE, 
+                                                             wrap = FALSE,
+                                                             resizable = TRUE,
+                                                             class = "my-tbl",
+                                                             # style = list(fontSize = "1rem"),
+                                                             rowClass = "my-row",
+                                                             defaultColDef = reactable::colDef(
+                                                               format = reactable::colFormat(digits = 2),
+                                                               headerClass = "my-header",
+                                                               class = "my-col",
+                                                               align = "center" # Needed as alignment is not passing through to header
+                                                             ),
+                                                             columns = list(
+                                                               Year = reactable::colDef(
+                                                                 format = reactable::colFormat(digits = 0),
+                                                                 filterable = TRUE,
+                                                                 filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                            return rows.filter(function(row) {
+                                                                                            return row.values[columnId] == filterValue
+                                                                                            })
+                                                                                            }")
+                                                                 ),
+                                                               Group = reactable::colDef(
+                                                                 filterable = TRUE,
+                                                                 filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                            return rows.filter(function(row) {
+                                                                                            return row.values[columnId] == filterValue
+                                                                                            })
+                                                                                            }")
+                                                               ),
+                                                               Quadrat = reactable::colDef(
+                                                                 filterable = TRUE,
+                                                                 filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                              return rows.filter(function(row) {
+                                                                                              return row.values[columnId] == filterValue
+                                                                                              })
+                                                                                              }")
+                                                                 )
+                                                              )
+                                                            )
       
       return(nvcAssignmentPlot_JaccardTable)
       
@@ -377,12 +381,12 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     bindEvent(nvcAssignmentPlot_Jaccard_rval(),
               nTopResults(),
               ignoreInit = TRUE, 
-              ignoreNULL = TRUE)
+              ignoreNULL = FALSE)
   
   
   outputOptions(output, "nvcAssignmentPlot_JaccardTable", suspendWhenHidden = FALSE)
   
-  # Intialise NVC Assignment Site Czekanowski Table -----------------------
+  # Initialise NVC Assignment Site Czekanowski Table -----------------------
   nvcAssignmentSiteTable_Czekanowski_init <- data.frame("Year" = integer(),
                                                         "Similarity" = numeric(),
                                                         "NVC.Code" = character()
@@ -419,13 +423,18 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   # Update NVC Assignment Site Czekanowski Table --------------------------
   observe({
     
-    
-    shiny::req(nvcAssignmentSite_Czekanowski_rval())
-    
-    nvcAssignmentSite_Czekanowski <- nvcAssignmentSite_Czekanowski_rval() |>
-      dplyr::group_by(Year) |>
-      dplyr::slice(1:nTopResults()) |>
-      dplyr::ungroup()
+    if(!is.null(nvcAssignmentSite_Czekanowski_rval())){
+      
+      nvcAssignmentSite_Czekanowski <- nvcAssignmentSite_Czekanowski_rval() |>
+        dplyr::group_by(Year) |>
+        dplyr::slice(1:nTopResults()) |>
+        dplyr::ungroup()
+      
+    } else if(is.null(nvcAssignmentSite_Czekanowski_rval())){
+      
+      nvcAssignmentSite_Czekanowski <- nvcAssignmentSiteTable_Czekanowski_init
+      
+    }
     
     output$nvcAssignmentSiteTable_Czekanowski <- reactable::renderReactable({
       
@@ -468,7 +477,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     bindEvent(nvcAssignmentSite_Czekanowski_rval(), 
               nTopResults(),
               ignoreInit = TRUE, 
-              ignoreNULL = TRUE)
+              ignoreNULL = FALSE)
   
   
   outputOptions(output, "nvcAssignmentSiteTable_Czekanowski", suspendWhenHidden = FALSE)
@@ -513,12 +522,18 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   # Update NVC Assignment Group CzekanowskiTable ------------------------
   observe({
     
-    req(nvcAssignmentGroup_Czekanowski_rval())
-    
-    nvcAssignmentGroup_Czekanowski <- nvcAssignmentGroup_Czekanowski_rval() |>
-      dplyr::group_by(Year, Group) |>
-      dplyr::slice(1:nTopResults()) |>
-      dplyr::ungroup()
+    if(!is.null(nvcAssignmentGroup_Czekanowski_rval())){
+      
+      nvcAssignmentGroup_Czekanowski <- nvcAssignmentGroup_Czekanowski_rval() |>
+        dplyr::group_by(Year, Group) |>
+        dplyr::slice(1:nTopResults()) |>
+        dplyr::ungroup()
+      
+    } else if(is.null(nvcAssignmentGroup_Czekanowski_rval())){
+      
+      nvcAssignmentGroup_Czekanowski <- nvcAssignmentGroupTable_Czekanowski_init
+      
+    }
     
     output$nvcAssignmentGroupTable_Czekanowski <- reactable::renderReactable({
       
@@ -569,7 +584,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     bindEvent(nvcAssignmentGroup_Czekanowski_rval(),
               nTopResults(),
               ignoreInit = TRUE, 
-              ignoreNULL = TRUE)
+              ignoreNULL = FALSE)
   
   
   outputOptions(output, "nvcAssignmentGroupTable_Czekanowski", suspendWhenHidden = FALSE)
@@ -580,13 +595,20 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   
   observe({
     
-    shiny::req(nvcAssignmentPlot_Jaccard_rval())
+    shiny::req(isTRUE(!is.null(nvcAssignmentPlot_Jaccard_rval()) | !is.null(nvcAssignmentSite_Czekanowski_rval())))
     
-    # Select the top-N fitted commmunities
-    nvcAssignmentPlot_Jaccard <- nvcAssignmentPlot_Jaccard_rval() |>
-      dplyr::group_by(Year, Group, Quadrat) |>
-      dplyr::slice(1:nTopResults()) |>
-      dplyr::ungroup()
+    if(!is.null(nvcAssignmentPlot_Jaccard_rval())){
+      
+      nvcAssignmentPlot_Jaccard <- nvcAssignmentPlot_Jaccard_rval() |>
+        dplyr::group_by(Year, Group, Quadrat) |>
+        dplyr::slice(1:nTopResults()) |>
+        dplyr::ungroup()
+      
+    } else {
+      
+      nvcAssignmentPlot_Jaccard <- NULL
+      
+    }
     
     if(!is.null(nvcAssignmentSite_Czekanowski_rval())){
       
