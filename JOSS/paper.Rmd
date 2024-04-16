@@ -122,7 +122,7 @@ charophyte (*Charophyta*) taxa, along with one unspecified 'algae' taxon present
 in the NVC floristic tables.
 The NVC communities present in `RMAVIS` are composed from @rodwell1991, 
 @rodwell1992, @rodwell1992a, @rodwell1995, @rodwell2000, 
-@wallace2017, and @prosser2023.
+@wallace2017, @prosser2023, and @wallace2023.
 Data for habitat correspondences is derived from: 
 the Joint Nature Conservation Committee (JNCC) Spreadsheet of Habitat 
 Correspondences [@jncc2008],

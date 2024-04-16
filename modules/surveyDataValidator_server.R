@@ -168,7 +168,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     surveyData_speciesNotAccepted <- setdiff(unique(surveyData_long$Species), speciesNames)
 
     # Check whether any cover estimates are supplied
-    surveyData_coverSupplied <- isTRUE(!is.na(unique(surveyData_long$Cover)))
+    surveyData_coverSupplied <- isTRUE(all(!is.na(unique(surveyData_long$Cover))))
 
     # Check whether all cover estimates are supplied
     surveyData_coverSuppliedAll <- isTRUE(all(!is.na(surveyData_long$Cover)))
@@ -177,13 +177,13 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     surveyData_yearComplete <- isTRUE(all(!is.na(surveyData_long$Year)))
 
     # Check whether there is any missing data in the Group column
-    surveyData_groupComplete <- isTRUE(all(!(surveyData_long$Group == "")))
+    surveyData_groupComplete <- isTRUE(all(surveyData_long$Group != ""))
 
     # Check whether there is any missing data in the Quadrat column
-    surveyData_quadratComplete <- isTRUE(all(!(surveyData_long$Quadrat == "")))
+    surveyData_quadratComplete <- isTRUE(all(surveyData_long$Quadrat != ""))
 
     # Check whether there is any missing data in the Species column
-    surveyData_speciesComplete <- isTRUE(all(!(surveyData_long$Species == "")))
+    surveyData_speciesComplete <- isTRUE(all(surveyData_long$Species != ""))
 
     # Check whether there are any species-quadrat double-entries
     surveyData_speciesQuadratUnique_df <- surveyData_long |>

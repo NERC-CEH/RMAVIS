@@ -650,6 +650,9 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     shiny::req(isTRUE(surveyDataValidation()$quadratIDUnique))
     shiny::req(isTRUE(surveyDataValidation()$groupIDUnique))
     
+    # Check whether any and all cover values are supplied
+    coverSupplied <- surveyDataValidation()$coverSupplied
+    
     # isolate({
       
       # Retrieve long survey table
@@ -658,9 +661,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       
       # I currently need this if statement as the surveyDataValidation()$speciesComplete statement isn't being triggered correctly.
       if(all(!is.na(surveyData_long$Species))){
-        
-        # Check whether any and all cover values are supplied
-        coverSupplied <- surveyDataValidation()$coverSupplied
         
         if(coverSupplied == FALSE){
           

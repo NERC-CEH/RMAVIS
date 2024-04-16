@@ -3,13 +3,21 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
-# RMAVIS 1.000 (2024-04-XX)
+# RMAVIS 0.999 (2024-04-16)
 *   Modifications:
-      -   A
+      -   Updating to taxonomic backbone to use BSBI February 2024 taxon list.
+      -   Minimising the number of bundled datasets.
+      -   Removing assignNVC dependency.
 *   Fixes:
-      -   
+      -   Ensuring cover values are passed to surveyData_mat for use in Simpson 
+          diversity indices.
+      -   Ensure all assignment results reset upon Run Analysis, even if not run.
 *   New Features:
       -   Adding option to disable the calculation of similarities for quadrats.
+      -   Adding Scottish oceanic wet grassland communities.
+      -   Ensuring all functions are covered by tests.
+      -   Adding JOSS paper.
+      -   Adding ability to turn quadrat similarities on or off.
       -   Adding Scottish oceanic wet grassland communities.
 
 # RMAVIS 0.995 (2024-04-01)

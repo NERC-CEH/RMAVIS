@@ -20,7 +20,7 @@ affiliations:
     index: 1
   - name: UK Centre for Ecology \& Hydrology, Maclean Building, Benson Lane, Crowmarsh Gifford, Wallingford, Oxfordshire, OX10 8BB, United Kingdom
     index: 2
-date: "2024-04-13"
+date: "2024-04-15"
 bibliography: paper.bib
 output:
   html_document:
@@ -120,7 +120,7 @@ charophyte (*Charophyta*) taxa, along with one unspecified 'algae' taxon present
 in the NVC floristic tables.
 The NVC communities present in `RMAVIS` are composed from @rodwell1991, 
 @rodwell1992, @rodwell1992a, @rodwell1995, @rodwell2000, 
-@wallace2017, and @prosser2023.
+@wallace2017, @prosser2023, and @wallace2023.
 Data for habitat correspondences is derived from: 
 the Joint Nature Conservation Committee (JNCC) Spreadsheet of Habitat 
 Correspondences [@jncc2008],
