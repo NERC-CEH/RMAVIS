@@ -1,6 +1,6 @@
 ---
 title: "RMAVIS - Documentation"
-subtitle: "v0.999"
+subtitle: "v0.9991"
 # output:
 #   bookdown::word_document2:
 # always_allow_html: true
@@ -132,6 +132,7 @@ This option is included to ensure that users who cannot confidently identify
 bryophytes to the species rank, or do not have data where bryophytes
 were confidently recorded can still use RMAVIS without
 false presences or absences unduly skewing the results.
+
 > Caution is advised in excluding bryophyte taxa as bryophytes are key and often
 > highly diagnostic components of many NVC communities.
 

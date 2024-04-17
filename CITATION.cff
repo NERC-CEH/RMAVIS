@@ -23,6 +23,11 @@ authors:
     email: corr@ceh.ac.uk
     affiliation: UKCEH
     orcid: 'https://orcid.org/0000-0001-5070-5293'
+  - given-names: Rob
+    family-names: Marrs
+    email: calluna@liverpool.ac.uk
+    affiliation: University of Liverpool
+    orcid: 'https://orcid.org/0000-0002-0664-9420'
 repository-code: 'https://github.com/ZekeMarshall/RMAVIS'
 abstract: 'A R Shiny application for the assignment of vegetation survey plot data to GB NVC communities with additional exploratory analyses.'
 keywords:

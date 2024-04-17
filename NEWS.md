@@ -3,6 +3,13 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
+# RMAVIS 0.9991 (2024-04-17)
+*   Modifications:
+      -   Updating author list.
+*   Fixes: NA
+*   New Features: NA
+
+
 # RMAVIS 0.999 (2024-04-16)
 *   Modifications:
       -   Updating to taxonomic backbone to use BSBI February 2024 taxon list.
