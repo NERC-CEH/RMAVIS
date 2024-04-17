@@ -9,7 +9,7 @@ authors:
   - name: Zeke Marshall
     orcid: 0000-0001-9260-7827
     affiliation: 1
-  - name: Simon Smart
+  - name: Simon Mark Smart
     orcid: 0000-0003-2750-7832
     affiliation: 1
   - name: Colin Harrower
