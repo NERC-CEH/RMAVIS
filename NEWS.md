@@ -3,7 +3,7 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
-]# RMAVIS 0.9992 (2024-04-17)
+# RMAVIS 0.9992 (2024-04-17)
 *   Modifications:
       -   Updating author list.
 *   Fixes: NA
