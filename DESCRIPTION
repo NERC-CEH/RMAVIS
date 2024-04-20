@@ -23,7 +23,7 @@ Authors@R: c(person(given = "Zeke",
                     role = c("aut"),
                     comment = c(ORCID = "0000-0002-0664-9420")))
 Description: A R Shiny application for the assignment of vegetation survey plot data to GB NVC communities with additional exploratory analyses.
-License: MIT + file LICENSE
+License: CC BY 4.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
