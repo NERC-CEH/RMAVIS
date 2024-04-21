@@ -3,6 +3,12 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
+# RMAVIS 0.9994 (2024-04-21)
+*   Modifications: NA
+*   Fixes: 
+      -   Fixing missing bryophytes following NBN concordance move.
+*   New Features: NA
+
 # RMAVIS 0.9993 (2024-04-21)
 *   Modifications:
       -   Changing licence to CC BY 4.0 ready for v1.

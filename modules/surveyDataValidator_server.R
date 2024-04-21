@@ -135,7 +135,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
     
     surveyData <- surveyData()
     surveyData_original <- surveyData$surveyData_original
-    assign(x = "surveyData_original", value = surveyData_original, envir = .GlobalEnv)
     surveyData_long <- surveyData$surveyData_long
     surveyData_wide <- surveyData$surveyData_wide
     surveyData_mat <- surveyData$surveyData_mat
