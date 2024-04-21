@@ -425,11 +425,13 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     
     isolate({
       
-      surveyData <- rhandsontable::hot_to_r(input$surveyData)
+      surveyData <- rhandsontable::hot_to_r(input$surveyData) |>
+        dplyr::mutate("Quadrat" = as.character(Quadrat))
       
       if(!is.null(reallocateGroupsTable())){
         
-        reallocateGroupsTable <- reallocateGroupsTable()
+        reallocateGroupsTable <- reallocateGroupsTable() |>
+          dplyr::mutate("Quadrat" = as.character(Quadrat))
         
         surveyData_corrected <- surveyData |>
           tibble::as_tibble() |>

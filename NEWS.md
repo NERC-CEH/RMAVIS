@@ -3,6 +3,13 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
+# RMAVIS 0.9993 (2024-04-21)
+*   Modifications:
+      -   Changing licence to CC BY 4.0 ready for v1.
+*   Fixes:
+      -   Fixing issue where group-re-allocation table fails if quadrat ID's are integers.
+*   New Features: NA
+
 # RMAVIS 0.9992 (2024-04-17)
 *   Modifications:
       -   Updating author list.
