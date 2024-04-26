@@ -1,7 +1,7 @@
 Package: RMAVIS
 Title: Assign Vegetation Survey Data to GB NVC Communities
-Version: 0.9994
-Date: 2024-04-21
+Version: 0.9995
+Date: 2024-04-26
 Authors@R: c(person(given = "Zeke",
                     family = "Marshall",
                     role = c("aut", "cre"),
@@ -23,7 +23,7 @@ Authors@R: c(person(given = "Zeke",
                     role = c("aut"),
                     comment = c(ORCID = "0000-0002-0664-9420")))
 Description: A R Shiny application for the assignment of vegetation survey plot data to GB NVC communities with additional exploratory analyses.
-License: CC BY 4.0
+License: LGPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
