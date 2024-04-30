@@ -34,7 +34,7 @@ library(writexl)
 library(vegan)
 
 # Render documentation ----------------------------------------------------
-rmarkdown::render(input = "docs/documentation.Rmd",  output_dir = "www")
+# rmarkdown::render(input = "docs/documentation.Rmd",  output_dir = "www")
 
 # Source sub-modules ------------------------------------------------------
 source("modules/privacy_ui.R", local = TRUE)

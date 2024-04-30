@@ -3,7 +3,7 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
-# RMAVIS 0.9995 (2024-04-30)
+# RMAVIS 0.9996 (2024-04-30)
 *   Modifications:
       -   Adding package dependency references to JOSS paper.
       -   Removing {janitor} dependency.
@@ -13,6 +13,12 @@ output: html_document
           to align with bryophytes and provide a single taxonomic backbone.
 *   Fixes: 
       -   Ensuring author information in DESCRIPTION file are all separated by commas.
+*   New Features: NA
+
+# RMAVIS 0.9995 (2024-04-26)
+*   Modifications:
+      -   Changing licence to the OSI-approved LGPL-3.0 licence to ensure compliance with JOSS.
+*   Fixes: NA
 *   New Features: NA
 
 # RMAVIS 0.9994 (2024-04-21)
