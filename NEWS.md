@@ -3,6 +3,18 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
+# RMAVIS 0.9995 (2024-04-30)
+*   Modifications:
+      -   Adding package dependency references to JOSS paper.
+      -   Removing {janitor} dependency.
+      -   Changing MVA option "Survey Quadrat Change" to "Trajectory".
+      -   Ensuring accepted species are sorted alphabetically.
+      -   Moving to NBN Tracheophyta and Pteridophyta child taxa for vascular plants 
+          to align with bryophytes and provide a single taxonomic backbone.
+*   Fixes: 
+      -   Ensuring author information in DESCRIPTION file are all separated by commas.
+*   New Features: NA
+
 # RMAVIS 0.9994 (2024-04-21)
 *   Modifications: NA
 *   Fixes: 

@@ -384,7 +384,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
           
         )
         
-        if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data)){
+        if("trajectory" %in% dcaVars() & !is.null(arrow_plot_data)){
           
           if(nrow(arrow_plot_data) > 0){
             

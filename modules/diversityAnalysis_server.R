@@ -334,9 +334,13 @@ diversityAnalysis <- function(input, output, session, surveyData, sidebar_option
         dplyr::left_join(speciesRichness_site_long, by = "Year") |>
         dplyr::rename("Gamma" = "Richness") |>
         dplyr::mutate("Beta" = (Gamma / Alpha.Mean) - 1) |>
-        base::t() |>
-        janitor::row_to_names(row = 1) |>
-        tibble::as_tibble(rownames = "Metric")
+        base::t() 
+      
+      colnames(summaryTable) <- summaryTable[1,]
+
+      summaryTable <- summaryTable |>
+        tibble::as_tibble(rownames = "Metric") |>
+        dplyr::filter(Metric != "Year")
       
       # Shannon Diversity
       shannonDiversity <- surveyData_mat |>

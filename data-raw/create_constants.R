@@ -123,7 +123,7 @@ dcaVars_options <- c("Survey Quadrats" = "surveyQuadrats",
                      "Species" = "species",
                      "Unique Survey Species" = "uniqSurveySpecies",
                      "Hill-Ellenberg" = "hillEllenberg",
-                     "Survey Quadrat Change" = "surveyQuadratChange")
+                     "Trajectory" = "trajectory")
 
 # CCA options -------------------------------------------------------------
 ccaVars_vals <- list("FN" = c("F", "N"),
@@ -197,8 +197,7 @@ reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAss
 
 
 # Save all constants as internal data -------------------------------------
-usethis::use_data(taxonomicBackboneMethod_options,
-                  inputMethod_options,
+usethis::use_data(inputMethod_options,
                   example_data_options,
                   dataEntryFormat_options,
                   constancyConversion,

@@ -388,7 +388,7 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
           
         )
         
-        if("surveyQuadratChange" %in% dcaVars() & !is.null(arrow_plot_data) & !is.null(dca_results_sample_site_selected)){
+        if("trajectory" %in% dcaVars() & !is.null(arrow_plot_data) & !is.null(dca_results_sample_site_selected)){
           
           if(nrow(arrow_plot_data) > 0){
             

@@ -49,7 +49,8 @@ nvc_pquads_wide <- readRDS(file = "./inst/extdata/nvc_pquads_wide.rds")
 usethis::use_data(nvc_pquads_wide, overwrite = TRUE)
 
 # Accepted Species data ---------------------------------------------------
-acceptedSpecies <- readRDS(file = "./inst/extdata/acceptedSpecies.rds")
+acceptedSpecies <- readRDS(file = "./inst/extdata/acceptedSpecies.rds") |>
+  dplyr::arrange(Accepted_Species)
 usethis::use_data(acceptedSpecies, overwrite = TRUE)
 
 # Concordance data --------------------------------------------------------

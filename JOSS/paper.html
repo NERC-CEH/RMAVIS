@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2024-04-18" />
+<meta name="date" content="2024-04-30" />
 
 <title>RMAVIS v1.0: a R Shiny application for the analysis of vegetation survey data and assignment to GB NVC communities.</title>
 
@@ -374,7 +374,7 @@ display: none;
 <h1 class="title toc-ignore"><code>RMAVIS</code> v1.0: a R Shiny
 application for the analysis of vegetation survey data and assignment to
 GB NVC communities.</h1>
-<h4 class="date">2024-04-18</h4>
+<h4 class="date">2024-04-30</h4>
 
 </div>
 
@@ -522,28 +522,29 @@ the trajectory of all sample plots from the Leith Hill Wood example
 dataset in the ordination spaces over time.</div>
 </div>
 </div>
-<div id="data-sources" class="section level1">
-<h1>Data sources</h1>
+<div id="data-sources-and-dependencies" class="section level1">
+<h1>Data sources and dependencies</h1>
 <p><code>RMAVIS</code> depends on a number of individual datasets. The
 list of accepted species was constructed using the vascular plant
-(<em>Tracheophyta</em>) taxa present in the Botanical Society of Britain
-and Ireland’s (BSBI) database <span class="citation">(BSBI 2024)</span>;
-filtered to include taxa at the genus, species, hybrid species, and
-subspecies ranks which have an associated UK Species Inventory (UKSI)
-Taxon Version Key (TVK); the moss (<em>Bryophyta</em>), liverwort
-(<em>Marchantiophyta</em>), and hornwort (<em>Anthocerotophyta</em>)
-taxa present in the UKSI, retrieved from the National Biodiversity
-Network (NBN), filtered to include taxa at the species, species
-aggregate, subspecies, species sensu lato, and genus ranks; and the
-limited number of lichen (<em>Lecanoromycetes</em>) and charophyte
-(<em>Charophyta</em>) taxa, along with one unspecified ‘algae’ taxon
-present in the NVC floristic tables. The NVC communities present in
-<code>RMAVIS</code> are composed from <span class="citation">Rodwell
-(1991)</span>, <span class="citation">Rodwell (1992a)</span>, <span class="citation">Rodwell (1992b)</span>, <span class="citation">Rodwell
-(1995)</span>, <span class="citation">Rodwell (2000)</span>, <span class="citation">Wallace and Prosser (2017)</span>, <span class="citation">Prosser, Wallace, and Gowing (2023)</span>, and <span class="citation">Wallace et al. (2023)</span>. Data for habitat
-correspondences is derived from: the Joint Nature Conservation Committee
-(JNCC) Spreadsheet of Habitat Correspondences <span class="citation">(JNCC 2008)</span>, UKHab V1.1 <span class="citation">(Butcher et al. 2020)</span>, and the National Plant
-Monitoring Scheme (NPMS) habitat correspondences <span class="citation">(Pescott et al. 2019)</span>. Data for the vascular
+(<em>Tracheophyta</em> and <em>Pteridophyta</em>), moss
+(<em>Bryophyta</em>), liverwort (<em>Marchantiophyta</em>), and hornwort
+(<em>Anthocerotophyta</em>) taxa present in the UKSI, retrieved from the
+National Biodiversity Network (NBN), <span class="citation">(NBN Trust
+2024d, 2024e, 2024b, 2024c, 2024a)</span> filtered to include taxa at
+the species, species hybrid, species aggregate, subspecies, species
+sensu lato, and genus ranks; and the limited number of lichen
+(<em>Lecanoromycetes</em>) and charophyte (<em>Charophyta</em>) taxa,
+along with one unspecified ‘algae’ taxon present in the NVC floristic
+tables. The NVC communities present in <code>RMAVIS</code> are composed
+from <span class="citation">Rodwell (1991)</span>, <span class="citation">Rodwell (1992a)</span>, <span class="citation">Rodwell
+(1992b)</span>, <span class="citation">Rodwell (1995)</span>, <span class="citation">Rodwell (2000)</span>, <span class="citation">Wallace
+and Prosser (2017)</span>, <span class="citation">Prosser, Wallace, and
+Gowing (2023)</span>, and <span class="citation">Wallace et al.
+(2023)</span>. Data for habitat correspondences is derived from: the
+Joint Nature Conservation Committee (JNCC) Spreadsheet of Habitat
+Correspondences <span class="citation">(JNCC 2008)</span>, UKHab V1.1
+<span class="citation">(Butcher et al. 2020)</span>, and the National
+Plant Monitoring Scheme (NPMS) habitat correspondences <span class="citation">(Pescott et al. 2019)</span>. Data for the vascular
 plant Hill-Ellenberg values were retrieved from the BSBI checklists,
 specifically the Nitrogen Score (N) <span class="citation">(BSBI
 2017c)</span>, Moisture Score (F) <span class="citation">(BSBI
@@ -558,6 +559,18 @@ Place Wood <span class="citation">(Wood, Smart, and Bunce 2015; Smart et
 al. 2024)</span>, 3) Whitwell Common <span class="citation">(Smart
 2000)</span>, and 4) Newborough Warren <span class="citation">(Wallace
 and Jones 2018)</span>.</p>
+<p><code>RMAVIS</code> depends on the <code>rhandsontable</code> <span class="citation">(Owen 2021)</span>, <code>reactable</code> <span class="citation">(Lin 2024)</span>, <code>bslib</code> <span class="citation">(Sievert, Cheng, and Aden-Buie 2024)</span>,
+<code>shinyWidgets</code> <span class="citation">(Perrier, Meyer, and
+Granjon 2024)</span>, <code>shinyjs</code> <span class="citation">(Attali 2023)</span>, <code>shinybusy</code> <span class="citation">(Meyer and Perrier 2024)</span>, <code>rmarkdown</code>
+<span class="citation">(Allaire et al. 2023)</span>,
+<code>bookdown</code> <span class="citation">(Xie 2024)</span>,
+<code>tidyverse</code> <span class="citation">(Wickham et al.
+2019)</span>, <code>plotly</code> <span class="citation">(Sievert
+2020)</span>, <code>kableExtra</code> <span class="citation">(Zhu
+2024)</span>, <code>writexl</code> <span class="citation">(Ooms
+2024)</span>,<br />
+and <code>vegan</code> <span class="citation">(Oksanen et al.
+2022)</span> R packages.</p>
 </div>
 <div id="conclusion" class="section level1">
 <h1>Conclusion</h1>
@@ -585,6 +598,16 @@ Parsonage Down example dataset.</p>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>
 <div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-allaire2023" class="csl-entry">
+Allaire, JJ, Yihui Xie, Christophe Dervieux, Jonathan McPherson, Javier
+Luraschi, Kevin Ushey, Aron Atkins, et al. 2023. <span>“Rmarkdown:
+<span>Dynamic Documents</span> for <span>R</span>.”</span> <a href="https://github.com/rstudio/rmarkdown">https://github.com/rstudio/rmarkdown</a>.
+</div>
+<div id="ref-attali2023" class="csl-entry">
+Attali, Dean. 2023. <span>“Shinyjs: <span>Easily Improve</span> the
+<span>User Experience</span> of <span>Your Shiny Apps</span> in
+<span>Seconds</span>.”</span> <a href="https://deanattali.com/shinyjs/">https://deanattali.com/shinyjs/</a>.
+</div>
 <div id="ref-bsbi2017ellenbergR" class="csl-entry">
 BSBI. 2017a. <span>“Ellenberg Indicator r (Reaction).”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1m1&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1m1&amp;class=ChecklistInstance</a>.
 </div>
@@ -599,10 +622,6 @@ BSBI. 2017a. <span>“Ellenberg Indicator r (Reaction).”</span> <a href="https
 </div>
 <div id="ref-bsbi2017ellenbergL" class="csl-entry">
 ———. 2017e. <span>“Ellenberg Indicator l (Light).”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1v7&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1v7&amp;class=ChecklistInstance</a>.
-</div>
-<div id="ref-bsbi2024TaxonLists" class="csl-entry">
-———. 2024. <span>“Taxon Lists Botanical Society of Britain &amp;
-Ireland.”</span> <a href="https://bsbi.org/taxon-lists" class="uri">https://bsbi.org/taxon-lists</a>.
 </div>
 <div id="ref-bunce1999" class="csl-entry">
 Bunce, R. G. H., C. J. Barr, M. K. Gillespie, D. C. Howard, W. A. Scott,
@@ -655,6 +674,10 @@ al. 2023. <span>“Wallace 2: A Shiny App for Modeling Species Niches and
 Distributions Redesigned to Facilitate Expansion via Module
 Contributions.”</span> <em>Ecography</em> 2023 (3): e06547. <a href="https://doi.org/10.1111/ecog.06547">https://doi.org/10.1111/ecog.06547</a>.
 </div>
+<div id="ref-lin2024" class="csl-entry">
+Lin, Greg. 2024. <span>“Reactable: <span>Interactive Data Tables</span>
+for <span>R</span>.”</span> <a href="https://glin.github.io/reactable/">https://glin.github.io/reactable/</a>.
+</div>
 <div id="ref-maciejewski2020" class="csl-entry">
 Maciejewski, Lise, Paulina E. Pinto, Stéphanie Wurpillot, Jacques
 Drapier, Serge Cadet, Serge Muller, Pierre Agou, Benoît Renaux, and
@@ -673,6 +696,43 @@ Programs for the Identification of Vegetation Types According to the
 <span>British National Vegetation Classification Includes</span>
 Software.”</span> Other. <span>Wallingford</span>: <span>Centre for
 Ecology &amp; Hydrology</span>. <a href="https://www.ceh.ac.uk/sites/default/files/Tablefit-Aug2016.zip">https://www.ceh.ac.uk/sites/default/files/Tablefit-Aug2016.zip</a>.
+</div>
+<div id="ref-meyer2024" class="csl-entry">
+Meyer, Fanny, and Victor Perrier. 2024. <span>“Shinybusy: <span>Busy
+Indicators</span> and <span>Notifications</span> for
+’<span>Shiny</span>’ <span>Applications</span>.”</span> <a href="https://github.com/dreamRs/shinybusy">https://github.com/dreamRs/shinybusy</a>.
+</div>
+<div id="ref-nbn2024Anthocerotophyta" class="csl-entry">
+NBN Trust. 2024a. <span>“Anthocerotophyta Child Taxa.”</span> <a href="https://species.nbnatlas.org/species/NHMSYS0021386659#classification">https://species.nbnatlas.org/species/NHMSYS0021386659#classification</a>.
+</div>
+<div id="ref-nbn2024Bryophyta" class="csl-entry">
+———. 2024b. <span>“Bryophyta Child Taxa.”</span> <a href="https://species.nbnatlas.org/species/NBNSYS0000172125#classification">https://species.nbnatlas.org/species/NBNSYS0000172125#classification</a>.
+</div>
+<div id="ref-nbn2024Marchantiophyta" class="csl-entry">
+———. 2024c. <span>“Marchantiophyta Child Taxa.”</span> <a href="https://species.nbnatlas.org/species/NHMSYS0020796639#classification">https://species.nbnatlas.org/species/NHMSYS0020796639#classification</a>.
+</div>
+<div id="ref-nbn2024Pteridophyta" class="csl-entry">
+———. 2024d. <span>“Pteridophyta Child Taxa.”</span> <a href="https://species.nbnatlas.org/species/NHMSYS0001747256#classification">https://species.nbnatlas.org/species/NHMSYS0001747256#classification</a>.
+</div>
+<div id="ref-nbn2024Tracheophyta" class="csl-entry">
+———. 2024e. <span>“Tracheophyta Child Taxa.”</span> <a href="https://species.nbnatlas.org/species/NHMSYS0020787695#classification">https://species.nbnatlas.org/species/NHMSYS0020787695#classification</a>.
+</div>
+<div id="ref-oksanen2022" class="csl-entry">
+Oksanen, Jari, Gavin Simpson, Peter Solymos, Leo Lahti, Geoffrey
+Hannigan, James Weedon, Eduard Szöcs, et al. 2022. <span>“Vegan:
+<span>Community Ecology Package</span>.”</span> Zenodo. <a href="https://doi.org/10.5281/zenodo.7185692">https://doi.org/10.5281/zenodo.7185692</a>.
+</div>
+<div id="ref-ooms2024" class="csl-entry">
+Ooms, Jeroen. 2024. <span>“Writexl: <span>Export Data Frames</span> to
+<span>Excel</span> ’Xlsx’ <span>Format</span>.”</span> <a href="https://ropensci.r-universe.dev/writexl https://docs.ropensci.org/writexl/">https://ropensci.r-universe.dev/writexl
+https://docs.ropensci.org/writexl/</a>.
+</div>
+<div id="ref-owen2021" class="csl-entry">
+Owen, Jonathan. 2021. <span>“Rhandsontable.”</span> <a href="https://github.com/jrowen/rhandsontable">https://github.com/jrowen/rhandsontable</a>.
+</div>
+<div id="ref-perrier2024" class="csl-entry">
+Perrier, Victor, Fanny Meyer, and David Granjon. 2024. <span>“<span class="nocase">shinyWidgets</span>: <span>Custom Inputs Widgets</span>
+for <span>Shiny</span>.”</span> <a href="https://github.com/dreamRs/shinyWidgets">https://github.com/dreamRs/shinyWidgets</a>.
 </div>
 <div id="ref-perrin2019a" class="csl-entry">
 Perrin, P. 2019. <span>“<span>ERICA</span> - <span>Engine</span> for
@@ -749,6 +809,16 @@ Press. <a href="https://doi.org/10.1017/CBO9780511541834">https://doi.org/10.101
 Handbook</em>. Joint Nature Conservation Committee (JNCC) Peterborough.
 <a href="https://data.jncc.gov.uk/data/a407ebfc-2859-49cf-9710-1bde9c8e28c7/JNCC-NVC-UsersHandbook-2006.pdf">https://data.jncc.gov.uk/data/a407ebfc-2859-49cf-9710-1bde9c8e28c7/JNCC-NVC-UsersHandbook-2006.pdf</a>.
 </div>
+<div id="ref-sievert2020" class="csl-entry">
+Sievert, Carson. 2020. <em>Interactive <span>Web-Based Data
+Visualization</span> with <span>R</span>, Plotly, and Shiny</em>. New
+York: <span>Chapman and Hall/CRC</span>. <a href="https://doi.org/10.1201/9780429447273">https://doi.org/10.1201/9780429447273</a>.
+</div>
+<div id="ref-sievert2024" class="csl-entry">
+Sievert, Carson, Joe Cheng, and Garrick Aden-Buie. 2024. <span>“Bslib:
+<span>Custom</span> ’<span>Bootstrap</span>’ ’<span>Sass</span>’
+<span>Themes</span> for ’Shiny’ and ’Rmarkdown’.”</span> <a href="https://rstudio.github.io/bslib/">https://rstudio.github.io/bslib/</a>.
+</div>
 <div id="ref-smart2000" class="csl-entry">
 Smart, S. M. 2000. <span>“Ecological Assessment of Vegetation from a
 Nature Reserve Using Regional Reference Data and Indicator
@@ -788,10 +858,25 @@ Wallace, Hilary, and Mike Prosser. 2017. <span>“A Review of the National
 Vegetation Classification for the Calthion Group of Plant Communities in
 England and Wales (JP021).”</span> Natural England. <a href="https://publications.naturalengland.org.uk/publication/5839929072943104">https://publications.naturalengland.org.uk/publication/5839929072943104</a>.
 </div>
+<div id="ref-wickham2019" class="csl-entry">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy
+D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019.
+<span>“Welcome to the <span>Tidyverse</span>.”</span> <em>Journal of
+Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
 <div id="ref-wood2015" class="csl-entry">
 Wood, C. M., S. M. Smart, and R. G. H. Bunce. 2015. <span>“Woodland
 Survey of Great Britain 1971-2001.”</span> <em>Earth System Science
 Data</em> 7 (2): 203–14. <a href="https://doi.org/10.5194/essd-7-203-2015">https://doi.org/10.5194/essd-7-203-2015</a>.
+</div>
+<div id="ref-xie2024" class="csl-entry">
+Xie, Yihui. 2024. <span>“Bookdown: <span>Authoring Books</span> and
+<span>Technical Documents</span> with <span>R Markdown</span>.”</span>
+<a href="https://github.com/rstudio/bookdown">https://github.com/rstudio/bookdown</a>.
+</div>
+<div id="ref-zhu2024" class="csl-entry">
+Zhu, Hao. 2024. <span>“<span class="nocase">kableExtra</span>.”</span>
+<a href="https://github.com/haozhu233/kableExtra">https://github.com/haozhu233/kableExtra</a>.
 </div>
 </div>
 </div>

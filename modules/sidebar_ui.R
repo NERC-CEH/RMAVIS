@@ -1108,7 +1108,7 @@ sidebarUI <- function(id){
                 - 'Species': the DCA scores of the species.
                 - 'Unique Survey Species': the DCA scores of the species unique to the survey data, but absent from the best fitting NVC communities pseudo-quadrats (Local Reference (unrestricted) only).
                 - 'Hill-Ellenberg': the CCA result axis scores for the Hill-Ellenberg selected in the 'CCA Variables' option.
-                - 'Survey Quadrat Change': arrows drawn between each quadrat by year, showing the movement of the quadrat in the ordination space.
+                - 'Trajectory': arrows drawn between each set of selected sample plots by year, showing thetrajectory of the sample plots in the ordination space.
                 
                 Please see the documentation for more details.
                 "

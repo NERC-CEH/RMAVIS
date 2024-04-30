@@ -109,20 +109,17 @@ modules summarised in the following table.
 knitr::include_graphics("joss_screenshot.png") 
 ``` 
 
-# Data sources
+# Data sources and dependencies
 
 `RMAVIS` depends on a number of individual datasets.
 The list of accepted species was constructed using 
-the vascular plant (*Tracheophyta*) taxa present in the 
-Botanical Society of Britain and Ireland's (BSBI) database 
-[@bsbi2024TaxonLists];
-filtered to include taxa at the genus, species, hybrid species, and subspecies 
-ranks which have an associated UK Species Inventory (UKSI) Taxon Version Key 
-(TVK); the moss (*Bryophyta*), liverwort (*Marchantiophyta*), 
-and hornwort (*Anthocerotophyta*) taxa present in the UKSI, 
-retrieved from the National Biodiversity Network (NBN), filtered to include taxa 
-at the species, species aggregate, subspecies, species sensu lato, 
-and genus ranks; and the limited number of lichen (*Lecanoromycetes*) and 
+the vascular plant (*Tracheophyta* and *Pteridophyta*), moss (*Bryophyta*), 
+liverwort (*Marchantiophyta*), and hornwort (*Anthocerotophyta*) taxa present in 
+the UKSI, retrieved from the National Biodiversity Network (NBN), 
+[@nbn2024Pteridophyta; @nbn2024Tracheophyta; @nbn2024Bryophyta; 
+@nbn2024Marchantiophyta; @nbn2024Anthocerotophyta] filtered to 
+include taxa at the species, species hybrid, species aggregate, subspecies, 
+species sensu lato, and genus ranks; and the limited number of lichen (*Lecanoromycetes*) and 
 charophyte (*Charophyta*) taxa, along with one unspecified 'algae' taxon present 
 in the NVC floristic tables.
 The NVC communities present in `RMAVIS` are composed from @rodwell1991, 
@@ -146,6 +143,21 @@ Four example datasets are bundled with `RMAVIS`:
 3) Whitwell Common [@smart2000],
 and
 4) Newborough Warren [@wallace2018].
+
+`RMAVIS` depends on the 
+`rhandsontable` [@owen2021], 
+`reactable` [@lin2024], 
+`bslib` [@sievert2024], 
+`shinyWidgets` [@perrier2024], 
+`shinyjs` [@attali2023], 
+`shinybusy` [@meyer2024], 
+`rmarkdown` [@allaire2023], 
+`bookdown` [@xie2024], 
+`tidyverse` [@wickham2019], 
+`plotly` [@sievert2020], 
+`kableExtra` [@zhu2024],
+`writexl` [@ooms2024],  
+and `vegan` [@oksanen2022] R packages. 
 
 # Conclusion
 

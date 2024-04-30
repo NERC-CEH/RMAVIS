@@ -1,6 +1,6 @@
 ---
 title: "RMAVIS - Documentation"
-subtitle: "v0.9994"
+subtitle: "v0.9995"
 # output:
 #   bookdown::word_document2:
 # always_allow_html: true
@@ -255,18 +255,14 @@ The clear table button resets the survey data input table.
 
 The list of species available for entry is currently composed of:
 
--   The vascular plant (Tracheophyta) taxa present in the Botanical
-    Society of Britain and Ireland's database [@bsbi2024TaxonLists];
-    filtered to include taxa at the "genus", "species", "hybrid
-    species", and "subspecies" ranks which have an associated UK Species
-    Inventory (UKSI) Taxon Version Keys (TVK).
--   The moss (Bryophyta), liverwort (Marchantiophyta), and hornwort
-    (Anthocerotophyta) taxa present in the UKSI, retrieved from the
-    National Biodiversity Network (NBN), filtered to include taxa at the
-    "species", "species aggregate", "subspecies", "species sensu lato",
-    and "genus" ranks.
--   The limited number of lichen, charophyte, and algae taxa present in the NVC 
-    floristic tables.
+-   The vascular plant (Tracheophyta & Pteridophyta), moss (Bryophyta),
+    liverwort (Marchantiophyta), and hornwort (Anthocerotophyta) taxa present in 
+    the UKSI, retrieved from the National Biodiversity Network (NBN), filtered 
+    to include taxa at the "species", "species hybrid", "species aggregate",
+    "subspecies", "species sensu lato", and "genus" ranks 
+    [@nbn2024Pteridophyta; @nbn2024Tracheophyta; @nbn2024Bryophyta; @nbn2024Marchantiophyta; @nbn2024Anthocerotophyta].
+-   The limited number of lichen, charophyte, and algae taxa present in the 
+    NVC floristic tables.
 
 ## NVC Assignment
 
