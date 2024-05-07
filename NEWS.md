@@ -3,6 +3,13 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
+# RMAVIS 0.9997 (2024-05-06)
+*   Modifications:
+      -   Updating minimum R version to R 4.4 to address security concerns. Note
+          that R 4.4.0 does not actually fix this, see here: https://aitap.github.io/2024/05/02/unserialize.html
+*   Fixes: NA
+*   New Features: NA
+
 # RMAVIS 0.9996 (2024-04-30)
 *   Modifications:
       -   Adding package dependency references to JOSS paper.
