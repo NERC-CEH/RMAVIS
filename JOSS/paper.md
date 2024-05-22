@@ -25,7 +25,7 @@ affiliations:
     index: 2
   - name: School of Environmental Sciences, University of Liverpool, Liverpool, L69 3GP, UK
     index: 3
-date: "2024-04-30"
+date: "2024-05-22"
 bibliography: paper.bib
 output:
   html_document:
@@ -83,7 +83,7 @@ modelling R shiny application `wallace` [@kass2023], we constructed `RMAVIS` wit
 a modular architecture, enabling both the easy maintenance of existing modules, 
 and easy development of additional modules in the future.
 
-`RMAVIS` currently contains a total of eighteen modules, with the fourteen main 
+`RMAVIS` currently contains a total of nineteen modules, with the fourteen main 
 modules summarised in the following table.
 
 |        **Module**       |                                                          **Description**                                                          |
@@ -117,9 +117,9 @@ the UKSI, retrieved from the National Biodiversity Network (NBN),
 [@nbn2024Pteridophyta; @nbn2024Tracheophyta; @nbn2024Bryophyta; 
 @nbn2024Marchantiophyta; @nbn2024Anthocerotophyta] filtered to 
 include taxa at the species, species hybrid, species aggregate, subspecies, 
-species sensu lato, and genus ranks; and the limited number of lichen (*Lecanoromycetes*) and 
-charophyte (*Charophyta*) taxa, along with one unspecified 'algae' taxon present 
-in the NVC floristic tables.
+species sensu lato, and genus ranks; 
+and the limited number of lichen (*Lecanoromycetes*), charophyte (*Charophyta*), 
+and alga (*Algae*) taxa present in the NVC floristic tables.
 The NVC communities present in `RMAVIS` are composed from @rodwell1991, 
 @rodwell1992, @rodwell1992a, @rodwell1995, @rodwell2000, 
 @wallace2017, @prosser2023, and @wallace2023.
@@ -150,6 +150,7 @@ and
 `shinyjs` [@attali2023], 
 `shinybusy` [@meyer2024], 
 `rmarkdown` [@allaire2023], 
+`markdown` [@xie2023],
 `bookdown` [@xie2024], 
 `tidyverse` [@wickham2019], 
 `plotly` [@sievert2020], 

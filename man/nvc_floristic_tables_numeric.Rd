@@ -5,7 +5,7 @@
 \alias{nvc_floristic_tables_numeric}
 \title{The NVC floristic tables with numeric constancy values}
 \format{
-A data frame with 49781 rows and 3 columns, the definitions of which are:
+A data frame with 50135 rows and 3 columns, the definitions of which are:
 \describe{
 \item{Species}{The name of the taxon in a given floristic table.}
 \item{NVC.Code}{The code of the NVC community.}

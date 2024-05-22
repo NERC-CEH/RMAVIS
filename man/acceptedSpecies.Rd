@@ -5,7 +5,7 @@
 \alias{acceptedSpecies}
 \title{The taxa accepted by RMAVIS}
 \format{
-A data frame with 16500 rows and 3 columns, the definitions of which are:
+A data frame with 11252 rows and 2 columns, the definitions of which are:
 \describe{
 \item{Accepted_Species}{The taxon names accepted by RMAVIS.}
 \item{BSBI_taxonId}{The BSBI taxonId associated with the accepted taxon, vascular plants only.}

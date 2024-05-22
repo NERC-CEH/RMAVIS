@@ -218,7 +218,7 @@ sidebar <- function(input, output, session,
         id = "validatesurveyDataDataModal",
         footer = shiny::modalButton("Close"),
         size = "xl",
-        easyClose = FALSE,
+        easyClose = TRUE,
         fade = TRUE,
         
         surveyDataValidatorUI(id = "surveyDataValidator_id_1")
@@ -268,7 +268,7 @@ sidebar <- function(input, output, session,
         id = "uploadDataModal",
         footer = shiny::modalButton("Close"),
         size = "xl",
-        easyClose = FALSE,
+        easyClose = TRUE,
         fade = TRUE,
         
         uploadDataUI(id = "uploadData_id_1"),

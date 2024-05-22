@@ -1,6 +1,6 @@
 ---
 title: "RMAVIS - Documentation"
-subtitle: "v0.9997"
+subtitle: "v0.9998"
 # output:
 #   bookdown::word_document2:
 # always_allow_html: true
@@ -266,6 +266,8 @@ The list of species available for entry is currently composed of:
 
 ## NVC Assignment
 
+### Similarity Indices
+
 In `RMAVIS` NVC community similarities are assigned to survey data for the
 site and each group of plots by year using the Czekanowski quantitative
 coefficient of similarity [@bloom1981; @hill1989],
@@ -304,7 +306,10 @@ and the converse for $c$ (${X \cup Y}$).
 > Please note that Site and Group similarities will not be calculated
 > for Years and Year-Group combinations with less than 5 sample plots
 
-The pseudo-quadrat method as outlined in @tipping2013
+### Pseudo-Quadrat Methodology
+
+The pseudo-quadrat method as outlined in @tipping2013 and
+first developed in @rushton1996 and @critchley2002
 uses a Bernoulli trial to determine the presence or
 absence of each species, with the probability of a successful trial
 equal to the relative frequency of occurrence of each species in a NVC
@@ -342,6 +347,9 @@ sources:
 -   A new MG community (MG16) [@wallace2017].
 -   A new set of Scottish Oceanic Wet Grassland Communities as
     described in @wallace2023.
+    
+Communities for which no floristic tables were produced and are therefore
+unavailable in `RMAVIS` are: A6, M30, M36, SM27, and W6c.
 
 ### Options
 

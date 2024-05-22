@@ -29,151 +29,160 @@ ui <- bslib::page_navbar(
    ),
   
   id = "nav",
-  
-  sidebar = sidebarUI(id = "sidebar_id_1"),
 
   tags$head(includeCSS("www/style.css")),
   
-  shinyjs::useShinyjs(),
-  
   bslib::nav_spacer(),
+  
+  bslib::nav_panel(
+    
+    "Home",
+    
+    homeUI(id = "home_id_1")
+    
+  ),
     
   bslib::nav_panel(
     
     "Application",
     
-    bslib::navset_card_tab(
+    bslib::layout_sidebar(
+
+      sidebar = sidebarUI(id = "sidebar_id_1"),
       
-      bslib::nav_panel(
+      bslib::navset_card_tab(
         
-        full_screen = TRUE,
-        
-        bslib::card_header("Data Input"),
-        
-        value = "surveyData_panel",
-        
-        surveyDataUI(id = "surveyData_id_1")
-        
-      ),
-      
-      bslib::nav_panel(
-        
-        full_screen = TRUE,
-        
-        bslib::card_header("Data Structure"),
-        
-        value = "dataStructure_panel",
-        
-        surveyDataSummaryUI(id = "surveyDataSummary_id_1")
-        
-      ),
-      
-      bslib::nav_panel(
-        
-        full_screen = TRUE,
-        
-        value = "nvcAssignment_panel",
-        
-        bslib::card_header("NVC Assignment"),
-        
-        nvcAssignmentUI(id = "nvcAssignment_id_1")
-        
-      ),
-      
-      bslib::nav_panel(
-        
-        full_screen = TRUE,
-        
-        value = "habCor_panel",
-        
-        bslib::card_header("Habitat Correspondence"),
-        
-        habCorUI(id = "habCor_id_1")
-        
-      ),
-      
-      bslib::nav_panel(
-        
-        full_screen = TRUE,
-        
-        value = "floristicTables_panel",
-        
-        bslib::card_header("Floristic Tables"),
-        
-        floristicTablesUI(id = "floristicTables_id_1")
-        
-      ),
-      
-      bslib::nav_panel(
-        
-        full_screen = TRUE,
-        
-        value = "speciesFreq_panel",
-        
-        bslib::card_header("Frequency"),
-        
-        speciesFreqUI(id = "speciesFreq_id_1")
-        
-      ),
-      
-      bslib::nav_panel(
-        
-        full_screen = TRUE,
-        
-        value = "eivs_panel",
-        
-        bslib::card_header("EIVs"),
-        
-        calcAvgEIVsUI(id = "calcAvgEIVs_id_1")
-        
-      ),
-      
-      bslib::nav_panel(
-        
-        full_screen = TRUE,
-        
-        value = "diversity_panel",
-        
-        bslib::card_header("Diversity"),
-        
-        diversityAnalysisUI(id = "diversityAnalysis_id_1")
-        
-      ),
-      
-      bslib::nav_panel(
-        
-        full_screen = TRUE,
-        
-        value = "mva_panel",
-        
-        bslib::card_header("MVA"),
-        
-        bslib::layout_columns(
+        bslib::nav_panel(
           
-          col_widths = c(6, 6, 6),
+          full_screen = TRUE,
           
-          row_heights = c(1, 1),
+          bslib::card_header("Data Input"),
           
-          fill = FALSE,
+          value = "surveyData_panel",
           
-          fillable = TRUE,
+          surveyDataUI(id = "surveyData_id_1")
           
-          mvaNationalRefUI(id = "mvaNationalRef_id_1"),
+        ),
+        
+        bslib::nav_panel(
           
-          mvaLocalRefRestrictedUI(id = "mvaLocalRefRestricted_id_1"),
+          full_screen = TRUE,
           
-          mvaLocalRefUnrestrictedUI(id = "mvaLocalRefUnrestricted_id_1")
+          bslib::card_header("Data Structure"),
           
+          value = "dataStructure_panel",
+          
+          surveyDataSummaryUI(id = "surveyDataSummary_id_1")
+          
+        ),
+        
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "nvcAssignment_panel",
+          
+          bslib::card_header("NVC Assignment"),
+          
+          nvcAssignmentUI(id = "nvcAssignment_id_1")
+          
+        ),
+        
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "habCor_panel",
+          
+          bslib::card_header("Habitat Correspondence"),
+          
+          habCorUI(id = "habCor_id_1")
+          
+        ),
+        
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "floristicTables_panel",
+          
+          bslib::card_header("Floristic Tables"),
+          
+          floristicTablesUI(id = "floristicTables_id_1")
+          
+        ),
+        
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "speciesFreq_panel",
+          
+          bslib::card_header("Frequency"),
+          
+          speciesFreqUI(id = "speciesFreq_id_1")
+          
+        ),
+        
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "eivs_panel",
+          
+          bslib::card_header("EIVs"),
+          
+          calcAvgEIVsUI(id = "calcAvgEIVs_id_1")
+          
+        ),
+        
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "diversity_panel",
+          
+          bslib::card_header("Diversity"),
+          
+          diversityAnalysisUI(id = "diversityAnalysis_id_1")
+          
+        ),
+        
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "mva_panel",
+          
+          bslib::card_header("MVA"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(6, 6, 6),
+            
+            row_heights = c(1, 1),
+            
+            fill = FALSE,
+            
+            fillable = TRUE,
+            
+            mvaNationalRefUI(id = "mvaNationalRef_id_1"),
+            
+            mvaLocalRefRestrictedUI(id = "mvaLocalRefRestricted_id_1"),
+            
+            mvaLocalRefUnrestrictedUI(id = "mvaLocalRefUnrestricted_id_1")
+            
+          )
         )
       )
-    )
+
+    ),
+    
   ),
   
   bslib::nav_panel(
     
     "NVC Lookup",
-    
-    value = "nvcInfo",
     
     bslib::card(
       

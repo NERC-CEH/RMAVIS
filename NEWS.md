@@ -3,6 +3,22 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
+# RMAVIS 0.9998 (2024-05-22)
+*   Modifications:
+      -   Improving the README and including it in a home page of the app.
+      -   Adding ability to close modal popups by clicking outside the modal.
+      -   Transferring repository to NERC-CEH organisation.
+      -   Setting documentation iframe to 85vh.
+      -   Removing BRC_old and BRC_new from `RMAVIS::concordance` as it is currently incomplete.
+      -   Changing names in `RMAVIS::concordance`: "assignNVCName" -> "originalTaxonName"
+          and "proposedSpecies" -> "rmavisTaxonName".
+      -   Updating JOSS paper to reflect the addition of the Alage taxa present
+          in SM1.
+      -   Moving Options sidebar to application nav_panel only.
+*   Fixes:
+      -   Fixing issue where changing the cover scale does not trigger re-validation.
+*   New Features: NA
+
 # RMAVIS 0.9997 (2024-05-06)
 *   Modifications:
       -   Updating minimum R version to R 4.4 to address security concerns. Note

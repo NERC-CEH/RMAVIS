@@ -53,7 +53,7 @@ setupData <- function(input, output, session, sidebar_options) {
       
       plant_species <- RMAVIS::concordance |>
         dplyr::filter(TaxonGroup == "Vascular Plants") |>
-        dplyr::pull(proposedSpecies)
+        dplyr::pull(rmavisTaxonName)
      
       species_names_selected <- RMAVIS::acceptedSpecies[["Accepted_Species"]][RMAVIS::acceptedSpecies[["Accepted_Species"]] %in% plant_species] 
       

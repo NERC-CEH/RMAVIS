@@ -1,7 +1,8 @@
 # To run app --------------------------------------------------------------
-# 1. Ensure the dependencies are installed by running `renv::activate()` and 
+# 1. Install {renv} with `install.packages("renv")`
+# 2. Ensure the dependencies are installed by running `renv::activate()` and 
 #    `renv::restore()`
-# 2. Run the app with `shiny::runApp("app.R")`
+# 3. Run the app with `shiny::runApp("app.R")`
 
 # Silence dplyr::summarise() messages -------------------------------------
 options(dplyr.summarise.inform = FALSE)
@@ -23,6 +24,7 @@ library(shinyjs)
 library(shinybusy)
 
 # General
+library(markdown)
 library(rmarkdown)
 library(bookdown)
 library(tidyverse)
@@ -37,6 +39,8 @@ library(vegan)
 # rmarkdown::render(input = "docs/documentation.Rmd",  output_dir = "www")
 
 # Source sub-modules ------------------------------------------------------
+source("modules/home_ui.R", local = TRUE)
+
 source("modules/privacy_ui.R", local = TRUE)
 
 source("modules/documentation_ui.R", local = TRUE)

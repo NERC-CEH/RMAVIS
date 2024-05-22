@@ -292,7 +292,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
   }) |>
     bindEvent(surveyData(),
               speciesNames(),
-              # coverScale(),
+              coverScale(),
               input$adjustSpecies,
               speciesAdjustmentTable_rval(),
               ignoreInit = TRUE,

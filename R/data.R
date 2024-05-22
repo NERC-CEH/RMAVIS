@@ -74,8 +74,8 @@
 #'   \item{bsbiTaxonId}{The BSBI taxon ID}
 #'   \item{TVK}{The United Kingdom Species Inventory (UKSI) Taxon Version Key (TVK)}
 #'   \item{ddb_name}{The taxon name as present in the BSBI database.}
-#'   \item{assignNVCSpecies}{The taxon name as present in assignNVC}
-#'   \item{proposedSpecies}{The proposed species name - the name used in RMAVIS}
+#'   \item{originalTaxonName}{The taxon name as present in the original NVC volumes.}
+#'   \item{rmavisTaxonName}{The taxon name as present in RMAVIS}
 #'   \item{TaxonGroup}{The name of the taxonomic group that species belongs to.}
 #' }
 "concordance"               

@@ -5,7 +5,7 @@
 \alias{master_data}
 \title{Hill-Ellenberg values for vascular plant and bryophyte taxa.}
 \format{
-A data frame with 3096 rows and 6 columns, the definitions of which are:
+A data frame with 3097 rows and 6 columns, the definitions of which are:
 \describe{
 \item{species}{The taxon name}
 \item{F}{The Hill-Ellnberg moisture score}

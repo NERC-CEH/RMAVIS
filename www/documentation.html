@@ -1712,7 +1712,7 @@ border-radius: 0px;
 
 
 <h1 class="title toc-ignore">RMAVIS - Documentation</h1>
-<h3 class="subtitle">v0.9997</h3>
+<h3 class="subtitle">v0.9998</h3>
 
 </div>
 
@@ -1906,6 +1906,8 @@ NVC floristic tables.</li>
 </div>
 <div id="nvc-assignment" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> NVC Assignment</h2>
+<div id="similarity-indices" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Similarity Indices</h3>
 <p>In <code>RMAVIS</code> NVC community similarities are assigned to survey data for the
 site and each group of plots by year using the Czekanowski quantitative
 coefficient of similarity <span class="citation">(<a href="#ref-bloom1981">Bloom 1981</a>; <a href="#ref-hill1989">Hill 1989</a>)</span>,
@@ -1939,7 +1941,11 @@ and the converse for <span class="math inline">\(c\)</span> (<span class="math i
 <p>Please note that Site and Group similarities will not be calculated
 for Years and Year-Group combinations with less than 5 sample plots</p>
 </blockquote>
-<p>The pseudo-quadrat method as outlined in <span class="citation">Tipping et al. (<a href="#ref-tipping2013">2013</a>)</span>
+</div>
+<div id="pseudo-quadrat-methodology" class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Pseudo-Quadrat Methodology</h3>
+<p>The pseudo-quadrat method as outlined in <span class="citation">Tipping et al. (<a href="#ref-tipping2013">2013</a>)</span> and
+first developed in <span class="citation">Rushton et al. (<a href="#ref-rushton1996">1996</a>)</span> and <span class="citation">Critchley et al. (<a href="#ref-critchley2002">2002</a>)</span>
 uses a Bernoulli trial to determine the presence or
 absence of each species, with the probability of a successful trial
 equal to the relative frequency of occurrence of each species in a NVC
@@ -1955,8 +1961,9 @@ used to define the original unit, with the exception of the Scottish oceanic
 wet grassland communities for which 25 pseudo-quadrats were generated, which
 represents the estimated optimum.
 Work to determine the optimum number of pseudo-quadrats is ongoing.</p>
-<div id="communities" class="section level3" number="2.2.1">
-<h3><span class="header-section-number">2.2.1</span> Communities</h3>
+</div>
+<div id="communities" class="section level3" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> Communities</h3>
 <p>The NVC communities available in <code>RMAVIS</code> are composed from the following
 sources:</p>
 <ul>
@@ -1977,9 +1984,11 @@ described in <span class="citation">Hillary Wallace and Prosser (<a href="#ref-w
 <li>A new set of Scottish Oceanic Wet Grassland Communities as
 described in <span class="citation">Hilary Wallace et al. (<a href="#ref-wallace2023">2023</a>)</span>.</li>
 </ul>
+<p>Communities for which no floristic tables were produced and are therefore
+unavailable in <code>RMAVIS</code> are: A6, M30, M36, SM27, and W6c.</p>
 </div>
-<div id="options-1" class="section level3" number="2.2.2">
-<h3><span class="header-section-number">2.2.2</span> Options</h3>
+<div id="options-1" class="section level3" number="2.2.4">
+<h3><span class="header-section-number">2.2.4</span> Options</h3>
 <p><strong>Assign Quadrats</strong></p>
 <p>Optionally calculate similarity values for individual quadrats.
 If the user only wishes to assign NVC community similarity values for
@@ -2605,6 +2614,9 @@ Butcher, B, P Carey, R Edmonds, L Norton, and J Treweek. 2020. <span>“UK Habit
 <div id="ref-cieem2022" class="csl-entry">
 CIEEM. 2022. <span>“Guidelines for Ecological Impact Assessment in the UK and Ireland. Terrestrial, Freshwater, Coastal and Marine. September 2018. Version 1.2 - Updates April 2022.”</span> PDF. <a href="https://cieem.net/wp-content/uploads/2018/08/ECIA-Guidelines-2018-Terrestrial-Freshwater-Coastal-and-Marine-V1.2-April-22-Compressed.pdf">https://cieem.net/wp-content/uploads/2018/08/ECIA-Guidelines-2018-Terrestrial-Freshwater-Coastal-and-Marine-V1.2-April-22-Compressed.pdf</a>.
 </div>
+<div id="ref-critchley2002" class="csl-entry">
+Critchley, C. N. R., B. J. Chambers, J. A. Fowbert, R. A. Sanderson, A. Bhogal, and S. C. Rose. 2002. <span>“Association Between Lowland Grassland Plant Communities and Soil Properties.”</span> <em>Biological Conservation</em> 105 (2): 199–215. <a href="https://doi.org/10.1016/S0006-3207(01)00183-5">https://doi.org/10.1016/S0006-3207(01)00183-5</a>.
+</div>
 <div id="ref-dengler2023" class="csl-entry">
 Dengler, Jürgen, and Iwona Dembicz. 2023. <span>“Should We Estimate Plant Cover in Percent or on Ordinal Scales?”</span> <em>Vegetation Classification and Survey</em> 4 (July): 131–38. <a href="https://doi.org/10.3897/VCS.98379">https://doi.org/10.3897/VCS.98379</a>.
 </div>
@@ -2679,6 +2691,9 @@ Rodwell, J. S., ed. 1991. <em>British <span>Plant Communities</span>: <span>Volu
 </div>
 <div id="ref-rodwell2006national" class="csl-entry">
 ———. 2006. <em>National Vegetation Classification: Users’ Handbook</em>. Joint Nature Conservation Committee (JNCC) Peterborough. <a href="https://data.jncc.gov.uk/data/a407ebfc-2859-49cf-9710-1bde9c8e28c7/JNCC-NVC-UsersHandbook-2006.pdf">https://data.jncc.gov.uk/data/a407ebfc-2859-49cf-9710-1bde9c8e28c7/JNCC-NVC-UsersHandbook-2006.pdf</a>.
+</div>
+<div id="ref-rushton1996" class="csl-entry">
+Rushton, S. P., R. A. Sanderson, J Wildig, and J. P. Byrne. 1996. <span>“The Effects of Grazing Management on Moorland Vegetation: A Comparison of Farm Unit, Grazing Paddock and Plot Experiments Using a Community Modelling Approach.”</span> In <em>Vegetation Management in Forestry, Amenity and Conservation Areas: <span>Managing</span> for Multiple Objectives</em>, 44:211–19. University of York, York, UK.: Aspects of Applied Biology.
 </div>
 <div id="ref-smart2000" class="csl-entry">
 Smart, S. M. 2000. <em>Biodiversity and Conservation</em> 9 (6): 811–32. <a href="https://doi.org/10.1023/a:1008948602316">https://doi.org/10.1023/a:1008948602316</a>.

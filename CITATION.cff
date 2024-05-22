@@ -28,7 +28,7 @@ authors:
     email: calluna@liverpool.ac.uk
     affiliation: University of Liverpool
     orcid: 'https://orcid.org/0000-0002-0664-9420'
-repository-code: 'https://github.com/ZekeMarshall/RMAVIS'
+repository-code: 'https://github.com/NERC-CEH/RMAVIS'
 abstract: 'A R Shiny application for the assignment of vegetation survey plot data to GB NVC communities with additional exploratory analyses.'
 keywords:
   - NVC

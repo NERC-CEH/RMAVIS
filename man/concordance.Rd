@@ -5,13 +5,13 @@
 \alias{concordance}
 \title{Concordance information for taxon names present in RMAVIS}
 \format{
-A data frame with 16500 rows and 6 columns, the definitions of which are:
+A data frame with 11277 rows and 8 columns, the definitions of which are:
 \describe{
 \item{bsbiTaxonId}{The BSBI taxon ID}
 \item{TVK}{The United Kingdom Species Inventory (UKSI) Taxon Version Key (TVK)}
 \item{ddb_name}{The taxon name as present in the BSBI database.}
-\item{assignNVCSpecies}{The taxon name as present in assignNVC}
-\item{proposedSpecies}{The proposed species name - the name used in RMAVIS}
+\item{originalTaxonName}{The taxon name as present in the original NVC volumes.}
+\item{rmavisTaxonName}{The taxon name as present in RMAVIS}
 \item{TaxonGroup}{The name of the taxonomic group that species belongs to.}
 }
 }
