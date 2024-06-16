@@ -9,7 +9,7 @@
 #' RMAVIS::runApp()
 runApp <- function() {
   
-  appDir <- system.file("app", "rmavis_app.R", package = "RMAVIS")
+  appDir <- system.file("app", "app.R", package = "RMAVIS")
   
   if(appDir == ""){
     

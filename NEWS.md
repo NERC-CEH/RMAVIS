@@ -10,7 +10,7 @@ output: html_document
       -   Bundling app files into ./inst/app
 *   Fixes:
       -   Streamlining dependencies, see the imports listed in DESCRIPTION and packages loaded in
-          ./inst/app/rmavis_app.R
+          ./inst/app/app.R
 *   New Features:
       -   Adding News section.
       -   Adding function to run app (`RMAVIS::runApp()`).
