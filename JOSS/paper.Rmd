@@ -74,7 +74,8 @@ and
 We developed `RMAVIS` considering these needs, with the view to providing
 a reliable system for use by the GB ecology and conservation community, 
 analogous to the Engine for Relevés to Irish Communities Assignment (ERICA)
-tool [@perrin2018; @perrin2019a] developed for Ireland.
+tool [@perrin2018; @perrin2019a] developed for Ireland, and the EuroVegChecklist
+Expert System (EVC-ES) [@mucina2016a] developed for Europe.
 
 # Application structure
 
