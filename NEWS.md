@@ -3,12 +3,14 @@ title: "Release notes for `RMAVIS`"
 output: html_document
 ---
 
-# RMAVIS 0.999 (2024-06-16)
+# RMAVIS 1.0 (2024-06-16)
 *   Modifications:
       -   Updating README to include instructions on installing a LaTeX distribution using `{tinytex}`.
       -   Removing Dockerfile and docker-compose.yml as they are currently superfluous.
       -   Bundling app files into ./inst/app
-*   Fixes: NA
+*   Fixes:
+      -   Streamlining dependencies, see the imports listed in DESCRIPTION and packages loaded in
+          ./inst/app/rmavis_app.R
 *   New Features:
       -   Adding News section.
       -   Adding function to run app (`RMAVIS::runApp()`).

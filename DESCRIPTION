@@ -1,6 +1,6 @@
 Package: RMAVIS
 Title: Assign Vegetation Survey Data to GB NVC Communities
-Version: 0.999
+Version: 1.0
 Date: 2024-06-16
 Authors@R: c(person(given = "Zeke",
                     family = "Marshall",
@@ -29,21 +29,32 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 LazyDataCompression: xz
 Imports:
-  shiny,
-  rhandsontable,
-  reactable,
-  bslib,
-  shinyWidgets,
-  shinyjs,
-  shinybusy,
-  markdown,
-  rmarkdown,
   bookdown,
-  tidyverse,
-  plotly,
+  bsicons,
+  bslib,
+  dplyr,
+  ggplot2,
+  htmltools,
+  htmlwidgets,
   kableExtra,
-  writexl,
-  vegan
+  knitr,
+  magrittr,
+  markdown,
+  plotly,
+  purrr,
+  reactable,
+  readr,
+  rhandsontable,
+  rmarkdown,
+  shiny,
+  shinybusy,
+  shinyjs,
+  shinyWidgets,
+  stringr,
+  tibble,
+  tidyr,
+  vegan,
+  writexl
 Suggests:
   testthat
 URL: https://github.com/NERC-CEH/RMAVIS

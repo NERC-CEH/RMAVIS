@@ -145,20 +145,33 @@ Four example datasets are bundled with `RMAVIS`:
 and
 4) Newborough Warren [@wallace2018].
 
-`RMAVIS` depends on the 
-`rhandsontable` [@owen2021], 
-`reactable` [@lin2024], 
-`bslib` [@sievert2024], 
-`shinyWidgets` [@perrier2024], 
-`shinyjs` [@attali2023], 
-`shinybusy` [@meyer2024], 
-`rmarkdown` [@allaire2023], 
-`markdown` [@xie2023],
-`bookdown` [@xie2024], 
-`tidyverse` [@wickham2019], 
-`plotly` [@sievert2020], 
+Version 1.0 of `RMAVIS` was built under R 4.4.0 [@rcoreteam] and depends on the 
+`bookdown` [@xie2024],
+`bsicons` [@sievert2023],
+`bslib` [@sievert2024],
+`dplyr` [@wickham2019],
+`ggplot2` [@wickham2019],
+`htmltools` [@cheng2024],
+`htmlwidgets` [@vaidyanathan2023],
 `kableExtra` [@zhu2024],
-`writexl` [@ooms2024], and `vegan` [@oksanen2022] R packages. 
+`knitr` [@xie2024],
+`magrittr` [@stefan2022],
+`markdown` [@xie2023],
+`plotly` [@sievert2020],
+`purrr` [@wickham2019],
+`reactable` [@lin2024],
+`readr` [@wickham2019],
+`rhandsontable` [@owen2021],
+`rmarkdown` [@allaire2023],
+`shiny` [@chang2024],
+`shinybusy` [@meyer2024],
+`shinyjs` [@attali2023],
+`shinyWidgets` [@perrier2024],
+`stringr`[@wickham2019],
+`tibble` [@wickham2019],
+`tidyr` [@wickham2019],
+`vegan` [@oksanen2022],
+`writexl` [@ooms2024] R packages. 
 
 # Conclusion
 

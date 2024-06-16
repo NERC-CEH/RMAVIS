@@ -9,28 +9,39 @@ options(shiny.autoload.r = FALSE)
 
 # Check required packages -------------------------------------------------
 # renv::dependencies()$Package |> unique() |> sort()
+# The dependencies returned from the code above are listed below with the
+# exception of: base, grid (part of base), grDevices (part of base), renv, 
+# RMAVIS, rsconnect, testthat, tools, and usethis
+# These are also the packages that should be recorded as Imports in the 
+# DESCRIPTION file
 
 # Load required packages --------------------------------------------------
-# Shiny-related
-library(shiny)
-library(rhandsontable)
-library(reactable)
-library(bslib)
-library(shinyWidgets)
-library(shinyjs)
-library(shinybusy)
-
-# General
-library(markdown)
-library(rmarkdown)
 library(bookdown)
-library(tidyverse)
-library(plotly)
+library(bsicons)
+library(bslib)
+library(dplyr)
+library(ggplot2)
+library(htmltools)
+library(htmlwidgets)
 library(kableExtra)
-library(writexl)
-
-# Ecology
+library(knitr)
+library(magrittr)
+library(markdown)
+library(plotly)
+library(purrr)
+library(reactable)
+library(readr)
+library(rhandsontable)
+library(rmarkdown)
+library(shiny)
+library(shinybusy)
+library(shinyjs)
+library(shinyWidgets)
+library(stringr)
+library(tibble)
+library(tidyr)
 library(vegan)
+library(writexl)
 
 # Render documentation ----------------------------------------------------
 # rmarkdown::render(input = "./inst/app/docs/documentation.Rmd",  output_dir = "./inst/app/www")
