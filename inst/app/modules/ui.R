@@ -204,6 +204,14 @@ ui <- bslib::page_navbar(
   ),
   
   bslib::nav_panel(
+
+    "News",
+
+    newsUI(id = "news_id_1")
+
+  ),
+  
+  bslib::nav_panel(
     
     "Privacy",
     

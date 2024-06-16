@@ -188,7 +188,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("coverScale"),
                                   label = "Cover Scale",
-                                  choices = coverScale_options,
+                                  choices = RMAVIS:::coverScale_options,
                                   selected = "percentage",
                                   multiple = FALSE),
             
@@ -1198,11 +1198,10 @@ sidebarUI <- function(id){
                                                    "composedFloristicTablesSite", 
                                                    "speciesFrequencyTable"),
                                       options = shinyWidgets::pickerOptions(
-                                        dropdownAlignRight = TRUE#,
-                                        # showContent = FALSE
+                                        dropdownAlignRight = TRUE
                                       ),
                                       choicesOpt = list(
-                                        style = rep_len("font-size: 75%; line-height: 1.6;", length(unlist(reportOptions_options)))
+                                        style = rep_len("font-size: 75%; line-height: 1.6;", length(unlist(RMAVIS:::reportOptions_options)))
                                       ),
                                       multiple = TRUE
             ),

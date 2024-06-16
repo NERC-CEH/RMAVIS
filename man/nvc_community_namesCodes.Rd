@@ -5,7 +5,7 @@
 \alias{nvc_community_namesCodes}
 \title{NVC community names and codes.}
 \format{
-A data frame with 896 rows and 2 columns, the definitions of which are:
+A data frame with 897 rows and 2 columns, the definitions of which are:
 \describe{
 \item{NVC.Code}{The code associated with the NVC community named in the NVC.Name column.}
 \item{NVC.Name}{The name of each NVC community.}

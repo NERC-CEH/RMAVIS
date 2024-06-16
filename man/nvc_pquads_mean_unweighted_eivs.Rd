@@ -5,7 +5,7 @@
 \alias{nvc_pquads_mean_unweighted_eivs}
 \title{The mean unweighted Hill-Ellenberg values for all pseudo-quadrats}
 \format{
-A data frame with 57716 rows and 6 columns, the definitions of which are:
+A data frame with 57630 rows and 6 columns, the definitions of which are:
 \describe{
 \item{Pid3}{The pseudo-quadrat ID.}
 \item{F}{The mean unweighted Hill-Ellenberg moisture value}

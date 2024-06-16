@@ -2,6 +2,7 @@
 
 export(composeSyntopicTables)
 export(read_mavis_data)
+export(runApp)
 export(similarityCzekanowski)
 export(similarityJaccard)
 export(subset_nvcData)

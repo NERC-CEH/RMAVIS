@@ -5,7 +5,7 @@
 \alias{nvc_pquad_dca_centroids}
 \title{The centroids of each NVC communities pseudo-quadrats}
 \format{
-A data frame with 888 rows and 5 columns, the definitions of which are:
+A data frame with 886 rows and 5 columns, the definitions of which are:
 \describe{
 \item{NVC}{The NVC community code.}
 \item{DCA1}{The DCA scores for axis 1.}

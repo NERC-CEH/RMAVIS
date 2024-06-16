@@ -5,7 +5,7 @@
 \alias{nvc_pquads_wide}
 \title{The pseudo-quadrats for each NVC community in wide format}
 \format{
-A data frame with 57716 rows and 1648 columns.
+A data frame with 57630 rows and 1677 columns.
 }
 \usage{
 nvc_pquads_wide

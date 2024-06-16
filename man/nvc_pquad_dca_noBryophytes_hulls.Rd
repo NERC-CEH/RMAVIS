@@ -5,7 +5,7 @@
 \alias{nvc_pquad_dca_noBryophytes_hulls}
 \title{Two dimensional hulls for each NVC communities pseudo-quadrats, excluding bryophytes}
 \format{
-A data frame with 25962 rows and 7 columns, the definitions of which are:
+A data frame with 25973 rows and 7 columns, the definitions of which are:
 \describe{
 \item{NVC}{The NVC community code.}
 \item{Quadrat}{The code of the pseudo-quadrat which forms part of the perimeter of the hull drawn from all pseudo-quadrats in that given NVC community.}

@@ -5,7 +5,7 @@
 \alias{concordance}
 \title{Concordance information for taxon names present in RMAVIS}
 \format{
-A data frame with 11277 rows and 8 columns, the definitions of which are:
+A data frame with 11281 rows and 6 columns, the definitions of which are:
 \describe{
 \item{bsbiTaxonId}{The BSBI taxon ID}
 \item{TVK}{The United Kingdom Species Inventory (UKSI) Taxon Version Key (TVK)}

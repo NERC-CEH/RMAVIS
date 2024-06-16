@@ -79,11 +79,11 @@ tool [@perrin2018; @perrin2019a] developed for Ireland.
 # Application structure
 
 Inspired by the extensible structure of the species niche and distribution 
-modelling R shiny application `wallace` [@kass2023], we constructed `RMAVIS` with 
-a modular architecture, enabling both the easy maintenance of existing modules, 
-and easy development of additional modules in the future.
+modelling R shiny application `wallace` [@kass2023], we constructed `RMAVIS` 
+with a modular architecture, facilitating both the maintenance of existing 
+modules and development of new modules with ease.
 
-`RMAVIS` currently contains a total of nineteen modules, with the fourteen main 
+`RMAVIS` currently contains a total of twenty-one modules, with the fourteen main 
 modules summarised in the following table.
 
 |        **Module**       |                                                          **Description**                                                          |
@@ -115,13 +115,14 @@ knitr::include_graphics("joss_screenshot.png")
 The list of accepted species was constructed using 
 the vascular plant (*Tracheophyta* and *Pteridophyta*), moss (*Bryophyta*), 
 liverwort (*Marchantiophyta*), and hornwort (*Anthocerotophyta*) taxa present in 
-the UKSI, retrieved from the National Biodiversity Network (NBN), 
+the UKSI [@raper2015], retrieved from the National Biodiversity Network (NBN), 
 [@nbn2024Pteridophyta; @nbn2024Tracheophyta; @nbn2024Bryophyta; 
 @nbn2024Marchantiophyta; @nbn2024Anthocerotophyta] filtered to 
 include taxa at the species, species hybrid, species aggregate, subspecies, 
 species sensu lato, and genus ranks; 
-and the limited number of lichen (*Lecanoromycetes*), charophyte (*Charophyta*), 
-and alga (*Algae*) taxa present in the NVC floristic tables.
+along with  the limited number of lichen (*Lecanoromycetes*), 
+charophyte (*Charophyta*), and alga (*Algae*) taxa present in the NVC floristic 
+tables.
 The NVC communities present in `RMAVIS` are composed from @rodwell1991, 
 @rodwell1992, @rodwell1992a, @rodwell1995, @rodwell2000, 
 @wallace2017, @prosser2023, and @wallace2023.
@@ -157,8 +158,7 @@ and
 `tidyverse` [@wickham2019], 
 `plotly` [@sievert2020], 
 `kableExtra` [@zhu2024],
-`writexl` [@ooms2024],  
-and `vegan` [@oksanen2022] R packages. 
+`writexl` [@ooms2024], and `vegan` [@oksanen2022] R packages. 
 
 # Conclusion
 

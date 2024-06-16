@@ -1,6 +1,6 @@
 ---
 title: "RMAVIS - Documentation"
-subtitle: "v0.9998"
+subtitle: "v0.999"
 # output:
 #   bookdown::word_document2:
 # always_allow_html: true

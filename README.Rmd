@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 # RMAVIS
 
 <!-- badges: start -->
-[![Generic badge](https://img.shields.io/badge/Version-0.9998-green.svg)]()
+[![Generic badge](https://img.shields.io/badge/Version-0.999-green.svg)]()
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![DOI](https://zenodo.org/badge/722095560.svg)](https://zenodo.org/badge/latestdoi/722095560)
 [![status](https://joss.theoj.org/papers/460c6f934a108fcf5a16d0f2ab77492e/status.svg)](https://joss.theoj.org/papers/460c6f934a108fcf5a16d0f2ab77492e)
@@ -39,39 +39,32 @@ There are 5 main sections in `RMAVIS` at present.
 
 **Application** - The core of `RMAVIS`, containing the actual application.
 
-**NVC Lookup** - Contains a searchable table of NVC codes and names, which can be used to retrieve the full name of an NVC community using an NVC community or sub-community code.
+**NVC Lookup** - Contains a searchable table, which can be used to retrieve the full name of an NVC community using an NVC community or sub-community code.
 
 **Documentation** - Provides a more detailed overview of the underlying methods, data sources, and usage instructions.
 
+**News** - Contains the release log and additional news regarding the development and maintenance of `RMAVIS`.
+
 **Privacy** - A privacy notice.
 
-## Installation
+## Running Locally
 
 In addition to accessing `RMAVIS` via the web `RMAVIS` can be run on your personal device and installed as an R package.
-
-### Running Locally
 
 To run RMAVIS locally take the following steps.
 
 1.  Ensure R >= 4.4 is installed.
-2.  Clone the repository from https://github.com/NERC-CEH/RMAVIS.
-3.  Navigate to the RMAVIS folder.
-4.  From the R terminal:
-    a.    Install `{renv}` with `install.packages("renv")`.
-    b.    Run `renv::activate()` then `renv::restore()` to install the required dependencies.
-    d.    Run `shiny::runApp("app.R")` to start the app.
+2.  Install `RMAVIS` using `remotes::install_github("NERC-CEH/RMAVIS")`
+3.  Run `install.packages("tinytex")` then `tinytex::install_tinytex()` to install a minimal LaTeX distribution.
+    This is required to generate a pdf report.
+4.  From the R terminal run `RMAVIS::runApp()`.
 
-### Package Installation
-
-To install `RMAVIS` as a package run `remotes::install_github("NERC-CEH/RMAVIS")`.
+If you wish to use the NVC-matching functions outside of the `RMAVIS` app, 
+these are also made available through the `RMAVIS` package.
 
 ## Reccomended Citation
 
 To reference `RMAVIS` please cite the JOSS paper (in prep)...
-
-```
-
-```
 
 Alternatively, use either the Zenodo DOI for all versions as follows:
 
