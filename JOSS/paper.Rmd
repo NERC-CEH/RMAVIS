@@ -170,7 +170,7 @@ Version 1.0 of `RMAVIS` was built under R 4.4.0 [@rcoreteam] and depends on the
 `stringr`[@wickham2019],
 `tibble` [@wickham2019],
 `tidyr` [@wickham2019],
-`vegan` [@oksanen2022],
+`vegan` [@oksanen2022], and
 `writexl` [@ooms2024] R packages. 
 
 # Conclusion
