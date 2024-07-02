@@ -158,7 +158,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       
       cover_type <- "dropdown"
       cover_format <- NULL
-      cover_source <- domin_options
+      cover_source <- RMAVIS:::domin_options
       surveyData_reset <- surveyData_long_init |>
         dplyr::mutate(Cover = as.factor("+"))
       
@@ -166,7 +166,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       
       cover_type <- "dropdown"
       cover_format <- NULL
-      cover_source <- braunBlanquet_options
+      cover_source <- RMAVIS:::braunBlanquet_options
       surveyData_reset <- surveyData_long_init |>
         dplyr::mutate(Cover = as.factor("+"))
       
@@ -300,13 +300,13 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
 
         cover_type <- "dropdown"
         cover_format <- NULL
-        cover_source <- domin_options
+        cover_source <- RMAVIS:::domin_options
 
       } else if(coverScale == "braunBlanquet"){
 
         cover_type <- "dropdown"
         cover_format <- NULL
-        cover_source <- braunBlanquet_options
+        cover_source <- RMAVIS:::braunBlanquet_options
 
       }
       
@@ -506,13 +506,13 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       
       cover_type <- "dropdown"
       cover_format <- NULL
-      cover_source <- domin_options
+      cover_source <- RMAVIS:::domin_options
       
     } else if(coverScale == "braunBlanquet"){
       
       cover_type <- "dropdown"
       cover_format <- NULL
-      cover_source <- braunBlanquet_options
+      cover_source <- RMAVIS:::braunBlanquet_options
       
     }
     

@@ -56,7 +56,8 @@ To run RMAVIS locally take the following steps.
 2.  Install `RMAVIS` using `remotes::install_github("NERC-CEH/RMAVIS")`
 3.  Run `install.packages("tinytex")` then `tinytex::install_tinytex()`
     to install a minimal LaTeX distribution. This is required to
-    generate a pdf report.
+    generate a pdf report. Note that this is only required if you do not
+    have a LaTeX distribution already installed.
 4.  From the R terminal run `RMAVIS::runApp()`.
 
 If you wish to use the NVC-matching functions outside of the `RMAVIS`
