@@ -50,7 +50,7 @@ and in ecological restoration by providing a proxy for historical reference
 ecosystems to target and against which to measure restoration progress 
 [@pywell2002; @gann2019; @sturbois2023].
 
-In the Great Britain (GB) the development of computational methods and programs 
+In Great Britain (GB) the development of computational methods and programs 
 for the assignment of vegetation survey data to NVC communities began with the 
 development of TABLEFIT [@hill1989; @marrs2019] and was followed by MATCH 
 [@malloch1998].
