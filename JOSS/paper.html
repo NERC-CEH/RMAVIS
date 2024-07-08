@@ -10,9 +10,9 @@
 
 
 
-<meta name="date" content="2024-07-02" />
+<meta name="date" content="2024-07-08" />
 
-<title>RMAVIS v1.0: a R Shiny application for the analysis of vegetation survey data and assignment to GB NVC communities.</title>
+<title>RMAVIS v1.0: a Shiny application for the analysis of vegetation survey data and assignment to GB NVC communities.</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -372,17 +372,17 @@ display: none;
 
 
 
-<h1 class="title toc-ignore"><code>RMAVIS</code> v1.0: a R Shiny
+<h1 class="title toc-ignore"><code>RMAVIS</code> v1.0: a Shiny
 application for the analysis of vegetation survey data and assignment to
 GB NVC communities.</h1>
-<h4 class="date">2024-07-02</h4>
+<h4 class="date">2024-07-08</h4>
 
 </div>
 
 
 <div id="summary" class="section level1">
 <h1>Summary</h1>
-<p><code>RMAVIS</code> is a R Shiny application for the assignment of
+<p><code>RMAVIS</code> is a Shiny application for the assignment of
 vegetation sample plot data to British National Vegetation
 Classification (NVC) communities <span class="citation">(Rodwell 1991,
 1992a, 1992b, 1995, 2000)</span>.</p>
@@ -410,7 +410,7 @@ Goodwin, and Wallace 2016)</span>.</p>
 </div>
 <div id="statement-of-need" class="section level1">
 <h1>Statement of need</h1>
-<p>The requirement for a new program in the form of a R Shiny <span class="citation">(Chang et al. 2024)</span> application arises from
+<p>The requirement for a new program in the form of a Shiny <span class="citation">(Chang et al. 2024)</span> application arises from
 several needs, namely to: 1) accommodate updates to the NVC; 2) provide
 a means to easily reproduce and attribute the results of the NVC
 assignment process; 3) broaden and simplify access through the provision
@@ -562,32 +562,33 @@ al. 2024)</span>, 3) Whitwell Common <span class="citation">(Smart
 2000)</span>, and 4) Newborough Warren <span class="citation">(Wallace
 and Jones 2018)</span>.</p>
 <p>Version 1.0 of <code>RMAVIS</code> was built under R 4.4.0 <span class="citation">(R Core Team 2024)</span> and depends on the
-<code>bookdown</code> <span class="citation">(Xie 2024)</span>,
-<code>bsicons</code> <span class="citation">(Sievert, PBC, and Otto
-2023)</span>, <code>bslib</code> <span class="citation">(Sievert, Cheng,
-and Aden-Buie 2024)</span>, <code>dplyr</code> <span class="citation">(Wickham et al. 2019)</span>, <code>ggplot2</code>
-<span class="citation">(Wickham et al. 2019)</span>,
+<code>bookdown</code> <span class="citation">(Xie, Dervieux, et al.
+2024)</span>, # DONE <code>bsicons</code> <span class="citation">(Sievert, PBC, and Otto 2023)</span>, # DONE
+<code>bslib</code> <span class="citation">(Sievert et al. 2024)</span>,
+# DONE <code>dplyr</code> <span class="citation">(Wickham et al.
+2019)</span>, # DONE <code>ggplot2</code> <span class="citation">(Wickham et al. 2019)</span>, # DONE
 <code>htmltools</code> <span class="citation">(Cheng et al.
-2024)</span>, <code>htmlwidgets</code> <span class="citation">(Vaidyanathan et al. 2023)</span>,
-<code>kableExtra</code> <span class="citation">(Zhu 2024)</span>,
-<code>knitr</code> <span class="citation">(Xie 2024)</span>,
-<code>magrittr</code> <span class="citation">(Stefan et al.
-2022)</span>, <code>markdown</code> <span class="citation">(Xie
-2023)</span>, <code>plotly</code> <span class="citation">(Sievert
-2020)</span>, <code>purrr</code> <span class="citation">(Wickham et al.
-2019)</span>, <code>reactable</code> <span class="citation">(Lin
-2024)</span>, <code>readr</code> <span class="citation">(Wickham et al.
-2019)</span>, <code>rhandsontable</code> <span class="citation">(Owen
-2021)</span>, <code>rmarkdown</code> <span class="citation">(Allaire et
-al. 2023)</span>, <code>shiny</code> <span class="citation">(Chang et
-al. 2024)</span>, <code>shinybusy</code> <span class="citation">(Meyer
-and Perrier 2024)</span>, <code>shinyjs</code> <span class="citation">(Attali 2023)</span>, <code>shinyWidgets</code> <span class="citation">(Perrier, Meyer, and Granjon 2024)</span>,
-<code>stringr</code><span class="citation">(Wickham et al. 2019)</span>,
-<code>tibble</code> <span class="citation">(Wickham et al. 2019)</span>,
-<code>tidyr</code> <span class="citation">(Wickham et al. 2019)</span>,
-<code>vegan</code> <span class="citation">(Oksanen et al. 2022)</span>,
-and <code>writexl</code> <span class="citation">(Ooms 2024)</span> R
-packages.</p>
+2024)</span>, # DONE <code>htmlwidgets</code> <span class="citation">(Vaidyanathan et al. 2023)</span>, # DONE
+<code>kableExtra</code> <span class="citation">(Zhu et al. 2024)</span>,
+# DONE <code>knitr</code> <span class="citation">(Xie, Sarma, et al.
+2024)</span>, # DONE <code>magrittr</code> <span class="citation">(Bache
+et al. 2022)</span>, # DONE <code>markdown</code> <span class="citation">(Xie, Allaire, et al. 2024)</span>, # DONE
+<code>plotly</code> <span class="citation">(Sievert 2020)</span>, # DONE
+<code>purrr</code> <span class="citation">(Wickham et al. 2019)</span>,
+# DONE <code>reactable</code> <span class="citation">(Lin et al.
+2023)</span>, # DONE <code>readr</code> <span class="citation">(Wickham
+et al. 2019)</span>, # DONE <code>rhandsontable</code> <span class="citation">(Owen et al. 2021)</span>, # DONE
+<code>rmarkdown</code> <span class="citation">(Allaire et al.
+2024)</span>, # DONE <code>shiny</code> <span class="citation">(Chang et
+al. 2024)</span>, # DONE <code>shinybusy</code> <span class="citation">(Meyer, Perrier, and Technologies 2024)</span>, # DONE
+<code>shinyjs</code> <span class="citation">(Attali 2021)</span>, # DONE
+<code>shinyWidgets</code> <span class="citation">(Perrier et al.
+2024)</span>, # DONE <code>stringr</code><span class="citation">(Wickham
+et al. 2019)</span>, # DONE <code>tibble</code> <span class="citation">(Wickham et al. 2019)</span>, # DONE <code>tidyr</code>
+<span class="citation">(Wickham et al. 2019)</span>, # DONE
+<code>vegan</code> <span class="citation">(Oksanen et al. 2024)</span>,
+and # DONE <code>writexl</code> <span class="citation">(Ooms and
+McNamara 2024)</span> R packages. # DONE</p>
 </div>
 <div id="conclusion" class="section level1">
 <h1>Conclusion</h1>
@@ -615,30 +616,40 @@ Parsonage Down example dataset.</p>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
-<div id="ref-allaire2023" class="csl-entry">
-Allaire, JJ, Yihui Xie, Christophe Dervieux, Jonathan McPherson, Javier
-Luraschi, Kevin Ushey, Aron Atkins, et al. 2023. <span>“Rmarkdown:
-<span>Dynamic Documents</span> for <span>R</span>.”</span> <a href="https://github.com/rstudio/rmarkdown">https://github.com/rstudio/rmarkdown</a>.
+<div id="ref-allaire2024" class="csl-entry">
+Allaire, J. J., Yihui Xie, Christophe Dervieux, Jonathan McPherson,
+Javier Luraschi, Kevin Ushey, Aron Atkins, et al. 2024. <span>“<span class="nocase">rmarkdown</span>: <span>Dynamic Documents</span> for
+<span>R</span>.”</span> <a href="https://doi.org/10.32614/CRAN.package.rmarkdown">https://doi.org/10.32614/CRAN.package.rmarkdown</a>.
 </div>
-<div id="ref-attali2023" class="csl-entry">
-Attali, Dean. 2023. <span>“Shinyjs: <span>Easily Improve</span> the
-<span>User Experience</span> of <span>Your Shiny Apps</span> in
-<span>Seconds</span>.”</span> <a href="https://deanattali.com/shinyjs/">https://deanattali.com/shinyjs/</a>.
+<div id="ref-attali2021" class="csl-entry">
+Attali, Dean. 2021. <span>“<span class="nocase">shinyjs</span>:
+<span>Easily Improve</span> the <span>User Experience</span> of
+<span>Your Shiny Apps</span> in <span>Seconds</span>.”</span> <a href="https://doi.org/10.32614/CRAN.package.shinyjs">https://doi.org/10.32614/CRAN.package.shinyjs</a>.
+</div>
+<div id="ref-bache2022a" class="csl-entry">
+Bache, Stefan Milton, Hadley Wickham, Lionel Henry, and Posit PBC. 2022.
+<span>“<span class="nocase">magrittr</span>: <span>A Forward-Pipe
+Operator</span> for <span>R</span>.”</span> <a href="https://doi.org/10.32614/CRAN.package.magrittr">https://doi.org/10.32614/CRAN.package.magrittr</a>.
 </div>
 <div id="ref-bsbi2017ellenbergR" class="csl-entry">
-BSBI. 2017a. <span>“Ellenberg Indicator r (Reaction).”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1m1&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1m1&amp;class=ChecklistInstance</a>.
+BSBI. 2017a. <span>“Ellenberg Indicator <span>R</span>
+(Reaction).”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1m1&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1m1&amp;class=ChecklistInstance</a>.
 </div>
 <div id="ref-bsbi2017ellenbergS" class="csl-entry">
-———. 2017b. <span>“Ellenberg Indicator s (Salt Tolerance).”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1s5&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1s5&amp;class=ChecklistInstance</a>.
+———. 2017b. <span>“Ellenberg Indicator <span>S</span> (Salt
+Tolerance).”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1s5&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1s5&amp;class=ChecklistInstance</a>.
 </div>
 <div id="ref-bsbi2017ellenbergN" class="csl-entry">
-———. 2017c. <span>“Ellenberg Indicator n (Nitrogen).”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1yq&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1yq&amp;class=ChecklistInstance</a>.
+———. 2017c. <span>“Ellenberg Indicator <span>N</span>
+(Nitrogen).”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1yq&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1yq&amp;class=ChecklistInstance</a>.
 </div>
 <div id="ref-bsbi2017ellenbergF" class="csl-entry">
-———. 2017d. <span>“Ellenberg Indicator f (Moisture).”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1kd&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1kd&amp;class=ChecklistInstance</a>.
+———. 2017d. <span>“Ellenberg Indicator <span>F</span>
+(Moisture).”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1kd&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1kd&amp;class=ChecklistInstance</a>.
 </div>
 <div id="ref-bsbi2017ellenbergL" class="csl-entry">
-———. 2017e. <span>“Ellenberg Indicator l (Light).”</span> <a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1v7&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1v7&amp;class=ChecklistInstance</a>.
+———. 2017e. <span>“Ellenberg Indicator <span>L</span> (Light).”</span>
+<a href="https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1v7&amp;class=ChecklistInstance">https://database.bsbi.org/object.php?entityid=2cd4p9h.2cg1v7&amp;class=ChecklistInstance</a>.
 </div>
 <div id="ref-bunce1999" class="csl-entry">
 Bunce, R. G. H., C. J. Barr, M. K. Gillespie, D. C. Howard, W. A. Scott,
@@ -653,14 +664,15 @@ Habitats Classification User Manual Version 1.1.”</span> Stockport:
 UKHab Ltd.
 </div>
 <div id="ref-chang2024" class="csl-entry">
-Chang, Winston, Joe Cheng, JJ Allaire, Carson Sievert, Barret Schloerke,
-Yihui Xie, Jeff Allen, Jonathan McPherson, Alan Dipert, and Barbara
-Borges. 2024. <em>Shiny: Web Application Framework for r</em>. <a href="https://shiny.posit.co/">https://shiny.posit.co/</a>.
+Chang, Winston, Joe Cheng, J. J. Allaire, Carson Sievert, Barret
+Schloerke, Yihui Xie, Jeff Allen, et al. 2024.
+<span>“<span>Shiny</span>: <span>Web Application Framework</span> for
+<span>R</span>.”</span> <a href="https://doi.org/10.32614/CRAN.package.shiny">https://doi.org/10.32614/CRAN.package.shiny</a>.
 </div>
 <div id="ref-cheng2024" class="csl-entry">
 Cheng, Joe, Carson Sievert, Barret Schloerke, Winston Chang, Yihui Xie,
-Jeff Allen, Posit Software, and PBC. 2024. <span>“Htmltools:
-<span>Tools</span> for <span>HTML</span>.”</span>
+Jeff Allen, and Posit PBC. 2024. <span>“<span class="nocase">htmltools</span>: <span>Tools</span> for
+<span>HTML</span>.”</span> <a href="https://doi.org/10.32614/CRAN.package.htmltools">https://doi.org/10.32614/CRAN.package.htmltools</a>.
 </div>
 <div id="ref-cieem2022" class="csl-entry">
 CIEEM. 2022. <span>“Guidelines for Ecological Impact Assessment in the
@@ -692,13 +704,15 @@ JNCC. 2008. <em>Spreadsheet of Habitat Correspondences</em>. <a href="https://hu
 <div id="ref-kass2023" class="csl-entry">
 Kass, Jamie M., Gonzalo E. Pinilla-Buitrago, Andrea Paz, Bethany A.
 Johnson, Valentina Grisales-Betancur, Sarah I. Meenan, Dean Attali, et
-al. 2023. <span>“Wallace 2: A Shiny App for Modeling Species Niches and
-Distributions Redesigned to Facilitate Expansion via Module
-Contributions.”</span> <em>Ecography</em> 2023 (3): e06547. <a href="https://doi.org/10.1111/ecog.06547">https://doi.org/10.1111/ecog.06547</a>.
+al. 2023. <span>“<span class="nocase">wallace</span> 2: A Shiny App for
+Modeling Species Niches and Distributions Redesigned to Facilitate
+Expansion via Module Contributions.”</span> <em>Ecography</em> 2023 (3):
+e06547. <a href="https://doi.org/10.1111/ecog.06547">https://doi.org/10.1111/ecog.06547</a>.
 </div>
-<div id="ref-lin2024" class="csl-entry">
-Lin, Greg. 2024. <span>“Reactable: <span>Interactive Data Tables</span>
-for <span>R</span>.”</span> <a href="https://glin.github.io/reactable/">https://glin.github.io/reactable/</a>.
+<div id="ref-lin2023" class="csl-entry">
+Lin, Greg, Tanner Linsley, Kent Russell, Ramnath Vaidyanathan, Joe
+Cheng, JJ Allaire, Yihui Xie, et al. 2023. <span>“<span class="nocase">reactable</span>: <span>Interactive Data Tables</span>
+for <span>R</span>.”</span> <a href="https://doi.org/10.32614/CRAN.package.reactable">https://doi.org/10.32614/CRAN.package.reactable</a>.
 </div>
 <div id="ref-maciejewski2020" class="csl-entry">
 Maciejewski, Lise, Paulina E. Pinto, Stéphanie Wurpillot, Jacques
@@ -719,10 +733,10 @@ Programs for the Identification of Vegetation Types According to the
 Software.”</span> Other. <span>Wallingford</span>: <span>Centre for
 Ecology &amp; Hydrology</span>. <a href="https://www.ceh.ac.uk/sites/default/files/Tablefit-Aug2016.zip">https://www.ceh.ac.uk/sites/default/files/Tablefit-Aug2016.zip</a>.
 </div>
-<div id="ref-meyer2024" class="csl-entry">
-Meyer, Fanny, and Victor Perrier. 2024. <span>“Shinybusy: <span>Busy
-Indicators</span> and <span>Notifications</span> for
-’<span>Shiny</span>’ <span>Applications</span>.”</span> <a href="https://github.com/dreamRs/shinybusy">https://github.com/dreamRs/shinybusy</a>.
+<div id="ref-meyer2024a" class="csl-entry">
+Meyer, Fanny, Victor Perrier, and Silex Technologies. 2024. <span>“<span class="nocase">shinybusy</span>: <span>Busy Indicators</span> and
+<span>Notifications</span> for ’<span>Shiny</span>’
+<span>Applications</span>.”</span> <a href="https://doi.org/10.32614/CRAN.package.shinybusy">https://doi.org/10.32614/CRAN.package.shinybusy</a>.
 </div>
 <div id="ref-mucina2016a" class="csl-entry">
 Mucina, Ladislav, Helga Bültmann, Klaus Dierßen, Jean-Paul Theurillat,
@@ -747,22 +761,25 @@ NBN Trust. 2024a. <span>“Anthocerotophyta Child Taxa.”</span> <a href="https
 <div id="ref-nbn2024Tracheophyta" class="csl-entry">
 ———. 2024e. <span>“Tracheophyta Child Taxa.”</span> <a href="https://species.nbnatlas.org/species/NHMSYS0020787695#classification">https://species.nbnatlas.org/species/NHMSYS0020787695#classification</a>.
 </div>
-<div id="ref-oksanen2022" class="csl-entry">
-Oksanen, Jari, Gavin Simpson, Peter Solymos, Leo Lahti, Geoffrey
-Hannigan, James Weedon, Eduard Szöcs, et al. 2022. <span>“Vegan:
-<span>Community Ecology Package</span>.”</span> Zenodo. <a href="https://doi.org/10.5281/zenodo.7185692">https://doi.org/10.5281/zenodo.7185692</a>.
+<div id="ref-oksanen2024a" class="csl-entry">
+Oksanen, Jari, Gavin L. Simpson, F. Guillaume Blanchet, Roeland Kindt,
+Pierre Legendre, Peter R. Minchin, R. B. O’Hara, et al. 2024.
+<span>“<span class="nocase">vegan</span>: <span>Community Ecology
+Package</span>.”</span> <a href="https://doi.org/10.32614/CRAN.package.vegan">https://doi.org/10.32614/CRAN.package.vegan</a>.
 </div>
-<div id="ref-ooms2024" class="csl-entry">
-Ooms, Jeroen. 2024. <span>“Writexl: <span>Export Data Frames</span> to
-<span>Excel</span> ’Xlsx’ <span>Format</span>.”</span> <a href="https://ropensci.r-universe.dev/writexl https://docs.ropensci.org/writexl/">https://ropensci.r-universe.dev/writexl
-https://docs.ropensci.org/writexl/</a>.
+<div id="ref-ooms2024a" class="csl-entry">
+Ooms, Jeroen, and John McNamara. 2024. <span>“<span class="nocase">writexl</span>: <span>Export Data Frames</span> to
+<span>Excel</span> ’Xlsx’ <span>Format</span>.”</span> <a href="https://doi.org/10.32614/CRAN.package.writexl">https://doi.org/10.32614/CRAN.package.writexl</a>.
 </div>
-<div id="ref-owen2021" class="csl-entry">
-Owen, Jonathan. 2021. <span>“Rhandsontable.”</span> <a href="https://github.com/jrowen/rhandsontable">https://github.com/jrowen/rhandsontable</a>.
+<div id="ref-owen2021a" class="csl-entry">
+Owen, Jonathan, Jeff Allen, Yihui Xie, Enzo Martoglio, Inberg Ger,
+Warpechowski Marcin, Aisch Gregor, et al. 2021. <span>“<span class="nocase">rhandsontable</span>: <span>Interface</span> to the
+’<span>Handsontable</span>.js’ <span>Library</span>.”</span> <a href="https://doi.org/10.32614/CRAN.package.rhandsontable">https://doi.org/10.32614/CRAN.package.rhandsontable</a>.
 </div>
-<div id="ref-perrier2024" class="csl-entry">
-Perrier, Victor, Fanny Meyer, and David Granjon. 2024. <span>“<span class="nocase">shinyWidgets</span>: <span>Custom Inputs Widgets</span>
-for <span>Shiny</span>.”</span> <a href="https://github.com/dreamRs/shinyWidgets">https://github.com/dreamRs/shinyWidgets</a>.
+<div id="ref-perrier2024a" class="csl-entry">
+Perrier, Victor, Fanny Meyer, David Granjon, Ian Fellows, Wil Davis, and
+Spencer Matthews. 2024. <span>“<span class="nocase">shinyWidgets</span>:
+<span>Custom Inputs Widgets</span> for <span>Shiny</span>.”</span> <a href="https://doi.org/10.32614/CRAN.package.shinyWidgets">https://doi.org/10.32614/CRAN.package.shinyWidgets</a>.
 </div>
 <div id="ref-perrin2019a" class="csl-entry">
 Perrin, P. 2019. <span>“<span>ERICA</span> - <span>Engine</span> for
@@ -853,15 +870,15 @@ Sievert, Carson. 2020. <em>Interactive <span>Web-Based Data
 Visualization</span> with <span>R</span>, Plotly, and Shiny</em>. New
 York: <span>Chapman and Hall/CRC</span>. <a href="https://doi.org/10.1201/9780429447273">https://doi.org/10.1201/9780429447273</a>.
 </div>
-<div id="ref-sievert2024" class="csl-entry">
-Sievert, Carson, Joe Cheng, and Garrick Aden-Buie. 2024. <span>“Bslib:
+<div id="ref-sievert2024a" class="csl-entry">
+Sievert, Carson, Joe Cheng, Garrick Aden-Buie, Posit PBC, Javi Aguilar,
+and Thomas Park. 2024. <span>“<span class="nocase">bslib</span>:
 <span>Custom</span> ’<span>Bootstrap</span>’ ’<span>Sass</span>’
-<span>Themes</span> for ’Shiny’ and ’Rmarkdown’.”</span> <a href="https://rstudio.github.io/bslib/">https://rstudio.github.io/bslib/</a>.
+<span>Themes</span> for ’Shiny’ and ’Rmarkdown’.”</span> <a href="https://doi.org/10.32614/CRAN.package.bslib">https://doi.org/10.32614/CRAN.package.bslib</a>.
 </div>
-<div id="ref-sievert2023" class="csl-entry">
-Sievert, Carson, Posit Software PBC, and Mark Otto. 2023.
-<span>“Bsicons: <span>Easily Work</span> with ’<span>Bootstrap</span>’
-<span>Icons</span>.”</span>
+<div id="ref-sievert2023a" class="csl-entry">
+Sievert, Carson, Posit PBC, and Mark Otto. 2023. <span>“<span class="nocase">bsicons</span>: <span>Easily Work</span> with
+’<span>Bootstrap</span>’ <span>Icons</span>.”</span> <a href="https://doi.org/10.32614/CRAN.package.bsicons">https://doi.org/10.32614/CRAN.package.bsicons</a>.
 </div>
 <div id="ref-smart2000" class="csl-entry">
 Smart, S. M. 2000. <span>“Ecological Assessment of Vegetation from a
@@ -878,11 +895,6 @@ Ward, J. O’Reilly, et al. 2024. <span>“Broadleaved Woodland Survey of
 Great Britain, 2020-2022.”</span> NERC EDS Environmental Information
 Data Centre. <a href="https://doi.org/10.5285/42C203C8-44DE-40E2-A694-B1E8CBD4C8E1">https://doi.org/10.5285/42C203C8-44DE-40E2-A694-B1E8CBD4C8E1</a>.
 </div>
-<div id="ref-stefan2022" class="csl-entry">
-Stefan, Stefan Milton, Hadley Wickham, Lionel Henry, and RStudio. 2022.
-<span>“Magrittr: <span>A Forward-Pipe Operator</span> for
-<span>R</span>.”</span>
-</div>
 <div id="ref-sturbois2023" class="csl-entry">
 Sturbois, Anthony, Miquel De Cáceres, Aline Bifolchi, Frédéric Bioret,
 Aurélien Boyé, Olivier Gauthier, Jacques Grall, et al. 2023.
@@ -892,9 +904,8 @@ Ecosystems Quality and Their Dynamics from Reference Conditions.”</span>
 </div>
 <div id="ref-vaidyanathan2023" class="csl-entry">
 Vaidyanathan, Ramnath, Yihui Xie, J. J. Allaire, Joe Cheng, Carson
-Sievert, Kenton Russell, Ellis Hughes, Posit Software, and PBC. 2023.
-<span>“Htmlwidgets: <span>HTML Widgets</span> for
-<span>R</span>.”</span>
+Sievert, Kenton Russell, Ellis Hughes, and Posit PBC. 2023. <span>“<span class="nocase">htmlwidgets</span>: <span>HTML Widgets</span> for
+<span>R</span>.”</span> <a href="https://doi.org/10.32614/CRAN.package.htmlwidgets">https://doi.org/10.32614/CRAN.package.htmlwidgets</a>.
 </div>
 <div id="ref-wallace2023" class="csl-entry">
 Wallace, Hilary, David Gowing, Clare Lawson, Emma Rothero, and Ian
@@ -924,18 +935,26 @@ Wood, C. M., S. M. Smart, and R. G. H. Bunce. 2015. <span>“Woodland
 Survey of Great Britain 1971-2001.”</span> <em>Earth System Science
 Data</em> 7 (2): 203–14. <a href="https://doi.org/10.5194/essd-7-203-2015">https://doi.org/10.5194/essd-7-203-2015</a>.
 </div>
-<div id="ref-xie2023" class="csl-entry">
-Xie, Yihui. 2023. <span>“Markdown: <span>Render Markdown</span> with
-’Commonmark’.”</span> <a href="https://cran.r-project.org/web/packages/markdown/index.html">https://cran.r-project.org/web/packages/markdown/index.html</a>.
+<div id="ref-xie2024d" class="csl-entry">
+Xie, Yihui, J. J. Allaire, Jeffrey Horner, Henrik Bengtsson, Jim Hester,
+Yixuan Qiu, Kohske Takahashi, et al. 2024. <span>“<span class="nocase">markdown</span>: <span>Render Markdown</span> with
+’Commonmark’.”</span> <a href="https://doi.org/10.32614/CRAN.package.markdown">https://doi.org/10.32614/CRAN.package.markdown</a>.
 </div>
-<div id="ref-xie2024" class="csl-entry">
-———. 2024. <span>“Bookdown: <span>Authoring Books</span> and
+<div id="ref-xie2024b" class="csl-entry">
+Xie, Yihui, Christophe Dervieux, J. J. Allaire, Albert Kim, Alessandro
+Samuel-Rosa, Andrzej Oles, Atsushi Yasumoto, et al. 2024. <span>“<span class="nocase">bookdown</span>: <span>Authoring Books</span> and
 <span>Technical Documents</span> with <span>R Markdown</span>.”</span>
-<a href="https://github.com/rstudio/bookdown">https://github.com/rstudio/bookdown</a>.
+<a href="https://doi.org/10.32614/CRAN.package.bookdown">https://doi.org/10.32614/CRAN.package.bookdown</a>.
 </div>
-<div id="ref-zhu2024" class="csl-entry">
-Zhu, Hao. 2024. <span>“<span class="nocase">kableExtra</span>.”</span>
-<a href="https://github.com/haozhu233/kableExtra">https://github.com/haozhu233/kableExtra</a>.
+<div id="ref-xie2024c" class="csl-entry">
+Xie, Yihui, Abhraneel Sarma, Adam Vogt, Alastair Andrew, Alex Zvoleff,
+Amar Al-Zubaidi, Andre Simon, et al. 2024. <span>“<span class="nocase">knitr</span>: <span>A General-Purpose Package</span> for
+<span>Dynamic Report Generation</span> in <span>R</span>.”</span> <a href="https://doi.org/10.32614/CRAN.package.knitr">https://doi.org/10.32614/CRAN.package.knitr</a>.
+</div>
+<div id="ref-zhu2024a" class="csl-entry">
+Zhu, Hao, Thomas Travison, Timothy Tsai, Will Beasley, Yihui Xie,
+GuangChuang Yu, Stéphane Laurent, et al. 2024. <span>“<span class="nocase">kableExtra</span>: <span>Construct Complex Table</span>
+with ’Kable’ and <span>Pipe Syntax</span>.”</span> <a href="https://doi.org/10.32614/CRAN.package.kableExtra">https://doi.org/10.32614/CRAN.package.kableExtra</a>.
 </div>
 </div>
 </div>

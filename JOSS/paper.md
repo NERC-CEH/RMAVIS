@@ -1,5 +1,5 @@
 ---
-title: '`RMAVIS` v1.0: a R Shiny application for the analysis of vegetation survey data and assignment to GB NVC communities.'
+title: '`RMAVIS` v1.0: a Shiny application for the analysis of vegetation survey data and assignment to GB NVC communities.'
 tags:
   - Vegetation science
   - NVC
@@ -25,7 +25,7 @@ affiliations:
     index: 2
   - name: School of Environmental Sciences, University of Liverpool, Liverpool, L69 3GP, UK
     index: 3
-date: "2024-07-02"
+date: "2024-07-08"
 bibliography: paper.bib
 output:
   html_document:
@@ -34,7 +34,7 @@ output:
   
 # Summary
 
-`RMAVIS` is a R Shiny application for the assignment of vegetation sample
+`RMAVIS` is a Shiny application for the assignment of vegetation sample
 plot data to British National Vegetation Classification (NVC) 
 communities [@rodwell1991;@rodwell1992;@rodwell1992a;@rodwell1995;@rodwell2000].
 
@@ -62,7 +62,7 @@ output of the ECOFACT project [@bunce1999], with the latest version released in
 
 # Statement of need
 
-The requirement for a new program in the form of a R Shiny [@chang2024] 
+The requirement for a new program in the form of a Shiny [@chang2024] 
 application arises from several needs, namely to: 
 1) accommodate updates to the NVC;
 2) provide a means to easily reproduce and attribute the results of the NVC
@@ -145,32 +145,32 @@ and
 4) Newborough Warren [@wallace2018].
 
 Version 1.0 of `RMAVIS` was built under R 4.4.0 [@rcoreteam] and depends on the 
-`bookdown` [@xie2024],
-`bsicons` [@sievert2023],
-`bslib` [@sievert2024],
-`dplyr` [@wickham2019],
-`ggplot2` [@wickham2019],
-`htmltools` [@cheng2024],
-`htmlwidgets` [@vaidyanathan2023],
-`kableExtra` [@zhu2024],
-`knitr` [@xie2024],
-`magrittr` [@stefan2022],
-`markdown` [@xie2023],
-`plotly` [@sievert2020],
-`purrr` [@wickham2019],
-`reactable` [@lin2024],
-`readr` [@wickham2019],
-`rhandsontable` [@owen2021],
-`rmarkdown` [@allaire2023],
-`shiny` [@chang2024],
-`shinybusy` [@meyer2024],
-`shinyjs` [@attali2023],
-`shinyWidgets` [@perrier2024],
-`stringr`[@wickham2019],
-`tibble` [@wickham2019],
-`tidyr` [@wickham2019],
-`vegan` [@oksanen2022], and
-`writexl` [@ooms2024] R packages. 
+`bookdown` [@xie2024b], # DONE
+`bsicons` [@sievert2023a], # DONE
+`bslib` [@sievert2024a], # DONE
+`dplyr` [@wickham2019], # DONE
+`ggplot2` [@wickham2019], # DONE
+`htmltools` [@cheng2024], # DONE
+`htmlwidgets` [@vaidyanathan2023], # DONE
+`kableExtra` [@zhu2024a], # DONE
+`knitr` [@xie2024c], # DONE
+`magrittr` [@bache2022a], # DONE
+`markdown` [@xie2024d], # DONE
+`plotly` [@sievert2020], # DONE
+`purrr` [@wickham2019], # DONE
+`reactable` [@lin2023], # DONE
+`readr` [@wickham2019], # DONE
+`rhandsontable` [@owen2021a], # DONE
+`rmarkdown` [@allaire2024], # DONE
+`shiny` [@chang2024], # DONE
+`shinybusy` [@meyer2024a], # DONE
+`shinyjs` [@attali2021], # DONE
+`shinyWidgets` [@perrier2024a], # DONE
+`stringr`[@wickham2019], # DONE
+`tibble` [@wickham2019], # DONE
+`tidyr` [@wickham2019], # DONE
+`vegan` [@oksanen2024a], and # DONE
+`writexl` [@ooms2024a] R packages.  # DONE
 
 # Conclusion
 
