@@ -43,7 +43,7 @@ classification units using computational methods is a well established and
 recognised practice [@maciejewski2020]. 
 The results of this assignment process are used in various ways, 
 including assisting in the phase 2 habitat survey
-(or NVC survey) [@rodwell2006national] process; 
+(or NVC survey) process [@rodwell2006national]; 
 establishing an ecological baseline and identifying important ecological 
 features such as protected habitats [@cieem2022]; 
 and in ecological restoration by providing a proxy for historical reference 
@@ -145,7 +145,7 @@ and
 4) Newborough Warren [@wallace2018].
 
 Version 1.0 of `RMAVIS` was built under R 4.4.0 [@rcoreteam] and depends on the 
-`bookdown` [@xie2024b],
+`bookdown` [@xie2024a],
 `bsicons` [@sievert2023a],
 `bslib` [@sievert2024a],
 `dplyr` [@wickham2019],
