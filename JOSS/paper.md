@@ -145,32 +145,32 @@ and
 4) Newborough Warren [@wallace2018].
 
 Version 1.0 of `RMAVIS` was built under R 4.4.0 [@rcoreteam] and depends on the 
-`bookdown` [@xie2024b], # DONE
-`bsicons` [@sievert2023a], # DONE
-`bslib` [@sievert2024a], # DONE
-`dplyr` [@wickham2019], # DONE
-`ggplot2` [@wickham2019], # DONE
-`htmltools` [@cheng2024], # DONE
-`htmlwidgets` [@vaidyanathan2023], # DONE
-`kableExtra` [@zhu2024a], # DONE
-`knitr` [@xie2024c], # DONE
-`magrittr` [@bache2022a], # DONE
-`markdown` [@xie2024d], # DONE
-`plotly` [@sievert2020], # DONE
-`purrr` [@wickham2019], # DONE
-`reactable` [@lin2023], # DONE
-`readr` [@wickham2019], # DONE
-`rhandsontable` [@owen2021a], # DONE
-`rmarkdown` [@allaire2024], # DONE
-`shiny` [@chang2024], # DONE
-`shinybusy` [@meyer2024a], # DONE
-`shinyjs` [@attali2021], # DONE
-`shinyWidgets` [@perrier2024a], # DONE
-`stringr`[@wickham2019], # DONE
-`tibble` [@wickham2019], # DONE
-`tidyr` [@wickham2019], # DONE
-`vegan` [@oksanen2024a], and # DONE
-`writexl` [@ooms2024a] R packages.  # DONE
+`bookdown` [@xie2024b],
+`bsicons` [@sievert2023a],
+`bslib` [@sievert2024a],
+`dplyr` [@wickham2019],
+`ggplot2` [@wickham2019],
+`htmltools` [@cheng2024],
+`htmlwidgets` [@vaidyanathan2023],
+`kableExtra` [@zhu2024a],
+`knitr` [@xie2024c],
+`magrittr` [@bache2022a],
+`markdown` [@xie2024d],
+`plotly` [@sievert2020],
+`purrr` [@wickham2019],
+`reactable` [@lin2023],
+`readr` [@wickham2019],
+`rhandsontable` [@owen2021a],
+`rmarkdown` [@allaire2024],
+`shiny` [@chang2024],
+`shinybusy` [@meyer2024a],
+`shinyjs` [@attali2021],
+`shinyWidgets` [@perrier2024a],
+`stringr`[@wickham2019],
+`tibble` [@wickham2019],
+`tidyr` [@wickham2019],
+`vegan` [@oksanen2024a], and
+`writexl` [@ooms2024a] R packages.
 
 # Conclusion
 
