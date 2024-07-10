@@ -1,11 +1,9 @@
-# This CITATION.cff file was generated with cffinit.
-# Visit https://bit.ly/cffinit to generate yours today!
-
 cff-version: 1.2.0
-title: RMAVIS
-message: >-
-  If you use this software, please cite it using the
-  metadata from this file.
+message: If you use this software, please cite our article in the Journal of Open Source Software
+doi: 10.5281/zenodo.10818640
+repository-code: 'https://github.com/NERC-CEH/RMAVIS'
+license: LGPL-3.0
+version: v1.0
 type: software
 authors:
   - given-names: Zeke
@@ -28,10 +26,10 @@ authors:
     email: calluna@liverpool.ac.uk
     affiliation: University of Liverpool
     orcid: 'https://orcid.org/0000-0002-0664-9420'
-repository-code: 'https://github.com/NERC-CEH/RMAVIS'
-abstract: 'A R Shiny application for the assignment of vegetation survey plot data to GB NVC communities with additional exploratory analyses.'
+abstract: 'A Shiny application for the analysis of vegetation survey data and assignment to GB NVC communities.'
 keywords:
+  - Vegetation science
   - NVC
-  - Vegetation Science
-  - Vegetation Survey
-license: LGPL-3.0
+  - Ecology
+  - Survey
+title: "RMAVIS v1.0: a Shiny application for the analysis of vegetation survey data and assignment to GB NVC communities."
