@@ -25,7 +25,7 @@ affiliations:
     index: 2
   - name: School of Environmental Sciences, University of Liverpool, Liverpool, L69 3GP, UK
     index: 3
-date: "2024-07-08"
+date: "2024-07-30"
 bibliography: paper.bib
 output:
   html_document:
@@ -80,7 +80,7 @@ Expert System (EVC-ES) [@mucina2016a] developed for Europe.
 # Application structure
 
 Inspired by the extensible structure of the species niche and distribution 
-modelling R shiny application `wallace` [@kass2023], we constructed `RMAVIS` 
+modelling Shiny application `wallace` [@kass2023], we constructed `RMAVIS` 
 with a modular architecture, facilitating both the maintenance of existing 
 modules and development of new modules with ease.
 
@@ -165,8 +165,8 @@ Version 1.0 of `RMAVIS` was built under R 4.4.0 [@rcoreteam] and depends on the
 `shiny` [@chang2024],
 `shinybusy` [@meyer2024a],
 `shinyjs` [@attali2021],
-`shinyWidgets` [@perrier2024a],
-`stringr`[@wickham2019],
+`shinyWidgets` [@perrier2024a], 
+`stringr` [@wickham2019],
 `tibble` [@wickham2019],
 `tidyr` [@wickham2019],
 `vegan` [@oksanen2024a], and
