@@ -1,5 +1,5 @@
 ---
-title: '`RMAVIS` v1.0: a Shiny application for the analysis of vegetation survey data and assignment to GB NVC communities.'
+title: 'RMAVIS v1.0: a Shiny application for the analysis of vegetation survey data and assignment to GB NVC communities.'
 tags:
   - Vegetation science
   - NVC
@@ -25,7 +25,7 @@ affiliations:
     index: 2
   - name: School of Environmental Sciences, University of Liverpool, Liverpool, L69 3GP, UK
     index: 3
-date: "2024-07-30"
+date: "2024-08-07"
 bibliography: paper.bib
 output:
   html_document:
