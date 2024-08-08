@@ -3,7 +3,7 @@ message: If you use this software, please cite our article in the Journal of Ope
 doi: 10.5281/zenodo.10818640
 repository-code: 'https://github.com/NERC-CEH/RMAVIS'
 license: LGPL-3.0
-version: v1.0
+version: v1.0.1
 type: software
 authors:
   - given-names: Zeke

@@ -1,3 +1,11 @@
+# RMAVIS 1.0.1 (2024-08-08)
+*   Modifications: NA
+*   Fixes:
+      -   Removing superfluous file - "./app.R".
+      -   Ensuring all internal constants are prefixed in "surveyData_server.R".
+*   New Features:
+      -   Adding deployment helper file "./deploy.R".
+      -   Adding reference to published JOSS paper and updating "CITATION.cff" file.
 
 # RMAVIS 1.0 (2024-07-02)
 *   Modifications:
