@@ -33,3 +33,30 @@ keywords:
   - Ecology
   - Survey
 title: "RMAVIS"
+preferred-citation:
+  authors:
+  - family-names: Marshall
+    given-names: Zeke
+    orcid: "https://orcid.org/0000-0001-9260-7827"
+  - family-names: Smart
+    given-names: Simon Mark
+    orcid: "https://orcid.org/0000-0003-2750-7832"
+  - family-names: Harrower
+    given-names: Colin
+    orcid: "https://orcid.org/0000-0001-5070-5293"
+  - family-names: Marrs
+    given-names: Rob
+    orcid: "https://orcid.org/0000-0002-0664-9420"
+  date-published: 2024-08-07
+  doi: 10.21105/joss.06682
+  issn: 2475-9066
+  issue: 100
+  journal: Journal of Open Source Software
+  publisher:
+    name: Open Journals
+  start: 6682
+  title: "RMAVIS v1.0: a Shiny application for the analysis of
+    vegetation survey data and assignment to GB NVC communities."
+  type: article
+  url: "https://joss.theoj.org/papers/10.21105/joss.06682"
+  volume: 9
