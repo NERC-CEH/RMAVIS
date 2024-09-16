@@ -44,7 +44,7 @@ ui <- bslib::page_navbar(
     
   bslib::nav_panel(
     
-    "Application",
+    "Core",
     
     bslib::layout_sidebar(
 
@@ -176,6 +176,34 @@ ui <- bslib::page_navbar(
         )
       )
 
+    ),
+    
+  ),
+  
+  bslib::nav_panel(
+    
+    "NicheModels",
+    
+    bslib::layout_sidebar(
+      
+      sidebar = sidebarUI(id = "sidebar_id_nm"),
+      
+      bslib::navset_card_tab(
+        
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          bslib::card_header("Data Input"),
+          
+          value = "nmDataInput_panel"#,
+          
+          # surveyDataUI(id = "surveyData_id_1")
+          
+        )
+        
+      )
+  
     ),
     
   ),

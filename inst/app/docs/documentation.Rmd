@@ -304,7 +304,8 @@ $b$ represents the species present in one site but not the other (${X \cap Y}$),
 and the converse for $c$ (${X \cup Y}$).
 
 > Please note that Site and Group similarities will not be calculated
-> for Years and Year-Group combinations with less than 5 sample plots
+> for Years and Year-Group combinations with less than 2 sample plots.
+> It is highly reccomended that 5 or more plots are in each group.
 
 ### Pseudo-Quadrat Methodology
 

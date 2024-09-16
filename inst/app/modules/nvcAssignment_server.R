@@ -190,7 +190,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
       surveyDataSummary <- surveyDataSummary()
       
       # Retrieve the site and group ID's for which there are less than the threshold 
-      threshold <- 5
+      threshold <- 2
       site_group_ids_remove <- surveyDataSummary$surveyDataStructure$quadratsPerID |>
         dplyr::filter(n < threshold) |>
         dplyr::pull(ID)

@@ -1214,7 +1214,7 @@ sidebarUI <- function(id){
                 Select the RMAVIS outputs to include in the report.
                 
                 Please note that selecting the 'Survey Table' option may produce
-                a long report if a large quantity of data is submitted to
+                a *very* long report if a large quantity of data is submitted to
                 RMAVIS.
                 "
               ),
