@@ -49,15 +49,17 @@ library(writexl)
 # Source sub-modules ------------------------------------------------------
 source("./modules/home_ui.R", local = TRUE)
 
+source("./modules/nvcInfo_ui.R", local = TRUE)
+source("./modules/nvcInfo_server.R", local = TRUE)
+
 source("./modules/privacy_ui.R", local = TRUE)
 
 source("./modules/documentation_ui.R", local = TRUE)
 
 source("./modules/news_ui.R", local = TRUE)
 
-source("./modules/nvcInfo_ui.R", local = TRUE)
-source("./modules/nvcInfo_server.R", local = TRUE)
 
+## Core -------------------------------------------------------------------
 source("./modules/sidebar_ui.R", local = TRUE)
 source("./modules/sidebar_server.R", local = TRUE)
 
@@ -103,6 +105,19 @@ source("./modules/mvaLocalRefUnrestricted_ui.R", local = TRUE)
 source("./modules/mvaLocalRefUnrestricted_server.R", local = TRUE)
 
 source("./modules/report_server.R", local = TRUE)
+
+## Niche models -----------------------------------------------------------
+source("./modules/niche_models/nmSidebar_ui.R", local = TRUE)
+source("./modules/niche_models/nmSidebar_server.R", local = TRUE)
+
+source("./modules/niche_models/nmDataInput_ui.R", local = TRUE)
+source("./modules/niche_models/nmDataInput_server.R", local = TRUE)
+
+# source("./modules/niche_models/nmModelDisplay_ui.R", local = TRUE)
+# source("./modules/niche_models/nmModelDisplay_server.R", local = TRUE)
+
+# source("./modules/niche_models/nmModelRun_ui.R", local = TRUE)
+# source("./modules/niche_models/nmModelRun_server.R", local = TRUE)
 
 # Source main UI and Server modules ---------------------------------------
 source("./modules/ui.R", local = TRUE)

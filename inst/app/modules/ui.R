@@ -186,7 +186,7 @@ ui <- bslib::page_navbar(
     
     bslib::layout_sidebar(
       
-      sidebar = sidebarUI(id = "sidebar_id_nm"),
+      sidebar = sidebarNMUI(id = "sidebar_id_nm"),
       
       bslib::navset_card_tab(
         
@@ -196,9 +196,9 @@ ui <- bslib::page_navbar(
           
           bslib::card_header("Data Input"),
           
-          value = "nmDataInput_panel"#,
+          value = "nmDataInput_panel",
           
-          # surveyDataUI(id = "surveyData_id_1")
+          nmDataInputUI(id = "nmDataInput_id_1")
           
         )
         

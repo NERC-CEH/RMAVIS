@@ -1,6 +1,7 @@
 # Server
 server <- function(input, output, session) {
 
+  # Core --------------------------------------------------------------------
   sidebar_options <- shiny::callModule(module = sidebar,
                                        id = "sidebar_id_1",
                                        surveyData = surveyData,
@@ -97,6 +98,7 @@ server <- function(input, output, session) {
                                                       avgEIVs = avgEIVs,
                                                       sidebar_options = sidebar_options)
   
+  
   shiny::callModule(module = report,
                     id = "sidebar_id_1",
                     sidebar_options = sidebar_options,
@@ -113,7 +115,14 @@ server <- function(input, output, session) {
                     mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults,
                     mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults)
   
+  # Niche Models ------------------------------------------------------------
+  shiny::callModule(module = nmDataInput,
+                    id = "nmDataInput_id_1"
+                    )
+
   
+
+  # Save Module Outputs -----------------------------------------------------
   # Save module outputs to global environment, uncomment for development only!
   # observe({
   # 
