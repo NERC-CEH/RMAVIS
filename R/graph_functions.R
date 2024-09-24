@@ -42,7 +42,7 @@ create_feature_importance_plot <- function(fe_data, bar_width = 5) {
                           mapping = ggplot2::aes(x = variable, ymin = min, lower = q1, middle = median, upper = q3, ymax = max),
                           stat = "identity", fill = "#371ea3", color = "#371ea3", width = 0.25) +
     ggplot2::coord_flip() +
-    ggplot2::facet_wrap(~model, ncol = 2, scales = "free_y") + 
+    ggplot2::facet_wrap(~model, ncol = 3, scales = "free_y") + 
     ggplot2::theme_minimal() +
     ggplot2::theme(legend.position = "none") +
     ggplot2::ylab(label = NULL) +
@@ -51,4 +51,16 @@ create_feature_importance_plot <- function(fe_data, bar_width = 5) {
   
   return(pl)
   
+}
+
+create_ale_plot <- function(ale_data){
+  
+  ale_plot <- ggplot2::ggplot(data = ale_data) +
+    ggplot2::geom_line(mapping = ggplot2::aes(x = x, y = y, color = model)) +
+    ggplot2::facet_wrap(~variable, scales = "free_x", ncol = 2) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(legend.position = "right") +
+    NULL
+  
+  return(ale_plot)
 }

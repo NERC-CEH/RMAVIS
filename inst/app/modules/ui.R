@@ -189,18 +189,6 @@ ui <- bslib::page_navbar(
       sidebar = nmSidebarUI(id = "nmSidebar_id_1"),
 
       bslib::navset_card_tab(
-
-        bslib::nav_panel(
-
-          full_screen = TRUE,
-
-          bslib::card_header("Data Input"),
-
-          value = "nmDataInput_panel",
-
-          nmDataInputUI(id = "nmDataInput_id_1")
-
-        ),
         
         bslib::nav_panel(
           
@@ -213,6 +201,18 @@ ui <- bslib::page_navbar(
           nmModelDisplayUI(id = "nmModelDisplay_id_1")
           
         ),
+
+        bslib::nav_panel(
+
+          full_screen = TRUE,
+
+          bslib::card_header("Data Input"),
+
+          value = "nmDataInput_panel",
+
+          nmDataInputUI(id = "nmDataInput_id_1")
+
+        )
 
       )
 

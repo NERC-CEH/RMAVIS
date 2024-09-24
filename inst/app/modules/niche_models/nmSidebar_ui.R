@@ -35,7 +35,7 @@ nmSidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("focalSpecies"), 
                                   label = "Focal Species", 
-                                  choices = tibble::deframe(RMAVIS::acceptedSpecies)[1:100], 
+                                  choices = tibble::deframe(RMAVIS::acceptedSpecies)[tibble::deframe(RMAVIS::acceptedSpecies) %in% modelled_species], 
                                   selected = NULL, 
                                   multiple = FALSE),
             

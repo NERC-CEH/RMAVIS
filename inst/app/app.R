@@ -47,6 +47,7 @@ library(writexl)
 source("./../../R/temp_functions.R", local = TRUE)
 source("./../../R/graph_functions.R", local = TRUE)
 tar_store <- file.path("C:/Users/zekmar/Github/GBIENMAnalysis/_targets")
+modelled_species <- targets::tar_read(name = "Species", store = tar_store)
 
 # Render documentation ----------------------------------------------------
 # rmarkdown::render(input = "./inst/app/docs/documentation.Rmd",  output_dir = "./inst/app/www")
