@@ -181,31 +181,43 @@ ui <- bslib::page_navbar(
   ),
   
   bslib::nav_panel(
-    
+
     "NicheModels",
-    
+
     bslib::layout_sidebar(
-      
-      sidebar = sidebarNMUI(id = "sidebar_id_nm"),
-      
+
+      sidebar = nmSidebarUI(id = "nmSidebar_id_1"),
+
       bslib::navset_card_tab(
+
+        bslib::nav_panel(
+
+          full_screen = TRUE,
+
+          bslib::card_header("Data Input"),
+
+          value = "nmDataInput_panel",
+
+          nmDataInputUI(id = "nmDataInput_id_1")
+
+        ),
         
         bslib::nav_panel(
           
           full_screen = TRUE,
           
-          bslib::card_header("Data Input"),
+          bslib::card_header("Model Display"),
           
-          value = "nmDataInput_panel",
+          value = "modelDisplay_panel",
           
-          nmDataInputUI(id = "nmDataInput_id_1")
+          nmModelDisplayUI(id = "nmModelDisplay_id_1")
           
-        )
-        
+        ),
+
       )
-  
+
     ),
-    
+
   ),
   
   bslib::nav_panel(

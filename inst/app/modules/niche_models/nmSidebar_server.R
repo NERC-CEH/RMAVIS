@@ -1,4 +1,4 @@
-sidebar <- function(input, output, session) {
+nmSidebar <- function(input, output, session) {
   
   ns <- session$ns
   
@@ -8,14 +8,16 @@ sidebar <- function(input, output, session) {
   observe({
     
     nmSidebar_options_list <- list(
+      "runNMAnalysis" = input$runNMAnalysis,
       "focalSpecies" = input$focalSpecies
     )
     
     nmSidebar_options(nmSidebar_options_list)
     
   }) |>
-    bindEvent(input$focalSpecies,
-              ignoreInit = FALSE)
+    bindEvent(input$runNMAnalysis,
+              input$focalSpecies,
+              ignoreInit = TRUE)
 
   
 # Return sidebar options --------------------------------------------------

@@ -1,4 +1,4 @@
-sidebarNMUI <- function(id){
+nmSidebarUI <- function(id){
   
   ns <- NS(id)
   
@@ -11,8 +11,7 @@ sidebarNMUI <- function(id){
 
 # Run Analysis ------------------------------------------------------------
     shiny::actionButton(inputId = ns("runNMAnalysis"),
-                        label = "Run Analysis",
-                        disabled = ''
+                        label = "Run Analysis"
                         ),
 
 # Species Selection -------------------------------------------------------
@@ -36,7 +35,7 @@ sidebarNMUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("focalSpecies"), 
                                   label = "Focal Species", 
-                                  choices = RMAVIS::acceptedSpecies[["Accepted_Species"]][1:100], 
+                                  choices = tibble::deframe(RMAVIS::acceptedSpecies)[1:100], 
                                   selected = NULL, 
                                   multiple = FALSE),
             

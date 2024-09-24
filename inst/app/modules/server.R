@@ -116,9 +116,16 @@ server <- function(input, output, session) {
                     mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults)
   
   # Niche Models ------------------------------------------------------------
+  nmSidebar_options <- shiny::callModule(module = nmSidebar,
+                                         id = "nmSidebar_id_1")
+  
+  
   shiny::callModule(module = nmDataInput,
-                    id = "nmDataInput_id_1"
-                    )
+                    id = "nmDataInput_id_1")
+  
+  shiny::callModule(module = nmModelDisplay,
+                    id = "nmModelDisplay_id_1",
+                    sidebar_nm_options = nmSidebar_options)
 
   
 

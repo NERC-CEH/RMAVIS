@@ -43,6 +43,11 @@ library(tidyr)
 library(vegan)
 library(writexl)
 
+# TEMP FOR DEVELOPMENT ----------------------------------------------------
+source("./../../R/temp_functions.R", local = TRUE)
+source("./../../R/graph_functions.R", local = TRUE)
+tar_store <- file.path("C:/Users/zekmar/Github/GBIENMAnalysis/_targets")
+
 # Render documentation ----------------------------------------------------
 # rmarkdown::render(input = "./inst/app/docs/documentation.Rmd",  output_dir = "./inst/app/www")
 
@@ -60,51 +65,51 @@ source("./modules/news_ui.R", local = TRUE)
 
 
 ## Core -------------------------------------------------------------------
-source("./modules/sidebar_ui.R", local = TRUE)
-source("./modules/sidebar_server.R", local = TRUE)
+source("./modules/core/sidebar_ui.R", local = TRUE)
+source("./modules/core/sidebar_server.R", local = TRUE)
 
-source("./modules/setupData_server.R", local = TRUE)
+source("./modules/core/setupData_server.R", local = TRUE)
 
-source("./modules/uploadData_ui.R", local = TRUE)
-source("./modules/uploadData_server.R", local = TRUE)
+source("./modules/core/uploadData_ui.R", local = TRUE)
+source("./modules/core/uploadData_server.R", local = TRUE)
 
-source("./modules/surveyData_ui.R", local = TRUE)
-source("./modules/surveyData_server.R", local = TRUE)
+source("./modules/core/surveyData_ui.R", local = TRUE)
+source("./modules/core/surveyData_server.R", local = TRUE)
 
-source("./modules/surveyDataValidator_ui.R", local = TRUE)
-source("./modules/surveyDataValidator_server.R", local = TRUE)
+source("./modules/core/surveyDataValidator_ui.R", local = TRUE)
+source("./modules/core/surveyDataValidator_server.R", local = TRUE)
 
-source("./modules/surveyDataSummary_ui.R", local = TRUE)
-source("./modules/surveyDataSummary_server.R", local = TRUE)
+source("./modules/core/surveyDataSummary_ui.R", local = TRUE)
+source("./modules/core/surveyDataSummary_server.R", local = TRUE)
 
-source("./modules/floristicTables_ui.R", local = TRUE)
-source("./modules/floristicTables_server.R", local = TRUE)
+source("./modules/core/floristicTables_ui.R", local = TRUE)
+source("./modules/core/floristicTables_server.R", local = TRUE)
 
-source("./modules/nvcAssignment_ui.R", local = TRUE)
-source("./modules/nvcAssignment_server.R", local = TRUE)
+source("./modules/core/nvcAssignment_ui.R", local = TRUE)
+source("./modules/core/nvcAssignment_server.R", local = TRUE)
 
-source("./modules/habCor_ui.R", local = TRUE)
-source("./modules/habCor_server.R", local = TRUE)
+source("./modules/core/habCor_ui.R", local = TRUE)
+source("./modules/core/habCor_server.R", local = TRUE)
 
-source("./modules/speciesFreq_ui.R", local = TRUE)
-source("./modules/speciesFreq_server.R", local = TRUE)
+source("./modules/core/speciesFreq_ui.R", local = TRUE)
+source("./modules/core/speciesFreq_server.R", local = TRUE)
 
-source("./modules/calcAvgEIVs_ui.R", local = TRUE)
-source("./modules/calcAvgEIVs_server.R", local = TRUE)
+source("./modules/core/calcAvgEIVs_ui.R", local = TRUE)
+source("./modules/core/calcAvgEIVs_server.R", local = TRUE)
 
-source("./modules/diversityAnalysis_ui.R", local = TRUE)
-source("./modules/diversityAnalysis_server.R", local = TRUE)
+source("./modules/core/diversityAnalysis_ui.R", local = TRUE)
+source("./modules/core/diversityAnalysis_server.R", local = TRUE)
 
-source("./modules/mvaNationalRef_ui.R", local = TRUE)
-source("./modules/mvaNationalRef_server.R", local = TRUE)
+source("./modules/core/mvaNationalRef_ui.R", local = TRUE)
+source("./modules/core/mvaNationalRef_server.R", local = TRUE)
 
-source("./modules/mvaLocalRefRestricted_ui.R", local = TRUE)
-source("./modules/mvaLocalRefRestricted_server.R", local = TRUE)
+source("./modules/core/mvaLocalRefRestricted_ui.R", local = TRUE)
+source("./modules/core/mvaLocalRefRestricted_server.R", local = TRUE)
 
-source("./modules/mvaLocalRefUnrestricted_ui.R", local = TRUE)
-source("./modules/mvaLocalRefUnrestricted_server.R", local = TRUE)
+source("./modules/core/mvaLocalRefUnrestricted_ui.R", local = TRUE)
+source("./modules/core/mvaLocalRefUnrestricted_server.R", local = TRUE)
 
-source("./modules/report_server.R", local = TRUE)
+source("./modules/core/report_server.R", local = TRUE)
 
 ## Niche models -----------------------------------------------------------
 source("./modules/niche_models/nmSidebar_ui.R", local = TRUE)
@@ -113,8 +118,8 @@ source("./modules/niche_models/nmSidebar_server.R", local = TRUE)
 source("./modules/niche_models/nmDataInput_ui.R", local = TRUE)
 source("./modules/niche_models/nmDataInput_server.R", local = TRUE)
 
-# source("./modules/niche_models/nmModelDisplay_ui.R", local = TRUE)
-# source("./modules/niche_models/nmModelDisplay_server.R", local = TRUE)
+source("./modules/niche_models/nmModelDisplay_ui.R", local = TRUE)
+source("./modules/niche_models/nmModelDisplay_server.R", local = TRUE)
 
 # source("./modules/niche_models/nmModelRun_ui.R", local = TRUE)
 # source("./modules/niche_models/nmModelRun_server.R", local = TRUE)
