@@ -34,7 +34,7 @@ There are 7 main sections in `RMAVIS` at present.
 **Core** - The core of the `RMAVIS` application, containing the functionality
 present in the original v1.0 release.
 
-**NicheModels** - Contains the ability to view the ecological niche models for
+**ENM** - Contains the ability to view the ecological niche models for
 selected plant species and make occurrence probability predictions.
 
 **NVC Lookup** - Contains a searchable table, which can be used to

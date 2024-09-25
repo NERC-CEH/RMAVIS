@@ -182,7 +182,7 @@ ui <- bslib::page_navbar(
   
   bslib::nav_panel(
 
-    "NicheModels",
+    "ENM",
 
     bslib::layout_sidebar(
 
@@ -212,6 +212,18 @@ ui <- bslib::page_navbar(
 
           nmDataInputUI(id = "nmDataInput_id_1")
 
+        ),
+        
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          bslib::card_header("Model Prediction"),
+          
+          value = "nmModelPred_panel",
+          
+          nmModelRunUI(id = "nmModelRun_id_1")
+          
         )
 
       )

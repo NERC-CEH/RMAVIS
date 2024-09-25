@@ -60,7 +60,78 @@ create_ale_plot <- function(ale_data){
     ggplot2::facet_wrap(~variable, scales = "free_x", ncol = 2) +
     ggplot2::theme_minimal() +
     ggplot2::theme(legend.position = "right") +
+    ggplot2::ylab(label = NULL) +
+    ggplot2::xlab(label = NULL) +
     NULL
   
   return(ale_plot)
+}
+
+plot_break_down <- function(x,
+                            baseline = NA,
+                            vcolors = DALEX::colors_breakdown_drwhy(),
+                            digits = 3, 
+                            rounding_function = round,
+                            add_contributions = TRUE, 
+                            shift_contributions = 0.05,
+                            vnames = NULL){
+  
+  position <- cumulative <- prev <- pretty_text <- right_side <- contribution <- NULL
+  
+  # fix for https://github.com/ModelOriented/iBreakDown/issues/77
+  colnames(x) <- gsub(colnames(x), pattern = "cummulative", replacement = "cumulative")
+  
+  # enrich dataframe with additional features
+  tmp <- iBreakDown:::prepare_data_for_break_down_plot(x, baseline, rounding_function, digits)
+  
+  broken_baseline <- tmp$broken_baseline
+  x <- tmp$x
+  
+  # fix for https://github.com/ModelOriented/iBreakDown/issues/85 check if correction is needed
+  if (any(x[x$variable == "prediction", "right_side"] < broken_baseline$contribution)) {
+    # put there max val
+    x[x$variable == "prediction", "right_side"] <- pmax(x[x$variable == "prediction", "right_side"], broken_baseline$contribution)
+  }
+  if (any(x[x$variable == "intercept", "right_side"] < broken_baseline$contribution)) {
+    # put there max val
+    x[x$variable == "intercept", "right_side"] <- pmax(x[x$variable == "intercept", "right_side"], broken_baseline$contribution)
+  }
+  
+  drange <- diff(range(x$cumulative))
+  
+  # base plot
+  pl <- ggplot2::ggplot(x, mapping = ggplot2::aes(x = position + 0.5,
+                                                  y = pmax(cumulative, prev),
+                                                  xmin = position + 0.15, 
+                                                  xmax = position + 0.85,
+                                                  ymin = cumulative, 
+                                                  ymax = prev,
+                                                  fill = sign,
+                                                  label = pretty_text)) +
+    ggplot2::geom_errorbarh(data = x[x$variable_name != "", ],
+                            mapping = ggplot2::aes(xmax = position - 0.85,
+                                                   xmin = position + 0.85,
+                                                   y = cumulative), 
+                            height = 0,
+                            color = "#371ea3") +
+    ggplot2::geom_rect(alpha = 0.9) +
+    ggplot2::geom_hline(data = broken_baseline, 
+                        mapping = ggplot2::aes(yintercept = contribution), 
+                        lty = 3, 
+                        alpha = 0.5, 
+                        color = "#371ea3") +
+    ggplot2::geom_text(mapping = ggplot2::aes(y = right_side),
+                       vjust = 0.5,
+                       nudge_y = drange * shift_contributions,
+                       hjust = -0.25,
+                       color = "#371ea3") + 
+    ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.1)) +
+    ggplot2::scale_x_continuous(labels = x$variable, breaks = x$position + 0.5, name = "") +
+    ggplot2::scale_fill_manual(values = vcolors) + 
+    ggplot2::coord_flip() + 
+    DALEX::theme_vertical_default_dalex() +
+    ggplot2::theme(legend.position = "none")
+  
+  return(pl)
+  
 }

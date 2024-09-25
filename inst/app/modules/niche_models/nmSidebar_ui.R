@@ -58,6 +58,78 @@ nmSidebarUI <- function(id){
           
         )
         
+      ),
+      
+      bslib::accordion_panel(
+        
+        "Model Options", 
+        
+        icon = bsicons::bs_icon("bezier"),
+        
+        shiny::div(
+          
+          id = ns("selectedModels_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("selectedModels"), 
+                                  label = "Selected Models", 
+                                  choices = c("GAM", "NNet", "GLM", "RF", "MARS", "SVM", "XGB", "WE"), 
+                                  selected = NULL, 
+                                  multiple = TRUE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Model Selection",
+              id = ns("modelSelectionInfo"),
+              shiny::markdown(
+                "
+              Select the models...
+              "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("selectedVariables_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("selectedVariables"), 
+                                  label = "Selected Variables", 
+                                  choices = c("cov4", "fert", "mja", "mju", "ph", "prec", "wet"), 
+                                  selected = NULL, 
+                                  multiple = TRUE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Variable Selection",
+              id = ns("Variable Selection Info"),
+              shiny::markdown(
+                "
+              Select the variables...
+              "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        )
+        
       )
       
     )

@@ -44,10 +44,27 @@ library(vegan)
 library(writexl)
 
 # TEMP FOR DEVELOPMENT ----------------------------------------------------
+# Reading the niche model results from targets needs to be replaced with a
+# package
+library(mlr3)
+library(mlr3pipelines)
+library(mlr3learners)
+library(mlr3extralearners)
+library(targets)
+library(qs)
+library(stats)
+library(DALEX)
+library(DALEXtra)
+
 source("./../../R/temp_functions.R", local = TRUE)
 source("./../../R/graph_functions.R", local = TRUE)
 tar_store <- file.path("C:/Users/zekmar/Github/GBIENMAnalysis/_targets")
 modelled_species <- targets::tar_read(name = "Species", store = tar_store)
+
+mlr3extralearners::install_learners(c("classif.gam",
+                                      "classif.randomForest"
+))
+
 
 # Render documentation ----------------------------------------------------
 # rmarkdown::render(input = "./inst/app/docs/documentation.Rmd",  output_dir = "./inst/app/www")
@@ -122,8 +139,8 @@ source("./modules/niche_models/nmDataInput_server.R", local = TRUE)
 source("./modules/niche_models/nmModelDisplay_ui.R", local = TRUE)
 source("./modules/niche_models/nmModelDisplay_server.R", local = TRUE)
 
-# source("./modules/niche_models/nmModelRun_ui.R", local = TRUE)
-# source("./modules/niche_models/nmModelRun_server.R", local = TRUE)
+source("./modules/niche_models/nmModelRun_ui.R", local = TRUE)
+source("./modules/niche_models/nmModelRun_server.R", local = TRUE)
 
 # Source main UI and Server modules ---------------------------------------
 source("./modules/ui.R", local = TRUE)

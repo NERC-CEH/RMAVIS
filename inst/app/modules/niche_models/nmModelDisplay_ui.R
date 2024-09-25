@@ -22,7 +22,7 @@ nmModelDisplayUI <- function(id){
         
         shiny::h5("Feature Importance"),
         
-        plotly::plotlyOutput(outputId = ns("feature_importance_plot"), height = "35vh")
+        plotly::plotlyOutput(outputId = ns("feature_importance_plot"), height = "50vh")
         
       )
       
@@ -43,4 +43,5 @@ nmModelDisplayUI <- function(id){
     )
     
   )
+  
 }

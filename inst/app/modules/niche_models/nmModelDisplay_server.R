@@ -21,6 +21,13 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
   
   observe({
     
+    # Start busy spinner
+    shinybusy::show_modal_spinner(
+      spin = "fading-circle",
+      color = "#3F9280",
+      text = "Retrieving ENM Model Data"
+    )
+    
     focalSpecies <- focalSpecies()
     
     measures <- targets::tar_read(name = "AllMeasures", store = tar_store) |>
@@ -35,6 +42,9 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
     measures_rval(measures)
     aleData_rval(aleData)
     featureImportance_rval(featureImportance)
+    
+    # Stop busy spinner
+    shinybusy::remove_modal_spinner()
 
   }) |>
     bindEvent(focalSpecies(),
@@ -68,7 +78,7 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
                                                   # style = list(fontSize = "1rem"),
                                                   rowClass = "my-row",
                                                   defaultColDef = reactable::colDef(
-                                                    format = reactable::colFormat(digits = 2),
+                                                    format = reactable::colFormat(digits = 3),
                                                     headerClass = "my-header",
                                                     class = "my-col",
                                                     align = "center" # Needed as alignment is not passing through to header
@@ -120,7 +130,7 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
                                                     # style = list(fontSize = "1rem"),
                                                     rowClass = "my-row",
                                                     defaultColDef = reactable::colDef(
-                                                      format = reactable::colFormat(digits = 2),
+                                                      format = reactable::colFormat(digits = 3),
                                                       headerClass = "my-header",
                                                       class = "my-col",
                                                       align = "center" # Needed as alignment is not passing through to header
