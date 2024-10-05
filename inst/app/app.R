@@ -60,10 +60,9 @@ source("./../../R/temp_functions.R", local = TRUE)
 source("./../../R/graph_functions.R", local = TRUE)
 tar_store <- file.path("C:/Users/zekmar/Github/GBIENMAnalysis/_targets")
 modelled_species <- targets::tar_read(name = "Species", store = tar_store)
+# foo <- targets::tar_read("PAPlotMetadata", store = tar_store)
 
-mlr3extralearners::install_learners(c("classif.gam",
-                                      "classif.randomForest"
-))
+mlr3extralearners::install_learners(c("classif.gam", "classif.randomForest"))
 
 
 # Render documentation ----------------------------------------------------

@@ -5,10 +5,14 @@ nmModelRun <- function(input, output, session, sidebar_nm_options, nmDataInput) 
   # Retrieve sidebar options ------------------------------------------------
   runNMAnalysis <- reactiveVal()
   focalSpecies <- reactiveVal()
+  identifyPredDrivers <- reactiveVal()
+  selectedModelPredict <- reactiveVal()
   
   observe({
     runNMAnalysis(sidebar_nm_options()$runNMAnalysis)
     focalSpecies(sidebar_nm_options()$focalSpecies)
+    identifyPredDrivers(sidebar_nm_options()$identifyPredDrivers)
+    selectedModelPredict(sidebar_nm_options()$selectedModelPredict)
     
   }) |>
     bindEvent(sidebar_nm_options(),
@@ -17,9 +21,9 @@ nmModelRun <- function(input, output, session, sidebar_nm_options, nmDataInput) 
 
   # Retrieve Predictor Data -------------------------------------------------
   predictorData_rval <- reactiveVal(predictors <- tibble::tribble(
-    ~id, ~ph, ~fert, ~wet, ~cov4, ~mju, ~mja, ~prec,
-    "a", 4, 1.5, 2, 2, 19.16, 1.74, 605.66,
-    "b", 7, 2, 2, 1, 17.4, -1.26, 1056.49
+    ~id,           ~`F`,   ~L,    ~N,    ~R,    ~S,     ~DG,    ~DS,   ~H,
+    "nvc_1000897",  4,     7.2,   7,   6.4,   0,      0.278,  0.177,  0.200,
+    "nvc_1000898",  3.86,  7.57,  2.71,  6.57,  0.571,  0.271,  0.219,  0.226
   ))
   
   # observe({
@@ -36,10 +40,10 @@ nmModelRun <- function(input, output, session, sidebar_nm_options, nmDataInput) 
   observe({
     
     focalSpecies <- focalSpecies()
-    focalSpecies <- "NBNSYS0000004288"
+    selectedModelPredict <- selectedModelPredict()
     
-    models <- targets::tar_read(name = "WeightedEnsembleModel", store = tar_store)
-    explainers <- targets::tar_read(name = "WeightedEnsembleDALEXExplainer", store = tar_store)
+    models <- targets::tar_read(name = "GAMModels", store = tar_store)
+    explainers <- targets::tar_read(name = "GAMDALEXExplainer", store = tar_store)
     
     model <- retrieve_nested_element(nested_list = models, 
                                      focal_species = focalSpecies)
@@ -53,11 +57,11 @@ nmModelRun <- function(input, output, session, sidebar_nm_options, nmDataInput) 
 
   }) |>
     bindEvent(focalSpecies(),
+              selectedModelPredict(),
               ignoreInit = TRUE)
   
   
   # Run Model ---------------------------------------------------------------
-  
   modelPredBreakdown_rval <- reactiveVal()
   
   observe({
@@ -70,25 +74,46 @@ nmModelRun <- function(input, output, session, sidebar_nm_options, nmDataInput) 
     )
     
     # Model Prediction
-    predictorData <- predictorData_rval()
+    isolate({
+      predictorData <- predictorData_rval()
+      selectedModel <- selectedModel_rval()
+      selectedExplainer <- selectedExplainer_rval()
+      identifyPredDrivers <- identifyPredDrivers()
+    })
     
-    results <- predict(model_species, newdata = predictorData, predict_type = "prob") |>
+    # assign(x = "predictorData", value = predictorData, envir = .GlobalEnv)
+    # assign(x = "selectedModel", value = selectedModel, envir = .GlobalEnv)
+    # assign(x = "selectedExplainer", value = selectedExplainer, envir = .GlobalEnv)
+    # assign(x = "identifyPredDrivers", value = identifyPredDrivers, envir = .GlobalEnv)
+    
+    results <- predict(selectedModel, newdata = predictorData, predict_type = "prob") |>
       tibble::as_tibble() |>
       dplyr::bind_cols(dplyr::select(predictors, id)) |>
       dplyr::select("id" = "id",
-                    "Prob.Presence" = "1",
-                    "Prob.Absence" = "0")
+                    "Prob.Presence" = "Present",
+                    "Prob.Absence" = "Absent")
     
-    # Model Breakdown
-    selectedExplainer <- selectedExplainer_rval()
+    print(results)
     
-    predictorData <- predictorData_rval() |>
-      dplyr::slice(1)
     
-    profile <- DALEX::predict_parts(explainer = selectedExplainer,
-                                    new_observation = predictorData)
-    
-    modelPredBreakdown_rval(profile)
+    # Identify model prediction drivers
+    if(isTRUE(identifyPredDrivers)){
+      
+      # Update busy spinner
+      shinybusy::update_modal_spinner(
+        text = "Identifying Drivers"
+      )
+      
+      # Model Breakdown
+      predictorData_1 <- predictorData |>
+        dplyr::slice(1)
+      
+      profile <- DALEX::predict_parts(explainer = selectedExplainer,
+                                      new_observation = predictorData)
+      
+      modelPredBreakdown_rval(profile)
+      
+    }
     
     # Stop busy spinner
     shinybusy::remove_modal_spinner()

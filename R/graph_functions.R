@@ -60,6 +60,7 @@ create_ale_plot <- function(ale_data){
     ggplot2::facet_wrap(~variable, scales = "free_x", ncol = 2) +
     ggplot2::theme_minimal() +
     ggplot2::theme(legend.position = "right") +
+    ggthemes::scale_colour_colorblind() +
     ggplot2::ylab(label = NULL) +
     ggplot2::xlab(label = NULL) +
     NULL

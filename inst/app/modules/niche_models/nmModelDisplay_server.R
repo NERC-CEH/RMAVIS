@@ -4,10 +4,14 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
   
   # Retrieve sidebar options ------------------------------------------------
   focalSpecies <- reactiveVal()
+  selectedModelDisplay <- reactiveVal()
+  selectedVariablesDisplay <- reactiveVal()
 
   observe({
 
     focalSpecies(sidebar_nm_options()$focalSpecies)
+    selectedModelDisplay(sidebar_nm_options()$selectedModelDisplay)
+    selectedVariablesDisplay(sidebar_nm_options()$selectedVariablesDisplay)
 
   }) |>
     bindEvent(sidebar_nm_options(),
@@ -29,15 +33,24 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
     )
     
     focalSpecies <- focalSpecies()
+    selectedModelDisplay <- selectedModelDisplay()
+    selectedVariablesDisplay <- c("_full_model_", "_baseline_", selectedVariablesDisplay())
     
     measures <- targets::tar_read(name = "AllMeasures", store = tar_store) |>
-      dplyr::filter(species == focalSpecies)
+      dplyr::filter(species == focalSpecies) |>
+      dplyr::filter(model %in% selectedModelDisplay)
     
     aleData <- targets::tar_read(name = "AllALEData", store = tar_store) |>
-      dplyr::filter(species == focalSpecies)
+      dplyr::filter(species == focalSpecies) |>
+      dplyr::filter(model %in% selectedModelDisplay) |>
+      dplyr::filter(variable %in% selectedVariablesDisplay)
     
     featureImportance <- targets::tar_read(name = "AllFeatureImportance", store = tar_store) |>
-      dplyr::filter(species == focalSpecies)
+      dplyr::filter(species == focalSpecies) |>
+      dplyr::filter(model %in% selectedModelDisplay) |>
+      dplyr::filter(variable %in% selectedVariablesDisplay)
+    
+    assign(x = "featureImportance", value = featureImportance, envir = .GlobalEnv)
     
     measures_rval(measures)
     aleData_rval(aleData)
@@ -48,7 +61,9 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
 
   }) |>
     bindEvent(focalSpecies(),
-              ignoreInit = FALSE)
+              selectedModelDisplay(),
+              selectedVariablesDisplay(),
+              ignoreInit = TRUE)
   
 
   # Model evaluation metrics ------------------------------------------------
@@ -89,6 +104,13 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
   })
   
   observe({
+    
+    # Start busy spinner
+    shinybusy::show_modal_spinner(
+      spin = "fading-circle",
+      color = "#3F9280",
+      text = "Rendering Performance Metrics Table"
+    )
     
     measures <- measures_rval()
     
@@ -143,6 +165,9 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
     
     modelEvalMetricsTable_rval(modelEvalMetricsTable_data)
     
+    # Stop busy spinner
+    shinybusy::remove_modal_spinner()
+    
   }) |>
     bindEvent(measures_rval())
 
@@ -151,6 +176,13 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
   
   # Feature importance plot -------------------------------------------------
   observe({
+    
+    # Start busy spinner
+    shinybusy::show_modal_spinner(
+      spin = "fading-circle",
+      color = "#3F9280",
+      text = "Rendering Feature Importance Plots"
+    )
     
     featureImportance <- featureImportance_rval()
     
@@ -163,6 +195,9 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
       return(feature_importance_plotly)
       
     })
+    
+    # Stop busy spinner
+    shinybusy::remove_modal_spinner()
 
   }) |>
     bindEvent(featureImportance_rval(),
@@ -171,6 +206,13 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
 
   # ALE plot ----------------------------------------------------------------
   observe({
+    
+    # Start busy spinner
+    shinybusy::show_modal_spinner(
+      spin = "fading-circle",
+      color = "#3F9280",
+      text = "Rendering ALE Plot"
+    )
     
     aleData <- aleData_rval()
     
@@ -183,6 +225,9 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
       return(ale_plotly)
       
     })
+    
+    # Stop busy spinner
+    shinybusy::remove_modal_spinner()
     
     
   }) |>
