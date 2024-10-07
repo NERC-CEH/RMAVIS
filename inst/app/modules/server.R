@@ -1,5 +1,40 @@
 # Server
 server <- function(input, output, session) {
+  
+  nvcInfo <- shiny::callModule(module = nvcInfo,
+                               id = "nvcInfo_id_1")
+  
+  # Data Entry --------------------------------------------------------------
+  deSidebar_options <- shiny::callModule(module = deSidebar,
+                                         id = "deSidebar_id_1",
+                                         surveyData = surveyData,
+                                         surveyDataValidator = surveyDataValidator,
+                                         surveyDataSummary = surveyDataSummary)
+  
+  setupData <- shiny::callModule(module = setupData,
+                                 id = "setupData_id_1",
+                                 deSidebar_options = deSidebar_options)
+  
+  uploadDataTable <- shiny::callModule(module = uploadData,
+                                       id = "uploadData_id_1")
+  
+  surveyData <- shiny::callModule(module = surveyData,
+                                  id = "surveyData_id_1",
+                                  setupData = setupData,
+                                  uploadDataTable = uploadDataTable,
+                                  surveyDataValidator = surveyDataValidator,
+                                  deSidebar_options = deSidebar_options)
+  
+  surveyDataValidator <- shiny::callModule(module = surveyDataValidator,
+                                           id = "surveyDataValidator_id_1",
+                                           setupData = setupData,
+                                           surveyData = surveyData,
+                                           deSidebar_options = deSidebar_options)
+  
+  surveyDataSummary <- shiny::callModule(module = surveyDataSummary,
+                                         id = "surveyDataSummary_id_1",
+                                         surveyData = surveyData)
+
 
   # Core --------------------------------------------------------------------
   sidebar_options <- shiny::callModule(module = sidebar,
@@ -14,33 +49,6 @@ server <- function(input, output, session) {
                                        avgEIVs = avgEIVs,
                                        diversityAnalysis = diversityAnalysis,
                                        mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults)
-  
-  nvcInfo <- shiny::callModule(module = nvcInfo,
-                               id = "nvcInfo_id_1")
-  
-  setupData <- shiny::callModule(module = setupData,
-                                 id = "setupData_id_1",
-                                 sidebar_options = sidebar_options)
-  
-  uploadDataTable <- shiny::callModule(module = uploadData,
-                                       id = "uploadData_id_1")
-  
-  surveyData <- shiny::callModule(module = surveyData,
-                                  id = "surveyData_id_1",
-                                  setupData = setupData,
-                                  uploadDataTable = uploadDataTable,
-                                  surveyDataValidator = surveyDataValidator,
-                                  sidebar_options = sidebar_options)
-  
-  surveyDataValidator <- shiny::callModule(module = surveyDataValidator,
-                                           id = "surveyDataValidator_id_1",
-                                           setupData = setupData,
-                                           surveyData = surveyData,
-                                           sidebar_options = sidebar_options)
-  
-  surveyDataSummary <- shiny::callModule(module = surveyDataSummary,
-                                         id = "surveyDataSummary_id_1",
-                                         surveyData = surveyData)
   
   floristicTables <- shiny::callModule(module = floristicTables,
                                        id = "floristicTables_id_1",

@@ -27,14 +27,16 @@ conservation community.
 
 ## Structure
 
-There are 7 main sections in `RMAVIS` at present.
+There are 8 main sections in `RMAVIS` at present.
 
 **Home** - Provides outlining information.
 
-**Core** - The core of the `RMAVIS` application, containing the functionality
-present in the original v1.0 release.
+**Data Entry** -
 
-**NicheModels** - Contains the ability to view the ecological niche models for
+**Core** - The core of the `RMAVIS` application, containing the
+functionality present in the original v1.0 release.
+
+**ENM** - Contains the ability to view the ecological niche models for
 selected plant species and make occurrence probability predictions.
 
 **NVC Lookup** - Contains a searchable table, which can be used to
@@ -69,16 +71,17 @@ app, these are also made available through the `RMAVIS` package.
 
 ## Reccomended Citation
 
-To reference the core `RMAVIS` application please cite the JOSS paper as follows:
+To reference the core `RMAVIS` application please cite the JOSS paper as
+follows:
 
 Marshall et al., (2024). RMAVIS v1.0: a Shiny application for the
 analysis of vegetation survey data and assignment to GB NVC communities.
 Journal of Open Source Software, 9(100), 6682,
 <https://doi.org/10.21105/joss.06682>
 
-To reference the ecological niche models please cite the..............
+To reference the ecological niche models please cite the…………..
 
-To cite a specific version of RMAVIS.................
+To cite a specific version of RMAVIS……………..
 
 ## Feedback
 
@@ -89,11 +92,9 @@ form [here](https://forms.office.com/e/ByLgRPjT8J), or send an email to
 
 ## Acknowledgements
 
-The development of v1.0 of the app was partly supported by the UK‐SCAPE
-program delivering National Capability (NE/R016429/1) funded by the
+The development of this app was partly supported by the UK‐SCAPE
+programme delivering National Capability (NE/R016429/1) funded by the
 Natural Environment Research Council.
-
-The development of v1.1 of the app was supported by................
 
 We would like to thank Lindsay Maskell, Lucy Ridding, Barry Jobson,
 Colin Conroy, Andy McMullen, John Handley, Michael Tso, Simon Rolph,

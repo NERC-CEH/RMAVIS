@@ -60,7 +60,6 @@ source("./../../R/temp_functions.R", local = TRUE)
 source("./../../R/graph_functions.R", local = TRUE)
 tar_store <- file.path("C:/Users/zekmar/Github/GBIENMAnalysis/_targets")
 modelled_species <- targets::tar_read(name = "Species", store = tar_store)
-# foo <- targets::tar_read("PAPlotMetadata", store = tar_store)
 
 mlr3extralearners::install_learners(c("classif.gam", "classif.randomForest"))
 
@@ -80,24 +79,27 @@ source("./modules/documentation_ui.R", local = TRUE)
 
 source("./modules/news_ui.R", local = TRUE)
 
+## Data entry -------------------------------------------------------------
+source("./modules/data_entry/deSidebar_ui.R", local = TRUE)
+source("./modules/data_entry/deSidebar_server.R", local = TRUE)
+
+source("./modules/data_entry/setupData_server.R", local = TRUE)
+
+source("./modules/data_entry/uploadData_ui.R", local = TRUE)
+source("./modules/data_entry/uploadData_server.R", local = TRUE)
+
+source("./modules/data_entry/surveyData_ui.R", local = TRUE)
+source("./modules/data_entry/surveyData_server.R", local = TRUE)
+
+source("./modules/data_entry/surveyDataValidator_ui.R", local = TRUE)
+source("./modules/data_entry/surveyDataValidator_server.R", local = TRUE)
+
+source("./modules/data_entry/surveyDataSummary_ui.R", local = TRUE)
+source("./modules/data_entry/surveyDataSummary_server.R", local = TRUE)
 
 ## Core -------------------------------------------------------------------
 source("./modules/core/sidebar_ui.R", local = TRUE)
 source("./modules/core/sidebar_server.R", local = TRUE)
-
-source("./modules/core/setupData_server.R", local = TRUE)
-
-source("./modules/core/uploadData_ui.R", local = TRUE)
-source("./modules/core/uploadData_server.R", local = TRUE)
-
-source("./modules/core/surveyData_ui.R", local = TRUE)
-source("./modules/core/surveyData_server.R", local = TRUE)
-
-source("./modules/core/surveyDataValidator_ui.R", local = TRUE)
-source("./modules/core/surveyDataValidator_server.R", local = TRUE)
-
-source("./modules/core/surveyDataSummary_ui.R", local = TRUE)
-source("./modules/core/surveyDataSummary_server.R", local = TRUE)
 
 source("./modules/core/floristicTables_ui.R", local = TRUE)
 source("./modules/core/floristicTables_server.R", local = TRUE)

@@ -1,4 +1,4 @@
-surveyData <- function(input, output, session, uploadDataTable, setupData, surveyDataValidator, sidebar_options) {
+surveyData <- function(input, output, session, uploadDataTable, setupData, surveyDataValidator, deSidebar_options) {
   
   ns <- session$ns
   
@@ -26,14 +26,14 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
 
   observe({
     
-    clearTable(sidebar_options()$clearTable)
-    inputMethod(sidebar_options()$inputMethod)
-    selectedExampleData(sidebar_options()$selectedExampleData)
-    coverScale(sidebar_options()$coverScale)
-    runAnalysis(sidebar_options()$runAnalysis)
+    clearTable(deSidebar_options()$clearTable)
+    inputMethod(deSidebar_options()$inputMethod)
+    selectedExampleData(deSidebar_options()$selectedExampleData)
+    coverScale(deSidebar_options()$coverScale)
+    runAnalysis(deSidebar_options()$runAnalysis)
     
   }) |>
-    bindEvent(sidebar_options(), 
+    bindEvent(deSidebar_options(), 
               ignoreInit = FALSE)
   
 

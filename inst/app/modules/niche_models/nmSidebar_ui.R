@@ -64,7 +64,7 @@ nmSidebarUI <- function(id){
         
         "Model Display", 
         
-        icon = bsicons::bs_icon("bezier"),
+        icon = bsicons::bs_icon("eyeglasses"),
         
         shiny::div(
           

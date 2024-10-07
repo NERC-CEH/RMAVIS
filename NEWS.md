@@ -10,6 +10,7 @@
       -   Updating the habitat correspondences to include a more comprehensive
           set of NVC-to-EUNIS correspondences, floodplain meadows correspondences,
           gap-filled NPMS habitat correspondences, and .......
+      -   Separating the data entry modules into their own section "Data Entry".
 *   Fixes:
       -   Fixing Aster tripolium issue wherein the rayed (Aster tripolium var. tripolium)
           and unrayed (Aster tripolium var. discoideus) forms had been lumped into 

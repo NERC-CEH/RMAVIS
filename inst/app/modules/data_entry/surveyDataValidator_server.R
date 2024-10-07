@@ -1,4 +1,4 @@
-surveyDataValidator <- function(input, output, session, setupData, surveyData, sidebar_options) {
+surveyDataValidator <- function(input, output, session, setupData, surveyData, deSidebar_options) {
   
   ns <- session$ns
   
@@ -20,10 +20,10 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, s
   
   observe({
     
-    coverScale(sidebar_options()$coverScale)
+    coverScale(deSidebar_options()$coverScale)
     
   }) |>
-    bindEvent(sidebar_options(), 
+    bindEvent(deSidebar_options(), 
               ignoreInit = FALSE)
   
 # Initialise Table to Replace Species Not In Accepted List ----------------

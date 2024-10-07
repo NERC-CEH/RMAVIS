@@ -41,14 +41,14 @@ ui <- bslib::page_navbar(
     homeUI(id = "home_id_1")
     
   ),
-    
+  
   bslib::nav_panel(
     
-    "Core",
+    "Data Entry",
     
     bslib::layout_sidebar(
-
-      sidebar = sidebarUI(id = "sidebar_id_1"),
+      
+      sidebar = deSidebarUI(id = "deSidebar_id_1"),
       
       bslib::navset_card_tab(
         
@@ -74,7 +74,23 @@ ui <- bslib::page_navbar(
           
           surveyDataSummaryUI(id = "surveyDataSummary_id_1")
           
-        ),
+        )
+        
+      )
+      
+    )
+    
+  ),
+    
+  bslib::nav_panel(
+    
+    "Core",
+    
+    bslib::layout_sidebar(
+
+      sidebar = sidebarUI(id = "sidebar_id_1"),
+      
+      bslib::navset_card_tab(
         
         bslib::nav_panel(
           
@@ -176,7 +192,7 @@ ui <- bslib::page_navbar(
         )
       )
 
-    ),
+    )
     
   ),
   

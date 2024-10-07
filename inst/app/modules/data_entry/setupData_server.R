@@ -1,4 +1,4 @@
-setupData <- function(input, output, session, sidebar_options) {
+setupData <- function(input, output, session, deSidebar_options) {
   
   ns <- session$ns
   
@@ -24,10 +24,10 @@ setupData <- function(input, output, session, sidebar_options) {
   
   observe({
     
-    includeBryophytes(sidebar_options()$includeBryophytes)
+    includeBryophytes(deSidebar_options()$includeBryophytes)
     
   }) |>
-    bindEvent(sidebar_options(), 
+    bindEvent(deSidebar_options(), 
               ignoreInit = FALSE)
 
 # Update Input Data Based On includeBryophytes ----------------------------

@@ -15,277 +15,10 @@ sidebarUI <- function(id){
                         disabled = ''
                         ),
 
-    
 
-# Survey Data -------------------------------------------------------------
     bslib::accordion(
       
       open = FALSE,
-      
-      bslib::accordion_panel(
-        
-        "Survey Data", 
-        
-        icon = bsicons::bs_icon("clipboard-data"),
-        
-        shiny::div(
-
-          id = ns("includeBryophytes_div"),
-
-          bslib::layout_columns(
-
-            col_widths = c(11, 1),
-
-            # tags$style(".btn-group-vertical {width: 100% !important;}"),
-
-            shinyWidgets::switchInput(inputId = ns("includeBryophytes"),
-                                      label = "Bryophytes",
-                                      value = TRUE,
-                                      onLabel = "Yes",
-                                      offLabel = "No"),
-
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Include Bryophytes",
-              id = ns("includeBryophytesInfo"),
-              shiny::markdown(
-                "
-                Toggle whether bryophyte taxa are available for selection and
-                are included in analyses in RMAVIS. 
-                
-                If 'Yes' moss (Bryophyta), liverwort (Marchantiophyta), and hornwort
-                (Anthocerotophyta) taxa are included. If 'No' these taxa are
-                exluded.
-                
-                If 'Yes' the example datasets will need to be validated;
-                similarly, uploaded data including bryophyte species will need to
-                be validated. 
-                
-                The 'Run Analysis' button must be clicked again.
-                
-                "
-              ),
-              placement = "bottom"
-            )
-
-          ),
-
-          shiny::div(shiny::br())
-
-
-        ),
-        
-        shiny::div(
-          
-          id = ns("inputMethod_div"),
-          
-          bslib::layout_columns(
-            
-            col_widths = c(11, 1),
-            
-            shiny::selectizeInput(inputId = ns("inputMethod"), 
-                                  label = "Input Method", 
-                                  choices = RMAVIS:::inputMethod_options, 
-                                  selected = "none", 
-                                  multiple = FALSE),
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Input Method",
-              id = ns("inputmethodInfo"),
-              shiny::markdown(
-                "
-                Three input methods are provided:
-                1. 'Manual entry'.
-                2. 'Example'.
-                3. 'Upload'.
-                "
-              ),
-              placement = "bottom"
-            )
-            
-          ),
-          
-          shiny::div(shiny::br())
-          
-          
-        ),
-        
-        shiny::div(
-          
-          id = ns("exampleData_div"),
-          
-          bslib::layout_columns(
-            
-            col_widths = c(11, 1),
-            
-            shiny::selectizeInput(inputId = ns("selectedExampleData"), 
-                                  label = "Example Dataset", 
-                                  choices = RMAVIS:::example_data_options, 
-                                  selected = "none", 
-                                  multiple = FALSE),
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Example Dataset",
-              id = ns("selectedExampleDataInfo"),
-              shiny::markdown(
-                "
-                Four example datasets are currently provided:
-                1. 'Parsonage Down'.
-                2. 'Whitwell Common'.
-                3. 'Leith Hill Place Wood'.
-                4. 'Newborough Warren'.
-                "
-              ),
-              placement = "bottom"
-            )
-            
-          ),
-          
-          shiny::div(shiny::br())
-          
-        ),
-        
-        shiny::div(
-          
-          id = ns("uploadData_div"),
-          
-          shiny::div(shiny::h6("Upload Data")),
-          
-          bslib::layout_columns(
-            
-            col_widths = c(11, 1),
-            
-            shiny::actionButton(inputId = ns("uploadData"),
-                                label = "Upload"),
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Upload Data",
-              id = ns("uploadDataInfo"),
-              shiny::markdown(
-                "
-                Clicking the 'Upload' button opens a pop-up interface
-                in which more details are provided.
-                "
-              ),
-              placement = "bottom"
-            )
-          ),
-          
-          shiny::div(shiny::br())
-          
-        ),
-        
-        shiny::div(
-          
-          id = ns("coverScale_div"),
-          
-          bslib::layout_columns(
-            
-            col_widths = c(11, 1),
-            
-            shiny::selectizeInput(inputId = ns("coverScale"),
-                                  label = "Cover Scale",
-                                  choices = RMAVIS:::coverScale_options,
-                                  selected = "percentage",
-                                  multiple = FALSE),
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Cover Scale",
-              id = ns("coverScaleInfo"),
-              shiny::markdown(
-                "
-                Select the cover scale for data entry.
-                
-                At present four options are available:
-                
-                1. Percentage
-                2. Proportional
-                3. Domin
-                4. Braun-Blanquet (5 point)
-                
-                The format of the cover values entered in the table
-                will be checked against the selected cover scale
-                in the validation module.
-                
-                "
-              ),
-              placement = "bottom"
-            )
-            
-          ),
-          
-          shiny::div(shiny::br())
-          
-          
-        ),
-
-        shiny::div(
-          
-          id = ns("validatesurveyData_div"),
-          
-          shiny::div(shiny::h6("Validation")),
-          
-          bslib::layout_columns(
-            
-            col_widths = c(11, 1),
-            
-            shiny::actionButton(inputId = ns("validatesurveyData"),
-                                label = "Validate Survey Data"),
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Validate Survey Table Data",
-              id = ns("validatesurveyDataInfo"),
-              shiny::markdown(
-                "
-                Open a popup window to validate the data present in the Survey Data Table.
-                All validation checks must pass before the 'Run Analysis' button is enabled
-                and RMAVIS is ok to proceed.
-                "
-              ),
-              placement = "bottom"
-            )
-            
-          ),
-          
-          shiny::div(shiny::br())
-          
-        ),
-        
-        shiny::div(
-          
-          id = ns("clearTable_div"),
-          
-          shiny::div(shiny::h6("Clear Survey Data Table")),
-          
-          bslib::layout_columns(
-            
-            col_widths = c(11, 1),
-            
-            shiny::actionButton(inputId = ns("clearTable"),
-                                label = "Clear"),
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Clear Survey Data Table",
-              id = ns("clearTableInfo"),
-              shiny::markdown(
-                "
-                Clear the survey data table.
-                "
-              ),
-              placement = "bottom"
-            )
-            
-          )
-        )
-        
-      ),
-      
 
 # NVC Assignment ----------------------------------------------------------
       bslib::accordion_panel(
@@ -801,7 +534,7 @@ sidebarUI <- function(id){
         
         "MVA", 
         
-        icon = bsicons::bs_icon("arrows-angle-expand"),
+        icon = bsicons::bs_icon("transparency"),
         
         shiny::div(
           
@@ -1291,78 +1024,17 @@ sidebarUI <- function(id){
                 "
               ),
               placement = "bottom"
+              
             )
+            
           )
-        ),
-        
-        shiny::div(shiny::br()),
-
-        ## Download Accepted Species -----------------------------------------------
-        shiny::div(
           
-          id = ns("downloadSpeciesData_div"),
-          
-          bslib::layout_columns(
-            
-            col_widths = c(11, 1),
-            
-            shiny::downloadButton(
-              outputId = ns("downloadSpeciesData"),
-              label = "Accepted Species",
-              class = NULL,
-              icon = NULL
-            ),
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Download Accepted Species Data",
-              shiny::markdown(
-                "
-                Download a csv containing the species names accepted by RMAVIS.
-                "
-              ),
-              placement = "bottom"
-            )
-          )
-        ),
-        
-        shiny::div(shiny::br()),
-
-        ## Download Survey Data ----------------------------------------------------
-        shiny::div(
-          
-          id = ns("downloadSurveyData_div"),
-          
-          bslib::layout_columns(
-            
-            col_widths = c(11, 1),
-            
-            downloadButton(
-              outputId = ns("downloadSurveyData"),
-              label = "Survey Data",
-              class = NULL,
-              icon = NULL
-            ),
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Download Survey Data",
-              shiny::markdown(
-                "
-                Download the survey data displayed in the 'Survey Data' section of RMAVIS.
-                This data will contain any changes made in the survey data validation process
-                and allow reproduction of the results of the current RMAVIS session
-                at a later date.
-                "
-              ),
-              placement = "bottom"
-            )
-          )
         )
         
       ) # Close Download Options
 
     )
+
   )
   
 }
