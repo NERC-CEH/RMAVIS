@@ -23,6 +23,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
   dcaVars <- reactiveVal()
   ccaVars <- reactiveVal()
   groupSurveyPlots <- reactiveVal()
+  selectedReferenceSpaces <- reactiveVal()
   selectSurveyMethod <- reactiveVal()
   selectSurveyYears <- reactiveVal()
   selectSurveyGroups <- reactiveVal()
@@ -35,6 +36,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     dcaVars(sidebar_options()$dcaVars)
     ccaVars(sidebar_options()$ccaVars)
     groupSurveyPlots(sidebar_options()$groupSurveyPlots)
+    selectedReferenceSpaces(sidebar_options()$selectedReferenceSpaces)
     selectSurveyMethod(sidebar_options()$selectSurveyMethod)
     selectSurveyYears(sidebar_options()$selectSurveyYears)
     selectSurveyGroups(sidebar_options()$selectSurveyGroups)
@@ -61,7 +63,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     shiny::isolate({
       
       nvcAssignment <- nvcAssignment()
-      topNVCCommunities <- nvcAssignment$topNVCCommunities
+      selectedReferenceSpaces <- selectedReferenceSpaces()
       nvc_pquads_wide <- nvc_pquads_wide()
       nvc_pquads_mean_unweighted_eivs <- nvc_pquads_mean_unweighted_eivs()
       surveyData <- surveyData()
@@ -70,7 +72,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
       ccaVars <- ccaVars()
       
       # Create pattern to subset matrix rows
-      codes_regex <- paste0("^(", stringr::str_c(topNVCCommunities, collapse = "|"), ")(?<=)P")
+      codes_regex <- paste0("^(", stringr::str_c(selectedReferenceSpaces, collapse = "|"), ")(?<=)P")
       
       # Subset pseudo-quadrats for selected communities
       nvc_pquads_wide_trimmed <- nvc_pquads_wide[stringr::str_detect(string = row.names(nvc_pquads_wide), pattern = codes_regex), ]
@@ -148,7 +150,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
         dplyr::mutate(
           "Year" =
             dplyr::case_when(
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(topNVCCommunities, collapse = "|")) ~ "Reference",
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(selectedReferenceSpaces, collapse = "|")) ~ "Reference",
               TRUE ~ stringr::str_extract(string = Quadrat, pattern = "(\\d{4})")
             ),
           .before  = "Quadrat"
@@ -156,7 +158,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
         dplyr::mutate(
           "NVC.Comm" =
             dplyr::case_when(
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(topNVCCommunities, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"),
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(selectedReferenceSpaces, collapse = "|")) ~ stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"),
               TRUE ~ as.character("Sample")
             ),
           .before  = "Quadrat"
@@ -164,8 +166,8 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
         dplyr::mutate(
           "Group" =
             dplyr::case_when(
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(topNVCCommunities, collapse = "|")) == TRUE ~ "Reference",
-              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(topNVCCommunities, collapse = "|")) == FALSE ~ stringr::str_extract(string = Quadrat, pattern = "\\d{4}\\s-\\s(.*)\\s-\\s.*", group = 1),
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(selectedReferenceSpaces, collapse = "|")) == TRUE ~ "Reference",
+              stringr::str_detect(string = Quadrat, pattern = stringr::str_c(selectedReferenceSpaces, collapse = "|")) == FALSE ~ stringr::str_extract(string = Quadrat, pattern = "\\d{4}\\s-\\s(.*)\\s-\\s.*", group = 1),
               TRUE ~ as.character("")
             ),
           .before  = "Quadrat"
@@ -262,7 +264,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     mvaResults(mvaResults_list)
     
   }) |>
-    bindEvent(nvcAssignment(), # Changes every time the analysis is re-run
+    bindEvent(selectedReferenceSpaces(), # Changes every time the analysis is re-run
               ccaVars(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)

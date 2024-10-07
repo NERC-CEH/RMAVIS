@@ -23,6 +23,7 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
   dcaVars <- reactiveVal()
   ccaVars <- reactiveVal()
   groupSurveyPlots <- reactiveVal()
+  selectedReferenceSpaces <- reactiveVal()
   selectSurveyMethod <- reactiveVal()
   selectSurveyYears <- reactiveVal()
   selectSurveyQuadrats <- reactiveVal()
@@ -35,6 +36,7 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
     dcaVars(sidebar_options()$dcaVars)
     ccaVars(sidebar_options()$ccaVars)
     groupSurveyPlots(sidebar_options()$groupSurveyPlots)
+    selectedReferenceSpaces(sidebar_options()$selectedReferenceSpaces)
     selectSurveyMethod(sidebar_options()$selectSurveyMethod)
     selectSurveyYears(sidebar_options()$selectSurveyYears)
     selectSurveyQuadrats(sidebar_options()$selectSurveyQuadrats)
@@ -63,14 +65,14 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
     shiny::isolate({
       
       nvcAssignment <- nvcAssignment()
-      topNVCCommunities <- nvcAssignment$topNVCCommunities
+      selectedReferenceSpaces <- selectedReferenceSpaces()
       nvc_pquads_wide <- nvc_pquads_wide()
       nvc_pquads_mean_unweighted_eivs <- nvc_pquads_mean_unweighted_eivs()
       surveyData <- surveyData()
       surveyData_long <- surveyData$surveyData_long
       
       # Create pattern to subset matrix rows
-      codes_regex <- paste0("^(", stringr::str_c(topNVCCommunities, collapse = "|"), ")(?<=)P")
+      codes_regex <- paste0("^(", stringr::str_c(selectedReferenceSpaces, collapse = "|"), ")(?<=)P")
       
       # Subset pseudo-quadrats for selected communities
       selected_pquads <- nvc_pquads_wide[stringr::str_detect(string = row.names(nvc_pquads_wide), pattern = codes_regex), ]
@@ -218,7 +220,7 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
       
       
   }) |>
-    bindEvent(nvcAssignment(), # Changes every time the analysis is re-run
+    bindEvent(selectedReferenceSpaces(),
               ccaVars(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)

@@ -27,7 +27,7 @@ sidebar <- function(input, output, session,
       "restrictNVCFlorTablesOpts" = input$restrictNVCFlorTablesOpts,
       "resultsViewEIVs"  = input$resultsViewEIVs,
       "resultsViewDiversity"  = input$resultsViewDiversity,
-      "nationalReferenceSpaces" = input$nationalReferenceSpaces,
+      "selectedReferenceSpaces" = input$selectedReferenceSpaces,
       "groupSurveyPlots" = input$groupSurveyPlots,
       "selectSurveyMethod" = input$selectSurveyMethod,
       "selectSurveyYears" = input$selectSurveyYears,
@@ -58,7 +58,7 @@ sidebar <- function(input, output, session,
               input$restrictNVCFlorTablesOpts,
               input$resultsViewEIVs,
               input$resultsViewDiversity,
-              input$nationalReferenceSpaces,
+              input$selectedReferenceSpaces,
               input$groupSurveyPlots,
               input$selectSurveyMethod,
               input$selectSurveyYears,
@@ -317,7 +317,7 @@ sidebar <- function(input, output, session,
     # shinyWidgets::updatePickerInput(
     shiny::updateSelectizeInput(
       session = session,
-      inputId = "nationalReferenceSpaces",
+      inputId = "selectedReferenceSpaces",
       selected = topNVCCommunities
     )
     

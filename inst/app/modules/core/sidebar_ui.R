@@ -574,14 +574,14 @@ sidebarUI <- function(id){
         
         shiny::div(
           
-          id = ns("nationalReferenceSpaces_div"),
+          id = ns("selectedReferenceSpaces_div"),
           
           bslib::layout_columns(
             
             col_widths = c(11, 1),
             
-            shiny::selectizeInput(inputId = ns("nationalReferenceSpaces"),
-                                  label = "National Reference Spaces",
+            shiny::selectizeInput(inputId = ns("selectedReferenceSpaces"),
+                                  label = "Selected Reference Spaces",
                                   choices = RMAVIS:::nationalReferenceSpaces_options,
                                   selected = NULL,
                                   multiple = TRUE),
@@ -589,13 +589,13 @@ sidebarUI <- function(id){
             
             bslib::popover(
               bsicons::bs_icon("info-circle"),
-              title = "National Reference Spaces",
+              title = "Selected Reference Spaces",
               shiny::markdown(
                 "
-                Select the NVC communities to display the national reference spaces
+                Select the NVC communities to display the reference spaces
                 for. By default the top fitting NVC communities are displayed.
                 Please see the documentation for a definition of the
-                'National Reference Spaces' along with interpretation guidance.
+                'Reference Spaces' along with interpretation guidance.
                 "
               ),
               placement = "bottom"

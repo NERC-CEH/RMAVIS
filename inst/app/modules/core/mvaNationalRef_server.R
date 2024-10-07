@@ -28,7 +28,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
   dcaAxisSelection <- reactiveVal()
   dcaVars <- reactiveVal()
   ccaVars <- reactiveVal()
-  nationalReferenceSpaces <- reactiveVal()
+  selectedReferenceSpaces <- reactiveVal()
   groupSurveyPlots <- reactiveVal()
   selectSurveyMethod <- reactiveVal()
   selectSurveyYears <- reactiveVal()
@@ -41,8 +41,8 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
     dcaAxisSelection(sidebar_options()$dcaAxisSelection)
     dcaVars(sidebar_options()$dcaVars)
     ccaVars(sidebar_options()$ccaVars)
-    nationalReferenceSpaces(sidebar_options()$nationalReferenceSpaces)
     groupSurveyPlots(sidebar_options()$groupSurveyPlots)
+    selectedReferenceSpaces(sidebar_options()$selectedReferenceSpaces)
     selectSurveyMethod(sidebar_options()$selectSurveyMethod)
     selectSurveyYears(sidebar_options()$selectSurveyYears)
     selectSurveyQuadrats(sidebar_options()$selectSurveyQuadrats)
@@ -191,8 +191,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
       
       
   }) |>
-    bindEvent(#runAnalysis(),
-              nationalReferenceSpaces(), # Changes every time the analysis is re-run
+    bindEvent(selectedReferenceSpaces(), # Changes every time the analysis is re-run
               ccaVars(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
@@ -258,11 +257,11 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
       
       # Select centroids
       pquad_centroids_nrs <- mvaResults$pquad_centroids |>
-        dplyr::filter(NVC %in% nationalReferenceSpaces())
+        dplyr::filter(NVC %in% selectedReferenceSpaces())
       
       # Select hulls
       pquad_hulls_nrs <- mvaResults$pquad_hulls |>
-        dplyr::filter(NVC %in% nationalReferenceSpaces())
+        dplyr::filter(NVC %in% selectedReferenceSpaces())
       
 
       # Retrieve hulls and centroids for selected DCA axes
@@ -415,8 +414,8 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
     bindEvent(mvaResults_rval(),
               dcaAxisSelection(),
               dcaVars(),
-              nationalReferenceSpaces(),
               groupSurveyPlots(),
+              selectedReferenceSpaces(),
               selectSurveyMethod(),
               selectSurveyYears(),
               selectSurveyGroups(),
