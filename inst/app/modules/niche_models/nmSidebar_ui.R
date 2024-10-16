@@ -75,7 +75,7 @@ nmSidebarUI <- function(id){
             col_widths = c(11, 1),
             
             shiny::selectizeInput(inputId = ns("selectedModelDisplay"), 
-                                  label = "Selected Model", 
+                                  label = "Model", 
                                   choices = c("GAM", "NNet", "GLM", "RF", "MARS", "SVM", "XGB", "WE"), 
                                   selected = c("GAM", "NNet", "GLM", "RF", "MARS", "SVM", "XGB", "WE"), 
                                   multiple = TRUE),
@@ -107,7 +107,7 @@ nmSidebarUI <- function(id){
             col_widths = c(11, 1),
 
             shiny::selectizeInput(inputId = ns("selectedVariablesDisplay"),
-                                  label = "Selected Variables",
+                                  label = "Variables",
                                   choices = c("F", "L", "N", "R", "S", "DG", "DS", "H"),
                                   selected = c("F", "L", "N", "R", "S", "DG", "DS", "H"),
                                   multiple = TRUE),
@@ -128,6 +128,46 @@ nmSidebarUI <- function(id){
 
           shiny::div(shiny::br())
 
+        ),
+        
+        shiny::div(
+          
+          id = ns("selectedMarginalEffectsPlot_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("selectedMarginalEffectsPlot"),
+                                  label = "Marginal Effects Plot",
+                                  choices = c("ALE", "PDP", "CP"),
+                                  selected = "ALE",
+                                  multiple = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Marginal Effects Plot Selection",
+              id = ns("selectedMarginalEffectsPlot_info"),
+              shiny::markdown(
+              "
+              Select the marginal effects plot to view. Three options are available:
+              
+              1) **Accumulated Local Effects Plot (ALE)**. Broadly, this can be interpreted as *the effect of a given variable on the total probability of the species occurence.*
+              
+              2) **Partial Dependence Plot (PDP)**. Broadly, this can be interpreted as *...*
+              
+              3) **Ceritus Paribus Plot (CP)**. Broadly, this can be interpreted as *the probability of occurrence for that variable value, with all other variables held constant.*
+              
+              Please see the documentation for more details.
+              "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
         )
         
       ),

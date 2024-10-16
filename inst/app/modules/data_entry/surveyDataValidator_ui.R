@@ -27,6 +27,11 @@ surveyDataValidatorUI <- function(id){
         shiny::div(
           shiny::actionButton(inputId = ns("reallocateGroups"),
                               label = "Re-allocate Groups")
+        ),
+        
+        shiny::div(
+          shiny::actionButton(inputId = ns("trimWS"),
+                              label = "Trim White Space")
         )
         
       ),

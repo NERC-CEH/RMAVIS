@@ -12,6 +12,7 @@ nmSidebar <- function(input, output, session) {
       "focalSpecies" = input$focalSpecies,
       "selectedModelDisplay" = input$selectedModelDisplay,
       "selectedVariablesDisplay" = input$selectedVariablesDisplay,
+      "selectedMarginalEffectsPlot" = input$selectedMarginalEffectsPlot,
       "identifyPredDrivers" = input$identifyPredDrivers,
       "selectedModelPredict" = input$selectedModelPredict
       
@@ -24,6 +25,7 @@ nmSidebar <- function(input, output, session) {
               input$focalSpecies,
               input$selectedModelDisplay,
               input$selectedVariablesDisplay,
+              input$selectedMarginalEffectsPlot,
               input$identifyPredDrivers,
               input$selectedModelPredict,
               ignoreInit = TRUE)

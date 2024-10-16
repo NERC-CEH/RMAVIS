@@ -51,6 +51,9 @@ library(mlr3pipelines)
 library(mlr3learners)
 library(mlr3extralearners)
 library(targets)
+library(DBI)
+library(dbplyr)
+library(duckdb)
 library(qs)
 library(stats)
 library(DALEX)
@@ -59,10 +62,11 @@ library(DALEXtra)
 source("./../../R/temp_functions.R", local = TRUE)
 source("./../../R/graph_functions.R", local = TRUE)
 tar_store <- file.path("C:/Users/zekmar/Github/GBIENMAnalysis/_targets")
+db_path <- file.path("C:", "Users", "zekmar", "OneDrive - UKCEH", "GBIENMWorkingDir", "OutputData")
+
 modelled_species <- targets::tar_read(name = "Species", store = tar_store)
 
 mlr3extralearners::install_learners(c("classif.gam", "classif.randomForest"))
-
 
 # Render documentation ----------------------------------------------------
 # rmarkdown::render(input = "./inst/app/docs/documentation.Rmd",  output_dir = "./inst/app/www")

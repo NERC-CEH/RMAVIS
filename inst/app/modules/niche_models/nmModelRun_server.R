@@ -81,19 +81,12 @@ nmModelRun <- function(input, output, session, sidebar_nm_options, nmDataInput) 
       identifyPredDrivers <- identifyPredDrivers()
     })
     
-    # assign(x = "predictorData", value = predictorData, envir = .GlobalEnv)
-    # assign(x = "selectedModel", value = selectedModel, envir = .GlobalEnv)
-    # assign(x = "selectedExplainer", value = selectedExplainer, envir = .GlobalEnv)
-    # assign(x = "identifyPredDrivers", value = identifyPredDrivers, envir = .GlobalEnv)
-    
     results <- predict(selectedModel, newdata = predictorData, predict_type = "prob") |>
       tibble::as_tibble() |>
       dplyr::bind_cols(dplyr::select(predictors, id)) |>
       dplyr::select("id" = "id",
                     "Prob.Presence" = "Present",
                     "Prob.Absence" = "Absent")
-    
-    print(results)
     
     
     # Identify model prediction drivers

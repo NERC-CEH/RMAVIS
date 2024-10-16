@@ -6,12 +6,14 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
   focalSpecies <- reactiveVal()
   selectedModelDisplay <- reactiveVal()
   selectedVariablesDisplay <- reactiveVal()
+  selectedMarginalEffectsPlot <- reactiveVal()
 
   observe({
 
     focalSpecies(sidebar_nm_options()$focalSpecies)
     selectedModelDisplay(sidebar_nm_options()$selectedModelDisplay)
     selectedVariablesDisplay(sidebar_nm_options()$selectedVariablesDisplay)
+    selectedMarginalEffectsPlot(sidebar_nm_options()$selectedMarginalEffectsPlot)
 
   }) |>
     bindEvent(sidebar_nm_options(),
@@ -20,7 +22,7 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
   
   # Retrieve Data -----------------------------------------------------------
   measures_rval <- reactiveVal()
-  aleData_rval <- reactiveVal()
+  meData_rval <- reactiveVal()
   featureImportance_rval <- reactiveVal()
   
   observe({
@@ -34,26 +36,62 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
     
     focalSpecies <- focalSpecies()
     selectedModelDisplay <- selectedModelDisplay()
+    selectedMarginalEffectsPlot <- selectedMarginalEffectsPlot()
     selectedVariablesDisplay <- c("_full_model_", "_baseline_", selectedVariablesDisplay())
     
-    measures <- targets::tar_read(name = "AllMeasures", store = tar_store) |>
-      dplyr::filter(species == focalSpecies) |>
-      dplyr::filter(model %in% selectedModelDisplay)
+    # Open connection
+    con <- DBI::dbConnect(duckdb::duckdb(),
+                          dbdir = file.path(db_path, "biens-db.duckdb"),
+                          read_only = TRUE)
     
-    aleData <- targets::tar_read(name = "AllALEData", store = tar_store) |>
-      dplyr::filter(species == focalSpecies) |>
-      dplyr::filter(model %in% selectedModelDisplay) |>
-      dplyr::filter(variable %in% selectedVariablesDisplay)
-    
-    featureImportance <- targets::tar_read(name = "AllFeatureImportance", store = tar_store) |>
+    # Retrieve measures
+    measures <- dplyr::tbl(src = con, "AllMeasures") |>
       dplyr::filter(species == focalSpecies) |>
       dplyr::filter(model %in% selectedModelDisplay) |>
-      dplyr::filter(variable %in% selectedVariablesDisplay)
+      dplyr::collect()
     
-    assign(x = "featureImportance", value = featureImportance, envir = .GlobalEnv)
+    # Retrieve marginal effects
+    if(selectedMarginalEffectsPlot == "ALE"){
+      
+      meData <- dplyr::tbl(src = con, "AllALEData") |>
+        dplyr::filter(species == focalSpecies) |>
+        dplyr::filter(model %in% selectedModelDisplay) |>
+        dplyr::filter(variable %in% selectedVariablesDisplay) |>
+        dplyr::collect()
+      
+    } else if(selectedMarginalEffectsPlot == "PDP"){
+      
+      meData <- dplyr::tbl(src = con, "AllPDPData") |>
+        dplyr::filter(species == focalSpecies) |>
+        dplyr::filter(model %in% selectedModelDisplay) |>
+        dplyr::filter(variable %in% selectedVariablesDisplay) |>
+        dplyr::collect()
+      
+    } else if(selectedMarginalEffectsPlot == "CP"){
+      
+      meData <- dplyr::tbl(src = con, "AllCDData") |>
+        dplyr::filter(species == focalSpecies) |>
+        dplyr::filter(model %in% selectedModelDisplay) |>
+        dplyr::filter(variable %in% selectedVariablesDisplay) |>
+        dplyr::collect()
+      
+    }
     
+    # Retrieve feature importance
+    featureImportance <- dplyr::tbl(src = con, "AllFeatureImportance") |>
+      dplyr::filter(species == focalSpecies) |>
+      dplyr::filter(model %in% selectedModelDisplay) |>
+      dplyr::filter(variable %in% selectedVariablesDisplay) |>
+      dplyr::collect()
+    
+    # Close connection
+    DBI::dbDisconnect(conn = con)
+    
+    # assign(x = "aleData", value = aleData, envir = .GlobalEnv)
+    
+    # Store data in reactive objects
     measures_rval(measures)
-    aleData_rval(aleData)
+    meData_rval(meData)
     featureImportance_rval(featureImportance)
     
     # Stop busy spinner
@@ -63,6 +101,7 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
     bindEvent(focalSpecies(),
               selectedModelDisplay(),
               selectedVariablesDisplay(),
+              selectedMarginalEffectsPlot(),
               ignoreInit = TRUE)
   
 
@@ -214,11 +253,11 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
       text = "Rendering ALE Plot"
     )
     
-    aleData <- aleData_rval()
+    meData <- meData_rval()
     
     output$ale_plot <- plotly::renderPlotly({
       
-      ale_plot <- create_ale_plot(ale_data = aleData)
+      ale_plot <- create_ale_plot(ale_data = meData)
       
       ale_plotly <- plotly::ggplotly(ale_plot)
       
@@ -231,7 +270,7 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
     
     
   }) |>
-    bindEvent(aleData_rval(),
+    bindEvent(meData_rval(),
               ignoreInit = FALSE)
   
   
