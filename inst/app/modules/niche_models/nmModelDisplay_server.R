@@ -4,14 +4,14 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
   
   # Retrieve sidebar options ------------------------------------------------
   focalSpecies <- reactiveVal()
-  selectedModelDisplay <- reactiveVal()
+  # selectedModelDisplay <- reactiveVal()
   selectedVariablesDisplay <- reactiveVal()
   selectedMarginalEffectsPlot <- reactiveVal()
 
   observe({
 
     focalSpecies(sidebar_nm_options()$focalSpecies)
-    selectedModelDisplay(sidebar_nm_options()$selectedModelDisplay)
+    # selectedModelDisplay(sidebar_nm_options()$selectedModelDisplay)
     selectedVariablesDisplay(sidebar_nm_options()$selectedVariablesDisplay)
     selectedMarginalEffectsPlot(sidebar_nm_options()$selectedMarginalEffectsPlot)
 
@@ -35,7 +35,7 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
     )
     
     focalSpecies <- focalSpecies()
-    selectedModelDisplay <- selectedModelDisplay()
+    # selectedModelDisplay <- selectedModelDisplay()
     selectedMarginalEffectsPlot <- selectedMarginalEffectsPlot()
     selectedVariablesDisplay <- c("_full_model_", "_baseline_", selectedVariablesDisplay())
     
@@ -47,31 +47,23 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
     # Retrieve measures
     measures <- dplyr::tbl(src = con, "AllMeasures") |>
       dplyr::filter(species == focalSpecies) |>
-      dplyr::filter(model %in% selectedModelDisplay) |>
+      # dplyr::filter(model %in% selectedModelDisplay) |>
       dplyr::collect()
     
     # Retrieve marginal effects
     if(selectedMarginalEffectsPlot == "ALE"){
       
-      meData <- dplyr::tbl(src = con, "AllALEData") |>
+      meData <- dplyr::tbl(src = con, "AllIMLALEData") |>
         dplyr::filter(species == focalSpecies) |>
-        dplyr::filter(model %in% selectedModelDisplay) |>
+        # dplyr::filter(model %in% selectedModelDisplay) |>
         dplyr::filter(variable %in% selectedVariablesDisplay) |>
         dplyr::collect()
       
     } else if(selectedMarginalEffectsPlot == "PDP"){
       
-      meData <- dplyr::tbl(src = con, "AllPDPData") |>
+      meData <- dplyr::tbl(src = con, "AllIMLPDPData") |>
         dplyr::filter(species == focalSpecies) |>
-        dplyr::filter(model %in% selectedModelDisplay) |>
-        dplyr::filter(variable %in% selectedVariablesDisplay) |>
-        dplyr::collect()
-      
-    } else if(selectedMarginalEffectsPlot == "CP"){
-      
-      meData <- dplyr::tbl(src = con, "AllCDData") |>
-        dplyr::filter(species == focalSpecies) |>
-        dplyr::filter(model %in% selectedModelDisplay) |>
+        # dplyr::filter(model %in% selectedModelDisplay) |>
         dplyr::filter(variable %in% selectedVariablesDisplay) |>
         dplyr::collect()
       
@@ -80,7 +72,7 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
     # Retrieve feature importance
     featureImportance <- dplyr::tbl(src = con, "AllFeatureImportance") |>
       dplyr::filter(species == focalSpecies) |>
-      dplyr::filter(model %in% selectedModelDisplay) |>
+      # dplyr::filter(model %in% selectedModelDisplay) |>
       dplyr::filter(variable %in% selectedVariablesDisplay) |>
       dplyr::collect()
     
@@ -99,14 +91,14 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
 
   }) |>
     bindEvent(focalSpecies(),
-              selectedModelDisplay(),
+              # selectedModelDisplay(),
               selectedVariablesDisplay(),
               selectedMarginalEffectsPlot(),
               ignoreInit = TRUE)
   
 
   # Model evaluation metrics ------------------------------------------------
-  modelEvalMetricsTable_init <- data.frame("Model" = character(),
+  modelEvalMetricsTable_init <- data.frame(#"Model" = character(),
                                            "Binary Brier" = double(),
                                            "PRAUC" = double(),
                                            "Precision" = double(),
@@ -154,16 +146,16 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
     measures <- measures_rval()
     
     modelEvalMetricsTable_data <- measures |>
-      dplyr::mutate(
-        "model_type" = dplyr::case_when(
-          model %in% c("WE") ~ "WE",
-          TRUE ~ "Individual"
-        ),
-        .before = model
-      ) |>
-      dplyr::arrange(model_type, dplyr::desc(bacc)) |>
-      dplyr::select(-model_type) |>
-      dplyr::select("Model" = "model",
+      # dplyr::mutate(
+      #   "model_type" = dplyr::case_when(
+      #     model %in% c("WE") ~ "WE",
+      #     TRUE ~ "Individual"
+      #   ),
+      #   .before = model
+      # ) |>
+      # dplyr::arrange(model_type, dplyr::desc(bacc)) |>
+      # dplyr::select(-model_type) |>
+      dplyr::select(#"Model" = "model",
                     "Binary Brier" = "bbrier",
                     # "Log Loss" = "logloss",
                     # "AUC" = "auc",

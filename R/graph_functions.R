@@ -2,7 +2,8 @@ create_feature_importance_plot <- function(fe_data, bar_width = 5) {
   
   expl_df <- fe_data |>
     dplyr::select(-species) |>
-    dplyr::group_by(model, variable) |>
+    dplyr::group_by(#model, 
+                    variable) |>
     dplyr::mutate("min" = min(dropout_loss, na.rm = TRUE),
                   "q1" = quantile(dropout_loss, probs = 0.25, na.rm = TRUE),
                   "median" = median(dropout_loss, na.rm = TRUE),
@@ -15,10 +16,12 @@ create_feature_importance_plot <- function(fe_data, bar_width = 5) {
   # Add an additional column that serve as a baseline
   bestFits <- expl_df |>
     dplyr::filter(variable == "_full_model_") |>
-    dplyr::select(model, permutation, dropout_loss)
+    dplyr::select(#model, 
+                  permutation, dropout_loss)
   
   ext_expl_df <- expl_df |>
-    dplyr::full_join(bestFits, by = c("model", "permutation"))
+    dplyr::full_join(bestFits, by = c(#"model", 
+                                      "permutation"))
   
   # Remove rows that starts with _ i.e. _full_model_ and _baseline_
   ext_expl_df <- ext_expl_df |>
@@ -26,9 +29,9 @@ create_feature_importance_plot <- function(fe_data, bar_width = 5) {
   
   # Order rows
   ext_expl_df <- ext_expl_df |>
-    dplyr::group_by(model) |>
-    dplyr::arrange(dplyr::desc(dropout_loss.x), .by_group = TRUE) |>
-    dplyr::ungroup()
+    # dplyr::group_by(model) |>
+    dplyr::arrange(dplyr::desc(dropout_loss.x))# , .by_group = TRUE) |>
+    # dplyr::ungroup()
   
   # facets have fixed space, can be resolved with ggforce https://github.com/tidyverse/ggplot2/issues/2933
   pl <- ggplot2::ggplot(data = ext_expl_df) +
@@ -42,7 +45,7 @@ create_feature_importance_plot <- function(fe_data, bar_width = 5) {
                           mapping = ggplot2::aes(x = variable, ymin = min, lower = q1, middle = median, upper = q3, ymax = max),
                           stat = "identity", fill = "#371ea3", color = "#371ea3", width = 0.25) +
     ggplot2::coord_flip() +
-    ggplot2::facet_wrap(~model, ncol = 3, scales = "free_y") + 
+    # ggplot2::facet_wrap(~model, ncol = 3, scales = "free_y") + 
     ggplot2::theme_minimal() +
     ggplot2::theme(legend.position = "none") +
     ggplot2::ylab(label = NULL) +
@@ -56,7 +59,7 @@ create_feature_importance_plot <- function(fe_data, bar_width = 5) {
 create_ale_plot <- function(ale_data){
   
   ale_plot <- ggplot2::ggplot(data = ale_data) +
-    ggplot2::geom_line(mapping = ggplot2::aes(x = x, y = y, color = model)) +
+    ggplot2::geom_line(mapping = ggplot2::aes(x = x, y = y)) + #, color = model)) +
     ggplot2::facet_wrap(~variable, scales = "free_x", ncol = 2) +
     ggplot2::theme_minimal() +
     ggplot2::theme(legend.position = "right") +
@@ -136,3 +139,33 @@ plot_break_down <- function(x,
   return(pl)
   
 }
+
+# create_pairs_plot <- function(pa_plot_metadata, variables, target_name, focal_species){
+#   
+#   # data_species <- purrr::map_depth(pa_plot_metadata, 1, purrr::pluck(focal_species)) |>
+#   #   purrr::discard(is.null) |>
+#   #   purrr::pluck(1)
+#   
+#   pairs_plot <- GGally::ggpairs(data_species, mapping = ggplot2::aes(color = .data[[target_name]]),
+#                                 upper = list(continuous =  GGally::wrap("cor", 
+#                                                                         size = 2.5),
+#                                              combo = GGally::wrap("box_no_facet", 
+#                                                                   color = "#000000",
+#                                                                   linewidth = 0.5), 
+#                                              discrete = "count", 
+#                                              na = "na"),
+#                                 lower = list(continuous = GGally::wrap("points", size = 0.25, alpha = 0.8), 
+#                                              combo = GGally::wrap("facethist", color = "#000000", linewidth = 0.5), 
+#                                              discrete = GGally::wrap("facetbar", color = "#000000", linewidth = 0.5), 
+#                                              na = "na"),
+#                                 diag = list(continuous = GGally::wrap("densityDiag", color = "#000000", linewidth = 0.5), 
+#                                             discrete = GGally::wrap("barDiag",  color = "#000000", linewidth = 0.5), na = "naDiag")) +
+#     ggplot2::scale_fill_viridis_d(end = 0.8, alpha = 0.8, option = "plasma") +
+#     ggplot2::scale_color_viridis_d(end = 0.8, alpha = 0.8, option = "plasma") +
+#     ggplot2::theme_minimal() +
+#     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90),
+#                    text = ggplot2::element_text(size = 10))
+#   
+#   return(pairs_plot)
+#   
+# }

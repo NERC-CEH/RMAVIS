@@ -10,11 +10,11 @@ nmSidebar <- function(input, output, session) {
     nmSidebar_options_list <- list(
       "runNMAnalysis" = input$runNMAnalysis,
       "focalSpecies" = input$focalSpecies,
-      "selectedModelDisplay" = input$selectedModelDisplay,
+      # "selectedModelDisplay" = input$selectedModelDisplay,
       "selectedVariablesDisplay" = input$selectedVariablesDisplay,
       "selectedMarginalEffectsPlot" = input$selectedMarginalEffectsPlot,
-      "identifyPredDrivers" = input$identifyPredDrivers,
-      "selectedModelPredict" = input$selectedModelPredict
+      "identifyPredDrivers" = input$identifyPredDrivers#,
+      # "selectedModelPredict" = input$selectedModelPredict
       
     )
     
@@ -23,11 +23,11 @@ nmSidebar <- function(input, output, session) {
   }) |>
     bindEvent(input$runNMAnalysis,
               input$focalSpecies,
-              input$selectedModelDisplay,
+              # input$selectedModelDisplay,
               input$selectedVariablesDisplay,
               input$selectedMarginalEffectsPlot,
               input$identifyPredDrivers,
-              input$selectedModelPredict,
+              # input$selectedModelPredict,
               ignoreInit = TRUE)
 
   

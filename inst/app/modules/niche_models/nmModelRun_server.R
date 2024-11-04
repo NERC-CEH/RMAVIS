@@ -6,13 +6,13 @@ nmModelRun <- function(input, output, session, sidebar_nm_options, nmDataInput) 
   runNMAnalysis <- reactiveVal()
   focalSpecies <- reactiveVal()
   identifyPredDrivers <- reactiveVal()
-  selectedModelPredict <- reactiveVal()
+  # selectedModelPredict <- reactiveVal()
   
   observe({
     runNMAnalysis(sidebar_nm_options()$runNMAnalysis)
     focalSpecies(sidebar_nm_options()$focalSpecies)
     identifyPredDrivers(sidebar_nm_options()$identifyPredDrivers)
-    selectedModelPredict(sidebar_nm_options()$selectedModelPredict)
+    # selectedModelPredict(sidebar_nm_options()$selectedModelPredict)
     
   }) |>
     bindEvent(sidebar_nm_options(),
@@ -21,9 +21,9 @@ nmModelRun <- function(input, output, session, sidebar_nm_options, nmDataInput) 
 
   # Retrieve Predictor Data -------------------------------------------------
   predictorData_rval <- reactiveVal(predictors <- tibble::tribble(
-    ~id,           ~`F`,   ~L,    ~N,    ~R,    ~S,     ~DG,    ~DS,   ~H,
-    "nvc_1000897",  4,     7.2,   7,   6.4,   0,      0.278,  0.177,  0.200,
-    "nvc_1000898",  3.86,  7.57,  2.71,  6.57,  0.571,  0.271,  0.219,  0.226
+    ~id,           ~`F`,   ~N,    ~R,    ~S,     ~DG,    ~DS,    ~H,      ~MAP,    ~Tmax07,   ~Tmin01,
+    "nvc_1000897",  6,     4,     7,     0,      0.2,    0.1,    0.200,   1000,    25,        0,
+    "nvc_1000898",  3.86,  2.71,  6.57,  0.571,  0.271,  0.219,  0.226,   500,     20,        2  
   ))
   
   # observe({
@@ -40,10 +40,10 @@ nmModelRun <- function(input, output, session, sidebar_nm_options, nmDataInput) 
   observe({
     
     focalSpecies <- focalSpecies()
-    selectedModelPredict <- selectedModelPredict()
+    # selectedModelPredict <- selectedModelPredict()
     
-    models <- targets::tar_read(name = "GAMModels", store = tar_store)
-    explainers <- targets::tar_read(name = "GAMDALEXExplainer", store = tar_store)
+    models <- targets::tar_read(name = "SVMModels", store = tar_store)
+    explainers <- targets::tar_read(name = "SVMDALEXExplainer", store = tar_store)
     
     model <- retrieve_nested_element(nested_list = models, 
                                      focal_species = focalSpecies)
@@ -57,7 +57,7 @@ nmModelRun <- function(input, output, session, sidebar_nm_options, nmDataInput) 
 
   }) |>
     bindEvent(focalSpecies(),
-              selectedModelPredict(),
+              # selectedModelPredict(),
               ignoreInit = TRUE)
   
   

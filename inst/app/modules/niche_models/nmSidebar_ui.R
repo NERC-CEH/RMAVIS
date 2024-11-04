@@ -66,37 +66,37 @@ nmSidebarUI <- function(id){
         
         icon = bsicons::bs_icon("eyeglasses"),
         
-        shiny::div(
-          
-          id = ns("selectedModelsDisplay_div"),
-          
-          bslib::layout_columns(
-            
-            col_widths = c(11, 1),
-            
-            shiny::selectizeInput(inputId = ns("selectedModelDisplay"), 
-                                  label = "Model", 
-                                  choices = c("GAM", "NNet", "GLM", "RF", "MARS", "SVM", "XGB", "WE"), 
-                                  selected = c("GAM", "NNet", "GLM", "RF", "MARS", "SVM", "XGB", "WE"), 
-                                  multiple = TRUE),
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Model Selection",
-              id = ns("modelSelectionInfo"),
-              shiny::markdown(
-                "
-              Select the models to inspect.
-              "
-              ),
-              placement = "bottom"
-            )
-            
-          ),
-          
-          shiny::div(shiny::br())
-          
-        ),
+        # shiny::div(
+        #   
+        #   id = ns("selectedModelsDisplay_div"),
+        #   
+        #   bslib::layout_columns(
+        #     
+        #     col_widths = c(11, 1),
+        #     
+        #     shiny::selectizeInput(inputId = ns("selectedModelDisplay"), 
+        #                           label = "Model", 
+        #                           choices = c("GAM", "NNet", "GLM", "RF", "MARS", "SVM", "XGB", "WE"), 
+        #                           selected = c("GAM", "NNet", "GLM", "RF", "MARS", "SVM", "XGB", "WE"), 
+        #                           multiple = TRUE),
+        #     
+        #     bslib::popover(
+        #       bsicons::bs_icon("info-circle"),
+        #       title = "Model Selection",
+        #       id = ns("modelSelectionInfo"),
+        #       shiny::markdown(
+        #         "
+        #       Select the models to inspect.
+        #       "
+        #       ),
+        #       placement = "bottom"
+        #     )
+        #     
+        #   ),
+        #   
+        #   shiny::div(shiny::br())
+        #   
+        # ),
         
         shiny::div(
 
@@ -108,8 +108,8 @@ nmSidebarUI <- function(id){
 
             shiny::selectizeInput(inputId = ns("selectedVariablesDisplay"),
                                   label = "Variables",
-                                  choices = c("F", "L", "N", "R", "S", "DG", "DS", "H"),
-                                  selected = c("F", "L", "N", "R", "S", "DG", "DS", "H"),
+                                  choices = c("F", "N", "R", "S", "DG", "DS", "H", "Tmin01", "Tmax07", "MAP"),
+                                  selected = c("F", "N", "R", "S", "DG", "DS", "H", "Tmin01", "Tmax07", "MAP"),
                                   multiple = TRUE),
 
             bslib::popover(
@@ -210,39 +210,39 @@ nmSidebarUI <- function(id){
           
           shiny::div(shiny::br())
           
-        ),
+        )#,
         
-        shiny::div(
-          
-          id = ns("selectedModelPredict_div"),
-          
-          bslib::layout_columns(
-            
-            col_widths = c(11, 1),
-            
-            shiny::selectizeInput(inputId = ns("selectedModelPredict"), 
-                                  label = "Selected Model", 
-                                  choices = c("GAM", "NNet", "GLM", "RF", "MARS", "SVM", "XGB", "WE"), 
-                                  selected = "WE", 
-                                  multiple = FALSE),
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Model Selection",
-              id = ns("modelSelectionInfo"),
-              shiny::markdown(
-                "
-              Select the model to use when generating predictions.
-              "
-              ),
-              placement = "bottom"
-            )
-            
-          ),
-          
-          shiny::div(shiny::br())
-          
-        )
+        # shiny::div(
+        #   
+        #   id = ns("selectedModelPredict_div"),
+        #   
+        #   bslib::layout_columns(
+        #     
+        #     col_widths = c(11, 1),
+        #     
+        #     shiny::selectizeInput(inputId = ns("selectedModelPredict"), 
+        #                           label = "Selected Model", 
+        #                           choices = c("GAM", "NNet", "GLM", "RF", "MARS", "SVM", "XGB", "WE"), 
+        #                           selected = "WE", 
+        #                           multiple = FALSE),
+        #     
+        #     bslib::popover(
+        #       bsicons::bs_icon("info-circle"),
+        #       title = "Model Selection",
+        #       id = ns("modelSelectionInfo"),
+        #       shiny::markdown(
+        #         "
+        #       Select the model to use when generating predictions.
+        #       "
+        #       ),
+        #       placement = "bottom"
+        #     )
+        #     
+        #   ),
+        #   
+        #   shiny::div(shiny::br())
+        #   
+        # )
         
       )
       
