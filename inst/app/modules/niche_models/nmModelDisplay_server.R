@@ -247,6 +247,8 @@ nmModelDisplay <- function(input, output, session, sidebar_nm_options) {
     
     meData <- meData_rval()
     
+    assign(x = "meData", value = meData, envir = .GlobalEnv)
+    
     output$ale_plot <- plotly::renderPlotly({
       
       ale_plot <- create_ale_plot(ale_data = meData)

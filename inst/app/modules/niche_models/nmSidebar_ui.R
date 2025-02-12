@@ -108,8 +108,8 @@ nmSidebarUI <- function(id){
 
             shiny::selectizeInput(inputId = ns("selectedVariablesDisplay"),
                                   label = "Variables",
-                                  choices = c("F", "N", "R", "S", "DG", "DS", "H", "Tmin01", "Tmax07", "MAP"),
-                                  selected = c("F", "N", "R", "S", "DG", "DS", "H", "Tmin01", "Tmax07", "MAP"),
+                                  choices = c("F", "N", "R", "S", "DG", "DS", "L", "Tmin01", "Tmax07", "MAP"),
+                                  selected = c("F", "N", "R", "S", "DG", "DS", "L", "Tmin01", "Tmax07", "MAP"),
                                   multiple = TRUE),
 
             bslib::popover(
