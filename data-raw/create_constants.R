@@ -19,12 +19,12 @@ dataEntryFormat_options <- c("Long" = "long",
 
 # Constancy Conversion ----------------------------------------------------
 constancyConversion <- tibble::tibble(
-  "Class" = c("I", "II", "III", "IV", "V"), 
-  "ClassNumeric" = c(1, 2, 3, 4, 5),
-  "ClassPercentMid" = c(10, 30, 50, 70, 90), 
-  "ClassProportionMid" = c(0.1, 0.3, 0.5, 0.7, 0.9),
-  "ClassPercentLower" = c(0, 20, 40, 60, 80),
-  "ClassPercentUpper" = c(20, 40, 60, 80, 100)
+  "Constancy" = c("I", "II", "III", "IV", "V"), 
+  "ConstancyNumeric" = c(1, 2, 3, 4, 5),
+  "ConstancyPercentMid" = c(10, 30, 50, 70, 90), 
+  "ConstancyProportionMid" = c(0.1, 0.3, 0.5, 0.7, 0.9),
+  "ConstancyPercentLower" = c(0, 20, 40, 60, 80),
+  "ConstancyPercentUpper" = c(20, 40, 60, 80, 100)
   
 )
 
