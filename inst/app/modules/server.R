@@ -39,6 +39,7 @@ server <- function(input, output, session) {
   # Core --------------------------------------------------------------------
   sidebar_options <- shiny::callModule(module = sidebar,
                                        id = "sidebar_id_1",
+                                       deSidebar_options = deSidebar_options,
                                        surveyData = surveyData,
                                        surveyDataValidator = surveyDataValidator,
                                        surveyDataSummary = surveyDataSummary,

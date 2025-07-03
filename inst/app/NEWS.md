@@ -6,25 +6,17 @@
       -   Changing "National Reference Spaces" option in the MVA module to
           "Reference Spaces" and altering the module so that the local reference
           ordinations are also linked to this option.
-      -   Updating the taxonomic backbone to the XXXXXX UKSI release ().
-      -   Updating the habitat correspondences to include a more comprehensive
+      -!   Updating the taxonomic backbone to the XXXXXX UKSI release ().
+      -!   Updating the habitat correspondences to include a more comprehensive
           set of NVC-to-EUNIS correspondences, floodplain meadows correspondences,
           gap-filled NPMS habitat correspondences, and .......
-*   Fixes: NA
+      -   Separating the data entry modules into their own section "Data Entry".
+      -!   Reducing the number of pseudo-quadrats to improve the speed of `RMAVIS::similarityJaccard`.
+      -   Changing the `RMAVIS::master_data` object name to `RMAVIS::hill_ellenberg`.
+*   Fixes:
+      -   Fixing the issue where plots with one species can't be matched using `RMAVIS::similarityJaccard`.
 *   New Features:
-      -   Adding the ability to trim leading and trailing white space from data
-          in the survey data validation module.
-      -   Adding the ability to lump taxa into higher ranks,
-          where the parent taxa of a higher rank exist in the NVC floristic tables,
-          but the lower rank taxa do not.
-          This ensures that related taxon concepts are matched, where desired.
-          For example, using this functionality one could lump 
-          Festuca rubra s.s. into Festuca rubra agg.
-      -   Adding additional NVC community attributes to the NVC lookup table,
-          floristic tables, and ... modules.
-      -   Adding an option to view the min, mean, and max cover values to
-          composed floristic tables.
-      -   Adding a new application section "NicheModels" ....
+      -   Adding a tab "Additional Information"
 
 # RMAVIS 1.0.1 (2024-08-08)
 *   Modifications: NA

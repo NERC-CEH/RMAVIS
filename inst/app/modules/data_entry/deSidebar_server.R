@@ -57,93 +57,45 @@ deSidebar <- function(input, output, session,
 
   # Update Options Based On Example Data ------------------------------------
   observe({
-    
+
     if(input$inputMethod == "example"){
-      
+
       if(input$selectedExampleData == "Parsonage Down"){
-        
-        shiny::updateSelectizeInput(
-          session = session,
-          inputId = "habitatRestriction",
-          selected = "CG"
-        )
-        
-        shiny::updateTextInput(
-          session = session,
-          inputId = "reportProjectName",
-          value = "Parsonage Down"
-        )
-        
+
         shiny::updateSelectizeInput(
           session = session,
           inputId = "coverScale",
           selected = "domin"
         )
-        
+
       } else if(input$selectedExampleData == "Whitwell Common"){
-        
-        shiny::updateSelectizeInput(
-          session = session,
-          inputId = "habitatRestriction",
-          selected = "M"
-        )
-        
-        shiny::updateTextInput(
-          session = session,
-          inputId = "reportProjectName",
-          value = "Whitwell Common"
-        )
-        
+
         shiny::updateSelectizeInput(
           session = session,
           inputId = "coverScale",
           selected = "none"
         )
-        
+
       } else if(input$selectedExampleData == "Leith Hill Place Wood"){
-        
-        shiny::updateSelectizeInput(
-          session = session,
-          inputId = "habitatRestriction",
-          selected = "W"
-        )
-        
-        shiny::updateTextInput(
-          session = session,
-          inputId = "reportProjectName",
-          value = "Leith Hill Place Wood"
-        )
-        
+
         shiny::updateSelectizeInput(
           session = session,
           inputId = "coverScale",
           selected = "none"
         )
-        
+
       } else if(input$selectedExampleData == "Newborough Warren"){
-        
-        shiny::updateSelectizeInput(
-          session = session,
-          inputId = "habitatRestriction",
-          selected = "SD"
-        )
-        
-        shiny::updateTextInput(
-          session = session,
-          inputId = "reportProjectName",
-          value = "Newborough Warren"
-        )
-        
+
         shiny::updateSelectizeInput(
           session = session,
           inputId = "coverScale",
           selected = "percentage"
         )
-        
+
       }
-      
+
     }
-    
+
   }) |>
     bindEvent(input$inputMethod,
               input$selectedExampleData,

@@ -1,4 +1,5 @@
 sidebar <- function(input, output, session, 
+                    deSidebar_options,
                     surveyData, surveyDataValidator, surveyDataSummary,
                     floristicTables, nvcAssignment, habCor, speciesFreq,
                     avgEIVs, diversityAnalysis, 
@@ -73,6 +74,80 @@ sidebar <- function(input, output, session,
               ignoreInit = FALSE)
 
 
+# Update Options Based On Example Data ------------------------------------
+  observe({
+    
+    deSidebar_options <- deSidebar_options()
+    
+    de_inputMethod <- deSidebar_options$inputMethod
+    de_selectedExampleData <- deSidebar_options$selectedExampleData
+    
+    if(de_inputMethod == "example"){
+      
+      if(de_selectedExampleData == "Parsonage Down"){
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "habitatRestriction",
+          selected = "CG"
+        )
+        
+        shiny::updateTextInput(
+          session = session,
+          inputId = "reportProjectName",
+          value = "Parsonage Down"
+        )
+        
+      } else if(de_selectedExampleData == "Whitwell Common"){
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "habitatRestriction",
+          selected = "M"
+        )
+        
+        shiny::updateTextInput(
+          session = session,
+          inputId = "reportProjectName",
+          value = "Whitwell Common"
+        )
+        
+      } else if(de_selectedExampleData == "Leith Hill Place Wood"){
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "habitatRestriction",
+          selected = "W"
+        )
+        
+        shiny::updateTextInput(
+          session = session,
+          inputId = "reportProjectName",
+          value = "Leith Hill Place Wood"
+        )
+        
+      } else if(de_selectedExampleData == "Newborough Warren"){
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "habitatRestriction",
+          selected = "SD"
+        )
+        
+        shiny::updateTextInput(
+          session = session,
+          inputId = "reportProjectName",
+          value = "Newborough Warren"
+        )
+        
+      }
+      
+    }
+    
+  }) |>
+    bindEvent(deSidebar_options(),
+              ignoreInit = TRUE)
+  
 # Disable selected action buttons if okToProceed == FALSE ---------------
   observe({
 

@@ -79,9 +79,9 @@ analysis of vegetation survey data and assignment to GB NVC communities.
 Journal of Open Source Software, 9(100), 6682,
 <https://doi.org/10.21105/joss.06682>
 
-To reference the ecological niche models please cite the…………..
-
-To cite a specific version of RMAVIS……………..
+To cite a specific version of RMAVIS select the relevant release from
+Zenodo
+[here](https://zenodo.org/search?q=parent.id%3A10818640&f=allversions%3Atrue&l=list&p=1&s=10&sort=version)
 
 ## Feedback
 

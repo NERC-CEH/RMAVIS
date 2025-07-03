@@ -127,43 +127,45 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
     shiny::isolate({
       
       floristicTables_composed_all <- floristicTables_composed_all_rval()
+      composedFloristicTable <- composedFloristicTable()
+      nvcFloristicTable <- nvcFloristicTable()
       
-      floristicTables_composed_selected <- floristicTables_composed_all |>
-        dplyr::filter(ID == composedFloristicTable()) |>
-        dplyr::select(-ID)
-      
-      floristicTables_nvc <- RMAVIS::nvc_floristic_tables |>
-        dplyr::filter(NVC.Code == nvcFloristicTable()) |>
-        dplyr::select(-NVC.Code) |>
-        dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
-        dplyr::arrange(Constancy, Species)
-      
-      floristicTables_composed_compToNVC <- floristicTables_nvc |>
-        dplyr::select(-Constancy) |>
-        dplyr::left_join(floristicTables_composed_selected, by = "Species") |>
-        dplyr::mutate(
-          "Species" = 
-            dplyr::case_when(
-              is.na(Constancy) ~ "",
-              TRUE ~ as.character(Species)
-            )
-        )
-      
-      if(matchSpecies() == "No"){
-        
-        floristicTables_composed_view <- floristicTables_composed_selected
-        
-      } else if(matchSpecies() == "compToNVC"){
-        
-        floristicTables_composed_view <- floristicTables_composed_compToNVC
-        
-      } else if(matchSpecies() == "NVCToComp"){
-        
-        floristicTables_composed_view <- floristicTables_composed_selected
-        
-      }
-
     })
+    
+    floristicTables_composed_selected <- floristicTables_composed_all |>
+      dplyr::filter(ID == composedFloristicTable) |>
+      dplyr::select(-ID)
+    
+    floristicTables_nvc <- RMAVIS::nvc_floristic_tables |>
+      dplyr::filter(NVC.Code == nvcFloristicTable) |>
+      dplyr::select(-NVC.Code) |>
+      dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
+      dplyr::arrange(Constancy, Species)
+    
+    floristicTables_composed_compToNVC <- floristicTables_nvc |>
+      dplyr::select(-Constancy) |>
+      dplyr::left_join(floristicTables_composed_selected, by = "Species") |>
+      dplyr::mutate(
+        "Species" = 
+          dplyr::case_when(
+            is.na(Constancy) ~ "",
+            TRUE ~ as.character(Species)
+          )
+      )
+    
+    if(matchSpecies() == "No"){
+      
+      floristicTables_composed_view <- floristicTables_composed_selected
+      
+    } else if(matchSpecies() == "compToNVC"){
+      
+      floristicTables_composed_view <- floristicTables_composed_compToNVC
+      
+    } else if(matchSpecies() == "NVCToComp"){
+      
+      floristicTables_composed_view <- floristicTables_composed_selected
+      
+    }
     
     output$floristicTables_composed <- reactable::renderReactable({
 
@@ -289,7 +291,7 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
       
       floristicTables_composed_all_wide <- floristicTables_composed_all_wide_rval()
       
-      floristicTables_composed_all_wide_selected <-floristicTables_composed_all_wide |>
+      floristicTables_composed_all_wide_selected <- floristicTables_composed_all_wide |>
         dplyr::filter(Group == floristicTablesSetView()) |>
         dplyr::select(-Group)
       
@@ -408,43 +410,45 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
     shiny::isolate({
       
       floristicTables_composed_all <- floristicTables_composed_all_rval()
-      
-      floristicTables_composed_selected <- floristicTables_composed_all |>
-        dplyr::filter(ID == composedFloristicTable()) |>
-        dplyr::select(-ID)
-      
-      floristicTables_nvc <- RMAVIS::nvc_floristic_tables |>
-        dplyr::filter(NVC.Code == nvcFloristicTable()) |>
-        dplyr::select(-NVC.Code) |>
-        dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
-        dplyr::arrange(Constancy, Species)
-
-      floristicTables_nvc_NVCToComp <- floristicTables_composed_selected |>
-        dplyr::select(-Constancy) |>
-        dplyr::left_join(floristicTables_nvc, by = "Species") |>
-        dplyr::mutate(
-          "Species" =
-            dplyr::case_when(
-              is.na(Constancy) ~ "",
-              TRUE ~ as.character(Species)
-            )
-        )
-      
-      if(matchSpecies() == "No"){
-        
-        floristicTables_nvc_view <- floristicTables_nvc
-        
-      } else if(matchSpecies() == "compToNVC"){
-        
-        floristicTables_nvc_view <- floristicTables_nvc
-        
-      } else if(matchSpecies() == "NVCToComp"){
-        
-        floristicTables_nvc_view <- floristicTables_nvc_NVCToComp
-        
-      }
+      composedFloristicTable <- composedFloristicTable()
+      nvcFloristicTable <- nvcFloristicTable()
       
     })
+      
+    floristicTables_composed_selected <- floristicTables_composed_all |>
+      dplyr::filter(ID == composedFloristicTable) |>
+      dplyr::select(-ID)
+    
+    floristicTables_nvc <- RMAVIS::nvc_floristic_tables |>
+      dplyr::filter(NVC.Code == nvcFloristicTable) |>
+      dplyr::select(-NVC.Code) |>
+      dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
+      dplyr::arrange(Constancy, Species)
+
+    floristicTables_nvc_NVCToComp <- floristicTables_composed_selected |>
+      dplyr::select(-Constancy) |>
+      dplyr::left_join(floristicTables_nvc, by = "Species") |>
+      dplyr::mutate(
+        "Species" =
+          dplyr::case_when(
+            is.na(Constancy) ~ "",
+            TRUE ~ as.character(Species)
+          )
+      )
+    
+    if(matchSpecies() == "No"){
+      
+      floristicTables_nvc_view <- floristicTables_nvc
+      
+    } else if(matchSpecies() == "compToNVC"){
+      
+      floristicTables_nvc_view <- floristicTables_nvc
+      
+    } else if(matchSpecies() == "NVCToComp"){
+      
+      floristicTables_nvc_view <- floristicTables_nvc_NVCToComp
+      
+    }
     
     output$floristicTables_nvc <- reactable::renderReactable({
       

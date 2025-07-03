@@ -273,119 +273,114 @@ diversityAnalysis <- function(input, output, session, surveyData, sidebar_option
     surveyData <- surveyData()
     surveyData_long <- surveyData$surveyData_long
     surveyData_mat <- surveyData$surveyData_mat
-    
-    isolate({
 
 # Species Richness --------------------------------------------------------
   
-      # Species Richness - Quadrat
-      speciesRichness_quadrat <- surveyData_long |>
-        dplyr::group_by(Year, Group, Quadrat) |>
-        dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
-        dplyr::ungroup()
-      
-      speciesRichness_quadrat_wide <- speciesRichness_quadrat |>
-        tidyr::pivot_wider(id_cols = c(Group, Quadrat),
-                           names_from = Year,
-                           values_from = Richness)
-      
-      speciesRichness_quadrat_long <- speciesRichness_quadrat |>
-        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE)
-      
-      
-      # Species Richness - Group
-      speciesRichness_group <- surveyData_long |>
-        dplyr::group_by(Year, Group) |>
-        dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
-        dplyr::ungroup()
-      
-      speciesRichness_group_wide <- speciesRichness_group |>
-        tidyr::pivot_wider(id_cols = c(Group),
-                           names_from = Year,
-                           values_from = Richness)
-      
-      speciesRichness_group_long <- speciesRichness_group |>
-        tidyr::unite(col = "ID", c(Year, Group), sep = " - ", remove = TRUE)
-      
-      # Species Richness - Site
-      speciesRichness_site <- surveyData_long |>
-        dplyr::group_by(Year) |>
-        dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
-        dplyr::ungroup()
-      
-      speciesRichness_site_wide <- speciesRichness_site |>
-        dplyr::mutate("Site" = "Site", .before = "Year") |>
-        tidyr::pivot_wider(id_cols = Site,
-                           names_from = Year,
-                           values_from = Richness)
-      
-      speciesRichness_site_long <- speciesRichness_site
-      
-      # Summary table concordance
-      surveyData_conc <- surveyData_long |>
-        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = FALSE) |>
-        dplyr::select(ID, Year, Group, Quadrat) |>
-        dplyr::distinct()
-      
-      # Summary Table
-      summaryTable <- speciesRichness_quadrat |>
-        dplyr::group_by(Year) |>
-        dplyr::summarise("Alpha.Mean" = mean(Richness)) |>
-        dplyr::left_join(speciesRichness_site_long, by = "Year") |>
-        dplyr::rename("Gamma" = "Richness") |>
-        dplyr::mutate("Beta" = (Gamma / Alpha.Mean) - 1) |>
-        base::t() 
-      
-      colnames(summaryTable) <- summaryTable[1,]
+    # Species Richness - Quadrat
+    speciesRichness_quadrat <- surveyData_long |>
+      dplyr::group_by(Year, Group, Quadrat) |>
+      dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
+      dplyr::ungroup()
+    
+    speciesRichness_quadrat_wide <- speciesRichness_quadrat |>
+      tidyr::pivot_wider(id_cols = c(Group, Quadrat),
+                         names_from = Year,
+                         values_from = Richness)
+    
+    speciesRichness_quadrat_long <- speciesRichness_quadrat |>
+      tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE)
+    
+    
+    # Species Richness - Group
+    speciesRichness_group <- surveyData_long |>
+      dplyr::group_by(Year, Group) |>
+      dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
+      dplyr::ungroup()
+    
+    speciesRichness_group_wide <- speciesRichness_group |>
+      tidyr::pivot_wider(id_cols = c(Group),
+                         names_from = Year,
+                         values_from = Richness)
+    
+    speciesRichness_group_long <- speciesRichness_group |>
+      tidyr::unite(col = "ID", c(Year, Group), sep = " - ", remove = TRUE)
+    
+    # Species Richness - Site
+    speciesRichness_site <- surveyData_long |>
+      dplyr::group_by(Year) |>
+      dplyr::summarise("Richness" = dplyr::n_distinct(Species)) |>
+      dplyr::ungroup()
+    
+    speciesRichness_site_wide <- speciesRichness_site |>
+      dplyr::mutate("Site" = "Site", .before = "Year") |>
+      tidyr::pivot_wider(id_cols = Site,
+                         names_from = Year,
+                         values_from = Richness)
+    
+    speciesRichness_site_long <- speciesRichness_site
+    
+    # Summary table concordance
+    surveyData_conc <- surveyData_long |>
+      tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = FALSE) |>
+      dplyr::select(ID, Year, Group, Quadrat) |>
+      dplyr::distinct()
+    
+    # Summary Table
+    summaryTable <- speciesRichness_quadrat |>
+      dplyr::group_by(Year) |>
+      dplyr::summarise("Alpha.Mean" = mean(Richness)) |>
+      dplyr::left_join(speciesRichness_site_long, by = "Year") |>
+      dplyr::rename("Gamma" = "Richness") |>
+      dplyr::mutate("Beta" = (Gamma / Alpha.Mean) - 1) |>
+      base::t() 
+    
+    colnames(summaryTable) <- summaryTable[1,]
 
-      summaryTable <- summaryTable |>
-        tibble::as_tibble(rownames = "Metric") |>
-        dplyr::filter(Metric != "Year")
-      
-      # Shannon Diversity
-      shannonDiversity <- surveyData_mat |>
-        vegan::diversity(index = "shannon") |>
-        tibble::as_tibble(rownames = "ID") |>
-        dplyr::rename("Shannon.Diversity" = "value")
-      
-      # Simpson Diversity
-      simpsonDiversity <- surveyData_mat |>
-        vegan::diversity(index = "simpson") |>
-        tibble::as_tibble(rownames = "ID") |>
-        dplyr::rename("Simpson.Diversity" = "value")
-      
-      # Inverse Simpson Diversity
-      inverseSimpsonDiversity <- surveyData_mat |>
-        vegan::diversity(index = "invsimpson") |>
-        tibble::as_tibble(rownames = "ID") |>
-        dplyr::rename("InverseSimpson.Diversity" = "value")
-      
-      # Shannon's/Pielou’s J evenness
-      shannonsEvenness <- shannonDiversity |>
-        # dplyr::left_join(speciesRichness_quadrat_long, by = "ID") |>
-        # dplyr::mutate("Shannon.Evenness" = Shannon.Diversity / log(Richness)) |>
-        dplyr::mutate("Shannon.Evenness" = (Shannon.Diversity / max(Shannon.Diversity)), .keep = "unused")
-      
-      # Simpson's evenness
-      simpsonEvenness <- inverseSimpsonDiversity |>
-        dplyr::left_join(speciesRichness_quadrat_long, by = "ID") |>
-        dplyr::mutate("Simpson.Evenness" = (InverseSimpson.Diversity / Richness), .keep = "unused")
-      
-      # Rényi diversities and Hill Numbers
-      # vegan::renyi(surveyDataWide)
-      
-      # Diversity Metrics Table
-      diversityIndicesTable <- speciesRichness_quadrat_long |>
-        dplyr::left_join(shannonDiversity, by = "ID") |>
-        dplyr::left_join(simpsonDiversity, by = "ID") |>
-        dplyr::left_join(inverseSimpsonDiversity, by = "ID") |>
-        dplyr::left_join(shannonsEvenness, by = "ID") |>
-        dplyr::left_join(simpsonEvenness, by = "ID") |>
-        dplyr::left_join(surveyData_conc, by = "ID") |>
-        dplyr::select(Year, Group, Quadrat, Richness, Shannon.Diversity, Simpson.Diversity, InverseSimpson.Diversity, Shannon.Evenness, Simpson.Evenness)
-      
-      
-    }) # Close isolate
+    summaryTable <- summaryTable |>
+      tibble::as_tibble(rownames = "Metric") |>
+      dplyr::filter(Metric != "Year")
+    
+    # Shannon Diversity
+    shannonDiversity <- surveyData_mat |>
+      vegan::diversity(index = "shannon") |>
+      tibble::as_tibble(rownames = "ID") |>
+      dplyr::rename("Shannon.Diversity" = "value")
+    
+    # Simpson Diversity
+    simpsonDiversity <- surveyData_mat |>
+      vegan::diversity(index = "simpson") |>
+      tibble::as_tibble(rownames = "ID") |>
+      dplyr::rename("Simpson.Diversity" = "value")
+    
+    # Inverse Simpson Diversity
+    inverseSimpsonDiversity <- surveyData_mat |>
+      vegan::diversity(index = "invsimpson") |>
+      tibble::as_tibble(rownames = "ID") |>
+      dplyr::rename("InverseSimpson.Diversity" = "value")
+    
+    # Shannon's/Pielou’s J evenness
+    shannonsEvenness <- shannonDiversity |>
+      # dplyr::left_join(speciesRichness_quadrat_long, by = "ID") |>
+      # dplyr::mutate("Shannon.Evenness" = Shannon.Diversity / log(Richness)) |>
+      dplyr::mutate("Shannon.Evenness" = (Shannon.Diversity / max(Shannon.Diversity)), .keep = "unused")
+    
+    # Simpson's evenness
+    simpsonEvenness <- inverseSimpsonDiversity |>
+      dplyr::left_join(speciesRichness_quadrat_long, by = "ID") |>
+      dplyr::mutate("Simpson.Evenness" = (InverseSimpson.Diversity / Richness), .keep = "unused")
+    
+    # Rényi diversities and Hill Numbers
+    # vegan::renyi(surveyDataWide)
+    
+    # Diversity Metrics Table
+    diversityIndicesTable <- speciesRichness_quadrat_long |>
+      dplyr::left_join(shannonDiversity, by = "ID") |>
+      dplyr::left_join(simpsonDiversity, by = "ID") |>
+      dplyr::left_join(inverseSimpsonDiversity, by = "ID") |>
+      dplyr::left_join(shannonsEvenness, by = "ID") |>
+      dplyr::left_join(simpsonEvenness, by = "ID") |>
+      dplyr::left_join(surveyData_conc, by = "ID") |>
+      dplyr::select(Year, Group, Quadrat, Richness, Shannon.Diversity, Simpson.Diversity, InverseSimpson.Diversity, Shannon.Evenness, Simpson.Evenness)
     
 
 # Update summaryTable -----------------------------------------------------

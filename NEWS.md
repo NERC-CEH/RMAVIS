@@ -16,7 +16,7 @@
 *   Fixes:
       -   Fixing the issue where plots with one species can't be matched using `RMAVIS::similarityJaccard`.
 *   New Features:
-      -   Adding a tab "Additional Information"
+      -   Adding a new tab - "Additional Information".
 
 # RMAVIS 1.0.1 (2024-08-08)
 *   Modifications: NA

@@ -57,19 +57,20 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
     shiny::isolate({
       
       nvcAssignment <- nvcAssignment()
+      habCorClass <- habCorClass()
       
-      topNVCCommunities_df <- data.frame("NVC.Code" = nvcAssignment$topNVCCommunities)
-      
-      habCor <- topNVCCommunities_df |>
-        dplyr::left_join(RMAVIS::habCor_data, relationship = "many-to-many", by = dplyr::join_by(NVC.Code))
-      
-      habCorTable <- habCor |>
-        dplyr::filter(Classification == habCorClass()) |>
-        dplyr::select(NVC.Code, Relationship, Code, Label) |>
-        dplyr::distinct() |>
-        dplyr::arrange(NVC.Code)
-
     })
+      
+    topNVCCommunities_df <- data.frame("NVC.Code" = nvcAssignment$topNVCCommunities)
+    
+    habCor <- topNVCCommunities_df |>
+      dplyr::left_join(RMAVIS::habCor_data, relationship = "many-to-many", by = dplyr::join_by(NVC.Code))
+    
+    habCorTable <- habCor |>
+      dplyr::filter(Classification == habCorClass) |>
+      dplyr::select(NVC.Code, Relationship, Code, Label) |>
+      dplyr::distinct() |>
+      dplyr::arrange(NVC.Code)
     
     habCor_rval(habCor)
 
