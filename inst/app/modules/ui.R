@@ -233,6 +233,14 @@ ui <- bslib::page_navbar(
     
     privacyUI(id = "privacy_id_1")
 
+  ),
+  
+  bslib::nav_panel(
+    
+    "Additional Information",
+    
+    additionalInfoUI(id = "additiona_info_id_1")
+    
   )
   
 )

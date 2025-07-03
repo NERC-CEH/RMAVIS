@@ -12,7 +12,10 @@ newsUI <- function(id) {
         
         shiny::br(),
         
-        shiny::markdown("")
+        shiny::markdown("The latest version of RMAVIS (v1.1.0) contains a number of breaking changes.
+                         First, is a major update to the taxonomy, which is now aligned with version of the UKSI.
+                         Second, is a reduction in the number of pseudo-quadrats used to match quadrats with the Jaccard similarity method.
+                         This has improved the speed at which quadrats are matched, but means that your results may differ slightly from previous versions.")
         
       ),
       

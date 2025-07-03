@@ -53,6 +53,8 @@ source("./modules/nvcInfo_server.R", local = TRUE)
 
 source("./modules/privacy_ui.R", local = TRUE)
 
+source("./modules/additional_info_ui.R", local = TRUE)
+
 source("./modules/documentation_ui.R", local = TRUE)
 
 source("./modules/news_ui.R", local = TRUE)

@@ -15,7 +15,8 @@
       -   Changing the `RMAVIS::master_data` object name to `RMAVIS::hill_ellenberg`.
 *   Fixes:
       -   Fixing the issue where plots with one species can't be matched using `RMAVIS::similarityJaccard`.
-*   New Features: NA
+*   New Features:
+      -   Adding a tab "Additional Information"
 
 # RMAVIS 1.0.1 (2024-08-08)
 *   Modifications: NA

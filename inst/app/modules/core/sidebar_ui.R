@@ -582,7 +582,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("selectedReferenceSpaces"),
                                   label = "Selected Reference Spaces",
-                                  choices = RMAVIS:::nationalReferenceSpaces_options,
+                                  choices = RMAVIS:::selectedReferenceSpaces_options,
                                   selected = NULL,
                                   multiple = TRUE),
             
