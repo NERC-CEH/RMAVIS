@@ -38,8 +38,8 @@ habitatRestrictionPrefixes <- list(
 usethis::use_data(habitatRestrictionPrefixes, overwrite = TRUE)
 
 # Master data -------------------------------------------------------------
-master_data <- readRDS(file = "./inst/extdata/master_data.rds")
-usethis::use_data(master_data, overwrite = TRUE)
+hill_ellenberg <- readRDS(file = "./inst/extdata/hill_ellenberg.rds")
+usethis::use_data(hill_ellenberg, overwrite = TRUE)
 
 # NVC Pseudo-quadrat data -------------------------------------------------
 nvc_pquads <- readRDS(file = "./inst/extdata/nvc_pquads.rds")

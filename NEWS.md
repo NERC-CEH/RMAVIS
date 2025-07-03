@@ -6,31 +6,12 @@
       -   Changing "National Reference Spaces" option in the MVA module to
           "Reference Spaces" and altering the module so that the local reference
           ordinations are also linked to this option.
-      -   Updating the taxonomic backbone to the XXXXXX UKSI release ().
-      -   Updating the habitat correspondences to include a more comprehensive
+      -!   Updating the taxonomic backbone to the XXXXXX UKSI release ().
+      -!   Updating the habitat correspondences to include a more comprehensive
           set of NVC-to-EUNIS correspondences, floodplain meadows correspondences,
           gap-filled NPMS habitat correspondences, and .......
       -   Separating the data entry modules into their own section "Data Entry".
-*   Fixes:
-      -   Fixing Aster tripolium issue wherein the rayed (Aster tripolium var. tripolium)
-          and unrayed (Aster tripolium var. discoideus) forms had been lumped into 
-          Aster tripolium.
-*   New Features:
-      -   Adding the ability to trim leading and trailing white space from data
-          in the survey data validation module.
-      -   Adding the ability to lump taxa into higher ranks,
-          where the parent taxa of a higher rank exist in the NVC floristic tables,
-          but the lower rank taxa do not.
-          This ensures that related taxon concepts are matched, where desired.
-          For example, using this functionality one could lump 
-          Festuca rubra s.s. into Festuca rubra agg.
-      -   Adding additional NVC community attributes to the NVC lookup table,
-          floristic tables, and ... modules.
-      -   Adding an option to view the min, mean, and max cover values to
-          composed floristic tables.
-      -   Adding a new application section "NicheModels", where ecological
-          niche models can be viewed and used to estimate the probability of
-          occurrence.
+      -!   Reducing the number of pseudo-quadrats to improve the speed of similarityJaccard.
 
 # RMAVIS 1.0.1 (2024-08-08)
 *   Modifications: NA

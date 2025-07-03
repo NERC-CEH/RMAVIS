@@ -197,58 +197,6 @@ ui <- bslib::page_navbar(
   ),
   
   bslib::nav_panel(
-
-    "ENM",
-
-    bslib::layout_sidebar(
-
-      sidebar = nmSidebarUI(id = "nmSidebar_id_1"),
-
-      bslib::navset_card_tab(
-        
-        bslib::nav_panel(
-          
-          full_screen = TRUE,
-          
-          bslib::card_header("Model Display"),
-          
-          value = "modelDisplay_panel",
-          
-          nmModelDisplayUI(id = "nmModelDisplay_id_1")
-          
-        ),
-
-        bslib::nav_panel(
-
-          full_screen = TRUE,
-
-          bslib::card_header("Data Input"),
-
-          value = "nmDataInput_panel",
-
-          nmDataInputUI(id = "nmDataInput_id_1")
-
-        ),
-        
-        bslib::nav_panel(
-          
-          full_screen = TRUE,
-          
-          bslib::card_header("Model Prediction"),
-          
-          value = "nmModelPred_panel",
-          
-          nmModelRunUI(id = "nmModelRun_id_1")
-          
-        )
-
-      )
-
-    ),
-
-  ),
-  
-  bslib::nav_panel(
     
     "NVC Lookup",
     

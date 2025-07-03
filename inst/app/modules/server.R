@@ -122,23 +122,6 @@ server <- function(input, output, session) {
                     mvaNationalRefResults = mvaNationalRefResults,
                     mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults,
                     mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults)
-  
-  # Niche Models ------------------------------------------------------------
-  nmSidebar_options <- shiny::callModule(module = nmSidebar,
-                                         id = "nmSidebar_id_1")
-  
-  shiny::callModule(module = nmModelDisplay,
-                    id = "nmModelDisplay_id_1",
-                    sidebar_nm_options = nmSidebar_options)
-  
-  shiny::callModule(module = nmDataInput,
-                    id = "nmDataInput_id_1")
-  
-  shiny::callModule(module = nmModelRun,
-                    id = "nmModelRun_id_1",
-                    sidebar_nm_options = nmSidebar_options)
-
-  
 
   # Save Module Outputs -----------------------------------------------------
   # Save module outputs to global environment, uncomment for development only!

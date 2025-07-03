@@ -64,7 +64,7 @@ surveyDataSummary <- function(input, output, session, surveyData) {
       dplyr::mutate(
         "Hill-Ellenberg" = 
           dplyr::case_when(
-            Species %in% unique(dplyr::filter(RMAVIS::master_data, !is.na(`F`)) |> dplyr::pull(species)) ~ "Yes",
+            Species %in% unique(dplyr::filter(RMAVIS::hill_ellenberg, !is.na(`F`)) |> dplyr::pull(species)) ~ "Yes",
             TRUE ~ as.character("No")
           )
       ) |>

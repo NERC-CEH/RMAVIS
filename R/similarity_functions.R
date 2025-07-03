@@ -93,6 +93,9 @@ similarityCzekanowski <- function(samp_df, comp_df,
   # Collapse list to data frame
   similarity_df <- do.call(rbind.data.frame, similarity_results)
   
+  # Remove rownames
+  rownames(similarity_df) <- NULL
+  
   return(similarity_df)
   
 }
@@ -144,10 +147,10 @@ similarityJaccard <- function(samp_df, comp_df,
   names(eval_combinations) <- c(samp_group_name, comp_group_name)
   
   # Produce a list of species present in samp_df by samp_group_name
-  samp_spp_list <- as.environment(tapply(samp_df[[samp_species_col]], samp_df[[samp_group_name]], unique))
+  samp_spp_list <- as.environment(as.list(tapply(samp_df[[samp_species_col]], samp_df[[samp_group_name]], unique)))
   
   # Produce a list of species present in comp_df by comp_group_name
-  comp_spp_list <- as.environment(tapply(comp_df[[comp_species_col]], comp_df[[comp_group_name]], unique))
+  comp_spp_list <- as.environment(as.list(tapply(comp_df[[comp_species_col]], comp_df[[comp_group_name]], unique)))
   
   # Precalculate the number of species in each samp_spp_list and comp_spp_list element
   x_list <- as.environment(lapply(samp_spp_list, length))
@@ -209,6 +212,9 @@ similarityJaccard <- function(samp_df, comp_df,
     similarity_df <- similarity_df[similarity_df["Similarity"] != 0, ]
     
   }
+  
+  # Remove rownames
+  rownames(similarity_df) <- NULL
   
   # Return similarity results
   return(similarity_df)

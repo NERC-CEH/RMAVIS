@@ -21,7 +21,7 @@ nvc_pquads_mean_unweighted_eivs
 \description{
 A data frame containing the mean unweighted Hill-Ellenberg values for all
 pseudo-quadrats, calculated using \code{RMAVIS::nvc_pquads} and
-\code{RMAVIS::master_data}.
+\code{RMAVIS::hill_ellenberg}.
 }
 \details{
 \code{nvc_pquads_mean_unweighted_eivs}

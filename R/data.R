@@ -99,12 +99,12 @@
 #'
 #' A data frame containing the Hill-Ellenberg environmental indicator values for 
 #' vascular plant and bryophyte taxa.
-#' Named 'master_data' as additional trait and conservation status data will be
+#' Named 'hill_ellenberg' as additional trait and conservation status data will be
 #' added in the future.
 #'
-#' \code{master_data} 
+#' \code{hill_ellenberg} 
 #'
-#' @format A data frame with `r nrow(RMAVIS::master_data)` rows and `r ncol(RMAVIS::master_data)` columns, the definitions of which are:
+#' @format A data frame with `r nrow(RMAVIS::hill_ellenberg)` rows and `r ncol(RMAVIS::hill_ellenberg)` columns, the definitions of which are:
 #' \describe{
 #'   \item{species}{The taxon name}
 #'   \item{F}{The Hill-Ellnberg moisture score}
@@ -113,7 +113,7 @@
 #'   \item{R}{The Hill-Ellnberg reaction score}
 #'   \item{S}{The Hill-Ellnberg salinity score}
 #' }
-"master_data"
+"hill_ellenberg"
 
 #' NVC community names and codes.
 #'
@@ -290,7 +290,7 @@
 #'
 #' A data frame containing the mean unweighted Hill-Ellenberg values for all 
 #' pseudo-quadrats excluding bryophytes, calculated using 
-#' `RMAVIS::nvc_pquad_dca_noBryophytes` and `RMAVIS::master_data`.
+#' `RMAVIS::nvc_pquad_dca_noBryophytes` and `RMAVIS::hill_ellenberg`.
 #'
 #' \code{nvc_pquads_mean_unweighted_eivs_noBryophytes} 
 #'
@@ -309,7 +309,7 @@
 #'
 #' A data frame containing the mean unweighted Hill-Ellenberg values for all 
 #' pseudo-quadrats, calculated using `RMAVIS::nvc_pquads` and 
-#' `RMAVIS::master_data`.
+#' `RMAVIS::hill_ellenberg`.
 #'
 #' \code{nvc_pquads_mean_unweighted_eivs} 
 #'
