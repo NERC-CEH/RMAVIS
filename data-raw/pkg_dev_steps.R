@@ -1,5 +1,11 @@
 # Adhere to this strategy: https://rstudio.github.io/cheatsheets/html/package-development.html
 
+# 0) Copy README and NEWS to app directory
+file.copy(from = "./NEWS.md", to = "./inst/app/NEWS.md", overwrite = TRUE)
+file.copy(from = "./README.md", to = "./inst/app/README.md", overwrite = TRUE)
+
+rmarkdown::render(input = "./inst/app/docs/documentation.Rmd",  output_dir = "./inst/app/www")
+
 # 1) document functions and objects
 devtools::document()
 

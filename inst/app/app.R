@@ -10,7 +10,7 @@ options(shiny.autoload.r = FALSE)
 # Check required packages -------------------------------------------------
 # renv::dependencies()$Package |> unique() |> sort()
 # The dependencies returned from the code above are listed below with the
-# exception of: base, grid (part of base), grDevices (part of base), renv, 
+# exception of: base, devtools, grid (part of base), grDevices (part of base), renv, 
 # RMAVIS, rsconnect, testthat, tools, and usethis
 # These are also the packages that should be recorded as Imports in the 
 # DESCRIPTION file
@@ -44,9 +44,6 @@ suppressPackageStartupMessages({
   library(vegan)
   library(writexl)
 })
-
-# Render documentation ----------------------------------------------------
-# rmarkdown::render(input = "./inst/app/docs/documentation.Rmd",  output_dir = "./inst/app/www")
 
 # Source sub-modules ------------------------------------------------------
 source("./modules/home_ui.R", local = TRUE)

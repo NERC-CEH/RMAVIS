@@ -11,7 +11,11 @@
           set of NVC-to-EUNIS correspondences, floodplain meadows correspondences,
           gap-filled NPMS habitat correspondences, and .......
       -   Separating the data entry modules into their own section "Data Entry".
-      -!   Reducing the number of pseudo-quadrats to improve the speed of similarityJaccard.
+      -!   Reducing the number of pseudo-quadrats to improve the speed of `RMAVIS::similarityJaccard`.
+      -   Changing the `RMAVIS::master_data` object name to `RMAVIS::hill_ellenberg`.
+*   Fixes:
+      -   Fixing the issue where plots with one species can't be matched using `RMAVIS::similarityJaccard`.
+*   New Features: NA
 
 # RMAVIS 1.0.1 (2024-08-08)
 *   Modifications: NA
