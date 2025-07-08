@@ -1,8 +1,16 @@
 # Server
 server <- function(input, output, session) {
   
-  nvcInfo <- shiny::callModule(module = nvcInfo,
-                               id = "nvcInfo_id_1")
+
+  # NVC Information ---------------------------------------------------------
+  shiny::callModule(module = nvcNamesLookup,
+                    id = "nvcNamesLookup_id_1")
+  
+  shiny::callModule(module = nvcFlorTabs,
+                    id = "nvcFlorTabs_id_1")
+  
+  shiny::callModule(module = nvcCommAttr,
+                    id = "nvcFlorTabs_id_1")
   
   # Data Entry --------------------------------------------------------------
   deSidebar_options <- shiny::callModule(module = deSidebar,

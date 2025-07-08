@@ -1,86 +1,63 @@
-# Example data ------------------------------------------------------------
-example_data <- readRDS(file = "./inst/extdata/example_data.rds")
-usethis::use_data(example_data, overwrite = TRUE)
+# Broad habitat association data ------------------------------------------
+broad_habitat_indicators <- readRDS(file = "./inst/extdata/broad_habitat_indicators.rds")
+usethis::use_data(broad_habitat_indicators, overwrite = TRUE)
 
-# NVC floristic tables and community codes --------------------------------
+# Example data ------------------------------------------------------------
+# example_data <- readRDS(file = "./inst/extdata/example_data.rds")
+# usethis::use_data(example_data, overwrite = TRUE)
+
+# NVC data ----------------------------------------------------------------
 nvc_floristic_tables <- readRDS(file = "./inst/extdata/nvc_floristic_tables.rds")
 usethis::use_data(nvc_floristic_tables, overwrite = TRUE)
 
-nvc_floristic_tables_numeric <- readRDS(file = "./inst/extdata/nvc_floristic_tables_numeric.rds")
-usethis::use_data(nvc_floristic_tables_numeric, overwrite = TRUE)
+nvc_floristic_tables_comparison <- readRDS(file = "./inst/extdata/nvc_floristic_tables_comparison.rds")
+usethis::use_data(nvc_floristic_tables_comparison, overwrite = TRUE)
 
-nvc_community_namesCodes <- readRDS("./inst/extdata/nvc_community_namesCodes.rds")
-usethis::use_data(nvc_community_namesCodes, overwrite = TRUE)
+nvc_community_attributes <- readRDS(file = "./inst/extdata/nvc_community_attributes.rds")
+usethis::use_data(nvc_community_attributes, overwrite = TRUE)
 
-# Habitat Correspondence --------------------------------------------------
-habCor_data <- readRDS(file = "./inst/extdata/habCor_data.rds")
-usethis::use_data(habCor_data, overwrite = TRUE)
-
-habCor_classifications <- readRDS(file = "./inst/extdata/habCor_classifications.rds")
-usethis::use_data(habCor_classifications, overwrite = TRUE)
-
-# Habitat Restriction Prefixes --------------------------------------------
-habitatRestrictionPrefixes <- list(
-  "W" = c("W"),
-  "M" = c("M"),
-  "H" = c("H"),
-  "MG" = c("MG"),
-  "CG" = c("CG"),
-  "U" = c("U"),
-  "A" = c("A"),
-  "S" = c("S"),
-  "SM" = c("SM"),
-  "SD" = c("SD"),
-  "MC" = c("MC"),
-  "OV" = c("OV"),
-  "SOWG" = c("AgBp", "AgCf", "CaCn", "CnPe", "MG")
-)
-usethis::use_data(habitatRestrictionPrefixes, overwrite = TRUE)
-
-# Master data -------------------------------------------------------------
-hill_ellenberg <- readRDS(file = "./inst/extdata/hill_ellenberg.rds")
-usethis::use_data(hill_ellenberg, overwrite = TRUE)
-
-# NVC Pseudo-quadrat data -------------------------------------------------
 nvc_pquads <- readRDS(file = "./inst/extdata/nvc_pquads.rds")
 usethis::use_data(nvc_pquads, overwrite = TRUE)
 
-nvc_pquads_wide <- readRDS(file = "./inst/extdata/nvc_pquads_wide.rds")
-usethis::use_data(nvc_pquads_wide, overwrite = TRUE)
+nvc_psquad_cm_he <- readRDS(file = "./inst/extdata/nvc_psquad_cm_he.rds")
+usethis::use_data(nvc_psquad_cm_he, overwrite = TRUE)
 
-# Accepted Species data ---------------------------------------------------
-acceptedSpecies <- readRDS(file = "./inst/extdata/acceptedSpecies.rds") |>
-  dplyr::arrange(Accepted_Species)
-usethis::use_data(acceptedSpecies, overwrite = TRUE)
+nvc_comm_cm_he <- readRDS(file = "./inst/extdata/nvc_comm_cm_he.rds")
+usethis::use_data(nvc_comm_cm_he, overwrite = TRUE)
 
-# Concordance data --------------------------------------------------------
-concordance <- readRDS(file = "./inst/extdata/concordance.rds")
-usethis::use_data(concordance, overwrite = TRUE)
+# Taxonomic data ----------------------------------------------------------
+accepted_taxa <- readRDS(file = "./inst/extdata/accepted_taxa.rds")
+usethis::use_data(accepted_taxa, overwrite = TRUE)
 
-# Pseudo-quadrat DCA scores -----------------------------------------------
-nvc_pquad_dca <- readRDS(file = "./inst/extdata/nvc_pquad_dca.rds")
-usethis::use_data(nvc_pquad_dca, overwrite = TRUE)
+taxa_lookup <- readRDS(file = "./inst/extdata/taxa_lookup.rds")
+usethis::use_data(taxa_lookup, overwrite = TRUE)
 
-nvc_pquad_dca_noBryophytes <- readRDS(file = "./inst/extdata/nvc_pquad_dca_noBryophytes.rds")
-usethis::use_data(nvc_pquad_dca_noBryophytes, overwrite = TRUE)
+taxonomic_backbone <- readRDS(file = "./inst/extdata/taxonomic_backbone.rds")
+usethis::use_data(taxonomic_backbone, overwrite = TRUE)
 
-# Pseudo-quadrat hulls ----------------------------------------------------
-nvc_pquad_dca_hulls <- readRDS(file = "./inst/extdata/nvc_pquad_dca_hulls.rds")
-usethis::use_data(nvc_pquad_dca_hulls, overwrite = TRUE)
+# Habitat Correspondence --------------------------------------------------
+habitat_correspondences <- readRDS(file = "./inst/extdata/habitat_correspondences.rds")
+usethis::use_data(habitat_correspondences, overwrite = TRUE)
 
-nvc_pquad_dca_noBryophytes_hulls <- readRDS(file = "./inst/extdata/nvc_pquad_dca_noBryophytes_hulls.rds")
-usethis::use_data(nvc_pquad_dca_noBryophytes_hulls, overwrite = TRUE)
+# Hill-Ellenberg values ---------------------------------------------------
+hill_ellenberg <- readRDS(file = "./inst/extdata/hill_ellenberg.rds")
+usethis::use_data(hill_ellenberg, overwrite = TRUE)
 
-# Pseudo-quadrat centroids ------------------------------------------------
-nvc_pquad_dca_centroids <- readRDS(file = "./inst/extdata/nvc_pquad_dca_centroids.rds")
-usethis::use_data(nvc_pquad_dca_centroids, overwrite = TRUE)
+# DCA objects -------------------------------------------------------------
+dca_psquad <- readRDS(file = "./inst/extdata/dca_psquad.rds")
+usethis::use_data(dca_psquad, overwrite = TRUE)
 
-nvc_pquad_dca_noBryophytes_centroids <- readRDS(file = "./inst/extdata/nvc_pquad_dca_noBryophytes_centroids.rds")
-usethis::use_data(nvc_pquad_dca_noBryophytes_centroids, overwrite = TRUE)
+dca_psquad_scores <- readRDS(file = "./inst/extdata/dca_psquad_scores.rds")
+usethis::use_data(dca_psquad_scores, overwrite = TRUE)
 
-# Pseudo-quadrat mean unweighted EIVs -------------------------------------
-nvc_pquads_mean_unweighted_eivs <- readRDS(file = "./inst/extdata/nvc_pquads_mean_unweighted_eivs.rds")
-usethis::use_data(nvc_pquads_mean_unweighted_eivs, overwrite = TRUE)
+dca_species_scores <- readRDS(file = "./inst/extdata/dca_species_scores.rds")
+usethis::use_data(dca_species_scores, overwrite = TRUE)
 
-nvc_pquads_mean_unweighted_eivs_noBryophytes <- readRDS(file = "./inst/extdata/nvc_pquads_mean_unweighted_eivs_noBryophytes.rds")
-usethis::use_data(nvc_pquads_mean_unweighted_eivs_noBryophytes, overwrite = TRUE)
+dca_psquad_hulls <- readRDS(file = "./inst/extdata/dca_psquad_hulls.rds")
+usethis::use_data(dca_psquad_hulls, overwrite = TRUE)
+
+dca_psquad_centroids <- readRDS(file = "./inst/extdata/dca_psquad_centroids.rds")
+usethis::use_data(dca_psquad_centroids, overwrite = TRUE)
+
+
+

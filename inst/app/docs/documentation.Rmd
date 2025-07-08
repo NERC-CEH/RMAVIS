@@ -123,19 +123,6 @@ Validation modules.
 
 ### Options
 
-**Bryophyte Inclusion**
-
-The user may optionally toggle whether Bryophyte taxa, specifically 
-moss (Bryophyta), liverwort (Marchantiophyta), and hornwort 
-(Anthocerotophyta) taxa, are included in `RMAVIS`.
-This option is included to ensure that users who cannot confidently identify
-bryophytes to the species rank, or do not have data where bryophytes
-were confidently recorded can still use RMAVIS without
-false presences or absences unduly skewing the results.
-
-> Caution is advised in excluding bryophyte taxa as bryophytes are key and often
-> highly diagnostic components of many NVC communities.
-
 **Input Method**
 
 Three methods for entering data into `RMAVIS` are provided: manual, upload,

@@ -11,7 +11,6 @@ deSidebar <- function(input, output, session,
     
     sidebar_options_list <- list(
       "inputMethod" = input$inputMethod,
-      "includeBryophytes" = input$includeBryophytes,
       "clearTable" = input$clearTable,
       "selectedExampleData" = input$selectedExampleData,
       "coverScale" = input$coverScale
@@ -21,7 +20,6 @@ deSidebar <- function(input, output, session,
     
   }) |>
     bindEvent(input$inputMethod,
-              input$includeBryophytes,
               input$clearTable,
               input$selectedExampleData, 
               input$coverScale,

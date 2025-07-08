@@ -198,17 +198,48 @@ ui <- bslib::page_navbar(
   
   bslib::nav_panel(
     
-    "NVC Lookup",
+    "NVC Information",
     
-    bslib::card(
+    bslib::navset_card_tab(
       
-      full_screen = FALSE,
+      bslib::nav_panel(
+        
+        full_screen = TRUE,
+        
+        value = "nvcNamesLookup_panel",
+        
+        bslib::card_header("Names Lookup"),
+        
+        nvcNamesLookupUI(id = "nvcNamesLookup_id_1")
+        
+      ),
       
-      fill = TRUE,
+      bslib::nav_panel(
+        
+        full_screen = TRUE,
+        
+        value = "nvcFlorTabs_panel",
+        
+        bslib::card_header("Floristic Tables"),
+        
+        nvcFlorTabsUI(id = "nvcFlorTabs_id_1")
+        
+      ),
       
-      nvcInfoUI(id = "nvcInfo_id_1")
+      bslib::nav_panel(
+        
+        full_screen = TRUE,
+        
+        value = "nvcCommAttr_panel",
+        
+        bslib::card_header("Community Attributes"),
+        
+        nvcCommAttrUI(id = "nvcCommAttr_id_1")
+        
+      )
       
     )
+    
   ),
     
   bslib::nav_panel(

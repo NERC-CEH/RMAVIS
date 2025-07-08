@@ -195,7 +195,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("habCorClass"),
                                   label = "Classification",
-                                  choices = RMAVIS::habCor_classifications,
+                                  choices = RMAVIS:::habitat_correspondence_classifications,
                                   selected = "UKHab - Level5",
                                   multiple = FALSE),
             

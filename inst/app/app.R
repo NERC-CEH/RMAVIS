@@ -48,9 +48,6 @@ suppressPackageStartupMessages({
 # Source sub-modules ------------------------------------------------------
 source("./modules/home_ui.R", local = TRUE)
 
-source("./modules/nvcInfo_ui.R", local = TRUE)
-source("./modules/nvcInfo_server.R", local = TRUE)
-
 source("./modules/privacy_ui.R", local = TRUE)
 
 source("./modules/additional_info_ui.R", local = TRUE)
@@ -58,6 +55,17 @@ source("./modules/additional_info_ui.R", local = TRUE)
 source("./modules/documentation_ui.R", local = TRUE)
 
 source("./modules/news_ui.R", local = TRUE)
+
+## NVC information --------------------------------------------------------
+
+source("./modules/nvc_information/nvcNamesLookup_ui.R", local = TRUE)
+source("./modules/nvc_information/nvcNamesLookup_server.R", local = TRUE)
+
+source("./modules/nvc_information/nvcFlorTabs_ui.R", local = TRUE)
+source("./modules/nvc_information/nvcFlorTabs_server.R", local = TRUE)
+
+source("./modules/nvc_information/nvcCommAttr_ui.R", local = TRUE)
+source("./modules/nvc_information/nvcCommAttr_server.R", local = TRUE)
 
 ## Data entry -------------------------------------------------------------
 source("./modules/data_entry/deSidebar_ui.R", local = TRUE)

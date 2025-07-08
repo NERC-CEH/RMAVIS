@@ -25,7 +25,6 @@ constancyConversion <- tibble::tibble(
   "ConstancyProportionMid" = c(0.1, 0.3, 0.5, 0.7, 0.9),
   "ConstancyPercentLower" = c(0, 20, 40, 60, 80),
   "ConstancyPercentUpper" = c(20, 40, 60, 80, 100)
-  
 )
 
 # Cover Scale Options -----------------------------------------------------
@@ -149,9 +148,12 @@ ccaVars_options <- c("Moisture (F) x Nitrogen (N)" = "FN",
                      "Light (L) x Salinity (S)" = "LS")
 
 # Global Reference DCA Space Options --------------------------------------
-selectedReferenceSpaces_options <- sort(c(c("A", "CG", "H", "M", "MC", "MG", "OV", "S", "SD", "SM", "U", "W"), # Add community prefixes
-                                          setdiff(readRDS(file = "./inst/extdata/nvc_community_namesCodes.rds")[["NVC.Code"]], # Retrieve community codes
-                                                  c("SM1", "SM1a", "SM1b")))) # remove SM communities which weren't used in the ordination space creatinon
+# selectedReferenceSpaces_options <- sort(c(c("A", "CG", "H", "M", "MC", "MG", "OV", "S", "SD", "SM", "U", "W"), # Add community prefixes
+#                                           setdiff(readRDS(file = "./inst/extdata/nvc_community_attributes.rds")[["nvc_code"]], # Retrieve community codes
+#                                                   c("SM1", "SM1a", "SM1b")))) # remove SM communities which weren't used in the ordination space creation
+
+selectedReferenceSpaces_options <- sort(setdiff(readRDS(file = "./inst/extdata/nvc_community_attributes.rds")[["nvc_code"]], # Retrieve community codes
+                                                c("SM1", "SM1a", "SM1b"))) # remove SM communities which weren't used in the ordination space creation
 
 # DCA Survey Quadrat Options ----------------------------------------------
 surveyQuadratSelection_options <- c("All" = "all",
@@ -196,6 +198,57 @@ reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAss
     )
 
 
+# Broad habitat names and codes -------------------------------------------
+bh_lookup <- tibble::tribble(
+  ~Habitat.Name, ~Habitat.Code,
+  "Broadleaved, mixed and yew woodland", "1",
+  "Coniferous woodland", "2",
+  "Boundary and linear features", "3",
+  "Arable and horticultural", "4",
+  "Improved grassland", "5",
+  "Neutral grassland", "6",
+  "Calcareous grassland", "7",
+  "Acid grassland", "8",
+  "Bracken", "9",
+  "Dwarf shrub heath", "10",
+  "Fen, marsh and swamp", "11",
+  "Bog", "12",
+  "Standing water and canals", "13",
+  "Rivers and streams", "14",
+  "Montane habitats", "15",
+  "Inland rock", "16",
+  "Built-up areas and gardens", "17",
+  "Supralittoral rock", "18",
+  "Supralittoral sediment", "19",
+  # "", "20",
+  "Littoral sediment", "21",
+  # "", "22",
+  "Inshore sublittoral sediment", "23"
+)
+
+# Habitat Restriction Prefixes --------------------------------------------
+habitatRestrictionPrefixes <- list(
+  "W" = c("W"),
+  "M" = c("M"),
+  "H" = c("H"),
+  "MG" = c("MG"),
+  "CG" = c("CG"),
+  "U" = c("U"),
+  "A" = c("A"),
+  "S" = c("S"),
+  "SM" = c("SM"),
+  "SD" = c("SD"),
+  "MC" = c("MC"),
+  "OV" = c("OV"),
+  "SOWG" = c("AgBp", "AgCf", "CaCn", "CnPe", "MG")
+)
+
+
+# Habitat correspondence classifications ----------------------------------
+habitat_correspondence_classifications <- readRDS(file = "./inst/extdata/habitat_correspondences.rds") |>
+  dplyr::pull(classification) |>
+  unique()
+
 # Save all constants as internal data -------------------------------------
 usethis::use_data(inputMethod_options,
                   example_data_options,
@@ -224,6 +277,9 @@ usethis::use_data(inputMethod_options,
                   selectSurveyGroups_options,
                   groupSurveyPlots_options,
                   reportOptions_options,
+                  bh_lookup,
+                  habitatRestrictionPrefixes,
+                  habitat_correspondence_classifications,
                   overwrite = TRUE,
                   internal = TRUE)
 
