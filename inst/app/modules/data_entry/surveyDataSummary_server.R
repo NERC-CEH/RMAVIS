@@ -59,7 +59,7 @@ surveyDataSummary <- function(input, output, session, surveyData) {
     surveyData_long <- surveyData$surveyData_long
     
     hill_ellenberg_w_names <- RMAVIS::hill_ellenberg |>
-      dplyr::left_join(RMAVIS::taxa_lookup, by = "TVK") |>
+      dplyr::left_join(UKVegTB::taxa_lookup, by = "TVK") |>
       dplyr::select("Species" = "recommended_taxon_name", `F`, L, N, R, S)
     
     speciesDataAvailability <- surveyData_long |>

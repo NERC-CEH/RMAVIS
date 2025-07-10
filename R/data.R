@@ -81,20 +81,6 @@
 #' }
 "nvc_floristic_tables"
 
-#' NVC floristic tables comparison
-#' 
-#' A lookup table between the original NVC floristic table taxon names and updated taxon names.#' 
-#'
-#' \code{nvc_floristic_tables_comparison} 
-#'
-#' @format A data frame with `r nrow(RMAVIS::nvc_floristic_tables_comparison)` rows and `r ncol(RMAVIS::nvc_floristic_tables_comparison)` columns, the definitions of which are:
-#' \describe{
-#'   \item{nvc_code}{The NVC unit code.}
-#'   \item{original_name}{The taxon name as it appears in the original NVC MS access database and volumes.}
-#'   \item{nvc_taxon_name}{The updated taxon name, see `RMAVIS::nvc_taxa_lookup`.}
-#' }
-"nvc_floristic_tables_comparison"
-
 #' NVC pseudo-quadrats
 #'
 #' A dataset containing pseudo-quadrats for each NVC unit.
@@ -142,9 +128,9 @@
 #' @format A data frame with `r nrow(RMAVIS::nvc_taxa_lookup)` rows and `r ncol(RMAVIS::nvc_taxa_lookup)` columns, the definitions of which are:
 #' \describe{
 #'   \item{original_name}{The taxon name as it appears in the original NVC MS access database and volumes.}
-#'   \item{original_TVK}{The UKSI taxon version key associated with the original taxon name, see `RMAVIS::taxa_lookup`.}
-#'   \item{recommended_taxon_name}{The latest recommended name for the taxon concept recorded as the original name, see `RMAVIS::taxonomic_backbone`.}
-#'   \item{recommended_TVK}{The UKSI taxon version key associated with the recommended taxon name, see `RMAVIS::taxa_lookup`.}
+#'   \item{original_TVK}{The UKSI taxon version key associated with the original taxon name, see `UKVegTB::taxa_lookup`.}
+#'   \item{recommended_taxon_name}{The latest recommended name for the taxon concept recorded as the original name, see `UKVegTB::taxonomic_backbone`.}
+#'   \item{recommended_TVK}{The UKSI taxon version key associated with the recommended taxon name, see `UKVegTB::taxa_lookup`.}
 #'   \item{strata}{The strata for the taxon: c = Canopy, S = Shrub, and g = Ground.}
 #'   \item{nvc_taxon_name}{The taxon name, equivalent to the recommended taxon names with strata suffixes.}
 #' }
@@ -152,7 +138,7 @@
 
 #' Accepted Taxa
 #'
-#' The taxon names accepted by RMAVIS. Equivalent to the unique species in the `RMAVIS::taxonomic_backbone` 'taxon_name' column
+#' The taxon names accepted by RMAVIS. Equivalent to the unique species in the `UKVegTB::taxonomic_backbone` 'full_name' column
 #' with the addition of taxa with strata suffixes as present in `RMAVIS::nvc_taxa_lookup`.
 #'
 #' \code{accepted_taxa} 
@@ -163,81 +149,6 @@
 #'   \item{taxon_name}{The taxon names of the accepted taxa.}
 #' }
 "accepted_taxa"
-
-#' Taxa lookup
-#'
-#' A lookup between the reccomended taxa as present in `RMAVIS::taxonomic_backbone` and associated synonymous taxon concepts present in the UKSI.
-#'
-#' \code{taxa_lookup} 
-#'
-#' @format A data frame with `r nrow(RMAVIS::taxa_lookup)` rows and `r ncol(RMAVIS::taxa_lookup)` columns, the definitions of which are:
-#' \describe{
-#'   \item{taxon_name}{The taxon names of the synonymous taxon concepts associated with the reccomended taxa.}
-#'   \item{TVK}{The UKSI taxon version keys associated with the synonymous taxa in taxon_name.}
-#'   \item{recommended_taxon_name}{The recommended taxon names.}
-#'   \item{recommended_TVK}{The UKSI taxon version keys associated with the taxa in recommended_taxon_name.}
-#' }
-"taxa_lookup"
-
-#' Taxonomic Backbone
-#' 
-#' The taxonomic backbone used in RMAVIS. Formed by selecting the recommended taxa from the following informal groups:
-#' "alga", "chromist", "clubmoss", "conifer", "fern", "flowering plant", "ginkgo", "hornwort", "horsetail", "lichen", "liverwort", "moss", "quillwort", and "stonewort"
-#' in version 20250703a of the UKSI, then retrieving the parent taxa.
-#' 
-#'
-#' \code{taxonomic_backbone} 
-#'
-#' @format A data frame with `r nrow(RMAVIS::taxonomic_backbone)` rows and `r ncol(RMAVIS::taxonomic_backbone)` columns, the definitions of which are:
-#' \describe{
-#'   \item{TVK}{}
-#'   \item{taxon_name}{}
-#'   \item{rank}{}
-#'   \item{qualifier}{}
-#'   \item{authority}{}
-#'   \item{informal_group}{}
-#'   \item{Unranked}{}
-#'   \item{Domain}{}
-#'   \item{Kingdom}{}
-#'   \item{Subkingdom}{}
-#'   \item{Infrakingdom}{}
-#'   \item{Division}{}
-#'   \item{Subdivision}{}
-#'   \item{Phylum}{}
-#'   \item{Subphylum}{}
-#'   \item{Infraphylum}{}
-#'   \item{Superclass}{}
-#'   \item{Class}{}
-#'   \item{Subclass}{}
-#'   \item{Superorder}{}
-#'   \item{Order}{}
-#'   \item{Suborder}{}
-#'   \item{Superfamily}{}
-#'   \item{Family}{}
-#'   \item{Subfamily}{}
-#'   \item{Family aggregate}{}
-#'   \item{Tribe}{}
-#'   \item{Genus}{}
-#'   \item{Genus aggregate}{}
-#'   \item{Subgenus}{}
-#'   \item{Section}{}
-#'   \item{Subsection}{}
-#'   \item{Species group}{}
-#'   \item{Series}{}
-#'   \item{Species aggregate}{}
-#'   \item{Species sensu lato}{}
-#'   \item{Generic hybrid}{}
-#'   \item{Species}{}
-#'   \item{Species pro parte}{}
-#'   \item{Species hybrid}{}
-#'   \item{Subspecies}{}
-#'   \item{Subspecies hybrid}{}
-#'   \item{Subspecies aggregate}{}
-#'   \item{Nothosubspecies}{}
-#'   \item{Microspecies}{}
-#'   \item{Cultivar}{}
-#' }
-"taxonomic_backbone"
 
 #' NVC pseudo-quadrat community-mean Hill-Ellenberg values
 #'
@@ -257,23 +168,6 @@
 #' }
 "nvc_psquad_cm_he"
 
-#' NVC community community-mean Hill-Ellenberg values
-#'
-#' NVC community community-mean Hill-Ellenberg values
-#'
-#' \code{nvc_comm_cm_he} 
-#'
-#' @format A data frame with `r nrow(RMAVIS::nvc_comm_cm_he)` rows and `r ncol(RMAVIS::nvc_comm_cm_he)` columns, the definitions of which are:
-#' \describe{
-#'   \item{nvc_code}{The NVC unit code.}
-#'   \item{F}{The Hill-Ellenberg Moisture score.}
-#'   \item{L}{The Hill-Ellenberg Light score.}
-#'   \item{N}{The Hill-Ellenberg Nitrogen score.}
-#'   \item{R}{The Hill-Ellenberg Reaction score.}
-#'   \item{S}{The Hill-Ellenberg Salinity score.}
-#' }
-"nvc_comm_cm_he"
-
 # "dca_psquad_centroids"
 # 
 # "dca_psquad_hulls"
@@ -292,8 +186,8 @@
 #'
 #' @format A data frame with `r nrow(RMAVIS::broad_habitat_indicators)` rows and `r ncol(RMAVIS::broad_habitat_indicators)` columns, the definitions of which are:
 #' \describe{
-#'   \item{recommended_taxon_name}{The taxon name, see `RMAVIS::taxonomic_backbone`}
-#'   \item{recommended_TVK}{The UKSI taxon version key, see `RMAVIS::taxonomic_backbone`.}
+#'   \item{recommended_taxon_name}{The taxon name, see `UKVegTB::taxonomic_backbone`}
+#'   \item{recommended_TVK}{The UKSI taxon version key, see `UKVegTB::taxonomic_backbone`.}
 #'   \item{1}{The broad habitat 'Broadleaved, mixed and yew woodland'.}
 #'   \item{2}{The broad habitat 'Coniferous woodland'.}
 #'   \item{3}{The broad habitat 'Boundary and linear features'.}

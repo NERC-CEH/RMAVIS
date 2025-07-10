@@ -5,7 +5,7 @@
 \alias{nvc_psquad_cm_he}
 \title{NVC pseudo-quadrat community-mean Hill-Ellenberg values}
 \format{
-A data frame with 20735 rows and 7 columns, the definitions of which are:
+A data frame with 21363 rows and 7 columns, the definitions of which are:
 \describe{
 \item{nvc_code}{The NVC unit code.}
 \item{psq_id}{The pseudo-quadrat ID.}

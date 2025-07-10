@@ -41,6 +41,7 @@ suppressPackageStartupMessages({
   library(stringr)
   library(tibble)
   library(tidyr)
+  library(UKVegTB)
   library(vegan)
   library(writexl)
 })

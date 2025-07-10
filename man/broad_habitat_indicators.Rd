@@ -7,8 +7,8 @@
 \format{
 A data frame with 1884 rows and 23 columns, the definitions of which are:
 \describe{
-\item{recommended_taxon_name}{The taxon name, see \code{RMAVIS::taxonomic_backbone}}
-\item{recommended_TVK}{The UKSI taxon version key, see \code{RMAVIS::taxonomic_backbone}.}
+\item{recommended_taxon_name}{The taxon name, see \code{UKVegTB::taxonomic_backbone}}
+\item{recommended_TVK}{The UKSI taxon version key, see \code{UKVegTB::taxonomic_backbone}.}
 \item{1}{The broad habitat 'Broadleaved, mixed and yew woodland'.}
 \item{2}{The broad habitat 'Coniferous woodland'.}
 \item{3}{The broad habitat 'Boundary and linear features'.}

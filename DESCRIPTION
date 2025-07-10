@@ -53,6 +53,7 @@ Imports:
   stringr,
   tibble,
   tidyr,
+  UKVegTB,
   vegan,
   writexl
 Suggests:
@@ -61,5 +62,5 @@ Suggests:
 URL: https://github.com/NERC-CEH/RMAVIS
 BugReports: https://github.com/NERC-CEH/RMAVIS/issues
 Depends: 
-    R (>= 4.5)
+    R (>= 4.4)
 LazyData: true

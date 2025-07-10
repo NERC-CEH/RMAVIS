@@ -206,7 +206,7 @@ deSidebar <- function(input, output, session,
     
     content = function(file) {
       
-      write.csv(x = RMAVIS::taxonomic_backbone, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
+      write.csv(x = UKVegTB::taxonomic_backbone, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
       
     }
   )
@@ -225,7 +225,7 @@ deSidebar <- function(input, output, session,
     
     content = function(file) {
       
-      write.csv(x = RMAVIS::taxa_lookup, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
+      write.csv(x = UKVegTB::taxa_lookup, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
       
     }
   )

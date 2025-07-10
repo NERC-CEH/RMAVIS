@@ -5,7 +5,7 @@
 \alias{accepted_taxa}
 \title{Accepted Taxa}
 \format{
-A data frame with 23653 rows and 2 columns, the definitions of which are:
+A data frame with 23606 rows and 2 columns, the definitions of which are:
 \describe{
 \item{TVK}{The UKSI taxon version keys for the accepted taxa.}
 \item{taxon_name}{The taxon names of the accepted taxa.}
@@ -15,7 +15,7 @@ A data frame with 23653 rows and 2 columns, the definitions of which are:
 accepted_taxa
 }
 \description{
-The taxon names accepted by RMAVIS. Equivalent to the unique species in the \code{RMAVIS::taxonomic_backbone} 'taxon_name' column
+The taxon names accepted by RMAVIS. Equivalent to the unique species in the \code{UKVegTB::taxonomic_backbone} 'full_name' column
 with the addition of taxa with strata suffixes as present in \code{RMAVIS::nvc_taxa_lookup}.
 }
 \details{

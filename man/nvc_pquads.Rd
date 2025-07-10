@@ -5,7 +5,7 @@
 \alias{nvc_pquads}
 \title{NVC pseudo-quadrats}
 \format{
-A data frame with 298682 rows and 3 columns, the definitions of which are:
+A data frame with 298547 rows and 3 columns, the definitions of which are:
 \describe{
 \item{nvc_code}{The NVC unit code.}
 \item{psq_id}{The pseudo-quadrat ID}
