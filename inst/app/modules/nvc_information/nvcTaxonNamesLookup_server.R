@@ -10,6 +10,13 @@ nvcTaxonNamesLookup <- function(input, output, session) {
       "Recommended.TVK" = "recommended_TVK",
       "Strata" = "strata",
       "NVC.Taxon.Name" = "nvc_taxon_name"
+    ) |>
+    dplyr::mutate(
+      "Change" = dplyr::case_when(
+        Original.TVK != Recommended.TVK ~ "Yes",
+        TRUE ~ "No"
+      ),
+      .after = "Original.TVK"
     )
   
 
@@ -34,7 +41,8 @@ nvcTaxonNamesLookup <- function(input, output, session) {
                                                  align = "center" # Needed as alignment is not passing through to header
                                                ),
                                                columns = list(
-                                                 Strata = reactable::colDef(maxWidth = 100)
+                                                 Strata = reactable::colDef(maxWidth = 90),
+                                                 Change = reactable::colDef(maxWidth = 90)
                                                  )
                                                )
     

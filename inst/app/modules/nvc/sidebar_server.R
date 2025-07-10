@@ -157,7 +157,7 @@ sidebar <- function(input, output, session,
 
     okToProceed <- surveyDataValidator$surveyDataValidation$okToProceed
     
-    print(input$selectNVCtypes)
+    # print(input$selectNVCtypes)
 
     if(okToProceed == TRUE & nrow(surveyData()$surveyData_long) > 0 & length(input$selectNVCtypes) > 0){
 

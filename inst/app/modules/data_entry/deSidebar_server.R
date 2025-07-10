@@ -173,13 +173,13 @@ deSidebar <- function(input, output, session,
     }
   )
   
-  # Download Accepted Species -----------------------------------------------
-  output$downloadSpeciesData <- downloadHandler(
+  # Download Taxonomic Backbone ---------------------------------------------
+  output$downloadAcceptedTaxa <- downloadHandler(
     
     filename = function() {
       
-      paste0("RMAVIS.AcceptedSpecies.",
-             format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
+      paste0("RMAVIS.AcceptedTaxa.",
+             "v1.1.0",
              ".csv",
              sep="")
       
@@ -187,7 +187,45 @@ deSidebar <- function(input, output, session,
     
     content = function(file) {
       
-      write.csv(x = RMAVIS::acceptedSpecies, file, row.names = FALSE, fileEncoding = "UTF-8")
+      write.csv(x = RMAVIS::accepted_taxa, file, row.names = FALSE, fileEncoding = "UTF-8")
+      
+    }
+  )
+
+  # Download Taxonomic Backbone ---------------------------------------------
+  output$downloadTaxonomicBackbone <- downloadHandler(
+    
+    filename = function() {
+      
+      paste0("RMAVIS.TaxonomicBackbone.",
+             "v1.1.0",
+             ".csv",
+             sep="")
+      
+    },
+    
+    content = function(file) {
+      
+      write.csv(x = RMAVIS::taxonomic_backbone, file, row.names = FALSE, fileEncoding = "UTF-8")
+      
+    }
+  )
+
+  # Download Taxon Lookup ---------------------------------------------------
+  output$downloadTaxonLookup <- downloadHandler(
+    
+    filename = function() {
+      
+      paste0("RMAVIS.TaxonLookup.",
+             "v1.1.0",
+             ".csv",
+             sep="")
+      
+    },
+    
+    content = function(file) {
+      
+      write.csv(x = RMAVIS::taxa_lookup, file, row.names = FALSE, fileEncoding = "UTF-8")
       
     }
   )

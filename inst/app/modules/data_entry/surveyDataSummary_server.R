@@ -58,20 +58,24 @@ surveyDataSummary <- function(input, output, session, surveyData) {
     surveyData <- surveyData()
     surveyData_long <- surveyData$surveyData_long
     
+    hill_ellenberg_w_names <- RMAVIS::hill_ellenberg |>
+      dplyr::left_join(RMAVIS::taxa_lookup, by = "TVK") |>
+      dplyr::select("Species" = "recommended_taxon_name", `F`, L, N, R, S)
+    
     speciesDataAvailability <- surveyData_long |>
       dplyr::select("Species") |>
       dplyr::distinct() |>
       dplyr::mutate(
         "Hill-Ellenberg" = 
           dplyr::case_when(
-            Species %in% unique(dplyr::filter(RMAVIS::hill_ellenberg, !is.na(`F`)) |> dplyr::pull(species)) ~ "Yes",
+            Species %in% unique(dplyr::filter(hill_ellenberg_w_names, !is.na(`F`)) |> dplyr::pull(Species)) ~ "Yes",
             TRUE ~ as.character("No")
           )
       ) |>
       dplyr::mutate(
         "NVC" = 
           dplyr::case_when(
-            Species %in% unique(RMAVIS::nvc_floristic_tables$Species) ~ "Yes",
+            Species %in% unique(RMAVIS::nvc_floristic_tables$nvc_taxon_name) ~ "Yes",
             TRUE ~ as.character("No")
           )
       )

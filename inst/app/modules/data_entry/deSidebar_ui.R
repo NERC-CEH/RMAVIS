@@ -238,29 +238,90 @@ deSidebarUI <- function(id){
         
         icon = bsicons::bs_icon("download"),
         
-        
-        ## Download Accepted Species -----------------------------------------------
+        ## Download Accepted Taxa -----------------------------------------------
         shiny::div(
           
-          id = ns("downloadSpeciesData_div"),
+          id = ns("downloadAcceptedTaxa_div"),
           
           bslib::layout_columns(
             
             col_widths = c(11, 1),
             
             shiny::downloadButton(
-              outputId = ns("downloadSpeciesData"),
-              label = "Accepted Species",
+              outputId = ns("downloadAcceptedTaxa"),
+              label = "Accepted Taxa",
               class = NULL,
               icon = NULL
             ),
             
             bslib::popover(
               bsicons::bs_icon("info-circle"),
-              title = "Download Accepted Species Data",
+              title = "Download Accepted Taxa Data",
               shiny::markdown(
                 "
-                Download a csv containing the species names accepted by RMAVIS.
+                Download a csv containing the taxon names accepted by RMAVIS.
+                "
+              ),
+              placement = "bottom"
+            )
+          )
+        ),
+        
+        shiny::div(shiny::br()),
+        
+        ## Download Taxonomic Backbone -----------------------------------------------
+        shiny::div(
+          
+          id = ns("downloadTaxonomicBackbone_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::downloadButton(
+              outputId = ns("downloadTaxonomicBackbone"),
+              label = "Taxonomic Backbone",
+              class = NULL,
+              icon = NULL
+            ),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Download Taxonomic Backbone",
+              shiny::markdown(
+                "
+                Download a csv containing the taxonomic backbone used by RMAVIS.
+                "
+              ),
+              placement = "bottom"
+            )
+          )
+        ),
+        
+        shiny::div(shiny::br()),
+        
+        ## Download Taxon Lookup -----------------------------------------------
+        shiny::div(
+          
+          id = ns("downloadTaxonLookup_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::downloadButton(
+              outputId = ns("downloadTaxonLookup"),
+              label = "Taxon Lookup",
+              class = NULL,
+              icon = NULL
+            ),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Download Taxon Lookup",
+              shiny::markdown(
+                "
+                Download a csv containing a lookup between the accepted taxa and the synonyms associated with the accepted taxa.
                 "
               ),
               placement = "bottom"

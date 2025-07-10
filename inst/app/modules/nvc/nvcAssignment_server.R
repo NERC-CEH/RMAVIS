@@ -3,15 +3,15 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   ns <- session$ns
   
 # Retrieve Setup Data -----------------------------------------------------
-  nvc_pquads <- reactiveVal()
-  nvc_floristic_tables_numeric <- reactiveVal()
+  pquads <- reactiveVal()
+  floristic_tables <- reactiveVal()
   
   observe({
     
     setupData <- setupData()
     
-    nvc_pquads(setupData$nvc_pquads)
-    nvc_floristic_tables_numeric(setupData$nvc_floristic_tables_numeric)
+    pquads(setupData$pquads)
+    floristic_tables(setupData$floristic_tables)
     
   }) |>
     bindEvent(setupData(),
@@ -121,11 +121,11 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
           dplyr::distinct()
         
         # Select the pseudo-quadrats to use in the NVC assignment process
-        pquads_to_use <- nvc_pquads()
+        pquads_to_use <- pquads()
         
         if(!is.null(habitatRestriction())){
           
-          pquads_to_use <- RMAVIS::subset_nvcData(nvc_data = nvc_pquads(), habitatRestriction = habitatRestriction(), col_name = "NVC")
+          pquads_to_use <- RMAVIS::subset_nvcData(nvc_data = pquads(), habitatRestriction = habitatRestriction(), col_name = "NVC")
           
         }
         
@@ -217,20 +217,20 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
       # are floristic tables composed from more than 5 quadrats.
       if(nrow(floristicTables_prepped) > 0){
         
-        # Prepare nvc_floristic_tables_numeric
+        # Prepare floristic_tables
         if(!is.null(habitatRestriction())){
           
-          nvc_floristic_tables_numeric_prepped <- RMAVIS::subset_nvcData(nvc_data = nvc_floristic_tables_numeric(), habitatRestriction = habitatRestriction(), col_name = "NVC.Code")
+          floristic_tables_prepped <- RMAVIS::subset_nvcData(nvc_data = floristic_tables(), habitatRestriction = habitatRestriction(), col_name = "NVC.Code")
           
         } else {
           
-          nvc_floristic_tables_numeric_prepped <- nvc_floristic_tables_numeric()
+          floristic_tables_prepped <- floristic_tables()
           
         }
         
         # Calculate NVC Similarity by Site using the Czekanowski index
         nvcAssignmentSiteGroup_Czekanowski <- RMAVIS::similarityCzekanowski(samp_df = floristicTables_prepped,
-                                                                            comp_df = nvc_floristic_tables_numeric_prepped,
+                                                                            comp_df = floristic_tables_prepped,
                                                                             samp_species_col = "Species",
                                                                             comp_species_col = "Species",
                                                                             samp_group_name = "ID",
