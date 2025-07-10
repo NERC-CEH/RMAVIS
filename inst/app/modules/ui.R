@@ -84,7 +84,7 @@ ui <- bslib::page_navbar(
     
   bslib::nav_panel(
     
-    "Core",
+    "NVC Analysis",
     
     bslib::layout_sidebar(
 
@@ -206,11 +206,23 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
-        value = "nvcNamesLookup_panel",
+        value = "nvcCommNamesLookup_panel",
         
-        bslib::card_header("Names Lookup"),
+        bslib::card_header("Community Names"),
         
-        nvcNamesLookupUI(id = "nvcNamesLookup_id_1")
+        nvcCommNamesLookupUI(id = "nvcCommNamesLookup_id_1")
+        
+      ),
+      
+      bslib::nav_panel(
+        
+        full_screen = TRUE,
+        
+        value = "nvcTaxonNamesLookup_panel",
+        
+        bslib::card_header("Taxon Names"),
+        
+        nvcTaxonNamesLookupUI(id = "nvcTaxonNamesLookup_id_1")
         
       ),
       
@@ -260,17 +272,17 @@ ui <- bslib::page_navbar(
   
   bslib::nav_panel(
     
-    "Privacy",
+    "Additional Information",
     
-    privacyUI(id = "privacy_id_1")
-
+    additionalInfoUI(id = "additiona_info_id_1")
+    
   ),
   
   bslib::nav_panel(
     
-    "Additional Information",
+    "Privacy",
     
-    additionalInfoUI(id = "additiona_info_id_1")
+    privacyUI(id = "privacy_id_1")
     
   )
   

@@ -239,18 +239,154 @@
 #' }
 "taxonomic_backbone"
 
+#' NVC pseudo-quadrat community-mean Hill-Ellenberg values
+#'
+#' NVC pseudo-quadrat community-mean Hill-Ellenberg values
+#'
+#' \code{nvc_psquad_cm_he} 
+#'
+#' @format A data frame with `r nrow(RMAVIS::nvc_psquad_cm_he)` rows and `r ncol(RMAVIS::nvc_psquad_cm_he)` columns, the definitions of which are:
+#' \describe{
+#'   \item{nvc_code}{The NVC unit code.}
+#'   \item{psq_id}{The pseudo-quadrat ID.}
+#'   \item{F}{The Hill-Ellenberg Moisture score.}
+#'   \item{L}{The Hill-Ellenberg Light score.}
+#'   \item{N}{The Hill-Ellenberg Nitrogen score.}
+#'   \item{R}{The Hill-Ellenberg Reaction score.}
+#'   \item{S}{The Hill-Ellenberg Salinity score.}
+#' }
 "nvc_psquad_cm_he"
 
+#' NVC community community-mean Hill-Ellenberg values
+#'
+#' NVC community community-mean Hill-Ellenberg values
+#'
+#' \code{nvc_comm_cm_he} 
+#'
+#' @format A data frame with `r nrow(RMAVIS::nvc_comm_cm_he)` rows and `r ncol(RMAVIS::nvc_comm_cm_he)` columns, the definitions of which are:
+#' \describe{
+#'   \item{nvc_code}{The NVC unit code.}
+#'   \item{F}{The Hill-Ellenberg Moisture score.}
+#'   \item{L}{The Hill-Ellenberg Light score.}
+#'   \item{N}{The Hill-Ellenberg Nitrogen score.}
+#'   \item{R}{The Hill-Ellenberg Reaction score.}
+#'   \item{S}{The Hill-Ellenberg Salinity score.}
+#' }
 "nvc_comm_cm_he"
 
-"dca_psquad_centroids"
+# "dca_psquad_centroids"
+# 
+# "dca_psquad_hulls"
+# 
+# "dca_species_scores"
+# 
+# "dca_psquad_scores"
+# 
+# "dca_psquad"
 
-"dca_psquad_hulls"
-
-"dca_species_scores"
-
-"dca_psquad_scores"
-
-"dca_psquad"
-
+#' SOWG floristic tables
+#'
+#' A dataset containing the floristic tables for each Scottish Oceanic Wet Grassland NVC community.
+#'
+#' \code{sowg_floristic_tables} 
+#'
+#' @format A data frame with `r nrow(RMAVIS::broad_habitat_indicators)` rows and `r ncol(RMAVIS::broad_habitat_indicators)` columns, the definitions of which are:
+#' \describe{
+#'   \item{recommended_taxon_name}{The taxon name, see `RMAVIS::taxonomic_backbone`}
+#'   \item{recommended_TVK}{The UKSI taxon version key, see `RMAVIS::taxonomic_backbone`.}
+#'   \item{1}{The broad habitat 'Broadleaved, mixed and yew woodland'.}
+#'   \item{2}{The broad habitat 'Coniferous woodland'.}
+#'   \item{3}{The broad habitat 'Boundary and linear features'.}
+#'   \item{4}{The broad habitat 'Arable and horticultural'.}
+#'   \item{5}{The broad habitat 'Improved grassland'.}
+#'   \item{6}{The broad habitat 'Neutral grassland'.}
+#'   \item{7}{The broad habitat 'Calcareous grassland'.}
+#'   \item{8}{The broad habitat 'Acid grassland'.}
+#'   \item{9}{The broad habitat 'Bracken'.}
+#'   \item{10}{The broad habitat 'Dwarf shrub heath'.}
+#'   \item{11}{The broad habitat 'Fen, marsh and swamp'.}
+#'   \item{12}{The broad habitat 'Bog'.}
+#'   \item{13}{The broad habitat 'Standing water and canals'.}
+#'   \item{14}{The broad habitat 'Rivers and streams'.}
+#'   \item{15}{The broad habitat 'Montane habitats'.}
+#'   \item{16}{The broad habitat 'Inland rock'.}
+#'   \item{17}{The broad habitat 'Built-up areas and gardens'.}
+#'   \item{18}{The broad habitat 'Supralittoral rock'.}
+#'   \item{19}{The broad habitat 'Supralittoral sediment'.}
+#'   \item{21}{The broad habitat 'Littoral sediment'.}
+#'   \item{23}{The broad habitat 'Inshore sublittoral sediment'.}
+#' }
 "broad_habitat_indicators"
+
+#' SOWG floristic tables
+#'
+#' A dataset containing the floristic tables for each Scottish Oceanic Wet Grassland NVC community.
+#'
+#' \code{sowg_floristic_tables} 
+#'
+#' @format A data frame with `r nrow(RMAVIS::sowg_floristic_tables)` rows and `r ncol(RMAVIS::sowg_floristic_tables)` columns, the definitions of which are:
+#' \describe{
+#'   \item{nvc_code}{The NVC unit code.}
+#'   \item{nvc_taxon_name}{The taxon name, see `RMAVIS::nvc_taxa_lookup`.}
+#'   \item{constancy}{The constancy of occurrence across the plots constituting the NVC unit, see `RMAVIS:::constancyConversion`.}
+#'   \item{absolute_frequency}{The number of occurrences in the plots constituting the NVC unit.}
+#'   \item{relative_frequency}{The proportion of plots constituting the NVC unit that the taxon is present in.}
+#'   \item{minimum_cover}{The minimum cover of the taxon in the plots constituting the NVC unit.}
+#'   \item{mean_cover}{The mean cover of the taxon in the plots constituting the NVC unit.}
+#'   \item{maximum_cover}{The maximum cover of the taxon in the plots constituting the NVC unit.}
+#' }
+"sowg_floristic_tables"
+
+#' SOWG Community Attributes
+#'
+#' Selected attributes for each Scottish Oceanic Wet Grassland NVC unit.
+#'
+#' \code{sowg_community_attributes} 
+#'
+#' @format A data frame with `r nrow(RMAVIS::sowg_community_attributes)` rows and `r ncol(RMAVIS::sowg_community_attributes)` columns, the definitions of which are:
+#' \describe{
+#'   \item{fullname}{The full name of the NVC unit.}
+#'   \item{name}{The abridged name of the NVC unit.}
+#'   \item{nvc_code}{The NVC unit code.}
+#'   \item{nvc_code_parent}{The NVC unit code of the parent community, e.g. AgBp for AgBpa}
+#'   \item{basal}{A boolean. If TRUE the NVC unit does not have any child units e.g. CnPe. If FALSE the NVC unit has child units, e.g. AgBp.}
+#'   \item{rank}{The rank of the NVC unit.}
+#'   \item{num_samples}{The number of plots (samples) used to define the NVC unit.}
+#'   \item{min_species}{The minimum number of species in the plots constituting the NVC unit.}
+#'   \item{max_species}{The maximum number of species in the plots constituting the NVC unit.}
+#'   \item{mean_species}{The mean number of species in the plots constituting the NVC unit.}
+#'   \item{species_count}{The total number of unique species in the plots constituting the NVC unit. Note that this does not include 'rare' species, species that occurred in less than 5% of plots.}
+#' }
+"sowg_community_attributes"
+
+#' SOWG pseudo-quadrats
+#'
+#' A dataset containing pseudo-quadrats for each Scottish Oceanic Wet Grassland NVC unit.
+#'
+#' \code{sowg_pquads} 
+#'
+#' @format A data frame with `r nrow(RMAVIS::sowg_pquads)` rows and `r ncol(RMAVIS::sowg_pquads)` columns, the definitions of which are:
+#' \describe{
+#'   \item{nvc_code}{The NVC unit code.}
+#'   \item{psq_id}{The pseudo-quadrat ID}
+#'   \item{nvc_taxon_name}{The taxon name, see `RMAVIS::nvc_taxa_lookup`.}
+#' }
+"sowg_pquads"
+
+#' SOWG pseudo-quadrat community-mean Hill-Ellenberg values
+#'
+#' SOWG pseudo-quadrat community-mean Hill-Ellenberg values
+#'
+#' \code{sowg_psquad_cm_he} 
+#'
+#' @format A data frame with `r nrow(RMAVIS::sowg_psquad_cm_he)` rows and `r ncol(RMAVIS::sowg_psquad_cm_he)` columns, the definitions of which are:
+#' \describe{
+#'   \item{nvc_code}{The SOWG NVC unit code.}
+#'   \item{psq_id}{The pseudo-quadrat ID.}
+#'   \item{F}{The Hill-Ellenberg Moisture score.}
+#'   \item{L}{The Hill-Ellenberg Light score.}
+#'   \item{N}{The Hill-Ellenberg Nitrogen score.}
+#'   \item{R}{The Hill-Ellenberg Reaction score.}
+#'   \item{S}{The Hill-Ellenberg Salinity score.}
+#' }
+"sowg_psquad_cm_he"

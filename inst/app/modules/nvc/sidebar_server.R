@@ -1,12 +1,12 @@
 sidebar <- function(input, output, session, 
                     deSidebar_options,
+                    setupData,
                     surveyData, surveyDataValidator, surveyDataSummary,
                     floristicTables, nvcAssignment, habCor, speciesFreq,
                     avgEIVs, diversityAnalysis, 
                     mvaLocalRefRestrictedResults) {
   
   ns <- session$ns
-
   
 # Compose list of inputs to return from module ----------------------------
   sidebar_options <- reactiveVal()
@@ -15,6 +15,7 @@ sidebar <- function(input, output, session,
     
     sidebar_options_list <- list(
       "runAnalysis" = input$runAnalysis,
+      "selectNVCtypes" = input$selectNVCtypes,
       "assignQuadrats" = input$assignQuadrats,
       "habitatRestriction" = input$habitatRestriction,
       "nTopResults" = input$nTopResults,
@@ -46,6 +47,7 @@ sidebar <- function(input, output, session,
     
   }) |>
     bindEvent(input$runAnalysis,
+              input$selectNVCtypes,
               input$assignQuadrats,
               input$habitatRestriction, 
               input$nTopResults,
@@ -154,8 +156,10 @@ sidebar <- function(input, output, session,
     surveyDataValidator <- surveyDataValidator()
 
     okToProceed <- surveyDataValidator$surveyDataValidation$okToProceed
+    
+    print(input$selectNVCtypes)
 
-    if(okToProceed == TRUE & nrow(surveyData()$surveyData_long) > 0){
+    if(okToProceed == TRUE & nrow(surveyData()$surveyData_long) > 0 & length(input$selectNVCtypes) > 0){
 
       shinyjs::enable(id = "runAnalysis")
       shinyjs::enable(id = "generateReport")
@@ -169,6 +173,7 @@ sidebar <- function(input, output, session,
 
   }) |>
     bindEvent(surveyDataValidator(),
+              input$selectNVCtypes,
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
@@ -248,10 +253,13 @@ sidebar <- function(input, output, session,
   observe({
     
     shiny::req(nvcAssignment())
+    shiny::req(setupData())
     
     nvcAssignment <- nvcAssignment()
-    
     topNVCCommunities <- nvcAssignment$topNVCCommunities
+    
+    setupData <- setupData()
+    floristicTables <- setupData$floristicTables
     
     if(input$restrictNVCFlorTablesOpts == TRUE){
       
@@ -268,7 +276,7 @@ sidebar <- function(input, output, session,
       shiny::updateSelectizeInput(
         session = session,
         inputId = "nvcFloristicTable",
-        choices = RMAVIS::nvc_community_namesCodes[["NVC.Code"]],
+        choices = floristicTables[["nvc_code"]],
         selected = topNVCCommunities[1],
         server = TRUE
       )
@@ -278,6 +286,7 @@ sidebar <- function(input, output, session,
   }) |>
     bindEvent(input$restrictNVCFlorTablesOpts,
               nvcAssignment(),
+              setupData(),
               ignoreInit = TRUE)
   
 

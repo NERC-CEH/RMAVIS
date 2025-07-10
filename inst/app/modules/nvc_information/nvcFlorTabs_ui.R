@@ -7,7 +7,8 @@ nvcFlorTabsUI <- function(id) {
       width = 12,
       
       shiny::div(
-        reactable::reactableOutput(outputId = ns("nvcNamesLookupLookupTable"))
+        reactable::reactableOutput(outputId = ns("floristicTablesTable"))
+        # reactable.extras::reactable_extras_ui(id = ns("floristicTablesTable"))
       )
       
     )

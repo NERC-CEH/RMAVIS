@@ -15,6 +15,50 @@ sidebarUI <- function(id){
                         disabled = ''
                         ),
 
+    # shiny::div(shiny::br()),
+
+    shiny::div(
+      
+      id = ns("selectNVCtypes_div"),
+      
+      shiny::h5("NVC Types"),
+      
+      bslib::layout_columns(
+        
+        col_widths = c(11, 1),
+        
+        # shiny::selectizeInput(inputId = ns("selectNVCtypes"),
+        #                       label = NULL,
+        #                       choices = RMAVIS:::nvcType_options,
+        #                       selected = c("Original"),
+        #                       multiple = TRUE),
+        
+        shinyWidgets::pickerInput(inputId = ns("selectNVCtypes"),
+                                  label = NULL,
+                                  choices = RMAVIS:::nvcType_options,
+                                  selected = c("Original"),
+                                  multiple = TRUE
+        ),
+        
+        bslib::popover(
+          bsicons::bs_icon("info-circle"),
+          title = "Select NVC types",
+          id = ns("selectNVCtypesInfo"),
+          shiny::markdown(
+            "
+            Select the NVC unit types for analysis.
+            At present three sets of units are available:
+            -  Original, which contains the NVC communities as they appear originally in the NVC volumes (with updated taxonomy).
+            -  Calthion, which contains the wet mesotrophic grassland communities as described in Wallace and Prosser (2017) and Prosser et al (2023).
+            -  SOWG, which contains the Scottish Oceanic Wet Grassland communities as described in Wallace et al (2023).
+            "
+          ),
+          placement = "bottom"
+        )
+        
+      )
+      
+    ),
 
     bslib::accordion(
       

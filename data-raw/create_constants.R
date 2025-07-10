@@ -1,3 +1,8 @@
+# NVC types ---------------------------------------------------------------
+nvcType_options <- c("Original",
+                     # "Calthion",
+                     "SOWG")
+
 # Input method options ----------------------------------------------------
 inputMethod_options <- c("Manual" = "manual",
                          "Example" = "example",
@@ -250,7 +255,8 @@ habitat_correspondence_classifications <- readRDS(file = "./inst/extdata/habitat
   unique()
 
 # Save all constants as internal data -------------------------------------
-usethis::use_data(inputMethod_options,
+usethis::use_data(nvcType_options,
+                  inputMethod_options,
                   example_data_options,
                   dataEntryFormat_options,
                   constancyConversion,

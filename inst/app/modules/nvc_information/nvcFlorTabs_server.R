@@ -1,58 +1,73 @@
-nvcFlorTabs <- function(input, output, session, sidebar_options) {
+nvcFlorTabs <- function(input, output, session) {
   
   ns <- session$ns
   
-  # Retrieve sidebar options ------------------------------------------------
   
-  # observe({
-  #   
-  # }) |>
-  #   bindEvent(sidebar_options(), ignoreInit = TRUE)
   
-  # Initial survey table data -----------------------------------------------
+
+  # Establish floristic tables data -----------------------------------------
+  floristic_tables <- dplyr::bind_rows(RMAVIS::nvc_floristic_tables |> dplyr::mutate("Type" = "Original", .before = "nvc_code"),
+                                       RMAVIS::sowg_floristic_tables |> dplyr::mutate("Type" = "SOWG", .before = "nvc_code")) |>
+    dplyr::select("NVC.Code" = "nvc_code", 
+                  "Taxon.Name" = "nvc_taxon_name",
+                  "Constancy" = "constancy",
+                  "Frequency" = "absolute_frequency",
+                  "Minimum.Cover" = "minimum_cover",
+                  "Mean.Cover" = "mean_cover",
+                  "Maximum.Cover" = "maximum_cover")
+ 
   
-  nvcNamesLookupLookupTable_init <- RMAVIS::nvc_community_namesCodes |>
-    dplyr::select(NVC.Code, NVC.Name)
-  
-  # Survey Data Entry Table -------------------------------------------------
-  
-  nvcNamesLookupLookupTable_rval <- reactiveVal(nvcNamesLookupLookupTable_init)
-  
-  output$nvcNamesLookupLookupTable <- reactable::renderReactable({
-    
-    nvcNamesLookupLookupTable <- reactable::reactable(data = nvcNamesLookupLookupTable_init,
-                                               filterable = FALSE,
-                                               pagination = FALSE, 
-                                               highlight = TRUE,
-                                               bordered = TRUE,
-                                               sortable = FALSE, 
-                                               wrap = FALSE,
-                                               resizable = TRUE,
-                                               style = list(fontSize = "1rem"),
-                                               class = "my-tbl",
-                                               # style = list(fontSize = "1rem"),
-                                               rowClass = "my-row",
-                                               defaultColDef = reactable::colDef(
-                                                 headerClass = "my-header",
-                                                 class = "my-col",
-                                                 align = "center" # Needed as alignment is not passing through to header
-                                               ),
-                                               columns = list(
-                                                 NVC.Code = reactable::colDef(
-                                                   filterable = TRUE,
-                                                   maxWidth = 150
+
+  # Floristic tables table --------------------------------------------------
+  output$floristicTablesTable <- reactable::renderReactable({
+
+    floristicTablesTable <- reactable::reactable(data = floristic_tables,
+                                                 filterable = TRUE,
+                                                 pagination = TRUE,
+                                                 defaultPageSize = 25,
+                                                 highlight = TRUE,
+                                                 bordered = TRUE,
+                                                 sortable = TRUE,
+                                                 wrap = FALSE,
+                                                 resizable = TRUE,
+                                                 style = list(fontSize = "1rem"),
+                                                 class = "my-tbl",
+                                                 # style = list(fontSize = "1rem"),
+                                                 rowClass = "my-row",
+                                                 defaultColDef = reactable::colDef(
+                                                   # filterMethod = reactable::JS(
+                                                   #   "function filterRows(rows, columnId, filterValue) {
+                                                   #          return rows.filter(function(row) {
+                                                   #            return row.values[columnId] === filterValue;
+                                                   #          });
+                                                   #        }"),
+                                                   headerClass = "my-header",
+                                                   class = "my-col",
+                                                   align = "center" # Needed as alignment is not passing through to header
+                                                 ),
+                                                 columns = list(
+                                                   NVC.Code = reactable::colDef(
+                                                     filterable = TRUE,
+                                                     filterMethod = reactable::JS(
+                                                       "function filterRows(rows, columnId, filterValue) {
+                                                            return rows.filter(function(row) {
+                                                              return row.values[columnId] === filterValue;
+                                                            });
+                                                          }"),
+                                                     maxWidth = 150
+                                                     ),
+                                                   Taxon.Name = reactable::colDef(
+                                                     filterable = TRUE,
+                                                     minWidth = 225
+                                                   )
                                                    )
                                                  )
-                                               )
-    
-    return(nvcNamesLookupLookupTable)
-    
+
+    return(floristicTablesTable)
+
   })
   
   
-  outputOptions(output, "nvcNamesLookupLookupTable", suspendWhenHidden = FALSE)
-  
-  
-  # return(nvcNamesLookupLookupTable_rval)
+  outputOptions(output, "floristicTablesTable", suspendWhenHidden = FALSE)
   
 }

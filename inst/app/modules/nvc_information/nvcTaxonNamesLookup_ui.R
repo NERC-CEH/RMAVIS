@@ -1,4 +1,4 @@
-nvcNamesLookupUI <- function(id) {
+nvcTaxonNamesLookupUI <- function(id) {
   
   ns <- NS(id)
   
@@ -7,7 +7,7 @@ nvcNamesLookupUI <- function(id) {
       width = 12,
       
       shiny::div(
-        reactable::reactableOutput(outputId = ns("nvcNamesLookupLookupTable"))
+        reactable::reactableOutput(outputId = ns("nvcTaxonNamesLookupTable"))
       )
       
     )

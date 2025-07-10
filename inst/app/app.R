@@ -56,10 +56,14 @@ source("./modules/documentation_ui.R", local = TRUE)
 
 source("./modules/news_ui.R", local = TRUE)
 
-## NVC information --------------------------------------------------------
+source("./modules/setupData_server.R", local = TRUE)
 
-source("./modules/nvc_information/nvcNamesLookup_ui.R", local = TRUE)
-source("./modules/nvc_information/nvcNamesLookup_server.R", local = TRUE)
+## NVC information --------------------------------------------------------
+source("./modules/nvc_information/nvcCommNamesLookup_ui.R", local = TRUE)
+source("./modules/nvc_information/nvcCommNamesLookup_server.R", local = TRUE)
+
+source("./modules/nvc_information/nvcTaxonNamesLookup_ui.R", local = TRUE)
+source("./modules/nvc_information/nvcTaxonNamesLookup_server.R", local = TRUE)
 
 source("./modules/nvc_information/nvcFlorTabs_ui.R", local = TRUE)
 source("./modules/nvc_information/nvcFlorTabs_server.R", local = TRUE)
@@ -70,8 +74,6 @@ source("./modules/nvc_information/nvcCommAttr_server.R", local = TRUE)
 ## Data entry -------------------------------------------------------------
 source("./modules/data_entry/deSidebar_ui.R", local = TRUE)
 source("./modules/data_entry/deSidebar_server.R", local = TRUE)
-
-source("./modules/data_entry/setupData_server.R", local = TRUE)
 
 source("./modules/data_entry/uploadData_ui.R", local = TRUE)
 source("./modules/data_entry/uploadData_server.R", local = TRUE)
@@ -85,38 +87,38 @@ source("./modules/data_entry/surveyDataValidator_server.R", local = TRUE)
 source("./modules/data_entry/surveyDataSummary_ui.R", local = TRUE)
 source("./modules/data_entry/surveyDataSummary_server.R", local = TRUE)
 
-## Core -------------------------------------------------------------------
-source("./modules/core/sidebar_ui.R", local = TRUE)
-source("./modules/core/sidebar_server.R", local = TRUE)
+## NVC --------------------------------------------------------------------
+source("./modules/nvc/sidebar_ui.R", local = TRUE)
+source("./modules/nvc/sidebar_server.R", local = TRUE)
 
-source("./modules/core/floristicTables_ui.R", local = TRUE)
-source("./modules/core/floristicTables_server.R", local = TRUE)
+source("./modules/nvc/floristicTables_ui.R", local = TRUE)
+source("./modules/nvc/floristicTables_server.R", local = TRUE)
 
-source("./modules/core/nvcAssignment_ui.R", local = TRUE)
-source("./modules/core/nvcAssignment_server.R", local = TRUE)
+source("./modules/nvc/nvcAssignment_ui.R", local = TRUE)
+source("./modules/nvc/nvcAssignment_server.R", local = TRUE)
 
-source("./modules/core/habCor_ui.R", local = TRUE)
-source("./modules/core/habCor_server.R", local = TRUE)
+source("./modules/nvc/habCor_ui.R", local = TRUE)
+source("./modules/nvc/habCor_server.R", local = TRUE)
 
-source("./modules/core/speciesFreq_ui.R", local = TRUE)
-source("./modules/core/speciesFreq_server.R", local = TRUE)
+source("./modules/nvc/speciesFreq_ui.R", local = TRUE)
+source("./modules/nvc/speciesFreq_server.R", local = TRUE)
 
-source("./modules/core/calcAvgEIVs_ui.R", local = TRUE)
-source("./modules/core/calcAvgEIVs_server.R", local = TRUE)
+source("./modules/nvc/calcAvgEIVs_ui.R", local = TRUE)
+source("./modules/nvc/calcAvgEIVs_server.R", local = TRUE)
 
-source("./modules/core/diversityAnalysis_ui.R", local = TRUE)
-source("./modules/core/diversityAnalysis_server.R", local = TRUE)
+source("./modules/nvc/diversityAnalysis_ui.R", local = TRUE)
+source("./modules/nvc/diversityAnalysis_server.R", local = TRUE)
 
-source("./modules/core/mvaNationalRef_ui.R", local = TRUE)
-source("./modules/core/mvaNationalRef_server.R", local = TRUE)
+source("./modules/nvc/mvaNationalRef_ui.R", local = TRUE)
+source("./modules/nvc/mvaNationalRef_server.R", local = TRUE)
 
-source("./modules/core/mvaLocalRefRestricted_ui.R", local = TRUE)
-source("./modules/core/mvaLocalRefRestricted_server.R", local = TRUE)
+source("./modules/nvc/mvaLocalRefRestricted_ui.R", local = TRUE)
+source("./modules/nvc/mvaLocalRefRestricted_server.R", local = TRUE)
 
-source("./modules/core/mvaLocalRefUnrestricted_ui.R", local = TRUE)
-source("./modules/core/mvaLocalRefUnrestricted_server.R", local = TRUE)
+source("./modules/nvc/mvaLocalRefUnrestricted_ui.R", local = TRUE)
+source("./modules/nvc/mvaLocalRefUnrestricted_server.R", local = TRUE)
 
-source("./modules/core/report_server.R", local = TRUE)
+source("./modules/nvc/report_server.R", local = TRUE)
 
 # Source main UI and Server modules ---------------------------------------
 source("./modules/ui.R", local = TRUE)

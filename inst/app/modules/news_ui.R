@@ -14,7 +14,7 @@ newsUI <- function(id) {
         
         shiny::markdown(
         '
-        The latest version of RMAVIS (v1.1.0) contains three breaking changes.
+        The latest version of RMAVIS (v1.1.0) contains a number of breaking changes.
         First, is a major update to the taxonomy, which is now aligned with version 20250703a of the UKSI, available <a href="https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy/" target="_blank">here</a>.
         A csv of the taxonomic backbone can also be downloaded from the Data Entry section of RMAVIS.
         Second, is the recreation of the NVC datasets, which have been re-exported and re-organised from the original MS Access database.

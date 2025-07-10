@@ -1,27 +1,23 @@
-nvcNamesLookup <- function(input, output, session, sidebar_options) {
-  
-  ns <- session$ns
-  
-  # Retrieve sidebar options ------------------------------------------------
-  
-  # observe({
-  #   
-  # }) |>
-  #   bindEvent(sidebar_options(), ignoreInit = TRUE)
-  
-  # Initial survey table data -----------------------------------------------
-  
-  nvcNamesLookupLookupTable_init <- RMAVIS::nvc_community_namesCodes |>
-    dplyr::select(NVC.Code, NVC.Name)
-  
-  # Survey Data Entry Table -------------------------------------------------
-  
-  nvcNamesLookupLookupTable_rval <- reactiveVal(nvcNamesLookupLookupTable_init)
-  
-  output$nvcNamesLookupLookupTable <- reactable::renderReactable({
+nvcTaxonNamesLookup <- function(input, output, session) {
     
-    nvcNamesLookupLookupTable <- reactable::reactable(data = nvcNamesLookupLookupTable_init,
-                                               filterable = FALSE,
+  ns <- session$ns
+    
+  nvc_taxon_names_lookup <- RMAVIS::nvc_taxa_lookup |>
+    dplyr::select(
+      "Original.Name" = "original_name",
+      "Original.TVK" = "original_TVK",
+      "Recommended.Name" = "recommended_taxon_name",
+      "Recommended.TVK" = "recommended_TVK",
+      "Strata" = "strata",
+      "NVC.Taxon.Name" = "nvc_taxon_name"
+    )
+  
+
+  # Names lookup table ------------------------------------------------------
+  output$nvcTaxonNamesLookupTable <- reactable::renderReactable({
+    
+    nvcTaxonNamesLookupTable <- reactable::reactable(data = nvc_taxon_names_lookup,
+                                               filterable = TRUE,
                                                pagination = FALSE, 
                                                highlight = TRUE,
                                                bordered = TRUE,
@@ -38,21 +34,15 @@ nvcNamesLookup <- function(input, output, session, sidebar_options) {
                                                  align = "center" # Needed as alignment is not passing through to header
                                                ),
                                                columns = list(
-                                                 NVC.Code = reactable::colDef(
-                                                   filterable = TRUE,
-                                                   maxWidth = 150
-                                                   )
+                                                 Strata = reactable::colDef(maxWidth = 100)
                                                  )
                                                )
     
-    return(nvcNamesLookupLookupTable)
+    return(nvcTaxonNamesLookupTable)
     
   })
   
   
-  outputOptions(output, "nvcNamesLookupLookupTable", suspendWhenHidden = FALSE)
-  
-  
-  # return(nvcNamesLookupLookupTable_rval)
+  outputOptions(output, "nvcTaxonNamesLookupTable", suspendWhenHidden = FALSE)
   
 }

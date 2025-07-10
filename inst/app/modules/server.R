@@ -1,136 +1,141 @@
 # Server
 server <- function(input, output, session) {
-  
 
   # NVC Information ---------------------------------------------------------
-  shiny::callModule(module = nvcNamesLookup,
-                    id = "nvcNamesLookup_id_1")
+  shiny::callModule(module = nvcCommNamesLookup,
+                    id = "nvcCommNamesLookup_id_1")
+  
+  shiny::callModule(module = nvcTaxonNamesLookup,
+                    id = "nvcTaxonNamesLookup_id_1")
   
   shiny::callModule(module = nvcFlorTabs,
                     id = "nvcFlorTabs_id_1")
   
   shiny::callModule(module = nvcCommAttr,
-                    id = "nvcFlorTabs_id_1")
+                    id = "nvcCommAttr_id_1")
+  
+  # Setup Data --------------------------------------------------------------
+  # setupData <- shiny::callModule(module = setupData,
+  #                                id = "setupData_id_1",
+  #                                deSidebar_options = deSidebar_options,
+  #                                sidebar_options = sidebar_options)
   
   # Data Entry --------------------------------------------------------------
-  deSidebar_options <- shiny::callModule(module = deSidebar,
-                                         id = "deSidebar_id_1",
-                                         surveyData = surveyData,
-                                         surveyDataValidator = surveyDataValidator,
-                                         surveyDataSummary = surveyDataSummary)
-  
-  setupData <- shiny::callModule(module = setupData,
-                                 id = "setupData_id_1",
-                                 deSidebar_options = deSidebar_options)
-  
-  uploadDataTable <- shiny::callModule(module = uploadData,
-                                       id = "uploadData_id_1")
-  
-  surveyData <- shiny::callModule(module = surveyData,
-                                  id = "surveyData_id_1",
-                                  setupData = setupData,
-                                  uploadDataTable = uploadDataTable,
-                                  surveyDataValidator = surveyDataValidator,
-                                  deSidebar_options = deSidebar_options)
-  
-  surveyDataValidator <- shiny::callModule(module = surveyDataValidator,
-                                           id = "surveyDataValidator_id_1",
-                                           setupData = setupData,
-                                           surveyData = surveyData,
-                                           deSidebar_options = deSidebar_options)
-  
-  surveyDataSummary <- shiny::callModule(module = surveyDataSummary,
-                                         id = "surveyDataSummary_id_1",
-                                         surveyData = surveyData)
+  # deSidebar_options <- shiny::callModule(module = deSidebar,
+  #                                        id = "deSidebar_id_1",
+  #                                        surveyData = surveyData,
+  #                                        surveyDataValidator = surveyDataValidator,
+  #                                        surveyDataSummary = surveyDataSummary)
+  # 
+  # uploadDataTable <- shiny::callModule(module = uploadData,
+  #                                      id = "uploadData_id_1")
+  # 
+  # surveyData <- shiny::callModule(module = surveyData,
+  #                                 id = "surveyData_id_1",
+  #                                 setupData = setupData,
+  #                                 uploadDataTable = uploadDataTable,
+  #                                 surveyDataValidator = surveyDataValidator,
+  #                                 deSidebar_options = deSidebar_options)
+  # 
+  # surveyDataValidator <- shiny::callModule(module = surveyDataValidator,
+  #                                          id = "surveyDataValidator_id_1",
+  #                                          setupData = setupData,
+  #                                          surveyData = surveyData,
+  #                                          deSidebar_options = deSidebar_options)
+  # 
+  # surveyDataSummary <- shiny::callModule(module = surveyDataSummary,
+  #                                        id = "surveyDataSummary_id_1",
+  #                                        surveyData = surveyData)
 
 
   # Core --------------------------------------------------------------------
-  sidebar_options <- shiny::callModule(module = sidebar,
-                                       id = "sidebar_id_1",
-                                       deSidebar_options = deSidebar_options,
-                                       surveyData = surveyData,
-                                       surveyDataValidator = surveyDataValidator,
-                                       surveyDataSummary = surveyDataSummary,
-                                       floristicTables = floristicTables,
-                                       nvcAssignment = nvcAssignment,
-                                       habCor = habCor,
-                                       speciesFreq = speciesFreq,
-                                       avgEIVs = avgEIVs,
-                                       diversityAnalysis = diversityAnalysis,
-                                       mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults)
+  # sidebar_options <- shiny::callModule(module = sidebar,
+  #                                      id = "sidebar_id_1",
+  #                                      deSidebar_options = deSidebar_options,
+  #                                      surveyData = surveyData,
+  #                                      surveyDataValidator = surveyDataValidator,
+  #                                      surveyDataSummary = surveyDataSummary,
+  #                                      floristicTables = floristicTables,
+  #                                      nvcAssignment = nvcAssignment,
+  #                                      habCor = habCor,
+  #                                      speciesFreq = speciesFreq,
+  #                                      avgEIVs = avgEIVs,
+  #                                      diversityAnalysis = diversityAnalysis,
+  #                                      mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults)
+  # 
+  # floristicTables <- shiny::callModule(module = floristicTables,
+  #                                      id = "floristicTables_id_1",
+  #                                      surveyData = surveyData,
+  #                                      surveyDataSummary = surveyDataSummary,
+  #                                      sidebar_options = sidebar_options)
+  # 
+  # nvcAssignment <- shiny::callModule(module = nvcAssignment,
+  #                                    id = "nvcAssignment_id_1",
+  #                                    setupData = setupData,
+  #                                    surveyData = surveyData,
+  #                                    surveyDataSummary = surveyDataSummary,
+  #                                    floristicTables = floristicTables,
+  #                                    sidebar_options = sidebar_options)
+  # 
+  # habCor <- shiny::callModule(module = habCor,
+  #                             id = "habCor_id_1",
+  #                             nvcAssignment = nvcAssignment,
+  #                             sidebar_options = sidebar_options)
+  # 
+  # speciesFreq <- shiny::callModule(module = speciesFreq,
+  #                                  id = "speciesFreq_id_1",
+  #                                  surveyData = surveyData,
+  #                                  sidebar_options = sidebar_options)
+  # 
+  # avgEIVs <- shiny::callModule(module = calcAvgEIVs,
+  #                              id = "calcAvgEIVs_id_1",
+  #                              surveyData = surveyData,
+  #                              sidebar_options = sidebar_options)
+  # 
+  # diversityAnalysis <- shiny::callModule(module = diversityAnalysis,
+  #                                        id = "diversityAnalysis_id_1",
+  #                                        surveyData = surveyData,
+  #                                        sidebar_options = sidebar_options)
   
-  floristicTables <- shiny::callModule(module = floristicTables,
-                                       id = "floristicTables_id_1",
-                                       surveyData = surveyData,
-                                       surveyDataSummary = surveyDataSummary,
-                                       sidebar_options = sidebar_options)
-  
-  nvcAssignment <- shiny::callModule(module = nvcAssignment,
-                                     id = "nvcAssignment_id_1",
-                                     setupData = setupData,
-                                     surveyData = surveyData,
-                                     surveyDataSummary = surveyDataSummary,
-                                     floristicTables = floristicTables,
-                                     sidebar_options = sidebar_options)
-
-  habCor <- shiny::callModule(module = habCor,
-                              id = "habCor_id_1",
-                              nvcAssignment = nvcAssignment,
-                              sidebar_options = sidebar_options)
-  
-  speciesFreq <- shiny::callModule(module = speciesFreq,
-                                   id = "speciesFreq_id_1",
-                                   surveyData = surveyData,
-                                   sidebar_options = sidebar_options)
-  
-  avgEIVs <- shiny::callModule(module = calcAvgEIVs,
-                               id = "calcAvgEIVs_id_1",
-                               surveyData = surveyData,
-                               sidebar_options = sidebar_options)
-  
-  diversityAnalysis <- shiny::callModule(module = diversityAnalysis,
-                                         id = "diversityAnalysis_id_1",
-                                         surveyData = surveyData,
-                                         sidebar_options = sidebar_options)
-  
-  mvaNationalRefResults <- shiny::callModule(module = mvaNationalRef,
-                                             id = "mvaNationalRef_id_1",
-                                             setupData = setupData,
-                                             surveyData = surveyData,
-                                             nvcAssignment = nvcAssignment,
-                                             sidebar_options = sidebar_options)
-
-  mvaLocalRefRestrictedResults <- shiny::callModule(module = mvaLocalRefRestricted,
-                                                    id = "mvaLocalRefRestricted_id_1",
-                                                    setupData = setupData,
-                                                    surveyData = surveyData,
-                                                    nvcAssignment = nvcAssignment,
-                                                    sidebar_options = sidebar_options)
-
-  mvaLocalRefUnrestrictedResults <- shiny::callModule(module = mvaLocalRefUnrestricted,
-                                                      id = "mvaLocalRefUnrestricted_id_1",
-                                                      setupData = setupData,
-                                                      surveyData = surveyData,
-                                                      nvcAssignment = nvcAssignment,
-                                                      avgEIVs = avgEIVs,
-                                                      sidebar_options = sidebar_options)
+  # mvaNationalRefResults <- shiny::callModule(module = mvaNationalRef,
+  #                                            id = "mvaNationalRef_id_1",
+  #                                            setupData = setupData,
+  #                                            surveyData = surveyData,
+  #                                            nvcAssignment = nvcAssignment,
+  #                                            sidebar_options = sidebar_options)
+  # 
+  # mvaLocalRefRestrictedResults <- shiny::callModule(module = mvaLocalRefRestricted,
+  #                                                   id = "mvaLocalRefRestricted_id_1",
+  #                                                   setupData = setupData,
+  #                                                   surveyData = surveyData,
+  #                                                   nvcAssignment = nvcAssignment,
+  #                                                   sidebar_options = sidebar_options)
+  # 
+  # mvaLocalRefUnrestrictedResults <- shiny::callModule(module = mvaLocalRefUnrestricted,
+  #                                                     id = "mvaLocalRefUnrestricted_id_1",
+  #                                                     setupData = setupData,
+  #                                                     surveyData = surveyData,
+  #                                                     nvcAssignment = nvcAssignment,
+  #                                                     avgEIVs = avgEIVs,
+  #                                                     sidebar_options = sidebar_options)
   
   
-  shiny::callModule(module = report,
-                    id = "sidebar_id_1",
-                    sidebar_options = sidebar_options,
-                    surveyData = surveyData,
-                    surveyDataValidator = surveyDataValidator,
-                    surveyDataSummary = surveyDataSummary,
-                    nvcAssignment = nvcAssignment,
-                    habCor = habCor,
-                    floristicTables = floristicTables,
-                    speciesFreq = speciesFreq,
-                    avgEIVs = avgEIVs,
-                    diversityAnalysis = diversityAnalysis,
-                    mvaNationalRefResults = mvaNationalRefResults,
-                    mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults,
-                    mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults)
+  # shiny::callModule(module = report,
+  #                   id = "sidebar_id_1",
+  #                   sidebar_options = sidebar_options,
+  #                   surveyData = surveyData,
+  #                   surveyDataValidator = surveyDataValidator,
+  #                   surveyDataSummary = surveyDataSummary,
+  #                   nvcAssignment = nvcAssignment,
+  #                   habCor = habCor,
+  #                   floristicTables = floristicTables,
+  #                   speciesFreq = speciesFreq,
+  #                   avgEIVs = avgEIVs,
+  #                   diversityAnalysis = diversityAnalysis#,
+  #                   # mvaNationalRefResults = mvaNationalRefResults,
+  #                   # mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults,
+  #                   # mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults
+  #                   )
 
   # Save Module Outputs -----------------------------------------------------
   # Save module outputs to global environment, uncomment for development only!
