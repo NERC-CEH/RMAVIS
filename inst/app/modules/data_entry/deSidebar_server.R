@@ -168,7 +168,7 @@ deSidebar <- function(input, output, session,
       surveyData <- surveyData()
       surveyData_long <- surveyData$surveyData_long
       
-      write.csv(x = surveyData_long, file, row.names = FALSE, fileEncoding = "UTF-8")
+      write.csv(x = surveyData_long, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
       
     }
   )
@@ -187,7 +187,7 @@ deSidebar <- function(input, output, session,
     
     content = function(file) {
       
-      write.csv(x = RMAVIS::accepted_taxa, file, row.names = FALSE, fileEncoding = "UTF-8")
+      write.csv(x = RMAVIS::accepted_taxa, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
       
     }
   )
@@ -206,7 +206,7 @@ deSidebar <- function(input, output, session,
     
     content = function(file) {
       
-      write.csv(x = RMAVIS::taxonomic_backbone, file, row.names = FALSE, fileEncoding = "UTF-8")
+      write.csv(x = RMAVIS::taxonomic_backbone, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
       
     }
   )
@@ -225,7 +225,7 @@ deSidebar <- function(input, output, session,
     
     content = function(file) {
       
-      write.csv(x = RMAVIS::taxa_lookup, file, row.names = FALSE, fileEncoding = "UTF-8")
+      write.csv(x = RMAVIS::taxa_lookup, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
       
     }
   )

@@ -31,23 +31,23 @@ There are 8 main sections in `RMAVIS` at present.
 
 **Home** - Provides outlining information.
 
-**Data Entry** -
+**Data Entry** - Facilitates data entry and makes available the
+taxonomic information used by `RMAVIS`.
 
-**Core** - The core of the `RMAVIS` application, containing the
+**NVC Analysis** - The core of the `RMAVIS` application, containing the
 functionality present in the original v1.0 release.
 
-**ENM** - Contains the ability to view the ecological niche models for
-selected plant species and make occurrence probability predictions.
-
-**NVC Lookup** - Contains a searchable table, which can be used to
-retrieve the full name of an NVC community using an NVC community or
-sub-community code.
+**NVC Information** - Contains a set of searchable tables for inspecting
+the NVC community names, taxon names, floristic tables, and community
+attributes.
 
 **Documentation** - Provides a more detailed overview of the underlying
 methods, data sources, and usage instructions.
 
 **News** - Contains the release log and additional news regarding the
 development and maintenance of `RMAVIS`.
+
+**Additional Information** - Contains other useful information.
 
 **Privacy** - A privacy notice.
 
@@ -58,7 +58,7 @@ your personal device and installed as an R package.
 
 To run RMAVIS locally take the following steps.
 
-1.  Ensure R \>= 4.4 is installed.
+1.  Ensure R \>= 4.5 is installed.
 2.  Install `RMAVIS` using `remotes::install_github("NERC-CEH/RMAVIS")`
 3.  Run `install.packages("tinytex")` then `tinytex::install_tinytex()`
     to install a minimal LaTeX distribution. This is required to
@@ -81,7 +81,7 @@ Journal of Open Source Software, 9(100), 6682,
 
 To cite a specific version of RMAVIS select the relevant release from
 Zenodo
-[here](https://zenodo.org/search?q=parent.id%3A10818640&f=allversions%3Atrue&l=list&p=1&s=10&sort=version)
+[here](https://zenodo.org/search?q=parent.id%3A10818640&f=allversions%3Atrue&l=list&p=1&s=10&sort=version).
 
 ## Feedback
 

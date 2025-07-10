@@ -63,7 +63,7 @@ server <- function(input, output, session) {
                                        avgEIVs = avgEIVs,
                                        diversityAnalysis = diversityAnalysis,
                                        mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults)
-  # 
+   
   floristicTables <- shiny::callModule(module = floristicTables,
                                        id = "floristicTables_id_1",
                                        surveyData = surveyData,
@@ -77,26 +77,26 @@ server <- function(input, output, session) {
                                      surveyDataSummary = surveyDataSummary,
                                      floristicTables = floristicTables,
                                      sidebar_options = sidebar_options)
-  # 
-  # habCor <- shiny::callModule(module = habCor,
-  #                             id = "habCor_id_1",
-  #                             nvcAssignment = nvcAssignment,
-  #                             sidebar_options = sidebar_options)
-  # 
-  # speciesFreq <- shiny::callModule(module = speciesFreq,
-  #                                  id = "speciesFreq_id_1",
-  #                                  surveyData = surveyData,
-  #                                  sidebar_options = sidebar_options)
-  # 
-  # avgEIVs <- shiny::callModule(module = calcAvgEIVs,
-  #                              id = "calcAvgEIVs_id_1",
-  #                              surveyData = surveyData,
-  #                              sidebar_options = sidebar_options)
-  # 
-  # diversityAnalysis <- shiny::callModule(module = diversityAnalysis,
-  #                                        id = "diversityAnalysis_id_1",
-  #                                        surveyData = surveyData,
-  #                                        sidebar_options = sidebar_options)
+
+  habCor <- shiny::callModule(module = habCor,
+                              id = "habCor_id_1",
+                              nvcAssignment = nvcAssignment,
+                              sidebar_options = sidebar_options)
+
+  speciesFreq <- shiny::callModule(module = speciesFreq,
+                                   id = "speciesFreq_id_1",
+                                   surveyData = surveyData,
+                                   sidebar_options = sidebar_options)
+
+  avgEIVs <- shiny::callModule(module = calcAvgEIVs,
+                               id = "calcAvgEIVs_id_1",
+                               surveyData = surveyData,
+                               sidebar_options = sidebar_options)
+
+  diversityAnalysis <- shiny::callModule(module = diversityAnalysis,
+                                         id = "diversityAnalysis_id_1",
+                                         surveyData = surveyData,
+                                         sidebar_options = sidebar_options)
   
   # mvaNationalRefResults <- shiny::callModule(module = mvaNationalRef,
   #                                            id = "mvaNationalRef_id_1",
