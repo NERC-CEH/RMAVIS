@@ -5,7 +5,7 @@ additionalInfoUI <- function(id) {
     shiny::column(
       width = 12,
       
-      shiny::h1("GBNVPD"),
+      shiny::h2("GBNVPD"),
       
       shiny::div(
         
@@ -22,7 +22,28 @@ additionalInfoUI <- function(id) {
       
       shiny::br(),
       
-      shiny::h1("JNCC"),
+      shiny::h2("UKSI"),
+      
+      shiny::div(
+        
+        # shiny::br(),
+        
+        shiny::markdown(
+          '
+          Version 1.1.0 of `RMAVIS` currently uses version 20250703a of the UKSI to form its taxonomic backbone.
+          The UKSI can be accessed from several sources:
+          * The versioned releases available via the NHM data portal (https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy)
+          * The UKSI sandbox (https://uksi-sandbox.nhm.ac.uk/)
+          * The NBN atlas species search (https://species.nbnatlas.org/)
+          * The NHM UKSI website (https://www.nhm.ac.uk/our-science/data/uk-species/index)
+
+          '
+        )
+      ),
+      
+      shiny::br(),
+      
+      shiny::h2("JNCC"),
       
       shiny::div(
         
@@ -38,7 +59,39 @@ additionalInfoUI <- function(id) {
       
       shiny::br(),
       
-      shiny::h1("Floodplain Meadows Partnership"),
+      shiny::h2("EUNIS"),
+      
+      shiny::div(
+        
+        # shiny::br(),
+        
+        shiny::markdown(
+          '
+          The European Nature Information System (EUNIS)...
+          See the <a href="https://eunis.eea.europa.eu/index.jsp" target="_blank">EUNIS website</a> for more details.
+          '
+        )
+      ),
+      
+      shiny::br(),
+      
+      shiny::h2("FloraVeg.EU"),
+      
+      shiny::div(
+        
+        # shiny::br(),
+        
+        shiny::markdown(
+          '
+          FloraVeg.EU is home to ....
+          See the <a href="https://floraveg.eu/" target="_blank">FloraVeg.EU website</a> for more details.
+          '
+        )
+      ),
+      
+      shiny::br(),
+      
+      shiny::h2("Floodplain Meadows Partnership"),
       
       shiny::div(
         
@@ -55,7 +108,7 @@ additionalInfoUI <- function(id) {
       
       shiny::br(),
       
-      shiny::h1("IVC"),
+      shiny::h2("IVC"),
       
       shiny::div(
         
@@ -63,7 +116,7 @@ additionalInfoUI <- function(id) {
         
         shiny::markdown(
           '
-          The Irish Vegetation Classification provides a modern, well-organised vegetation classification system for Ireland.
+          The Irish Vegetation Classification (IVC) provides a modern, well-organised vegetation classification system for Ireland.
           See the <a href="https://biodiversityireland.ie/projects/ivc-classification-explorer/" target="_blank">website</a> for more details.
           '
         )

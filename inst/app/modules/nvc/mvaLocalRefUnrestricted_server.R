@@ -94,8 +94,8 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
       
       # Retrieve the un-weighted mean Hill-Ellenberg scores for the pseudo-quadrats
       nvc_pquads_mean_unweighted_eivs_prepped <- nvc_pquads_mean_unweighted_eivs |>
-        dplyr::filter(Pid3 %in% rownames(nvc_pquads_wide_prepped)) |>
-        tibble::column_to_rownames(var = "Pid3")
+        dplyr::filter(psq_id %in% rownames(nvc_pquads_wide_prepped)) |>
+        tibble::column_to_rownames(var = "psq_id")
       
       # Join the sample quadrat un-weighted mean Hill-Ellenberg scores
       unweightedMeanHEValuesQuadrat_prepped <- avgEIVs$unweightedMeanHEValuesQuadrat |>

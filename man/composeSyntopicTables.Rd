@@ -9,7 +9,7 @@ composeSyntopicTables(
   group_cols,
   species_col_name = "Species",
   plot_col_name = "Quadrat",
-  numeric_constancy = FALSE
+  numeral_constancy = FALSE
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ composeSyntopicTables(
 
 \item{plot_col_name}{The name of the plot ID column}
 
-\item{numeric_constancy}{If TRUE the ordinal constancy classes (I, II, III, IV, V) are transformed into numeric values (1, 2, 3, 4, 5).}
+\item{numeral_constancy}{If TRUE the numeric constancy classes (1, 2, 3, 4, 5) are transformed into roman numeral values (I, II, III, IV, V).}
 }
 \value{
 A three column data frame containing the groups ID, species, and constancy.
@@ -36,5 +36,5 @@ RMAVIS::composeSyntopicTables(surveyData = RMAVIS::example_data[["Parsonage Down
                               group_cols = c("Year", "Group"), 
                               species_col_name = "Species", 
                               plot_col_name = "Quadrat",
-                              numeric_constancy = FALSE)
+                              numeral_constancy = FALSE)
 }

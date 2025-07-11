@@ -5,7 +5,7 @@
 \alias{nvc_floristic_tables}
 \title{NVC floristic tables}
 \format{
-A data frame with 46558 rows and 8 columns, the definitions of which are:
+A data frame with 46553 rows and 8 columns, the definitions of which are:
 \describe{
 \item{nvc_code}{The NVC unit code.}
 \item{nvc_taxon_name}{The taxon name, see \code{RMAVIS::nvc_taxa_lookup}.}

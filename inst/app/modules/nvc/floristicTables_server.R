@@ -44,19 +44,20 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
     floristicTables_composed_year_group <- RMAVIS::composeSyntopicTables(surveyData = surveyData_long, 
                                                                          group_cols = c("Year", "Group"), 
                                                                          species_col_name = "Species", 
-                                                                         plot_col_name = "Quadrat")
+                                                                         plot_col_name = "Quadrat",
+                                                                         numeral_constancy = TRUE)
     
     floristicTables_composed_year <- RMAVIS::composeSyntopicTables(surveyData = surveyData_long, 
                                                                    group_cols = c("Year"), 
                                                                    species_col_name = "Species", 
-                                                                   plot_col_name = "Quadrat")
+                                                                   plot_col_name = "Quadrat",
+                                                                   numeral_constancy = TRUE)
     
     floristicTables_composed_all <- rbind(floristicTables_composed_year, floristicTables_composed_year_group)
     
     floristicTables_composed_all_rval(floristicTables_composed_all)
 
     ## Create wide composed floristic tables -----------------------------------
-
     floristicTables_composed_all_wide <- floristicTables_composed_all |>
       dplyr::mutate("Year" = stringr::str_extract(string = ID, pattern = "\\d{4}")) |>
       dplyr::mutate("Group" = stringr::str_extract(string = ID, pattern = "(?<=\\s-\\s).*$"))
@@ -137,8 +138,19 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
       dplyr::select(-ID)
     
     floristicTables_nvc <- RMAVIS::nvc_floristic_tables |>
-      dplyr::filter(NVC.Code == nvcFloristicTable) |>
-      dplyr::select(-NVC.Code) |>
+      dplyr::filter(nvc_code == nvcFloristicTable) |>
+      dplyr::select("Species" = "nvc_taxon_name", "Constancy" = "constancy") |>
+      dplyr::mutate(
+        "Constancy" = 
+          dplyr::case_when(
+            Constancy == 1 ~ "I",
+            Constancy == 2 ~ "II",
+            Constancy == 3 ~ "III",
+            Constancy == 4 ~ "IV",
+            Constancy == 5 ~ "V",
+            TRUE ~ NA
+          )
+      ) |>
       dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
       dplyr::arrange(Constancy, Species)
     
@@ -420,8 +432,19 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
       dplyr::select(-ID)
     
     floristicTables_nvc <- RMAVIS::nvc_floristic_tables |>
-      dplyr::filter(NVC.Code == nvcFloristicTable) |>
-      dplyr::select(-NVC.Code) |>
+      dplyr::filter(nvc_code == nvcFloristicTable) |>
+      dplyr::select("Species" = "nvc_taxon_name", "Constancy" = "constancy") |>
+      dplyr::mutate(
+        "Constancy" = 
+          dplyr::case_when(
+            Constancy == 1 ~ "I",
+            Constancy == 2 ~ "II",
+            Constancy == 3 ~ "III",
+            Constancy == 4 ~ "IV",
+            Constancy == 5 ~ "V",
+            TRUE ~ NA
+          )
+      ) |>
       dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
       dplyr::arrange(Constancy, Species)
 
@@ -497,9 +520,17 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
     shiny::req(nvcFloristicTable())
     shiny::req(composedFloristicTable())
     
+    nvcFloristicTable_n <- RMAVIS::nvc_community_attributes |>
+      dplyr::filter(nvc_code == nvcFloristicTable()) |>
+      dplyr::pull(num_samples)
+    
     nvcFloristicTableTitle <- paste("<font size=4.75>",
                                     nvcFloristicTable(),
-                                    "</font>") 
+                                    " (n = ",
+                                    nvcFloristicTable_n,
+                                    ")",
+                                    "</font>",
+                                    sep = "") 
     
     nvcFloristicTableTitle_rval(nvcFloristicTableTitle)
     

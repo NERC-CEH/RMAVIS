@@ -65,10 +65,12 @@ similarityCzekanowski <- function(samp_df, comp_df,
       names(comp_data)[names(comp_data) == comp_weight_name] <- "freq_comp"
       names(samp_data)[names(samp_data) == samp_weight_name] <- "freq_samp"
       
-      samp_data_prepped <- samp_data[,c(samp_species_col, "freq_samp")]
+      names(samp_data)[names(samp_data) == samp_species_col] <- comp_species_col
+      
+      samp_data_prepped <- samp_data[,c(comp_species_col, "freq_samp")]
       comp_data_prepped <- comp_data[,c(comp_species_col, "freq_comp")]
       
-      eval_table <- merge(x = samp_data_prepped, y = comp_data_prepped, by = "Species", all = TRUE)
+      eval_table <- merge(x = samp_data_prepped, y = comp_data_prepped, by = comp_species_col, all = TRUE)
       
       eval_table[is.na(eval_table)] <- 0
       
@@ -125,17 +127,17 @@ similarityCzekanowski <- function(samp_df, comp_df,
 #' RMAVIS::similarityJaccard(samp_df = RMAVIS::example_data[["Parsonage Down"]], 
 #'                           comp_df = RMAVIS::subset_nvcData(nvc_data = RMAVIS::nvc_pquads, 
 #'                                                            habitatRestriction = c("CG"), 
-#'                                                            col_name = "Pid3"),
+#'                                                            col_name = "psq_id"),
 #'                           samp_species_col = "Species", 
 #'                           comp_species_col = "species",
 #'                           samp_group_name = "Quadrat", 
-#'                           comp_group_name = "Pid3",
+#'                           comp_group_name = "psq_id",
 #'                           comp_groupID_name = "NVC", 
 #'                           remove_zero_matches = TRUE, 
 #'                           average_comp = TRUE)
 similarityJaccard <- function(samp_df, comp_df,
                               samp_species_col, comp_species_col,
-                              samp_group_name = "ID", comp_group_name = "Pid3",
+                              samp_group_name = "ID", comp_group_name = "psq_id",
                               comp_groupID_name = "NVC", 
                               remove_zero_matches = TRUE, average_comp = TRUE){
   

@@ -61,14 +61,16 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
       
     })
       
-    topNVCCommunities_df <- data.frame("NVC.Code" = nvcAssignment$topNVCCommunities)
+    topNVCCommunities_df <- data.frame("nvc_code" = nvcAssignment$topNVCCommunities)
     
     habCor <- topNVCCommunities_df |>
-      dplyr::left_join(RMAVIS::habCor_data, relationship = "many-to-many", by = dplyr::join_by(NVC.Code))
+      dplyr::left_join(RMAVIS::habitat_correspondences, relationship = "many-to-many", by = "nvc_code")
     
     habCorTable <- habCor |>
-      dplyr::filter(Classification == habCorClass) |>
-      dplyr::select(NVC.Code, Relationship, Code, Label) |>
+      dplyr::filter(classification == habCorClass) |>
+      dplyr::select("NVC.Code" = "nvc_code", 
+                    "Relationship" = "relationship_name", 
+                    "Habitat" = "habitat") |>
       dplyr::distinct() |>
       dplyr::arrange(NVC.Code)
     
@@ -95,8 +97,7 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
                                           columns = list(
                                             NVC.Code = reactable::colDef(maxWidth = 150),
                                             Relationship = reactable::colDef(maxWidth = 300),
-                                            Code = reactable::colDef(maxWidth = 150),
-                                            Label = reactable::colDef(minWidth = 600)
+                                            Habitat = reactable::colDef(minWidth = 600)
                                           )
                                           )
       

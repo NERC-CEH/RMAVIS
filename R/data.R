@@ -127,7 +127,7 @@
 #'
 #' @format A data frame with `r nrow(RMAVIS::nvc_taxa_lookup)` rows and `r ncol(RMAVIS::nvc_taxa_lookup)` columns, the definitions of which are:
 #' \describe{
-#'   \item{original_name}{The taxon name as it appears in the original NVC MS access database and volumes.}
+#'   \item{original_taxon_name}{The taxon name as it appears in the original NVC MS access database and volumes.}
 #'   \item{original_TVK}{The UKSI taxon version key associated with the original taxon name, see `UKVegTB::taxa_lookup`.}
 #'   \item{recommended_taxon_name}{The latest recommended name for the taxon concept recorded as the original name, see `UKVegTB::taxonomic_backbone`.}
 #'   \item{recommended_TVK}{The UKSI taxon version key associated with the recommended taxon name, see `UKVegTB::taxa_lookup`.}

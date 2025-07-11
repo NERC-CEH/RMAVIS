@@ -4,14 +4,15 @@ nvcTaxonNamesLookup <- function(input, output, session) {
     
   nvc_taxon_names_lookup <- RMAVIS::nvc_taxa_lookup |>
     dplyr::select(
-      "Original.Name" = "original_name",
+      "Original.Name" = "original_taxon_name",
       "Original.TVK" = "original_TVK",
       "Change" = "change",
       "Recommended.Name" = "recommended_full_name",
       "Recommended.TVK" = "recommended_TVK",
       "Strata" = "strata",
       "NVC.Taxon.Name" = "nvc_taxon_name"
-    )
+    ) |>
+    dplyr::arrange(Original.Name)
   
 
   # Names lookup table ------------------------------------------------------
@@ -22,7 +23,7 @@ nvcTaxonNamesLookup <- function(input, output, session) {
                                                      pagination = FALSE, 
                                                      highlight = TRUE,
                                                      bordered = TRUE,
-                                                     sortable = FALSE, 
+                                                     sortable = TRUE, 
                                                      wrap = FALSE,
                                                      resizable = TRUE,
                                                      style = list(fontSize = "1rem"),

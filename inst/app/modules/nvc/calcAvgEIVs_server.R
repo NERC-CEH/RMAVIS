@@ -289,8 +289,9 @@ calcAvgEIVs <- function(input, output, session, surveyData, sidebar_options) {
       
     # By Quadrat
     weightedMeanHEValuesQuadrat <- surveyData_long |>
-      dplyr::rename("species" = "Species") |>
-      dplyr::left_join(RMAVIS::hill_ellenberg, by = "species",
+      dplyr::rename("taxon_name" = "Species") |>
+      dplyr::left_join(RMAVIS::accepted_taxa, by = "taxon_name") |>
+      dplyr::left_join(RMAVIS::hill_ellenberg, by = "TVK",
                        relationship = "many-to-many") |>
       dplyr::select(Year, Group, Quadrat, Cover, `F`, L, N, R, S) |>
       dplyr::mutate("F" = `F` * Cover,
@@ -343,8 +344,9 @@ calcAvgEIVs <- function(input, output, session, surveyData, sidebar_options) {
       
     # By Quadrat
     unweightedMeanHEValuesQuadrat <- surveyData_long |>
-      dplyr::rename("species" = "Species") |>
-      dplyr::left_join(RMAVIS::hill_ellenberg, by = "species",
+      dplyr::rename("taxon_name" = "Species") |>
+      dplyr::left_join(RMAVIS::accepted_taxa, by = "taxon_name") |>
+      dplyr::left_join(RMAVIS::hill_ellenberg, by = "TVK",
                        relationship = "many-to-many") |>
       dplyr::select(Year, Group, Quadrat, Cover, `F`, L, N, R, S) |>
       dplyr::group_by(Year, Group, Quadrat) |>

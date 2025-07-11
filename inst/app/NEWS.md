@@ -7,7 +7,7 @@
       -   Changing "National Reference Spaces" option in the MVA module to
           "Reference Spaces" and altering the module so that the local reference
           ordinations are also linked to this option.
-      -   Updating the taxonomic backbone to the use version 20250703a of the UKSI (https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy).
+      -   Updating the taxonomic backbone to the use version 20250703a of the UKSI (https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy). This is accomplished through use of the `UKVegTB` package.
       -   Updating the habitat correspondences to incorporate v9.5 of the JNCC habitat correspondces.
       -   Separating the data entry modules into their own section "Data Entry".
       -   Reducing the number of pseudo-quadrats to improve the speed of `RMAVIS::similarityJaccard`.

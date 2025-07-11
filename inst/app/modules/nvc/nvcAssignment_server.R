@@ -125,7 +125,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
         
         if(!is.null(habitatRestriction())){
           
-          pquads_to_use <- RMAVIS::subset_nvcData(nvc_data = pquads(), habitatRestriction = habitatRestriction(), col_name = "NVC")
+          pquads_to_use <- RMAVIS::subset_nvcData(nvc_data = pquads(), habitatRestriction = habitatRestriction(), col_name = "nvc_code")
           
         }
         
@@ -133,15 +133,15 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
         nvcAssignmentPlot_Jaccard <- RMAVIS::similarityJaccard(samp_df = surveyData_prepped,
                                                                comp_df = pquads_to_use,
                                                                samp_species_col = "species",
-                                                               comp_species_col = "species",
+                                                               comp_species_col = "nvc_taxon_name",
                                                                samp_group_name = "ID",
-                                                               comp_group_name = "Pid3",
-                                                               comp_groupID_name = "NVC",
+                                                               comp_group_name = "psq_id",
+                                                               comp_groupID_name = "nvc_code",
                                                                remove_zero_matches = TRUE,
                                                                average_comp = TRUE) |>
           dplyr::select("ID" = ID,
                         "Mean.Similarity" = Similarity,
-                        "NVC.Code" = NVC)|>
+                        "NVC.Code" = nvc_code)|>
           dplyr::group_by(ID) |>
           dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
           dplyr::ungroup() |>
@@ -220,7 +220,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
         # Prepare floristic_tables
         if(!is.null(habitatRestriction())){
           
-          floristic_tables_prepped <- RMAVIS::subset_nvcData(nvc_data = floristic_tables(), habitatRestriction = habitatRestriction(), col_name = "NVC.Code")
+          floristic_tables_prepped <- RMAVIS::subset_nvcData(nvc_data = floristic_tables(), habitatRestriction = habitatRestriction(), col_name = "nvc_code")
           
         } else {
           
@@ -232,25 +232,25 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
         nvcAssignmentSiteGroup_Czekanowski <- RMAVIS::similarityCzekanowski(samp_df = floristicTables_prepped,
                                                                             comp_df = floristic_tables_prepped,
                                                                             samp_species_col = "Species",
-                                                                            comp_species_col = "Species",
+                                                                            comp_species_col = "nvc_taxon_name",
                                                                             samp_group_name = "ID",
-                                                                            comp_group_name = "NVC.Code",
+                                                                            comp_group_name = "nvc_code",
                                                                             samp_weight_name = "Constancy",
-                                                                            comp_weight_name = "Constancy",
+                                                                            comp_weight_name = "constancy",
                                                                             downweight_threshold = 1, 
                                                                             downweight_value = 0.1)
         
         nvcAssignmentSite_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
           dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$")) |>
           dplyr::mutate("Year" = ID) |>
-          dplyr::select(Year, NVC.Code, Similarity)|>
+          dplyr::select(Year, "NVC.Code" = "nvc_code", Similarity)|>
           dplyr::arrange(Year, dplyr::desc(Similarity))
         
         nvcAssignmentGroup_Czekanowski <- nvcAssignmentSiteGroup_Czekanowski |>
           dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$", negate = TRUE)) |>
           dplyr::mutate("Year" = stringr::str_extract(string = ID, pattern = "\\d{4}")) |>
           dplyr::mutate("Group" = stringr::str_extract(string = ID, pattern = "(?<=\\s-\\s).*$")) |>
-          dplyr::select(Year, Group, NVC.Code, Similarity) |>
+          dplyr::select(Year, Group, "NVC.Code" = "nvc_code", Similarity) |>
           dplyr::arrange(Year, Group, dplyr::desc(Similarity))
         
         nvcAssignmentSite_Czekanowski_rval(nvcAssignmentSite_Czekanowski)

@@ -5,7 +5,7 @@
 \alias{accepted_taxa}
 \title{Accepted Taxa}
 \format{
-A data frame with 23606 rows and 2 columns, the definitions of which are:
+A data frame with 23594 rows and 2 columns, the definitions of which are:
 \describe{
 \item{TVK}{The UKSI taxon version keys for the accepted taxa.}
 \item{taxon_name}{The taxon names of the accepted taxa.}

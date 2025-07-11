@@ -75,11 +75,11 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   output$surveyData <- rhandsontable::renderRHandsontable({
     
     surveyData <- rhandsontable::rhandsontable(data = surveyData_long_init,
-                                                height = 600,
-                                                rowHeaders = NULL,
-                                                width = "100%"#,
-                                                # overflow = "visible"
-                                                # stretchH = "all"
+                                               height = 800,
+                                               rowHeaders = NULL,
+                                               width = "100%"#,
+                                               # overflow = "visible"
+                                               # stretchH = "all"
     ) |>
       rhandsontable::hot_col(col = colnames(surveyData_long_init), halign = "htCenter") |>
       rhandsontable::hot_col(
@@ -175,7 +175,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     output$surveyData <- rhandsontable::renderRHandsontable({
       
       surveyData <- rhandsontable::rhandsontable(data = surveyData_reset,
-                                                 height = 600,
+                                                 height = 800,
                                                  rowHeaders = NULL,
                                                  width = "100%"#,
                                                  # overflow = "visible"
@@ -315,7 +315,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     output$surveyData <- rhandsontable::renderRHandsontable({
 
       surveyData <- rhandsontable::rhandsontable(data = surveyData,
-                                                 height = 600,
+                                                 height = 800,
                                                  rowHeaders = NULL,
                                                  width = "100%"#,
                                                  # overflow = "visible",
@@ -519,11 +519,11 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     output$surveyData <- rhandsontable::renderRHandsontable({
       
       surveyData <- rhandsontable::rhandsontable(data = surveyData_corrected,
-                                                  height = 600,
-                                                  rowHeaders = NULL,
-                                                  width = "100%"#,
-                                                  # overflow = "visible",
-                                                  # stretchH = "all"
+                                                 height = 800,
+                                                 rowHeaders = NULL,
+                                                 width = "100%"#,
+                                                 # overflow = "visible",
+                                                 # stretchH = "all"
       ) |>
         rhandsontable::hot_col(col = colnames(surveyData_corrected), halign = "htCenter") |>
         rhandsontable::hot_col(

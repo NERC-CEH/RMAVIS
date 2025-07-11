@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' RMAVIS::subset_nvcData(nvc_data = RMAVIS::nvc_pquads, habitatRestriction = c("U", "H"), col_name = "Pid3")
+#' RMAVIS::subset_nvcData(nvc_data = RMAVIS::nvc_pquads, habitatRestriction = c("U", "H"), col_name = "psq_id")
 subset_nvcData <- function(nvc_data, habitatRestriction, col_name){
   
   prefixes_match <- unname(unlist(RMAVIS:::habitatRestrictionPrefixes[habitatRestriction]))

@@ -17,6 +17,8 @@ deSidebarUI <- function(id){
         
         "Survey Data", 
         
+        open = TRUE,
+        
         icon = bsicons::bs_icon("clipboard-data"),
         
         shiny::div(

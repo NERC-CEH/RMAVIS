@@ -95,8 +95,8 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
       
       # Retieve the unweighted mean Hill-Ellenberg scores for the pseudo-quadrats
       nvc_pquads_mean_unweighted_eivs_prepped <- nvc_pquads_mean_unweighted_eivs |>
-        dplyr::filter(Pid3 %in% rownames(selected_pquads_prepped)) |>
-        tibble::column_to_rownames(var = "Pid3")
+        dplyr::filter(psq_id %in% rownames(selected_pquads_prepped)) |>
+        tibble::column_to_rownames(var = "psq_id")
       
       # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
       selected_pquads_prepped_cca  <- vegan::cca(as.formula(paste0("selected_pquads_prepped ~ ", paste0(c(RMAVIS:::ccaVars_vals[[ccaVars()]]), collapse = " + "))), # selected_pquads_prepped ~ `F` + `L` + `N`
