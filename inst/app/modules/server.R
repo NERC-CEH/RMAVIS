@@ -46,6 +46,9 @@ server <- function(input, output, session) {
   surveyDataSummary <- shiny::callModule(module = surveyDataSummary,
                                          id = "surveyDataSummary_id_1",
                                          surveyData = surveyData)
+  
+  shiny::callModule(module = rmavisTaxonNamesLookup,
+                    id = "rmavisTaxonNamesLookup_id_1")
 
 
   # Core --------------------------------------------------------------------

@@ -74,6 +74,18 @@ ui <- bslib::page_navbar(
           
           surveyDataSummaryUI(id = "surveyDataSummary_id_1")
           
+        ),
+        
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "rmavisTaxonNamesLookup_panel",
+          
+          bslib::card_header("Taxonomic Backbone"),
+          
+          rmavisTaxonNamesLookupUI(id = "rmavisTaxonNamesLookup_id_1")
+          
         )
         
       )
