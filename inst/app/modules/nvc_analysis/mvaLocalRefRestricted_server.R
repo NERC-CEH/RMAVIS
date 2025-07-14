@@ -10,12 +10,28 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
     
     setupData <- setupData()
     
-    nvc_pquads_wide(setupData$nvc_pquads_wide)
-    nvc_pquads_mean_unweighted_eivs(setupData$nvc_pquads_mean_unweighted_eivs)
+    nvc_pquads_wide_prepped <- setupData$pquads |>
+      dplyr::select(psq_id, nvc_taxon_name) |>
+      dplyr::mutate("present" = 1) |>
+      dplyr::distinct(psq_id, nvc_taxon_name, .keep_all = TRUE) |>
+      tidyr::pivot_wider(id_cols = psq_id,
+                         names_from = nvc_taxon_name,
+                         values_fill = 0,
+                         values_from = present) |>
+      tibble::column_to_rownames(var = "psq_id") |>
+      as.matrix()
+    
+    psquad_cm_he_prepped <- setupData$psquad_cm_he |>
+      dplyr::select(psq_id, `F`, L, N, R, S)
+    
+    
+    nvc_pquads_wide(nvc_pquads_wide_prepped)
+    nvc_pquads_mean_unweighted_eivs(psquad_cm_he_prepped)
     
   }) |>
     bindEvent(setupData(),
-              ignoreInit = FALSE)  
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
 
 # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
@@ -53,6 +69,8 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
     # Require selected objects are not NULL
     shiny::req(surveyData())
     shiny::req(nvcAssignment())
+    shiny::req(nvc_pquads_wide())
+    shiny::req(nvc_pquads_mean_unweighted_eivs())
     
     # Start busy spinner
     shinybusy::show_modal_spinner(
@@ -70,139 +88,140 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
       nvc_pquads_mean_unweighted_eivs <- nvc_pquads_mean_unweighted_eivs()
       surveyData <- surveyData()
       surveyData_long <- surveyData$surveyData_long
+      ccaVars <- ccaVars()
       
-      # Create pattern to subset matrix rows
-      codes_regex <- paste0("^(", stringr::str_c(selectedReferenceSpaces, collapse = "|"), ")(?<=)P")
+    })
       
-      # Subset pseudo-quadrats for selected communities
-      selected_pquads <- nvc_pquads_wide[stringr::str_detect(string = row.names(nvc_pquads_wide), pattern = codes_regex), ]
-
-      # Remove columns (species) that are absent in all selected communities
-      selected_pquads_prepped <- selected_pquads[, colSums(abs(selected_pquads)) != 0] |>
-        tibble::as_tibble(rownames = NA)
-      
-      # Retieve the unweighted mean Hill-Ellenberg scores for the pseudo-quadrats
-      nvc_pquads_mean_unweighted_eivs_prepped <- nvc_pquads_mean_unweighted_eivs |>
-        dplyr::filter(psq_id %in% rownames(selected_pquads_prepped)) |>
-        tibble::column_to_rownames(var = "psq_id")
-  
-      # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
-      selected_pquads_prepped_cca  <- vegan::cca(as.formula(paste0("selected_pquads_prepped ~ ", paste0(c(RMAVIS:::ccaVars_vals[[ccaVars()]]), collapse = " + "))), # selected_pquads_prepped ~ `F` + `L` + `N`
-                                                 data = nvc_pquads_mean_unweighted_eivs_prepped,
-                                                 na.action = na.exclude)
-      
-      # Extract CCA scores
-      selected_pquads_prepped_cca_scores <- vegan::scores(selected_pquads_prepped_cca, display = "bp")
-      
-      # Extract CCA multiplier
-      selected_pquads_prepped_cca_multiplier <- vegan:::ordiArrowMul(selected_pquads_prepped_cca_scores)
-      
-      # Create CCA arrow data
-      CCA_arrowData <- selected_pquads_prepped_cca_scores #* selected_pquads_prepped_cca_multiplier
-      CCA_arrowData <- CCA_arrowData |>
-        tibble::as_tibble(rownames = NA) |>
-        tibble::rownames_to_column(var = "Hill-Ellenberg")
-      
-      # Perform a DCA on the selected pseudo-quadrats
-      selected_pquads_dca_results <- vegan::decorana(veg = selected_pquads_prepped)
-      
-      # Extract the DCA results species axis scores
-      dca_results_pquads_species <- vegan::scores(selected_pquads_dca_results, tidy = TRUE) |>
-        dplyr::filter(score == "species") |>
-        dplyr::select(-score, -weight) |>
-        dplyr::rename("Species" = label)
-      
-      # Extract the DCA results quadrat axis scores
-      dca_results_pquads_site <- vegan::scores(selected_pquads_dca_results, tidy = TRUE) |>
-        dplyr::filter(score == "sites") |>
-        dplyr::select(-score, -weight) |>
-        dplyr::rename("Quadrat" = label)
-      
-      # Prepare the pseudo-quadrat DCA results quadrat axis scores
-      dca_results_pquads_site <- dca_results_pquads_site  |>
-        dplyr::mutate("Year" = "Reference", .before  = "Quadrat") |>
-        dplyr::mutate("Group" = "Reference", .before  = "Quadrat") |>
-        dplyr::mutate("NVC.Comm" = stringr::str_extract(string = Quadrat, pattern = ".+?(?=P)"), .before  = "Quadrat")
-      
+    # Create pattern to subset matrix rows
+    codes_regex <- paste0("^(", stringr::str_c(selectedReferenceSpaces, collapse = "|"), ")(?<=)\\_")
     
-      # Calculate the surveyData DCA results using the pseudo-quadrat species scores
-      dca_results_sample_site <- surveyData_long |>
-        tibble::as_tibble() |>
-        dplyr::select(-Cover) |>
-        dplyr::left_join(dca_results_pquads_species, by = "Species") |>
-        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = FALSE) |>
-        dplyr::group_by(ID, Year, Group, Quadrat) |>
-        dplyr::summarise("DCA1" = mean(DCA1, na.rm = TRUE),
-                         "DCA2" = mean(DCA2, na.rm = TRUE),
-                         "DCA3" = mean(DCA3, na.rm = TRUE),
-                         "DCA4" = mean(DCA4, na.rm = TRUE),
-                         .groups = "drop") |>
-        dplyr::mutate("NVC.Comm" = "Sample", .before  = "Quadrat")
+    # Subset pseudo-quadrats for selected communities
+    selected_pquads <- nvc_pquads_wide[stringr::str_detect(string = row.names(nvc_pquads_wide), pattern = codes_regex), ]
+
+    # Remove columns (species) that are absent in all selected communities
+    selected_pquads_prepped <- selected_pquads[, colSums(abs(selected_pquads)) != 0] |>
+      tibble::as_tibble(rownames = NA)
+    
+    # Retrieve the unweighted mean Hill-Ellenberg scores for the pseudo-quadrats
+    nvc_pquads_mean_unweighted_eivs_prepped <- nvc_pquads_mean_unweighted_eivs |>
+      dplyr::filter(psq_id %in% rownames(selected_pquads_prepped)) |>
+      tibble::column_to_rownames(var = "psq_id")
+
+    # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
+    selected_pquads_prepped_cca  <- vegan::cca(as.formula(paste0("nvc_pquads_mean_unweighted_eivs_prepped ~ ", paste0(c(RMAVIS:::ccaVars_vals[[ccaVars]]), collapse = " + "))), # selected_pquads_prepped ~ `F` + `L` + `N`
+                                               data = nvc_pquads_mean_unweighted_eivs_prepped,
+                                               na.action = na.exclude)
+    
+    # Extract CCA scores
+    selected_pquads_prepped_cca_scores <- vegan::scores(selected_pquads_prepped_cca, display = "bp")
+    
+    # Extract CCA multiplier
+    selected_pquads_prepped_cca_multiplier <- vegan:::ordiArrowMul(selected_pquads_prepped_cca_scores)
+    
+    # Create CCA arrow data
+    CCA_arrowData <- selected_pquads_prepped_cca_scores #* selected_pquads_prepped_cca_multiplier
+    CCA_arrowData <- CCA_arrowData |>
+      tibble::as_tibble(rownames = NA) |>
+      tibble::rownames_to_column(var = "Hill-Ellenberg")
+    
+    # Perform a DCA on the selected pseudo-quadrats
+    selected_pquads_dca_results <- vegan::decorana(veg = selected_pquads_prepped)
+    
+    # Extract the DCA results species axis scores
+    dca_results_pquads_species <- vegan::scores(selected_pquads_dca_results, tidy = TRUE) |>
+      dplyr::filter(score == "species") |>
+      dplyr::select(-score, -weight) |>
+      dplyr::rename("Species" = label)
+    
+    # Extract the DCA results quadrat axis scores
+    dca_results_pquads_site <- vegan::scores(selected_pquads_dca_results, tidy = TRUE) |>
+      dplyr::filter(score == "sites") |>
+      dplyr::select(-score, -weight) |>
+      dplyr::rename("Quadrat" = label)
+    
+    # Prepare the pseudo-quadrat DCA results quadrat axis scores
+    dca_results_pquads_site <- dca_results_pquads_site  |>
+      dplyr::mutate("Year" = "Reference", .before  = "Quadrat") |>
+      dplyr::mutate("Group" = "Reference", .before  = "Quadrat") |>
+      dplyr::mutate("NVC.Comm" = stringr::str_extract(string = Quadrat, pattern = ".+?(?=\\_)"), .before  = "Quadrat")
+    
+  
+    # Calculate the surveyData DCA results using the pseudo-quadrat species scores
+    dca_results_sample_site <- surveyData_long |>
+      tibble::as_tibble() |>
+      dplyr::select(-Cover) |>
+      dplyr::left_join(dca_results_pquads_species, by = "Species") |>
+      tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = FALSE) |>
+      dplyr::group_by(ID, Year, Group, Quadrat) |>
+      dplyr::summarise("DCA1" = mean(DCA1, na.rm = TRUE),
+                       "DCA2" = mean(DCA2, na.rm = TRUE),
+                       "DCA3" = mean(DCA3, na.rm = TRUE),
+                       "DCA4" = mean(DCA4, na.rm = TRUE),
+                       .groups = "drop") |>
+      dplyr::mutate("NVC.Comm" = "Sample", .before  = "Quadrat")
+    
+    # Create convex hulls around the pseudo-quadrat DCA points.
+    pquad_hulls_dca1dca2 <- dca_results_pquads_site |>
+      dplyr::group_by(NVC.Comm) |>
+      dplyr::slice(grDevices::chull(DCA1, DCA2)) |>
+      dplyr::ungroup() |>
+      dplyr::mutate("dcaAxes" = "dca1dca2")
+    
+    pquad_hulls_dca1dca3 <- dca_results_pquads_site |>
+      dplyr::group_by(NVC.Comm) |>
+      dplyr::slice(grDevices::chull(DCA1, DCA3)) |>
+      dplyr::ungroup() |>
+      dplyr::mutate("dcaAxes" = "dca1dca3")
+    
+    pquad_hulls_dca2dca3 <- dca_results_pquads_site |>
+      dplyr::group_by(NVC.Comm) |>
+      dplyr::slice(grDevices::chull(DCA2, DCA3)) |>
+      dplyr::ungroup() |>
+      dplyr::mutate("dcaAxes" = "dca2dca3")
+    
+    pquad_hulls <- rbind(pquad_hulls_dca1dca2,
+                         pquad_hulls_dca1dca3,
+                         pquad_hulls_dca2dca3)
+    
+    # Prepare the data required to draw arrows between points, ordered by Year
+    if(length(unique(dca_results_sample_site$Year)) > 1){
       
-      # Create convex hulls around the pseudo-quadrat DCA points.
-      pquad_hulls_dca1dca2 <- dca_results_pquads_site |>
-        dplyr::group_by(NVC.Comm) |>
-        dplyr::slice(grDevices::chull(DCA1, DCA2)) |>
-        dplyr::ungroup() |>
-        dplyr::mutate("dcaAxes" = "dca1dca2")
-      
-      pquad_hulls_dca1dca3 <- dca_results_pquads_site |>
-        dplyr::group_by(NVC.Comm) |>
-        dplyr::slice(grDevices::chull(DCA1, DCA3)) |>
-        dplyr::ungroup() |>
-        dplyr::mutate("dcaAxes" = "dca1dca3")
-      
-      pquad_hulls_dca2dca3 <- dca_results_pquads_site |>
-        dplyr::group_by(NVC.Comm) |>
-        dplyr::slice(grDevices::chull(DCA2, DCA3)) |>
-        dplyr::ungroup() |>
-        dplyr::mutate("dcaAxes" = "dca2dca3")
-      
-      pquad_hulls <- rbind(pquad_hulls_dca1dca2,
-                           pquad_hulls_dca1dca3,
-                           pquad_hulls_dca2dca3)
-      
-      # Prepare the data required to draw arrows between points, ordered by Year
-      if(length(unique(dca_results_sample_site$Year)) > 1){
-        
-        arrow_plot_data <- dca_results_sample_site |>
-          dplyr::arrange(Year) |>
-          dplyr::select("Year" = Year, 
-                        "Group" = Group,
-                        "Quadrat" = Quadrat, 
-                        "x" = DCA1, 
-                        "y" = DCA2) |>
-          dplyr::group_by(Quadrat) |>
-          dplyr::mutate("endX" = dplyr::lead(x),
-                        "endY" = dplyr::lead(y)) |>
-          dplyr::filter(!is.na(endX)) |>
-          dplyr::ungroup()
-        
-      } else {
-        
-        arrow_plot_data <- NULL
-        
-      }
-      
-      # Calculate pseudo-quadrat centroids
-      pquad_centroids <- dca_results_pquads_site |>
-        dplyr::group_by(NVC.Comm) |>
-        dplyr::summarise("DCA1" = mean(DCA1),
-                         "DCA2" = mean(DCA2),
-                         "DCA3" = mean(DCA3),
-                         "DCA4" = mean(DCA4)) |>
+      arrow_plot_data <- dca_results_sample_site |>
+        dplyr::arrange(Year) |>
+        dplyr::select("Year" = Year, 
+                      "Group" = Group,
+                      "Quadrat" = Quadrat, 
+                      "x" = DCA1, 
+                      "y" = DCA2) |>
+        dplyr::group_by(Quadrat) |>
+        dplyr::mutate("endX" = dplyr::lead(x),
+                      "endY" = dplyr::lead(y)) |>
+        dplyr::filter(!is.na(endX)) |>
         dplyr::ungroup()
       
-      # Calculate sample centroids
-      sample_centroids <- dca_results_sample_site |>
-        dplyr::group_by(NVC.Comm) |>
-        dplyr::summarise("DCA1" = mean(DCA1),
-                         "DCA2" = mean(DCA2),
-                         "DCA3" = mean(DCA3),
-                         "DCA4" = mean(DCA4)) |>
-        dplyr::ungroup()
+    } else {
       
-    }) # close isolate
+      arrow_plot_data <- NULL
+      
+    }
+    
+    # Calculate pseudo-quadrat centroids
+    pquad_centroids <- dca_results_pquads_site |>
+      dplyr::group_by(NVC.Comm) |>
+      dplyr::summarise("DCA1" = mean(DCA1),
+                       "DCA2" = mean(DCA2),
+                       "DCA3" = mean(DCA3),
+                       "DCA4" = mean(DCA4)) |>
+      dplyr::ungroup()
+    
+    # Calculate sample centroids
+    sample_centroids <- dca_results_sample_site |>
+      dplyr::group_by(NVC.Comm) |>
+      dplyr::summarise("DCA1" = mean(DCA1),
+                       "DCA2" = mean(DCA2),
+                       "DCA3" = mean(DCA3),
+                       "DCA4" = mean(DCA4)) |>
+      dplyr::ungroup()
     
     # Compose list of DCA results objects
     mvaResults_list <- list("dca_results_pquads_species" = dca_results_pquads_species,

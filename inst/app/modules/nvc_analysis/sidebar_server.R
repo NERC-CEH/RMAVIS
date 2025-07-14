@@ -157,14 +157,14 @@ sidebar <- function(input, output, session,
 
     okToProceed <- surveyDataValidator$surveyDataValidation$okToProceed
     
-    # print(input$selectNVCtypes)
+    print(input$selectNVCtypes)
 
     if(okToProceed == TRUE & nrow(surveyData()$surveyData_long) > 0 & length(input$selectNVCtypes) > 0){
 
       shinyjs::enable(id = "runAnalysis")
       shinyjs::enable(id = "generateReport")
 
-    } else if(okToProceed == FALSE){
+    } else if(okToProceed == FALSE | length(input$selectNVCtypes) == 0 | is.null(input$selectNVCtypes)){
 
       shinyjs::disable(id = "runAnalysis")
       shinyjs::disable(id = "generateReport")

@@ -1,5 +1,8 @@
 # Adhere to this strategy: https://rstudio.github.io/cheatsheets/html/package-development.html
 
+# If updates have only been made to inst/app files, you can test the app using 
+# the run app button by detaching RMAVIS as follows unloadNamespace("RMAVIS").
+
 # 0) Copy README and NEWS to app directory
 file.copy(from = "./NEWS.md", to = "./inst/app/NEWS.md", overwrite = TRUE)
 file.copy(from = "./README.md", to = "./inst/app/README.md", overwrite = TRUE)
@@ -13,10 +16,10 @@ devtools::document()
 devtools::build()
 
 # 3) test package
-devtools::test()
+# devtools::test()
 
 # 4) check the package
-devtools::check(document = FALSE)
+# devtools::check(document = FALSE)
 
 # 5) install package
 devtools::install(pkg = ".")

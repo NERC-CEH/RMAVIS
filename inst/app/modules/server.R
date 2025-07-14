@@ -101,27 +101,28 @@ server <- function(input, output, session) {
                                          surveyData = surveyData,
                                          sidebar_options = sidebar_options)
   
-  # mvaNationalRefResults <- shiny::callModule(module = mvaNationalRef,
-  #                                            id = "mvaNationalRef_id_1",
-  #                                            setupData = setupData,
-  #                                            surveyData = surveyData,
-  #                                            nvcAssignment = nvcAssignment,
-  #                                            sidebar_options = sidebar_options)
-  # 
-  # mvaLocalRefRestrictedResults <- shiny::callModule(module = mvaLocalRefRestricted,
-  #                                                   id = "mvaLocalRefRestricted_id_1",
-  #                                                   setupData = setupData,
-  #                                                   surveyData = surveyData,
-  #                                                   nvcAssignment = nvcAssignment,
-  #                                                   sidebar_options = sidebar_options)
-  # 
-  # mvaLocalRefUnrestrictedResults <- shiny::callModule(module = mvaLocalRefUnrestricted,
-  #                                                     id = "mvaLocalRefUnrestricted_id_1",
-  #                                                     setupData = setupData,
-  #                                                     surveyData = surveyData,
-  #                                                     nvcAssignment = nvcAssignment,
-  #                                                     avgEIVs = avgEIVs,
-  #                                                     sidebar_options = sidebar_options)
+  mvaNationalRefResults <- shiny::callModule(module = mvaNationalRef,
+                                             id = "mvaNationalRef_id_1",
+                                             setupData = setupData,
+                                             surveyData = surveyData,
+                                             nvcAssignment = nvcAssignment,
+                                             avgEIVs = avgEIVs,
+                                             sidebar_options = sidebar_options)
+  
+  mvaLocalRefRestrictedResults <- shiny::callModule(module = mvaLocalRefRestricted,
+                                                    id = "mvaLocalRefRestricted_id_1",
+                                                    setupData = setupData,
+                                                    surveyData = surveyData,
+                                                    nvcAssignment = nvcAssignment,
+                                                    sidebar_options = sidebar_options)
+
+  mvaLocalRefUnrestrictedResults <- shiny::callModule(module = mvaLocalRefUnrestricted,
+                                                      id = "mvaLocalRefUnrestricted_id_1",
+                                                      setupData = setupData,
+                                                      surveyData = surveyData,
+                                                      nvcAssignment = nvcAssignment,
+                                                      avgEIVs = avgEIVs,
+                                                      sidebar_options = sidebar_options)
   
   
   # shiny::callModule(module = report,
