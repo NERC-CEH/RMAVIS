@@ -1,42 +1,6 @@
 mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyData, nvcAssignment, avgEIVs, sidebar_options) {
   
   ns <- session$ns
-  
-# Retrieve Setup Data -----------------------------------------------------
-  nvc_pquads_wide <- reactiveVal()
-  nvc_pquads_mean_unweighted_eivs <- reactiveVal()
-  
-  observe({
-    
-    setupData <- setupData()
-    
-    shiny::req(!is.null(setupData$pquads))
-    shiny::req(!is.null(setupData$psquad_cm_he))
-    
-    # assign(x = "setupData", value = setupData, envir = .GlobalEnv)
-    
-    nvc_pquads_wide_prepped <- setupData$pquads |>
-      dplyr::select(psq_id, nvc_taxon_name) |>
-      dplyr::mutate("present" = 1) |>
-      dplyr::distinct(psq_id, nvc_taxon_name, .keep_all = TRUE) |>
-      tidyr::pivot_wider(id_cols = psq_id,
-                         names_from = nvc_taxon_name,
-                         values_fill = 0,
-                         values_from = present) |>
-      tibble::column_to_rownames(var = "psq_id") |>
-      as.matrix()
-    
-    psquad_cm_he_prepped <- setupData$psquad_cm_he |>
-      dplyr::select(psq_id, `F`, L, N, R, S)
-      
-    
-    nvc_pquads_wide(nvc_pquads_wide_prepped)
-    nvc_pquads_mean_unweighted_eivs(psquad_cm_he_prepped)
-    
-  }) |>
-    bindEvent(setupData(),
-              ignoreInit = TRUE,
-              ignoreNULL = TRUE)    
 
 # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
@@ -65,7 +29,38 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
+
+  # Retrieve Setup Data -----------------------------------------------------
+  nvc_pquads_wide <- reactiveVal()
+  nvc_pquads_mean_unweighted_eivs <- reactiveVal()
   
+  observe({
+    
+    shiny::isolate({
+      setupData <- setupData()
+    })
+    
+    nvc_pquads_wide_prepped <- setupData$pquads |>
+      dplyr::select(psq_id, nvc_taxon_name) |>
+      dplyr::mutate("present" = 1) |>
+      dplyr::distinct(psq_id, nvc_taxon_name, .keep_all = TRUE) |>
+      tidyr::pivot_wider(id_cols = psq_id,
+                         names_from = nvc_taxon_name,
+                         values_fill = 0,
+                         values_from = present) |>
+      tibble::column_to_rownames(var = "psq_id") |>
+      as.matrix()
+    
+    psquad_cm_he_prepped <- setupData$psquad_cm_he |>
+      dplyr::select(psq_id, `F`, L, N, R, S)
+    
+    nvc_pquads_wide(nvc_pquads_wide_prepped)
+    nvc_pquads_mean_unweighted_eivs(psquad_cm_he_prepped)
+    
+  }) |>
+    bindEvent(runAnalysis(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE) 
  
 # Run DCA and CCA --------------------------------------------------------- 
   mvaResults <- reactiveVal()
@@ -75,6 +70,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     shiny::req(nvcAssignment())
     shiny::req(nvc_pquads_wide())
     shiny::req(nvc_pquads_mean_unweighted_eivs())
+    shiny::req(!is.null(selectedReferenceSpaces()))
     
     shinybusy::show_modal_spinner(
       spin = "fading-circle",
@@ -94,14 +90,6 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
       ccaVars <- ccaVars()
       
     })
-    
-    # assign(x = "nvcAssignment", value = nvcAssignment, envir = .GlobalEnv)
-    # assign(x = "selectedReferenceSpaces", value = selectedReferenceSpaces, envir = .GlobalEnv)
-    # assign(x = "nvc_pquads_wide", value = nvc_pquads_wide, envir = .GlobalEnv)
-    # assign(x = "nvc_pquads_mean_unweighted_eivs", value = nvc_pquads_mean_unweighted_eivs, envir = .GlobalEnv)
-    # assign(x = "surveyData", value = surveyData, envir = .GlobalEnv)
-    # assign(x = "avgEIVs", value = avgEIVs, envir = .GlobalEnv)
-    # assign(x = "ccaVars", value = ccaVars, envir = .GlobalEnv)
     
     surveyData_mat <- surveyData$surveyData_mat
     
@@ -295,7 +283,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     mvaResults(mvaResults_list)
     
   }) |>
-    bindEvent(selectedReferenceSpaces(), # Changes every time the analysis is re-run
+    bindEvent(selectedReferenceSpaces(),
               ccaVars(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)

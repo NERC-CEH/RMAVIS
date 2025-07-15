@@ -1,37 +1,6 @@
 mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData, nvcAssignment, sidebar_options) {
   
   ns <- session$ns
-  
-# Retrieve Setup Data -----------------------------------------------------
-  nvc_pquads_wide <- reactiveVal()
-  nvc_pquads_mean_unweighted_eivs <- reactiveVal()
-  
-  observe({
-    
-    setupData <- setupData()
-    
-    nvc_pquads_wide_prepped <- setupData$pquads |>
-      dplyr::select(psq_id, nvc_taxon_name) |>
-      dplyr::mutate("present" = 1) |>
-      dplyr::distinct(psq_id, nvc_taxon_name, .keep_all = TRUE) |>
-      tidyr::pivot_wider(id_cols = psq_id,
-                         names_from = nvc_taxon_name,
-                         values_fill = 0,
-                         values_from = present) |>
-      tibble::column_to_rownames(var = "psq_id") |>
-      as.matrix()
-    
-    psquad_cm_he_prepped <- setupData$psquad_cm_he |>
-      dplyr::select(psq_id, `F`, L, N, R, S)
-    
-    
-    nvc_pquads_wide(nvc_pquads_wide_prepped)
-    nvc_pquads_mean_unweighted_eivs(psquad_cm_he_prepped)
-    
-  }) |>
-    bindEvent(setupData(),
-              ignoreInit = TRUE,
-              ignoreNULL = TRUE)
 
 # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
@@ -60,7 +29,39 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
+
+  # Retrieve Setup Data -----------------------------------------------------
+  nvc_pquads_wide <- reactiveVal()
+  nvc_pquads_mean_unweighted_eivs <- reactiveVal()
   
+  observe({
+    
+    shiny::isolate({
+      setupData <- setupData()
+    })
+    
+    nvc_pquads_wide_prepped <- setupData$pquads |>
+      dplyr::select(psq_id, nvc_taxon_name) |>
+      dplyr::mutate("present" = 1) |>
+      dplyr::distinct(psq_id, nvc_taxon_name, .keep_all = TRUE) |>
+      tidyr::pivot_wider(id_cols = psq_id,
+                         names_from = nvc_taxon_name,
+                         values_fill = 0,
+                         values_from = present) |>
+      tibble::column_to_rownames(var = "psq_id") |>
+      as.matrix()
+    
+    psquad_cm_he_prepped <- setupData$psquad_cm_he |>
+      dplyr::select(psq_id, `F`, L, N, R, S)
+    
+    
+    nvc_pquads_wide(nvc_pquads_wide_prepped)
+    nvc_pquads_mean_unweighted_eivs(psquad_cm_he_prepped)
+    
+  }) |>
+    bindEvent(runAnalysis(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
   
 # Run DCA and CCA ---------------------------------------------------------
   mvaResults <- reactiveVal()

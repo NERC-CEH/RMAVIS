@@ -152,14 +152,6 @@ ccaVars_options <- c("Moisture (F) x Nitrogen (N)" = "FN",
                      "Reaction (R) x Salinity (S)" = "RS",
                      "Light (L) x Salinity (S)" = "LS")
 
-# Global Reference DCA Space Options --------------------------------------
-# selectedReferenceSpaces_options <- sort(c(c("A", "CG", "H", "M", "MC", "MG", "OV", "S", "SD", "SM", "U", "W"), # Add community prefixes
-#                                           setdiff(readRDS(file = "./inst/extdata/nvc_community_attributes.rds")[["nvc_code"]], # Retrieve community codes
-#                                                   c("SM1", "SM1a", "SM1b")))) # remove SM communities which weren't used in the ordination space creation
-
-selectedReferenceSpaces_options <- sort(setdiff(readRDS(file = "./inst/extdata/nvc_community_attributes.rds")[["nvc_code"]], # Retrieve community codes
-                                                c("SM1", "SM1a", "SM1b"))) # remove SM communities which weren't used in the ordination space creation
-
 # DCA Survey Quadrat Options ----------------------------------------------
 surveyQuadratSelection_options <- c("All" = "all",
                                     "Select Years" = "selectYears",
@@ -276,7 +268,6 @@ usethis::use_data(nvcType_options,
                   dcaVars_options,
                   ccaVars_vals,
                   ccaVars_options,
-                  selectedReferenceSpaces_options,
                   surveyQuadratSelection_options,
                   selectSurveyYears_options,
                   selectSurveyQuadrats_options,

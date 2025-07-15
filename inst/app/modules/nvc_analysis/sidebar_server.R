@@ -84,7 +84,7 @@ sidebar <- function(input, output, session,
     de_inputMethod <- deSidebar_options$inputMethod
     de_selectedExampleData <- deSidebar_options$selectedExampleData
     
-    if(de_inputMethod == "example"){
+    if(de_inputMethod == "example" & "Original" %in% input$selectNVCtypes){
       
       if(de_selectedExampleData == "Parsonage Down"){
         
@@ -144,11 +144,29 @@ sidebar <- function(input, output, session,
         
       }
       
+    } else if(de_inputMethod == "example" & !("Original" %in% input$selectNVCtypes)){
+      
+      shiny::updateSelectizeInput(
+        session = session,
+        inputId = "habitatRestriction",
+        selected = character(0)
+      )
+      
+    } else if(de_inputMethod != "example" & !("Original" %in% input$selectNVCtypes)){
+      
+      shiny::updateSelectizeInput(
+        session = session,
+        inputId = "habitatRestriction",
+        selected = character(0)
+      )
+      
     }
     
   }) |>
     bindEvent(deSidebar_options(),
-              ignoreInit = TRUE)
+              input$selectNVCtypes,
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
   
 # Disable selected action buttons if okToProceed == FALSE ---------------
   observe({
@@ -156,8 +174,6 @@ sidebar <- function(input, output, session,
     surveyDataValidator <- surveyDataValidator()
 
     okToProceed <- surveyDataValidator$surveyDataValidation$okToProceed
-    
-    print(input$selectNVCtypes)
 
     if(okToProceed == TRUE & nrow(surveyData()$surveyData_long) > 0 & length(input$selectNVCtypes) > 0){
 
@@ -244,8 +260,7 @@ sidebar <- function(input, output, session,
     }
     
   }) |>
-    bindEvent(#input$assignQuadrats,
-              surveyDataSummary(),
+    bindEvent(surveyDataSummary(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
 
@@ -256,9 +271,9 @@ sidebar <- function(input, output, session,
     shiny::req(setupData())
     
     nvcAssignment <- nvcAssignment()
-    topNVCCommunities <- nvcAssignment$topNVCCommunities
-    
     setupData <- setupData()
+    
+    topNVCCommunities <- nvcAssignment$topNVCCommunities
     floristicTables <- setupData$floristicTables
     
     if(input$restrictNVCFlorTablesOpts == TRUE){
@@ -267,8 +282,7 @@ sidebar <- function(input, output, session,
         session = session,
         inputId = "nvcFloristicTable",
         choices = topNVCCommunities,
-        selected = topNVCCommunities[1],
-        server = TRUE
+        selected = topNVCCommunities[1]
       )
       
     } else if(input$restrictNVCFlorTablesOpts == FALSE){
@@ -277,8 +291,7 @@ sidebar <- function(input, output, session,
         session = session,
         inputId = "nvcFloristicTable",
         choices = floristicTables[["nvc_code"]],
-        selected = topNVCCommunities[1],
-        server = TRUE
+        selected = topNVCCommunities[1]
       )
       
     }
@@ -305,7 +318,7 @@ sidebar <- function(input, output, session,
         session = session,
         inputId = "floristicTablesSetView",
         choices = uniq_IDs,
-        selected = NULL,
+        selected = character(0),
         server = FALSE
       )
       
@@ -331,7 +344,7 @@ sidebar <- function(input, output, session,
         session = session,
         inputId = "composedFloristicTable",
         choices = uniq_IDs,
-        selected = NULL,
+        selected = uniq_IDs[1],
         server = FALSE
       )
       
@@ -390,6 +403,26 @@ sidebar <- function(input, output, session,
               input$selectSurveyMethod, 
               ignoreInit = FALSE)
   
+
+# Reactively update selectedReferenceSpaces choices -----------------------
+  # observe({
+  #   
+  #   setupData <- setupData()
+  #   
+  #   community_attributes <- setupData$community_attributes
+  #   selectedReferenceSpaces_options <- community_attributes[["nvc_code"]]
+  #   
+  #   shiny::updateSelectizeInput(
+  #     session = session,
+  #     inputId = "selectedReferenceSpaces",
+  #     choices = selectedReferenceSpaces_options,
+  #     selected = character(0)
+  #   )
+  #   
+  # }) |>
+  #   bindEvent(setupData(),
+  #             ignoreInit = TRUE,
+  #             ignoreNULL = TRUE)
   
   # Reactively update global reference DCA space selection ------------------
   observe({
@@ -398,16 +431,24 @@ sidebar <- function(input, output, session,
     
     topNVCCommunities <- nvcAssignment$topNVCCommunities
     
-    # shinyWidgets::updatePickerInput(
+    setupData <- setupData()
+    
+    community_attributes <- setupData$community_attributes
+    selectedReferenceSpaces_options <- community_attributes[["nvc_code"]]
+    
+    assign(x = "community_attributes", value = community_attributes, envir = .GlobalEnv)
+    
     shiny::updateSelectizeInput(
       session = session,
       inputId = "selectedReferenceSpaces",
+      choices = selectedReferenceSpaces_options,
       selected = topNVCCommunities
     )
     
   }) |>
     bindEvent(nvcAssignment(),
-              ignoreInit = TRUE)
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
   
   # Reactively update DCA survey quadrat selection options ------------------
   observe({

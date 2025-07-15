@@ -68,16 +68,16 @@ setupData <- function(input, output, session, deSidebar_options, sidebar_options
     
     if("SOWG" %in% selected_nvc_types){
       
-      nvc_floristic_tables_selected <- floristic_tables_selected |>
+      floristic_tables_selected <- floristic_tables_selected |>
         dplyr::bind_rows(RMAVIS::sowg_floristic_tables)
       
       community_attributes_selected <- community_attributes_selected |>
         dplyr::bind_rows(RMAVIS::sowg_community_attributes)
       
-      nvc_pquads_selected <- pquads_selected |>
+      pquads_selected <- pquads_selected |>
         dplyr::bind_rows(RMAVIS::sowg_pquads)
       
-      nvc_psquad_cm_he_selected <- psquad_cm_he_selected |>
+      psquad_cm_he_selected <- psquad_cm_he_selected |>
         dplyr::bind_rows(RMAVIS::sowg_psquad_cm_he)
       
     }

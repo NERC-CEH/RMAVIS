@@ -27,12 +27,6 @@ sidebarUI <- function(id){
         
         col_widths = c(11, 1),
         
-        # shiny::selectizeInput(inputId = ns("selectNVCtypes"),
-        #                       label = NULL,
-        #                       choices = RMAVIS:::nvcType_options,
-        #                       selected = c("Original"),
-        #                       multiple = TRUE),
-        
         shinyWidgets::pickerInput(inputId = ns("selectNVCtypes"),
                                   label = NULL,
                                   choices = RMAVIS:::nvcType_options,
@@ -408,9 +402,7 @@ sidebarUI <- function(id){
             shiny::selectizeInput(inputId = ns("composedFloristicTable"), 
                                   label = "Composed Table", 
                                   choices = NULL,
-                                  selected = NULL,
-                                  # choices = c("2023 - Rothiemurchus & ROTHIEM"), # NULL,
-                                  # selected = "2023 - Rothiemurchus & ROTHIEM", # NULL,
+                                  selected = NULL, # character(0)
                                   multiple = TRUE,
                                   options = list(maxItems = 1)),
             
@@ -626,8 +618,8 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("selectedReferenceSpaces"),
                                   label = "Selected Reference Spaces",
-                                  choices = RMAVIS:::selectedReferenceSpaces_options,
-                                  selected = NULL,
+                                  choices = character(0),
+                                  selected = character(0),
                                   multiple = TRUE),
             
             

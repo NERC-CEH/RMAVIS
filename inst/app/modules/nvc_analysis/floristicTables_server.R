@@ -1,4 +1,4 @@
-floristicTables <- function(input, output, session, surveyData, surveyDataSummary, sidebar_options) {
+floristicTables <- function(input, output, session, setupData, surveyData, surveyDataSummary, sidebar_options) {
   
   ns <- session$ns
   
@@ -22,6 +22,24 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
 
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
+  
+  
+# Retrieve Setup Data -----------------------------------------------------
+  floristic_tables <- reactiveVal()
+  community_attributes <- reactiveVal()
+  
+  observe({
+    
+    shiny::isolate({
+      setupData <- setupData()
+    })
+    
+    floristic_tables(setupData$floristic_tables)
+    community_attributes(setupData$community_attributes)
+    
+  }) |>
+    bindEvent(runAnalysis(),
+              ignoreInit = FALSE)
   
 
 # Create object containing all composed tables ----------------------------
@@ -123,6 +141,8 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
     
     shiny::req(floristicTables_composed_all_rval())
     shiny::req(!is.null(composedFloristicTable()))
+    shiny::req(!is.null(nvcFloristicTable()))
+    shiny::req(nvcFloristicTable() != "")
     
     # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
@@ -130,6 +150,7 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
       floristicTables_composed_all <- floristicTables_composed_all_rval()
       composedFloristicTable <- composedFloristicTable()
       nvcFloristicTable <- nvcFloristicTable()
+      floristic_tables <- floristic_tables()
       
     })
     
@@ -137,7 +158,7 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
       dplyr::filter(ID == composedFloristicTable) |>
       dplyr::select(-ID)
     
-    floristicTables_nvc <- RMAVIS::nvc_floristic_tables |>
+    floristicTables_nvc <- floristic_tables |>
       dplyr::filter(nvc_code == nvcFloristicTable) |>
       dplyr::select("Species" = "nvc_taxon_name", "Constancy" = "constancy") |>
       dplyr::mutate(
@@ -210,7 +231,8 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
               matchSpecies(),
               nvcFloristicTable(),
               composedFloristicTable(),
-              ignoreInit = TRUE, ignoreNULL = TRUE)
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE)
   
   
   outputOptions(output, "floristicTables_composed", suspendWhenHidden = FALSE)
@@ -414,9 +436,9 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
   ## Update NVC Floristic Table ----------------------------------------------
   observe({
     
-    # shiny::req(input$floristicTables_nvc)
-    # shiny::req(input$floristicTables_composed)
     shiny::req(!is.null(composedFloristicTable()))
+    shiny::req(!is.null(nvcFloristicTable()))
+    shiny::req(nvcFloristicTable() != "")
     
     # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
@@ -424,6 +446,7 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
       floristicTables_composed_all <- floristicTables_composed_all_rval()
       composedFloristicTable <- composedFloristicTable()
       nvcFloristicTable <- nvcFloristicTable()
+      floristic_tables <- floristic_tables()
       
     })
       
@@ -431,7 +454,7 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
       dplyr::filter(ID == composedFloristicTable) |>
       dplyr::select(-ID)
     
-    floristicTables_nvc <- RMAVIS::nvc_floristic_tables |>
+    floristicTables_nvc <- floristic_tables |>
       dplyr::filter(nvc_code == nvcFloristicTable) |>
       dplyr::select("Species" = "nvc_taxon_name", "Constancy" = "constancy") |>
       dplyr::mutate(
@@ -520,7 +543,11 @@ floristicTables <- function(input, output, session, surveyData, surveyDataSummar
     shiny::req(nvcFloristicTable())
     shiny::req(composedFloristicTable())
     
-    nvcFloristicTable_n <- RMAVIS::nvc_community_attributes |>
+    shiny::isolate({
+      community_attributes <- community_attributes()
+    })
+    
+    nvcFloristicTable_n <- community_attributes |>
       dplyr::filter(nvc_code == nvcFloristicTable()) |>
       dplyr::pull(num_samples)
     
