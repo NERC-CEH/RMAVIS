@@ -9,7 +9,8 @@ composeSyntopicTables(
   group_cols,
   species_col_name = "Species",
   plot_col_name = "Quadrat",
-  numeral_constancy = FALSE
+  numeral_constancy = FALSE,
+  remove_low_freq_taxa = NULL
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ composeSyntopicTables(
 \item{plot_col_name}{The name of the plot ID column}
 
 \item{numeral_constancy}{If TRUE the numeric constancy classes (1, 2, 3, 4, 5) are transformed into roman numeral values (I, II, III, IV, V).}
+
+\item{remove_low_freq_taxa}{If not NULL, a float greater than 0 and less than 1 indicating the minimum relative frequency of taxa to include in the floristic tables.}
 }
 \value{
 A three column data frame containing the groups ID, species, and constancy.
@@ -36,5 +39,6 @@ RMAVIS::composeSyntopicTables(surveyData = RMAVIS::example_data[["Parsonage Down
                               group_cols = c("Year", "Group"), 
                               species_col_name = "Species", 
                               plot_col_name = "Quadrat",
-                              numeral_constancy = FALSE)
+                              numeral_constancy = FALSE,
+                              remove_low_freq_taxa = 0.05)
 }

@@ -13,7 +13,7 @@ surveyDataSummaryUI <- function(id){
       shiny::markdown(
         "
         NVC similarities for groups and years are not calculated when there are
-        less than five sample plots per year-group and per year.
+        less than two sample plots per year-group and per year.
         Smaller sample sizes may also result in the failure of the composition of representative floristic tables.
         
         Below the number of quadrats per year, along with the number of quadrats per group and year are displayed.

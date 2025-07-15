@@ -4,6 +4,7 @@ floristicTables <- function(input, output, session, setupData, surveyData, surve
   
 # Retrieve sidebar options ------------------------------------------------
   
+  removeLowFreqTaxa <- reactiveVal()
   floristicTablesView <- reactiveVal()
   floristicTablesSetView <- reactiveVal()
   composedFloristicTable <- reactiveVal()
@@ -13,6 +14,7 @@ floristicTables <- function(input, output, session, setupData, surveyData, surve
 
   observe({
 
+    removeLowFreqTaxa(sidebar_options()$removeLowFreqTaxa)
     floristicTablesView(sidebar_options()$floristicTablesView)
     floristicTablesSetView(sidebar_options()$floristicTablesSetView)
     composedFloristicTable(sidebar_options()$composedFloristicTable)
@@ -51,25 +53,37 @@ floristicTables <- function(input, output, session, setupData, surveyData, surve
     
     shiny::req(surveyData())
 
-    surveyData <- surveyData()
+    shiny::isolate({
+      surveyData <- surveyData()
+      removeLowFreqTaxa <- removeLowFreqTaxa()
+    })
+    
     surveyData_long <- surveyData$surveyData_long
     
     floristicTables_composed_all <- data.frame("ID" = character(),
                                                "Species" = character(),
                                                "Constancy" = factor())
     
+    if(removeLowFreqTaxa == TRUE){
+      removeLowFreqTaxa_value <- 0.05
+    } else if(removeLowFreqTaxa == FALSE){
+      removeLowFreqTaxa_value <- NULL
+    }
+    
     ## Create composed floristic tables across all groups ----------------------
     floristicTables_composed_year_group <- RMAVIS::composeSyntopicTables(surveyData = surveyData_long, 
                                                                          group_cols = c("Year", "Group"), 
                                                                          species_col_name = "Species", 
                                                                          plot_col_name = "Quadrat",
-                                                                         numeral_constancy = TRUE)
+                                                                         numeral_constancy = TRUE,
+                                                                         remove_low_freq_taxa = removeLowFreqTaxa_value)
     
     floristicTables_composed_year <- RMAVIS::composeSyntopicTables(surveyData = surveyData_long, 
                                                                    group_cols = c("Year"), 
                                                                    species_col_name = "Species", 
                                                                    plot_col_name = "Quadrat",
-                                                                   numeral_constancy = TRUE)
+                                                                   numeral_constancy = TRUE,
+                                                                   remove_low_freq_taxa = removeLowFreqTaxa_value)
     
     floristicTables_composed_all <- rbind(floristicTables_composed_year, floristicTables_composed_year_group)
     

@@ -66,14 +66,14 @@ server <- function(input, output, session) {
                                        avgEIVs = avgEIVs,
                                        diversityAnalysis = diversityAnalysis,
                                        mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults)
-   
+    
   floristicTables <- shiny::callModule(module = floristicTables,
                                        id = "floristicTables_id_1",
                                        setupData = setupData,
                                        surveyData = surveyData,
                                        surveyDataSummary = surveyDataSummary,
                                        sidebar_options = sidebar_options)
-
+  
   nvcAssignment <- shiny::callModule(module = nvcAssignment,
                                      id = "nvcAssignment_id_1",
                                      setupData = setupData,
@@ -81,22 +81,22 @@ server <- function(input, output, session) {
                                      surveyDataSummary = surveyDataSummary,
                                      floristicTables = floristicTables,
                                      sidebar_options = sidebar_options)
-
+  
   habCor <- shiny::callModule(module = habCor,
                               id = "habCor_id_1",
                               nvcAssignment = nvcAssignment,
                               sidebar_options = sidebar_options)
-
+  
   speciesFreq <- shiny::callModule(module = speciesFreq,
                                    id = "speciesFreq_id_1",
                                    surveyData = surveyData,
                                    sidebar_options = sidebar_options)
-
+  
   avgEIVs <- shiny::callModule(module = calcAvgEIVs,
                                id = "calcAvgEIVs_id_1",
                                surveyData = surveyData,
                                sidebar_options = sidebar_options)
-
+  
   diversityAnalysis <- shiny::callModule(module = diversityAnalysis,
                                          id = "diversityAnalysis_id_1",
                                          surveyData = surveyData,
@@ -116,7 +116,7 @@ server <- function(input, output, session) {
                                                     surveyData = surveyData,
                                                     nvcAssignment = nvcAssignment,
                                                     sidebar_options = sidebar_options)
-
+  
   mvaLocalRefUnrestrictedResults <- shiny::callModule(module = mvaLocalRefUnrestricted,
                                                       id = "mvaLocalRefUnrestricted_id_1",
                                                       setupData = setupData,
@@ -126,22 +126,22 @@ server <- function(input, output, session) {
                                                       sidebar_options = sidebar_options)
   
   
-  # shiny::callModule(module = report,
-  #                   id = "sidebar_id_1",
-  #                   sidebar_options = sidebar_options,
-  #                   surveyData = surveyData,
-  #                   surveyDataValidator = surveyDataValidator,
-  #                   surveyDataSummary = surveyDataSummary,
-  #                   nvcAssignment = nvcAssignment,
-  #                   habCor = habCor,
-  #                   floristicTables = floristicTables,
-  #                   speciesFreq = speciesFreq,
-  #                   avgEIVs = avgEIVs,
-  #                   diversityAnalysis = diversityAnalysis#,
-  #                   # mvaNationalRefResults = mvaNationalRefResults,
-  #                   # mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults,
-  #                   # mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults
-  #                   )
+  shiny::callModule(module = report,
+                    id = "sidebar_id_1",
+                    sidebar_options = sidebar_options,
+                    surveyData = surveyData,
+                    surveyDataValidator = surveyDataValidator,
+                    surveyDataSummary = surveyDataSummary,
+                    nvcAssignment = nvcAssignment,
+                    habCor = habCor,
+                    floristicTables = floristicTables,
+                    speciesFreq = speciesFreq,
+                    avgEIVs = avgEIVs,
+                    diversityAnalysis = diversityAnalysis,
+                    mvaNationalRefResults = mvaNationalRefResults,
+                    mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults,
+                    mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults
+                    )
 
   # Save Module Outputs -----------------------------------------------------
   # Save module outputs to global environment, uncomment for development only!

@@ -17,6 +17,7 @@ sidebar <- function(input, output, session,
       "runAnalysis" = input$runAnalysis,
       "selectNVCtypes" = input$selectNVCtypes,
       "assignQuadrats" = input$assignQuadrats,
+      "removeLowFreqTaxa" = input$removeLowFreqTaxa,
       "habitatRestriction" = input$habitatRestriction,
       "nTopResults" = input$nTopResults,
       "resultsViewNVCAssign" = input$resultsViewNVCAssign,
@@ -49,6 +50,7 @@ sidebar <- function(input, output, session,
     bindEvent(input$runAnalysis,
               input$selectNVCtypes,
               input$assignQuadrats,
+              input$removeLowFreqTaxa,
               input$habitatRestriction, 
               input$nTopResults,
               input$resultsViewNVCAssign,
@@ -403,27 +405,6 @@ sidebar <- function(input, output, session,
               input$selectSurveyMethod, 
               ignoreInit = FALSE)
   
-
-# Reactively update selectedReferenceSpaces choices -----------------------
-  # observe({
-  #   
-  #   setupData <- setupData()
-  #   
-  #   community_attributes <- setupData$community_attributes
-  #   selectedReferenceSpaces_options <- community_attributes[["nvc_code"]]
-  #   
-  #   shiny::updateSelectizeInput(
-  #     session = session,
-  #     inputId = "selectedReferenceSpaces",
-  #     choices = selectedReferenceSpaces_options,
-  #     selected = character(0)
-  #   )
-  #   
-  # }) |>
-  #   bindEvent(setupData(),
-  #             ignoreInit = TRUE,
-  #             ignoreNULL = TRUE)
-  
   # Reactively update global reference DCA space selection ------------------
   observe({
     
@@ -435,8 +416,6 @@ sidebar <- function(input, output, session,
     
     community_attributes <- setupData$community_attributes
     selectedReferenceSpaces_options <- community_attributes[["nvc_code"]]
-    
-    assign(x = "community_attributes", value = community_attributes, envir = .GlobalEnv)
     
     shiny::updateSelectizeInput(
       session = session,
@@ -590,6 +569,7 @@ sidebar <- function(input, output, session,
     filename = function() {
       
       paste0("RMAVIS.Results.",
+             "v1-1-0.",
              format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
              ".xlsx",
              sep="")

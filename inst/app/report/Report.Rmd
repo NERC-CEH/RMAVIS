@@ -62,7 +62,6 @@ surveyData_long <- surveyData$surveyData_long
 
 # Sidebar options
 inputMethod <- sidebar_options$inputMethod
-selectedExampleData <- sidebar_options$selectedExampleData
 habitatRestriction <- sidebar_options$habitatRestriction
 nTopResults <- sidebar_options$nTopResults
 
@@ -184,14 +183,6 @@ This report contains user-selected outputs of a RMAVIS application session.
 
 ```{r inputMethod, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 cat("**Input Method:** ", as.character(inputMethod), sep = "")
-```
-
-```{r selectedExampleData, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-if(inputMethod == "example"){
-  
-  cat("**Selected Example Data:** ", as.character(selectedExampleData), sep = "")
-  
-  }
 ```
 
 ```{r habitatRestriction, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}

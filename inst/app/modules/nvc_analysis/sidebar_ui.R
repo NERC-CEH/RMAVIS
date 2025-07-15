@@ -74,7 +74,7 @@ sidebarUI <- function(id){
             col_widths = c(11, 1),
             
             shinyWidgets::switchInput(inputId = ns("assignQuadrats"),
-                                      label = "Quadrats",
+                                      label = "Assign",
                                       value = FALSE,
                                       onLabel = "Yes",
                                       offLabel = "No",
@@ -90,16 +90,56 @@ sidebarUI <- function(id){
                 NVC units.
                 
                 This option is set to 'Yes' and disabled if the number of 
-                quadrats for any year is less than 5, as similarities for the 
+                quadrats for any year is less than 2, as similarities for the 
                 Site and Groups by year will not be calculated using the 
                 Czekanowski coefficient of similarity and so similarity values 
                 must be calculated using the Jaccard coefficient and reference
                 pseudo-quadrats.
                 
-                If the number of quadrats for all years is 5 or greater the
+                If the number of quadrats for all years is 2 or greater the
                 button is enabled and the user may optionally choose to
                 calculate similarities for individual quadrats.
                 
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("removeLowFreqTaxa_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shinyWidgets::switchInput(inputId = ns("removeLowFreqTaxa"),
+                                      label = "Remove",
+                                      value = TRUE,
+                                      onLabel = "Yes",
+                                      offLabel = "No",
+                                      disabled = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Remove Low Frequency Taxa",
+              id = ns("removeLowFreqTaxaInfo"),
+              shiny::markdown(
+                "
+                In the NVC taxa which occurred in less than 5% of the plots which constituted NVC units were removed from the final floristic tables.
+                
+                Consequently, it is reccomended that species which occur in 5% of the plots in each Group in the survey data are also removed.
+                
+                At present this does not effect the individual quadrat Jaccard similarity calculations, 
+                but does effect the Group and Year Czekanowski similarities and composition of the Floristic tables.
+                This ensures that similarities are not biased towards more species-rich communities.
                 "
               ),
               placement = "bottom"

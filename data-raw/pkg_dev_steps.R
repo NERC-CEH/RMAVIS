@@ -1,7 +1,8 @@
-# Adhere to this strategy: https://rstudio.github.io/cheatsheets/html/package-development.html
+# Roughly adhere to this strategy: https://rstudio.github.io/cheatsheets/html/package-development.html
 
-# If updates have only been made to inst/app files, you can test the app using 
-# the run app button by detaching RMAVIS as follows unloadNamespace("RMAVIS").
+# If updates have only been made to inst/app files, you can test the app without 
+# needing to reinstall the package by using the run app button.
+# As RMAVIS::runApp masks shiny::runApp to do this first detach RMAVIS as follows unloadNamespace("RMAVIS")
 
 # 0) Copy README and NEWS to app directory
 file.copy(from = "./NEWS.md", to = "./inst/app/NEWS.md", overwrite = TRUE)

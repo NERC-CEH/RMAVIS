@@ -19,6 +19,8 @@
       -   Adding a new tab - "Additional Information".
       -   Adding a new object `RMAVIS::broad_habitat_indicators` which is used in the function `RMAVIS::match_broad_habitats` to identify broad habitats.
       -   Expanding the contents of the NVC Lookup (now called NVC Information) tab.
+      -   Adding the ability to select any combination of the original, SOWG, and/or Calthion NVC communities.
+      -   Adding the ability to filter taxa which occur at a frequency of less than 5% from the survey data.
 
 # RMAVIS 1.0.1 (2024-08-08)
 *   Modifications: NA

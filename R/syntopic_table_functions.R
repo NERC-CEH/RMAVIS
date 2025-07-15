@@ -9,6 +9,7 @@
 #' @param species_col_name The name of the species column
 #' @param plot_col_name The name of the plot ID column
 #' @param numeral_constancy If TRUE the numeric constancy classes (1, 2, 3, 4, 5) are transformed into roman numeral values (I, II, III, IV, V).
+#' @param remove_low_freq_taxa If not NULL, a float greater than 0 and less than 1 indicating the minimum relative frequency of taxa to include in the floristic tables.
 #'
 #' @return A three column data frame containing the groups ID, species, and constancy.
 #' @export
@@ -18,8 +19,9 @@
 #'                               group_cols = c("Year", "Group"), 
 #'                               species_col_name = "Species", 
 #'                               plot_col_name = "Quadrat",
-#'                               numeral_constancy = FALSE)
-composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Species", plot_col_name = "Quadrat", numeral_constancy = FALSE){
+#'                               numeral_constancy = FALSE,
+#'                               remove_low_freq_taxa = 0.05)
+composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Species", plot_col_name = "Quadrat", numeral_constancy = FALSE, remove_low_freq_taxa = NULL){
   
   # Determine the total number of quadrats per group
   plot_n <- surveyData |>
@@ -29,6 +31,20 @@ composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Sp
     dplyr::group_by(ID) |>
     dplyr::tally() |>
     dplyr::ungroup()
+  
+  if(is.null(remove_low_freq_taxa)){
+    
+    filter_threshold <- 0
+    
+  } else if(remove_low_freq_taxa >= 1 | remove_low_freq_taxa <= 0){
+    
+    filter_threshold <- 0
+    
+  } else {
+    
+    filter_threshold <- remove_low_freq_taxa
+    
+  }
   
   # Calculate the absolute frequency and relative frequency of species 
   # occurrence across all plots by group
@@ -41,6 +57,7 @@ composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Sp
     dplyr::ungroup() |>
     dplyr::left_join(plot_n, by = c("ID")) |>
     dplyr::mutate("Relative Frequency" = Frequency / n) |>
+    dplyr::filter(`Relative Frequency` > filter_threshold) |>
     dplyr::mutate(
       "Constancy" =
         dplyr::case_when(
