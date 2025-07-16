@@ -8,6 +8,7 @@
 #' @param group_cols A vector of columns to group the surveyData by and from which to compose syntopic tables
 #' @param species_col_name The name of the species column
 #' @param plot_col_name The name of the plot ID column
+#' @param cover_col_name The name of the cover/abundance cover
 #' @param numeral_constancy If TRUE the numeric constancy classes (1, 2, 3, 4, 5) are transformed into roman numeral values (I, II, III, IV, V).
 #' @param remove_low_freq_taxa If not NULL, a float greater than 0 and less than 1 indicating the minimum relative frequency of taxa to include in the floristic tables.
 #'
@@ -15,22 +16,16 @@
 #' @export
 #'
 #' @examples
-#' RMAVIS::composeSyntopicTables(surveyData = RMAVIS::example_data[["Parsonage Down"]], 
+#' RMAVIS::composeSyntopicTables(surveyData = RMAVIS::example_data[["Newborough Warren"]], 
 #'                               group_cols = c("Year", "Group"), 
 #'                               species_col_name = "Species", 
 #'                               plot_col_name = "Quadrat",
+#'                               cover_col_name = "Cover",
 #'                               numeral_constancy = FALSE,
 #'                               remove_low_freq_taxa = 0.05)
-composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Species", plot_col_name = "Quadrat", numeral_constancy = FALSE, remove_low_freq_taxa = NULL){
-  
-  # Determine the total number of quadrats per group
-  plot_n <- surveyData |>
-    tidyr::unite(col = "ID", group_cols, sep = " - ", remove = TRUE) |>
-    dplyr::select(ID, plot_col_name) |>
-    dplyr::distinct() |>
-    dplyr::group_by(ID) |>
-    dplyr::tally() |>
-    dplyr::ungroup()
+composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Species", plot_col_name = "Quadrat", 
+                                  cover_col_name = "Cover",
+                                  numeral_constancy = FALSE, remove_low_freq_taxa = NULL){
   
   if(is.null(remove_low_freq_taxa)){
     
@@ -50,26 +45,30 @@ composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Sp
   # occurrence across all plots by group
   syntopicTables <- surveyData |>
     tidyr::unite(col = "ID", group_cols, sep = " - ", remove = TRUE) |>
-    dplyr::select(ID, plot_col_name, species_col_name) |>
-    dplyr::mutate("Present" = 1) |>
+    dplyr::group_by(ID) |>
+    dplyr::mutate("n" = dplyr::n_distinct(Quadrat)) |>
     dplyr::group_by(ID, .data[[species_col_name]]) |>
-    dplyr::summarise("Frequency" = sum(Present)) |>
+    dplyr::mutate("freq" = dplyr::n()) |>
+    dplyr::mutate("rel_freq" = freq / n) |>
+    dplyr::summarise("rel_freq" = unique(rel_freq),
+                     "min_cover" = min(.data[[cover_col_name]]),
+                     "mean_cover" = mean(.data[[cover_col_name]]),
+                     "max_cover" = max(.data[[cover_col_name]])) |>
     dplyr::ungroup() |>
-    dplyr::left_join(plot_n, by = c("ID")) |>
-    dplyr::mutate("Relative Frequency" = Frequency / n) |>
-    dplyr::filter(`Relative Frequency` > filter_threshold) |>
+    dplyr::filter(rel_freq > filter_threshold) |>
     dplyr::mutate(
-      "Constancy" =
+      "constancy" =
         dplyr::case_when(
-          `Relative Frequency` <= 0.2 ~ 1,
-          `Relative Frequency` <= 0.4 ~ 2,
-          `Relative Frequency` <= 0.6 ~ 3,
-          `Relative Frequency` <= 0.8 ~ 4,
-          `Relative Frequency` <= 1.0 ~ 5,
-          TRUE ~ as.numeric(`Relative Frequency`)
+          rel_freq <= 0.2 ~ 1,
+          rel_freq <= 0.4 ~ 2,
+          rel_freq <= 0.6 ~ 3,
+          rel_freq <= 0.8 ~ 4,
+          rel_freq <= 1.0 ~ 5,
+          TRUE ~ as.numeric(rel_freq)
         )
     ) |>
-    dplyr::select(ID, species_col_name, Constancy) |>
+    dplyr::select(ID, "Species" = species_col_name, "Constancy" = "constancy",
+                  "Min.Cover" = min_cover, "Mean.Cover" = mean_cover, "Max.Cover" = max_cover) |>
     dplyr::mutate("Constancy" = factor(Constancy, levels = c(5, 4, 3, 2, 1))) |>
     dplyr::arrange(ID, Constancy, species_col_name)
   

@@ -592,36 +592,38 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     
     surveyData$surveyData_original <- rhandsontable::hot_to_r(input$surveyData)
     
-    if(coverScale == "none"){
-      
-      surveyData_long <- surveyData$surveyData_original
-      
-    } else if(coverScale == "percentage"){
-      
-      surveyData_long <- surveyData$surveyData_original |>
-        dplyr::mutate("Cover" = Cover / 100)
-      
-    } else if(coverScale == "proportional"){
-      
-      surveyData_long <- surveyData$surveyData_original
-      
-    } else if(coverScale == "domin"){
-      
-      surveyData_long <- surveyData$surveyData_original |>
-        dplyr::mutate("Cover" = as.character(Cover)) |>
-        dplyr::left_join(RMAVIS:::dominConvert, by = c("Cover")) |>
-        dplyr::select(-Cover) |>
-        dplyr::rename("Cover" = "Value")
-      
-    } else if(coverScale == "braunBlanquet"){
-      
-      surveyData_long <- rhandsontable::hot_to_r(input$surveyData) |>
-        dplyr::mutate("Cover" = as.character(Cover)) |>
-        dplyr::left_join(RMAVIS:::braunBlanquetConvert, by = c("Cover")) |>
-        dplyr::select(-Cover) |>
-        dplyr::rename("Cover" = "Value")
-      
-    }
+    surveyData_long <- surveyData$surveyData_original
+    
+    # if(coverScale == "none"){
+    #   
+    #   surveyData_long <- surveyData$surveyData_original
+    #   
+    # } else if(coverScale == "percentage"){
+    #   
+    #   surveyData_long <- surveyData$surveyData_original |>
+    #     dplyr::mutate("Cover" = Cover / 100)
+    #   
+    # } else if(coverScale == "proportional"){
+    #   
+    #   surveyData_long <- surveyData$surveyData_original
+    #   
+    # } else if(coverScale == "domin"){
+    #   
+    #   surveyData_long <- surveyData$surveyData_original |>
+    #     dplyr::mutate("Cover" = as.character(Cover)) |>
+    #     dplyr::left_join(RMAVIS:::dominConvert, by = c("Cover")) |>
+    #     dplyr::select(-Cover) |>
+    #     dplyr::rename("Cover" = "Value")
+    #   
+    # } else if(coverScale == "braunBlanquet"){
+    #   
+    #   surveyData_long <- rhandsontable::hot_to_r(input$surveyData) |>
+    #     dplyr::mutate("Cover" = as.character(Cover)) |>
+    #     dplyr::left_join(RMAVIS:::braunBlanquetConvert, by = c("Cover")) |>
+    #     dplyr::select(-Cover) |>
+    #     dplyr::rename("Cover" = "Value")
+    #   
+    # }
     
     # Ensure Group and Quadrat columns are of class character
     surveyData_long <- surveyData_long |>

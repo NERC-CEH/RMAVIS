@@ -9,6 +9,7 @@ composeSyntopicTables(
   group_cols,
   species_col_name = "Species",
   plot_col_name = "Quadrat",
+  cover_col_name = "Cover",
   numeral_constancy = FALSE,
   remove_low_freq_taxa = NULL
 )
@@ -21,6 +22,8 @@ composeSyntopicTables(
 \item{species_col_name}{The name of the species column}
 
 \item{plot_col_name}{The name of the plot ID column}
+
+\item{cover_col_name}{The name of the cover/abundance cover}
 
 \item{numeral_constancy}{If TRUE the numeric constancy classes (1, 2, 3, 4, 5) are transformed into roman numeral values (I, II, III, IV, V).}
 
@@ -35,10 +38,11 @@ data frame containing plot ids, species names, and any number
 of group columns which are concatenated into a ID column
 }
 \examples{
-RMAVIS::composeSyntopicTables(surveyData = RMAVIS::example_data[["Parsonage Down"]], 
+RMAVIS::composeSyntopicTables(surveyData = RMAVIS::example_data[["Newborough Warren"]], 
                               group_cols = c("Year", "Group"), 
                               species_col_name = "Species", 
                               plot_col_name = "Quadrat",
+                              cover_col_name = "Cover",
                               numeral_constancy = FALSE,
                               remove_low_freq_taxa = 0.05)
 }
