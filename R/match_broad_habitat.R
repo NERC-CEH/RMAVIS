@@ -3,7 +3,7 @@
 #' @param df A data frame including species presences.
 #' @param tvk_col The column in the dataframe containing the UKSI Taxon Version Keys (TVKs), see `UKVegTB::taxonomic_backbone`.
 #'
-#' @returns
+#' @returns A data frame containing the top-fitting broad habitats.
 #' 
 #' @references Jackson, D.L., 2000. Guidance on the interpretation of the Biodiversity Broad Habitat Classification (terrestrial and freshwater types): Definitions and the relationship with other classifications (JNCC Report No. 307). JNCC, Peterborough.
 #' 

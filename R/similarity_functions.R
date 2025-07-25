@@ -177,7 +177,7 @@ similarityJaccard <- function(samp_df, comp_df,
       
       return(j)
       
-      gc::gc()
+      base::gc()
       
     }
     

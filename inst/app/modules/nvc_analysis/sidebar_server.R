@@ -276,7 +276,7 @@ sidebar <- function(input, output, session,
     setupData <- setupData()
     
     topNVCCommunities <- nvcAssignment$topNVCCommunities
-    floristicTables <- setupData$floristicTables
+    nvc_code_values <- unique(setupData$floristic_tables[["nvc_code"]])
     
     if(input$restrictNVCFlorTablesOpts == TRUE){
       
@@ -292,7 +292,7 @@ sidebar <- function(input, output, session,
       shiny::updateSelectizeInput(
         session = session,
         inputId = "nvcFloristicTable",
-        choices = floristicTables[["nvc_code"]],
+        choices = nvc_code_values,
         selected = topNVCCommunities[1]
       )
       
