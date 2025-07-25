@@ -23,22 +23,25 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     bindEvent(sidebar_options(), 
               ignoreInit = TRUE)
   
-  # Retrieve Setup Data -----------------------------------------------------
-  pquads <- reactiveVal()
-  floristic_tables <- reactiveVal()
+
+# Create floristic tables list --------------------------------------------
+  samp_ft_rval <- reactiveVal()
+  comp_ft_rval <- reactiveVal()
   
   observe({
     
     shiny::isolate({
       setupData <- setupData()
+      floristicTables <- floristicTables()
     })
     
-    pquads(setupData$pquads)
-    floristic_tables(setupData$floristic_tables)
+    samp_ft_rval(floristicTables)
+    comp_ft_rval(setupData$floristic_tables)
     
   }) |>
     bindEvent(runAnalysis(),
-              ignoreInit = FALSE)
+              ignoreInit = FALSE,
+              ignoreNULL = TRUE)
   
   
 # Show/Hide Results -------------------------------------------------------
@@ -110,10 +113,12 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     shiny::isolate({
       
       surveyData <- surveyData()
-      pquads_to_use <- pquads()
+      setupData <- setupData()
       habitatRestriction <- habitatRestriction()
       
     })
+    
+    pquads_to_use <- setupData$pquads
     
     surveyData_long <- surveyData$surveyData_long
       
@@ -179,7 +184,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   
   observe({
     
-    shiny::req(floristicTables())
+    shiny::req(!is.null(floristicTables()))
     shiny::req(surveyDataSummary())
     
     shinybusy::show_modal_spinner(
@@ -191,12 +196,12 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     shiny::isolate({
       
       surveyDataSummary <- surveyDataSummary()
-      floristicTables <- floristicTables() # User
       habitatRestriction <- habitatRestriction()
-      floristic_tables <- floristic_tables() # Reference
+      samp_ft <- samp_ft_rval()
+      comp_ft <- comp_ft_rval()
       
     })
-      
+    
     # Retrieve the site and group ID's for which there are less than the threshold 
     threshold <- 2
     
@@ -204,10 +209,10 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
       dplyr::filter(n < threshold) |>
       dplyr::pull(ID)
     
-    # Prepare composed floristicTables
-    floristicTables_composed_all <- floristicTables$floristicTables_composed_all
+    # Prepare composed/sample floristic tables 
+    samp_ft_all <- samp_ft$floristicTables_composed_all
     
-    floristicTables_prepped <- floristicTables_composed_all  |>
+    samp_ft_prepped <- samp_ft_all  |>
       dplyr::mutate(
         "Constancy" = 
           dplyr::case_when(
@@ -222,22 +227,22 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
       dplyr::filter(!(ID %in% site_group_ids_remove))
     
     # Only use Czekanowski index to calculate site and group similarities if there are floristic tables composed from more than threshold quadrats.
-    if(nrow(floristicTables_prepped) > 0){
+    if(nrow(samp_ft_prepped) > 0){
       
-      # Prepare floristic_tables
+      # Prepare comparison floristic tables
       if(!is.null(habitatRestriction)){
         
-        floristic_tables_prepped <- RMAVIS::subset_nvcData(nvc_data = floristic_tables, habitatRestriction = habitatRestriction, col_name = "nvc_code")
+        comp_ft_prepped <- RMAVIS::subset_nvcData(nvc_data = comp_ft, habitatRestriction = habitatRestriction, col_name = "nvc_code")
         
       } else {
         
-        floristic_tables_prepped <- floristic_tables
+        comp_ft_prepped <- comp_ft
         
       }
       
       # Calculate NVC Similarity by Site using the Czekanowski index
-      nvcAssignmentSiteGroup_Czekanowski <- RMAVIS::similarityCzekanowski(samp_df = floristicTables_prepped,
-                                                                          comp_df = floristic_tables_prepped,
+      nvcAssignmentSiteGroup_Czekanowski <- RMAVIS::similarityCzekanowski(samp_df = samp_ft_prepped,
+                                                                          comp_df = comp_ft_prepped,
                                                                           samp_species_col = "Species",
                                                                           comp_species_col = "nvc_taxon_name",
                                                                           samp_group_name = "ID",
@@ -274,8 +279,10 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     shinybusy::remove_modal_spinner()
     
   }) |>
-    bindEvent(runAnalysis(),
-              ignoreInit = FALSE)
+    bindEvent(comp_ft_rval(),
+              samp_ft_rval(),
+              ignoreInit = FALSE,
+              ignoreNULL = TRUE)
   
 
 # Initialise NVC Assignment Quadrat Table ---------------------------------
@@ -284,7 +291,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
                                                     "Quadrat" = character(),
                                                     "Mean.Similarity" = numeric(),
                                                     "NVC.Code" = character()
-  )
+                                                    )
   
   nvcAssignmentPlot_JaccardTable_rval <- reactiveVal(nvcAssignmentPlot_JaccardTable_init)
   
@@ -482,7 +489,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     bindEvent(nvcAssignmentSite_Czekanowski_rval(), 
               nTopResults(),
               ignoreInit = TRUE, 
-              ignoreNULL = FALSE)
+              ignoreNULL = TRUE)
   
   
   outputOptions(output, "nvcAssignmentSiteTable_Czekanowski", suspendWhenHidden = FALSE)

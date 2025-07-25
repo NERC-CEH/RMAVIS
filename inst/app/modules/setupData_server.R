@@ -46,6 +46,7 @@ setupData <- function(input, output, session, deSidebar_options, sidebar_options
     community_attributes_selected <- tibble::tibble()
     pquads_selected <- tibble::tibble()
     psquad_cm_he_selected <- tibble::tibble()
+    comm_he_selected <- tibble::tibble()
       
     if("Original" %in% selected_nvc_types){
       
@@ -61,10 +62,29 @@ setupData <- function(input, output, session, deSidebar_options, sidebar_options
       psquad_cm_he_selected <- psquad_cm_he_selected |>
         dplyr::bind_rows(RMAVIS::nvc_psquad_cm_he)
       
+      comm_he_selected <- comm_he_selected |>
+        dplyr::bind_rows(RMAVIS::nvc_cm_he)
+      
     }
     
-    # if("Calthion" %in% selected_nvc_types){
-    # }
+    if("Calthion" %in% selected_nvc_types){
+      
+      floristic_tables_selected <- floristic_tables_selected |>
+        dplyr::bind_rows(RMAVIS::calthion_floristic_tables)
+      
+      # community_attributes_selected <- community_attributes_selected |>
+      #   dplyr::bind_rows(RMAVIS::calthion_community_attributes)
+      
+      pquads_selected <- pquads_selected |>
+        dplyr::bind_rows(RMAVIS::calthion_pquads)
+      
+      psquad_cm_he_selected <- psquad_cm_he_selected |>
+        dplyr::bind_rows(RMAVIS::calthion_psquad_cm_he)
+      
+      comm_he_selected <- comm_he_selected |>
+        dplyr::bind_rows(RMAVIS::calthion_cm_he)
+      
+    }
     
     if("SOWG" %in% selected_nvc_types){
       
@@ -80,6 +100,9 @@ setupData <- function(input, output, session, deSidebar_options, sidebar_options
       psquad_cm_he_selected <- psquad_cm_he_selected |>
         dplyr::bind_rows(RMAVIS::sowg_psquad_cm_he)
       
+      comm_he_selected <- comm_he_selected |>
+        dplyr::bind_rows(RMAVIS::sowg_cm_he)
+      
     }
     
     # Compose final setup data
@@ -90,7 +113,8 @@ setupData <- function(input, output, session, deSidebar_options, sidebar_options
       "floristic_tables" = floristic_tables_selected,
       "community_attributes" = community_attributes_selected,
       "pquads" = pquads_selected,
-      "psquad_cm_he" = psquad_cm_he_selected
+      "psquad_cm_he" = psquad_cm_he_selected,
+      "comm_cm_he" = comm_he_selected
     )
     
     setupData(setupData_list)

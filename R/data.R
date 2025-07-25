@@ -117,6 +117,21 @@
 #' }
 "nvc_community_attributes"
 
+#' NVC community-mean Hill-Ellenberg values
+#'
+#' A dataset containing community-mean Hill-Ellenberg environmental indicator valueas for each NVC community.
+#'
+#' \code{nvc_cm_he} 
+#'
+#' @format A data frame with `r nrow(RMAVIS::nvc_cm_he)` rows and `r ncol(RMAVIS::nvc_cm_he)` columns, the definitions of which are:
+#' \describe{
+#'   \item{nvc_code}{The NVC unit code.}
+#'   \item{indicator}{The Hill-Ellenberg indicator code, one of: F, L, N, R, S}
+#'   \item{mean}{The mean indicator value.}
+#'   \item{sd}{The standard deviation of the indicator value.}
+#' }
+"nvc_cm_he"
+
 #' NVC Taxa Lookup
 #'
 #' A lookup between the original taxon names (as present in the NVC MS Access database and volumes) 
@@ -284,3 +299,84 @@
 #'   \item{S}{The Hill-Ellenberg Salinity score.}
 #' }
 "sowg_psquad_cm_he"
+
+#' SOWG community-mean Hill-Ellenberg values
+#'
+#' A dataset containing community-mean Hill-Ellenberg environmental indicator valueas for each SOWG community.
+#'
+#' \code{sowg_cm_he} 
+#'
+#' @format A data frame with `r nrow(RMAVIS::sowg_cm_he)` rows and `r ncol(RMAVIS::sowg_cm_he)` columns, the definitions of which are:
+#' \describe{
+#'   \item{nvc_code}{The SOWG unit code.}
+#'   \item{indicator}{The Hill-Ellenberg indicator code, one of: F, L, N, R, S}
+#'   \item{mean}{The mean indicator value.}
+#'   \item{sd}{The standard deviation of the indicator value.}
+#' }
+"sowg_cm_he"
+
+#' Calthion floristic tables
+#'
+#' A dataset containing the floristic tables for each Calthion NVC community.
+#'
+#' \code{calthion_floristic_tables} 
+#'
+#' @format A data frame with `r nrow(RMAVIS::calthion_floristic_tables)` rows and `r ncol(RMAVIS::calthion_floristic_tables)` columns, the definitions of which are:
+#' \describe{
+#'   \item{nvc_code}{The Calthion unit code.}
+#'   \item{nvc_taxon_name}{The taxon name, see `RMAVIS::nvc_taxa_lookup`.}
+#'   \item{constancy}{The constancy of occurrence across the plots constituting the NVC unit, see `RMAVIS:::constancyConversion`.}
+#'   \item{absolute_frequency}{The number of occurrences in the plots constituting the NVC unit.}
+#'   \item{relative_frequency}{The proportion of plots constituting the NVC unit that the taxon is present in.}
+#'   \item{minimum_cover}{The minimum cover of the taxon in the plots constituting the NVC unit.}
+#'   \item{mean_cover}{The mean cover of the taxon in the plots constituting the NVC unit.}
+#'   \item{maximum_cover}{The maximum cover of the taxon in the plots constituting the NVC unit.}
+#' }
+"calthion_floristic_tables"
+
+#' Calthion pseudo-quadrats
+#'
+#' A dataset containing pseudo-quadrats for each Calthion community unit.
+#'
+#' \code{calthion_pquads} 
+#'
+#' @format A data frame with `r nrow(RMAVIS::calthion_pquads)` rows and `r ncol(RMAVIS::calthion_pquads)` columns, the definitions of which are:
+#' \describe{
+#'   \item{nvc_code}{The calthion unit code.}
+#'   \item{psq_id}{The pseudo-quadrat ID}
+#'   \item{nvc_taxon_name}{The taxon name, see `RMAVIS::nvc_taxa_lookup`.}
+#' }
+"calthion_pquads"
+
+#' Calthion pseudo-quadrat community-mean Hill-Ellenberg values
+#'
+#' Calthion pseudo-quadrat community-mean Hill-Ellenberg values
+#'
+#' \code{calthion_psquad_cm_he} 
+#'
+#' @format A data frame with `r nrow(RMAVIS::calthion_psquad_cm_he)` rows and `r ncol(RMAVIS::calthion_psquad_cm_he)` columns, the definitions of which are:
+#' \describe{
+#'   \item{nvc_code}{The Calthion community unit code.}
+#'   \item{psq_id}{The pseudo-quadrat ID.}
+#'   \item{F}{The Hill-Ellenberg Moisture score.}
+#'   \item{L}{The Hill-Ellenberg Light score.}
+#'   \item{N}{The Hill-Ellenberg Nitrogen score.}
+#'   \item{R}{The Hill-Ellenberg Reaction score.}
+#'   \item{S}{The Hill-Ellenberg Salinity score.}
+#' }
+"calthion_psquad_cm_he"
+
+#' Calthion community-mean Hill-Ellenberg values
+#'
+#' A dataset containing community-mean Hill-Ellenberg environmental indicator valueas for each Calthion community.
+#'
+#' \code{calthion_cm_he} 
+#'
+#' @format A data frame with `r nrow(RMAVIS::calthion_cm_he)` rows and `r ncol(RMAVIS::calthion_cm_he)` columns, the definitions of which are:
+#' \describe{
+#'   \item{nvc_code}{The Calthion unit code.}
+#'   \item{indicator}{The Hill-Ellenberg indicator code, one of: F, L, N, R, S}
+#'   \item{mean}{The mean indicator value.}
+#'   \item{sd}{The standard deviation of the indicator value.}
+#' }
+"calthion_cm_he"

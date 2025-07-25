@@ -11,10 +11,22 @@ floristicTablesUI <- function(id){
       shiny::fluidRow(
         
         shiny::column(
+          
           width = 6,
           
-          # shiny::h5("Composed Floristic Table"),
-          shiny::htmlOutput(outputId = ns("composedFloristicTableTitle")),
+          shiny::fluidRow(
+            
+            shiny::column(
+              width = 12,
+              shiny::htmlOutput(outputId = ns("composedFloristicTableTitle"))
+            ),
+            
+            shiny::column(
+              width = 12,
+              shiny::htmlOutput(outputId = ns("samp_eivs_text_output"))
+            )
+            
+          ),
           
           shiny::div(
             reactable::reactableOutput(outputId = ns("floristicTables_composed"))
@@ -22,10 +34,22 @@ floristicTablesUI <- function(id){
           
         ),
         shiny::column(
+          
           width = 6,
           
-          # shiny::h5("NVC Floristic Table"),
-          shiny::htmlOutput(outputId = ns("nvcFloristicTableTitle")),
+          shiny::fluidRow(
+            
+            shiny::column(
+              width = 12,
+              shiny::htmlOutput(outputId = ns("nvcFloristicTableTitle"))
+            ),
+            
+            shiny::column(
+              width = 12,
+              shiny::htmlOutput(outputId = ns("comp_eivs_text_output"))
+            )
+            
+          ),
           
           shiny::div(
             reactable::reactableOutput(outputId = ns("floristicTables_nvc"))

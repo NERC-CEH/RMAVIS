@@ -1,4 +1,4 @@
-floristicTables <- function(input, output, session, setupData, surveyData, deSidebar_options, sidebar_options) {
+floristicTables <- function(input, output, session, setupData, surveyData, avgEIVs, deSidebar_options, sidebar_options) {
   
   ns <- session$ns
   
@@ -27,25 +27,6 @@ floristicTables <- function(input, output, session, setupData, surveyData, deSid
     bindEvent(sidebar_options(), 
               deSidebar_options(),
               ignoreInit = TRUE)
-  
-  
-# Retrieve Setup Data -----------------------------------------------------
-  floristic_tables <- reactiveVal()
-  community_attributes <- reactiveVal()
-  
-  observe({
-    
-    shiny::isolate({
-      setupData <- setupData()
-    })
-    
-    floristic_tables(setupData$floristic_tables)
-    community_attributes(setupData$community_attributes)
-    
-  }) |>
-    bindEvent(runAnalysis(),
-              ignoreInit = FALSE)
-  
 
 # Create object containing all composed tables ----------------------------
   floristicTables_composed_all_rval <- reactiveVal()
@@ -279,9 +260,11 @@ floristicTables <- function(input, output, session, setupData, surveyData, deSid
       floristicTables_composed_all <- floristicTables_composed_all_rval()
       composedFloristicTable_name <- composedFloristicTable()
       nvcFloristicTable_name <- nvcFloristicTable()
-      floristic_tables <- floristic_tables()
+      setupData <- setupData()
       
     })
+    
+    floristic_tables <- setupData$floristic_tables
     
     floristicTables_composed_selected <- floristicTables_composed_all |>
       dplyr::filter(ID == composedFloristicTable_name) |>
@@ -381,9 +364,6 @@ floristicTables <- function(input, output, session, setupData, surveyData, deSid
       samp_floristicTables <- floristicTables()
     })
     
-    # assign(x = "samp_floristicTable_name", value = samp_floristicTable_name, envir = .GlobalEnv)
-    # assign(x = "samp_floristicTables", value = samp_floristicTables, envir = .GlobalEnv)
-    
     samp_floristicTable <- samp_floristicTables$sample_community_attributes |>
       dplyr::filter(ID == samp_floristicTable_name)
     
@@ -417,6 +397,73 @@ floristicTables <- function(input, output, session, setupData, surveyData, deSid
     composedFloristicTableTitle <- composedFloristicTableTitle_rval()
     
     paste(composedFloristicTableTitle) 
+    
+  })
+  
+  # Samp EIVs text output ---------------------------------------------------
+  samp_eivs_text_output_rval <- reactiveVal(paste("<font size=4.75>",
+                                                  " ",
+                                                  "</font>") 
+  )
+  
+  observe({
+    
+    shiny::isolate({
+      samp_floristicTable_name <- composedFloristicTable()
+      avgEIVs <- avgEIVs()
+    })
+    
+    assign(x = "avgEIVs", value = avgEIVs, envir = .GlobalEnv)
+    assign(x = "samp_floristicTable_name", value = samp_floristicTable_name, envir = .GlobalEnv)
+    
+    samp_cm_he <- dplyr::bind_rows(
+      avgEIVs$unweightedMeanHEValuesSite |> dplyr::mutate("ID" = as.character(Year), .keep = "unused"),
+      avgEIVs$unweightedMeanHEValuesGroup |> tidyr::unite("ID", Year, Group, sep = " - ", remove = TRUE)
+    ) |>
+    dplyr::filter(ID == samp_floristicTable_name)
+    
+    f_val <- samp_cm_he |>
+      dplyr::pull(Moisture.F) |>
+      round(digits = 2)
+    
+    l_val <- samp_cm_he |>
+      dplyr::pull(Light.L) |>
+      round(digits = 2)
+    
+    n_val <- samp_cm_he |>
+      dplyr::pull(Nitrogen.N) |>
+      round(digits = 2)
+    
+    r_val <- samp_cm_he |>
+      dplyr::pull(Reaction.R) |>
+      round(digits = 2)
+    
+    s_val <- samp_cm_he |>
+      dplyr::pull(Salinity.S) |>
+      round(digits = 2)
+    
+    samp_eivs_text <- paste0("<font size=4.75>",
+                             "Hill-Ellenberg: ",
+                             "F = ", f_val, ", ",
+                             "L = ", l_val, ", ",
+                             "N = ", n_val, ", ",
+                             "R = ", r_val, ", ",
+                             "S = ", s_val,
+                             "</font>")
+    
+    samp_eivs_text_output_rval(samp_eivs_text)
+    
+    
+  }) |>
+    bindEvent(composedFloristicTableTitle_rval(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+  
+  output$samp_eivs_text_output <- renderText({ 
+    
+    samp_eivs_text <- samp_eivs_text_output_rval()
+    
+    paste(samp_eivs_text) 
     
   })
 
@@ -465,9 +512,11 @@ floristicTables <- function(input, output, session, setupData, surveyData, deSid
       floristicTables_composed_all <- floristicTables_composed_all_rval()
       composedFloristicTable <- composedFloristicTable()
       nvcFloristicTable <- nvcFloristicTable()
-      floristic_tables <- floristic_tables()
+      setupData <- setupData()
       
     })
+    
+    floristic_tables <- setupData$floristic_tables
       
     floristicTables_composed_selected <- floristicTables_composed_all |>
       dplyr::filter(ID == composedFloristicTable) |>
@@ -568,30 +617,46 @@ floristicTables <- function(input, output, session, setupData, surveyData, deSid
     shiny::req(composedFloristicTable())
     
     shiny::isolate({
-      comp_attr <- community_attributes()
+      setupData <- setupData()
       comp_FloristicTable_name <- nvcFloristicTable()
     })
     
-    # assign(x = "comp_FloristicTable_name", value = comp_FloristicTable_name, envir = .GlobalEnv)
-    # assign(x = "comp_attr", value = comp_attr, envir = .GlobalEnv)
+    comp_attr <- setupData$community_attributes
     
-    comp_attr_values <- comp_attr |>
-      dplyr::filter(nvc_code == comp_FloristicTable_name)
+    comp_attr_values <- try({
+      comp_attr |> dplyr::filter(nvc_code == comp_FloristicTable_name)
+    })
+    
+    if(all(class(comp_attr_values) != "try-error")){
+      if(nrow(comp_attr_values) == 1){
+        name_quadrats <- comp_attr_values$num_samples
+        name_total_species <- comp_attr_values$species_count
+        name_min_species <- comp_attr_values$min_species
+        name_mean_species <- round(comp_attr_values$mean_species)
+        name_max_species <- comp_attr_values$max_species
+      }
+    } else if(class(comp_attr_values) == "try-error"){
+      name_quadrats <- paste0("<font color=\"red\">NA</font>")
+      name_total_species <- paste0("<font color=\"red\">NA</font>")
+      name_min_species <- paste0("<font color=\"red\">NA</font>")
+      name_mean_species <- paste0("<font color=\"red\">NA</font>")
+      name_max_species <- paste0("<font color=\"red\">NA</font>")
+    }
     
     nvcFloristicTableTitle <- paste0("<font size=4.75>",
                                      comp_FloristicTable_name,
                                      "<br>",
                                      "Quadrats: ",
-                                     comp_attr_values$num_samples,
+                                     name_quadrats,
                                      "<br>",
                                      "Species: ",
-                                     comp_attr_values$species_count,
+                                     name_total_species,
                                      " (min = ",
-                                     comp_attr_values$min_species,
+                                     name_min_species,
                                      ", mean = ",
-                                     round(comp_attr_values$mean_species),
+                                     name_mean_species,
                                      ", max = ",
-                                     comp_attr_values$max_species,
+                                     name_max_species,
                                      ")",
                                      "</font>")
     
@@ -607,6 +672,73 @@ floristicTables <- function(input, output, session, setupData, surveyData, deSid
     nvcFloristicTableTitle <- nvcFloristicTableTitle_rval()
     
     paste(nvcFloristicTableTitle) 
+    
+  })
+  
+
+  # Comp EIVs text output ---------------------------------------------------
+  comp_eivs_text_output_rval <- reactiveVal(paste("<font size=4.75>",
+                                                   " ",
+                                                   "</font>") 
+  )
+  
+  observe({
+    
+    shiny::isolate({
+      setupData <- setupData()
+      comp_FloristicTable_name <- nvcFloristicTable()
+    })
+    
+    comm_cm_he <- setupData$comm_cm_he |>
+      dplyr::filter(nvc_code == comp_FloristicTable_name)
+    
+    f_val <- comm_cm_he |>
+      dplyr::filter(indicator == "F") |>
+      dplyr::pull(mean) |>
+      round(digits = 2)
+    
+    l_val <- comm_cm_he |>
+      dplyr::filter(indicator == "L") |>
+      dplyr::pull(mean) |>
+      round(digits = 2)
+    
+    n_val <- comm_cm_he |>
+      dplyr::filter(indicator == "N") |>
+      dplyr::pull(mean) |>
+      round(digits = 2)
+    
+    r_val <- comm_cm_he |>
+      dplyr::filter(indicator == "R") |>
+      dplyr::pull(mean) |>
+      round(digits = 2)
+    
+    s_val <- comm_cm_he |>
+      dplyr::filter(indicator == "S") |>
+      dplyr::pull(mean) |>
+      round(digits = 2)
+    
+    comp_eivs_text <- paste0("<font size=4.75>",
+                             "Hill-Ellenberg: ",
+                             "F = ", f_val, ", ",
+                             "L = ", l_val, ", ",
+                             "N = ", n_val, ", ",
+                             "R = ", r_val, ", ",
+                             "S = ", s_val,
+                             "</font>")
+    
+    comp_eivs_text_output_rval(comp_eivs_text)
+    
+    
+  }) |>
+    bindEvent(nvcFloristicTableTitle_rval(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+  
+  output$comp_eivs_text_output <- renderText({ 
+    
+    comp_eivs_text <- comp_eivs_text_output_rval()
+    
+    paste(comp_eivs_text) 
     
   })
   

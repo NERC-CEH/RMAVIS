@@ -8,7 +8,7 @@
           "Reference Spaces" and altering the module so that the local reference
           ordinations are also linked to this option.
       -   Updating the taxonomic backbone to the use version 20250703a of the UKSI (https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy). This is accomplished through use of the `UKVegTB` package.
-      -   Updating the habitat correspondences to incorporate v9.5 of the JNCC habitat correspondces.
+      -   Updating the habitat correspondences to incorporate v9.5 of the JNCC habitat correspondences.
       -   Separating the data entry modules into their own section "Data Entry".
       -   Reducing the number of pseudo-quadrats to improve the speed of `RMAVIS::similarityJaccard`.
       -   Re-organising bundled constants.
@@ -21,8 +21,8 @@
       -   Expanding the contents of the NVC Lookup (now called NVC Information) tab.
       -   Adding the ability to select any combination of the original, SOWG, and/or Calthion NVC communities.
       -   Adding the ability to filter taxa which occur at a frequency of less than 5% from the survey data.
-      -   Now displaying the number of plots, minimum, mean, and maximum species richness, and the total number of species
-          for each floristic table composed from the survey data vs each NVC community floristic table.
+      -   Now displaying the number of plots, the minimum, mean, and maximum species richness, the total number of species,
+          and community-mean Hill-Ellenberg values for each floristic table composed from the survey data vs each NVC community floristic table.
 
 # RMAVIS 1.0.1 (2024-08-08)
 *   Modifications: NA

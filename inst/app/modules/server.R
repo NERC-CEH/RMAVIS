@@ -71,6 +71,7 @@ server <- function(input, output, session) {
                                        id = "floristicTables_id_1",
                                        setupData = setupData,
                                        surveyData = surveyData,
+                                       avgEIVs = avgEIVs,
                                        deSidebar_options = deSidebar_options,
                                        sidebar_options = sidebar_options)
   

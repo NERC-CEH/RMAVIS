@@ -1,6 +1,6 @@
 # NVC types ---------------------------------------------------------------
 nvcType_options <- c("Original",
-                     # "Calthion",
+                     "Calthion",
                      "SOWG")
 
 # Input method options ----------------------------------------------------

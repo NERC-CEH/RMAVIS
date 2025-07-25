@@ -228,11 +228,11 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
-        value = "nvcTaxonNamesLookup_panel",
+        value = "nvcFlorTabs_panel",
         
-        bslib::card_header("Taxon Names"),
+        bslib::card_header("Floristic Tables"),
         
-        nvcTaxonNamesLookupUI(id = "nvcTaxonNamesLookup_id_1")
+        nvcFlorTabsUI(id = "nvcFlorTabs_id_1")
         
       ),
       
@@ -240,11 +240,11 @@ ui <- bslib::page_navbar(
         
         full_screen = TRUE,
         
-        value = "nvcFlorTabs_panel",
+        value = "nvcTaxonNamesLookup_panel",
         
-        bslib::card_header("Floristic Tables"),
+        bslib::card_header("NVC Taxon Name Updates"),
         
-        nvcFlorTabsUI(id = "nvcFlorTabs_id_1")
+        nvcTaxonNamesLookupUI(id = "nvcTaxonNamesLookup_id_1")
         
       ),
       

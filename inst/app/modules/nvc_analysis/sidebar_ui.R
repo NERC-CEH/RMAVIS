@@ -133,13 +133,17 @@ sidebarUI <- function(id){
               id = ns("removeLowFreqTaxaInfo"),
               shiny::markdown(
                 "
-                In the NVC taxa which occurred in less than 5% of the plots which constituted NVC units were removed from the final floristic tables.
+                In the NVC taxa which occurred in less than 5% of the plots which constituted each NVC unit were removed from the final floristic tables.
                 
-                Consequently, it is reccomended that species which occur in 5% of the plots in each Group in the survey data are also removed.
+                Consequently, by default taxa which occur in less than 5% of the plots in each Group in the survey data are also removed.
                 
-                At present this does not effect the individual quadrat Jaccard similarity calculations, 
+                At present this does not effect the individual plot Jaccard similarity calculations, 
                 but does effect the Group and Year Czekanowski similarities and composition of the Floristic tables.
-                This ensures that similarities are not biased towards more species-rich communities.
+                
+                This ensures that similarities are not biased towards more species-rich communities; 
+                however, conversely, if the number of survey quadrats is lower than the number of plots used to define a NVC unit, 
+                particulary a species rich unit (e.g. CG2b), it may be preferable to not remove low frequency taxa to ensure that there is not a bias towards more species-poor communities.
+                It is left to the user to make this decision, though in practice the results usually only display minor variations.
                 "
               ),
               placement = "bottom"
