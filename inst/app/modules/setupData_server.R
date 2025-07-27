@@ -1,109 +1,128 @@
-setupData <- function(input, output, session, sidebar_options) {
+setupData <- function(input, output, session, deSidebar_options, sidebar_options) {
   
   ns <- session$ns
   
 # Establish reactive objects ----------------------------------------------
   setupData_init <- list(
-    "species_names" = RMAVIS::acceptedSpecies[["Accepted_Species"]],
-    "accepted_species" = RMAVIS::acceptedSpecies,
+    "species_names" = RMAVIS::accepted_taxa[["taxon_name"]],
+    "accepted_species" = RMAVIS::accepted_taxa,
     "example_data" = RMAVIS::example_data,
-    "nvc_floristic_tables" = RMAVIS::nvc_floristic_tables,
-    "nvc_floristic_tables_numeric" = RMAVIS::nvc_floristic_tables_numeric,
-    "nvc_pquads" = RMAVIS::nvc_pquads,
-    "nvc_pquads_wide" = RMAVIS::nvc_pquads_wide,
-    "nvc_pquad_dca" = RMAVIS::nvc_pquad_dca,
-    "nvc_pquad_dca_hulls" = RMAVIS::nvc_pquad_dca_hulls,
-    "nvc_pquad_dca_centroids" = RMAVIS::nvc_pquad_dca_centroids,
-    "nvc_pquads_mean_unweighted_eivs" = RMAVIS::nvc_pquads_mean_unweighted_eivs
+    "floristic_tables" = RMAVIS::nvc_floristic_tables,
+    "community_attributes" = RMAVIS::nvc_community_attributes,
+    "pquads" = RMAVIS::nvc_pquads,
+    "psquad_cm_he" = RMAVIS::nvc_psquad_cm_he
   )
   
   setupData <- reactiveVal(setupData_init)
 
 # Retrieve sidebar options ------------------------------------------------
-  includeBryophytes <- reactiveVal()
+  selectNVCtypes <- reactiveVal()
   
   observe({
     
-    includeBryophytes(sidebar_options()$includeBryophytes)
+    sidebar_options <- sidebar_options()
     
+    selectNVCtypes <- sidebar_options$selectNVCtypes
+    
+    selectNVCtypes(selectNVCtypes)
+
   }) |>
-    bindEvent(sidebar_options(), 
+    bindEvent(sidebar_options(),
               ignoreInit = FALSE)
 
-# Update Input Data Based On includeBryophytes ----------------------------
+
+# Update input data -------------------------------------------------------
   observe({
     
-    includeBryophytes <- includeBryophytes()
+    selected_nvc_types <- selectNVCtypes()
     
-    if(includeBryophytes == TRUE){
+    # Establish setup data which doesn't change at present
+    species_names_selected <- RMAVIS::accepted_taxa[["taxon_name"]]
+    accepted_species_selected <- RMAVIS::accepted_taxa
+    example_data_selected <- RMAVIS::example_data
+    
+    # Compose setup data from selected NVC types
+    floristic_tables_selected <- tibble::tibble()
+    community_attributes_selected <- tibble::tibble()
+    pquads_selected <- tibble::tibble()
+    psquad_cm_he_selected <- tibble::tibble()
+    comm_he_selected <- tibble::tibble()
       
-      species_names_selected <- RMAVIS::acceptedSpecies[["Accepted_Species"]]
-      accepted_species_selected <- RMAVIS::acceptedSpecies
-      example_data_selected <- RMAVIS::example_data
-      nvc_floristic_tables_selected <- RMAVIS::nvc_floristic_tables
-      nvc_floristic_tables_numeric_selected <- RMAVIS::nvc_floristic_tables_numeric
-      nvc_pquads_selected <- RMAVIS::nvc_pquads
-      nvc_pquads_wide_selected <- RMAVIS::nvc_pquads_wide
-      nvc_pquad_dca_selected <- RMAVIS::nvc_pquad_dca
-      nvc_pquad_dca_hulls_selected <- RMAVIS::nvc_pquad_dca_hulls
-      nvc_pquad_dca_centroids_selected <- RMAVIS::nvc_pquad_dca_centroids
-      nvc_pquads_mean_unweighted_eivs_selected <- RMAVIS::nvc_pquads_mean_unweighted_eivs
+    if("Original" %in% selected_nvc_types){
       
-    } else if(includeBryophytes == FALSE){
+      floristic_tables_selected <- floristic_tables_selected |>
+        dplyr::bind_rows(RMAVIS::nvc_floristic_tables)
       
-      plant_species <- RMAVIS::concordance |>
-        dplyr::filter(TaxonGroup == "Vascular Plants") |>
-        dplyr::pull(rmavisTaxonName)
-     
-      species_names_selected <- RMAVIS::acceptedSpecies[["Accepted_Species"]][RMAVIS::acceptedSpecies[["Accepted_Species"]] %in% plant_species] 
+      community_attributes_selected <- community_attributes_selected |>
+        dplyr::bind_rows(RMAVIS::nvc_community_attributes)
       
-      accepted_species_selected <- RMAVIS::acceptedSpecies |>
-        dplyr::filter(Accepted_Species %in% plant_species)
+      pquads_selected <- pquads_selected |>
+        dplyr::bind_rows(RMAVIS::nvc_pquads)
       
-      example_data_selected <- RMAVIS::example_data |>
-        purrr::map(~dplyr::filter(., Species %in% plant_species))
+      psquad_cm_he_selected <- psquad_cm_he_selected |>
+        dplyr::bind_rows(RMAVIS::nvc_psquad_cm_he)
       
-      nvc_floristic_tables_selected <- RMAVIS::nvc_floristic_tables |>
-        dplyr::filter(Species %in% plant_species)
-      
-      nvc_floristic_tables_numeric_selected <- RMAVIS::nvc_floristic_tables_numeric |>
-        dplyr::filter(Species %in% plant_species)
-      
-      nvc_pquads_selected <- RMAVIS::nvc_pquads |>
-        dplyr::filter(species %in% plant_species)
-      
-      nvc_pquads_wide_selected <- RMAVIS::nvc_pquads_wide[, (names(RMAVIS::nvc_pquads_wide) %in% plant_species)]
-      
-      nvc_pquad_dca_selected <- RMAVIS::nvc_pquad_dca_noBryophytes
-      
-      nvc_pquad_dca_hulls_selected <- RMAVIS::nvc_pquad_dca_noBryophytes_hulls
-      
-      nvc_pquad_dca_centroids_selected <- RMAVIS::nvc_pquad_dca_noBryophytes_centroids
-
-      nvc_pquads_mean_unweighted_eivs_selected <- RMAVIS::nvc_pquads_mean_unweighted_eivs_noBryophytes
+      comm_he_selected <- comm_he_selected |>
+        dplyr::bind_rows(RMAVIS::nvc_cm_he)
       
     }
     
+    if("Calthion" %in% selected_nvc_types){
+      
+      floristic_tables_selected <- floristic_tables_selected |>
+        dplyr::bind_rows(RMAVIS::calthion_floristic_tables)
+      
+      community_attributes_selected <- community_attributes_selected |>
+        dplyr::bind_rows(RMAVIS::calthion_community_attributes)
+      
+      pquads_selected <- pquads_selected |>
+        dplyr::bind_rows(RMAVIS::calthion_pquads)
+      
+      psquad_cm_he_selected <- psquad_cm_he_selected |>
+        dplyr::bind_rows(RMAVIS::calthion_psquad_cm_he)
+      
+      comm_he_selected <- comm_he_selected |>
+        dplyr::bind_rows(RMAVIS::calthion_cm_he)
+      
+    }
+    
+    if("SOWG" %in% selected_nvc_types){
+      
+      floristic_tables_selected <- floristic_tables_selected |>
+        dplyr::bind_rows(RMAVIS::sowg_floristic_tables)
+      
+      community_attributes_selected <- community_attributes_selected |>
+        dplyr::bind_rows(RMAVIS::sowg_community_attributes)
+      
+      pquads_selected <- pquads_selected |>
+        dplyr::bind_rows(RMAVIS::sowg_pquads)
+      
+      psquad_cm_he_selected <- psquad_cm_he_selected |>
+        dplyr::bind_rows(RMAVIS::sowg_psquad_cm_he)
+      
+      comm_he_selected <- comm_he_selected |>
+        dplyr::bind_rows(RMAVIS::sowg_cm_he)
+      
+    }
+    
+    # Compose final setup data
     setupData_list <- list(
       "species_names" = species_names_selected,
       "accepted_species" = accepted_species_selected,
       "example_data" = example_data_selected,
-      "nvc_floristic_tables" = nvc_floristic_tables_selected,
-      "nvc_floristic_tables_numeric" = nvc_floristic_tables_numeric_selected,
-      "nvc_pquads" = nvc_pquads_selected,
-      "nvc_pquads_wide" = nvc_pquads_wide_selected,
-      "nvc_pquad_dca" = nvc_pquad_dca_selected,
-      "nvc_pquad_dca_hulls" = nvc_pquad_dca_hulls_selected,
-      "nvc_pquad_dca_centroids" = nvc_pquad_dca_centroids_selected,
-      "nvc_pquads_mean_unweighted_eivs" = nvc_pquads_mean_unweighted_eivs_selected
+      "floristic_tables" = floristic_tables_selected,
+      "community_attributes" = community_attributes_selected,
+      "pquads" = pquads_selected,
+      "psquad_cm_he" = psquad_cm_he_selected,
+      "comm_cm_he" = comm_he_selected
     )
     
     setupData(setupData_list)
     
   }) |>
-    bindEvent(includeBryophytes(),
-              ignoreInit = FALSE,
-              ignoreNULL = TRUE)
+    bindEvent(selectNVCtypes(),
+              ignoreNULL = TRUE,
+              ignoreInit = TRUE)
   
 # Return Setup Data -------------------------------------------------------
   return(setupData)

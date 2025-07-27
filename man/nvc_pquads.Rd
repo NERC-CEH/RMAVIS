@@ -3,13 +3,13 @@
 \docType{data}
 \name{nvc_pquads}
 \alias{nvc_pquads}
-\title{The pseudo-quadrats for each NVC unit}
+\title{NVC pseudo-quadrats}
 \format{
-A data frame with 981243 rows and 3 columns, the definitions of which are:
+A data frame with 298098 rows and 3 columns, the definitions of which are:
 \describe{
-\item{NVC}{The NVC community or sub-community code}
-\item{Pid3}{The pseudo-quadrat ID}
-\item{species}{The taxon name}
+\item{nvc_code}{The NVC unit code.}
+\item{psq_id}{The pseudo-quadrat ID}
+\item{nvc_taxon_name}{The taxon name, see \code{RMAVIS::nvc_taxa_lookup}.}
 }
 }
 \usage{

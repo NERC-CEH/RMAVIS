@@ -1,6 +1,6 @@
 ---
 title: "RMAVIS - Documentation"
-subtitle: "v1.0.1"
+subtitle: "v1.1.0"
 # output:
 #   bookdown::word_document2:
 # always_allow_html: true
@@ -59,7 +59,6 @@ body {
 ```
 
 ```{r constants, echo=FALSE}
-
 # Report options. Load from create_constants.R!!!
 reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAssignmentResultsSite_Czekanowski",
                                                    "Group, Czekanowski" = "nvcAssignmentResultsGroup_Czekanowski",
@@ -116,25 +115,12 @@ can be updated and improved over time in response to user needs.
 
 # Instructions and Methodology
 
-## Survey Data
+## Data Entry
 
-The Survey Data group of modules contains the Data Input, Data Structure, and
-Validation modules.
+The Data Entry group of modules contains the Data Input, Data Structure, and
+Validation, and Taxonomic Backbone modules.
 
 ### Options
-
-**Bryophyte Inclusion**
-
-The user may optionally toggle whether Bryophyte taxa, specifically 
-moss (Bryophyta), liverwort (Marchantiophyta), and hornwort 
-(Anthocerotophyta) taxa, are included in `RMAVIS`.
-This option is included to ensure that users who cannot confidently identify
-bryophytes to the species rank, or do not have data where bryophytes
-were confidently recorded can still use RMAVIS without
-false presences or absences unduly skewing the results.
-
-> Caution is advised in excluding bryophyte taxa as bryophytes are key and often
-> highly diagnostic components of many NVC communities.
 
 **Input Method**
 
@@ -221,7 +207,7 @@ conditions.
 
 -   Each species value must match a species present in the accepted
     species list, which can be downloaded in the "Download Options"
-    section (see Section \@ref(accepted-species)).
+    section.
 -   There must be no missing values in the year, group, quadrat, and
     species columns.
 -   A quadrat value may not exist in more than one group.
@@ -251,18 +237,22 @@ the "Run Analysis" and "Generate Report" buttons will be disabled.
 
 The clear table button resets the survey data input table.
 
-### Accepted Species
+### Taxonomic backbone
 
-The list of species available for entry is currently composed of:
+The Taxonomic Backbone section provides an interface to explore the taxonomic backbone underpinning RMAVIS.
+This backbone is currently composed of the recommended taxa in 
+version 0250703a of the UKSI (https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy)
+from the following informal groups: alga, chromist, clubmoss, conifer, fern, 
+flowering plant, ginkgo, hornwort, horsetail, lichen, liverwort, moss, quillwort, stonewort.
+    
+### Download
 
--   The vascular plant (Tracheophyta & Pteridophyta), moss (Bryophyta),
-    liverwort (Marchantiophyta), and hornwort (Anthocerotophyta) taxa present in 
-    the UKSI, retrieved from the National Biodiversity Network (NBN), filtered 
-    to include taxa at the "species", "species hybrid", "species aggregate",
-    "subspecies", "species sensu lato", and "genus" ranks 
-    [@nbn2024Pteridophyta; @nbn2024Tracheophyta; @nbn2024Bryophyta; @nbn2024Marchantiophyta; @nbn2024Anthocerotophyta].
--   The limited number of lichen, charophyte, and algae taxa present in the 
-    NVC floristic tables.
+Available for download are:
+
+-   **Accepted Taxa:** the taxa accepted by RMAVIS and associated UKSI taxon version keys.
+-   **Taxonomic Backbone:** the taxonomic backbone used in RMAVIS, equal to the `UKVegTB::taxonomic_backbone` object.
+-   **Taxon Lookup:** a lookup between the recommended taxon names as present in the Taxonomic Backbone, and available synonyms in the UKSI, equal to the `UKVegTB::taxa_lookup` object.
+-   **Survey Data:** the survey data entered into the data entry table.
 
 ## NVC Assignment
 
@@ -304,7 +294,8 @@ $b$ represents the species present in one site but not the other (${X \cap Y}$),
 and the converse for $c$ (${X \cup Y}$).
 
 > Please note that Site and Group similarities will not be calculated
-> for Years and Year-Group combinations with less than 5 sample plots
+> for Years and Year-Group combinations with less than 2 sample plots.
+> It is highly reccomended that 5 or more plots are in each group.
 
 ### Pseudo-Quadrat Methodology
 
@@ -328,23 +319,30 @@ Work to determine the optimum number of pseudo-quadrats is ongoing.
 
 ### Communities
 
-The NVC communities available in `RMAVIS` are composed from the following
-sources:
+The sets of 'NVC' communities available in `RMAVIS`:
+
+**Original**
 
 -   The original NVC floristic tables as described in the original NVC volumes
     [@rodwell1991;@rodwell1992;@rodwell1992a;@rodwell1995;@rodwell2000].
+    
+**Calthion**
+
 -   An alternative version of MG4 (MG4v2) and the four MG4
-    sub-communities described in @prosser2023 and @wallace2017 (MG4a,
-    MG4b, MG4c, and MG4d).
+    sub-communities described in @prosser2023 and @wallace2017 (MG4v2a,
+    MG4v2b, MG4v2c, and MG4v2d).
 -   A new MG6 sub-community (MG6d) [@wallace2017]
 -   An alternative version of MG8 (MG8v2) and the four sub-communities
-    described in @wallace2017 (MG8a, MG8b, MG8c, and MG8d).
+    described in @wallace2017 (MG8v2a, MG8v2b, MG8v2c, and MG8v2d).
 -   An alternative version of MG13 (MG13v2) [@wallace2017].
 -   A new MG community (MG14) and two sub-communities (MG14a, MG14b)
     [@wallace2017].
 -   A new MG community (MG15) and two sub-communities (MG15a, MG15b)
     [@wallace2017].
 -   A new MG community (MG16) [@wallace2017].
+
+**SOWG**
+
 -   A new set of Scottish Oceanic Wet Grassland Communities as
     described in @wallace2023.
     
@@ -360,9 +358,9 @@ If the user only wishes to assign NVC community similarity values for
 groups of quadrats or all quadrats in a year disable this option.
 Note that the Jaccard similarity calculations for individual quadrats can take
 a long time for large samples, so it may also be desirable to disable then.
-If there are less than five quadrats per year `RMAVIS` this option is set to 'Yes'
+If there are less than two quadrats per year `RMAVIS` this option is set to 'Yes'
 and disabled, as similarity values for years and/or groups which contain
-less than five quadrats must be calculated using the Jaccard coefficient and 
+less than two quadrats must be calculated using the Jaccard coefficient and 
 reference pseudo-quadrats.
 
 **Results to View**
@@ -396,12 +394,13 @@ The **Habitat Correspondence** section provides a means to explore the
 habitats from alternative habitat classifications which are associated
 with the top-fitted NVC communities assigned to the survey data.
 
-Habitat correspondence data is drawn from three sources:
+Habitat correspondence data is drawn from four sources:
 
 1.  The Joint Nature Conservation Committee (JNCC) Spreadsheet of
     Habitat Correspondences [@jncc2008].
-2.  UKHab V1.1 [@butcher2020].
-3.  For the National Plant Monitoring Scheme (NPMS) data is drawn from
+2.  Version 9.5 of the JNCC habitat correspondences.
+3.  UKHab V1.1 [@butcher2020].
+4.  For the National Plant Monitoring Scheme (NPMS) data is drawn from
     [@pescott2019].
 
 ### Options
@@ -412,18 +411,17 @@ The user may select the habitat classification system from which to
 retrieve associated habitats. At present the following systems are
 available:
 
+-   **Biodiversity Action Plan Priority Habitats** [@jncc2008]
+-   **EU Habitats Directive Annex 1** [@jncc2008]
+-   **Phase 1 Habitat Classification** [@jncc2008]
+-   **Biodiversity Action Plan Broad Habitats** [@jncc2008]
+-   **EUNIS Classification** [@jncc2008]
+-   **NPMS Broad** [@pescott2019]
+-   **NPMS Fine** [@pescott2019]
 -   **UKHab - Level 2** [@butcher2020]
 -   **UKHab - Level 3** [@butcher2020]
 -   **UKHab - Level 4** [@butcher2020]
 -   **UKHab - Level 5** [@butcher2020]
--   **Biodiversity Action Plan Priority Habitats** [@jncc2008]
--   **Phase 1 Habitat Classification** [@jncc2008]
--   **Biodiversity Action Plan Broad Habitats** [@jncc2008]
--   **EUNIS Classification** [@jncc2008]
--   **Vegetation communities of British lakes** [@jncc2008]
--   **EU Habitats Directive Annex 1** [@jncc2008]
--   **NPMS Broad** [@pescott2019]
--   **NPMS Fine** [@pescott2019]
 
 ## Floristic Tables
 
@@ -705,7 +703,7 @@ plots.
     Displayed in **Local Reference (unrestricted)** only.
 -   **Hill-Ellenberg**: the Hill-Ellenberg CCA axis scores selected in the
     "CCA Variables" option.
--   **Survey Quadrat Change**: arrows showing the direction of travel for
+-   **Trajectory**: arrows showing the direction of travel for
     individual quadrats in the ordination space.
 
 ## Report
@@ -750,11 +748,7 @@ kableExtra::kbl(x = reportOptions_table,
 ## Download
 
 At present the **Download** section of `RMAVIS` allows the user to
-download:
-
--   A xlsx file containing all the results from the `RMAVIS` session.
--   A csv file containing the species accepted by `RMAVIS`.
--   The data entered into the Survey Table.
+download a .xlsx file containing all the results from the `RMAVIS` session.
 
 # Acknowledgements
 

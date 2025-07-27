@@ -58,3 +58,31 @@ testthat::test_that("similarityJaccard works", {
   testthat::expect_true(all(actual$Similarity >= 0))
   
 })
+
+testthat::test_that("similarityJaccard works with one species", {
+  
+  actual <- RMAVIS::similarityJaccard(samp_df = RMAVIS::example_data[["Parsonage Down"]][1,], 
+                                      comp_df = RMAVIS::subset_nvcData(nvc_data = RMAVIS::nvc_pquads, 
+                                                                       habitatRestriction = c("CG"), 
+                                                                       col_name = "Pid3"),
+                                      samp_species_col = "Species", 
+                                      comp_species_col = "species",
+                                      samp_group_name = "Quadrat", 
+                                      comp_group_name = "Pid3",
+                                      comp_groupID_name = "NVC", 
+                                      remove_zero_matches = TRUE, 
+                                      average_comp = TRUE)
+  
+  actual_colnames <- colnames(actual)
+  actual_coltypes <- sapply(actual, class) |> unname()
+  
+  expected_colnames <- c("Quadrat", "NVC", "Similarity")
+  expected_coltypes <- c("character", "character", "numeric")
+  
+  testthat::expect_equal(actual_colnames, expected_colnames)
+  testthat::expect_equal(actual_coltypes, expected_coltypes)
+  
+  testthat::expect_true(all(actual$Similarity <= 1))
+  testthat::expect_true(all(actual$Similarity >= 0))
+  
+})

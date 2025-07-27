@@ -9,7 +9,9 @@ composeSyntopicTables(
   group_cols,
   species_col_name = "Species",
   plot_col_name = "Quadrat",
-  numeric_constancy = FALSE
+  cover_col_name = "Cover",
+  numeral_constancy = FALSE,
+  remove_low_freq_taxa = NULL
 )
 }
 \arguments{
@@ -21,7 +23,11 @@ composeSyntopicTables(
 
 \item{plot_col_name}{The name of the plot ID column}
 
-\item{numeric_constancy}{If TRUE the ordinal constancy classes (I, II, III, IV, V) are transformed into numeric values (1, 2, 3, 4, 5).}
+\item{cover_col_name}{The name of the cover/abundance cover}
+
+\item{numeral_constancy}{If TRUE the numeric constancy classes (1, 2, 3, 4, 5) are transformed into roman numeral values (I, II, III, IV, V).}
+
+\item{remove_low_freq_taxa}{If not NULL, a float greater than 0 and less than 1 indicating the minimum relative frequency of taxa to include in the floristic tables.}
 }
 \value{
 A three column data frame containing the groups ID, species, and constancy.
@@ -32,9 +38,11 @@ data frame containing plot ids, species names, and any number
 of group columns which are concatenated into a ID column
 }
 \examples{
-RMAVIS::composeSyntopicTables(surveyData = RMAVIS::example_data[["Parsonage Down"]], 
+RMAVIS::composeSyntopicTables(surveyData = RMAVIS::example_data[["Newborough Warren"]], 
                               group_cols = c("Year", "Group"), 
                               species_col_name = "Species", 
                               plot_col_name = "Quadrat",
-                              numeric_constancy = FALSE)
+                              cover_col_name = "Cover",
+                              numeral_constancy = FALSE,
+                              remove_low_freq_taxa = 0.05)
 }

@@ -21,5 +21,5 @@ Subset a data frame of NVC data such as pseudo-quadrats or syntopic tables by
 habitat type by supplying a vector of prefixes.
 }
 \examples{
-RMAVIS::subset_nvcData(nvc_data = RMAVIS::nvc_pquads, habitatRestriction = c("U", "H"), col_name = "Pid3")
+RMAVIS::subset_nvcData(nvc_data = RMAVIS::nvc_pquads, habitatRestriction = c("U", "H"), col_name = "psq_id")
 }
