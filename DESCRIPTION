@@ -1,7 +1,7 @@
 Package: RMAVIS
 Title: Assign Vegetation Survey Data to GB NVC Communities
-Version: 1.0.1
-Date: 2024-08-08
+Version: 1.1.0
+Date: 2025-07-27
 Authors@R: c(person(given = "Zeke",
                     family = "Marshall",
                     role = c("aut", "cre"),
@@ -26,7 +26,7 @@ Description: A R Shiny application for the assignment of vegetation survey plot 
 License: LGPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 LazyDataCompression: xz
 Imports:
   bookdown,
@@ -53,6 +53,7 @@ Imports:
   stringr,
   tibble,
   tidyr,
+  UKVegTB,
   vegan,
   writexl
 Suggests:

@@ -65,10 +65,12 @@ similarityCzekanowski <- function(samp_df, comp_df,
       names(comp_data)[names(comp_data) == comp_weight_name] <- "freq_comp"
       names(samp_data)[names(samp_data) == samp_weight_name] <- "freq_samp"
       
-      samp_data_prepped <- samp_data[,c(samp_species_col, "freq_samp")]
+      names(samp_data)[names(samp_data) == samp_species_col] <- comp_species_col
+      
+      samp_data_prepped <- samp_data[,c(comp_species_col, "freq_samp")]
       comp_data_prepped <- comp_data[,c(comp_species_col, "freq_comp")]
       
-      eval_table <- merge(x = samp_data_prepped, y = comp_data_prepped, by = "Species", all = TRUE)
+      eval_table <- merge(x = samp_data_prepped, y = comp_data_prepped, by = comp_species_col, all = TRUE)
       
       eval_table[is.na(eval_table)] <- 0
       
@@ -92,6 +94,9 @@ similarityCzekanowski <- function(samp_df, comp_df,
   
   # Collapse list to data frame
   similarity_df <- do.call(rbind.data.frame, similarity_results)
+  
+  # Remove rownames
+  rownames(similarity_df) <- NULL
   
   return(similarity_df)
   
@@ -122,17 +127,17 @@ similarityCzekanowski <- function(samp_df, comp_df,
 #' RMAVIS::similarityJaccard(samp_df = RMAVIS::example_data[["Parsonage Down"]], 
 #'                           comp_df = RMAVIS::subset_nvcData(nvc_data = RMAVIS::nvc_pquads, 
 #'                                                            habitatRestriction = c("CG"), 
-#'                                                            col_name = "Pid3"),
+#'                                                            col_name = "psq_id"),
 #'                           samp_species_col = "Species", 
 #'                           comp_species_col = "species",
 #'                           samp_group_name = "Quadrat", 
-#'                           comp_group_name = "Pid3",
+#'                           comp_group_name = "psq_id",
 #'                           comp_groupID_name = "NVC", 
 #'                           remove_zero_matches = TRUE, 
 #'                           average_comp = TRUE)
 similarityJaccard <- function(samp_df, comp_df,
                               samp_species_col, comp_species_col,
-                              samp_group_name = "ID", comp_group_name = "Pid3",
+                              samp_group_name = "ID", comp_group_name = "psq_id",
                               comp_groupID_name = "NVC", 
                               remove_zero_matches = TRUE, average_comp = TRUE){
   
@@ -144,10 +149,10 @@ similarityJaccard <- function(samp_df, comp_df,
   names(eval_combinations) <- c(samp_group_name, comp_group_name)
   
   # Produce a list of species present in samp_df by samp_group_name
-  samp_spp_list <- as.environment(tapply(samp_df[[samp_species_col]], samp_df[[samp_group_name]], unique))
+  samp_spp_list <- as.environment(as.list(tapply(samp_df[[samp_species_col]], samp_df[[samp_group_name]], unique)))
   
   # Produce a list of species present in comp_df by comp_group_name
-  comp_spp_list <- as.environment(tapply(comp_df[[comp_species_col]], comp_df[[comp_group_name]], unique))
+  comp_spp_list <- as.environment(as.list(tapply(comp_df[[comp_species_col]], comp_df[[comp_group_name]], unique)))
   
   # Precalculate the number of species in each samp_spp_list and comp_spp_list element
   x_list <- as.environment(lapply(samp_spp_list, length))
@@ -171,6 +176,8 @@ similarityJaccard <- function(samp_df, comp_df,
       j <- x_n_y / (x + y - x_n_y)
       
       return(j)
+      
+      base::gc()
       
     }
     
@@ -209,6 +216,9 @@ similarityJaccard <- function(samp_df, comp_df,
     similarity_df <- similarity_df[similarity_df["Similarity"] != 0, ]
     
   }
+  
+  # Remove rownames
+  rownames(similarity_df) <- NULL
   
   # Return similarity results
   return(similarity_df)

@@ -3,24 +3,25 @@
 \docType{data}
 \name{nvc_floristic_tables}
 \alias{nvc_floristic_tables}
-\title{The NVC floristic tables}
+\title{NVC floristic tables}
 \format{
-A data frame with 49675 rows and 3 columns, the definitions of which are:
+A data frame with 46553 rows and 8 columns, the definitions of which are:
 \describe{
-\item{Species}{The name of the taxon in a given floristic table.}
-\item{NVC.Code}{The code of the NVC community.}
-\item{Constancy}{The ordinal constancy value.}
+\item{nvc_code}{The NVC unit code.}
+\item{nvc_taxon_name}{The taxon name, see \code{RMAVIS::nvc_taxa_lookup}.}
+\item{constancy}{The constancy of occurrence across the plots constituting the NVC unit, see \code{RMAVIS:::constancyConversion}.}
+\item{absolute_frequency}{The number of occurrences in the plots constituting the NVC unit.}
+\item{relative_frequency}{The proportion of plots constituting the NVC unit that the taxon is present in.}
+\item{minimum_cover}{The minimum cover of the taxon in the plots constituting the NVC unit.}
+\item{mean_cover}{The mean cover of the taxon in the plots constituting the NVC unit.}
+\item{maximum_cover}{The maximum cover of the taxon in the plots constituting the NVC unit.}
 }
 }
 \usage{
 nvc_floristic_tables
 }
 \description{
-A dataset containing the floristic tables for each NVC community, with
-ordinal constancy classes representing the ranges of each species
-relative frequency of occurrence across the samples which constitute the
-NVC unit, which are as follows: I (1-20\%), II (21-40\%), III (41-60\%),
-IV (61-80\%), and V(81-100\%).
+A dataset containing the floristic tables for each NVC community.
 }
 \details{
 \code{nvc_floristic_tables}

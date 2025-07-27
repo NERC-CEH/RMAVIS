@@ -62,8 +62,6 @@ surveyData_long <- surveyData$surveyData_long
 
 # Sidebar options
 inputMethod <- sidebar_options$inputMethod
-includeBryophytes <- sidebar_options$includeBryophytes
-selectedExampleData <- sidebar_options$selectedExampleData
 habitatRestriction <- sidebar_options$habitatRestriction
 nTopResults <- sidebar_options$nTopResults
 
@@ -149,7 +147,7 @@ reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAss
 
 ```{r RMAVISVersion, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-cat("**Version:** ", as.character("v1.0.1"), sep = "")
+cat("**Version:** ", as.character("v1.1.0"), sep = "")
 
 ```
 
@@ -185,18 +183,6 @@ This report contains user-selected outputs of a RMAVIS application session.
 
 ```{r inputMethod, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 cat("**Input Method:** ", as.character(inputMethod), sep = "")
-```
-
-```{r selectedExampleData, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-if(inputMethod == "example"){
-  
-  cat("**Selected Example Data:** ", as.character(selectedExampleData), sep = "")
-  
-  }
-```
-
-```{r includeBryophytes, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-cat("**Bryophytes Included:** ", as.character(includeBryophytes), sep = "")
 ```
 
 ```{r habitatRestriction, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}

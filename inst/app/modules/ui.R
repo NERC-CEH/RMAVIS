@@ -14,8 +14,6 @@ ui <- bslib::page_navbar(
       # App Title
       shiny::div(shiny::h1("RMAVIS")),
       
-      # bslib::card_image(file = "www/nationalReference.png", fill = FALSE, max_height = "62px"),
-      
       # Align cell contents in the middle vertically
       cellArgs = list(style = "vertical-align: middle !important; color: #565656 !important;")
 
@@ -41,14 +39,14 @@ ui <- bslib::page_navbar(
     homeUI(id = "home_id_1")
     
   ),
-    
+  
   bslib::nav_panel(
     
-    "Application",
+    "Data Entry",
     
     bslib::layout_sidebar(
-
-      sidebar = sidebarUI(id = "sidebar_id_1"),
+      
+      sidebar = deSidebarUI(id = "deSidebar_id_1"),
       
       bslib::navset_card_tab(
         
@@ -75,6 +73,34 @@ ui <- bslib::page_navbar(
           surveyDataSummaryUI(id = "surveyDataSummary_id_1")
           
         ),
+        
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "rmavisTaxonNamesLookup_panel",
+          
+          bslib::card_header("Taxonomic Backbone"),
+          
+          rmavisTaxonNamesLookupUI(id = "rmavisTaxonNamesLookup_id_1")
+          
+        )
+        
+      )
+      
+    )
+    
+  ),
+    
+  bslib::nav_panel(
+    
+    "NVC Analysis",
+    
+    bslib::layout_sidebar(
+
+      sidebar = sidebarUI(id = "sidebar_id_1"),
+      
+      bslib::navset_card_tab(
         
         bslib::nav_panel(
           
@@ -176,23 +202,72 @@ ui <- bslib::page_navbar(
         )
       )
 
-    ),
+    )
     
   ),
   
   bslib::nav_panel(
     
-    "NVC Lookup",
+    "NVC Information",
     
-    bslib::card(
+    bslib::layout_sidebar(
       
-      full_screen = FALSE,
+      sidebar = nvcInfoSidebarUI(id = "nvcInfoSidebar_id_1"),
       
-      fill = TRUE,
+      bslib::navset_card_tab(
+        
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "nvcCommNamesLookup_panel",
+          
+          bslib::card_header("Community Names"),
+          
+          nvcCommNamesLookupUI(id = "nvcCommNamesLookup_id_1")
+          
+        ),
+        
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "nvcFlorTabs_panel",
+          
+          bslib::card_header("Floristic Tables"),
+          
+          nvcFlorTabsUI(id = "nvcFlorTabs_id_1")
+          
+        ),
+        
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "nvcTaxonNamesLookup_panel",
+          
+          bslib::card_header("NVC Taxon Name Updates"),
+          
+          nvcTaxonNamesLookupUI(id = "nvcTaxonNamesLookup_id_1")
+          
+        ),
+        
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "nvcCommAttr_panel",
+          
+          bslib::card_header("Community Attributes"),
+          
+          nvcCommAttrUI(id = "nvcCommAttr_id_1")
+          
+        )
+        
+      )
       
-      nvcInfoUI(id = "nvcInfo_id_1")
-      
-    )
+      )
+    
   ),
     
   bslib::nav_panel(
@@ -205,7 +280,7 @@ ui <- bslib::page_navbar(
   
   bslib::nav_panel(
 
-    "News",
+    "News❗",
 
     newsUI(id = "news_id_1")
 
@@ -213,10 +288,18 @@ ui <- bslib::page_navbar(
   
   bslib::nav_panel(
     
+    "Additional Information",
+    
+    additionalInfoUI(id = "additiona_info_id_1")
+    
+  ),
+  
+  bslib::nav_panel(
+    
     "Privacy",
     
     privacyUI(id = "privacy_id_1")
-
+    
   )
   
 )

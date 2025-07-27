@@ -11,11 +11,11 @@
 #' @export
 #'
 #' @examples
-#' RMAVIS::subset_nvcData(nvc_data = RMAVIS::nvc_pquads, habitatRestriction = c("U", "H"), col_name = "Pid3")
+#' RMAVIS::subset_nvcData(nvc_data = RMAVIS::nvc_pquads, habitatRestriction = c("U", "H"), col_name = "psq_id")
 subset_nvcData <- function(nvc_data, habitatRestriction, col_name){
   
-  prefixes_match <- unname(unlist(RMAVIS::habitatRestrictionPrefixes[habitatRestriction]))
-  prefixes_not_match <- unname(unlist(setdiff(RMAVIS::habitatRestrictionPrefixes, habitatRestriction)))
+  prefixes_match <- unname(unlist(RMAVIS:::habitatRestrictionPrefixes[habitatRestriction]))
+  prefixes_not_match <- unname(unlist(setdiff(RMAVIS:::habitatRestrictionPrefixes, habitatRestriction)))
   
   codes_regex <- paste0("^(", 
                         stringr::str_c(prefixes_match, collapse = "|"), 
