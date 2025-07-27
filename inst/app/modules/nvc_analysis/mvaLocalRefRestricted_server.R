@@ -40,6 +40,8 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
       setupData <- setupData()
     })
     
+    # assign(x = "setupData", value = setupData, envir = .GlobalEnv)
+    
     nvc_pquads_wide_prepped <- setupData$pquads |>
       dplyr::select(psq_id, nvc_taxon_name) |>
       dplyr::mutate("present" = 1) |>
@@ -92,14 +94,6 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
       ccaVars <- ccaVars()
       
     })
-    
-    # assign(x = "nvcAssignment", value = nvcAssignment, envir = .GlobalEnv)
-    # assign(x = "selectedReferenceSpaces", value = selectedReferenceSpaces, envir = .GlobalEnv)
-    # assign(x = "nvc_pquads_wide", value = nvc_pquads_wide, envir = .GlobalEnv)
-    # assign(x = "nvc_pquads_mean_unweighted_eivs", value = nvc_pquads_mean_unweighted_eivs, envir = .GlobalEnv)
-    # assign(x = "surveyData", value = surveyData, envir = .GlobalEnv)
-    # assign(x = "surveyData_long", value = surveyData_long, envir = .GlobalEnv)
-    # assign(x = "ccaVars", value = ccaVars, envir = .GlobalEnv)
       
     # Create pattern to subset matrix rows
     codes_regex <- paste0("^(", stringr::str_c(selectedReferenceSpaces, collapse = "|"), ")(?<=)\\_")

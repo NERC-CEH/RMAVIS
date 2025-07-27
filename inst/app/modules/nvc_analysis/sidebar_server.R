@@ -408,14 +408,13 @@ sidebar <- function(input, output, session,
   # Reactively update global reference DCA space selection ------------------
   observe({
     
-    nvcAssignment <- nvcAssignment()
+    shiny::isolate({
+      nvcAssignment <- nvcAssignment()
+      setupData <- setupData()
+    })
     
     topNVCCommunities <- nvcAssignment$topNVCCommunities
-    
-    setupData <- setupData()
-    
-    community_attributes <- setupData$community_attributes
-    selectedReferenceSpaces_options <- community_attributes[["nvc_code"]]
+    selectedReferenceSpaces_options <- unique(setupData$floristic_tables[["nvc_code"]])
     
     shiny::updateSelectizeInput(
       session = session,

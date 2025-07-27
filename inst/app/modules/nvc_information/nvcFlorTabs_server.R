@@ -1,27 +1,28 @@
 nvcFlorTabs <- function(input, output, session) {
   
   ns <- session$ns
-  
-  
-  
 
   # Establish floristic tables data -----------------------------------------
-  floristic_tables <- dplyr::bind_rows(RMAVIS::nvc_floristic_tables |> dplyr::mutate("Type" = "Original", .before = "nvc_code"),
-                                       RMAVIS::sowg_floristic_tables |> dplyr::mutate("Type" = "SOWG", .before = "nvc_code")) |>
+  floristic_tables <- shiny::reactiveVal(
+    dplyr::bind_rows(RMAVIS::nvc_floristic_tables |> dplyr::mutate("Type" = "Original", .before = "nvc_code"),
+                     RMAVIS::sowg_floristic_tables |> dplyr::mutate("Type" = "SOWG", .before = "nvc_code"),
+                     RMAVIS::calthion_floristic_tables |> dplyr::mutate("Type" = "Calthion", .before = "nvc_code")) |>
     dplyr::select("NVC.Code" = "nvc_code", 
+                  "Type",
                   "Taxon.Name" = "nvc_taxon_name",
                   "Constancy" = "constancy",
                   "Frequency" = "absolute_frequency",
                   "Minimum.Cover" = "minimum_cover",
                   "Mean.Cover" = "mean_cover",
                   "Maximum.Cover" = "maximum_cover")
+  )
  
   
 
   # Floristic tables table --------------------------------------------------
   output$floristicTablesTable <- reactable::renderReactable({
 
-    floristicTablesTable <- reactable::reactable(data = floristic_tables,
+    floristicTablesTable <- reactable::reactable(data = floristic_tables(),
                                                  filterable = TRUE,
                                                  pagination = TRUE,
                                                  defaultPageSize = 30,
@@ -59,6 +60,10 @@ nvcFlorTabs <- function(input, output, session) {
                                                    Taxon.Name = reactable::colDef(
                                                      filterable = TRUE,
                                                      minWidth = 225
+                                                   ),
+                                                   Type = reactable::colDef(
+                                                     filterable = TRUE,
+                                                     maxWidth = 150
                                                    )
                                                    )
                                                  )
@@ -69,5 +74,7 @@ nvcFlorTabs <- function(input, output, session) {
   
   
   outputOptions(output, "floristicTablesTable", suspendWhenHidden = FALSE)
+  
+  return(floristic_tables)
   
 }

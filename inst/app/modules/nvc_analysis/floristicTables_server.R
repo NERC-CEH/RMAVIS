@@ -413,9 +413,6 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
       avgEIVs <- avgEIVs()
     })
     
-    assign(x = "avgEIVs", value = avgEIVs, envir = .GlobalEnv)
-    assign(x = "samp_floristicTable_name", value = samp_floristicTable_name, envir = .GlobalEnv)
-    
     samp_cm_he <- dplyr::bind_rows(
       avgEIVs$unweightedMeanHEValuesSite |> dplyr::mutate("ID" = as.character(Year), .keep = "unused"),
       avgEIVs$unweightedMeanHEValuesGroup |> tidyr::unite("ID", Year, Group, sep = " - ", remove = TRUE)

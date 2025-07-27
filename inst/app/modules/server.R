@@ -2,17 +2,24 @@
 server <- function(input, output, session) {
 
   # NVC Information ---------------------------------------------------------
-  shiny::callModule(module = nvcCommNamesLookup,
-                    id = "nvcCommNamesLookup_id_1")
+  nvcCommNamesLookup <- shiny::callModule(module = nvcCommNamesLookup,
+                                          id = "nvcCommNamesLookup_id_1")
   
   shiny::callModule(module = nvcTaxonNamesLookup,
                     id = "nvcTaxonNamesLookup_id_1")
   
-  shiny::callModule(module = nvcFlorTabs,
-                    id = "nvcFlorTabs_id_1")
+  nvcFlorTabs <- shiny::callModule(module = nvcFlorTabs,
+                                   id = "nvcFlorTabs_id_1")
   
-  shiny::callModule(module = nvcCommAttr,
-                    id = "nvcCommAttr_id_1")
+  nvcCommAttr <- shiny::callModule(module = nvcCommAttr,
+                                   id = "nvcCommAttr_id_1")
+  
+  shiny::callModule(module = nvcInfoSidebar,
+                    id = "nvcInfoSidebar_id_1",
+                    nvcCommNamesLookup = nvcCommNamesLookup, 
+                    nvcFlorTabs = nvcFlorTabs, 
+                    nvcCommAttr = nvcCommAttr
+                    )
   
   # Setup Data --------------------------------------------------------------
   setupData <- shiny::callModule(module = setupData,

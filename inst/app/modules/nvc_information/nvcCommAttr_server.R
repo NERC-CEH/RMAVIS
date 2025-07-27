@@ -2,43 +2,53 @@ nvcCommAttr <- function(input, output, session) {
   
   ns <- session$ns
   
-  # Retrieve sidebar options ------------------------------------------------
+  # Create community attributes object --------------------------------------
+  nvc_cm_he_wide <- RMAVIS::nvc_cm_he |>
+    dplyr::select(-sd) |>
+    tidyr::pivot_wider(id_cols = nvc_code,
+                       names_from = indicator, 
+                       values_from = mean) |> 
+    dplyr::mutate("Type" = "Original", .before = "nvc_code")
   
-  # observe({
-  #   
-  # }) |>
-  #   bindEvent(sidebar_options(), ignoreInit = TRUE)
+  calthion_cm_he_wide <- RMAVIS::calthion_cm_he |>
+    dplyr::select(-sd) |>
+    tidyr::pivot_wider(id_cols = nvc_code,
+                       names_from = indicator, 
+                       values_from = mean) |> 
+    dplyr::mutate("Type" = "Calthion", .before = "nvc_code")
   
-
-  # Reactively update data --------------------------------------------------
-  # communityAttributes_rval <- reactiveVal()
-  # 
-  # observe({
-  #   
-  #   setupData <- setupData()
-    
-    community_attributes <- RMAVIS::nvc_community_attributes |>
-      dplyr::bind_rows(RMAVIS::sowg_community_attributes) |>
+  sowg_cm_he_wide <- RMAVIS::sowg_cm_he |>
+    dplyr::select(-sd) |>
+    tidyr::pivot_wider(id_cols = nvc_code,
+                       names_from = indicator, 
+                       values_from = mean) |> 
+    dplyr::mutate("Type" = "SOWG", .before = "nvc_code")
+  
+  all_cm_he_wide <- dplyr::bind_rows(nvc_cm_he_wide, calthion_cm_he_wide, sowg_cm_he_wide) |>
+    dplyr::mutate_if(is.numeric, round, 2)
+  
+  community_attributes <- shiny::reactiveVal(
+      dplyr::bind_rows(RMAVIS::nvc_community_attributes,
+                       RMAVIS::calthion_community_attributes,
+                       RMAVIS::sowg_community_attributes) |>
+      dplyr::mutate("mean_species" = round(mean_species, digits = 0)) |>
+      dplyr::inner_join(all_cm_he_wide, by = "nvc_code") |>
       dplyr::select("NVC.Code" = "nvc_code", 
+                    "Type",
+                    "Rank" = "rank",
                     "Number.Samples" = "num_samples",
                     "Min.Species" = "min_species",
                     "Max.Species" = "max_species",
                     "Mean.Species" = "mean_species",
-                    "Total.Species" = "species_count") |>
-      dplyr::mutate("Mean.Species" = round(Mean.Species, digits = 0))
-      
-  #   communityAttributes_rval(community_attributes)
-  #   
-  # }) |>
-  #   bindEvent(setupData(),
-  #             ignoreNULL = TRUE,
-  #             ignoreInit = FALSE)
+                    "Total.Species" = "species_count",
+                    "F", "L", "N", "R", "S")
+  )
   
 
   # Community attributes data -----------------------------------------------
   output$communityAttributesTable <- reactable::renderReactable({
     
-    communityAttributesTable <- reactable::reactable(data = community_attributes,
+    communityAttributesTable <- reactable::reactable(data = community_attributes(),
                                                      filterable = FALSE,
                                                      pagination = FALSE, 
                                                      highlight = TRUE,
@@ -65,7 +75,11 @@ nvcCommAttr <- function(input, output, session) {
                                                             });
                                                           }"),
                                                          maxWidth = 150
-                                                         )
+                                                         ),
+                                                       Type = reactable::colDef(
+                                                         filterable = TRUE,
+                                                         maxWidth = 150
+                                                       )
                                                        )
                                                      )
     
@@ -75,5 +89,7 @@ nvcCommAttr <- function(input, output, session) {
   
   
   outputOptions(output, "communityAttributesTable", suspendWhenHidden = FALSE)
+  
+  return(community_attributes)
   
 }

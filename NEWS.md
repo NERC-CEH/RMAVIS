@@ -1,4 +1,4 @@
-# RMAVIS 1.1.0 (XX-07-2025)
+# RMAVIS 1.1.0 (27-07-2025)
 *   Modifications:
       -   Changing the minimum number of plots per group for Czekanowski similarity
           calculations to 2.

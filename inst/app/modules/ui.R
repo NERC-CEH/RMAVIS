@@ -210,57 +210,63 @@ ui <- bslib::page_navbar(
     
     "NVC Information",
     
-    bslib::navset_card_tab(
+    bslib::layout_sidebar(
       
-      bslib::nav_panel(
-        
-        full_screen = TRUE,
-        
-        value = "nvcCommNamesLookup_panel",
-        
-        bslib::card_header("Community Names"),
-        
-        nvcCommNamesLookupUI(id = "nvcCommNamesLookup_id_1")
-        
-      ),
+      sidebar = nvcInfoSidebarUI(id = "nvcInfoSidebar_id_1"),
       
-      bslib::nav_panel(
+      bslib::navset_card_tab(
         
-        full_screen = TRUE,
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "nvcCommNamesLookup_panel",
+          
+          bslib::card_header("Community Names"),
+          
+          nvcCommNamesLookupUI(id = "nvcCommNamesLookup_id_1")
+          
+        ),
         
-        value = "nvcFlorTabs_panel",
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "nvcFlorTabs_panel",
+          
+          bslib::card_header("Floristic Tables"),
+          
+          nvcFlorTabsUI(id = "nvcFlorTabs_id_1")
+          
+        ),
         
-        bslib::card_header("Floristic Tables"),
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "nvcTaxonNamesLookup_panel",
+          
+          bslib::card_header("NVC Taxon Name Updates"),
+          
+          nvcTaxonNamesLookupUI(id = "nvcTaxonNamesLookup_id_1")
+          
+        ),
         
-        nvcFlorTabsUI(id = "nvcFlorTabs_id_1")
-        
-      ),
-      
-      bslib::nav_panel(
-        
-        full_screen = TRUE,
-        
-        value = "nvcTaxonNamesLookup_panel",
-        
-        bslib::card_header("NVC Taxon Name Updates"),
-        
-        nvcTaxonNamesLookupUI(id = "nvcTaxonNamesLookup_id_1")
-        
-      ),
-      
-      bslib::nav_panel(
-        
-        full_screen = TRUE,
-        
-        value = "nvcCommAttr_panel",
-        
-        bslib::card_header("Community Attributes"),
-        
-        nvcCommAttrUI(id = "nvcCommAttr_id_1")
+        bslib::nav_panel(
+          
+          full_screen = TRUE,
+          
+          value = "nvcCommAttr_panel",
+          
+          bslib::card_header("Community Attributes"),
+          
+          nvcCommAttrUI(id = "nvcCommAttr_id_1")
+          
+        )
         
       )
       
-    )
+      )
     
   ),
     
@@ -274,7 +280,7 @@ ui <- bslib::page_navbar(
   
   bslib::nav_panel(
 
-    "News",
+    "News❗",
 
     newsUI(id = "news_id_1")
 

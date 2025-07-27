@@ -58,7 +58,7 @@ your personal device and installed as an R package.
 
 To run RMAVIS locally take the following steps.
 
-1.  Ensure R \>= 4.5 is installed.
+1.  Ensure R \>= 4.4 is installed.
 2.  Install `RMAVIS` using `remotes::install_github("NERC-CEH/RMAVIS")`
 3.  Run `install.packages("tinytex")` then `tinytex::install_tinytex()`
     to install a minimal LaTeX distribution. This is required to

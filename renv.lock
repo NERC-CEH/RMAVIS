@@ -85,17 +85,18 @@
     },
     "UKVegTB": {
       "Package": "UKVegTB",
-      "Version": "0.1.1",
+      "Version": "0.1.2",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteRepo": "UKVegTB",
       "RemoteUsername": "NERC-CEH",
-      "RemoteSha": "59239668401f2c9328bebfcbb1c9ffbaad0173c3",
+      "RemoteRepo": "UKVegTB",
+      "RemoteRef": "main",
+      "RemoteSha": "3586993b396262a108cad96df2958eaed333393c",
       "Requirements": [
         "R"
       ],
-      "Hash": "b2375793601d2ecf327777e1d315d5de"
+      "Hash": "5a3ab5942c7c947ce48a777d51768ebf"
     },
     "askpass": {
       "Package": "askpass",

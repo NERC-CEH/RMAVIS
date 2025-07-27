@@ -2,15 +2,18 @@ nvcCommNamesLookup <- function(input, output, session) {
     
   ns <- session$ns
     
-  nvc_comm_names_lookup <- RMAVIS::nvc_community_attributes |>
-    dplyr::bind_rows(RMAVIS::sowg_community_attributes) |>
-    dplyr::select("NVC.Code" = "nvc_code", "NVC.Name" = "fullname")
+  nvc_comm_names_lookup <- shiny::reactiveVal(
+      dplyr::bind_rows(RMAVIS::nvc_community_attributes |> dplyr::mutate("Type" = "Original", .before = "nvc_code"),
+                       RMAVIS::calthion_community_attributes |> dplyr::mutate("Type" = "Calthion", .before = "nvc_code"),
+                       RMAVIS::sowg_community_attributes |> dplyr::mutate("Type" = "SOWG", .before = "nvc_code")) |>
+      dplyr::select("NVC.Code" = "nvc_code", "Type", "NVC.Name" = "fullname")
+    )
   
 
   # Names lookup table ------------------------------------------------------
   output$nvcCommNamesLookupTable <- reactable::renderReactable({
     
-    nvcCommNamesLookupTable <- reactable::reactable(data = nvc_comm_names_lookup,
+    nvcCommNamesLookupTable <- reactable::reactable(data = nvc_comm_names_lookup(),
                                                     filterable = FALSE,
                                                     pagination = FALSE, 
                                                     highlight = TRUE,
@@ -37,7 +40,11 @@ nvcCommNamesLookup <- function(input, output, session) {
                                                                  });
                                                                }"),
                                                         maxWidth = 150
-                                                        )
+                                                        ),
+                                                      Type = reactable::colDef(
+                                                        filterable = TRUE,
+                                                        maxWidth = 150
+                                                      )
                                                       )
                                                     )
     
@@ -47,5 +54,7 @@ nvcCommNamesLookup <- function(input, output, session) {
   
   
   outputOptions(output, "nvcCommNamesLookupTable", suspendWhenHidden = FALSE)
+  
+  return(nvc_comm_names_lookup)
   
 }

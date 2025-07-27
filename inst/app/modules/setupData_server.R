@@ -72,8 +72,8 @@ setupData <- function(input, output, session, deSidebar_options, sidebar_options
       floristic_tables_selected <- floristic_tables_selected |>
         dplyr::bind_rows(RMAVIS::calthion_floristic_tables)
       
-      # community_attributes_selected <- community_attributes_selected |>
-      #   dplyr::bind_rows(RMAVIS::calthion_community_attributes)
+      community_attributes_selected <- community_attributes_selected |>
+        dplyr::bind_rows(RMAVIS::calthion_community_attributes)
       
       pquads_selected <- pquads_selected |>
         dplyr::bind_rows(RMAVIS::calthion_pquads)

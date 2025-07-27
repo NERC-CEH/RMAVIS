@@ -366,6 +366,25 @@
 #' }
 "calthion_psquad_cm_he"
 
+#' Calthion Community Attributes
+#'
+#' Selected attributes for each Calthion NVC unit.
+#'
+#' \code{calthion_community_attributes} 
+#'
+#' @format A data frame with `r nrow(RMAVIS::calthion_community_attributes)` rows and `r ncol(RMAVIS::calthion_community_attributes)` columns, the definitions of which are:
+#' \describe{
+#'   \item{fullname}{The full name of the NVC unit.}
+#'   \item{name}{The abridged name of the NVC unit.}
+#'   \item{nvc_code}{The NVC unit code.}
+#'   \item{nvc_code_parent}{The NVC unit code of the parent community, e.g. AgBp for AgBpa}
+#'   \item{basal}{A boolean. If TRUE the NVC unit does not have any child units e.g. CnPe. If FALSE the NVC unit has child units, e.g. AgBp.}
+#'   \item{rank}{The rank of the NVC unit.}
+#'   \item{num_samples}{The number of plots (samples) used to define the NVC unit.}
+#'   \item{mean_species}{The mean number of species in the plots constituting the NVC unit.}
+#' }
+"calthion_community_attributes"
+
 #' Calthion community-mean Hill-Ellenberg values
 #'
 #' A dataset containing community-mean Hill-Ellenberg environmental indicator valueas for each Calthion community.
