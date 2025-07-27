@@ -11,5 +11,5 @@ rsconnect::deployApp(appDir = "./inst/app",
                      account = "zekmar",
                      # appName = "rmavis", 
                      # appTitle = "RMAVIS",
-                     appId = 419,
+                     appId = 321,
                      forceUpdate = TRUE)
