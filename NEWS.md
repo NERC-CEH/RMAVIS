@@ -1,3 +1,9 @@
+# RMAVIS 1.1.2 (28-07-2025)
+*   Modifications: NA
+*   Fixes:
+      -   Adding UKVegTB v0.1.2 as a remote dependency in the Description file.
+*   New Features: NA
+
 # RMAVIS 1.1.1 (28-07-2025)
 *   Modifications:
       -   Adding argument 'factor_constancy' to `RMAVIS::composeSyntopicTables` which controls whether the constancy column is returned as a factor or not.
