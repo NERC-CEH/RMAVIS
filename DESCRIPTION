@@ -1,6 +1,6 @@
 Package: RMAVIS
 Title: Assign Vegetation Survey Data to GB NVC Communities
-Version: 1.1.1
+Version: 1.1.2
 Date: 2025-07-28
 Authors@R: c(person(given = "Zeke",
                     family = "Marshall",
@@ -53,9 +53,10 @@ Imports:
   stringr,
   tibble,
   tidyr,
-  UKVegTB,
   vegan,
   writexl
+Remotes:
+   github::NERC-CEH/UKVegTB@v0.1.2
 Suggests:
   testthat,
   tinytex
