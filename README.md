@@ -4,7 +4,7 @@
 <!-- badges: start -->
 
 [![Generic
-badge](https://img.shields.io/badge/Version-1.1.0-green.svg)]()
+badge](https://img.shields.io/badge/Version-1.1.1-green.svg)]()
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -96,10 +96,13 @@ The development of this app was partly supported by the UK‐SCAPE
 programme delivering National Capability (NE/R016429/1) funded by the
 Natural Environment Research Council.
 
-We would like to thank Lindsay Maskell, Lucy Ridding, Barry Jobson,
-Colin Conroy, Andy McMullen, John Handley, Michael Tso, Simon Rolph,
-Cristina Martin Hernandez, and George Linney for testing RMAVIS.
+Special thanks are given to Colin Conroy and Barry Jobson for their
+ongoing and essential support testing RMAVIS.
 
-We would also like to thank Rob Marrs for his ongoing collaboration with
-the development of NVC assignment methodologies and the University of
-Liverpool for their ongoing support.
+We would also like to thank Lindsay Maskell, Lucy Ridding, Andy
+McMullen, John Handley, Michael Tso, Simon Rolph, Cristina Martin
+Hernandez, and George Linney for testing RMAVIS.
+
+Lastly, we would also like to thank Rob Marrs for his ongoing
+collaboration with the development of NVC assignment methodologies and
+the University of Liverpool for their ongoing support.

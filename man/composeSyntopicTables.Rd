@@ -10,6 +10,7 @@ composeSyntopicTables(
   species_col_name = "Species",
   plot_col_name = "Quadrat",
   cover_col_name = "Cover",
+  factor_constancy = TRUE,
   numeral_constancy = FALSE,
   remove_low_freq_taxa = NULL
 )
@@ -24,6 +25,8 @@ composeSyntopicTables(
 \item{plot_col_name}{The name of the plot ID column}
 
 \item{cover_col_name}{The name of the cover/abundance cover}
+
+\item{factor_constancy}{A boolean value (TRUE/FALSE) indicating whether the constancy column should be returned as a factor or not.}
 
 \item{numeral_constancy}{If TRUE the numeric constancy classes (1, 2, 3, 4, 5) are transformed into roman numeral values (I, II, III, IV, V).}
 
@@ -43,6 +46,7 @@ RMAVIS::composeSyntopicTables(surveyData = RMAVIS::example_data[["Newborough War
                               species_col_name = "Species", 
                               plot_col_name = "Quadrat",
                               cover_col_name = "Cover",
+                              factor_constancy = TRUE,
                               numeral_constancy = FALSE,
                               remove_low_freq_taxa = 0.05)
 }
