@@ -9,6 +9,7 @@
 #' @param species_col_name The name of the species column
 #' @param plot_col_name The name of the plot ID column
 #' @param cover_col_name The name of the cover/abundance cover
+#' @param factor_constancy A boolean value (TRUE/FALSE) indicating whether the constancy column should be returned as a factor or not.
 #' @param numeral_constancy If TRUE the numeric constancy classes (1, 2, 3, 4, 5) are transformed into roman numeral values (I, II, III, IV, V).
 #' @param remove_low_freq_taxa If not NULL, a float greater than 0 and less than 1 indicating the minimum relative frequency of taxa to include in the floristic tables.
 #'
@@ -21,10 +22,11 @@
 #'                               species_col_name = "Species", 
 #'                               plot_col_name = "Quadrat",
 #'                               cover_col_name = "Cover",
+#'                               factor_constancy = TRUE,
 #'                               numeral_constancy = FALSE,
 #'                               remove_low_freq_taxa = 0.05)
 composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Species", plot_col_name = "Quadrat", 
-                                  cover_col_name = "Cover",
+                                  cover_col_name = "Cover", factor_constancy = TRUE,
                                   numeral_constancy = FALSE, remove_low_freq_taxa = NULL){
   
   if(is.null(remove_low_freq_taxa)){
@@ -41,9 +43,8 @@ composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Sp
     
   }
   
-  # Calculate the absolute frequency and relative frequency of species 
-  # occurrence across all plots by group
-  syntopicTables <- surveyData |>
+  # Calculate the absolute frequency and relative frequency of species occurrence across all plots by group
+  syntopicTables_init <- surveyData |>
     tidyr::unite(col = "ID", group_cols, sep = " - ", remove = TRUE) |>
     dplyr::group_by(ID) |>
     dplyr::mutate("n" = dplyr::n_distinct(Quadrat)) |>
@@ -68,13 +69,22 @@ composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Sp
         )
     ) |>
     dplyr::select(ID, "Species" = species_col_name, "Constancy" = "constancy",
-                  "Min.Cover" = min_cover, "Mean.Cover" = mean_cover, "Max.Cover" = max_cover) |>
-    dplyr::mutate("Constancy" = factor(Constancy, levels = c(5, 4, 3, 2, 1))) |>
-    dplyr::arrange(ID, Constancy, species_col_name)
+                  "Min.Cover" = min_cover, "Mean.Cover" = mean_cover, "Max.Cover" = max_cover) 
   
-  if(numeral_constancy == TRUE){
+  if(numeral_constancy == FALSE & factor_constancy == FALSE){
     
-    syntopicTables <- syntopicTables |>
+    syntopicTables <- syntopicTables_init  |>
+      dplyr::arrange(ID, dplyr::desc(Constancy), species_col_name)
+    
+  } else if(numeral_constancy == FALSE & factor_constancy == TRUE){
+    
+    syntopicTables <- syntopicTables_init |>
+      dplyr::mutate("Constancy" = factor(Constancy, levels = c(5, 4, 3, 2, 1))) |>
+      dplyr::arrange(ID, Constancy, species_col_name)
+    
+  } else if(numeral_constancy == TRUE & factor_constancy == TRUE){
+    
+    syntopicTables <- syntopicTables_init |>
       dplyr::mutate(
         "Constancy" = 
           dplyr::case_when(
@@ -86,7 +96,24 @@ composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Sp
             TRUE ~ NA
           )
       ) |>
-      dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I")))
+      dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
+      dplyr::arrange(ID, Constancy, species_col_name)
+    
+  } else if(numeral_constancy == TRUE & factor_constancy == FALSE){
+    
+    syntopicTables <- syntopicTables_init |>
+      dplyr::mutate(
+        "Constancy" = 
+          dplyr::case_when(
+            Constancy == 1 ~ "I",
+            Constancy == 2 ~ "II",
+            Constancy == 3 ~ "III",
+            Constancy == 4 ~ "IV",
+            Constancy == 5 ~ "V",
+            TRUE ~ NA
+          )
+      ) |>
+      dplyr::arrange(ID, dplyr::desc(Constancy), species_col_name)
     
   }
   

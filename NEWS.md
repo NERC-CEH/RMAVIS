@@ -1,3 +1,11 @@
+# RMAVIS 1.1.1 (28-07-2025)
+*   Modifications:
+      -   Adding argument 'factor_constancy' to `RMAVIS::composeSyntopicTables` which controls whether the constancy column is returned as a factor or not.
+*   Fixes:
+      -   Updating examples to reflect new bundled object column names.
+      -   Fixing duplicate taxa in Calthion floristic tables.
+*   New Features: NA
+
 # RMAVIS 1.1.0 (27-07-2025)
 *   Modifications:
       -   Changing the minimum number of plots per group for Czekanowski similarity

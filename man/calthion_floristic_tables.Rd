@@ -5,7 +5,7 @@
 \alias{calthion_floristic_tables}
 \title{Calthion floristic tables}
 \format{
-A data frame with 1964 rows and 8 columns, the definitions of which are:
+A data frame with 1600 rows and 8 columns, the definitions of which are:
 \describe{
 \item{nvc_code}{The Calthion unit code.}
 \item{nvc_taxon_name}{The taxon name, see \code{RMAVIS::nvc_taxa_lookup}.}

@@ -8,7 +8,7 @@ nvcInfoSidebar <- function(input, output, session, nvcCommNamesLookup, nvcFlorTa
     filename = function() {
       
       paste0("RMAVIS.NVC.Information.",
-             "v1-1-0",
+             "v1-1-1",
              ".xlsx",
              sep="")
       

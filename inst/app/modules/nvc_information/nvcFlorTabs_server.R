@@ -25,7 +25,7 @@ nvcFlorTabs <- function(input, output, session) {
     floristicTablesTable <- reactable::reactable(data = floristic_tables(),
                                                  filterable = TRUE,
                                                  pagination = TRUE,
-                                                 defaultPageSize = 30,
+                                                 defaultPageSize = 200,
                                                  highlight = TRUE,
                                                  bordered = TRUE,
                                                  sortable = TRUE,
