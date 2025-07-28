@@ -5,7 +5,7 @@
 \alias{calthion_pquads}
 \title{Calthion pseudo-quadrats}
 \format{
-A data frame with 11201 rows and 3 columns, the definitions of which are:
+A data frame with 9408 rows and 3 columns, the definitions of which are:
 \describe{
 \item{nvc_code}{The calthion unit code.}
 \item{psq_id}{The pseudo-quadrat ID}
