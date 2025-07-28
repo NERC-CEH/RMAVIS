@@ -568,7 +568,7 @@ sidebar <- function(input, output, session,
     filename = function() {
       
       paste0("RMAVIS.Results.",
-             "v1-1-1.",
+             "v1-1-2.",
              format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
              ".xlsx",
              sep="")

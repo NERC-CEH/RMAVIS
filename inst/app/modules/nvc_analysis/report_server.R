@@ -27,7 +27,7 @@ report <- function(input, output, session,
     
     filename = function() {
       paste0("RMAVIS.Report.",
-             "v1-1-1.",
+             "v1-1-2.",
              format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
              ".pdf",
              sep="")
