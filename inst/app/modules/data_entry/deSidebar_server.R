@@ -157,7 +157,7 @@ deSidebar <- function(input, output, session,
     filename = function() {
       
       paste0("RMAVIS.SurveyData.",
-             "v1-1-2.",
+             "v1-1-3.",
              format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
              ".csv",
              sep="")
@@ -180,7 +180,7 @@ deSidebar <- function(input, output, session,
     filename = function() {
       
       paste0("RMAVIS.AcceptedTaxa.",
-             "v1-1-2",
+             "v1-1-3",
              ".csv",
              sep="")
       
@@ -199,7 +199,7 @@ deSidebar <- function(input, output, session,
     filename = function() {
       
       paste0("RMAVIS.TaxonomicBackbone.",
-             "v1-1-2",
+             "v1-1-3",
              ".csv",
              sep="")
       
@@ -218,7 +218,7 @@ deSidebar <- function(input, output, session,
     filename = function() {
       
       paste0("RMAVIS.TaxonLookup.",
-             "v1-1-2",
+             "v1-1-3",
              ".csv",
              sep="")
       

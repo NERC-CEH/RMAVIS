@@ -30,6 +30,8 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   
   observe({
     
+    shiny::req(!is.null(floristicTables()))
+    
     shiny::isolate({
       setupData <- setupData()
       floristicTables <- floristicTables()
@@ -39,7 +41,7 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
     comp_ft_rval(setupData$floristic_tables)
     
   }) |>
-    bindEvent(runAnalysis(),
+    bindEvent(floristicTables(),
               ignoreInit = FALSE,
               ignoreNULL = TRUE)
   
@@ -184,7 +186,8 @@ nvcAssignment <- function(input, output, session, setupData, surveyData, surveyD
   
   observe({
     
-    shiny::req(!is.null(floristicTables()))
+    shiny::req(!is.null(samp_ft_rval()))
+    shiny::req(!is.null(comp_ft_rval()))
     shiny::req(surveyDataSummary())
     
     shinybusy::show_modal_spinner(

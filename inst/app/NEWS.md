@@ -1,3 +1,9 @@
+# RMAVIS 1.1.3 (29-07-2025)
+*   Modifications: NA
+*   Fixes:
+      -   Ensuring order of execution for NVC assignment is correct, i.e. floristic tables must be composed and not NULL before group similarity calculations.
+*   New Features: NA
+
 # RMAVIS 1.1.2 (28-07-2025)
 *   Modifications: NA
 *   Fixes:
