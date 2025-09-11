@@ -280,7 +280,7 @@ calcAvgEIVs <- function(input, output, session, surveyData, sidebar_options) {
     shiny::isolate({
       
       surveyData <- surveyData()
-      surveyData_long <- surveyData$surveyData_long
+      surveyData_long <- surveyData$surveyData_long_prop
       
     })
       

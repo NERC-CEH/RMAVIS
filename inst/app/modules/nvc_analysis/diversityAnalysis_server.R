@@ -271,7 +271,7 @@ diversityAnalysis <- function(input, output, session, surveyData, sidebar_option
     shiny::req(surveyData())
     
     surveyData <- surveyData()
-    surveyData_long <- surveyData$surveyData_long
+    surveyData_long <- surveyData$surveyData_long_prop
     surveyData_mat <- surveyData$surveyData_mat
 
 # Species Richness --------------------------------------------------------
