@@ -1,3 +1,9 @@
+# RMAVIS 1.1.4 (11-09-2025)
+*   Modifications: NA
+*   Fixes:
+      -   Ensuring presence cover values (+) are handled correctly during the composition of floristic tables, calculation of diversity indices, and calculation of EIVs.
+*   New Features: NA
+
 # RMAVIS 1.1.3 (29-07-2025)
 *   Modifications: NA
 *   Fixes:
