@@ -594,44 +594,49 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     
     surveyData_long <- surveyData$surveyData_original
     
-    # if(coverScale == "none"){
-    #   
-    #   surveyData_long <- surveyData$surveyData_original
-    #   
-    # } else if(coverScale == "percentage"){
-    #   
-    #   surveyData_long <- surveyData$surveyData_original |>
-    #     dplyr::mutate("Cover" = Cover / 100)
-    #   
-    # } else if(coverScale == "proportional"){
-    #   
-    #   surveyData_long <- surveyData$surveyData_original
-    #   
-    # } else if(coverScale == "domin"){
-    #   
-    #   surveyData_long <- surveyData$surveyData_original |>
-    #     dplyr::mutate("Cover" = as.character(Cover)) |>
-    #     dplyr::left_join(RMAVIS:::dominConvert, by = c("Cover")) |>
-    #     dplyr::select(-Cover) |>
-    #     dplyr::rename("Cover" = "Value")
-    #   
-    # } else if(coverScale == "braunBlanquet"){
-    #   
-    #   surveyData_long <- rhandsontable::hot_to_r(input$surveyData) |>
-    #     dplyr::mutate("Cover" = as.character(Cover)) |>
-    #     dplyr::left_join(RMAVIS:::braunBlanquetConvert, by = c("Cover")) |>
-    #     dplyr::select(-Cover) |>
-    #     dplyr::rename("Cover" = "Value")
-    #   
-    # }
+    if(coverScale == "none"){
+
+      surveyData_long_prop <- surveyData$surveyData_original
+
+    } else if(coverScale == "percentage"){
+
+      surveyData_long_prop <- surveyData$surveyData_original |>
+        dplyr::mutate("Cover" = as.numeric(Cover) / 100)
+
+    } else if(coverScale == "proportional"){
+
+      surveyData_long_prop <- surveyData$surveyData_original
+
+    } else if(coverScale == "domin"){
+
+      surveyData_long_prop <- surveyData$surveyData_original |>
+        dplyr::mutate("Cover" = as.character(Cover)) |>
+        dplyr::left_join(RMAVIS:::dominConvert, by = c("Cover")) |>
+        dplyr::select(-Cover) |>
+        dplyr::rename("Cover" = "Value")
+
+    } else if(coverScale == "braunBlanquet"){
+
+      surveyData_long_prop <- rhandsontable::hot_to_r(input$surveyData) |>
+        dplyr::mutate("Cover" = as.character(Cover)) |>
+        dplyr::left_join(RMAVIS:::braunBlanquetConvert, by = c("Cover")) |>
+        dplyr::select(-Cover) |>
+        dplyr::rename("Cover" = "Value")
+
+    }
     
     # Ensure Group and Quadrat columns are of class character
     surveyData_long <- surveyData_long |>
       dplyr::mutate(Group = as.character(Group),
                     Quadrat = as.character(Quadrat))
     
+    surveyData_long_prop <- surveyData_long_prop |>
+      dplyr::mutate(Group = as.character(Group),
+                    Quadrat = as.character(Quadrat))
+    
     # Store surveyData_long
     surveyData$surveyData_long <- surveyData_long
+    surveyData$surveyData_long_prop <- surveyData_long_prop
     surveyData_rval(surveyData)
 
   }) |>
@@ -662,6 +667,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       # Retrieve long survey table
       surveyData <- surveyData_rval()
       surveyData_long <- surveyData$surveyData_long
+      surveyData_long_prop <- surveyData$surveyData_long_prop
       
       # I currently need this if statement as the surveyDataValidation()$speciesComplete statement isn't being triggered correctly.
       if(all(!is.na(surveyData_long$Species))){
@@ -685,12 +691,12 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
           
         } else if(coverSupplied == TRUE){
           
-          surveyData_wide <- surveyData_long |>
+          surveyData_wide <- surveyData_long_prop |>
             tidyr::pivot_wider(names_from = Species,
                                values_from = Cover) |>
             dplyr::mutate_all(~replace(., is.na(.), 0))
           
-          surveyData_mat <- surveyData_long |>
+          surveyData_mat <- surveyData_long_prop |>
             tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
             tidyr::pivot_wider(names_from = Species,
                                values_from = Cover) |>

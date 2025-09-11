@@ -78,11 +78,11 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
     if(coverScale == "domin"){
       
       floristicTables_composed_all <- floristicTables_composed_all |>
-        dplyr::mutate("Cover" = paste0(Min.Cover, 
-                                       " - ", 
-                                       ifelse(Mean.Cover != "+", round(as.numeric(Mean.Cover)), Mean.Cover),
-                                       " - ", 
-                                       Max.Cover), .keep = "unused")
+        dplyr::mutate("Cover" = paste(Min.Cover, 
+                                      " - ", 
+                                      ifelse(Mean.Cover != "+", as.character(round(as.numeric(Mean.Cover))), Mean.Cover),
+                                      " - ", 
+                                      Max.Cover), .keep = "unused")
       
     } else if(coverScale == "percentage"){
       
