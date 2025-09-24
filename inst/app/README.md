@@ -4,7 +4,7 @@
 <!-- badges: start -->
 
 [![Generic
-badge](https://img.shields.io/badge/Version-1.1.4-green.svg)]()
+badge](https://img.shields.io/badge/Version-1.2.0-green.svg)]()
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -18,11 +18,15 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 
 The **R** **M**odular **A**nalysis of **V**egetation **I**nformation
 **S**ystem (`RMAVIS`) R Shiny web application is a tool to assist in the
-assignment of vegetation plot sample data to GB National Vegetation
-Classification units, with additional exploratory analyses.
+assignment of vegetation plot sample data to vegetation classification
+systems, with additional exploratory analyses. At present `RMAVIS`
+supports two vegetation classifications:
+
+1.  The National Vegetation Classification of Great Britain (NVC).
+2.  The Minnesota Native Plant Community Classification (MNNPC).
 
 We will update and improve `RMAVIS` over time in response to user
-feedback and hope it acts as a useful tool for the GB ecology and
+feedback and hope it acts as a useful tool for the ecology and
 conservation community.
 
 ## Structure
@@ -69,7 +73,7 @@ To run RMAVIS locally take the following steps.
 If you wish to use the NVC-matching functions outside of the `RMAVIS`
 app, these are also made available through the `RMAVIS` package.
 
-## Reccomended Citation
+## Recommended Citation
 
 To reference the core `RMAVIS` application please cite the JOSS paper as
 follows:
@@ -92,9 +96,14 @@ form [here](https://forms.office.com/e/ByLgRPjT8J), or send an email to
 
 ## Acknowledgements
 
-The development of this app was partly supported by the UK‐SCAPE
-programme delivering National Capability (NE/R016429/1) funded by the
-Natural Environment Research Council.
+The initial development of `RMAVIS` was partly supported by the UK‐SCAPE
+delivering National Capability (NE/R016429/1) programme. The integration
+of the MNNPC into RMAVIS was partly supported by the UKCEH National
+Capability for UK Challenges (NE/Y006208/1) programme funded by the
+Natural Environment Research Council (Zeke Marshall) and the Minnesota
+Environment and Natural Resources Trust Fund as recommended by the
+Legislative-Citizen Commission on Minnesota Resources (LCCMR) (Amy
+Kendig).
 
 Special thanks are given to Colin Conroy and Barry Jobson for their
 ongoing and essential support testing RMAVIS.

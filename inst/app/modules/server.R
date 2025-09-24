@@ -1,5 +1,11 @@
 # Server
 server <- function(input, output, session) {
+  
+
+  # Region ------------------------------------------------------------------
+  region <- shiny::callModule(module = regionSelect,
+                              id = "regionSelect_id_1")
+  
 
   # NVC Information ---------------------------------------------------------
   nvcCommNamesLookup <- shiny::callModule(module = nvcCommNamesLookup,

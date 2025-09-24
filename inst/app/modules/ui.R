@@ -290,7 +290,7 @@ ui <- bslib::page_navbar(
     
     "Additional Information",
     
-    additionalInfoUI(id = "additiona_info_id_1")
+    additionalInfoUI(id = "additional_info_id_1")
     
   ),
   
@@ -299,6 +299,12 @@ ui <- bslib::page_navbar(
     "Privacy",
     
     privacyUI(id = "privacy_id_1")
+    
+  ),
+  
+  bslib::nav_item(
+    
+    regionSelectUI(id = "regionSelect_id_1"),
     
   )
   

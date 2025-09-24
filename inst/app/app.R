@@ -59,6 +59,9 @@ source("./modules/news_ui.R", local = TRUE)
 
 source("./modules/setupData_server.R", local = TRUE)
 
+source("./modules/regionSelect_ui.R", local = TRUE)
+source("./modules/regionSelect_server.R", local = TRUE)
+
 ## NVC information --------------------------------------------------------
 source("./modules/nvc_information/nvcInfoSidebar_ui.R", local = TRUE)
 source("./modules/nvc_information/nvcInfoSidebar_server.R", local = TRUE)
