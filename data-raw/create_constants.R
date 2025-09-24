@@ -1,3 +1,7 @@
+# Regions -----------------------------------------------------------------
+region_options <- c("Great Britain (GB-NVC)" = "gbnvc",
+                    "Minnesota (MNNPC)" = "mnnpc")
+
 # NVC types ---------------------------------------------------------------
 nvcType_options <- c("Original",
                      "Calthion",
@@ -247,7 +251,8 @@ habitat_correspondence_classifications <- readRDS(file = "./inst/extdata/habitat
   unique()
 
 # Save all constants as internal data -------------------------------------
-usethis::use_data(nvcType_options,
+usethis::use_data(region_options,
+                  nvcType_options,
                   inputMethod_options,
                   example_data_options,
                   dataEntryFormat_options,

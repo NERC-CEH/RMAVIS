@@ -22,7 +22,7 @@ assignment of vegetation plot sample data to vegetation classification
 systems, with additional exploratory analyses. At present `RMAVIS`
 supports two vegetation classifications:
 
-1.  The National Vegetation Classification of Great Britain (NVC).
+1.  The National Vegetation Classification of Great Britain (GB-NVC).
 2.  The Minnesota Native Plant Community Classification (MNNPC).
 
 We will update and improve `RMAVIS` over time in response to user

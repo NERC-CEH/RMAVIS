@@ -257,7 +257,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         
         if(selectedExampleData != "none"){
           
-          surveyData <- RMAVIS::example_data |>
+          surveyData <- exampleData |>
             magrittr::extract2(selectedExampleData) |>
             dplyr::select(-Site) |>
             dplyr::arrange(Year, Group, Quadrat)

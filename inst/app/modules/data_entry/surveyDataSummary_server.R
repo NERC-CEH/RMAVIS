@@ -1,6 +1,19 @@
-surveyDataSummary <- function(input, output, session, surveyData) {
+surveyDataSummary <- function(input, output, session, setupData, surveyData) {
   
   ns <- session$ns
+  
+  # Retrieve Setup Data -----------------------------------------------------
+  floristic_tables <- reactiveVal()
+  
+  observe({
+    
+    setupData <- setupData()
+    
+    floristic_tables(setupData$floristic_tables)
+    
+  }) |>
+    bindEvent(setupData(),
+              ignoreInit = FALSE)
   
   # Create Survey Data Structure Table data ------------------------------
   surveyDataStructure_rval <- reactiveVal()
@@ -55,8 +68,11 @@ surveyDataSummary <- function(input, output, session, surveyData) {
     
     shiny::req(surveyData())
     
-    surveyData <- surveyData()
-    surveyData_long <- surveyData$surveyData_long
+    shiny::isolate({
+      surveyData <- surveyData()
+      surveyData_long <- surveyData$surveyData_long
+      floristic_tables <- floristic_tables()
+    })
     
     hill_ellenberg_w_names <- RMAVIS::hill_ellenberg |>
       dplyr::left_join(UKVegTB::taxa_lookup, by = "TVK") |>
@@ -75,7 +91,7 @@ surveyDataSummary <- function(input, output, session, surveyData) {
       dplyr::mutate(
         "NVC" = 
           dplyr::case_when(
-            Species %in% unique(RMAVIS::nvc_floristic_tables$nvc_taxon_name) ~ "Yes",
+            Species %in% unique(floristic_tables$nvc_taxon_name) ~ "Yes",
             TRUE ~ as.character("No")
           )
       )

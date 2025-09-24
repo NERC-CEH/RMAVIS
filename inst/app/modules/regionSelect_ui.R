@@ -16,10 +16,10 @@ regionSelectUI <- function(id){
         
         shinyWidgets::slimSelectInput(inputId = ns("region"),
                                       label = paste0("🌍"),
-                                      choices = c("Great Britain", "Minnesota"),
+                                      choices = RMAVIS:::region_options,
                                       search = FALSE,
                                       inline = TRUE,
-                                      width = 200)
+                                      width = 250)
         
       )
     )

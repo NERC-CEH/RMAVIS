@@ -30,6 +30,7 @@ server <- function(input, output, session) {
   # Setup Data --------------------------------------------------------------
   setupData <- shiny::callModule(module = setupData,
                                  id = "setupData_id_1",
+                                 region = region,
                                  deSidebar_options = deSidebar_options,
                                  sidebar_options = sidebar_options)
   
@@ -58,6 +59,7 @@ server <- function(input, output, session) {
 
   surveyDataSummary <- shiny::callModule(module = surveyDataSummary,
                                          id = "surveyDataSummary_id_1",
+                                         setupData = setupData,
                                          surveyData = surveyData)
   
   shiny::callModule(module = rmavisTaxonNamesLookup,
