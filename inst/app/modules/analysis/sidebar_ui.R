@@ -61,7 +61,7 @@ sidebarUI <- function(id){
 # NVC Assignment ----------------------------------------------------------
       bslib::accordion_panel(
         
-        "NVC Assignment", 
+        "VC Assignment", 
         
         icon = bsicons::bs_icon("ui-checks-grid"),
         
@@ -87,7 +87,7 @@ sidebarUI <- function(id){
               shiny::markdown(
                 "
                 Toggle whether individual quadrats in the survey data are assigned
-                NVC units.
+                VC units.
                 
                 This option is set to 'Yes' and disabled if the number of 
                 quadrats for any year is less than 2, as similarities for the 
@@ -133,7 +133,7 @@ sidebarUI <- function(id){
               id = ns("removeLowFreqTaxaInfo"),
               shiny::markdown(
                 "
-                In the NVC taxa which occurred in less than 5% of the plots which constituted each NVC unit were removed from the final floristic tables.
+                In the GB-NVC taxa which occurred in less than 5% of the plots which constituted each NVC unit were removed from the final floristic tables.
                 
                 Consequently, by default taxa which occur in less than 5% of the plots in each Group in the survey data are also removed.
                 
@@ -142,7 +142,7 @@ sidebarUI <- function(id){
                 
                 This ensures that similarities are not biased towards more species-rich communities; 
                 however, conversely, if the number of survey quadrats is lower than the number of plots used to define a NVC unit, 
-                particulary a species rich unit (e.g. CG2b), it may be preferable to not remove low frequency taxa to ensure that there is not a bias towards more species-poor communities.
+                particulary a species rich unit (e.g. CG2b in the GB-NVC or WFs57 in the MNNPC), it may be preferable to not remove low frequency taxa to ensure that there is not a bias towards more species-poor communities.
                 It is left to the user to make this decision, though in practice the results usually only display minor variations.
                 "
               ),
@@ -158,25 +158,25 @@ sidebarUI <- function(id){
         
         shiny::div(
           
-          id = ns("resultsViewNVCAssign_div"),
+          id = ns("resultsViewVCAssign_div"),
           
           bslib::layout_columns(
             
             col_widths = c(11, 1),
             
-            shiny::selectizeInput(inputId = ns("resultsViewNVCAssign"),
+            shiny::selectizeInput(inputId = ns("resultsViewVCAssign"),
                                   label = "Results to View",
-                                  choices = RMAVIS:::resultsViewNVCAssign_options,
+                                  choices = RMAVIS:::resultsViewVCAssign_options,
                                   selected = c("nvcAssignSiteCzekanowski"),
                                   multiple = FALSE),
             
             bslib::popover(
               bsicons::bs_icon("info-circle"),
               title = "Results to View",
-              id = ns("resultsToViewNVCAssignInfo"),
+              id = ns("resultsToViewVCAssignInfo"),
               shiny::markdown(
                 "
-                Three sets of NVC assigment results are currently available:
+                Three sets of VC assigment results are currently available:
                 -  Quadrat, Jaccard
                 -  Site, Czekanowski
                 -  Group, Czekanowski
@@ -374,13 +374,13 @@ sidebarUI <- function(id){
         
         shiny::div(
           
-          id = ns("restrictNVCFlorTablesOpts_div"),
+          id = ns("restrictVCFlorTablesOpts_div"),
           
           bslib::layout_columns(
             
             col_widths = c(11, 1),
             
-            shiny::checkboxInput(inputId = ns("restrictNVCFlorTablesOpts"),
+            shiny::checkboxInput(inputId = ns("restrictVCFlorTablesOpts"),
                                  label = "Restrict",
                                  value = TRUE),
             
@@ -389,9 +389,9 @@ sidebarUI <- function(id){
               title = "Restrict",
               shiny::markdown(
                 "
-                Restrict the NVC communities available for selection in the
-                'NVC Table' option below to the top-fitting NVC communities
-                as returned in the 'NVC Assignment' tab.
+                Restrict the communities available for selection in the
+                'VC Table' option below to the top-fitting VC communities
+                as returned in the 'VC Assignment' tab.
                 "
               ),
               placement = "bottom"
@@ -405,13 +405,13 @@ sidebarUI <- function(id){
         
         shiny::div(
           
-          id = ns("nvcFloristicTable_div"),
+          id = ns("vcFloristicTable_div"),
           
           bslib::layout_columns(
             
             col_widths = c(11, 1),
             
-            shiny::selectizeInput(inputId = ns("nvcFloristicTable"), 
+            shiny::selectizeInput(inputId = ns("vcFloristicTable"), 
                                   label = "NVC Table", 
                                   choices = NULL, 
                                   selected = "A1", 
@@ -1007,7 +1007,7 @@ sidebarUI <- function(id){
             shinyWidgets::pickerInput(inputId = ns("reportOptions"),
                                       label = "Report Options",
                                       choices = RMAVIS:::reportOptions_options,
-                                      selected = c("nvcAssignmentResultsSite_Czekanowski", 
+                                      selected = c("vcAssignmentResultsSite_Czekanowski", 
                                                    "composedFloristicTablesSite", 
                                                    "speciesFrequencyTable"),
                                       options = shinyWidgets::pickerOptions(

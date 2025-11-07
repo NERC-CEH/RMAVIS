@@ -6,7 +6,7 @@ floristicTablesUI <- function(id){
     
     shiny::div(
       
-      id = ns("singleComposedVsNVC_div"),
+      id = ns("singleComposedVsVC_div"),
       
       shiny::fluidRow(
         
@@ -41,7 +41,7 @@ floristicTablesUI <- function(id){
             
             shiny::column(
               width = 12,
-              shiny::htmlOutput(outputId = ns("nvcFloristicTableTitle"))
+              shiny::htmlOutput(outputId = ns("vcFloristicTableTitle"))
             ),
             
             shiny::column(
@@ -52,7 +52,7 @@ floristicTablesUI <- function(id){
           ),
           
           shiny::div(
-            reactable::reactableOutput(outputId = ns("floristicTables_nvc"))
+            reactable::reactableOutput(outputId = ns("floristicTables_vc"))
           )
           
         )

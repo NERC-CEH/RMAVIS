@@ -6,7 +6,7 @@ regionSelect <- function(input, output, session) {
   region <- reactiveVal()
   # regionModules <- reactiveVal(
   #   tibble::tribble(
-  #     ~great_britain, ~minnesota, ~module,
+  #     ~gbnvc, ~mnnpc, ~module,
   #     TRUE, "", "",
   #     TRUE, "", "",
   #     TRUE, "", "",

@@ -35,6 +35,21 @@
       ],
       "Hash": "0cafd6f0500e5deba33be22c46bf6055"
     },
+    "MNNPC": {
+      "Package": "MNNPC",
+      "Version": "0.1.0",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "MN-DNR-MBS",
+      "RemoteRepo": "MNNPC",
+      "RemoteRef": "main",
+      "RemoteSha": "90503ebbbbb930b4e11d63bdf7f6a110ce28bc39",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "56902da8f729bc5771ac7677f761b152"
+    },
     "Matrix": {
       "Package": "Matrix",
       "Version": "1.7-0",
@@ -167,9 +182,9 @@
     },
     "bookdown": {
       "Package": "bookdown",
-      "Version": "0.43",
+      "Version": "0.44",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Requirements": [
         "R",
         "htmltools",
@@ -180,7 +195,7 @@
         "xfun",
         "yaml"
       ],
-      "Hash": "e947197b6372a88f7dc8a0fa2f2fd2b4"
+      "Hash": "81ced2a7c9e31676bb8803f43f90efc0"
     },
     "brew": {
       "Package": "brew",
@@ -1984,9 +1999,9 @@
     },
     "stringr": {
       "Package": "stringr",
-      "Version": "1.5.1",
+      "Version": "1.5.2",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Requirements": [
         "R",
         "cli",
@@ -1997,7 +2012,7 @@
         "stringi",
         "vctrs"
       ],
-      "Hash": "960e2ae9e09656611e0b8214ad543207"
+      "Hash": "8f28c568a22dde52d2c8b11958776ac2"
     },
     "svglite": {
       "Package": "svglite",

@@ -77,11 +77,14 @@ deSidebarUI <- function(id){
               id = ns("selectedExampleDataInfo"),
               shiny::markdown(
                 "
-                Four example datasets are currently provided:
+                Four example datasets are currently provided for the GB-NVC:
                 1. 'Parsonage Down'.
                 2. 'Whitwell Common'.
                 3. 'Leith Hill Place Wood'.
                 4. 'Newborough Warren'.
+                
+                One example dataset is currently provided for the MNNPC:
+                1. 'St. Croix State Forest'
                 "
               ),
               placement = "bottom"

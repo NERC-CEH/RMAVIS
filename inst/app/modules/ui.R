@@ -94,7 +94,7 @@ ui <- bslib::page_navbar(
     
   bslib::nav_panel(
     
-    "NVC Analysis",
+    "Analysis",
     
     bslib::layout_sidebar(
 
@@ -106,11 +106,11 @@ ui <- bslib::page_navbar(
           
           full_screen = TRUE,
           
-          value = "nvcAssignment_panel",
+          value = "vcAssignment_panel",
           
-          bslib::card_header("NVC Assignment"),
+          bslib::card_header("VC Assignment"),
           
-          nvcAssignmentUI(id = "nvcAssignment_id_1")
+          vcAssignmentUI(id = "vcAssignment_id_1")
           
         ),
         
@@ -208,11 +208,11 @@ ui <- bslib::page_navbar(
   
   bslib::nav_panel(
     
-    "NVC Information",
+    "VC Information",
     
     bslib::layout_sidebar(
       
-      sidebar = nvcInfoSidebarUI(id = "nvcInfoSidebar_id_1"),
+      sidebar = vcInfoSidebarUI(id = "vcInfoSidebar_id_1"),
       
       bslib::navset_card_tab(
         
@@ -220,11 +220,11 @@ ui <- bslib::page_navbar(
           
           full_screen = TRUE,
           
-          value = "nvcCommNamesLookup_panel",
+          value = "vcCommNamesLookup_panel",
           
           bslib::card_header("Community Names"),
           
-          nvcCommNamesLookupUI(id = "nvcCommNamesLookup_id_1")
+          vcCommNamesLookupUI(id = "vcCommNamesLookup_id_1")
           
         ),
         
@@ -232,11 +232,11 @@ ui <- bslib::page_navbar(
           
           full_screen = TRUE,
           
-          value = "nvcFlorTabs_panel",
+          value = "vcFlorTabs_panel",
           
           bslib::card_header("Floristic Tables"),
           
-          nvcFlorTabsUI(id = "nvcFlorTabs_id_1")
+          vcFlorTabsUI(id = "vcFlorTabs_id_1")
           
         ),
         
@@ -244,11 +244,11 @@ ui <- bslib::page_navbar(
           
           full_screen = TRUE,
           
-          value = "nvcTaxonNamesLookup_panel",
+          value = "vcTaxonNamesLookup_panel",
           
-          bslib::card_header("NVC Taxon Name Updates"),
+          bslib::card_header("Taxon Name Updates"),
           
-          nvcTaxonNamesLookupUI(id = "nvcTaxonNamesLookup_id_1")
+          vcTaxonNamesLookupUI(id = "vcTaxonNamesLookup_id_1")
           
         ),
         
@@ -256,11 +256,11 @@ ui <- bslib::page_navbar(
           
           full_screen = TRUE,
           
-          value = "nvcCommAttr_panel",
+          value = "vcCommAttr_panel",
           
           bslib::card_header("Community Attributes"),
           
-          nvcCommAttrUI(id = "nvcCommAttr_id_1")
+          vcCommAttrUI(id = "vcCommAttr_id_1")
           
         )
         

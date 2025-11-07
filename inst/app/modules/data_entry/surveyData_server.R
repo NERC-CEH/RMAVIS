@@ -238,6 +238,10 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     
     inputMethod <- inputMethod()
     selectedExampleData <- selectedExampleData()
+    exampleData <- exampleData()
+    
+    assign(x = "selectedExampleData", value = selectedExampleData, envir = .GlobalEnv)
+    assign(x = "exampleData", value = exampleData, envir = .GlobalEnv)
     
     shiny::isolate({
       
@@ -371,6 +375,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     bindEvent(inputMethod(),
               coverScale(),
               selectedExampleData(),
+              # exampleData(),
               uploadDataTable(),
               ignoreInit = TRUE)
 

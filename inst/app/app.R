@@ -63,20 +63,20 @@ source("./modules/regionSelect_ui.R", local = TRUE)
 source("./modules/regionSelect_server.R", local = TRUE)
 
 ## NVC information --------------------------------------------------------
-source("./modules/nvc_information/nvcInfoSidebar_ui.R", local = TRUE)
-source("./modules/nvc_information/nvcInfoSidebar_server.R", local = TRUE)
+source("./modules/vc_information/vcInfoSidebar_ui.R", local = TRUE)
+source("./modules/vc_information/vcInfoSidebar_server.R", local = TRUE)
 
-source("./modules/nvc_information/nvcCommNamesLookup_ui.R", local = TRUE)
-source("./modules/nvc_information/nvcCommNamesLookup_server.R", local = TRUE)
+source("./modules/vc_information/vcCommNamesLookup_ui.R", local = TRUE)
+source("./modules/vc_information/vcCommNamesLookup_server.R", local = TRUE)
 
-source("./modules/nvc_information/nvcTaxonNamesLookup_ui.R", local = TRUE)
-source("./modules/nvc_information/nvcTaxonNamesLookup_server.R", local = TRUE)
+source("./modules/vc_information/vcTaxonNamesLookup_ui.R", local = TRUE)
+source("./modules/vc_information/vcTaxonNamesLookup_server.R", local = TRUE)
 
-source("./modules/nvc_information/nvcFlorTabs_ui.R", local = TRUE)
-source("./modules/nvc_information/nvcFlorTabs_server.R", local = TRUE)
+source("./modules/vc_information/vcFlorTabs_ui.R", local = TRUE)
+source("./modules/vc_information/vcFlorTabs_server.R", local = TRUE)
 
-source("./modules/nvc_information/nvcCommAttr_ui.R", local = TRUE)
-source("./modules/nvc_information/nvcCommAttr_server.R", local = TRUE)
+source("./modules/vc_information/vcCommAttr_ui.R", local = TRUE)
+source("./modules/vc_information/vcCommAttr_server.R", local = TRUE)
 
 ## Data entry -------------------------------------------------------------
 source("./modules/data_entry/deSidebar_ui.R", local = TRUE)
@@ -98,37 +98,37 @@ source("./modules/data_entry/rmavisTaxonNamesLookup_ui.R", local = TRUE)
 source("./modules/data_entry/rmavisTaxonNamesLookup_server.R", local = TRUE)
 
 ## NVC --------------------------------------------------------------------
-source("./modules/nvc_analysis/sidebar_ui.R", local = TRUE)
-source("./modules/nvc_analysis/sidebar_server.R", local = TRUE)
+source("./modules/analysis/sidebar_ui.R", local = TRUE)
+source("./modules/analysis/sidebar_server.R", local = TRUE)
 
-source("./modules/nvc_analysis/floristicTables_ui.R", local = TRUE)
-source("./modules/nvc_analysis/floristicTables_server.R", local = TRUE)
+source("./modules/analysis/floristicTables_ui.R", local = TRUE)
+source("./modules/analysis/floristicTables_server.R", local = TRUE)
 
-source("./modules/nvc_analysis/nvcAssignment_ui.R", local = TRUE)
-source("./modules/nvc_analysis/nvcAssignment_server.R", local = TRUE)
+source("./modules/analysis/vcAssignment_ui.R", local = TRUE)
+source("./modules/analysis/vcAssignment_server.R", local = TRUE)
 
-source("./modules/nvc_analysis/habCor_ui.R", local = TRUE)
-source("./modules/nvc_analysis/habCor_server.R", local = TRUE)
+source("./modules/analysis/habCor_ui.R", local = TRUE)
+source("./modules/analysis/habCor_server.R", local = TRUE)
 
-source("./modules/nvc_analysis/speciesFreq_ui.R", local = TRUE)
-source("./modules/nvc_analysis/speciesFreq_server.R", local = TRUE)
+source("./modules/analysis/speciesFreq_ui.R", local = TRUE)
+source("./modules/analysis/speciesFreq_server.R", local = TRUE)
 
-source("./modules/nvc_analysis/calcAvgEIVs_ui.R", local = TRUE)
-source("./modules/nvc_analysis/calcAvgEIVs_server.R", local = TRUE)
+source("./modules/analysis/calcAvgEIVs_ui.R", local = TRUE)
+source("./modules/analysis/calcAvgEIVs_server.R", local = TRUE)
 
-source("./modules/nvc_analysis/diversityAnalysis_ui.R", local = TRUE)
-source("./modules/nvc_analysis/diversityAnalysis_server.R", local = TRUE)
+source("./modules/analysis/diversityAnalysis_ui.R", local = TRUE)
+source("./modules/analysis/diversityAnalysis_server.R", local = TRUE)
 
-source("./modules/nvc_analysis/mvaNationalRef_ui.R", local = TRUE)
-source("./modules/nvc_analysis/mvaNationalRef_server.R", local = TRUE)
+source("./modules/analysis/mvaNationalRef_ui.R", local = TRUE)
+source("./modules/analysis/mvaNationalRef_server.R", local = TRUE)
 
-source("./modules/nvc_analysis/mvaLocalRefRestricted_ui.R", local = TRUE)
-source("./modules/nvc_analysis/mvaLocalRefRestricted_server.R", local = TRUE)
+source("./modules/analysis/mvaLocalRefRestricted_ui.R", local = TRUE)
+source("./modules/analysis/mvaLocalRefRestricted_server.R", local = TRUE)
 
-source("./modules/nvc_analysis/mvaLocalRefUnrestricted_ui.R", local = TRUE)
-source("./modules/nvc_analysis/mvaLocalRefUnrestricted_server.R", local = TRUE)
+source("./modules/analysis/mvaLocalRefUnrestricted_ui.R", local = TRUE)
+source("./modules/analysis/mvaLocalRefUnrestricted_server.R", local = TRUE)
 
-source("./modules/nvc_analysis/report_server.R", local = TRUE)
+source("./modules/analysis/report_server.R", local = TRUE)
 
 # Source main UI and Server modules ---------------------------------------
 source("./modules/ui.R", local = TRUE)

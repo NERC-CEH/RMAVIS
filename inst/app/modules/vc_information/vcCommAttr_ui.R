@@ -1,4 +1,4 @@
-nvcTaxonNamesLookupUI <- function(id) {
+vcCommAttrUI <- function(id) {
   
   ns <- NS(id)
   
@@ -7,7 +7,7 @@ nvcTaxonNamesLookupUI <- function(id) {
       width = 12,
       
       shiny::div(
-        reactable::reactableOutput(outputId = ns("nvcTaxonNamesLookupTable"))
+        reactable::reactableOutput(outputId = ns("communityAttributesTable"))
       )
       
     )

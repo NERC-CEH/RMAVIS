@@ -56,7 +56,8 @@ Imports:
   vegan,
   writexl
 Remotes:
-   github::NERC-CEH/UKVegTB@v0.1.2
+  NERC-CEH/UKVegTB@v0.1.2,
+  MN-DNR-MBS/MNNPC
 Suggests:
   testthat,
   tinytex

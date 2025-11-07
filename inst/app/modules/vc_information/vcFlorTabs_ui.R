@@ -1,4 +1,4 @@
-nvcFlorTabsUI <- function(id) {
+vcFlorTabsUI <- function(id) {
   
   ns <- NS(id)
   

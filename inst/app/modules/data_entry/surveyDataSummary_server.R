@@ -4,12 +4,12 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
   
   # Retrieve Setup Data -----------------------------------------------------
   floristic_tables <- reactiveVal()
+  unit_name_col <- reactiveVal()
   
   observe({
     
-    setupData <- setupData()
-    
-    floristic_tables(setupData$floristic_tables)
+    floristic_tables(setupData()$floristic_tables)
+    unit_name_col(setupData()$unit_name_col)
     
   }) |>
     bindEvent(setupData(),
@@ -69,9 +69,9 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
     shiny::req(surveyData())
     
     shiny::isolate({
-      surveyData <- surveyData()
-      surveyData_long <- surveyData$surveyData_long
+      surveyData_long <- surveyData()$surveyData_long
       floristic_tables <- floristic_tables()
+      unit_name_col <- unit_name_col()
     })
     
     hill_ellenberg_w_names <- RMAVIS::hill_ellenberg |>
@@ -91,7 +91,7 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
       dplyr::mutate(
         "NVC" = 
           dplyr::case_when(
-            Species %in% unique(floristic_tables$nvc_taxon_name) ~ "Yes",
+            Species %in% unique(floristic_tables[[unit_name_col]]) ~ "Yes",
             TRUE ~ as.character("No")
           )
       )
@@ -142,7 +142,7 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
   # Initialise quadratsPerYear Table ----------------------------------------
   quadratsPerYearTable_init <- data.frame("Year" = integer(),
                                           "n" = numeric(),
-                                          "Similarities.Calculable?" = character()
+                                          "Czekanowski.Similarities.Calculable?" = character()
   )
   
   quadratsPerYearTable_rval <- reactiveVal(quadratsPerYearTable_init)
@@ -176,7 +176,7 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
   quadratsPerYearGroupTable_init <- data.frame("Year" = integer(),
                                                "Group" = character(),
                                                "n" = numeric(),
-                                               "Similarities.Calculable?" = character()
+                                               "Czekanowski.Similarities.Calculable?" = character()
   )
   
   quadratsPerYearGroupTable_rval <- reactiveVal(quadratsPerYearGroupTable_init)
@@ -215,9 +215,9 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
     quadratsPerYear <- surveyDataStructure_rval()$quadratsPerYear |>
       dplyr::mutate("n" = quadratsPerYear, .keep = "unused") |>
       dplyr::mutate(
-        "Similarities.Calculable?" = 
+        "Czekanowski.Similarities.Calculable?" = 
           dplyr::case_when(
-            n < 5 ~ "No",
+            n < 2 ~ "No",
             TRUE ~ as.character("Yes")
           )
       )
@@ -261,7 +261,7 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
     quadratsPerYearGroup <- surveyDataStructure_rval()$quadratsPerYearGroup|>
       dplyr::mutate("n" = quadratsPerYearGroup, .keep = "unused") |>
       dplyr::mutate(
-        "Similarities.Calculable?" = 
+        "Czekanowski.Similarities.Calculable?" = 
           dplyr::case_when(
             n < 5 ~ "No",
             TRUE ~ as.character("Yes")

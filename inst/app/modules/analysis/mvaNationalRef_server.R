@@ -1,4 +1,4 @@
-mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAssignment, avgEIVs, sidebar_options) {
+mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssignment, avgEIVs, sidebar_options) {
   
   ns <- session$ns
   
@@ -72,7 +72,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
     # Require selected objects are not NULL
     shiny::req(surveyData())
     shiny::req(runAnalysis() != 0)
-    shiny::req(nvcAssignment())
+    shiny::req(vcAssignment())
     shiny::req(nvc_pquads_wide())
     shiny::req(nvc_pquads_mean_unweighted_eivs())
     
@@ -86,7 +86,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
     # Isolate processes to prevent recursion when handling reactive objects not included in bindEvent
     shiny::isolate({
       
-      nvcAssignment <- nvcAssignment()
+      vcAssignment <- vcAssignment()
       selectedReferenceSpaces <- selectedReferenceSpaces()
       nvc_pquads_wide <- nvc_pquads_wide()
       nvc_pquads_mean_unweighted_eivs <- nvc_pquads_mean_unweighted_eivs()
@@ -96,7 +96,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
       
     })
     
-    # assign(x = "nvcAssignment", value = nvcAssignment, envir = .GlobalEnv)
+    # assign(x = "vcAssignment", value = vcAssignment, envir = .GlobalEnv)
     # assign(x = "selectedReferenceSpaces", value = selectedReferenceSpaces, envir = .GlobalEnv)
     # assign(x = "nvc_pquads_wide", value = nvc_pquads_wide, envir = .GlobalEnv)
     # assign(x = "nvc_pquads_mean_unweighted_eivs", value = nvc_pquads_mean_unweighted_eivs, envir = .GlobalEnv)
@@ -104,7 +104,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, nvcAss
     # assign(x = "avgEIVs", value = avgEIVs, envir = .GlobalEnv)
     # assign(x = "ccaVars", value = ccaVars, envir = .GlobalEnv)
     
-    topNVCCommunities <- nvcAssignment$topNVCCommunities
+    topNVCCommunities <- vcAssignment$topNVCCommunities
     surveyData_long <- surveyData$surveyData_long
     surveyData_mat <- surveyData$surveyData_mat
 

@@ -18,7 +18,7 @@ surveyDataSummaryUI <- function(id){
         
         Below the number of quadrats per year, along with the number of quadrats per group and year are displayed.
         Whether similarity values will be calculated by `RMAVIS` for each
-        year and year-group are displayed in the 'Similarities.Calculable?' column.
+        year and year-group are displayed in the 'Czekanowski.Similarities.Calculable?' column.
 
         "
       ),

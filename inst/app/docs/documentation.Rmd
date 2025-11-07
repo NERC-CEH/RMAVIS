@@ -60,9 +60,9 @@ body {
 
 ```{r constants, echo=FALSE}
 # Report options. Load from create_constants.R!!!
-reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAssignmentResultsSite_Czekanowski",
-                                                   "Group, Czekanowski" = "nvcAssignmentResultsGroup_Czekanowski",
-                                                   "Quadrat, Jaccard" = "nvcAssignmentResultsQuadrat_Jaccard"),
+reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "vcAssignmentResultsSite_Czekanowski",
+                                                   "Group, Czekanowski" = "vcAssignmentResultsGroup_Czekanowski",
+                                                   "Quadrat, Jaccard" = "vcAssignmentResultsQuadrat_Jaccard"),
                               `Habitat Correspondence` = c("Site" = "habitatCorrespondenceSite"),
                               `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
                                                      "Group" = "composedFloristicTablesGroup"),

@@ -1,24 +1,54 @@
-rmavisTaxonNamesLookup <- function(input, output, session) {
+rmavisTaxonNamesLookup <- function(input, output, session, region) {
     
   ns <- session$ns
+  
+  taxonomic_backbone <- reactiveVal()
+  
+  observe({
     
-  rmavis_taxon_names_lookup <- UKVegTB::taxonomic_backbone |>
-    dplyr::select(
-      "Informal.Group" = "informal_group",
-      "Taxon.Name" = "taxon_name",
-      "TVK" = "TVK",
-      "Rank" = "rank",
-      "Qualifier" = "qualifier",
-      "Authority" = "authority",
-      "Full.Name" = "full_name"
-    ) |>
-    dplyr::arrange(Taxon.Name)
+    if(region() == "gbnvc"){
+      
+      tb <- UKVegTB::taxonomic_backbone |>
+        dplyr::select(
+          "Informal.Group" = "informal_group",
+          "Taxon.Name" = "taxon_name",
+          "TVK" = "TVK",
+          "Rank" = "rank",
+          "Qualifier" = "qualifier",
+          "Authority" = "authority",
+          "Full.Name" = "full_name"
+        ) |>
+        dplyr::arrange(Taxon.Name)
+      
+    } else if(region() == "mnnpc"){
+      
+      tb <- MNNPC::mnnpc_taxonomic_backbone |>
+        dplyr::left_join(MNNPC::mnnpc_taxa_lookup |> dplyr::select(informal_group, recommended_taxon_name, qualifier, authority), by = c("taxon_name" = "recommended_taxon_name")) |>
+        dplyr::select(
+          "Informal.Group" = "informal_group",
+          "Taxon.Name" = "taxon_name",
+          "Rank" = "rank",
+          "Qualifier" = "qualifier",
+          "Authority" = "authority",
+          "Full.Name" = "full_name"
+        ) |>
+        dplyr::arrange(Authority) |>
+        dplyr::distinct(Informal.Group, Taxon.Name, Rank, Full.Name, .keep_all = TRUE) |>
+        dplyr::arrange(Taxon.Name)
+    }
+    
+    taxonomic_backbone(tb)
+    
+  }) |>
+    bindEvent(region(),
+              ignoreInit = FALSE,
+              ignoreNULL = TRUE)
   
 
   # Names lookup table ------------------------------------------------------
   output$rmavisTaxonNamesLookupTable <- reactable::renderReactable({
     
-    rmavisTaxonNamesLookupTable <- reactable::reactable(data = rmavis_taxon_names_lookup,
+    rmavisTaxonNamesLookupTable <- reactable::reactable(data = taxonomic_backbone(),
                                                         filterable = TRUE,
                                                         pagination = TRUE,
                                                         defaultPageSize = 30,
@@ -35,12 +65,7 @@ rmavisTaxonNamesLookup <- function(input, output, session) {
                                                           headerClass = "my-header",
                                                           class = "my-col",
                                                           align = "center" # Needed as alignment is not passing through to header
-                                                        ),
-                                                        columns = list(
-                                                          Informal.Group = reactable::colDef(maxWidth = 125),
-                                                          Taxon.Name = reactable::colDef(minWidth = 200),
-                                                          Full.Name = reactable::colDef(minWidth = 200)
-                                                          )
+                                                        )
                                                         )
     
     return(rmavisTaxonNamesLookupTable)

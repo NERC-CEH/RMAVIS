@@ -1,12 +1,25 @@
 sidebar <- function(input, output, session, 
+                    region,
                     deSidebar_options,
                     setupData,
                     surveyData, surveyDataValidator, surveyDataSummary,
-                    floristicTables, nvcAssignment, habCor, speciesFreq,
+                    floristicTables, vcAssignment, habCor, speciesFreq,
                     avgEIVs, diversityAnalysis, 
                     mvaLocalRefRestrictedResults) {
   
   ns <- session$ns
+  
+# Retrieve setup data -----------------------------------------------------
+  unit_name_col <- reactiveVal()
+  
+  observe({
+    
+    unit_name_col(setupData()$unit_name_col)
+    
+  }) |>
+    shiny::bindEvent(setupData(),
+                     ignoreInit = TRUE,
+                     ignoreNULL = TRUE)
   
 # Compose list of inputs to return from module ----------------------------
   sidebar_options <- reactiveVal()
@@ -20,14 +33,14 @@ sidebar <- function(input, output, session,
       "removeLowFreqTaxa" = input$removeLowFreqTaxa,
       "habitatRestriction" = input$habitatRestriction,
       "nTopResults" = input$nTopResults,
-      "resultsViewNVCAssign" = input$resultsViewNVCAssign,
+      "resultsViewVCAssign" = input$resultsViewVCAssign,
       "habCorClass" = input$habCorClass,
       "floristicTablesView" = input$floristicTablesView,
       "floristicTablesSetView" = input$floristicTablesSetView,
       "composedFloristicTable" = input$composedFloristicTable,
-      "nvcFloristicTable" = input$nvcFloristicTable,
+      "vcFloristicTable" = input$vcFloristicTable,
       "matchSpecies" = input$matchSpecies,
-      "restrictNVCFlorTablesOpts" = input$restrictNVCFlorTablesOpts,
+      "restrictVCFlorTablesOpts" = input$restrictVCFlorTablesOpts,
       "resultsViewEIVs"  = input$resultsViewEIVs,
       "resultsViewDiversity"  = input$resultsViewDiversity,
       "selectedReferenceSpaces" = input$selectedReferenceSpaces,
@@ -53,14 +66,14 @@ sidebar <- function(input, output, session,
               input$removeLowFreqTaxa,
               input$habitatRestriction, 
               input$nTopResults,
-              input$resultsViewNVCAssign,
+              input$resultsViewVCAssign,
               input$habCorClass, 
               input$floristicTablesView,
               input$floristicTablesSetView,
               input$composedFloristicTable,
-              input$nvcFloristicTable, 
+              input$vcFloristicTable, 
               input$matchSpecies,
-              input$restrictNVCFlorTablesOpts,
+              input$restrictVCFlorTablesOpts,
               input$resultsViewEIVs,
               input$resultsViewDiversity,
               input$selectedReferenceSpaces,
@@ -77,6 +90,23 @@ sidebar <- function(input, output, session,
               input$reportOptions,
               ignoreInit = FALSE)
 
+# Update remove low frequency taxa based on region ------------------------
+  observe({
+    
+    if(region() == "gbnvc"){
+      shinyWidgets::updateSwitchInput(session = session,
+                                      inputId = "removeLowFreqTaxa",
+                                      value = TRUE)
+    } else if(region() == "mnnpc"){
+      shinyWidgets::updateSwitchInput(session = session,
+                                      inputId = "removeLowFreqTaxa",
+                                      value = FALSE)
+    }
+    
+  }) |>
+    bindEvent(region(),
+              ignoreInit = FALSE,
+              ignoreNULL = TRUE)
 
 # Update Options Based On Example Data ------------------------------------
   observe({
@@ -199,19 +229,19 @@ sidebar <- function(input, output, session,
 # Show/Hide Floristic Table Options ---------------------------------------
   observe({
     
-    if(input$floristicTablesView == "singleComposedVsNVC") {
+    if(input$floristicTablesView == "singleComposedVsVC") {
       
       shinyjs::hide(id = "floristicTablesSetViewOpts_div")
-      shinyjs::show(id = "restrictNVCFlorTablesOpts_div")
-      shinyjs::show(id = "nvcFloristicTable_div")
+      shinyjs::show(id = "restrictVCFlorTablesOpts_div")
+      shinyjs::show(id = "vcFloristicTable_div")
       shinyjs::show(id = "composedFloristicTable_div")
       shinyjs::show(id = "matchSpecies_div")
       
     } else if(input$floristicTablesView == "multipleComposed") {
       
       shinyjs::show(id = "floristicTablesSetViewOpts_div")
-      shinyjs::hide(id = "restrictNVCFlorTablesOpts_div")
-      shinyjs::hide(id = "nvcFloristicTable_div")
+      shinyjs::hide(id = "restrictVCFlorTablesOpts_div")
+      shinyjs::hide(id = "vcFloristicTable_div")
       shinyjs::hide(id = "composedFloristicTable_div")
       shinyjs::hide(id = "matchSpecies_div")
       
@@ -246,7 +276,7 @@ sidebar <- function(input, output, session,
         disabled = TRUE
       )
       
-      # shinyjs::disable(id = "resultsViewNVCAssign")
+      # shinyjs::disable(id = "resultsViewVCAssign")
       
     } else if(fix_assignQuadrats_enabled == FALSE){
       
@@ -257,7 +287,7 @@ sidebar <- function(input, output, session,
         disabled = FALSE
       )
       
-      # shinyjs::enable(id = "resultsViewNVCAssign")
+      # shinyjs::enable(id = "resultsViewVCAssign")
       
     }
     
@@ -266,41 +296,41 @@ sidebar <- function(input, output, session,
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
 
-# Reactively update nvcFloristicTable options -----------------------------
+# Reactively update vcFloristicTable options -----------------------------
   observe({
     
-    shiny::req(nvcAssignment())
+    shiny::req(vcAssignment())
     shiny::req(setupData())
     
-    nvcAssignment <- nvcAssignment()
+    vcAssignment <- vcAssignment()
     setupData <- setupData()
     
-    topNVCCommunities <- nvcAssignment$topNVCCommunities
-    nvc_code_values <- unique(setupData$floristic_tables[["nvc_code"]])
+    topVCCommunities <- vcAssignment$topVCCommunities
+    vc_code_values <- unique(setupData$floristic_tables[[unit_name_col()]])
     
-    if(input$restrictNVCFlorTablesOpts == TRUE){
+    if(input$restrictVCFlorTablesOpts == TRUE){
       
       shiny::updateSelectizeInput(
         session = session,
-        inputId = "nvcFloristicTable",
-        choices = topNVCCommunities,
-        selected = topNVCCommunities[1]
+        inputId = "vcFloristicTable",
+        choices = topVCCommunities,
+        selected = topVCCommunities[1]
       )
       
-    } else if(input$restrictNVCFlorTablesOpts == FALSE){
+    } else if(input$restrictVCFlorTablesOpts == FALSE){
       
       shiny::updateSelectizeInput(
         session = session,
-        inputId = "nvcFloristicTable",
-        choices = nvc_code_values,
-        selected = topNVCCommunities[1]
+        inputId = "vcFloristicTable",
+        choices = vc_code_values,
+        selected = topVCCommunities[1]
       )
       
     }
     
   }) |>
-    bindEvent(input$restrictNVCFlorTablesOpts,
-              nvcAssignment(),
+    bindEvent(input$restrictVCFlorTablesOpts,
+              vcAssignment(),
               setupData(),
               ignoreInit = TRUE)
   
@@ -409,12 +439,12 @@ sidebar <- function(input, output, session,
   observe({
     
     shiny::isolate({
-      nvcAssignment <- nvcAssignment()
+      vcAssignment <- vcAssignment()
       setupData <- setupData()
     })
     
-    topNVCCommunities <- nvcAssignment$topNVCCommunities
-    selectedReferenceSpaces_options <- unique(setupData$floristic_tables[["nvc_code"]])
+    topNVCCommunities <- vcAssignment$topNVCCommunities
+    selectedReferenceSpaces_options <- unique(setupData$floristic_tables[[unit_name_col()]])
     
     shiny::updateSelectizeInput(
       session = session,
@@ -424,7 +454,7 @@ sidebar <- function(input, output, session,
     )
     
   }) |>
-    bindEvent(nvcAssignment(),
+    bindEvent(vcAssignment(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
@@ -578,7 +608,7 @@ sidebar <- function(input, output, session,
     content = function(file) {
       
       floristicTables <- floristicTables()
-      nvcAssignment <- nvcAssignment()
+      vcAssignment <- vcAssignment()
       habCor <- habCor()
       speciesFreq <- speciesFreq()
       avgEIVs <- avgEIVs()
@@ -587,7 +617,7 @@ sidebar <- function(input, output, session,
       sheets <- list(
         "Floristic Tables - Long" = floristicTables$floristicTables_composed_all,
         "Floristic Tables - Wide" = floristicTables$floristicTables_composed_all_wide,
-        "NVC Assignment - Quadrat" = nvcAssignment$nvcAssignmentPlot_Jaccard,
+        "VC Assignment - Quadrat" = vcAssignment$vcAssignmentPlot_Jaccard,
         "Habitat Correspondences" = habCor,
         "Frequency Table" = speciesFreq,
         "EIVs, Weighted, Site" = avgEIVs$weightedMeanHEValuesSite,
@@ -603,12 +633,12 @@ sidebar <- function(input, output, session,
         "Diversity, Richness, Quadrat" = diversityAnalysis$speciesRichnessQuadrat
       )
       
-      if(!is.null(nvcAssignment$nvcAssignmentGroup_Czekanowski)){
-        sheets[["NVC Assignment - Group"]] <- nvcAssignment$nvcAssignmentGroup_Czekanowski
+      if(!is.null(vcAssignment$vcAssignmentGroup_Czekanowski)){
+        sheets[["VC Assignment - Group"]] <- vcAssignment$vcAssignmentGroup_Czekanowski
       }
       
-      if(!is.null(nvcAssignment$nvcAssignmentSite_Czekanowski)){
-        sheets[["NVC Assignment - Site"]] <- nvcAssignment$nvcAssignmentSite_Czekanowski
+      if(!is.null(vcAssignment$vcAssignmentSite_Czekanowski)){
+        sheets[["VC Assignment - Site"]] <- vcAssignment$vcAssignmentSite_Czekanowski
       }
       
       writexl::write_xlsx(x = sheets, path = file)

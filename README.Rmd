@@ -20,6 +20,8 @@ knitr::opts_chunk$set(
 [![status](https://joss.theoj.org/papers/460c6f934a108fcf5a16d0f2ab77492e/status.svg)](https://joss.theoj.org/papers/460c6f934a108fcf5a16d0f2ab77492e)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-LGPL 3.0-lightgrey.svg)](https://opensource.org/license/lgpl-3-0)
 <!-- badges: end -->
+
+**Authors**: Zeke Marshall (zekmar@ceh.ac.uk) & Amy Kendig (amy.kendig@state.mn.us).
           
 ## Overview
 

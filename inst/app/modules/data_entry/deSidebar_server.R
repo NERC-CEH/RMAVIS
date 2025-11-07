@@ -1,5 +1,5 @@
-deSidebar <- function(input, output, session, 
-                     surveyData, surveyDataValidator, surveyDataSummary) {
+deSidebar <- function(input, output, session, setupData,
+                      surveyData, surveyDataValidator, surveyDataSummary) {
   
   ns <- session$ns
   
@@ -24,6 +24,21 @@ deSidebar <- function(input, output, session,
               input$selectedExampleData, 
               input$coverScale,
               ignoreInit = FALSE)
+  
+
+# Retrieve setup data -----------------------------------------------------
+  example_data_options <- reactiveVal()
+  
+  observe({
+    
+    setupData <- setupData()
+    
+    example_data_options(setupData$example_data_options)
+    
+  }) |>
+    bindEvent(setupData(),
+              ignoreInit = FALSE)
+
 
 # Show/Hide inputMethod-related inputs ------------------------------------
   observe({
@@ -50,10 +65,23 @@ deSidebar <- function(input, output, session,
     
   }) |>
     bindEvent(input$inputMethod, ignoreInit = FALSE)
+  
+# Update Example Data Options --------------------------------------------
+  observe({
+        
+    shiny::updateSelectizeInput(
+      session = session,
+      inputId = "selectedExampleData",
+      choices = example_data_options(),
+      selected = "none"
+    )
+    
+  }) |>
+    bindEvent(example_data_options(),
+              ignoreInit = TRUE)
 
 
-
-  # Update Options Based On Example Data ------------------------------------
+# Update Options Based On Example Data ------------------------------------
   observe({
 
     if(input$inputMethod == "example"){
@@ -82,14 +110,14 @@ deSidebar <- function(input, output, session,
           selected = "none"
         )
 
-      } else if(input$selectedExampleData == "Newborough Warren"){
-
+      } else if(input$selectedExampleData == "St. Croix State Forest"){
+        
         shiny::updateSelectizeInput(
           session = session,
           inputId = "coverScale",
           selected = "percentage"
         )
-
+        
       }
 
     }
@@ -157,7 +185,7 @@ deSidebar <- function(input, output, session,
     filename = function() {
       
       paste0("RMAVIS.SurveyData.",
-             "v1-1-3.",
+             "v1-2-0.",
              format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
              ".csv",
              sep="")
@@ -180,7 +208,7 @@ deSidebar <- function(input, output, session,
     filename = function() {
       
       paste0("RMAVIS.AcceptedTaxa.",
-             "v1-1-3",
+             "v1-2-0",
              ".csv",
              sep="")
       
@@ -199,7 +227,7 @@ deSidebar <- function(input, output, session,
     filename = function() {
       
       paste0("RMAVIS.TaxonomicBackbone.",
-             "v1-1-3",
+             "v1-2-0",
              ".csv",
              sep="")
       
@@ -218,7 +246,7 @@ deSidebar <- function(input, output, session,
     filename = function() {
       
       paste0("RMAVIS.TaxonLookup.",
-             "v1-1-3",
+             "v1-2-0",
              ".csv",
              sep="")
       

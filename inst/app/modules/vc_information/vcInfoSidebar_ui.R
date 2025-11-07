@@ -1,4 +1,4 @@
-nvcInfoSidebarUI <- function(id){
+vcInfoSidebarUI <- function(id){
   
   ns <- NS(id)
   
@@ -20,25 +20,25 @@ nvcInfoSidebarUI <- function(id){
           ## Download Survey Data ----------------------------------------------------
           shiny::div(
             
-            id = ns("downloadNVCInformation"),
+            id = ns("downloadVCInformation"),
             
             bslib::layout_columns(
               
               col_widths = c(11, 1),
               
               downloadButton(
-                outputId = ns("downloadNVCInformation"),
-                label = "NVC Information",
+                outputId = ns("downloadVCInformation"),
+                label = "VC Information",
                 class = NULL,
                 icon = NULL
               ),
               
               bslib::popover(
                 bsicons::bs_icon("info-circle"),
-                title = "Download NVC Information",
+                title = "Download VC Information",
                 shiny::markdown(
                   "
-                  Download a .xlsx file containing the NVC floristic tables, community names lookup, and community attributes.
+                  Download a .xlsx file containing the floristic tables, community names lookup, and community attributes for the selected VC system (GB-NVC or MNNPC).
                   "
                 ),
                 placement = "bottom"

@@ -1,4 +1,4 @@
-mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData, nvcAssignment, sidebar_options) {
+mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData, vcAssignment, sidebar_options) {
   
   ns <- session$ns
 
@@ -71,7 +71,7 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
     
     # Require selected objects are not NULL
     shiny::req(surveyData())
-    shiny::req(nvcAssignment())
+    shiny::req(vcAssignment())
     shiny::req(nvc_pquads_wide())
     shiny::req(nvc_pquads_mean_unweighted_eivs())
     
@@ -85,7 +85,7 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
     # Isolate processes to prevent recursion when handling reactive objects not included in bindEvent
     shiny::isolate({
       
-      nvcAssignment <- nvcAssignment()
+      vcAssignment <- vcAssignment()
       selectedReferenceSpaces <- selectedReferenceSpaces()
       nvc_pquads_wide <- nvc_pquads_wide()
       nvc_pquads_mean_unweighted_eivs <- nvc_pquads_mean_unweighted_eivs()

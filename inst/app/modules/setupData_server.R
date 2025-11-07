@@ -10,10 +10,16 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
     "floristic_tables" = RMAVIS::nvc_floristic_tables,
     "community_attributes" = RMAVIS::nvc_community_attributes,
     "pquads" = RMAVIS::nvc_pquads,
-    "psquad_cm_he" = RMAVIS::nvc_psquad_cm_he
+    "psquad_cm_he" = RMAVIS::nvc_psquad_cm_he,
+    "example_data_options" = RMAVIS:::example_data_options,
+    "ft_taxon_name_col" = "nvc_taxon_name",
+    "psq_taxon_name_col" = "nvc_taxon_name",
+    "unit_name_col" = "nvc_code",
+    "hab_rest_pref" = RMAVIS:::habitatRestrictionPrefixes
   )
-  
-  region <- reactiveVal("gbnvc")
+
+# Initialise objets -------------------------------------------------------
+  selected_region <- reactiveVal("gbnvc")
   setupData <- reactiveVal(setupData_init)
 
 # Retrieve sidebar options ------------------------------------------------
@@ -35,7 +41,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
 # Update region -----------------------------------------------------------
   observe({
     
-    region(region())
+    selected_region(region())
     
   }) |>
     shiny::bindEvent(region(),
@@ -46,15 +52,20 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
 # Update input data -------------------------------------------------------
   observe({
     
-    region <- region()
+    selected_region <- selected_region()
     selected_nvc_types <- selectNVCtypes()
     
-    if(region == "gbnvc"){
+    if(selected_region == "gbnvc"){
       
-      # Establish setup data which doesn't change at present
+      # Establish setup data which doesn't vary based on NVC type
       species_names_selected <- RMAVIS::accepted_taxa[["taxon_name"]]
       accepted_species_selected <- RMAVIS::accepted_taxa
       example_data_selected <- RMAVIS::example_data
+      example_data_options_selected <- RMAVIS:::example_data_options
+      ft_taxon_name_col_selected <- "nvc_taxon_name"
+      psq_taxon_name_col_selected <- "nvc_taxon_name"
+      unit_name_col_selected <- "nvc_code"
+      hab_rest_pref_selected <- RMAVIS:::habitatRestrictionPrefixes
       
       # Compose setup data from selected NVC types
       floristic_tables_selected <- tibble::tibble()
@@ -120,16 +131,21 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
         
       }
       
-    } else if(region == "mnnpc"){
+    } else if(selected_region == "mnnpc"){
       
-      # species_names_selected <- MNNPC::
-      # accepted_species_selected <- MNNPC::
-      # example_data_selected <- MNNPC::
-      # floristic_tables_selected <- MNNPC::
-      # community_attributes_selected <- MNNPC::
-      # pquads_selected <- MNNPC::
-      # psquad_cm_he_selected <- NULL
-      # comm_he_selected <- NULL
+      species_names_selected <- MNNPC::mnnpc_accepted_taxa[["taxon_name"]]
+      accepted_species_selected <- MNNPC::mnnpc_accepted_taxa
+      example_data_selected <- MNNPC::mnnpc_example_data
+      floristic_tables_selected <- MNNPC::mnnpc_floristic_tables
+      community_attributes_selected <- MNNPC::mnnpc_community_attributes
+      pquads_selected <- MNNPC::mnnpc_pquads
+      psquad_cm_he_selected <- NULL
+      comm_he_selected <- NULL
+      example_data_options_selected <- MNNPC:::example_data_options
+      ft_taxon_name_col_selected <- "npc_taxon_name"
+      psq_taxon_name_col_selected <- "taxon_name"
+      unit_name_col_selected <- "npc_code"
+      hab_rest_pref_selected <- MNNPC::mnnpc_vc_types
       
     }
     
@@ -142,16 +158,21 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       "community_attributes" = community_attributes_selected,
       "pquads" = pquads_selected,
       "psquad_cm_he" = psquad_cm_he_selected,
-      "comm_cm_he" = comm_he_selected
+      "comm_cm_he" = comm_he_selected,
+      "example_data_options" = example_data_options_selected,
+      "ft_taxon_name_col" = ft_taxon_name_col_selected,
+      "psq_taxon_name_col" = psq_taxon_name_col_selected,
+      "unit_name_col" = unit_name_col_selected,
+      "hab_rest_pref" = hab_rest_pref_selected
     )
     
     setupData(setupData_list)
     
   }) |>
-    bindEvent(region(),
+    bindEvent(selected_region(),
               selectNVCtypes(),
               ignoreNULL = TRUE,
-              ignoreInit = TRUE)
+              ignoreInit = FALSE)
   
 # Return Setup Data -------------------------------------------------------
   return(setupData)

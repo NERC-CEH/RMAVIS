@@ -1,4 +1,4 @@
-floristicTables <- function(input, output, session, setupData, surveyData, avgEIVs, deSidebar_options, sidebar_options) {
+floristicTables <- function(input, output, session, region, setupData, surveyData, avgEIVs, deSidebar_options, sidebar_options) {
   
   ns <- session$ns
   
@@ -8,7 +8,7 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
   floristicTablesView <- reactiveVal()
   floristicTablesSetView <- reactiveVal()
   composedFloristicTable <- reactiveVal()
-  nvcFloristicTable <- reactiveVal()
+  vcFloristicTable <- reactiveVal()
   matchSpecies <- reactiveVal()
   runAnalysis <- reactiveVal()
 
@@ -19,7 +19,7 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
     floristicTablesView(sidebar_options()$floristicTablesView)
     floristicTablesSetView(sidebar_options()$floristicTablesSetView)
     composedFloristicTable(sidebar_options()$composedFloristicTable)
-    nvcFloristicTable(sidebar_options()$nvcFloristicTable)
+    vcFloristicTable(sidebar_options()$vcFloristicTable)
     matchSpecies(sidebar_options()$matchSpecies)
     runAnalysis(sidebar_options()$runAnalysis)
 
@@ -27,6 +27,56 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
     bindEvent(sidebar_options(), 
               deSidebar_options(),
               ignoreInit = TRUE)
+  
+# Retrieve setup data -----------------------------------------------------
+  ft_taxon_name_col <- reactiveVal()
+  unit_name_col <- reactiveVal()
+  floristic_tables <- reactiveVal()
+  
+  observe({
+    
+    ft_taxon_name_col(setupData()$ft_taxon_name_col)
+    unit_name_col(setupData()$unit_name_col)
+    floristic_tables(setupData()$floristic_tables)
+    
+    if(region() == "gbnvc"){
+      
+      floristic_tables(setupData()$floristic_tables)
+      
+    } else if(region() == "mnnpc"){
+      
+      floristic_tables(
+        setupData()$floristic_tables |>
+          dplyr::mutate_at(dplyr::vars(minimum_cover, mean_cover, maximum_cover),
+                           list(
+                             ~dplyr::case_when(
+                               . > 91 ~ "10",
+                               . > 76 ~ "9",
+                               . > 51 ~ "8",
+                               . > 34 ~ "7",
+                               . > 26 ~ "6",
+                               . > 11 ~ "5",
+                               . > 4 ~ "4",
+                               . > 3 ~ "3",
+                               . > 2 ~ "2",
+                               . > 1 ~ "1",
+                               . > 0 ~ "+",
+                               TRUE ~ NA
+                               )
+                             )
+                           )
+        
+        ) |>
+        suppressWarnings()
+      
+      
+    }
+    
+  }) |>
+    shiny::bindEvent(setupData(),
+                     region(),
+                     ignoreInit = TRUE,
+                     ignoreNULL = TRUE)
 
 # Create object containing all composed tables ----------------------------
   floristicTables_composed_all_rval <- reactiveVal()
@@ -105,6 +155,7 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
                            )
                          )
                          ) |>
+        suppressWarnings() |>
         dplyr::mutate("Cover" = paste0(Min.Cover, 
                                        " - ", 
                                        ifelse(Mean.Cover != "+", round(as.numeric(Mean.Cover)), Mean.Cover),
@@ -251,28 +302,34 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
     
     shiny::req(floristicTables_composed_all_rval())
     shiny::req(!is.null(composedFloristicTable()))
-    shiny::req(!is.null(nvcFloristicTable()))
-    shiny::req(nvcFloristicTable() != "")
+    shiny::req(!is.null(vcFloristicTable()))
+    shiny::req(vcFloristicTable() != "")
     
     # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
       
       floristicTables_composed_all <- floristicTables_composed_all_rval()
       composedFloristicTable_name <- composedFloristicTable()
-      nvcFloristicTable_name <- nvcFloristicTable()
-      setupData <- setupData()
+      vcFloristicTable_name <- vcFloristicTable()
+      floristic_tables <- floristic_tables()
+      ft_taxon_name_col <- ft_taxon_name_col()
+      unit_name_col <- unit_name_col()
       
     })
     
-    floristic_tables <- setupData$floristic_tables
+    # assign(x = "floristicTables_composed_all", value = floristicTables_composed_all, envir = .GlobalEnv)
+    # assign(x = "composedFloristicTable_name", value = composedFloristicTable_name, envir = .GlobalEnv)
+    # assign(x = "vcFloristicTable_name", value = vcFloristicTable_name, envir = .GlobalEnv)
+    # assign(x = "floristic_tables", value = floristic_tables, envir = .GlobalEnv)
+    # assign(x = "ft_taxon_name_col", value = ft_taxon_name_col, envir = .GlobalEnv)
     
     floristicTables_composed_selected <- floristicTables_composed_all |>
       dplyr::filter(ID == composedFloristicTable_name) |>
       dplyr::select(-ID)
     
-    floristicTables_nvc <- floristic_tables |>
-      dplyr::filter(nvc_code == nvcFloristicTable_name) |>
-      dplyr::select("Species" = "nvc_taxon_name", "Constancy" = "constancy") |>
+    floristicTables_vc <- floristic_tables |>
+      dplyr::filter(.data[[unit_name_col]] == vcFloristicTable_name) |>
+      dplyr::select("Species" = ft_taxon_name_col, "Constancy" = "constancy") |>
       dplyr::mutate(
         "Constancy" = 
           dplyr::case_when(
@@ -287,7 +344,7 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
       dplyr::mutate("Constancy" = factor(Constancy, levels = c("V", "IV", "III", "II", "I"))) |>
       dplyr::arrange(Constancy, Species)
     
-    floristicTables_composed_compToNVC <- floristicTables_nvc |>
+    floristicTables_composed_compToVC <- floristicTables_vc |>
       dplyr::select(-Constancy) |>
       dplyr::left_join(floristicTables_composed_selected, by = "Species") |>
       dplyr::mutate(
@@ -302,11 +359,11 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
       
       floristicTables_composed_view <- floristicTables_composed_selected
       
-    } else if(matchSpecies() == "compToNVC"){
+    } else if(matchSpecies() == "compToVC"){
       
-      floristicTables_composed_view <- floristicTables_composed_compToNVC
+      floristicTables_composed_view <- floristicTables_composed_compToVC
       
-    } else if(matchSpecies() == "NVCToComp"){
+    } else if(matchSpecies() == "VCToComp"){
       
       floristicTables_composed_view <- floristicTables_composed_selected
       
@@ -341,7 +398,7 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
   }) |>
     bindEvent(floristicTables_composed_all_rval(), 
               matchSpecies(),
-              nvcFloristicTable(),
+              vcFloristicTable(),
               composedFloristicTable(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
@@ -408,6 +465,8 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
   
   observe({
     
+    shiny::req(region() == "gbnvc")
+    
     shiny::isolate({
       samp_floristicTable_name <- composedFloristicTable()
       avgEIVs <- avgEIVs()
@@ -452,7 +511,8 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
     
     
   }) |>
-    bindEvent(composedFloristicTableTitle_rval(),
+    bindEvent(region,
+              composedFloristicTableTitle_rval(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
@@ -464,64 +524,63 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
     
   })
 
-  # NVC Floristic Tables -------------------------------------------------------
+  # VC Floristic Tables -------------------------------------------------------
 
   ## Intialise -----------------------------------------------------------------
-  floristicTables_nvc_init <- data.frame("Species" = character(),
-                                         "Constancy" = character(),
-                                         "Cover" = character())
+  floristicTables_vc_init <- data.frame("Species" = character(),
+                                        "Constancy" = character(),
+                                        "Cover" = character())
   
-  output$floristicTables_nvc <- reactable::renderReactable({
+  output$floristicTables_vc <- reactable::renderReactable({
     
-    floristicTables_nvc <- reactable::reactable(data = floristicTables_nvc_init,
-                                                filterable = FALSE,
-                                                pagination = FALSE, 
-                                                highlight = TRUE,
-                                                bordered = TRUE,
-                                                sortable = FALSE, 
-                                                wrap = FALSE,
-                                                resizable = TRUE,
-                                                class = "my-tbl",
-                                                # style = list(fontSize = "1rem"),
-                                                rowClass = "my-row",
-                                                defaultColDef = reactable::colDef(
-                                                  headerClass = "my-header",
-                                                  class = "my-col",
-                                                  align = "center" # Needed as alignment is not passing through to header
-                                                )
-                                                )
+    floristicTables_vc <- reactable::reactable(data = floristicTables_vc_init,
+                                               filterable = FALSE,
+                                               pagination = FALSE, 
+                                               highlight = TRUE,
+                                               bordered = TRUE,
+                                               sortable = FALSE, 
+                                               wrap = FALSE,
+                                               resizable = TRUE,
+                                               class = "my-tbl",
+                                               # style = list(fontSize = "1rem"),
+                                               rowClass = "my-row",
+                                               defaultColDef = reactable::colDef(
+                                                 headerClass = "my-header",
+                                                 class = "my-col",
+                                                 align = "center" # Needed as alignment is not passing through to header
+                                               )
+                                               )
     
-    return(floristicTables_nvc)
+    return(floristicTables_vc)
     
   })
-  
 
   ## Update --------------------------------------------------------------------
   observe({
     
     shiny::req(!is.null(composedFloristicTable()))
-    shiny::req(!is.null(nvcFloristicTable()))
-    shiny::req(nvcFloristicTable() != "")
+    shiny::req(!is.null(vcFloristicTable()))
+    shiny::req(vcFloristicTable() != "")
     
     # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
       
       floristicTables_composed_all <- floristicTables_composed_all_rval()
       composedFloristicTable <- composedFloristicTable()
-      nvcFloristicTable <- nvcFloristicTable()
-      setupData <- setupData()
+      vcFloristicTable <- vcFloristicTable()
+      unit_name_col <- unit_name_col()
+      ft_taxon_name_col <- ft_taxon_name_col()
+      floristic_tables <- floristic_tables()
       
     })
-    
-    floristic_tables <- setupData$floristic_tables
       
     floristicTables_composed_selected <- floristicTables_composed_all |>
       dplyr::filter(ID == composedFloristicTable) |>
       dplyr::select(-ID)
     
-    floristicTables_nvc <- floristic_tables |>
-      dplyr::filter(nvc_code == nvcFloristicTable) |>
-      dplyr::select("Species" = "nvc_taxon_name", "Constancy" = "constancy",
+    floristicTables_vc <- floristic_tables |>
+      dplyr::filter(.data[[unit_name_col]] == vcFloristicTable) |>
+      dplyr::select("Species" = ft_taxon_name_col, "Constancy" = "constancy",
                     minimum_cover, mean_cover, maximum_cover) |>
       dplyr::mutate(
         "Constancy" = 
@@ -542,9 +601,9 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
                                      " - ", 
                                      maximum_cover), .keep = "unused")
 
-    floristicTables_nvc_NVCToComp <- floristicTables_composed_selected |>
+    floristicTables_vc_VCToComp <- floristicTables_composed_selected |>
       dplyr::select(-Constancy, -Cover) |>
-      dplyr::left_join(floristicTables_nvc, by = "Species") |>
+      dplyr::left_join(floristicTables_vc, by = "Species") |>
       dplyr::mutate(
         "Species" =
           dplyr::case_when(
@@ -555,73 +614,74 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
     
     if(matchSpecies() == "No"){
       
-      floristicTables_nvc_view <- floristicTables_nvc
+      floristicTables_vc_view <- floristicTables_vc
       
-    } else if(matchSpecies() == "compToNVC"){
+    } else if(matchSpecies() == "compToVC"){
       
-      floristicTables_nvc_view <- floristicTables_nvc
+      floristicTables_vc_view <- floristicTables_vc
+    
+    } else if(matchSpecies() == "VCToComp"){
       
-    } else if(matchSpecies() == "NVCToComp"){
-      
-      floristicTables_nvc_view <- floristicTables_nvc_NVCToComp
+      floristicTables_vc_view <- floristicTables_vc_VCToComp
       
     }
     
-    output$floristicTables_nvc <- reactable::renderReactable({
+    output$floristicTables_vc <- reactable::renderReactable({
       
-      floristicTables_nvc <- reactable::reactable(data = floristicTables_nvc_view, 
-                                                  filterable = FALSE,
-                                                  pagination = FALSE, 
-                                                  highlight = TRUE,
-                                                  bordered = TRUE,
-                                                  sortable = FALSE, 
-                                                  wrap = FALSE,
-                                                  resizable = TRUE,
-                                                  class = "my-tbl",
-                                                  # style = list(fontSize = "1rem"),
-                                                  rowClass = "my-row",
-                                                  defaultColDef = reactable::colDef(
-                                                    headerClass = "my-header",
-                                                    class = "my-col",
-                                                    align = "center" # Needed as alignment is not passing through to header
-                                                  )
-                                                  )
+      floristicTables_vc <- reactable::reactable(data = floristicTables_vc_view, 
+                                                 filterable = FALSE,
+                                                 pagination = FALSE, 
+                                                 highlight = TRUE,
+                                                 bordered = TRUE,
+                                                 sortable = FALSE, 
+                                                 wrap = FALSE,
+                                                 resizable = TRUE,
+                                                 class = "my-tbl",
+                                                 # style = list(fontSize = "1rem"),
+                                                 rowClass = "my-row",
+                                                 defaultColDef = reactable::colDef(
+                                                   headerClass = "my-header",
+                                                   class = "my-col",
+                                                   align = "center" # Needed as alignment is not passing through to header
+                                                 )
+                                                 )
       
-      return(floristicTables_nvc)
+      return(floristicTables_vc)
       
     })
     
   }) |>
     bindEvent(floristicTables_composed_all_rval(),
-              nvcFloristicTable(), 
+              vcFloristicTable(), 
               matchSpecies(), 
               composedFloristicTable(),
               ignoreInit = TRUE, ignoreNULL = TRUE)
   
   
-  outputOptions(output, "floristicTables_nvc", suspendWhenHidden = FALSE)
+  outputOptions(output, "floristicTables_vc", suspendWhenHidden = FALSE)
   
   
   ## Title ---------------------------------------------------------------------
-  nvcFloristicTableTitle_rval <- reactiveVal(paste("<font size=4.75>",
-                                                   "NVC Floristic Table ",
-                                                   "</font>") 
+  vcFloristicTableTitle_rval <- reactiveVal(paste("<font size=4.75>",
+                                                  "VC Floristic Table ",
+                                                  "</font>") 
   )
   
   observe({
     
-    shiny::req(nvcFloristicTable())
+    shiny::req(vcFloristicTable())
     shiny::req(composedFloristicTable())
     
     shiny::isolate({
       setupData <- setupData()
-      comp_FloristicTable_name <- nvcFloristicTable()
+      comp_FloristicTable_name <- vcFloristicTable()
+      unit_name_col <- unit_name_col()
     })
     
     comp_attr <- setupData$community_attributes
     
     comp_attr_values <- try({
-      comp_attr |> dplyr::filter(nvc_code == comp_FloristicTable_name)
+      comp_attr |> dplyr::filter(.data[[unit_name_col]] == comp_FloristicTable_name)
     })
     
     if(all(class(comp_attr_values) != "try-error")){
@@ -640,35 +700,35 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
       name_max_species <- paste0("<font color=\"red\">NA</font>")
     }
     
-    nvcFloristicTableTitle <- paste0("<font size=4.75>",
-                                     comp_FloristicTable_name,
-                                     "<br>",
-                                     "Quadrats: ",
-                                     name_quadrats,
-                                     "<br>",
-                                     "Species: ",
-                                     name_total_species,
-                                     " (min = ",
-                                     name_min_species,
-                                     ", mean = ",
-                                     name_mean_species,
-                                     ", max = ",
-                                     name_max_species,
-                                     ")",
-                                     "</font>")
+    vcFloristicTableTitle <- paste0("<font size=4.75>",
+                                    comp_FloristicTable_name,
+                                    "<br>",
+                                    "Quadrats: ",
+                                    name_quadrats,
+                                    "<br>",
+                                    "Species: ",
+                                    name_total_species,
+                                    " (min = ",
+                                    name_min_species,
+                                    ", mean = ",
+                                    name_mean_species,
+                                    ", max = ",
+                                    name_max_species,
+                                    ")",
+                                    "</font>")
     
-    nvcFloristicTableTitle_rval(nvcFloristicTableTitle)
+    vcFloristicTableTitle_rval(vcFloristicTableTitle)
     
   }) |>
-    bindEvent(nvcFloristicTable(), 
+    bindEvent(vcFloristicTable(), 
               composedFloristicTable(),
               ignoreInit = TRUE, ignoreNULL = TRUE)
   
-  output$nvcFloristicTableTitle <- renderText({ 
+  output$vcFloristicTableTitle <- renderText({ 
     
-    nvcFloristicTableTitle <- nvcFloristicTableTitle_rval()
+    vcFloristicTableTitle <- vcFloristicTableTitle_rval()
     
-    paste(nvcFloristicTableTitle) 
+    paste(vcFloristicTableTitle) 
     
   })
   
@@ -681,13 +741,16 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
   
   observe({
     
+    shiny::req(region() == "gbnvc")
+    
     shiny::isolate({
       setupData <- setupData()
-      comp_FloristicTable_name <- nvcFloristicTable()
+      comp_FloristicTable_name <- vcFloristicTable()
+      unit_name_col <- unit_name_col()
     })
     
     comm_cm_he <- setupData$comm_cm_he |>
-      dplyr::filter(nvc_code == comp_FloristicTable_name)
+      dplyr::filter(.data[[unit_name_col]] == comp_FloristicTable_name)
     
     f_val <- comm_cm_he |>
       dplyr::filter(indicator == "F") |>
@@ -727,7 +790,8 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
     
     
   }) |>
-    bindEvent(nvcFloristicTableTitle_rval(),
+    bindEvent(region,
+              vcFloristicTableTitle_rval(),
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
@@ -866,7 +930,7 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
   # Show/Hide Selected Tables -----------------------------------------------
   observe({
     
-    shinyjs::show(id = "singleComposedVsNVC_div")
+    shinyjs::show(id = "singleComposedVsVC_div")
     shinyjs::show(id = "multipleComposed_div")
     
   }) |>
@@ -877,14 +941,14 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
   
   observe({
     
-    if(floristicTablesView() == "singleComposedVsNVC") {
+    if(floristicTablesView() == "singleComposedVsVC") {
       
-      shinyjs::show(id = "singleComposedVsNVC_div")
+      shinyjs::show(id = "singleComposedVsVC_div")
       shinyjs::hide(id = "multipleComposed_div")
       
     } else if(floristicTablesView() == "multipleComposed") {
       
-      shinyjs::hide(id = "singleComposedVsNVC_div")
+      shinyjs::hide(id = "singleComposedVsVC_div")
       shinyjs::show(id = "multipleComposed_div")
       
     }
@@ -895,7 +959,7 @@ floristicTables <- function(input, output, session, setupData, surveyData, avgEI
   
   observe({
     
-    shinyjs::show(id = "singleComposedVsNVC_div")
+    shinyjs::show(id = "singleComposedVsVC_div")
     
   }) |>
     bindEvent(floristicTablesView(), 

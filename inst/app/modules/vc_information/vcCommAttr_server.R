@@ -1,48 +1,79 @@
-nvcCommAttr <- function(input, output, session) {
+vcCommAttr <- function(input, output, region, session) {
   
   ns <- session$ns
   
+  community_attributes <- shiny::reactiveVal()
+  
   # Create community attributes object --------------------------------------
-  nvc_cm_he_wide <- RMAVIS::nvc_cm_he |>
-    dplyr::select(-sd) |>
-    tidyr::pivot_wider(id_cols = nvc_code,
-                       names_from = indicator, 
-                       values_from = mean) |> 
-    dplyr::mutate("Type" = "Original", .before = "nvc_code")
-  
-  calthion_cm_he_wide <- RMAVIS::calthion_cm_he |>
-    dplyr::select(-sd) |>
-    tidyr::pivot_wider(id_cols = nvc_code,
-                       names_from = indicator, 
-                       values_from = mean) |> 
-    dplyr::mutate("Type" = "Calthion", .before = "nvc_code")
-  
-  sowg_cm_he_wide <- RMAVIS::sowg_cm_he |>
-    dplyr::select(-sd) |>
-    tidyr::pivot_wider(id_cols = nvc_code,
-                       names_from = indicator, 
-                       values_from = mean) |> 
-    dplyr::mutate("Type" = "SOWG", .before = "nvc_code")
-  
-  all_cm_he_wide <- dplyr::bind_rows(nvc_cm_he_wide, calthion_cm_he_wide, sowg_cm_he_wide) |>
-    dplyr::mutate_if(is.numeric, round, 2)
-  
-  community_attributes <- shiny::reactiveVal(
-      dplyr::bind_rows(RMAVIS::nvc_community_attributes,
-                       RMAVIS::calthion_community_attributes,
-                       RMAVIS::sowg_community_attributes) |>
-      dplyr::mutate("mean_species" = round(mean_species, digits = 0)) |>
-      dplyr::inner_join(all_cm_he_wide, by = "nvc_code") |>
-      dplyr::select("NVC.Code" = "nvc_code", 
-                    "Type",
-                    "Rank" = "rank",
-                    "Number.Samples" = "num_samples",
-                    "Min.Species" = "min_species",
-                    "Max.Species" = "max_species",
-                    "Mean.Species" = "mean_species",
-                    "Total.Species" = "species_count",
-                    "F", "L", "N", "R", "S")
-  )
+  observe({
+    
+    region <- region()
+    
+    if(region == "gbnvc"){
+      
+      nvc_cm_he_wide <- RMAVIS::nvc_cm_he |>
+        dplyr::select(-sd) |>
+        tidyr::pivot_wider(id_cols = nvc_code,
+                           names_from = indicator, 
+                           values_from = mean) |> 
+        dplyr::mutate("Type" = "Original", .before = "nvc_code")
+      
+      calthion_cm_he_wide <- RMAVIS::calthion_cm_he |>
+        dplyr::select(-sd) |>
+        tidyr::pivot_wider(id_cols = nvc_code,
+                           names_from = indicator, 
+                           values_from = mean) |> 
+        dplyr::mutate("Type" = "Calthion", .before = "nvc_code")
+      
+      sowg_cm_he_wide <- RMAVIS::sowg_cm_he |>
+        dplyr::select(-sd) |>
+        tidyr::pivot_wider(id_cols = nvc_code,
+                           names_from = indicator, 
+                           values_from = mean) |> 
+        dplyr::mutate("Type" = "SOWG", .before = "nvc_code")
+      
+      all_cm_he_wide <- dplyr::bind_rows(nvc_cm_he_wide, calthion_cm_he_wide, sowg_cm_he_wide) |>
+        dplyr::mutate_if(is.numeric, round, 2)
+      
+      cm_prepped <- dplyr::bind_rows(RMAVIS::nvc_community_attributes,
+                                     RMAVIS::calthion_community_attributes,
+                                     RMAVIS::sowg_community_attributes) |>
+        dplyr::mutate("mean_species" = round(mean_species, digits = 0)) |>
+        dplyr::inner_join(all_cm_he_wide, by = "nvc_code") |>
+        dplyr::select("NVC.Code" = "nvc_code", 
+                      "Type",
+                      "Rank" = "rank",
+                      "Number.Samples" = "num_samples",
+                      "Min.Species" = "min_species",
+                      "Max.Species" = "max_species",
+                      "Mean.Species" = "mean_species",
+                      "Total.Species" = "species_count",
+                      "F", "L", "N", "R", "S") |>
+        dplyr::arrange(NVC.Code)
+      
+      
+    } else if (region == "mnnpc"){
+      
+      cm_prepped <- MNNPC::mnnpc_community_attributes |>
+        dplyr::select("MNNPC.Code" = "npc_code",
+                      "Rank" = "rank",
+                      "Number.Samples" = "num_samples",
+                      "Min.Species" = "min_species",
+                      "Max.Species" = "max_species",
+                      "Mean.Species" = "mean_species",
+                      "Total.Species" = "species_count") |>
+        dplyr::arrange(MNNPC.Code)
+      
+      
+    }
+    
+    community_attributes(cm_prepped)
+    
+    
+  }) |>
+    shiny::bindEvent(region(),
+                     ignoreInit = FALSE,
+                     ignoreNULL = TRUE)
   
 
   # Community attributes data -----------------------------------------------

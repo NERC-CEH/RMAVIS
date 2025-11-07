@@ -88,20 +88,20 @@ habitatRestriction_options <- list(
 )
 
 # Floristic Tables Options ------------------------------------------------
-floristicTablesView_options <- c("Single Composed vs NVC" = "singleComposedVsNVC",
+floristicTablesView_options <- c("Single Composed vs VC" = "singleComposedVsVC",
                                  "Multiple Composed" = "multipleComposed")
 
 # Initialise the set of floristic tables to view, will be updated in sidebar_server
 floristicTablesSetView_options <- c("all")
 
 matchSpecies_options <- c("No" = "No",
-                          "Composed to NVC" = "compToNVC",
-                          "NVC to Composed" = "NVCToComp")
+                          "Composed to VC" = "compToVC",
+                          "VC to Composed" = "VCToComp")
 
 # Results to View NVC Assignment ------------------------------------------
-resultsViewNVCAssign_options <- c("Site, Czekanowski" = "nvcAssignSiteCzekanowski",
-                                  "Group, Czekanowski" = "nvcAssignGroupCzekanowski",
-                                  "Quadrat, Jaccard" = "nvcAssignPlotJaccard")
+resultsViewVCAssign_options <- c("Site, Czekanowski" = "vcAssignSiteCzekanowski",
+                                 "Group, Czekanowski" = "vcAssignGroupCzekanowski",
+                                 "Quadrat, Jaccard" = "vcAssignPlotJaccard")
 
 # Results to View EIVs ----------------------------------------------------
 resultsViewEIVs_options <- c("Weighted Mean Hill-Ellenberg Values, by Site" = "weightedMeanHEValuesSite",
@@ -174,9 +174,9 @@ groupSurveyPlots_options <- c("No" = "no",
                               "Year" = "year")
 
 # Report Options ----------------------------------------------------------
-reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAssignmentResultsSite_Czekanowski",
-                                                   "Group, Czekanowski" = "nvcAssignmentResultsGroup_Czekanowski",
-                                                   "Quadrat, Jaccard" = "nvcAssignmentResultsQuadrat_Jaccard"),
+reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "vcAssignmentResultsSite_Czekanowski",
+                                                   "Group, Czekanowski" = "vcAssignmentResultsGroup_Czekanowski",
+                                                   "Quadrat, Jaccard" = "vcAssignmentResultsQuadrat_Jaccard"),
                               `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
                                                      "Group" = "composedFloristicTablesGroup"),
                               `Habitat Correspondence` = c("Site" = "habitatCorrespondenceSite"),
@@ -266,7 +266,7 @@ usethis::use_data(region_options,
                   floristicTablesView_options,
                   floristicTablesSetView_options,
                   matchSpecies_options,
-                  resultsViewNVCAssign_options,
+                  resultsViewVCAssign_options,
                   resultsViewEIVs_options,
                   resultsViewDiversity_options,
                   dcaAxisSelection_options,

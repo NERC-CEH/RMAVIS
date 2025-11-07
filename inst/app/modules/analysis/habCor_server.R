@@ -1,4 +1,4 @@
-habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
+habCor <- function(input, output, session, vcAssignment, sidebar_options) {
   
   ns <- session$ns
   
@@ -51,17 +51,17 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
   
   observe({
     
-    shiny::req(nvcAssignment())
+    shiny::req(vcAssignment())
     
     # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
       
-      nvcAssignment <- nvcAssignment()
+      vcAssignment <- vcAssignment()
       habCorClass <- habCorClass()
       
     })
       
-    topNVCCommunities_df <- data.frame("nvc_code" = nvcAssignment$topNVCCommunities)
+    topNVCCommunities_df <- data.frame("nvc_code" = vcAssignment$topNVCCommunities)
     
     habCor <- topNVCCommunities_df |>
       dplyr::left_join(RMAVIS::habitat_correspondences, relationship = "many-to-many", by = "nvc_code")
@@ -106,7 +106,7 @@ habCor <- function(input, output, session, nvcAssignment, sidebar_options) {
     })
     
   }) |>
-    bindEvent(nvcAssignment(),
+    bindEvent(vcAssignment(),
               habCorClass(), 
               ignoreInit = TRUE, 
               ignoreNULL = TRUE

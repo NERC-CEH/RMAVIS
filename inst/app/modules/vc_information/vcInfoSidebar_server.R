@@ -1,14 +1,14 @@
-nvcInfoSidebar <- function(input, output, session, nvcCommNamesLookup, nvcFlorTabs, nvcCommAttr) {
+vcInfoSidebar <- function(input, output, session, region, vcCommNamesLookup, vcFlorTabs, vcCommAttr) {
   
   ns <- session$ns
 
   # Download Taxon Lookup ---------------------------------------------------
-  output$downloadNVCInformation <- downloadHandler(
+  output$downloadVCInformation <- downloadHandler(
     
     filename = function() {
       
-      paste0("RMAVIS.NVC.Information.",
-             "v1-1-3",
+      paste0("RMAVIS.VC.Information.",
+             "v1-2-0",
              ".xlsx",
              sep="")
       
