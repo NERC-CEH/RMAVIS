@@ -12,7 +12,7 @@ subset_vcData(
 )
 }
 \arguments{
-\item{habitatRestriction}{A vector of habitat codes, see \code{RMAVIS:::habitatRestriction_options}.}
+\item{habitatRestriction}{A vector of habitat codes, see \code{RMAVIS:::habitatRestrictionPrefixes} or \code{MNNPC::mnnpc_vc_types_named}.}
 
 \item{col_name}{The name of the column containing VC pseudo-quadrat names with VC code prefixes.}
 

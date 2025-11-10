@@ -1,4 +1,4 @@
-calcAvgEIVs <- function(input, output, session, surveyData, sidebar_options) {
+calcAvgEIVs <- function(input, output, session, setupData, surveyData, sidebar_options) {
   
   ns <- session$ns
 
@@ -13,6 +13,20 @@ calcAvgEIVs <- function(input, output, session, surveyData, sidebar_options) {
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
+  
+
+# Retrieve setup data -----------------------------------------------------
+  run_module <- reactiveVal()
+  
+  observe({
+    
+    run_module(setupData()$regional_module_availability$avgEIVs)
+    
+  }) |>
+    bindEvent(setupData(),
+              ignoreInit = FALSE,
+              ignoreNULL = TRUE)
+
 
 # Show/Hide Results -------------------------------------------------------
   observe({
@@ -269,6 +283,7 @@ calcAvgEIVs <- function(input, output, session, surveyData, sidebar_options) {
   observe({
     
     shiny::req(surveyData())
+    shiny::req(isTRUE(run_module()))
     
     shinybusy::show_modal_spinner(
       spin = "fading-circle",

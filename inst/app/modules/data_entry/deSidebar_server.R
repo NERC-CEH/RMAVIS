@@ -1,8 +1,8 @@
 deSidebar <- function(input, output, session, setupData,
-                      surveyData, surveyDataValidator, surveyDataSummary) {
+                      surveyData, surveyDataValidator, surveyDataSummary,
+                      taxonomicBackbone) {
   
   ns <- session$ns
-  
 
 # Compose list of inputs to return from module ----------------------------
   sidebar_options <- reactiveVal()
@@ -28,12 +28,23 @@ deSidebar <- function(input, output, session, setupData,
 
 # Retrieve setup data -----------------------------------------------------
   example_data_options <- reactiveVal()
+  accepted_taxa <- reactiveVal()
+  taxa_lookup <- reactiveVal()
+  region <- reactiveVal()
   
   observe({
     
-    setupData <- setupData()
+    region(setupData()$region)
     
-    example_data_options(setupData$example_data_options)
+    if(region() == "gbnvc"){
+      taxa_lookup(UKVegTB::taxa_lookup)
+    } else if(region() == "mnnpc"){
+      taxa_lookup(MNNPC::mnnpc_taxa_lookup)
+    }
+    
+    example_data_options(setupData()$example_data_options)
+    
+    accepted_taxa(setupData()$accepted_species)
     
   }) |>
     bindEvent(setupData(),
@@ -208,7 +219,8 @@ deSidebar <- function(input, output, session, setupData,
     filename = function() {
       
       paste0("RMAVIS.AcceptedTaxa.",
-             "v1-2-0",
+             stringr::str_to_upper(region()),
+             ".v1-2-0",
              ".csv",
              sep="")
       
@@ -216,7 +228,7 @@ deSidebar <- function(input, output, session, setupData,
     
     content = function(file) {
       
-      write.csv(x = RMAVIS::accepted_taxa, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
+      write.csv(x = accepted_taxa(), file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
       
     }
   )
@@ -227,7 +239,8 @@ deSidebar <- function(input, output, session, setupData,
     filename = function() {
       
       paste0("RMAVIS.TaxonomicBackbone.",
-             "v1-2-0",
+             stringr::str_to_upper(region()),
+             ".v1-2-0",
              ".csv",
              sep="")
       
@@ -235,7 +248,7 @@ deSidebar <- function(input, output, session, setupData,
     
     content = function(file) {
       
-      write.csv(x = UKVegTB::taxonomic_backbone, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
+      write.csv(x = taxonomicBackbone(), file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
       
     }
   )
@@ -246,7 +259,8 @@ deSidebar <- function(input, output, session, setupData,
     filename = function() {
       
       paste0("RMAVIS.TaxonLookup.",
-             "v1-2-0",
+             stringr::str_to_upper(region()),
+             ".v1-2-0",
              ".csv",
              sep="")
       
@@ -254,7 +268,7 @@ deSidebar <- function(input, output, session, setupData,
     
     content = function(file) {
       
-      write.csv(x = UKVegTB::taxa_lookup, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
+      write.csv(x = taxa_lookup(), file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
       
     }
   )

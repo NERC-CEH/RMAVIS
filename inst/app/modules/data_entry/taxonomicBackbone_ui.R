@@ -1,4 +1,4 @@
-rmavisTaxonNamesLookupUI <- function(id) {
+taxonomicBackboneUI <- function(id) {
   
   ns <- NS(id)
   
@@ -7,7 +7,7 @@ rmavisTaxonNamesLookupUI <- function(id) {
       width = 12,
       
       shiny::div(
-        reactable::reactableOutput(outputId = ns("rmavisTaxonNamesLookupTable"))
+        reactable::reactableOutput(outputId = ns("taxonomicBackboneTable"))
       )
       
     )

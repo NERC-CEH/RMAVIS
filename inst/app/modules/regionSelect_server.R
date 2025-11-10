@@ -4,27 +4,6 @@ regionSelect <- function(input, output, session) {
   
   # Create Reactive Objects -------------------------------------------------
   region <- reactiveVal()
-  # regionModules <- reactiveVal(
-  #   tibble::tribble(
-  #     ~gbnvc, ~mnnpc, ~module,
-  #     TRUE, "", "",
-  #     TRUE, "", "",
-  #     TRUE, "", "",
-  #     TRUE, "", "",
-  #     TRUE, "", "",
-  #     TRUE, "", "",
-  #     TRUE, "", "",
-  #     TRUE, "", "",
-  #     TRUE, "", "",
-  #     TRUE, "", "",
-  #     TRUE, "", "",
-  #     TRUE, "", "",
-  #     TRUE, "", "",
-  #     TRUE, "", "",
-  #     TRUE, "", "",
-  #     TRUE, "", "",
-  #   )
-  # )
   
   # Retrieve Region ---------------------------------------------------------
   observe({
@@ -35,16 +14,6 @@ regionSelect <- function(input, output, session) {
     shiny::bindEvent(input$region,
                      ignoreInit = FALSE,
                      ignoreNULL = FALSE)
-  
-  # Select modules ----------------------------------------------------------
-  # observe({
-  #   
-  #   
-  #   
-  # }) |>
-  #   shiny::bindEvent(input$region,
-  #                    ignoreInit = FALSE,
-  #                    ignoreNULL = FALSE)
   
   
   # Return Setup Data -------------------------------------------------------

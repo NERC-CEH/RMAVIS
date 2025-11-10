@@ -129,18 +129,16 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
   )
   
   observe({
-    
+
     shiny::req(surveyData())
     shiny::req(speciesNames())
     
-    surveyData <- surveyData()
-    surveyData_original <- surveyData$surveyData_original
-    surveyData_long <- surveyData$surveyData_long
-    surveyData_wide <- surveyData$surveyData_wide
-    surveyData_mat <- surveyData$surveyData_mat
+    surveyData_original <- surveyData()$surveyData_original
+    surveyData_long <- surveyData()$surveyData_long
+    surveyData_wide <- surveyData()$surveyData_wide
+    surveyData_mat <- surveyData()$surveyData_mat
     
     speciesNames <- speciesNames()
-    
     coverScale <- coverScale()
 
     # Check all species are accepted

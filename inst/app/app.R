@@ -28,6 +28,7 @@ suppressPackageStartupMessages({
   library(knitr)
   library(magrittr)
   library(markdown)
+  library(MNNPC)
   library(plotly)
   library(purrr)
   library(reactable)
@@ -94,8 +95,8 @@ source("./modules/data_entry/surveyDataValidator_server.R", local = TRUE)
 source("./modules/data_entry/surveyDataSummary_ui.R", local = TRUE)
 source("./modules/data_entry/surveyDataSummary_server.R", local = TRUE)
 
-source("./modules/data_entry/rmavisTaxonNamesLookup_ui.R", local = TRUE)
-source("./modules/data_entry/rmavisTaxonNamesLookup_server.R", local = TRUE)
+source("./modules/data_entry/taxonomicBackbone_ui.R", local = TRUE)
+source("./modules/data_entry/taxonomicBackbone_server.R", local = TRUE)
 
 ## NVC --------------------------------------------------------------------
 source("./modules/analysis/sidebar_ui.R", local = TRUE)
@@ -129,6 +130,9 @@ source("./modules/analysis/mvaLocalRefUnrestricted_ui.R", local = TRUE)
 source("./modules/analysis/mvaLocalRefUnrestricted_server.R", local = TRUE)
 
 source("./modules/analysis/report_server.R", local = TRUE)
+
+source("./modules/analysis_ui.R", local = TRUE)
+source("./modules/analysis_server.R", local = TRUE)
 
 # Source main UI and Server modules ---------------------------------------
 source("./modules/ui.R", local = TRUE)

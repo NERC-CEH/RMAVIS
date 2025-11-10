@@ -31,33 +31,64 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
     bindEvent(sidebar_options(), 
               ignoreInit = TRUE)
   
-  # Retrieve Setup Data -----------------------------------------------------
-  nvc_pquads_wide <- reactiveVal()
-  nvc_pquads_mean_unweighted_eivs <- reactiveVal()
+# Retrieve Setup Data -----------------------------------------------------
+
+## Retrieve options -------------------------------------------------------
+  use_eivs <- reactiveVal()
+  
+  observe({
+    
+    use_eivs(setupData()$regional_module_availability$avgEIVs)
+    
+  }) |>
+    shiny::bindEvent(setupData(),
+                     ignoreInit = TRUE,
+                     ignoreNULL = TRUE)
+   
+## Retrieve psquads -------------------------------------------------------
+  vc_pquads_wide <- reactiveVal()
   
   observe({
     
     shiny::isolate({
-      setupData <- setupData()
+      pquads <- setupData()$pquads
+      psq_taxon_name_col <- setupData()$psq_taxon_name_col
     })
     
-    nvc_pquads_wide_prepped <- setupData$pquads |>
-      dplyr::select(psq_id, nvc_taxon_name) |>
+    vc_pquads_wide_prepped <- pquads |>
+      dplyr::select(psq_id, psq_taxon_name_col) |>
       dplyr::mutate("present" = 1) |>
-      dplyr::distinct(psq_id, nvc_taxon_name, .keep_all = TRUE) |>
+      dplyr::distinct(.data[["psq_id"]], .data[[psq_taxon_name_col]], .keep_all = TRUE) |>
       tidyr::pivot_wider(id_cols = psq_id,
-                         names_from = nvc_taxon_name,
+                         names_from = psq_taxon_name_col,
                          values_fill = 0,
                          values_from = present) |>
       tibble::column_to_rownames(var = "psq_id") |>
       as.matrix()
     
-    psquad_cm_he_prepped <- setupData$psquad_cm_he |>
+    
+    vc_pquads_wide(vc_pquads_wide_prepped)
+    
+  }) |>
+    bindEvent(runAnalysis(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+  
+## Retrieve psquad cm eivs  ----------------------------------------------
+  vc_pquads_mean_unweighted_eivs <- reactiveVal()
+  
+  observe({
+    
+    shiny::req(isTRUE(use_eivs()))
+    
+    shiny::isolate({
+      psquad_cm_he <- setupData()$psquad_cm_he
+    })
+    
+    psquad_cm_he_prepped <- psquad_cm_he |>
       dplyr::select(psq_id, `F`, L, N, R, S)
-    
-    
-    nvc_pquads_wide(nvc_pquads_wide_prepped)
-    nvc_pquads_mean_unweighted_eivs(psquad_cm_he_prepped)
+
+    vc_pquads_mean_unweighted_eivs(psquad_cm_he_prepped)
     
   }) |>
     bindEvent(runAnalysis(),
@@ -67,14 +98,15 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
   
 # Run DCA and CCA ---------------------------------------------------------
   mvaResults_rval <- reactiveVal()
+  
   observe({
     
     # Require selected objects are not NULL
     shiny::req(surveyData())
     shiny::req(runAnalysis() != 0)
     shiny::req(vcAssignment())
-    shiny::req(nvc_pquads_wide())
-    shiny::req(nvc_pquads_mean_unweighted_eivs())
+    shiny::req(vc_pquads_wide())
+    shiny::req(!is.null(selectedReferenceSpaces()))
     
     # Start busy spinner
     shinybusy::show_modal_spinner(
@@ -88,48 +120,20 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
       
       vcAssignment <- vcAssignment()
       selectedReferenceSpaces <- selectedReferenceSpaces()
-      nvc_pquads_wide <- nvc_pquads_wide()
-      nvc_pquads_mean_unweighted_eivs <- nvc_pquads_mean_unweighted_eivs()
+      vc_pquads_wide <- vc_pquads_wide()
+      vc_pquads_mean_unweighted_eivs <- vc_pquads_mean_unweighted_eivs()
       surveyData <- surveyData()
       avgEIVs <- avgEIVs()
       ccaVars <- ccaVars()
       
     })
     
-    # assign(x = "vcAssignment", value = vcAssignment, envir = .GlobalEnv)
-    # assign(x = "selectedReferenceSpaces", value = selectedReferenceSpaces, envir = .GlobalEnv)
-    # assign(x = "nvc_pquads_wide", value = nvc_pquads_wide, envir = .GlobalEnv)
-    # assign(x = "nvc_pquads_mean_unweighted_eivs", value = nvc_pquads_mean_unweighted_eivs, envir = .GlobalEnv)
-    # assign(x = "surveyData", value = surveyData, envir = .GlobalEnv)
-    # assign(x = "avgEIVs", value = avgEIVs, envir = .GlobalEnv)
-    # assign(x = "ccaVars", value = ccaVars, envir = .GlobalEnv)
-    
-    topNVCCommunities <- vcAssignment$topNVCCommunities
+    topvcCommunities <- vcAssignment$topvcCommunities
     surveyData_long <- surveyData$surveyData_long
     surveyData_mat <- surveyData$surveyData_mat
-
-    # Retrieve the unweighted mean Hill-Ellenberg scores for the pseudo-quadrats
-    nvc_pquads_mean_unweighted_eivs_prepped <- nvc_pquads_mean_unweighted_eivs |>
-      tibble::column_to_rownames(var = "psq_id")
-
-    # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
-    selected_pquads_prepped_cca  <- vegan::cca(as.formula(paste0("nvc_pquads_mean_unweighted_eivs_prepped ~ ", paste0(c(RMAVIS:::ccaVars_vals[[ccaVars]]), collapse = " + "))), # selected_pquads_prepped ~ `F` + `L` + `N`
-                                               data = nvc_pquads_mean_unweighted_eivs_prepped,
-                                               na.action = na.exclude)
-
-    # Extract CCA scores
-    selected_pquads_prepped_cca_scores <- vegan::scores(selected_pquads_prepped_cca, display = "bp")
-
-    # Extract CCA multiplier, not currently used.
-    selected_pquads_prepped_cca_multiplier <- vegan:::ordiArrowMul(selected_pquads_prepped_cca_scores)
-
-    # Create CCA arrow data
-    CCA_arrowData <- selected_pquads_prepped_cca_scores |>
-      tibble::as_tibble(rownames = NA) |>
-      tibble::rownames_to_column(var = "Hill-Ellenberg")
     
     # Perform a DCA on the combined pseudo-quadrat and survey data
-    pquads_dca_results <- vegan::decorana(veg = nvc_pquads_wide)
+    pquads_dca_results <- vegan::decorana(veg = vc_pquads_wide)
     
     # Extract the DCA results species axis scores
     pquads_dca_results_species <- vegan::scores(pquads_dca_results, tidy = TRUE) |>
@@ -142,23 +146,23 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
       dplyr::filter(score == "sites") |>
       dplyr::select(-score, -weight) |>
       dplyr::rename("Quadrat" = label) |>
-      dplyr::mutate("NVC.Comm" = stringr::str_extract(string = Quadrat, pattern = ".+?(?=\\_)"), .before  = "Quadrat")
+      dplyr::mutate("VC.Code" = stringr::str_extract(string = Quadrat, pattern = ".+?(?=\\_)"), .before  = "Quadrat")
     
     # Create convex hulls around the pseudo-quadrat DCA points.
     pquad_hulls_dca1dca2 <- pquads_dca_results_quadrats |>
-      dplyr::group_by(NVC.Comm) |>
+      dplyr::group_by(VC.Code) |>
       dplyr::slice(grDevices::chull(DCA1, DCA2)) |>
       dplyr::ungroup() |>
       dplyr::mutate("dcaAxes" = "dca1dca2")
     
     pquad_hulls_dca1dca3 <- pquads_dca_results_quadrats |>
-      dplyr::group_by(NVC.Comm) |>
+      dplyr::group_by(VC.Code) |>
       dplyr::slice(grDevices::chull(DCA1, DCA3)) |>
       dplyr::ungroup() |>
       dplyr::mutate("dcaAxes" = "dca1dca3")
     
     pquad_hulls_dca2dca3 <- pquads_dca_results_quadrats |>
-      dplyr::group_by(NVC.Comm) |>
+      dplyr::group_by(VC.Code) |>
       dplyr::slice(grDevices::chull(DCA2, DCA3)) |>
       dplyr::ungroup() |>
       dplyr::mutate("dcaAxes" = "dca2dca3")
@@ -179,7 +183,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
                        "DCA3" = mean(DCA3, na.rm = TRUE),
                        "DCA4" = mean(DCA4, na.rm = TRUE),
                        .groups = "drop") |>
-      dplyr::mutate("NVC.Comm" = "Sample", .before  = "Quadrat")
+      dplyr::mutate("VC.Code" = "Sample", .before  = "Quadrat")
 
     # Prepare the data required to draw arrows between points, ordered by Year
     if(length(unique(surveyData_dca_results_site$Year)) > 1){
@@ -205,12 +209,40 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
     
     # Calculate pseudo-quadrat centroids
     pquad_centroids <- pquads_dca_results_quadrats |>
-      dplyr::group_by(NVC.Comm) |>
+      dplyr::group_by(VC.Code) |>
       dplyr::summarise("DCA1" = mean(DCA1),
                        "DCA2" = mean(DCA2),
                        "DCA3" = mean(DCA3),
                        "DCA4" = mean(DCA4)) |>
       dplyr::ungroup()
+    
+    if(!is.null(vc_pquads_mean_unweighted_eivs)){
+      
+      # Retrieve the unweighted mean Hill-Ellenberg scores for the pseudo-quadrats
+      vc_pquads_mean_unweighted_eivs_prepped <- vc_pquads_mean_unweighted_eivs |>
+        tibble::column_to_rownames(var = "psq_id")
+      
+      # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
+      selected_pquads_prepped_cca  <- vegan::cca(as.formula(paste0("vc_pquads_mean_unweighted_eivs_prepped ~ ", paste0(c(RMAVIS:::ccaVars_vals[[ccaVars]]), collapse = " + "))), # selected_pquads_prepped ~ `F` + `L` + `N`
+                                                 data = vc_pquads_mean_unweighted_eivs_prepped,
+                                                 na.action = na.exclude)
+      
+      # Extract CCA scores
+      selected_pquads_prepped_cca_scores <- vegan::scores(selected_pquads_prepped_cca, display = "bp")
+      
+      # Extract CCA multiplier, not currently used.
+      selected_pquads_prepped_cca_multiplier <- vegan:::ordiArrowMul(selected_pquads_prepped_cca_scores)
+      
+      # Create CCA arrow data
+      CCA_arrowData <- selected_pquads_prepped_cca_scores |>
+        tibble::as_tibble(rownames = NA) |>
+        tibble::rownames_to_column(var = "Hill-Ellenberg")
+      
+    } else {
+      
+      CCA_arrowData <- NULL
+      
+    }
     
     # Compose list of DCA results objects
     mvaResults_list <- list("dca_results_pquads_species" = pquads_dca_results_species,
@@ -295,11 +327,11 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
       
       # Select centroids
       pquad_centroids_nrs <- mvaResults$pquad_centroids |>
-        dplyr::filter(NVC.Comm %in% selectedReferenceSpaces())
+        dplyr::filter(VC.Code %in% selectedReferenceSpaces())
       
       # Select hulls
       pquad_hulls_nrs <- mvaResults$pquad_hulls |>
-        dplyr::filter(NVC.Comm %in% selectedReferenceSpaces())
+        dplyr::filter(VC.Code %in% selectedReferenceSpaces())
       
 
       # Retrieve hulls and centroids for selected DCA axes
@@ -313,7 +345,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
           dplyr::select(-dcaAxes)
         
         pquad_centroids_selected <- pquad_centroids_nrs |>
-          dplyr::select(NVC.Comm, DCA1, DCA2)
+          dplyr::select(VC.Code, DCA1, DCA2)
         
       } else if(dcaAxisSelection == "dca1dca3"){
         
@@ -325,7 +357,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
           dplyr::select(-dcaAxes)
         
         pquad_centroids_selected <- pquad_centroids_nrs |>
-          dplyr::select(NVC, DCA1, DCA3)
+          dplyr::select(VC.Code, DCA1, DCA3)
         
       } else if(dcaAxisSelection == "dca2dca3"){
         
@@ -337,7 +369,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
           dplyr::select(-dcaAxes)
         
         pquad_centroids_selected <- pquad_centroids_nrs |>
-          dplyr::select(NVC, DCA2, DCA3)
+          dplyr::select(VC.Code, DCA2, DCA3)
         
       }
 
@@ -368,12 +400,12 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
             {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = pquad_hulls_selected, alpha = 0.2, 
                                                                       mapping = ggplot2::aes(x = .data[[x_axis]], 
                                                                                              y = .data[[y_axis]],
-                                                                                             fill = NVC.Comm))} +
+                                                                                             fill = VC.Code))} +
             {if("referenceCentroids" %in% dcaVars())ggplot2::geom_point(data = pquad_centroids_selected,
                                                                         mapping = ggplot2::aes(x = .data[[x_axis]], 
                                                                                                y = .data[[y_axis]],
-                                                                                               fill = NVC.Comm,
-                                                                                               color = NVC.Comm),
+                                                                                               fill = VC.Code,
+                                                                                               color = VC.Code),
                                                                                                size = 3)} +
             {if("species" %in% dcaVars())ggplot2::geom_point(data = mvaResults$dca_results_pquads_species,
                                                              color = '#32a87d',
@@ -402,21 +434,21 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
                                                          Quadrat = Quadrat,
                                                          x = .data[[x_axis]],
                                                          y = .data[[y_axis]]))} +
-            {if("hillEllenberg" %in% dcaVars())ggplot2::geom_segment(data = mvaResults$CCA_arrowData,
-                                                                     color = 'black',
-                                                                     arrow = grid::arrow(),
-                                                                     mapping = ggplot2::aes(x = 0,
-                                                                                            y = 0,
-                                                                                            xend = CCA1,
-                                                                                            yend = CCA2,
-                                                                                            label = `Hill-Ellenberg`))} +
-            {if("hillEllenberg" %in% dcaVars())ggplot2::geom_text(data = mvaResults$CCA_arrowData,
-                                                                  color = 'black',
-                                                                  # position = ggplot2::position_dodge(width = 0.9),
-                                                                  size = 5,
-                                                                  mapping = ggplot2::aes(x = CCA1 * 1.075,
-                                                                                         y = CCA2 * 1.075,
-                                                                                         label = `Hill-Ellenberg`))} +
+            {if("hillEllenberg" %in% dcaVars() & !is.null(mvaResults$CCA_arrowData)) ggplot2::geom_segment(data = mvaResults$CCA_arrowData,
+                                                                                                           color = 'black',
+                                                                                                           arrow = grid::arrow(),
+                                                                                                           mapping = ggplot2::aes(x = 0,
+                                                                                                                                  y = 0,
+                                                                                                                                  xend = CCA1,
+                                                                                                                                  yend = CCA2,
+                                                                                                                                  label = `Hill-Ellenberg`))} +
+            {if("hillEllenberg" %in% dcaVars() & !is.null(mvaResults$CCA_arrowData))ggplot2::geom_text(data = mvaResults$CCA_arrowData,
+                                                                                                       color = 'black',
+                                                                                                       # position = ggplot2::position_dodge(width = 0.9),
+                                                                                                       size = 5,
+                                                                                                       mapping = ggplot2::aes(x = CCA1 * 1.075,
+                                                                                                                              y = CCA2 * 1.075,
+                                                                                                                              label = `Hill-Ellenberg`))} +
             ggplot2::theme_minimal()
           
         )

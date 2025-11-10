@@ -4,6 +4,8 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
   
 # Establish reactive objects ----------------------------------------------
   setupData_init <- list(
+    "region" = "gbnvc",
+    "regional_module_availability" = as.list(tibble::deframe(RMAVIS:::regional_module_availability[, c("module", "gbnvc")])),
     "species_names" = RMAVIS::accepted_taxa[["taxon_name"]],
     "accepted_species" = RMAVIS::accepted_taxa,
     "example_data" = RMAVIS::example_data,
@@ -12,6 +14,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
     "pquads" = RMAVIS::nvc_pquads,
     "psquad_cm_he" = RMAVIS::nvc_psquad_cm_he,
     "example_data_options" = RMAVIS:::example_data_options,
+    "habitat_correspondences" = RMAVIS::habitat_correspondences,
     "ft_taxon_name_col" = "nvc_taxon_name",
     "psq_taxon_name_col" = "nvc_taxon_name",
     "unit_name_col" = "nvc_code",
@@ -19,49 +22,39 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
   )
 
 # Initialise objets -------------------------------------------------------
-  selected_region <- reactiveVal("gbnvc")
   setupData <- reactiveVal(setupData_init)
 
 # Retrieve sidebar options ------------------------------------------------
-  selectNVCtypes <- reactiveVal()
-  
+  selectVCtypes <- reactiveVal("Original")
+
   observe({
-    
+
     sidebar_options <- sidebar_options()
-    
-    selectNVCtypes <- sidebar_options$selectNVCtypes
-    
-    selectNVCtypes(selectNVCtypes)
+
+    selectVCtypes <- sidebar_options$selectVCtypes
+
+    selectVCtypes(selectVCtypes)
 
   }) |>
     bindEvent(sidebar_options(),
-              ignoreInit = FALSE)
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
   
-
-# Update region -----------------------------------------------------------
-  observe({
-    
-    selected_region(region())
-    
-  }) |>
-    shiny::bindEvent(region(),
-                     ignoreInit = FALSE)
-  
-
-
 # Update input data -------------------------------------------------------
   observe({
     
-    selected_region <- selected_region()
-    selected_nvc_types <- selectNVCtypes()
+    selected_vc_types <- selectVCtypes()
+
+    regional_module_availability_selected <- as.list(tibble::deframe(RMAVIS:::regional_module_availability[, c("module", region())]))
     
-    if(selected_region == "gbnvc"){
+    if(region() == "gbnvc"){
       
       # Establish setup data which doesn't vary based on NVC type
       species_names_selected <- RMAVIS::accepted_taxa[["taxon_name"]]
       accepted_species_selected <- RMAVIS::accepted_taxa
       example_data_selected <- RMAVIS::example_data
       example_data_options_selected <- RMAVIS:::example_data_options
+      habitat_correspondences_selected <-  RMAVIS::habitat_correspondences
       ft_taxon_name_col_selected <- "nvc_taxon_name"
       psq_taxon_name_col_selected <- "nvc_taxon_name"
       unit_name_col_selected <- "nvc_code"
@@ -74,7 +67,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       psquad_cm_he_selected <- tibble::tibble()
       comm_he_selected <- tibble::tibble()
       
-      if("Original" %in% selected_nvc_types){
+      if("Original" %in% selected_vc_types){
         
         floristic_tables_selected <- floristic_tables_selected |>
           dplyr::bind_rows(RMAVIS::nvc_floristic_tables)
@@ -93,7 +86,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
         
       }
       
-      if("Calthion" %in% selected_nvc_types){
+      if("Calthion" %in% selected_vc_types){
         
         floristic_tables_selected <- floristic_tables_selected |>
           dplyr::bind_rows(RMAVIS::calthion_floristic_tables)
@@ -112,7 +105,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
         
       }
       
-      if("SOWG" %in% selected_nvc_types){
+      if("SOWG" %in% selected_vc_types){
         
         floristic_tables_selected <- floristic_tables_selected |>
           dplyr::bind_rows(RMAVIS::sowg_floristic_tables)
@@ -131,7 +124,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
         
       }
       
-    } else if(selected_region == "mnnpc"){
+    } else if(region() == "mnnpc"){
       
       species_names_selected <- MNNPC::mnnpc_accepted_taxa[["taxon_name"]]
       accepted_species_selected <- MNNPC::mnnpc_accepted_taxa
@@ -142,6 +135,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       psquad_cm_he_selected <- NULL
       comm_he_selected <- NULL
       example_data_options_selected <- MNNPC:::example_data_options
+      habitat_correspondences_selected <-  NULL
       ft_taxon_name_col_selected <- "npc_taxon_name"
       psq_taxon_name_col_selected <- "taxon_name"
       unit_name_col_selected <- "npc_code"
@@ -151,6 +145,8 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
     
     # Compose final setup data
     setupData_list <- list(
+      "region" = region(),
+      "regional_module_availability" = regional_module_availability_selected,
       "species_names" = species_names_selected,
       "accepted_species" = accepted_species_selected,
       "example_data" = example_data_selected,
@@ -160,6 +156,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       "psquad_cm_he" = psquad_cm_he_selected,
       "comm_cm_he" = comm_he_selected,
       "example_data_options" = example_data_options_selected,
+      "habitat_correspondences" = habitat_correspondences_selected,
       "ft_taxon_name_col" = ft_taxon_name_col_selected,
       "psq_taxon_name_col" = psq_taxon_name_col_selected,
       "unit_name_col" = unit_name_col_selected,
@@ -169,8 +166,8 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
     setupData(setupData_list)
     
   }) |>
-    bindEvent(selected_region(),
-              selectNVCtypes(),
+    bindEvent(region(),
+              selectVCtypes(),
               ignoreNULL = TRUE,
               ignoreInit = FALSE)
   

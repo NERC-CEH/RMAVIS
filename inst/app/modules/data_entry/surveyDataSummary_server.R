@@ -4,12 +4,14 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
   
   # Retrieve Setup Data -----------------------------------------------------
   floristic_tables <- reactiveVal()
-  unit_name_col <- reactiveVal()
+  ft_taxon_name_col <- reactiveVal()
+  EIVs_available <- reactiveVal()
   
   observe({
     
     floristic_tables(setupData()$floristic_tables)
-    unit_name_col(setupData()$unit_name_col)
+    ft_taxon_name_col(setupData()$ft_taxon_name_col)
+    EIVs_available(setupData()$regional_module_availability$avgEIVs)
     
   }) |>
     bindEvent(setupData(),
@@ -71,30 +73,36 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
     shiny::isolate({
       surveyData_long <- surveyData()$surveyData_long
       floristic_tables <- floristic_tables()
-      unit_name_col <- unit_name_col()
+      ft_taxon_name_col <- ft_taxon_name_col()
     })
-    
-    hill_ellenberg_w_names <- RMAVIS::hill_ellenberg |>
-      dplyr::left_join(UKVegTB::taxa_lookup, by = "TVK") |>
-      dplyr::select("Species" = "recommended_taxon_name", `F`, L, N, R, S)
     
     speciesDataAvailability <- surveyData_long |>
       dplyr::select("Species") |>
       dplyr::distinct() |>
       dplyr::mutate(
-        "Hill-Ellenberg" = 
+        "VC" = 
           dplyr::case_when(
-            Species %in% unique(dplyr::filter(hill_ellenberg_w_names, !is.na(`F`)) |> dplyr::pull(Species)) ~ "Yes",
-            TRUE ~ as.character("No")
-          )
-      ) |>
-      dplyr::mutate(
-        "NVC" = 
-          dplyr::case_when(
-            Species %in% unique(floristic_tables[[unit_name_col]]) ~ "Yes",
+            Species %in% unique(floristic_tables[[ft_taxon_name_col]]) ~ "Yes",
             TRUE ~ as.character("No")
           )
       )
+    
+    if(isTRUE(EIVs_available())){
+      
+      hill_ellenberg_w_names <- RMAVIS::hill_ellenberg |>
+        dplyr::left_join(UKVegTB::taxa_lookup, by = "TVK") |>
+        dplyr::select("Species" = "recommended_taxon_name", `F`, L, N, R, S)
+      
+      speciesDataAvailability <- speciesDataAvailability |>
+        dplyr::mutate(
+          "Hill-Ellenberg" = 
+            dplyr::case_when(
+              Species %in% unique(dplyr::filter(hill_ellenberg_w_names, !is.na(`F`)) |> dplyr::pull(Species)) ~ "Yes",
+              TRUE ~ as.character("No")
+            )
+        )
+      
+    }
     
     
     speciesDataAvailability_rval(speciesDataAvailability)
@@ -105,9 +113,9 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
               ignoreNULL = TRUE)
   
 # Initialise speciesDataAvailability Table ------------------------------
-  speciesDataAvailabilityTable_init <- data.frame("Species" = integer(),
-                                                  "Hill-Ellenberg" = character(),
-                                                  "NVC" = character()
+  speciesDataAvailabilityTable_init <- data.frame("Species" = integer(0),
+                                                  "Hill-Ellenberg" = character(0),
+                                                  "NVC" = character(0)
   )
   
   speciesDataAvailabilityTable_rval <- reactiveVal(speciesDataAvailabilityTable_init)
@@ -173,10 +181,10 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
   })
   
   # Initialise quadratsPerYearGroup Table -----------------------------------
-  quadratsPerYearGroupTable_init <- data.frame("Year" = integer(),
-                                               "Group" = character(),
-                                               "n" = numeric(),
-                                               "Czekanowski.Similarities.Calculable?" = character()
+  quadratsPerYearGroupTable_init <- data.frame("Year" = integer(0),
+                                               "Group" = character(0),
+                                               "n" = numeric(0),
+                                               "Czekanowski.Similarities.Calculable?" = character(0)
   )
   
   quadratsPerYearGroupTable_rval <- reactiveVal(quadratsPerYearGroupTable_init)
@@ -309,7 +317,7 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
       
       speciesDataAvailabilityTable <- reactable::reactable(data = speciesDataAvailability,
                                                            height = 300,
-                                                           filterable = FALSE,
+                                                           filterable = TRUE,
                                                            pagination = FALSE, 
                                                            highlight = TRUE,
                                                            bordered = TRUE,
@@ -325,30 +333,31 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
                                                              headerClass = "my-header",
                                                              class = "my-col",
                                                              align = "center" # Needed as alignment is not passing through to header
-                                                           ),
-                                                           columns = list(
-                                                             `Species` = reactable::colDef(
-                                                               filterable = TRUE
-                                                             ),
-                                                             `Hill-Ellenberg` = reactable::colDef(
-                                                               format = reactable::colFormat(digits = 0),
-                                                               filterable = TRUE,
-                                                               filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                                   return rows.filter(function(row) {
-                                                                                                   return row.values[columnId] == filterValue
-                                                                                                   })
-                                                                                                   }")
-                                                             ),
-                                                             `NVC` = reactable::colDef(
-                                                               format = reactable::colFormat(digits = 0),
-                                                               filterable = TRUE,
-                                                               filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                                   return rows.filter(function(row) {
-                                                                                                   return row.values[columnId] == filterValue
-                                                                                                   })
-                                                                                                   }")
-                                                             )
-                                                           ))
+                                                           )#,
+                                                           # columns = list(
+                                                           #   `Species` = reactable::colDef(
+                                                           #     filterable = TRUE
+                                                           #   ),
+                                                           #   `Hill-Ellenberg` = reactable::colDef(
+                                                           #     format = reactable::colFormat(digits = 0),
+                                                           #     filterable = TRUE,
+                                                           #     filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                           #                                         return rows.filter(function(row) {
+                                                           #                                         return row.values[columnId] == filterValue
+                                                           #                                         })
+                                                           #                                         }")
+                                                           #   ),
+                                                           #   `NVC` = reactable::colDef(
+                                                           #     format = reactable::colFormat(digits = 0),
+                                                           #     filterable = TRUE,
+                                                           #     filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                           #                                         return rows.filter(function(row) {
+                                                           #                                         return row.values[columnId] == filterValue
+                                                           #                                         })
+                                                           #                                         }")
+                                                           #   )
+                                                           # )
+                                                          )
       
       return(speciesDataAvailabilityTable)
       

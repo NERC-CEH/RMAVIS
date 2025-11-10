@@ -5,20 +5,24 @@ sidebar <- function(input, output, session,
                     surveyData, surveyDataValidator, surveyDataSummary,
                     floristicTables, vcAssignment, habCor, speciesFreq,
                     avgEIVs, diversityAnalysis, 
-                    mvaLocalRefRestrictedResults) {
+                    mvaNationalRefResults) {
   
   ns <- session$ns
   
 # Retrieve setup data -----------------------------------------------------
   unit_name_col <- reactiveVal()
+  show_eivs <- reactiveVal()
+  show_habCor <- reactiveVal()
   
   observe({
     
     unit_name_col(setupData()$unit_name_col)
+    show_eivs(setupData()$regional_module_availability$avgEIVs)
+    show_habCor(setupData()$regional_module_availability$habCor)
     
   }) |>
     shiny::bindEvent(setupData(),
-                     ignoreInit = TRUE,
+                     ignoreInit = FALSE,
                      ignoreNULL = TRUE)
   
 # Compose list of inputs to return from module ----------------------------
@@ -28,7 +32,7 @@ sidebar <- function(input, output, session,
     
     sidebar_options_list <- list(
       "runAnalysis" = input$runAnalysis,
-      "selectNVCtypes" = input$selectNVCtypes,
+      "selectVCtypes" = input$selectVCtypes,
       "assignQuadrats" = input$assignQuadrats,
       "removeLowFreqTaxa" = input$removeLowFreqTaxa,
       "habitatRestriction" = input$habitatRestriction,
@@ -61,7 +65,7 @@ sidebar <- function(input, output, session,
     
   }) |>
     bindEvent(input$runAnalysis,
-              input$selectNVCtypes,
+              input$selectVCtypes,
               input$assignQuadrats,
               input$removeLowFreqTaxa,
               input$habitatRestriction, 
@@ -88,7 +92,8 @@ sidebar <- function(input, output, session,
               input$reportAuthorName,
               input$reportProjectName,
               input$reportOptions,
-              ignoreInit = FALSE)
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
 
 # Update remove low frequency taxa based on region ------------------------
   observe({
@@ -107,16 +112,61 @@ sidebar <- function(input, output, session,
     bindEvent(region(),
               ignoreInit = FALSE,
               ignoreNULL = TRUE)
+  
+
+# Update selected VC types input ------------------------------------------
+  observe({
+    
+    if(region() == "gbnvc"){
+      shinyWidgets::updatePickerInput(session = session,
+                                      inputId = "selectVCtypes",
+                                      choices = RMAVIS:::nvcType_options,
+                                      selected = c("Original"))
+    } else if(region() == "mnnpc"){
+      shinyWidgets::updatePickerInput(session = session,
+                                      inputId = "selectVCtypes",
+                                      choices = c("Original"),
+                                      selected = c("Original"))
+    }
+    
+  }) |>
+    bindEvent(region(),
+              ignoreInit = FALSE,
+              ignoreNULL = TRUE)
+  
+
+# Update habitat restriction prefixes -------------------------------------
+  observe({
+    
+    if(region() == "gbnvc"){
+      
+      shiny::updateSelectizeInput(session = session,
+                                  inputId = "habitatRestriction",
+                                  choices = RMAVIS:::habitatRestrictionPrefixes,
+                                  selected = NULL)
+      
+    } else if(region() == "mnnpc"){
+      
+      shiny::updateSelectizeInput(session = session,
+                                  inputId = "habitatRestriction",
+                                  choices = MNNPC::mnnpc_vc_types_named,
+                                  selected = NULL)
+    }
+    
+  }) |>
+    bindEvent(region(),
+              ignoreInit = FALSE,
+              ignoreNULL = TRUE)
+
+  
 
 # Update Options Based On Example Data ------------------------------------
   observe({
     
-    deSidebar_options <- deSidebar_options()
+    de_inputMethod <- deSidebar_options()$inputMethod
+    de_selectedExampleData <- deSidebar_options()$selectedExampleData
     
-    de_inputMethod <- deSidebar_options$inputMethod
-    de_selectedExampleData <- deSidebar_options$selectedExampleData
-    
-    if(de_inputMethod == "example" & "Original" %in% input$selectNVCtypes){
+    if(de_inputMethod == "example" & "Original" %in% input$selectVCtypes & region() == "gbnvc"){
       
       if(de_selectedExampleData == "Parsonage Down"){
         
@@ -124,12 +174,6 @@ sidebar <- function(input, output, session,
           session = session,
           inputId = "habitatRestriction",
           selected = "CG"
-        )
-        
-        shiny::updateTextInput(
-          session = session,
-          inputId = "reportProjectName",
-          value = "Parsonage Down"
         )
         
       } else if(de_selectedExampleData == "Whitwell Common"){
@@ -140,24 +184,12 @@ sidebar <- function(input, output, session,
           selected = "M"
         )
         
-        shiny::updateTextInput(
-          session = session,
-          inputId = "reportProjectName",
-          value = "Whitwell Common"
-        )
-        
       } else if(de_selectedExampleData == "Leith Hill Place Wood"){
         
         shiny::updateSelectizeInput(
           session = session,
           inputId = "habitatRestriction",
           selected = "W"
-        )
-        
-        shiny::updateTextInput(
-          session = session,
-          inputId = "reportProjectName",
-          value = "Leith Hill Place Wood"
         )
         
       } else if(de_selectedExampleData == "Newborough Warren"){
@@ -168,23 +200,9 @@ sidebar <- function(input, output, session,
           selected = "SD"
         )
         
-        shiny::updateTextInput(
-          session = session,
-          inputId = "reportProjectName",
-          value = "Newborough Warren"
-        )
-        
       }
       
-    } else if(de_inputMethod == "example" & !("Original" %in% input$selectNVCtypes)){
-      
-      shiny::updateSelectizeInput(
-        session = session,
-        inputId = "habitatRestriction",
-        selected = character(0)
-      )
-      
-    } else if(de_inputMethod != "example" & !("Original" %in% input$selectNVCtypes)){
+    } else {
       
       shiny::updateSelectizeInput(
         session = session,
@@ -194,9 +212,21 @@ sidebar <- function(input, output, session,
       
     }
     
+    
+    if(de_inputMethod == "example"){
+        
+        shiny::updateTextInput(
+          session = session,
+          inputId = "reportProjectName",
+          value = de_selectedExampleData
+        )
+      
+    }
+    
+    
   }) |>
     bindEvent(deSidebar_options(),
-              input$selectNVCtypes,
+              input$selectVCtypes,
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
@@ -207,12 +237,12 @@ sidebar <- function(input, output, session,
 
     okToProceed <- surveyDataValidator$surveyDataValidation$okToProceed
 
-    if(okToProceed == TRUE & nrow(surveyData()$surveyData_long) > 0 & length(input$selectNVCtypes) > 0){
+    if(okToProceed == TRUE & nrow(surveyData()$surveyData_long) > 0 & length(input$selectVCtypes) > 0){
 
       shinyjs::enable(id = "runAnalysis")
       shinyjs::enable(id = "generateReport")
 
-    } else if(okToProceed == FALSE | length(input$selectNVCtypes) == 0 | is.null(input$selectNVCtypes)){
+    } else if(okToProceed == FALSE | length(input$selectVCtypes) == 0 | is.null(input$selectVCtypes)){
 
       shinyjs::disable(id = "runAnalysis")
       shinyjs::disable(id = "generateReport")
@@ -221,7 +251,7 @@ sidebar <- function(input, output, session,
 
   }) |>
     bindEvent(surveyDataValidator(),
-              input$selectNVCtypes,
+              input$selectVCtypes,
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
@@ -249,6 +279,27 @@ sidebar <- function(input, output, session,
     
   }) |>
     bindEvent(input$floristicTablesView,
+              ignoreInit = FALSE)
+  
+
+# Show/Hide accordion panels ----------------------------------------------
+  observe({
+
+    if(isTRUE(show_eivs())) {
+      shinyjs::show(id = "eivs_accordion_panel_div")
+    } else {
+      shinyjs::hide(id = "eivs_accordion_panel_div")
+    }
+
+    if(isTRUE(show_habCor())) {
+      shinyjs::show(id = "habCor_accordion_panel_div")
+    } else {
+      shinyjs::hide(id = "habCor_accordion_panel_div")
+    }
+
+  }) |>
+    bindEvent(show_habCor(),
+              show_eivs(),
               ignoreInit = FALSE)
   
 
@@ -338,9 +389,15 @@ sidebar <- function(input, output, session,
   # Reactively update floristicTablesSetView options ------------------------
   observe({
     
-    if(nrow(floristicTables()$floristicTables_composed_all_wide) != 0){
+    shiny::isolate({
       
-      uniq_IDs <- floristicTables()$floristicTables_composed_all_wide |>
+      floristicTables <- floristicTables()
+      
+    })
+    
+    if(nrow(floristicTables$floristicTables_composed_all_wide) != 0){
+      
+      uniq_IDs <- floristicTables$floristicTables_composed_all_wide |>
         dplyr::pull(Group) |>
         unique()
       
@@ -357,7 +414,8 @@ sidebar <- function(input, output, session,
     }
     
   }) |>
-    bindEvent(floristicTables(),
+    bindEvent(vcAssignment(),
+              # floristicTables(),
               ignoreInit = TRUE)
   
   
@@ -433,7 +491,8 @@ sidebar <- function(input, output, session,
   }) |>
     bindEvent(input$groupSurveyPlots,
               input$selectSurveyMethod, 
-              ignoreInit = FALSE)
+              ignoreInit = FALSE,
+              ignoreNULL = TRUE)
   
   # Reactively update global reference DCA space selection ------------------
   observe({
@@ -441,16 +500,17 @@ sidebar <- function(input, output, session,
     shiny::isolate({
       vcAssignment <- vcAssignment()
       setupData <- setupData()
+      unit_name_col <- unit_name_col()
     })
     
-    topNVCCommunities <- vcAssignment$topNVCCommunities
-    selectedReferenceSpaces_options <- unique(setupData$floristic_tables[[unit_name_col()]])
+    topVCCommunities <- vcAssignment$topVCCommunities
+    selectedReferenceSpaces_options <- unique(setupData$floristic_tables[[unit_name_col]])
     
     shiny::updateSelectizeInput(
       session = session,
       inputId = "selectedReferenceSpaces",
       choices = selectedReferenceSpaces_options,
-      selected = topNVCCommunities
+      selected = topVCCommunities
     )
     
   }) |>
@@ -464,7 +524,7 @@ sidebar <- function(input, output, session,
     surveyData <- surveyData()
     surveyData_long <- surveyData$surveyData_long
     
-    if(is.null(mvaLocalRefRestrictedResults()) == FALSE){
+    if(is.null(mvaNationalRefResults()) == FALSE){
       
       uniq_years <- surveyData_long |>
         dplyr::pull(Year) |>
@@ -591,6 +651,33 @@ sidebar <- function(input, output, session,
     bindEvent(input$selectSurveyMethod,
               input$groupSurveyPlots,
               ignoreInit = TRUE)
+  
+
+# Update report options ---------------------------------------------------
+  observe({
+    
+    updated_reportOptions_options <- RMAVIS:::reportOptions_options
+    
+    if(isFALSE(show_eivs())){
+      updated_reportOptions_options <- updated_reportOptions_options[names(updated_reportOptions_options) != "EIVs (incl. Mean Hill-Ellenberg)"]
+    }
+    
+    if(isFALSE(show_habCor())){
+      updated_reportOptions_options <- updated_reportOptions_options[names(updated_reportOptions_options) != "Habitat Correspondence"]
+    }
+    
+    shinyWidgets::updatePickerInput(inputId = "reportOptions",
+                                    choices = updated_reportOptions_options,
+                                    selected = c("vcAssignmentResultsSite_Czekanowski", 
+                                                 "composedFloristicTablesSite", 
+                                                 "speciesFrequencyTable"))
+    
+    
+  }) |> 
+    shiny::bindEvent(show_eivs(),
+                     show_habCor(),
+                     ignoreInit = TRUE,
+                     ignoreNULL = FALSE)
 
 # Download RMAVIS Results -----------------------------------------------
   output$downloadRMAVISResults <- downloadHandler(
@@ -598,7 +685,7 @@ sidebar <- function(input, output, session,
     filename = function() {
       
       paste0("RMAVIS.Results.",
-             "v1-1-3.",
+             "v1-2-0.",
              format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
              ".xlsx",
              sep="")
@@ -618,20 +705,33 @@ sidebar <- function(input, output, session,
         "Floristic Tables - Long" = floristicTables$floristicTables_composed_all,
         "Floristic Tables - Wide" = floristicTables$floristicTables_composed_all_wide,
         "VC Assignment - Quadrat" = vcAssignment$vcAssignmentPlot_Jaccard,
-        "Habitat Correspondences" = habCor,
+        # "Habitat Correspondences" = habCor,
         "Frequency Table" = speciesFreq,
-        "EIVs, Weighted, Site" = avgEIVs$weightedMeanHEValuesSite,
-        "EIVs, Unweighted, Site" = avgEIVs$unweightedMeanHEValuesSite,
-        "EIVs, Weighted, Group" = avgEIVs$weightedMeanHEValuesGroup,
-        "EIVs, Unweighted, Group" = avgEIVs$unweightedMeanHEValuesGroup,
-        "EIVs, Weighted, Quadrat" = avgEIVs$weightedMeanHEValuesQuadrat,
-        "EIVs, Unweighted, Quadrat" = avgEIVs$unweightedMeanHEValuesQuadrat,
+        # "EIVs, Weighted, Site" = avgEIVs$weightedMeanHEValuesSite,
+        # "EIVs, Unweighted, Site" = avgEIVs$unweightedMeanHEValuesSite,
+        # "EIVs, Weighted, Group" = avgEIVs$weightedMeanHEValuesGroup,
+        # "EIVs, Unweighted, Group" = avgEIVs$unweightedMeanHEValuesGroup,
+        # "EIVs, Weighted, Quadrat" = avgEIVs$weightedMeanHEValuesQuadrat,
+        # "EIVs, Unweighted, Quadrat" = avgEIVs$unweightedMeanHEValuesQuadrat,
         "Diversity, Summary" = diversityAnalysis$diversitySummary,
         "Diversity, Quadrat Indices" = diversityAnalysis$diversityIndices,
         "Diversity, Richness, Site" = diversityAnalysis$speciesRichnessSite,
         "Diversity, Richness, Group" = diversityAnalysis$speciesRichnessGroup,
         "Diversity, Richness, Quadrat" = diversityAnalysis$speciesRichnessQuadrat
       )
+      
+      if(isTRUE(show_habCor)){
+        sheets[["Habitat Correspondences"]] <- habCor
+      }
+      
+      if(isTRUE(show_eivs)){
+        sheets[["EIVs, Weighted, Site"]] <- avgEIVs$weightedMeanHEValuesSite
+        sheets[["EIVs, Unweighted, Site"]] <- avgEIVs$unweightedMeanHEValuesSite
+        sheets[["EIVs, Weighted, Group"]] <- avgEIVs$weightedMeanHEValuesGroup
+        sheets[["EIVs, Unweighted, Group"]] <- avgEIVs$unweightedMeanHEValuesGroup
+        sheets[["EIVs, Weighted, Quadrat"]] <- avgEIVs$weightedMeanHEValuesQuadrat
+        sheets[["EIVs, Unweighted, Quadrat"]] <- avgEIVs$unweightedMeanHEValuesQuadrat
+      }
       
       if(!is.null(vcAssignment$vcAssignmentGroup_Czekanowski)){
         sheets[["VC Assignment - Group"]] <- vcAssignment$vcAssignmentGroup_Czekanowski
@@ -640,6 +740,8 @@ sidebar <- function(input, output, session,
       if(!is.null(vcAssignment$vcAssignmentSite_Czekanowski)){
         sheets[["VC Assignment - Site"]] <- vcAssignment$vcAssignmentSite_Czekanowski
       }
+      
+      sheets <- sheets[sort(names(sheets), decreasing = TRUE)]
       
       writexl::write_xlsx(x = sheets, path = file)
       

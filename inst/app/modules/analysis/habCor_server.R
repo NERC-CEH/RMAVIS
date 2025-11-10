@@ -1,20 +1,37 @@
-habCor <- function(input, output, session, vcAssignment, sidebar_options) {
+habCor <- function(input, output, session, setupData, vcAssignment, sidebar_options) {
   
   ns <- session$ns
   
 # Retrieve sidebar options ------------------------------------------------
   habCorClass <- reactiveVal()
-
+  
   observe({
 
     habCorClass(sidebar_options()$habCorClass)
-
+    
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
   
 
+# Retrieve setup data -----------------------------------------------------
+  habitat_correspondences <- reactiveVal()
+  unit_name_col <- reactiveVal()
+  run_module <- reactiveVal()
+  
+  observe({
+    
+    habitat_correspondences(setupData()$habitat_correspondences)
+    unit_name_col(setupData()$unit_name_col)
+    run_module(setupData()$regional_module_availability$avgEIVs)
+    
+  }) |>
+    bindEvent(setupData(),
+              ignoreInit = FALSE,
+              ignoreNULL = TRUE)
+  
+
 # Create initial habitat correspondance table -----------------------------
-  habCorData_init <- data.frame("NVC.Code" = character(),
+  habCorData_init <- data.frame("VC.Code" = character(),
                                 "Relationship" = character(),
                                 "Code" = character(),
                                 "Label" = character()
@@ -52,27 +69,31 @@ habCor <- function(input, output, session, vcAssignment, sidebar_options) {
   observe({
     
     shiny::req(vcAssignment())
+    shiny::req(habitat_correspondences())
+    shiny::req(isTRUE(run_module()))
     
     # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
       
       vcAssignment <- vcAssignment()
       habCorClass <- habCorClass()
+      habitat_correspondences <- habitat_correspondences()
+      unit_name_col <- unit_name_col()
       
     })
       
-    topNVCCommunities_df <- data.frame("nvc_code" = vcAssignment$topNVCCommunities)
+    topVCCommunities_df <- tibble::tibble(!!unit_name_col := vcAssignment$topVCCommunities)
     
-    habCor <- topNVCCommunities_df |>
-      dplyr::left_join(RMAVIS::habitat_correspondences, relationship = "many-to-many", by = "nvc_code")
+    habCor <- topVCCommunities_df |>
+      dplyr::left_join(habitat_correspondences, relationship = "many-to-many", by = unit_name_col)
     
     habCorTable <- habCor |>
       dplyr::filter(classification == habCorClass) |>
-      dplyr::select("NVC.Code" = "nvc_code", 
+      dplyr::select("VC.Code" = unit_name_col, 
                     "Relationship" = "relationship_name", 
                     "Habitat" = "habitat") |>
       dplyr::distinct() |>
-      dplyr::arrange(NVC.Code)
+      dplyr::arrange(VC.Code)
     
     habCor_rval(habCor)
 
@@ -95,7 +116,7 @@ habCor <- function(input, output, session, vcAssignment, sidebar_options) {
                                             align = "center" # Needed as alignment is not passing through to header
                                           ),
                                           columns = list(
-                                            NVC.Code = reactable::colDef(maxWidth = 150),
+                                            VC.Code = reactable::colDef(maxWidth = 150),
                                             Relationship = reactable::colDef(maxWidth = 300),
                                             Habitat = reactable::colDef(minWidth = 600)
                                           )

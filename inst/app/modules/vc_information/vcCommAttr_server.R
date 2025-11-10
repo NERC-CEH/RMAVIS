@@ -80,7 +80,7 @@ vcCommAttr <- function(input, output, region, session) {
   output$communityAttributesTable <- reactable::renderReactable({
     
     communityAttributesTable <- reactable::reactable(data = community_attributes(),
-                                                     filterable = FALSE,
+                                                     filterable = TRUE,
                                                      pagination = FALSE, 
                                                      highlight = TRUE,
                                                      bordered = TRUE,
@@ -95,23 +95,7 @@ vcCommAttr <- function(input, output, region, session) {
                                                        headerClass = "my-header",
                                                        class = "my-col",
                                                        align = "center" # Needed as alignment is not passing through to header
-                                                     ),
-                                                     columns = list(
-                                                       NVC.Code = reactable::colDef(
-                                                         filterable = TRUE,
-                                                         filterMethod = reactable::JS(
-                                                         "function filterRows(rows, columnId, filterValue) {
-                                                            return rows.filter(function(row) {
-                                                              return row.values[columnId] === filterValue;
-                                                            });
-                                                          }"),
-                                                         maxWidth = 150
-                                                         ),
-                                                       Type = reactable::colDef(
-                                                         filterable = TRUE,
-                                                         maxWidth = 150
-                                                       )
-                                                       )
+                                                     )
                                                      )
     
     return(communityAttributesTable)

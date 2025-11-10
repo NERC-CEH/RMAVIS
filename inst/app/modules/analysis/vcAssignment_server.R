@@ -38,7 +38,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     
   }) |>
     shiny::bindEvent(setupData(),
-                     ignoreInit = TRUE,
+                     ignoreInit = FALSE,
                      ignoreNULL = TRUE)
 
 # Create floristic tables list --------------------------------------------
@@ -120,6 +120,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
   observe({
     
     shiny::req(surveyData())
+    shiny::req(setupData())
     
     if(assignQuadrats() == TRUE){
       
@@ -131,15 +132,19 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
       
     shiny::isolate({
       
-      surveyData <- surveyData()
-      setupData <- setupData()
+      surveyData_long <- surveyData()$surveyData_long
+      pquads_to_use <- setupData()$pquads
       habitatRestriction <- habitatRestriction()
+      hab_rest_pref <- hab_rest_pref()
+      unit_name_col <- unit_name_col()
       
     })
     
-    pquads_to_use <- setupData$pquads
-    
-    surveyData_long <- surveyData$surveyData_long
+    # assign(x = "surveyData_long", value = surveyData_long, envir = .GlobalEnv)
+    # assign(x = "pquads_to_use", value = pquads_to_use, envir = .GlobalEnv)
+    # assign(x = "habitatRestriction", value = habitatRestriction, envir = .GlobalEnv)
+    # assign(x = "hab_rest_pref", value = hab_rest_pref, envir = .GlobalEnv)
+    # assign(x = "unit_name_col", value = unit_name_col, envir = .GlobalEnv)
       
     # Add an ID column to the survey data table
     surveyData_prepped <- surveyData_long |>
@@ -153,7 +158,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     
     if(!is.null(habitatRestriction)){
       
-      pquads_to_use <- RMAVIS::subset_vcData(vc_data = pquads_to_use, habitatRestriction = habitatRestriction, col_name = unit_name_col(), habitatRestrictionPrefixes = hab_rest_pref())
+      pquads_to_use <- RMAVIS::subset_vcData(vc_data = pquads_to_use, habitatRestriction = habitatRestriction, col_name = unit_name_col, habitatRestrictionPrefixes = as.list(hab_rest_pref))
       
     }
     
@@ -219,6 +224,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
       habitatRestriction <- habitatRestriction()
       samp_ft <- samp_ft_rval()
       comp_ft <- comp_ft_rval()
+      hab_rest_pref <- hab_rest_pref()
       
     })
     
@@ -252,7 +258,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
       # Prepare comparison floristic tables
       if(!is.null(habitatRestriction)){
         
-        comp_ft_prepped <- RMAVIS::subset_vcData(vc_data = comp_ft, habitatRestriction = habitatRestriction, col_name = unit_name_col(), habitatRestrictionPrefixes = hab_rest_pref())
+        comp_ft_prepped <- RMAVIS::subset_vcData(vc_data = comp_ft, habitatRestriction = habitatRestriction, col_name = unit_name_col(), habitatRestrictionPrefixes = as.list(hab_rest_pref))
         
       } else {
         

@@ -29,7 +29,7 @@ vcFlorTabs <- function(input, output, region, session) {
                       "Minimum.Cover" = "minimum_cover",
                       "Mean.Cover" = "mean_cover",
                       "Maximum.Cover" = "maximum_cover")|>
-        dplyr::arrange(NVC.Code)
+        dplyr::arrange(NVC.Code, dplyr::desc(Constancy))
       
     } else if (region == "mnnpc"){
       
@@ -42,7 +42,7 @@ vcFlorTabs <- function(input, output, region, session) {
                       "Minimum.Cover" = "minimum_cover",
                       "Mean.Cover" = "mean_cover",
                       "Maximum.Cover" = "maximum_cover") |>
-        dplyr::arrange(MNNPC.Code)
+        dplyr::arrange(MNNPC.Code, dplyr::desc(Constancy))
       
     }
     
@@ -81,27 +81,7 @@ vcFlorTabs <- function(input, output, region, session) {
                                                    headerClass = "my-header",
                                                    class = "my-col",
                                                    align = "center" # Needed as alignment is not passing through to header
-                                                 ),
-                                                 columns = list(
-                                                   NVC.Code = reactable::colDef(
-                                                     filterable = TRUE,
-                                                     filterMethod = reactable::JS(
-                                                       "function filterRows(rows, columnId, filterValue) {
-                                                            return rows.filter(function(row) {
-                                                              return row.values[columnId] === filterValue;
-                                                            });
-                                                          }"),
-                                                     maxWidth = 150
-                                                     ),
-                                                   Taxon.Name = reactable::colDef(
-                                                     filterable = TRUE,
-                                                     minWidth = 225
-                                                   ),
-                                                   Type = reactable::colDef(
-                                                     filterable = TRUE,
-                                                     maxWidth = 150
-                                                   )
-                                                   )
+                                                 )
                                                  )
 
     return(floristicTablesTable)

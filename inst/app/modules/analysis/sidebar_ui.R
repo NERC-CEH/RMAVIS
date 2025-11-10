@@ -19,15 +19,15 @@ sidebarUI <- function(id){
 
     shiny::div(
       
-      id = ns("selectNVCtypes_div"),
+      id = ns("selectVCtypes_div"),
       
-      shiny::h5("NVC Types"),
+      shiny::h5("VC Types"),
       
       bslib::layout_columns(
         
         col_widths = c(11, 1),
         
-        shinyWidgets::pickerInput(inputId = ns("selectNVCtypes"),
+        shinyWidgets::pickerInput(inputId = ns("selectVCtypes"),
                                   label = NULL,
                                   choices = RMAVIS:::nvcType_options,
                                   selected = c("Original"),
@@ -36,15 +36,19 @@ sidebarUI <- function(id){
         
         bslib::popover(
           bsicons::bs_icon("info-circle"),
-          title = "Select NVC types",
-          id = ns("selectNVCtypesInfo"),
+          title = "Select VC types",
+          id = ns("selectVCtypesInfo"),
           shiny::markdown(
             "
-            Select the NVC unit types for analysis.
-            At present three sets of units are available:
+            Select the VC unit types for analysis.
+            
+            At present three sets of units are available for the GB-NVC:
             -  Original, which contains the NVC communities as they appear originally in the NVC volumes (with updated taxonomy).
             -  Calthion, which contains the wet mesotrophic grassland communities as described in Wallace and Prosser (2017) and Prosser et al (2023).
             -  SOWG, which contains the Scottish Oceanic Wet Grassland communities as described in Wallace et al (2023).
+            
+            One set of units is present for the MNNPC:
+            -  Original.
             "
           ),
           placement = "bottom"
@@ -58,7 +62,7 @@ sidebarUI <- function(id){
       
       open = FALSE,
 
-# NVC Assignment ----------------------------------------------------------
+# VC Assignment -----------------------------------------------------------
       bslib::accordion_panel(
         
         "VC Assignment", 
@@ -135,13 +139,13 @@ sidebarUI <- function(id){
                 "
                 In the GB-NVC taxa which occurred in less than 5% of the plots which constituted each NVC unit were removed from the final floristic tables.
                 
-                Consequently, by default taxa which occur in less than 5% of the plots in each Group in the survey data are also removed.
+                Consequently, in the selected region is GB-NVC by default taxa which occur in less than 5% of the plots in each Group in the survey data are also removed.
                 
                 At present this does not effect the individual plot Jaccard similarity calculations, 
                 but does effect the Group and Year Czekanowski similarities and composition of the Floristic tables.
                 
                 This ensures that similarities are not biased towards more species-rich communities; 
-                however, conversely, if the number of survey quadrats is lower than the number of plots used to define a NVC unit, 
+                however, conversely, if the number of survey quadrats is lower than the number of plots used to define a VC unit, 
                 particulary a species rich unit (e.g. CG2b in the GB-NVC or WFs57 in the MNNPC), it may be preferable to not remove low frequency taxa to ensure that there is not a bias towards more species-poor communities.
                 It is left to the user to make this decision, though in practice the results usually only display minor variations.
                 "
@@ -167,7 +171,7 @@ sidebarUI <- function(id){
             shiny::selectizeInput(inputId = ns("resultsViewVCAssign"),
                                   label = "Results to View",
                                   choices = RMAVIS:::resultsViewVCAssign_options,
-                                  selected = c("nvcAssignSiteCzekanowski"),
+                                  selected = c("vcAssignSiteCzekanowski"),
                                   multiple = FALSE),
             
             bslib::popover(
@@ -201,7 +205,7 @@ sidebarUI <- function(id){
             
             shiny::selectizeInput(inputId = ns("habitatRestriction"),
                                   label = "Restrict Habitat",
-                                  choices = RMAVIS:::habitatRestriction_options,
+                                  choices = RMAVIS:::habitatRestrictionPrefixes,
                                   selected = NULL,
                                   multiple = TRUE
             ),
@@ -212,10 +216,10 @@ sidebarUI <- function(id){
               id = ns("restrictHabitatInfo"),
               shiny::markdown(
                 "
-                Optionally restrict the NVC assignment process to one or more
-                broad NVC habitat types. This is recommended to increase the
+                Optionally restrict the VC assignment process to one or more
+                broad VC habitat types. This is recommended to increase the
                 assignment speed, but only if the site being
-                analysed unequivocally conforms to the selected NVC habitats.
+                analysed unequivocally conforms to the selected VC habitats.
                 "
               ),
               placement = "bottom"
@@ -261,45 +265,50 @@ sidebarUI <- function(id){
       
 
 # Habitat Correspondence --------------------------------------------------
-      bslib::accordion_panel(
+      shiny::div(
         
-        "Habitat Correspondence", 
+        id = ns("habCor_accordion_panel_div"),
         
-        icon = bsicons::bs_icon("sliders"),
-        
-        shiny::div(
+        bslib::accordion_panel(
           
-          id = ns("habCorClass_div"),
+          "Habitat Correspondence", 
           
-          bslib::layout_columns(
+          icon = bsicons::bs_icon("sliders"),
+          
+          shiny::div(
             
-            col_widths = c(11, 1),
+            id = ns("habCorClass_div"),
             
-            shiny::selectizeInput(inputId = ns("habCorClass"),
-                                  label = "Classification",
-                                  choices = RMAVIS:::habitat_correspondence_classifications,
-                                  selected = "UKHab - Level5",
-                                  multiple = FALSE),
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Classification",
-              shiny::markdown(
-                "
+            bslib::layout_columns(
+              
+              col_widths = c(11, 1),
+              
+              shiny::selectizeInput(inputId = ns("habCorClass"),
+                                    label = "Classification",
+                                    choices = RMAVIS:::habitat_correspondence_classifications,
+                                    selected = "UKHab - Level5",
+                                    multiple = FALSE),
+              
+              bslib::popover(
+                bsicons::bs_icon("info-circle"),
+                title = "Classification",
+                shiny::markdown(
+                  "
                 Select a habitat classification you wish to retrieve correspondence,
-                values for using the fitted NVC communities and sub-communities.
+                values for using the fitted VC communities and sub-communities.
                 Note that all community level codes associated with sub-communities
                 are also used, even if they aren't directly assigned. This is to account for the,
-                incomplete coverage of NVC sub-communities in the JNCC habitat correspondences.
+                incomplete coverage of VC sub-communities in the habitat correspondences.
                 "
-              ),
-              placement = "bottom"
+                ),
+                placement = "bottom"
+              )
             )
           )
+          
         )
         
       ),
-      
 
 # Floristic Tables --------------------------------------------------------
       bslib::accordion_panel(
@@ -319,7 +328,7 @@ sidebarUI <- function(id){
             shiny::selectizeInput(inputId = ns("floristicTablesView"), 
                                   label = "View Options", 
                                   choices = RMAVIS:::floristicTablesView_options, 
-                                  selected = "singleComposedVsNVC", 
+                                  selected = "singleComposedVsVC", 
                                   multiple = FALSE),
             
             bslib::popover(
@@ -328,7 +337,7 @@ sidebarUI <- function(id){
               shiny::markdown(
                 "
                 Select a set of floristic tables to view, one of two options:
-                1. Single Composed vs NVC
+                1. Single Composed vs VC
                 2. Multiple Composed
                 "
               ),
@@ -412,17 +421,17 @@ sidebarUI <- function(id){
             col_widths = c(11, 1),
             
             shiny::selectizeInput(inputId = ns("vcFloristicTable"), 
-                                  label = "NVC Table", 
+                                  label = "VC Table", 
                                   choices = NULL, 
                                   selected = "A1", 
                                   multiple = FALSE),
             
             bslib::popover(
               bsicons::bs_icon("info-circle"),
-              title = "NVC Community",
+              title = "VC Community",
               shiny::markdown(
                 "
-                Select an NVC community, the floristic table of which will be
+                Select an VC community, the floristic table of which will be
                 displayed alongside the composed floristic table.
                 "
               ),
@@ -488,13 +497,13 @@ sidebarUI <- function(id){
               title = "Match Species",
               shiny::markdown(
                 "
-                Three options for arranging the composed and NVC floristic tables
+                Three options for arranging the composed and VC floristic tables
                 are provided:
                 - 'No': Displayes the tables side-by-side, ordered by Constancy.
-                - 'Composed to NVC': Aligns the species in the composed table that
-                are present in the selected NVC community with the NVC floristic table.
-                Omits species which are not present in the NVC community.
-                - 'NVC to Composed': Aligns the species in the NVC floristic table that
+                - 'Composed to VC': Aligns the species in the composed table that
+                are present in the selected VC community with the VC floristic table.
+                Omits species which are not present in the VC community.
+                - 'VC to Composed': Aligns the species in the VC floristic table that
                 are present in the composed table with the composed table. Omits
                 species which are not present in the composed table.
                 "
@@ -519,32 +528,37 @@ sidebarUI <- function(id){
 
 
 # EIVs --------------------------------------------------------------------
-      bslib::accordion_panel(
+
+      shiny::div(
         
-        "EIVs", 
+        id = ns("eivs_accordion_panel_div"),
         
-        icon = bsicons::bs_icon("water"),
-        
-        shiny::div(
+        bslib::accordion_panel(
           
-          id = ns("resultsViewEIVs_div"),
+          "EIVs", 
           
-          bslib::layout_columns(
+          icon = bsicons::bs_icon("water"),
+          
+          shiny::div(
             
-            col_widths = c(11, 1),
+            id = ns("resultsViewEIVs_div"),
             
-            shiny::selectizeInput(inputId = ns("resultsViewEIVs"),
-                                  label = "Results to View",
-                                  choices = RMAVIS:::resultsViewEIVs_options,
-                                  selected = c("unweightedMeanHEValuesSite"),
-                                  multiple = FALSE),
-            
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Results to View",
-              shiny::markdown(
-                "
+            bslib::layout_columns(
+              
+              col_widths = c(11, 1),
+              
+              shiny::selectizeInput(inputId = ns("resultsViewEIVs"),
+                                    label = "Results to View",
+                                    choices = RMAVIS:::resultsViewEIVs_options,
+                                    selected = c("unweightedMeanHEValuesSite"),
+                                    multiple = FALSE),
+              
+              
+              bslib::popover(
+                bsicons::bs_icon("info-circle"),
+                title = "Results to View",
+                shiny::markdown(
+                  "
                 Select the Ecological Indicator Value (EIV) results to view.
                 Six options are currently provided.
                 - 'Unweighted Mean Hill-Ellenberg Values, by Site':
@@ -554,11 +568,13 @@ sidebarUI <- function(id){
                 - 'Unweighted Mean Hill-Ellenberg Values, by Quadrat':
                 - 'Weighted Mean Hill-Ellenberg Values, by Quadrat':
                 "
-              ),
-              placement = "bottom"
+                ),
+                placement = "bottom"
+              )
+              
             )
-        
           )
+          
         )
         
       ),
@@ -672,8 +688,8 @@ sidebarUI <- function(id){
               title = "Selected Reference Spaces",
               shiny::markdown(
                 "
-                Select the NVC communities to display the reference spaces
-                for. By default the top fitting NVC communities are displayed.
+                Select the VC communities to display the reference spaces
+                for. By default the top fitting VC communities are displayed.
                 Please see the documentation for a definition of the
                 'Reference Spaces' along with interpretation guidance.
                 "
@@ -919,7 +935,7 @@ sidebarUI <- function(id){
                 - 'Reference Space': the convex hulls formed from the pseudo-quadrat DCA scores.
                 - 'Reference Centroids': the centroids formed from the pseudo-quadrat DCA scores.
                 - 'Species': the DCA scores of the species.
-                - 'Unique Survey Species': the DCA scores of the species unique to the survey data, but absent from the best fitting NVC communities pseudo-quadrats (Local Reference (unrestricted) only).
+                - 'Unique Survey Species': the DCA scores of the species unique to the survey data, but absent from the best fitting VC communities pseudo-quadrats (Local Reference (unrestricted) only).
                 - 'Hill-Ellenberg': the CCA result axis scores for the Hill-Ellenberg selected in the 'CCA Variables' option.
                 - 'Trajectory': arrows drawn between each set of selected sample plots by year, showing thetrajectory of the sample plots in the ordination space.
                 
@@ -1079,7 +1095,7 @@ sidebarUI <- function(id){
         
         icon = bsicons::bs_icon("download"),
         
-        ## Download NVC Assignment Results -----------------------------------------
+        ## Download VC Assignment Results -----------------------------------------
         shiny::div(
           
           id = ns("downloadRMAVISResults_div"),

@@ -27,7 +27,7 @@ report <- function(input, output, session,
     
     filename = function() {
       paste0("RMAVIS.Report.",
-             "v1-1-3.",
+             "v1-2-0.",
              format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
              ".pdf",
              sep="")
@@ -54,7 +54,6 @@ report <- function(input, output, session,
       file.copy("./report/Report.refs.bib", tempRefs, overwrite = TRUE)
       file.copy("./www/ukceh_logo_long_720x170_rgb.png", tempLogo, overwrite = TRUE)
       # file.copy("./R/create_constants.R", tempConstants, overwrite = TRUE)
-      
       
       rmarkdown::render(tempReport,
                         clean = TRUE,

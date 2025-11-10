@@ -4,7 +4,7 @@
 #' habitat type by supplying a vector of prefixes.
 #'
 #' @param nvc_data A data frame of pseudo-quadrats.
-#' @param habitatRestriction A vector of habitat codes, see `RMAVIS:::habitatRestriction_options`.
+#' @param habitatRestriction A vector of habitat codes, see `RMAVIS:::habitatRestrictionPrefixes` or `MNNPC::mnnpc_vc_types_named`.
 #' @param col_name The name of the column containing VC pseudo-quadrat names with VC code prefixes.
 #' @param habitatRestrictionPrefixes A named list of vegetation classification types e.g. M in the GB-NVC.
 #'

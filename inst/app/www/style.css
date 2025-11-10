@@ -49,6 +49,12 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
   margin-bottom: 0 !important;
 }
 
+.accordion-item {
+    color: var(--bs-accordion-color) !important;
+    background-color: var(--bs-accordion-bg) !important;
+    border: var(--bs-accordion-border-width) !important; /* solid var(--bs-accordion-border-color) */
+}
+
 .navbar {
   --bs-navbar-padding-x: 0.25rem !important;
   --bs-navbar-padding-y: 0.25rem !important;

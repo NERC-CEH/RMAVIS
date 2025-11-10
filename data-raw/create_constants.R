@@ -2,6 +2,13 @@
 region_options <- c("Great Britain (GB-NVC)" = "gbnvc",
                     "Minnesota (MNNPC)" = "mnnpc")
 
+# Regional Module Availability --------------------------------------------
+regional_module_availability <- tibble::tribble(
+  ~module, ~gbnvc, ~mnnpc,
+  "habCor", TRUE, FALSE,
+  "avgEIVs", TRUE, FALSE
+)
+
 # NVC types ---------------------------------------------------------------
 nvcType_options <- c("Original",
                      "Calthion",
@@ -71,7 +78,7 @@ braunBlanquetConvert <- c("5" = 0.875,
   tibble::enframe(name = "Cover", value = "Value")
 
 # Habitat Restriction Options ---------------------------------------------
-habitatRestriction_options <- list(
+gbnvc_vc_types_named <- list(
   "Woodland and scrub (W)" = "W",
   "Mires (M)" = "M",
   "Heaths (H)" = "H",
@@ -252,6 +259,7 @@ habitat_correspondence_classifications <- readRDS(file = "./inst/extdata/habitat
 
 # Save all constants as internal data -------------------------------------
 usethis::use_data(region_options,
+                  regional_module_availability,
                   nvcType_options,
                   inputMethod_options,
                   example_data_options,
@@ -262,7 +270,7 @@ usethis::use_data(region_options,
                   braunBlanquet_options,
                   dominConvert,
                   braunBlanquetConvert,
-                  habitatRestriction_options,
+                  gbnvc_vc_types_named,
                   floristicTablesView_options,
                   floristicTablesSetView_options,
                   matchSpecies_options,

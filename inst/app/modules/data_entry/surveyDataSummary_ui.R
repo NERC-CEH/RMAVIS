@@ -44,15 +44,15 @@ surveyDataSummaryUI <- function(id){
       shiny::markdown(
         "
         Below the availability of data for each species is displayed,
-        two datasets are currently used: Hill-Ellenberg values and the NVC Floristic
+        two datasets are currently used: Ecological Indicator Values (EIVs) and the VC Floristic
         tables.
         
-        If there are no Hill-Ellenberg values for a species that species does
-        not contribute to the mean Hill-Ellenberg values calculated for each
+        If there are no EIVs for a species that species does
+        not contribute to the mean EIVs calculated for each
         Quadrat, Group, and Site; or the CCA scores found in the MVA section.
         
-        If a species is not present in the NVC Floristic tables it still
-        contributes to (dis)similarity metrics used in the NVC assignment process.
+        If a species is not present in the VC Floristic tables it still
+        contributes to (dis)similarity metrics used in theVC assignment process.
         "
       ),
       

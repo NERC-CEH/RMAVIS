@@ -240,9 +240,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     selectedExampleData <- selectedExampleData()
     exampleData <- exampleData()
     
-    assign(x = "selectedExampleData", value = selectedExampleData, envir = .GlobalEnv)
-    assign(x = "exampleData", value = exampleData, envir = .GlobalEnv)
-    
     shiny::isolate({
       
       coverScale <- coverScale()
