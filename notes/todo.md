@@ -9,7 +9,7 @@
 * Functionalise MVA methods
 * Merge MVA modules
 * Add objects and function to aggregate taxa, starting with the MNNPC
-
+* Hide taxon name updates tab in VC information if MNNPC
 
 
 ### GB-NVC

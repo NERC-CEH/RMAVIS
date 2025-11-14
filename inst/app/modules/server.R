@@ -5,6 +5,12 @@ server <- function(input, output, session) {
   region <- shiny::callModule(module = regionSelect,
                               id = "regionSelect_id_1")
   
+
+  # Additional Info ---------------------------------------------------------
+  shiny::callModule(module = additionalInfo,
+                    id = "additional_info_id_1",
+                    region = region)
+  
   # Setup Data --------------------------------------------------------------
   setupData <- shiny::callModule(module = setupData,
                                  id = "setupData_id_1",

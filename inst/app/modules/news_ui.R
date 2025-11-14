@@ -14,6 +14,14 @@ newsUI <- function(id) {
         
         shiny::markdown(
         '
+        <details>
+
+        <summary><b>2025-12-XX</b></summary>
+        
+        </details>
+        <details>
+
+        <summary><b>2025-09-11</b></summary>
         The latest versions of RMAVIS (the v1.1.X series) contain a number of breaking changes relative to the v1.0.1 release.
         
         First, is a major update to the taxonomy, which is now aligned with version 20250703a of the UKSI, available <a href="https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy/" target="_blank">here</a>.
@@ -41,6 +49,7 @@ newsUI <- function(id) {
         <a href="https://zenodo.org/search?q=parent.id%3A10818640&f=allversions%3Atrue&l=list&p=1&s=10&sort=version" target="_blank">Zenodo</a>.
         
         Special thanks again to Colin Conroy and Barry Jobson for testing v1.1.2, v1.1.1, and v1.1.0 of RMAVIS!
+        </details>
         '
         )
         

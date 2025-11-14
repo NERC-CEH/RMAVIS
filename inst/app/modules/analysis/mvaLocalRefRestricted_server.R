@@ -307,6 +307,25 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
       dcaAxisSelection <- dcaAxisSelection()
       groupSurveyPlots <- groupSurveyPlots()
       
+      
+      o1 <- mvaResults()
+      o2 <- dcaAxisSelection()
+      o3 <- dcaVars()
+      o4 <- groupSurveyPlots()
+      o5 <- selectSurveyMethod()
+      o6 <- selectSurveyYears()
+      o7 <- selectSurveyGroups()
+      o8 <- selectSurveyQuadrats()
+      
+      assign(x = "mvaResults", value = o1, envir = .GlobalEnv)
+      assign(x = "dcaAxisSelection", value = o2, envir = .GlobalEnv)
+      assign(x = "dcaVars", value = o3, envir = .GlobalEnv)
+      assign(x = "groupSurveyPlots", value = o4, envir = .GlobalEnv)
+      assign(x = "selectSurveyMethod", value = o5, envir = .GlobalEnv)
+      assign(x = "selectSurveyYears", value = o6, envir = .GlobalEnv)
+      assign(x = "selectSurveyGroups", value = o7, envir = .GlobalEnv)
+      assign(x = "selectSurveyQuadrats", value = o8, envir = .GlobalEnv)
+      
       pquad_hulls_selected <- mvaResults$pquad_hulls |>
         dplyr::filter(dcaAxes == dcaAxisSelection) |>
         dplyr::select(-dcaAxes)

@@ -1,34 +1,36 @@
 additionalInfoUI <- function(id) {
+  
   ns <- NS(id)
   
   shiny::fluidRow(
-    shiny::column(
-      width = 12,
+    
+    shiny::div(
       
-      shiny::h2("GBNVPD"),
+      id = ns("gbnvc_ai_div"),
       
-      shiny::div(
+      shiny::column(
+        width = 12,
         
-        # shiny::br(),
+        shiny::h2("GBNVPD"),
         
-        shiny::markdown(
+        shiny::div(
+          
+          shiny::markdown(
           '
           If you use RMAVIS please consider submitting vegetation plot to the
           <a href="https://www.ceh.ac.uk/data/gbnvpd" target="_blank">GBNVPD</a> - 
           the National Vegetation Plot Database for Great Britain.
           '
-        )
-      ),
-      
-      shiny::br(),
-      
-      shiny::h2("UKSI"),
-      
-      shiny::div(
+          )
+        ),
         
-        # shiny::br(),
+        shiny::br(),
         
-        shiny::markdown(
+        shiny::h2("UKSI"),
+        
+        shiny::div(
+          
+          shiny::markdown(
           '
           Version 1.2.0 of `RMAVIS` currently uses version 20250703a of the UKSI to form its taxonomic backbone.
           The UKSI can be accessed from several sources:
@@ -39,68 +41,60 @@ additionalInfoUI <- function(id) {
 
           This backbone is also available as a lightweight R package - <a href="https://github.com/NERC-CEH/UKVegTB" target="_blank">UKVegTB</a>
           '
-        )
-      ),
-      
-      shiny::br(),
-      
-      shiny::h2("JNCC"),
-      
-      shiny::div(
+          )
+        ),
         
-        # shiny::br(),
+        shiny::br(),
         
-        shiny::markdown(
+        shiny::h2("JNCC"),
+        
+        shiny::div(
+          
+          shiny::markdown(
           '
           The Joint Nature Conservation Committee (JNCC) website contains copies of the original NVC floristic tables and other information regarding the NVC.
           See the <a href="https://jncc.gov.uk/our-work/nvc/" target="_blank">JNCC website</a> for more details.
           '
           )
-      ),
-      
-      shiny::br(),
-      
-      shiny::h2("EUNIS"),
-      
-      shiny::div(
+        ),
         
-        # shiny::br(),
+        shiny::br(),
         
-        shiny::markdown(
+        shiny::h2("EUNIS"),
+        
+        shiny::div(
+          
+          shiny::markdown(
           '
           The European Nature Information System (EUNIS) contains information on species, habitats, and designated nature conservation sites in Europe.
           See the <a href="https://eunis.eea.europa.eu/index.jsp" target="_blank">EUNIS website</a> for more details.
           '
-        )
-      ),
-      
-      shiny::br(),
-      
-      shiny::h2("FloraVeg.EU"),
-      
-      shiny::div(
+          )
+        ),
         
-        # shiny::br(),
+        shiny::br(),
         
-        shiny::markdown(
+        shiny::h2("FloraVeg.EU"),
+        
+        shiny::div(
+          
+          shiny::markdown(
           '
           FloraVeg.EU contains an array of detailed autoecological species information and
           an interface to explore the phytosociological <a href="https://doi.org/10.1111/avsc.12257" target="_blank">European Vegetation Classification</a>
           and the <a href="https://doi.org/10.1111/avsc.12519" target="_blank">EUNIS Habitat Classification</a>. 
           See the <a href="https://floraveg.eu/" target="_blank">FloraVeg.EU website</a> for more details.
           '
-        )
-      ),
-      
-      shiny::br(),
-      
-      shiny::h2("Floodplain Meadows Partnership"),
-      
-      shiny::div(
+          )
+        ),
         
-        # shiny::br(),
+        shiny::br(),
         
-        shiny::markdown(
+        shiny::h2("Floodplain Meadows Partnership"),
+        
+        shiny::div(
+          
+          shiny::markdown(
           '
           The <a href="https://floodplainmeadows.org.uk/" target="_blank">Floodplain Meadows Partnership</a> actively work to update the classifications of wet mesotrophic grassland communities.
           RMAVIS contains these updated communities as described in 
@@ -108,28 +102,96 @@ additionalInfoUI <- function(id) {
           the Natural England Report <a href="https://publications.naturalengland.org.uk/publication/5839929072943104" target="_blank">A review of the National Vegetation Classification for the Calthion group of plant communities in England and Wales (JP021)</a>,
           and the British Wildlife article <a href="https://www.britishwildlife.com/article/article-volume-35-number-3-page-193-200/" target="_blank">An exploration of oceanic wet grasslands in the Scottish coastal lowlands</a>.
           '
-        )
-      ),
-      
-      shiny::br(),
-      
-      shiny::h2("IVC"),
-      
-      shiny::div(
+          )
+        ),
         
-        # shiny::br(),
+        shiny::br(),
         
-        shiny::markdown(
+        shiny::h2("IVC"),
+        
+        shiny::div(
+          
+          shiny::markdown(
           '
           The Irish Vegetation Classification (IVC) provides a modern, well-organised vegetation classification system for Ireland.
           See the <a href="https://biodiversityireland.ie/projects/ivc-classification-explorer/" target="_blank">website</a> for more details.
           '
+          )
         )
+        
       )
       
       
+    ),
+    
+    shiny::div(
+      
+      id = ns("mnnpc_ai_div"),
+      
+      shiny::column(
+        width = 12,
+        
+        shiny::h2("MNNPC"),
+        
+        shiny::div(
+          
+          shiny::markdown(
+          '
+          Futher information on the Minnesota Native Plant Community Classification (MNNPC) can be found on 
+          the Minnesota Department of Natural Resources website here: https://www.dnr.state.mn.us/npc/classification.html.
+          
+          Publications:
+          
+          Aaseng, N.E., Almendinger, J.C., Dana, R.P., Hanson, D.S., Lee, M.D., Rowe, E.R., Rusterholz, K.A. and Wovcha, D.S., 2011. Minnesota’s native plant community classification: A statewide classification of terrestrial and wetland vegetation based on numerical analysis of plot data. Biological Report, 108, pp.1-27. URL: Minnesota’s native plant community classification: A statewide classification of terrestrial and wetland vegetation based on numerical analysis of plot data.
+          
+          Minnesota Department of Natural Resources. 2003. Field guide to the native plant communities of Minnesota: The Laurentian Mixed Forest Province. Ecological Land Classification Program, Minnesota County Biological Survey, and Natural Heritage and Nongame Research Program, Minnesota Department of Natural Resources, St. Paul, MN, US.
+          
+          Minnesota Department of Natural Resources. 2005a. Field guide to the native plant communities of Minnesota: The Eastern Broadleaf Forest Province. Ecological Land Classification Program, Minnesota County Biological Survey, and Natural Heritage and Nongame Research Program, Minnesota Department of Natural Resources, St. Paul, MN, US.
+          
+          Minnesota Department of Natural Resources. 2005b. Field guide to the native plant communities of Minnesota: The Prairie Parkland and Tallgrass Aspen Parklands provinces. Ecological Land Classification Program, Minnesota County Biological Survey, and Natural Heritage and Nongame Research Program, Minnesota Department of Natural Resources, St. Paul, MN, US.
+          
+          Minnesota Department of Natural Resources. 2007. A handbook for collecting vegetation plot data in Minnesota: The relevé method. Minnesota County Biological Survey, Minnesota Natural Heritage and Nongame Research Program, and Ecological Land Classification Program, Biological Report 92. Minnesota Department of Natural Resources, St. Paul, MN, US. URL: http://www.dnr.state.mn.us/eco/mcbs/vegetation_sampling.html (accessed November 11, 2025).
+          '
+          )
+          
+        ),
+        
+        shiny::br(),
+        
+        shiny::h2("Ecological Classification System"),
+        
+        shiny::div(
+          
+          shiny::markdown(
+          '
+          The ecological land classification system ...
+          here: https://www.dnr.state.mn.us/ecs/index.html
+          '
+          )
+          
+        ),
+        
+        shiny::br(),
+        
+        shiny::h2("MNTaxa"),
+        
+        shiny::div(
+          
+          shiny::markdown(
+          '
+          The taxonomic backbone underpinning the MNNPC in RMAVIS is adapted from MNTaxa - The State of Minnesota Vascular Plant Checklist,
+          which can be found on the Minnesota Department of Natural Resources website here; https://www.dnr.state.mn.us/eco/mbs/plant-lists.html.
+          '
+          )
+          
+        ),
+        
+        shiny::br()
+        
+      )
       
     )
+    
   )
   
 }
