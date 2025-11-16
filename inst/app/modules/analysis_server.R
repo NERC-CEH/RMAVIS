@@ -49,12 +49,6 @@ analysis <- function(input, output, session,
                                        diversityAnalysis = diversityAnalysis,
                                        mvaNationalRefResults = mvaNationalRefResults)
   
-  # shinybusy::show_modal_spinner(
-  #   spin = "fading-circle",
-  #   color = "#3F9280",
-  #   text = "Initialising App"
-  # )
-  
   floristicTables <- shiny::callModule(module = floristicTables,
                                        id = "floristicTables_id_1",
                                        region = region,
@@ -133,8 +127,6 @@ analysis <- function(input, output, session,
                     mvaLocalRefRestrictedResults = mvaLocalRefRestrictedResults,
                     mvaLocalRefUnrestrictedResults = mvaLocalRefUnrestrictedResults
   )
-  
-  # shinybusy::remove_modal_spinner()
 
   return(list("sidebar_options" = sidebar_options,
               "floristicTables" = floristicTables,

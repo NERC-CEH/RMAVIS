@@ -1,10 +1,6 @@
 # To-Do
 
-
-
 ### App
-
-
 
 * Functionalise MVA methods
 * Merge MVA modules
@@ -15,9 +11,6 @@
 ### GB-NVC
 
 * Create MNNPC-type package
-
-
-
 
 
 ### MNNPC

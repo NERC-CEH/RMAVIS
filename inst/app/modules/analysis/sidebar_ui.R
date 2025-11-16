@@ -920,7 +920,7 @@ sidebarUI <- function(id){
             shiny::checkboxGroupInput(inputId = ns("dcaVars"),
                                       label = "Axis Scores",
                                       choices = RMAVIS:::dcaVars_options,
-                                      selected = c("referenceSpace", "surveyQuadrats", "hillEllenberg")),
+                                      selected = c("referenceSpace", "surveyQuadrats")),
             
             bslib::popover(
               bsicons::bs_icon("info-circle"),

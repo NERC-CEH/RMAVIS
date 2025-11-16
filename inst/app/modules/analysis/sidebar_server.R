@@ -651,7 +651,36 @@ sidebar <- function(input, output, session,
     bindEvent(input$selectSurveyMethod,
               input$groupSurveyPlots,
               ignoreInit = TRUE)
-  
+
+# Update dcaVars checkboxGroupInput and ccaVars_div ----------------------
+  observe({
+    
+    updated_dcaVars_options <- RMAVIS:::dcaVars_options
+    
+    if(isFALSE(show_eivs())){
+      updated_dcaVars_options <- updated_dcaVars_options[names(updated_dcaVars_options) != "Hill-Ellenberg"]
+    }
+    
+    shiny::updateCheckboxGroupInput(session = session,
+                                    inputId = "dcaVars",
+                                    choices = updated_dcaVars_options,
+                                    selected = c("referenceSpace", "surveyQuadrats"))
+    
+    if(isTRUE(show_eivs())){
+      
+      shinyjs::show(id = "ccaVars_div")
+      
+    } else if(isFALSE(show_eivs())){
+      
+      shinyjs::hide(id = "ccaVars_div")
+      
+    }
+    
+    
+  }) |> 
+    shiny::bindEvent(show_eivs(),
+                     ignoreInit = TRUE,
+                     ignoreNULL = FALSE)
 
 # Update report options ---------------------------------------------------
   observe({
