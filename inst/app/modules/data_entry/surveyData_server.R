@@ -5,6 +5,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
 # Retrieve Setup Data -----------------------------------------------------
   exampleData <- reactiveVal()
   speciesNames <- reactiveVal()
+  aggLookup <- reactiveVal()
   
   observe({
     
@@ -12,6 +13,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     
     exampleData(setupData$example_data)
     speciesNames(setupData$species_names)
+    aggLookup(setupData$agg_lookup)
     
   }) |>
     bindEvent(setupData(),
@@ -41,6 +43,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   adjustSpecies <- reactiveVal()
   reallocateGroups <- reactiveVal()
   combineDuplicates <- reactiveVal()
+  aggTaxa <- reactiveVal()
   speciesAdjustmentTable <- reactiveVal()
   reallocateGroupsTable <- reactiveVal()
   combineDuplicates <- reactiveVal()
@@ -52,6 +55,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     adjustSpecies(surveyDataValidator()$adjustSpecies)
     reallocateGroups(surveyDataValidator()$reallocateGroups)
     combineDuplicates(surveyDataValidator()$combineDuplicates)
+    aggTaxa(surveyDataValidator()$aggTaxa)
     speciesAdjustmentTable(surveyDataValidator()$speciesAdjustmentTable)
     reallocateGroupsTable(surveyDataValidator()$reallocateGroupsTable)
     combineDuplicates(surveyDataValidator()$combineDuplicates)
@@ -260,7 +264,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
           
           surveyData <- exampleData |>
             magrittr::extract2(selectedExampleData) |>
-            dplyr::select(-Site) |>
+            dplyr::select(-dplyr::any_of("Site")) |>
             dplyr::arrange(Year, Group, Quadrat)
           
         }
@@ -378,6 +382,30 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
 
 # Survey Table Validation Actions -----------------------------------------
   surveyData_corrected_rval <- reactiveVal()
+
+## Aggregate Taxa ---------------------------------------------------------
+  observe({
+    
+    req(input$surveyData)
+    req(aggLookup())
+    
+    isolate({
+      
+      surveyData <- rhandsontable::hot_to_r(input$surveyData)
+        
+      surveyData_aggregated <- RMAVIS::aggregate_taxa(plot_data = surveyData, 
+                                                      agg_lookup = aggLookup(),
+                                                      plot_data_taxon_col = "Species",
+                                                      agg_lookup_taxon_col = "taxon")
+        
+      surveyData_corrected_rval(surveyData_aggregated)
+      
+    })
+    
+  }) |>
+    bindEvent(aggTaxa(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
   
 ## Adjust Species Names ---------------------------------------------------
   observe({

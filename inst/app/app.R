@@ -80,6 +80,9 @@ source("./modules/vc_information/vcFlorTabs_server.R", local = TRUE)
 source("./modules/vc_information/vcCommAttr_ui.R", local = TRUE)
 source("./modules/vc_information/vcCommAttr_server.R", local = TRUE)
 
+source("./modules/vcInformation_ui.R", local = TRUE)
+source("./modules/vcInformation_server.R", local = TRUE)
+
 ## Data entry -------------------------------------------------------------
 source("./modules/data_entry/deSidebar_ui.R", local = TRUE)
 source("./modules/data_entry/deSidebar_server.R", local = TRUE)

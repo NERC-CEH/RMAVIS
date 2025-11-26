@@ -1,3 +1,9 @@
+# RMAVIS 1.2.0 (XX-12-2025)
+*   Modifications: NA
+*   Fixes: NA
+*   New Features:
+      - Integrating the MNNPC vegetation classification system.
+
 # RMAVIS 1.1.4 (11-09-2025)
 *   Modifications: NA
 *   Fixes:

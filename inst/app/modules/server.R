@@ -19,29 +19,10 @@ server <- function(input, output, session) {
                                  sidebar_options = analysis$sidebar_options)
   
   # VC Information ----------------------------------------------------------
-  vcCommNamesLookup <- shiny::callModule(module = vcCommNamesLookup,
-                                         region = region,
-                                         id = "vcCommNamesLookup_id_1")
-  
-  shiny::callModule(module = vcTaxonNamesLookup,
+  shiny::callModule(module = vcInformation,
+                    id = "vcInfo_id_1",
                     region = region,
-                    id = "vcTaxonNamesLookup_id_1")
-  
-  vcFlorTabs <- shiny::callModule(module = vcFlorTabs,
-                                  region = region,
-                                  id = "vcFlorTabs_id_1")
-  
-  vcCommAttr <- shiny::callModule(module = vcCommAttr,
-                                  region = region,
-                                  id = "vcCommAttr_id_1")
-  
-  shiny::callModule(module = vcInfoSidebar,
-                    id = "vcInfoSidebar_id_1",
-                    region = region,
-                    vcCommNamesLookup = vcCommNamesLookup, 
-                    vcFlorTabs = vcFlorTabs, 
-                    vcCommAttr = vcCommAttr
-                    )
+                    setupData = setupData)
   
   # Data Entry --------------------------------------------------------------
   deSidebar_options <- shiny::callModule(module = deSidebar,

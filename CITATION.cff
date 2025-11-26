@@ -3,7 +3,7 @@ message: If you use this software, please cite our article in the Journal of Ope
 doi: 10.5281/zenodo.10818640
 repository-code: 'https://github.com/NERC-CEH/RMAVIS'
 license: LGPL-3.0
-version: v1.1.4
+version: v1.2.0
 type: software
 authors:
   - given-names: Zeke
@@ -26,7 +26,12 @@ authors:
     email: calluna@liverpool.ac.uk
     affiliation: University of Liverpool
     orcid: 'https://orcid.org/0000-0002-0664-9420'
-abstract: 'A Shiny application for the analysis of vegetation survey data and assignment to GB NVC communities.'
+  - given-names: Amy
+    family-names: Kendig
+    email: Amy.Kendig@state.mn.us
+    affiliation: Minnesota Department of Natural Resources
+    orcid: 'https://orcid.org/0000-0002-2774-1795'
+abstract: 'A Shiny application for the analysis of vegetation survey data and assignment to vegetation classification communities.'
 keywords:
   - Vegetation science
   - NVC

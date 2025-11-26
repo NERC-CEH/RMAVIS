@@ -6,7 +6,8 @@ region_options <- c("Great Britain (GB-NVC)" = "gbnvc",
 regional_module_availability <- tibble::tribble(
   ~module, ~gbnvc, ~mnnpc,
   "habCor", TRUE, FALSE,
-  "avgEIVs", TRUE, FALSE
+  "avgEIVs", TRUE, FALSE,
+  "taxonNameUpdates", TRUE, FALSE
 )
 
 # NVC types ---------------------------------------------------------------

@@ -18,7 +18,8 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
     "ft_taxon_name_col" = "nvc_taxon_name",
     "psq_taxon_name_col" = "nvc_taxon_name",
     "unit_name_col" = "nvc_code",
-    "hab_rest_pref" = RMAVIS:::habitatRestrictionPrefixes
+    "hab_rest_pref" = RMAVIS:::habitatRestrictionPrefixes,
+    "agg_lookup" = NULL
   )
 
 # Initialise objets -------------------------------------------------------
@@ -59,6 +60,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       psq_taxon_name_col_selected <- "nvc_taxon_name"
       unit_name_col_selected <- "nvc_code"
       hab_rest_pref_selected <- RMAVIS:::habitatRestrictionPrefixes
+      agg_lookup_selected <- NULL
       
       # Compose setup data from selected NVC types
       floristic_tables_selected <- tibble::tibble()
@@ -140,6 +142,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       psq_taxon_name_col_selected <- "taxon_name"
       unit_name_col_selected <- "npc_code"
       hab_rest_pref_selected <- MNNPC::mnnpc_vc_types
+      agg_lookup_selected <- MNNPC::mnnpc_taxa_conv
       
     }
     
@@ -160,7 +163,8 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       "ft_taxon_name_col" = ft_taxon_name_col_selected,
       "psq_taxon_name_col" = psq_taxon_name_col_selected,
       "unit_name_col" = unit_name_col_selected,
-      "hab_rest_pref" = hab_rest_pref_selected
+      "hab_rest_pref" = hab_rest_pref_selected,
+      "agg_lookup" = agg_lookup_selected
     )
     
     setupData(setupData_list)

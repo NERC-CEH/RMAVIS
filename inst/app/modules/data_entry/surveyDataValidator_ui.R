@@ -12,7 +12,7 @@ surveyDataValidatorUI <- function(id){
       
       bslib::layout_columns(
         
-        col_widths = c(3, 3, 3),
+        col_widths = c(2, 2, 2, 2),
       
         shiny::div(
           shiny::actionButton(inputId = ns("adjustSpecies"),
@@ -29,9 +29,14 @@ surveyDataValidatorUI <- function(id){
                               label = "Re-allocate Groups")
         ),
         
+        # shiny::div(
+        #   shiny::actionButton(inputId = ns("trimWS"),
+        #                       label = "Trim White Space")
+        # ),
+        
         shiny::div(
-          shiny::actionButton(inputId = ns("trimWS"),
-                              label = "Trim White Space")
+          shiny::actionButton(inputId = ns("aggTaxa"),
+                              label = "Aggregate Taxa")
         )
         
       ),

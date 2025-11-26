@@ -121,7 +121,7 @@ deSidebar <- function(input, output, session, setupData,
           selected = "none"
         )
 
-      } else if(input$selectedExampleData == "St. Croix State Forest"){
+      } else if(input$selectedExampleData %in% c("St. Croix State Forest", "Earthworm-Invaded Forests")){
         
         shiny::updateSelectizeInput(
           session = session,

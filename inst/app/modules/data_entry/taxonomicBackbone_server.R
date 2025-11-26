@@ -23,16 +23,12 @@ taxonomicBackbone <- function(input, output, session, region) {
     } else if(region() == "mnnpc"){
       
       tb <- MNNPC::mnnpc_taxonomic_backbone |>
-        dplyr::left_join(MNNPC::mnnpc_taxa_lookup |> dplyr::select(informal_group, recommended_taxon_name, qualifier, authority), by = c("taxon_name" = "recommended_taxon_name")) |>
         dplyr::select(
           "Informal.Group" = "informal_group",
-          "Taxon.Name" = "taxon_name",
+          "Taxon.Name" = "recommended_taxon_name",
           "Rank" = "rank",
-          "Qualifier" = "qualifier",
-          "Authority" = "authority",
           "Full.Name" = "full_name"
         ) |>
-        dplyr::arrange(Authority) |>
         dplyr::distinct(Informal.Group, Taxon.Name, Rank, Full.Name, .keep_all = TRUE) |>
         dplyr::arrange(Taxon.Name)
     }

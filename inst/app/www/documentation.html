@@ -1712,7 +1712,7 @@ border-radius: 0px;
 
 
 <h1 class="title toc-ignore">RMAVIS - Documentation</h1>
-<h3 class="subtitle">v1.1.4</h3>
+<h3 class="subtitle">v1.2.0</h3>
 
 </div>
 
@@ -1748,7 +1748,7 @@ border-color: var(--ceh-background-grey);
 <p>The assignment of vegetation sample plot data to established vegetation
 classification units using computational methods is a well established and
 recognised practice <span class="citation">(<a href="#ref-maciejewski2020">Maciejewski et al. 2020</a>)</span>.
-The results of this assignment process are used in various ways,
+In the case of the GB-NVC the results of this assignment process are used in various ways,
 including assisting in the phase 2 habitat survey
 (or NVC survey) <span class="citation">(<a href="#ref-rodwell2006national">Rodwell 2006</a>)</span> process;
 establishing an ecological baseline and identifying important ecological
@@ -1767,6 +1767,11 @@ output of the ECOFACT project <span class="citation">(<a href="#ref-bunce1999">B
 <p>This R Shiny implementation of MAVIS (<code>RMAVIS</code>) is the newest program in this
 series, aiming to provide a web-based and easily operable system which
 can be updated and improved over time in response to user needs.</p>
+<p>At present <code>RMAVIS</code> supports two Vegetation Classification (VC) systems:</p>
+<ol style="list-style-type: decimal">
+<li>The National Vegetation Classification of Great Britain (GB-NVC).</li>
+<li>The Minnesota Native Plant Community Classification (MNNPC).</li>
+</ol>
 </div>
 <div id="instructions-and-methodology" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Instructions and Methodology</h1>
@@ -1800,9 +1805,10 @@ Figure 2.1: The Data Input section of <code>RMAVIS</code> displaying the input d
 </p>
 </div>
 <p>At present <code>RMAVIS</code> does not support the entry of constancy tables.</p>
-<p><strong>Example Dataset</strong></p>
-<p>Four example datasets are available in <code>RMAVIS</code>, which provide a means to
-explore the applications functionality.</p>
+<p><strong>Example Datasets</strong></p>
+<p>Four example datasets for the GB-NVC and one example dataset for the MNNPC are available in <code>RMAVIS</code>,
+which provide a means to explore the applications functionality.</p>
+<p><strong>GB-NVC</strong></p>
 <ul>
 <li><p><strong>Parsonage Down</strong>:
 The Parsonage Down dataset <span class="citation">(<a href="#ref-ridding2020">Ridding et al. 2020</a>)</span> contains the results of a
@@ -1829,6 +1835,11 @@ monitoring study at Newborough Warren (Ynys Llanddwyn SSSI, Anglesey)
 with four dune slacks surveyed over five years: 2014, 2015, 2016, 2017,
 and 2018 (which contain 18, 19, 18, 24, and 24 quadrats respectively)
 <span class="citation">(<a href="#ref-wallace2018">Hillary Wallace and Jones 2018</a>)</span>. Percentage cover values are provided.</p></li>
+</ul>
+<p><strong>MNNPC</strong></p>
+<ul>
+<li><strong>St. Croix State Forest</strong>:
+The …</li>
 </ul>
 <p><strong>Cover Scale</strong></p>
 <p>Four cover scales are available for selection.</p>
@@ -1878,20 +1889,25 @@ the “Run Analysis” and “Generate Report” buttons will be disabled.</p>
 <p>The clear table button resets the survey data input table.</p>
 </div>
 <div id="taxonomic-backbone" class="section level3" number="2.1.2">
-<h3><span class="header-section-number">2.1.2</span> Taxonomic backbone</h3>
-<p>The Taxonomic Backbone section provides an interface to explore the taxonomic backbone underpinning RMAVIS.
-This backbone is currently composed of the recommended taxa in
-version 0250703a of the UKSI (<a href="https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy" class="uri">https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy</a>)
-from the following informal groups: alga, chromist, clubmoss, conifer, fern,
-flowering plant, ginkgo, hornwort, horsetail, lichen, liverwort, moss, quillwort, stonewort.</p>
+<h3><span class="header-section-number">2.1.2</span> Taxonomic Backbone</h3>
+<p>The taxonomic backbone for the GB-NVC and MNNPC can be viewed and downloaded from <code>RMAVIS</code></p>
+<p>Version 1.2.0 of <code>RMAVIS</code> currently uses version 20250703a of the UKSI to form the GB-NVC taxonomic backbone,
+and contains all accepted taxca from the following informal groups: alga, chromist, clubmoss, conifer, fern,
+flowering plant, ginkgo, hornwort, horsetail, lichen, liverwort, moss, quillwort, stonewort.
+The UKSI can be accessed from several sources:
+* The versioned releases available via the NHM data portal (<a href="https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy" class="uri">https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy</a>)
+* The UKSI sandbox (<a href="https://uksi-sandbox.nhm.ac.uk/" class="uri">https://uksi-sandbox.nhm.ac.uk/</a>)
+* The NBN atlas species search (<a href="https://species.nbnatlas.org/" class="uri">https://species.nbnatlas.org/</a>)
+* The NHM UKSI website (<a href="https://www.nhm.ac.uk/our-science/data/uk-species/index" class="uri">https://www.nhm.ac.uk/our-science/data/uk-species/index</a>)
+* The backbone is also available as a lightweight R package (<a href="https://github.com/NERC-CEH/UKVegTB" class="uri">https://github.com/NERC-CEH/UKVegTB</a>)</p>
 </div>
 <div id="download" class="section level3" number="2.1.3">
 <h3><span class="header-section-number">2.1.3</span> Download</h3>
 <p>Available for download are:</p>
 <ul>
-<li><strong>Accepted Taxa:</strong> the taxa accepted by RMAVIS and associated UKSI taxon version keys.</li>
-<li><strong>Taxonomic Backbone:</strong> the taxonomic backbone used in RMAVIS, equal to the <code>UKVegTB::taxonomic_backbone</code> object.</li>
-<li><strong>Taxon Lookup:</strong> a lookup between the recommended taxon names as present in the Taxonomic Backbone, and available synonyms in the UKSI, equal to the <code>UKVegTB::taxa_lookup</code> object.</li>
+<li><strong>Accepted Taxa:</strong> the taxa accepted by RMAVIS.</li>
+<li><strong>Taxonomic Backbone:</strong> the taxonomic backbone used in RMAVIS.</li>
+<li><strong>Taxon Lookup:</strong> a lookup between the accepted/recommended taxon names as present in the Taxonomic Backbone.</li>
 <li><strong>Survey Data:</strong> the survey data entered into the data entry table.</li>
 </ul>
 </div>
@@ -1900,14 +1916,14 @@ flowering plant, ginkgo, hornwort, horsetail, lichen, liverwort, moss, quillwort
 <h2><span class="header-section-number">2.2</span> NVC Assignment</h2>
 <div id="similarity-indices" class="section level3" number="2.2.1">
 <h3><span class="header-section-number">2.2.1</span> Similarity Indices</h3>
-<p>In <code>RMAVIS</code> NVC community similarities are assigned to survey data for the
+<p>In <code>RMAVIS</code> VC community similarities are assigned to survey data for the
 site and each group of plots by year using the Czekanowski quantitative
 coefficient of similarity <span class="citation">(<a href="#ref-bloom1981">Bloom 1981</a>; <a href="#ref-hill1989">Hill 1989</a>)</span>,
 as implemented in MATCH <span class="citation">(<a href="#ref-malloch1999">Malloch 1999</a>)</span>, and also known as the Steinhaus
 coefficient.
 The Czekanowski coefficient quantifies the similarity
 between 1) a floristic table composed from survey data plots and
-2) the NVC floristic tables; with the ordinal constancy classes of I-V, replaced
+2) the VC floristic tables; with the ordinal constancy classes of I-V, replaced
 with the numeric values 1-5.
 Species absent from the survey data, but present in the NVC
 floristic tables at a constancy of 1 are down-weighted to 0.1.</p>
