@@ -648,7 +648,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
       "adjustSpecies" = input$adjustSpecies,
       "reallocateGroups" = input$reallocateGroups,
       "combineDuplicates" = input$combineDuplicates,
-      "aggTaxa" = input$aggTaxa,
       "speciesAdjustmentTable" = rhandsontable::hot_to_r(input$speciesAdjustmentTable),
       "reallocateGroupsTable" = rhandsontable::hot_to_r(input$reallocateGroupsTable),
       "surveyDataValidation" = surveyDataValidation_rval()
@@ -660,7 +659,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
     bindEvent(input$adjustSpecies,
               input$reallocateGroups,
               input$combineDuplicates,
-              input$aggTaxa,
               input$speciesAdjustmentTable,
               input$reallocateGroupsTable,
               surveyDataValidation_rval(),

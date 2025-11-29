@@ -13,6 +13,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
   selectSurveyYears <- reactiveVal()
   selectSurveyGroups <- reactiveVal()
   selectSurveyQuadrats <- reactiveVal()
+  aggTaxaOpts <- reactiveVal()
   
   observe({
     
@@ -26,6 +27,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     selectSurveyYears(sidebar_options()$selectSurveyYears)
     selectSurveyGroups(sidebar_options()$selectSurveyGroups)
     selectSurveyQuadrats(sidebar_options()$selectSurveyQuadrats)
+    aggTaxaOpts(sidebar_options()$aggTaxaOpts)
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -33,11 +35,13 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
 # Retrieve Setup Data -----------------------------------------------------
 
 ## Retrieve options -------------------------------------------------------
+  regional_availability <- reactiveVal()
   use_eivs <- reactiveVal()
   
   observe({
     
-    use_eivs(setupData()$regional_module_availability$avgEIVs)
+    regional_availability(setupData()$regional_availability)
+    use_eivs(setupData()$regional_availability$avgEIVs)
     
   }) |>
     shiny::bindEvent(setupData(),
@@ -114,13 +118,20 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
       selectedReferenceSpaces <- selectedReferenceSpaces()
       vc_pquads_wide <- vc_pquads_wide()
       vc_pquads_mean_unweighted_eivs <- vc_pquads_mean_unweighted_eivs()
-      surveyData <- surveyData()
       avgEIVs <- avgEIVs()
       ccaVars <- ccaVars()
       
+      if(isTRUE(regional_availability()$aggTaxa) & "mva" %in% aggTaxaOpts()){
+        
+        surveyData_mat <- surveyData()$surveyData_mat_agg
+        
+      } else {
+        
+        surveyData_mat <- surveyData()$surveyData_mat
+        
+      }
+      
     })
-    
-    surveyData_mat <- surveyData$surveyData_mat
     
     # Create pattern to subset matrix rows
     codes_regex <- paste0("^(", stringr::str_c(selectedReferenceSpaces, collapse = "|"), ")(?<=)\\_")
@@ -333,6 +344,10 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     mvaResults <- mvaResults()
     dcaAxisSelection <- dcaAxisSelection()
     groupSurveyPlots <- groupSurveyPlots()
+    selectSurveyMethod <- selectSurveyMethod()
+    selectSurveyYears <- selectSurveyYears()
+    selectSurveyGroups <- selectSurveyGroups()
+    selectSurveyQuadrats <- selectSurveyQuadrats()
     
     pquad_hulls_selected <- mvaResults$pquad_hulls |>
       dplyr::filter(dcaAxes == dcaAxisSelection) |>
@@ -368,7 +383,8 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
                          "DCA2" = mean(DCA2),
                          "DCA3" = mean(DCA3),
                          "DCA4" = mean(DCA4)) |>
-        dplyr::ungroup()
+        dplyr::ungroup() |>
+        dplyr::arrange(Group, Year)
       
       
     } else if(groupSurveyPlots == "year") {
@@ -379,30 +395,31 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
                          "DCA2" = mean(DCA2),
                          "DCA3" = mean(DCA3),
                          "DCA4" = mean(DCA4)) |>
-        dplyr::ungroup()
+        dplyr::ungroup() |>
+        dplyr::arrange(Year)
       
     }
     
-    if(groupSurveyPlots == "no" && selectSurveyMethod() == "all"){
+    if(groupSurveyPlots == "no" && selectSurveyMethod == "all"){
       
       dca_results_sample_site_selected <- mvaResults$dca_results_sample_site
       
       arrow_plot_data_selected <- mvaResults$arrow_plot_data
       
-    } else if(groupSurveyPlots == "no" && selectSurveyMethod() == "selectYears"){
+    } else if(groupSurveyPlots == "no" && selectSurveyMethod == "selectYears"){
       
       dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
-        dplyr::filter(Year %in% selectSurveyYears())
+        dplyr::filter(Year %in% selectSurveyYears)
       
-    } else if(groupSurveyPlots == "no" && selectSurveyMethod() == "selectGroups"){
+    } else if(groupSurveyPlots == "no" && selectSurveyMethod == "selectGroups"){
       
       dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
-        dplyr::filter(Group %in% selectSurveyGroups())
+        dplyr::filter(Group %in% selectSurveyGroups)
 
-    } else if(groupSurveyPlots == "no" && selectSurveyMethod() == "selectQuadrats"){
+    } else if(groupSurveyPlots == "no" && selectSurveyMethod == "selectQuadrats"){
       
       dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
-        dplyr::filter(Quadrat %in% selectSurveyQuadrats())
+        dplyr::filter(Quadrat %in% selectSurveyQuadrats)
       
     }
     
@@ -410,12 +427,12 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     if(length(unique(dca_results_sample_site_selected$Year)) > 1){
       
       arrow_plot_data <- dca_results_sample_site_selected |>
-        dplyr::arrange(Year) |>
-        dplyr::group_by(dplyr::across(c(-Year, -DCA1, -DCA2, -DCA3, -DCA4))) |>
+        # dplyr::group_by(dplyr::across(c(-Year, -DCA1, -DCA2, -DCA3, -DCA4))) |>
+        dplyr::group_by(dplyr::across(-dplyr::any_of(c("Year", "DCA1", "DCA2", "DCA3", "DCA4")))) |>
         dplyr::mutate("x" = get(x_axis), "y" = get(y_axis)) |>
-        dplyr::ungroup() |>
         dplyr::mutate("endX" = dplyr::lead(x), "endY" = dplyr::lead(y)) |>
-        dplyr::filter(!is.na(endX))
+        dplyr::filter(!is.na(endX)) |>
+        dplyr::ungroup()
       
     } else {
       
@@ -510,7 +527,8 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
                                     x = ~endX,
                                     ax = ~x,
                                     y = ~endY,
-                                    ay = ~y)
+                                    ay = ~y) |>
+            plotly::hide_legend()
           
           
         }
@@ -521,6 +539,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
         
       }
       
+      mvaLocalRefUnrestrictedPlot_plotly <- plotly::hide_legend(mvaLocalRefUnrestrictedPlot_plotly)
       
       return(mvaLocalRefUnrestrictedPlot_plotly)  
       

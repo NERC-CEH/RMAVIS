@@ -11,6 +11,7 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
   vcFloristicTable <- reactiveVal()
   matchSpecies <- reactiveVal()
   runAnalysis <- reactiveVal()
+  aggTaxaOpts <- reactiveVal()
 
   observe({
 
@@ -22,6 +23,7 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
     vcFloristicTable(sidebar_options()$vcFloristicTable)
     matchSpecies(sidebar_options()$matchSpecies)
     runAnalysis(sidebar_options()$runAnalysis)
+    aggTaxaOpts(sidebar_options()$aggTaxaOpts)
 
   }) |>
     bindEvent(sidebar_options(), 
@@ -29,6 +31,7 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
               ignoreInit = TRUE)
   
 # Retrieve setup data -----------------------------------------------------
+  regional_availability <- reactiveVal()
   ft_taxon_name_col <- reactiveVal()
   unit_name_col <- reactiveVal()
   floristic_tables <- reactiveVal()
@@ -38,17 +41,24 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
     
     shiny::req(nrow(setupData()$floristic_tables) != 0)
       
-    ft_taxon_name_col(setupData()$ft_taxon_name_col)
-    unit_name_col(setupData()$unit_name_col)
+    shiny::isolate({
+      
+      regional_availability(setupData()$regional_availability)
+      ft_taxon_name_col(setupData()$ft_taxon_name_col)
+      unit_name_col(setupData()$unit_name_col)
+      use_eivs(setupData()$regional_availability$avgEIVs) 
+      floristic_tables_raw <- setupData()$floristic_tables
+      
+    })
     
     if(region() == "gbnvc"){
       
-      floristic_tables(setupData()$floristic_tables)
+      floristic_tables(floristic_tables_raw)
       
     } else if(region() == "mnnpc"){
       
       floristic_tables(
-        setupData()$floristic_tables |>
+        floristic_tables_raw |>
           dplyr::mutate_at(dplyr::vars(minimum_cover, mean_cover, maximum_cover),
                            list(
                              ~dplyr::case_when(
@@ -74,8 +84,6 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
       
     }
     
-    use_eivs(setupData()$regional_module_availability$avgEIVs)
-    
   }) |>
     shiny::bindEvent(setupData(),
                      ignoreInit = FALSE,
@@ -91,12 +99,21 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
     shiny::req(surveyData())
 
     shiny::isolate({
+      
       coverScale <- coverScale()
-      surveyData <- surveyData()
       removeLowFreqTaxa <- removeLowFreqTaxa()
+      
+      if(isTRUE(regional_availability()$aggTaxa) & "vc_assign" %in% aggTaxaOpts()){
+        
+        surveyData_long <- surveyData()$surveyData_long_agg
+        
+      } else {
+        
+        surveyData_long <- surveyData()$surveyData_long
+        
+      }
+      
     })
-    
-    surveyData_long <- surveyData$surveyData_long
     
     floristicTables_composed_all <- data.frame("ID" = character(),
                                                "Species" = character(),

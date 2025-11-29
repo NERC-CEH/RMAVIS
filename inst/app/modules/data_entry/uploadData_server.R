@@ -94,7 +94,7 @@ uploadData <- function(input, output, session) {
         tidyr::pivot_longer(cols = -c(Quadrat),
                             names_to = "Species",
                             values_to = "Cover",
-                            values_transform = list(Cover = as.numeric)) |> # as.numeric
+                            values_transform = list(Cover = as.numeric)) |>
         dplyr::mutate("Year" = as.integer(format(Sys.Date(), "%Y")),
                       "Group" = "A") |>
         dplyr::select(Year, Group, Quadrat, Species, Cover) |>

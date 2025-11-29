@@ -12,8 +12,8 @@ analysis <- function(input, output, session,
 # Reactively show/hide tabs -----------------------------------------------
   observe({
     
-    show_eivs <- setupData()$regional_module_availability$avgEIVs
-    show_habCor <- setupData()$regional_module_availability$habCor
+    show_eivs <- setupData()$regional_availability$avgEIVs
+    show_habCor <- setupData()$regional_availability$habCor
     
     if(isTRUE(show_eivs)){
       shiny::showTab(inputId = "analysis_nct", target = "eivs_panel")
@@ -74,6 +74,7 @@ analysis <- function(input, output, session,
 
   speciesFreq <- shiny::callModule(module = speciesFreq,
                                    id = "speciesFreq_id_1",
+                                   setupData = setupData,
                                    surveyData = surveyData,
                                    sidebar_options = sidebar_options)
 
@@ -85,6 +86,7 @@ analysis <- function(input, output, session,
 
   diversityAnalysis <- shiny::callModule(module = diversityAnalysis,
                                          id = "diversityAnalysis_id_1",
+                                         setupData = setupData,
                                          surveyData = surveyData,
                                          sidebar_options = sidebar_options)
 

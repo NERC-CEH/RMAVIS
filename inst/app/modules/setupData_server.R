@@ -5,7 +5,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
 # Establish reactive objects ----------------------------------------------
   setupData_init <- list(
     "region" = "gbnvc",
-    "regional_module_availability" = as.list(tibble::deframe(RMAVIS:::regional_module_availability[, c("module", "gbnvc")])),
+    "regional_availability" = as.list(tibble::deframe(RMAVIS:::regional_availability[, c("module", "gbnvc")])),
     "species_names" = RMAVIS::accepted_taxa[["taxon_name"]],
     "accepted_species" = RMAVIS::accepted_taxa,
     "example_data" = RMAVIS::example_data,
@@ -46,7 +46,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
     
     selected_vc_types <- selectVCtypes()
 
-    regional_module_availability_selected <- as.list(tibble::deframe(RMAVIS:::regional_module_availability[, c("module", region())]))
+    regional_availability_selected <- as.list(tibble::deframe(RMAVIS:::regional_availability[, c("module", region())]))
     
     if(region() == "gbnvc"){
       
@@ -149,7 +149,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
     # Compose final setup data
     setupData_list <- list(
       "region" = region(),
-      "regional_module_availability" = regional_module_availability_selected,
+      "regional_availability" = regional_availability_selected,
       "species_names" = species_names_selected,
       "accepted_species" = accepted_species_selected,
       "example_data" = example_data_selected,

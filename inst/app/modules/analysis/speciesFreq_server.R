@@ -1,18 +1,30 @@
-speciesFreq <- function(input, output, session, surveyData, sidebar_options) {
+speciesFreq <- function(input, output, session, setupData, surveyData, sidebar_options) {
   
   ns <- session$ns
   
-  # Retrieve sidebar options ------------------------------------------------
+# Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
+  aggTaxaOpts <- reactiveVal()
   
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
+    aggTaxaOpts(sidebar_options()$aggTaxaOpts)
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
   
+# Retrieve setup data -----------------------------------------------------
+  regional_availability <- reactiveVal()
   
+  observe({
+    
+    regional_availability(setupData()$regional_availability)
+    
+  }) |>
+    shiny::bindEvent(setupData(),
+                     ignoreInit = FALSE,
+                     ignoreNULL = TRUE)
 
 # Intialise Species Frequency Table ---------------------------------------
   speciesFrequencyTable_init <- data.frame("Year" = integer(),
@@ -65,50 +77,54 @@ speciesFreq <- function(input, output, session, surveyData, sidebar_options) {
       text = "Compiling Frequency Table"
     )
     
-    shiny::req(surveyData())
+    shiny::isolate({
+      
+      if(isTRUE(regional_availability()$aggTaxa) & "frequency" %in% aggTaxaOpts()){
+        
+        surveyData_long <- surveyData()$surveyData_long_agg
+        
+      } else {
+        
+        surveyData_long <- surveyData()$surveyData_long_prop
+        
+      }
+      
+    })
     
-    surveyData <- surveyData()
-    surveyData_long <- surveyData$surveyData_long
-    surveyData_wide <- surveyData$wide
+    # I need to find a better way to do this with tidyselect
+    max_year <- max(surveyData_long$Year) |>
+      as.character()
+    min_year <- min(surveyData_long$Year) |>
+      as.character()
     
-    isolate({
-      
-      # I need to find a better way to do this with tidyselect
-      max_year <- max(surveyData_long$Year) |>
-        as.character()
-      min_year <- min(surveyData_long$Year) |>
-        as.character()
-      
-      speciesFrequency <- surveyData_long |>
-        dplyr::group_by(Year, Species) |>
-        dplyr::summarise(Frequency = dplyr::n()) |>
-        tidyr::pivot_wider(id_cols = Species,
-                           names_from = Year,
-                           values_from = Frequency) |>
-        dplyr::mutate(
-          "Difference" = 
-            dplyr::case_when(
-              is.na(get(min_year)) ~ as.numeric(get(max_year)),
-              is.na(get(max_year)) ~ as.numeric(get(min_year)) * -1,
-              !is.na(get(min_year)) & !is.na(get(max_year)) ~ as.numeric(get(max_year)) - as.numeric(get(min_year)),
-              TRUE ~ 0
-            )
-        ) |>
-        dplyr::mutate(
-          "Change" = 
-            dplyr::case_when(
-              is.na(get(min_year)) & !is.na(get(max_year)) ~ "Gain",
-              is.na(get(max_year)) & !is.na(get(min_year))~ "Loss",
-              Difference > 0 ~ "Net Increase",
-              Difference < 0 ~ "Net Decrease",
-              Difference == 0 ~ "No Net Difference",
-              TRUE ~ "Gain then Loss"
-            )
-        )
-      
-      speciesFrequencyTable_rval(speciesFrequency)
-      
-    }) # close isolate
+    speciesFrequency <- surveyData_long |>
+      dplyr::group_by(Year, Species) |>
+      dplyr::summarise(Frequency = dplyr::n()) |>
+      tidyr::pivot_wider(id_cols = Species,
+                         names_from = Year,
+                         values_from = Frequency) |>
+      dplyr::mutate(
+        "Difference" = 
+          dplyr::case_when(
+            is.na(get(min_year)) ~ as.numeric(get(max_year)),
+            is.na(get(max_year)) ~ as.numeric(get(min_year)) * -1,
+            !is.na(get(min_year)) & !is.na(get(max_year)) ~ as.numeric(get(max_year)) - as.numeric(get(min_year)),
+            TRUE ~ 0
+          )
+      ) |>
+      dplyr::mutate(
+        "Change" = 
+          dplyr::case_when(
+            is.na(get(min_year)) & !is.na(get(max_year)) ~ "Gain",
+            is.na(get(max_year)) & !is.na(get(min_year))~ "Loss",
+            Difference > 0 ~ "Net Increase",
+            Difference < 0 ~ "Net Decrease",
+            Difference == 0 ~ "No Net Difference",
+            TRUE ~ "Gain then Loss"
+          )
+      )
+    
+    speciesFrequencyTable_rval(speciesFrequency)
     
     output$speciesFrequencyTable <- reactable::renderReactable({
       

@@ -85,6 +85,7 @@ deSidebarUI <- function(id){
                 
                 One example dataset is currently provided for the MNNPC:
                 1. 'St. Croix State Forest'
+                2. 'Earthworm-Invaded Forests'
                 "
               ),
               placement = "bottom"

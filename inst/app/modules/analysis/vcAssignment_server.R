@@ -4,6 +4,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
   
 # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
+  aggTaxaOpts <- reactiveVal()
   coverMethod <- reactiveVal()
   assignQuadrats <- reactiveVal(FALSE)
   habitatRestriction <- reactiveVal()
@@ -13,6 +14,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
   observe({
 
     runAnalysis(sidebar_options()$runAnalysis)
+    aggTaxaOpts(sidebar_options()$aggTaxaOpts)
     coverMethod(sidebar_options()$coverMethod)
     assignQuadrats(sidebar_options()$assignQuadrats)
     habitatRestriction(sidebar_options()$habitatRestriction)
@@ -24,13 +26,14 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
               ignoreInit = TRUE)
 
 # Retrieve setup data -----------------------------------------------------
+  regional_availability <- reactiveVal()
   ft_taxon_name_col <- reactiveVal()
   psq_taxon_name_col <- reactiveVal()
   unit_name_col <- reactiveVal()
   hab_rest_pref <- reactiveVal()
   
   observe({
-    
+    regional_availability(setupData()$regional_availability)
     ft_taxon_name_col(setupData()$ft_taxon_name_col)
     psq_taxon_name_col(setupData()$psq_taxon_name_col)
     unit_name_col(setupData()$unit_name_col)
@@ -121,6 +124,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     
     shiny::req(surveyData())
     shiny::req(setupData())
+    shiny::req(aggTaxaOpts())
     
     if(assignQuadrats() == TRUE){
       
@@ -132,20 +136,23 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
       
     shiny::isolate({
       
-      surveyData_long <- surveyData()$surveyData_long
       pquads_to_use <- setupData()$pquads
       habitatRestriction <- habitatRestriction()
       hab_rest_pref <- hab_rest_pref()
       unit_name_col <- unit_name_col()
       
+      if(isTRUE(regional_availability()$aggTaxa) & "vc_assign" %in% aggTaxaOpts()){
+        
+        surveyData_long <- surveyData()$surveyData_long_agg
+        
+      } else {
+        
+        surveyData_long <- surveyData()$surveyData_long
+        
+      }
+      
     })
     
-    # assign(x = "surveyData_long", value = surveyData_long, envir = .GlobalEnv)
-    # assign(x = "pquads_to_use", value = pquads_to_use, envir = .GlobalEnv)
-    # assign(x = "habitatRestriction", value = habitatRestriction, envir = .GlobalEnv)
-    # assign(x = "hab_rest_pref", value = hab_rest_pref, envir = .GlobalEnv)
-    # assign(x = "unit_name_col", value = unit_name_col, envir = .GlobalEnv)
-      
     # Add an ID column to the survey data table
     surveyData_prepped <- surveyData_long |>
       tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = FALSE) |>

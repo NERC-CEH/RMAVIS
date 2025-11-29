@@ -11,8 +11,9 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
   selectedReferenceSpaces <- reactiveVal()
   selectSurveyMethod <- reactiveVal()
   selectSurveyYears <- reactiveVal()
-  selectSurveyQuadrats <- reactiveVal()
   selectSurveyGroups <- reactiveVal()
+  selectSurveyQuadrats <- reactiveVal()
+  aggTaxaOpts <- reactiveVal()
   
   observe({
     
@@ -26,6 +27,7 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
     selectSurveyYears(sidebar_options()$selectSurveyYears)
     selectSurveyQuadrats(sidebar_options()$selectSurveyQuadrats)
     selectSurveyGroups(sidebar_options()$selectSurveyGroups)
+    aggTaxaOpts(sidebar_options()$aggTaxaOpts)
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -33,11 +35,13 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
 # Retrieve Setup Data -----------------------------------------------------
 
 ## Retrieve options -------------------------------------------------------
+  regional_availability <- reactiveVal()
   use_eivs <- reactiveVal()
   
   observe({
     
-    use_eivs(setupData()$regional_module_availability$avgEIVs)
+    regional_availability(setupData()$regional_availability)
+    use_eivs(setupData()$regional_availability$avgEIVs)
     
   }) |>
     shiny::bindEvent(setupData(),
@@ -119,12 +123,22 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
       selectedReferenceSpaces <- selectedReferenceSpaces()
       vc_pquads_wide <- vc_pquads_wide()
       vc_pquads_mean_unweighted_eivs <- vc_pquads_mean_unweighted_eivs()
-      surveyData <- surveyData()
-      surveyData_long <- surveyData$surveyData_long
+      surveyData_long <- surveyData()$surveyData_long
+      surveyData_long_agg <- surveyData()$surveyData_long_agg
       ccaVars <- ccaVars()
       
-    })
+      if(isTRUE(regional_availability()$aggTaxa) & "mva" %in% aggTaxaOpts()){
+        
+        surveyData_long <- surveyData()$surveyData_long_agg
+        
+      } else {
+        
+        surveyData_long <- surveyData()$surveyData_long
+        
+      }
       
+    })
+    
     # Create pattern to subset matrix rows
     codes_regex <- paste0("^(", stringr::str_c(selectedReferenceSpaces, collapse = "|"), ")(?<=)\\_")
     
@@ -306,25 +320,10 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
       mvaResults <- mvaResults()
       dcaAxisSelection <- dcaAxisSelection()
       groupSurveyPlots <- groupSurveyPlots()
-      
-      
-      o1 <- mvaResults()
-      o2 <- dcaAxisSelection()
-      o3 <- dcaVars()
-      o4 <- groupSurveyPlots()
-      o5 <- selectSurveyMethod()
-      o6 <- selectSurveyYears()
-      o7 <- selectSurveyGroups()
-      o8 <- selectSurveyQuadrats()
-      
-      assign(x = "mvaResults", value = o1, envir = .GlobalEnv)
-      assign(x = "dcaAxisSelection", value = o2, envir = .GlobalEnv)
-      assign(x = "dcaVars", value = o3, envir = .GlobalEnv)
-      assign(x = "groupSurveyPlots", value = o4, envir = .GlobalEnv)
-      assign(x = "selectSurveyMethod", value = o5, envir = .GlobalEnv)
-      assign(x = "selectSurveyYears", value = o6, envir = .GlobalEnv)
-      assign(x = "selectSurveyGroups", value = o7, envir = .GlobalEnv)
-      assign(x = "selectSurveyQuadrats", value = o8, envir = .GlobalEnv)
+      selectSurveyMethod <- selectSurveyMethod()
+      selectSurveyYears <- selectSurveyYears()
+      selectSurveyGroups <- selectSurveyGroups()
+      selectSurveyQuadrats <- selectSurveyQuadrats()
       
       pquad_hulls_selected <- mvaResults$pquad_hulls |>
         dplyr::filter(dcaAxes == dcaAxisSelection) |>
@@ -360,7 +359,8 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
                            "DCA2" = mean(DCA2),
                            "DCA3" = mean(DCA3),
                            "DCA4" = mean(DCA4)) |>
-          dplyr::ungroup()
+          dplyr::ungroup() |>
+          dplyr::arrange(Group, Year)
         
         
       } else if(groupSurveyPlots == "year") {
@@ -371,28 +371,29 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
                            "DCA2" = mean(DCA2),
                            "DCA3" = mean(DCA3),
                            "DCA4" = mean(DCA4)) |>
-          dplyr::ungroup()
+          dplyr::ungroup() |>
+          dplyr::arrange(Year)
         
       }
       
-      if(groupSurveyPlots == "no" && selectSurveyMethod() == "all"){
+      if(groupSurveyPlots == "no" && selectSurveyMethod == "all"){
         
         dca_results_sample_site_selected <- mvaResults$dca_results_sample_site
         
-      } else if(groupSurveyPlots == "no" && selectSurveyMethod() == "selectYears"){
+      } else if(groupSurveyPlots == "no" && selectSurveyMethod == "selectYears"){
         
         dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
-          dplyr::filter(Year %in% selectSurveyYears())
+          dplyr::filter(Year %in% selectSurveyYears)
         
-      } else if(groupSurveyPlots == "no" && selectSurveyMethod() == "selectGroups"){
-        
-        dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
-          dplyr::filter(Group %in% selectSurveyGroups())
-        
-      } else if(groupSurveyPlots == "no" && selectSurveyMethod() == "selectQuadrats"){
+      } else if(groupSurveyPlots == "no" && selectSurveyMethod == "selectGroups"){
         
         dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
-          dplyr::filter(Quadrat %in% selectSurveyQuadrats())
+          dplyr::filter(Group %in% selectSurveyGroups)
+        
+      } else if(groupSurveyPlots == "no" && selectSurveyMethod == "selectQuadrats"){
+        
+        dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
+          dplyr::filter(Quadrat %in% selectSurveyQuadrats)
         
       }
       
@@ -400,12 +401,11 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
       if(length(unique(dca_results_sample_site_selected$Year)) > 1){
         
         arrow_plot_data <- dca_results_sample_site_selected |>
-          dplyr::arrange(Year) |>
-          dplyr::group_by(dplyr::across(c(-Year, -DCA1, -DCA2, -DCA3, -DCA4))) |>
+          dplyr::group_by(dplyr::across(-dplyr::any_of(c("Year", "DCA1", "DCA2", "DCA3", "DCA4")))) |>
           dplyr::mutate("x" = get(x_axis), "y" = get(y_axis)) |>
-          dplyr::ungroup() |>
           dplyr::mutate("endX" = dplyr::lead(x), "endY" = dplyr::lead(y)) |>
-          dplyr::filter(!is.na(endX))
+          dplyr::filter(!is.na(endX)) |>
+          dplyr::ungroup()
         
       } else {
         
@@ -505,6 +505,7 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
           
         }
         
+        mvaLocalRefRestrictedPlot_plotly <- plotly::hide_legend(mvaLocalRefRestrictedPlot_plotly)
         
         return(mvaLocalRefRestrictedPlot_plotly)  
       

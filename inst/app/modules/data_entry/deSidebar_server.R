@@ -121,6 +121,14 @@ deSidebar <- function(input, output, session, setupData,
           selected = "none"
         )
 
+      } else if(input$selectedExampleData == "Newborough Warren"){
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "coverScale",
+          selected = "percentage"
+        )
+        
       } else if(input$selectedExampleData %in% c("St. Croix State Forest", "Earthworm-Invaded Forests")){
         
         shiny::updateSelectizeInput(

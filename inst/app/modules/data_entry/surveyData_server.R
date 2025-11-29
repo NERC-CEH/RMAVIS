@@ -3,17 +3,19 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   ns <- session$ns
   
 # Retrieve Setup Data -----------------------------------------------------
+  regional_availability <- reactiveVal()
   exampleData <- reactiveVal()
   speciesNames <- reactiveVal()
   aggLookup <- reactiveVal()
   
   observe({
     
-    setupData <- setupData()
-    
-    exampleData(setupData$example_data)
-    speciesNames(setupData$species_names)
-    aggLookup(setupData$agg_lookup)
+    shiny::isolate({
+      regional_availability(setupData()$regional_availability)
+      exampleData(setupData()$example_data)
+      speciesNames(setupData()$species_names)
+      aggLookup(setupData()$agg_lookup)
+    })
     
   }) |>
     bindEvent(setupData(),
@@ -384,28 +386,28 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   surveyData_corrected_rval <- reactiveVal()
 
 ## Aggregate Taxa ---------------------------------------------------------
-  observe({
-    
-    req(input$surveyData)
-    req(aggLookup())
-    
-    isolate({
-      
-      surveyData <- rhandsontable::hot_to_r(input$surveyData)
-        
-      surveyData_aggregated <- RMAVIS::aggregate_taxa(plot_data = surveyData, 
-                                                      agg_lookup = aggLookup(),
-                                                      plot_data_taxon_col = "Species",
-                                                      agg_lookup_taxon_col = "taxon")
-        
-      surveyData_corrected_rval(surveyData_aggregated)
-      
-    })
-    
-  }) |>
-    bindEvent(aggTaxa(),
-              ignoreInit = TRUE,
-              ignoreNULL = TRUE)
+  # observe({
+  # 
+  #   req(input$surveyData)
+  #   req(aggLookup())
+  # 
+  #   isolate({
+  # 
+  #     surveyData <- rhandsontable::hot_to_r(input$surveyData)
+  # 
+  #     surveyData_aggregated <- RMAVIS::aggregate_taxa(plot_data = surveyData,
+  #                                                     agg_lookup = aggLookup(),
+  #                                                     plot_data_taxon_col = "Species",
+  #                                                     agg_lookup_taxon_col = "taxon")
+  # 
+  #     surveyData_corrected_rval(surveyData_aggregated)
+  # 
+  #   })
+  # 
+  # }) |>
+  #   bindEvent(aggTaxa(),
+  #             ignoreInit = TRUE,
+  #             ignoreNULL = TRUE)
   
 ## Adjust Species Names ---------------------------------------------------
   observe({
@@ -611,8 +613,13 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   surveyData_rval <- reactiveVal(list(
     "surveyData_original" = NULL,
     "surveyData_long" = NULL,
+    "surveyData_long_prop" = NULL,
     "surveyData_wide" = NULL,
-    "surveyData_mat" = NULL
+    "surveyData_mat" = NULL,
+    "surveyData_long_agg" = NULL,
+    "surveyData_long_prop_agg" = NULL,
+    "surveyData_wide_agg" = NULL,
+    "surveyData_mat_agg" = NULL
   ))
   
   observe({
@@ -692,25 +699,89 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     # Check whether any and all cover values are supplied
     coverSupplied <- surveyDataValidation()$coverSupplied
     
-    # isolate({
+    shiny::isolate({
       
-      # Retrieve long survey table
       surveyData <- surveyData_rval()
-      surveyData_long <- surveyData$surveyData_long
-      surveyData_long_prop <- surveyData$surveyData_long_prop
+      regional_availability <- regional_availability()
+      aggLookup <- aggLookup()
       
-      # I currently need this if statement as the surveyDataValidation()$speciesComplete statement isn't being triggered correctly.
-      if(all(!is.na(surveyData_long$Species))){
+    })
+      
+    # Retrieve long survey table
+    surveyData_long <- surveyData$surveyData_long
+    surveyData_long_prop <- surveyData$surveyData_long_prop
+    
+    # I currently need this if statement as the surveyDataValidation()$speciesComplete statement isn't being triggered correctly.
+    if(all(!is.na(surveyData_long$Species))){
+      
+      if(coverSupplied == FALSE){
+        
+        surveyData_wide <- surveyData_long |>
+          dplyr::mutate("Cover" = 1) |>
+          tidyr::pivot_wider(names_from = Species,
+                             values_from = Cover) |>
+          dplyr::mutate_all(~replace(., is.na(.), 0))
+        
+        surveyData_mat <- surveyData_long |>
+          tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
+          dplyr::mutate("Cover" = 1) |>
+          tidyr::pivot_wider(names_from = Species,
+                             values_from = Cover) |>
+          tibble::column_to_rownames(var = "ID") |>
+          dplyr::mutate_all(~replace(., is.na(.), 0)) |>
+          as.matrix()
+        
+      } else if(coverSupplied == TRUE){
+        
+        surveyData_wide <- surveyData_long_prop |>
+          tidyr::pivot_wider(names_from = Species,
+                             values_from = Cover) |>
+          dplyr::mutate_all(~replace(., is.na(.), 0))
+        
+        surveyData_mat <- surveyData_long_prop |>
+          tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
+          tidyr::pivot_wider(names_from = Species,
+                             values_from = Cover) |>
+          tibble::column_to_rownames(var = "ID") |>
+          dplyr::mutate_all(~replace(., is.na(.), 0)) |>
+          as.matrix()
+        
+      } else {
+        
+        surveyData_wide <- NULL
+        surveyData_mat <- NULL
+        
+      }
+      
+      surveyData$surveyData_wide <- surveyData_wide
+      surveyData$surveyData_mat <- surveyData_mat
+      
+    }
+      
+    # Compose data
+    if(isTRUE(regional_availability$aggTaxa)){
+      
+      surveyData$surveyData_long_agg <- RMAVIS::aggregate_taxa(plot_data = surveyData$surveyData_long, 
+                                                               agg_lookup = aggLookup,
+                                                               plot_data_taxon_col = "Species",
+                                                               agg_lookup_taxon_col = "taxon")
+      
+      surveyData$surveyData_long_prop_agg <- RMAVIS::aggregate_taxa(plot_data = surveyData$surveyData_long_prop, 
+                                                                    agg_lookup = aggLookup,
+                                                                    plot_data_taxon_col = "Species",
+                                                                    agg_lookup_taxon_col = "taxon")
+      
+      if(all(!is.na(surveyData$surveyData_long_prop_agg$Species))){
         
         if(coverSupplied == FALSE){
           
-          surveyData_wide <- surveyData_long |>
+          surveyData$surveyData_wide_agg <- surveyData$surveyData_long_prop_agg |>
             dplyr::mutate("Cover" = 1) |>
             tidyr::pivot_wider(names_from = Species,
                                values_from = Cover) |>
             dplyr::mutate_all(~replace(., is.na(.), 0))
           
-          surveyData_mat <- surveyData_long |>
+          surveyData$surveyData_mat_agg <- surveyData$surveyData_long_prop_agg |>
             tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
             dplyr::mutate("Cover" = 1) |>
             tidyr::pivot_wider(names_from = Species,
@@ -721,12 +792,12 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
           
         } else if(coverSupplied == TRUE){
           
-          surveyData_wide <- surveyData_long_prop |>
+          surveyData$surveyData_wide_agg <- surveyData$surveyData_long_prop_agg |>
             tidyr::pivot_wider(names_from = Species,
                                values_from = Cover) |>
             dplyr::mutate_all(~replace(., is.na(.), 0))
           
-          surveyData_mat <- surveyData_long_prop |>
+          surveyData$surveyData_mat_agg <- surveyData$surveyData_long_prop_agg |>
             tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
             tidyr::pivot_wider(names_from = Species,
                                values_from = Cover) |>
@@ -736,18 +807,23 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
           
         } else {
           
-          surveyData_wide <- NULL
-          surveyData_mat <- NULL
+          surveyData$surveyData_wide_agg <- NULL
+          surveyData$surveyData_mat_agg <- NULL
+          
         }
-        
-        surveyData$surveyData_wide <- surveyData_wide
-        surveyData$surveyData_mat <- surveyData_mat
-        surveyData_rval(surveyData)
-        
         
       }
       
-    # })
+    } else {
+      
+      surveyData$surveyData_long_agg <- NULL
+      surveyData$surveyData_long_prop_agg <- NULL
+      surveyData$surveyData_wide_agg <- NULL
+      surveyData$surveyData_mat_agg <- NULL
+      
+    }
+    
+    surveyData_rval(surveyData)
 
   }) |>
     bindEvent(surveyDataValidation(),

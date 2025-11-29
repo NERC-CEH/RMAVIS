@@ -8,7 +8,7 @@ vcInformationUI <- function(id){
     
     bslib::layout_sidebar(
       
-      sidebar = vcInfoSidebarUI(id = "vcInfoSidebar_id_1"),
+      sidebar = vcInfoSidebarUI(id = ns("vcInfoSidebar_id_1")),
       
       bslib::navset_card_tab(
         
@@ -22,7 +22,7 @@ vcInformationUI <- function(id){
           
           bslib::card_header("Community Names"),
           
-          vcCommNamesLookupUI(id = "vcCommNamesLookup_id_1")
+          vcCommNamesLookupUI(id = ns("vcCommNamesLookup_id_1"))
           
         ),
         
@@ -34,7 +34,7 @@ vcInformationUI <- function(id){
           
           bslib::card_header("Floristic Tables"),
           
-          vcFlorTabsUI(id = "vcFlorTabs_id_1")
+          vcFlorTabsUI(id = ns("vcFlorTabs_id_1"))
           
         ),
         
@@ -46,7 +46,7 @@ vcInformationUI <- function(id){
           
           bslib::card_header("Taxon Name Updates"),
           
-          vcTaxonNamesLookupUI(id = "vcTaxonNamesLookup_id_1")
+          vcTaxonNamesLookupUI(id = ns("vcTaxonNamesLookup_id_1"))
           
         ),
         
@@ -58,7 +58,7 @@ vcInformationUI <- function(id){
           
           bslib::card_header("Community Attributes"),
           
-          vcCommAttrUI(id = "vcCommAttr_id_1")
+          vcCommAttrUI(id = ns("vcCommAttr_id_1"))
           
         )
         

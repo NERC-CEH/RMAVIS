@@ -22,7 +22,7 @@ habCor <- function(input, output, session, setupData, vcAssignment, sidebar_opti
     
     habitat_correspondences(setupData()$habitat_correspondences)
     unit_name_col(setupData()$unit_name_col)
-    run_module(setupData()$regional_module_availability$avgEIVs)
+    run_module(setupData()$regional_availability$avgEIVs)
     
   }) |>
     bindEvent(setupData(),

@@ -15,13 +15,61 @@ sidebarUI <- function(id){
                         disabled = ''
                         ),
 
-    # shiny::div(shiny::br()),
+
+# Aggregate taxa ----------------------------------------------------------
+
+    shiny::div(
+      
+      id = ns("aggTaxa_div"),
+      
+      shiny::div(shiny::h6("Aggregate Taxa")),
+      
+      bslib::layout_columns(
+        
+        col_widths = c(11, 1),
+        
+        shinyWidgets::pickerInput(inputId = ns("aggTaxaOpts"),
+                                  choices = c("VC Assignment" = "vc_assign",
+                                              "Floristic Tables" = "floristic_tables",
+                                              "Frequency" = "frequency",
+                                              "EIVs" = "eivs",
+                                              "Diversity" = "diversity",
+                                              "MVA" = "mva"),
+                                  selected = c("vc_assign", "floristic_tables", "mva"),
+                                  multiple = TRUE
+        ),
+        
+        bslib::popover(
+          bsicons::bs_icon("info-circle"),
+          title = "Aggregate Taxa",
+          id = ns("aggTaxaOptsInfo"),
+          shiny::markdown(
+          "
+          Aggregate taxa in the survey data for analysis, module-by-module.
+          This option is provided as vegetation classification systems may group
+          taxa into aggregate ranks or groups e.g. _Viola ecological group 1_, as in the MNNPC.
+          Conssequently, without aggregation matching un-aggregated survey data against aggregated reference
+          data will produce false mis-matches.
+          By default the VC Assignment, Floristic Tables, MVA modules are
+          selected as these use aggregated vegetation classifcation system data; whilst
+          the other modules do not, therefore preserving taxonomic specificity.
+          "
+          ),
+          placement = "bottom"
+        )
+        
+      )
+      
+    ),
+
+
+# Select VC types ---------------------------------------------------------
 
     shiny::div(
       
       id = ns("selectVCtypes_div"),
       
-      shiny::h5("VC Types"),
+      shiny::h6("VC Types"),
       
       bslib::layout_columns(
         

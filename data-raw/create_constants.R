@@ -2,12 +2,13 @@
 region_options <- c("Great Britain (GB-NVC)" = "gbnvc",
                     "Minnesota (MNNPC)" = "mnnpc")
 
-# Regional Module Availability --------------------------------------------
-regional_module_availability <- tibble::tribble(
+# Regional Availability ---------------------------------------------------
+regional_availability <- tibble::tribble(
   ~module, ~gbnvc, ~mnnpc,
   "habCor", TRUE, FALSE,
   "avgEIVs", TRUE, FALSE,
-  "taxonNameUpdates", TRUE, FALSE
+  "taxonNameUpdates", TRUE, FALSE,
+  "aggTaxa", FALSE, TRUE
 )
 
 # NVC types ---------------------------------------------------------------
@@ -260,7 +261,7 @@ habitat_correspondence_classifications <- readRDS(file = "./inst/extdata/habitat
 
 # Save all constants as internal data -------------------------------------
 usethis::use_data(region_options,
-                  regional_module_availability,
+                  regional_availability,
                   nvcType_options,
                   inputMethod_options,
                   example_data_options,

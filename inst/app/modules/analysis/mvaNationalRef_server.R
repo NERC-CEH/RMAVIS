@@ -13,6 +13,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
   selectSurveyYears <- reactiveVal()
   selectSurveyQuadrats <- reactiveVal()
   selectSurveyGroups <- reactiveVal()
+  aggTaxaOpts <- reactiveVal()
   
   observe({
     
@@ -26,6 +27,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
     selectSurveyYears(sidebar_options()$selectSurveyYears)
     selectSurveyQuadrats(sidebar_options()$selectSurveyQuadrats)
     selectSurveyGroups(sidebar_options()$selectSurveyGroups)
+    aggTaxaOpts(sidebar_options()$aggTaxaOpts)
     
   }) |>
     bindEvent(sidebar_options(), 
@@ -34,11 +36,13 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
 # Retrieve Setup Data -----------------------------------------------------
 
 ## Retrieve options -------------------------------------------------------
+  regional_availability <- reactiveVal()
   use_eivs <- reactiveVal()
   
   observe({
     
-    use_eivs(setupData()$regional_module_availability$avgEIVs)
+    regional_availability(setupData()$regional_availability)
+    use_eivs(setupData()$regional_availability$avgEIVs)
     
   }) |>
     shiny::bindEvent(setupData(),
@@ -122,15 +126,21 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
       selectedReferenceSpaces <- selectedReferenceSpaces()
       vc_pquads_wide <- vc_pquads_wide()
       vc_pquads_mean_unweighted_eivs <- vc_pquads_mean_unweighted_eivs()
-      surveyData <- surveyData()
       avgEIVs <- avgEIVs()
       ccaVars <- ccaVars()
+      topvcCommunities <- vcAssignment$topvcCommunities
+      
+      if(isTRUE(regional_availability()$aggTaxa) & "mva" %in% aggTaxaOpts()){
+        
+        surveyData_long <- surveyData()$surveyData_long_agg
+        
+      } else {
+        
+        surveyData_long <- surveyData()$surveyData_long
+        
+      }
       
     })
-    
-    topvcCommunities <- vcAssignment$topvcCommunities
-    surveyData_long <- surveyData$surveyData_long
-    surveyData_mat <- surveyData$surveyData_mat
     
     # Perform a DCA on the combined pseudo-quadrat and survey data
     pquads_dca_results <- vegan::decorana(veg = vc_pquads_wide)
@@ -273,6 +283,10 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
       mvaResults <- mvaResults_rval()
       dcaAxisSelection <- dcaAxisSelection()
       groupSurveyPlots <- groupSurveyPlots()
+      selectSurveyMethod <- selectSurveyMethod()
+      selectSurveyYears <- selectSurveyYears()
+      selectSurveyGroups <- selectSurveyGroups()
+      selectSurveyQuadrats <- selectSurveyQuadrats()
       
       
       if(groupSurveyPlots == "no"){
@@ -288,7 +302,8 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
                            "DCA2" = mean(DCA2),
                            "DCA3" = mean(DCA3),
                            "DCA4" = mean(DCA4)) |>
-          dplyr::ungroup()
+          dplyr::ungroup() |>
+          dplyr::arrange(Group, Year)
       
         
       } else if(groupSurveyPlots == "year") {
@@ -299,29 +314,30 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
                            "DCA2" = mean(DCA2),
                            "DCA3" = mean(DCA3),
                            "DCA4" = mean(DCA4)) |>
-          dplyr::ungroup()
+          dplyr::ungroup() |>
+          dplyr::arrange(Year)
         
       }
       
       # Select the survey plots and path arrows to include
-      if(groupSurveyPlots() == "no" && selectSurveyMethod() == "all"){
+      if(groupSurveyPlots() == "no" && selectSurveyMethod == "all"){
         
         dca_results_sample_site_selected <- mvaResults$dca_results_sample_site
         
-      } else if(groupSurveyPlots() == "no" && selectSurveyMethod() == "selectYears"){
+      } else if(groupSurveyPlots() == "no" && selectSurveyMethod == "selectYears"){
         
         dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
-          dplyr::filter(Year %in% selectSurveyYears())
+          dplyr::filter(Year %in% selectSurveyYears)
         
-      } else if(groupSurveyPlots() == "no" && selectSurveyMethod() == "selectGroups"){
-        
-        dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
-          dplyr::filter(Group %in% selectSurveyGroups())
-        
-      } else if(groupSurveyPlots() == "no" && selectSurveyMethod() == "selectQuadrats"){
+      } else if(groupSurveyPlots() == "no" && selectSurveyMethod == "selectGroups"){
         
         dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
-          dplyr::filter(Quadrat %in% selectSurveyQuadrats())
+          dplyr::filter(Group %in% selectSurveyGroups)
+        
+      } else if(groupSurveyPlots() == "no" && selectSurveyMethod == "selectQuadrats"){
+        
+        dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
+          dplyr::filter(Quadrat %in% selectSurveyQuadrats)
         
       }
       
@@ -377,12 +393,12 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
       if(length(unique(dca_results_sample_site_selected$Year)) > 1){
         
         arrow_plot_data <- dca_results_sample_site_selected |>
-          dplyr::arrange(Year) |>
-          dplyr::group_by(dplyr::across(c(-Year, -DCA1, -DCA2, -DCA3, -DCA4))) |>
+          # dplyr::group_by(dplyr::across(c(-Year, -DCA1, -DCA2, -DCA3, -DCA4))) |>
+          dplyr::group_by(dplyr::across(-dplyr::any_of(c("Year", "DCA1", "DCA2", "DCA3", "DCA4")))) |>
           dplyr::mutate("x" = get(x_axis), "y" = get(y_axis)) |>
-          dplyr::ungroup() |>
           dplyr::mutate("endX" = dplyr::lead(x), "endY" = dplyr::lead(y)) |>
-          dplyr::filter(!is.na(endX))
+          dplyr::filter(!is.na(endX)) |>
+          dplyr::ungroup()
         
       } else {
         
@@ -466,7 +482,8 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
                                       x = ~endX,
                                       ax = ~x,
                                       y = ~endY,
-                                      ay = ~y)
+                                      ay = ~y) |>
+              plotly::hide_legend()
             
           }
           
@@ -475,6 +492,8 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
           mvaNationalRefPlot_plotly <- plotly::ggplotly(p = mvaNationalRefPlot_plot)
           
         }
+        
+        mvaNationalRefPlot_plotly <- plotly::hide_legend(mvaNationalRefPlot_plotly)
         
         return(mvaNationalRefPlot_plotly)
       

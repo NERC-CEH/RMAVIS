@@ -4,7 +4,7 @@ testthat::test_that("aggregate_taxa works", {
   test_agg_lookup <- MNNPC::mnnpc_taxa_conv
   
   actual <- RMAVIS::aggregate_taxa(plot_data = test_plot_data, 
-                                   agg_lookup = MNNPC::mnnpc_taxa_conv,
+                                   agg_lookup = test_agg_lookup,
                                    plot_data_taxon_col = "Species",
                                    agg_lookup_taxon_col = "taxon")
   

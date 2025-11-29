@@ -17,8 +17,8 @@ sidebar <- function(input, output, session,
   observe({
     
     unit_name_col(setupData()$unit_name_col)
-    show_eivs(setupData()$regional_module_availability$avgEIVs)
-    show_habCor(setupData()$regional_module_availability$habCor)
+    show_eivs(setupData()$regional_availability$avgEIVs)
+    show_habCor(setupData()$regional_availability$habCor)
     
   }) |>
     shiny::bindEvent(setupData(),
@@ -32,6 +32,7 @@ sidebar <- function(input, output, session,
     
     sidebar_options_list <- list(
       "runAnalysis" = input$runAnalysis,
+      "aggTaxaOpts" = input$aggTaxaOpts,
       "selectVCtypes" = input$selectVCtypes,
       "assignQuadrats" = input$assignQuadrats,
       "removeLowFreqTaxa" = input$removeLowFreqTaxa,
@@ -65,6 +66,7 @@ sidebar <- function(input, output, session,
     
   }) |>
     bindEvent(input$runAnalysis,
+              input$aggTaxaOpts,
               input$selectVCtypes,
               input$assignQuadrats,
               input$removeLowFreqTaxa,
@@ -112,21 +114,37 @@ sidebar <- function(input, output, session,
     bindEvent(region(),
               ignoreInit = FALSE,
               ignoreNULL = TRUE)
-  
 
-# Update selected VC types input ------------------------------------------
+# Show/Hide and Update aggregate taxa options -----------------------------
   observe({
     
     if(region() == "gbnvc"){
+      
+      shinyjs::hide(id = "aggTaxa_div")
+      
       shinyWidgets::updatePickerInput(session = session,
-                                      inputId = "selectVCtypes",
-                                      choices = RMAVIS:::nvcType_options,
-                                      selected = c("Original"))
+                                      inputId = "aggTaxaOpts",
+                                      choices = c("VC Assignment" = "vc_assign",
+                                                  "Floristic Tables" = "floristic_tables",
+                                                  "Frequency" = "frequency",
+                                                  "EIVs" = "eivs",
+                                                  "Diversity" = "diversity",
+                                                  "MVA" = "mva"),
+                                      selected = c("vc_assign", "floristic_tables", "mva"))
+      
     } else if(region() == "mnnpc"){
+      
+      shinyjs::show(id = "aggTaxa_div")
+      
       shinyWidgets::updatePickerInput(session = session,
-                                      inputId = "selectVCtypes",
-                                      choices = c("Original"),
-                                      selected = c("Original"))
+                                      inputId = "aggTaxaOpts",
+                                      choices = c("VC Assignment" = "vc_assign",
+                                                  "Floristic Tables" = "floristic_tables",
+                                                  "Frequency" = "frequency",
+                                                  "Diversity" = "diversity",
+                                                  "MVA" = "mva"),
+                                      selected = c("vc_assign", "floristic_tables", "mva"))
+      
     }
     
   }) |>

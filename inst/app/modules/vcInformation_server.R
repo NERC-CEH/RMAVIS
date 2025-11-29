@@ -8,7 +8,7 @@ vcInformation <- function(input, output, session,
 # Reactively show/hide tabs -----------------------------------------------
   observe({
     
-    show_taxonNameUpdates <- setupData()$regional_module_availability$taxonNameUpdates
+    show_taxonNameUpdates <- setupData()$regional_availability$taxonNameUpdates
     
     if(isTRUE(show_taxonNameUpdates)){
       shiny::showTab(inputId = "vcInfo_nct", target = "vcTaxonNamesLookup_panel")

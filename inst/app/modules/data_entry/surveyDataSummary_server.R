@@ -11,7 +11,7 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
     
     floristic_tables(setupData()$floristic_tables)
     ft_taxon_name_col(setupData()$ft_taxon_name_col)
-    EIVs_available(setupData()$regional_module_availability$avgEIVs)
+    EIVs_available(setupData()$regional_availability$avgEIVs)
     
   }) |>
     bindEvent(setupData(),

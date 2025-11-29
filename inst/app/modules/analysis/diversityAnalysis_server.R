@@ -1,20 +1,32 @@
-diversityAnalysis <- function(input, output, session, surveyData, sidebar_options) {
+diversityAnalysis <- function(input, output, session, setupData, surveyData, sidebar_options) {
   
   ns <- session$ns
   
 # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
+  aggTaxaOpts <- reactiveVal()
   resultsViewDiversity <- reactiveVal()
   
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
+    aggTaxaOpts(sidebar_options()$aggTaxaOpts)
     resultsViewDiversity(sidebar_options()$resultsViewDiversity)
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
 
+# Retrieve setup data -----------------------------------------------------
+  regional_availability <- reactiveVal()
   
+  observe({
+    
+    regional_availability(setupData()$regional_availability)
+    
+  }) |>
+    shiny::bindEvent(setupData(),
+                     ignoreInit = FALSE,
+                     ignoreNULL = TRUE)
 
 # Show/Hide Results -------------------------------------------------------
   observe({
@@ -270,9 +282,21 @@ diversityAnalysis <- function(input, output, session, surveyData, sidebar_option
     
     shiny::req(surveyData())
     
-    surveyData <- surveyData()
-    surveyData_long <- surveyData$surveyData_long_prop
-    surveyData_mat <- surveyData$surveyData_mat
+    shiny::isolate({
+      
+      if(isTRUE(regional_availability()$aggTaxa) & "diversity" %in% aggTaxaOpts()){
+        
+        surveyData_long <- surveyData()$surveyData_long_prop_agg
+        surveyData_mat <- surveyData()$surveyData_mat_agg
+        
+      } else {
+        
+        surveyData_long <- surveyData()$surveyData_long_prop
+        surveyData_mat <- surveyData()$surveyData_mat
+        
+      }
+      
+    })
 
 # Species Richness --------------------------------------------------------
   
