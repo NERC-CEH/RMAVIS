@@ -320,6 +320,9 @@ calcAvgEIVs <- function(input, output, session, setupData, surveyData, sidebar_o
       dplyr::left_join(RMAVIS::hill_ellenberg, by = "TVK",
                        relationship = "many-to-many") |>
       dplyr::select(Year, Group, Quadrat, Cover, `F`, L, N, R, S) |>
+      dplyr::group_by(Year, Group, Quadrat) |>
+      dplyr::mutate("Cover" = Cover * (1 / sum(Cover, na.rm = TRUE))) |>
+      dplyr::ungroup() |>
       dplyr::mutate("F" = `F` * Cover,
                     "L" = L * Cover, 
                     "N" = N * Cover, 

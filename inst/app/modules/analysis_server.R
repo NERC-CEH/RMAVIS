@@ -103,6 +103,7 @@ analysis <- function(input, output, session,
                                                     setupData = setupData,
                                                     surveyData = surveyData,
                                                     vcAssignment = vcAssignment,
+                                                    avgEIVs = avgEIVs,
                                                     sidebar_options = sidebar_options)
 
   mvaLocalRefUnrestrictedResults <- shiny::callModule(module = mvaLocalRefUnrestricted,

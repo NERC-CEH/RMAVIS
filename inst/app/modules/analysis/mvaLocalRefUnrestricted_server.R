@@ -6,7 +6,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
   runAnalysis <- reactiveVal()
   dcaAxisSelection <- reactiveVal()
   dcaVars <- reactiveVal()
-  ccaVars <- reactiveVal()
+  # ccaVars <- reactiveVal()
   groupSurveyPlots <- reactiveVal()
   selectedReferenceSpaces <- reactiveVal()
   selectSurveyMethod <- reactiveVal()
@@ -20,7 +20,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     runAnalysis(sidebar_options()$runAnalysis)
     dcaAxisSelection(sidebar_options()$dcaAxisSelection)
     dcaVars(sidebar_options()$dcaVars)
-    ccaVars(sidebar_options()$ccaVars)
+    # ccaVars(sidebar_options()$ccaVars)
     groupSurveyPlots(sidebar_options()$groupSurveyPlots)
     selectedReferenceSpaces(sidebar_options()$selectedReferenceSpaces)
     selectSurveyMethod(sidebar_options()$selectSurveyMethod)
@@ -45,8 +45,9 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     
   }) |>
     shiny::bindEvent(setupData(),
-                     ignoreInit = TRUE,
+                     ignoreInit = FALSE,
                      ignoreNULL = TRUE)
+  
 ## Retrieve psquads -------------------------------------------------------
   vc_pquads_wide <- reactiveVal()
   
@@ -119,7 +120,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
       vc_pquads_wide <- vc_pquads_wide()
       vc_pquads_mean_unweighted_eivs <- vc_pquads_mean_unweighted_eivs()
       avgEIVs <- avgEIVs()
-      ccaVars <- ccaVars()
+      # ccaVars <- ccaVars()
       
       if(isTRUE(regional_availability()$aggTaxa) & "mva" %in% aggTaxaOpts()){
         
@@ -293,15 +294,17 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
                                                 unweightedMeanHEValuesQuadrat_prepped)
       
       # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
-      vc_pquads_wide_prepped_wsurveyDataWide_cca  <- vegan::cca(as.formula(paste0("all_mean_unweighted_eivs_prepped ~ ", paste0(c(RMAVIS:::ccaVars_vals[[ccaVars]]), collapse = " + "))), # vc_pquads_wide_prepped_wsurveyDataWide ~ `F` + `L` + `N`
+      vc_pquads_wide_prepped_wsurveyDataWide_cca  <- vegan::cca(as.formula(paste0("all_mean_unweighted_eivs_prepped ~ ", paste0(RMAVIS:::he_options, collapse = " + "))), # vc_pquads_wide_prepped_wsurveyDataWide ~ `F` + `L` + `N`
                                                                  data = all_mean_unweighted_eivs_prepped,
                                                                  na.action = na.exclude)
       
       # Extract CCA scores
-      vc_pquads_wide_prepped_wsurveyDataWide_cca_scores <- vegan::scores(vc_pquads_wide_prepped_wsurveyDataWide_cca, display = "bp")
+      vc_pquads_wide_prepped_wsurveyDataWide_cca_scores <- vegan::scores(vc_pquads_wide_prepped_wsurveyDataWide_cca, 
+                                                                         choices = c(1, 2, 3),
+                                                                         display = "bp")
       
       # Extract CCA multiplier
-      vc_pquads_wide_prepped_wsurveyDataWide_cca_multiplier <- vegan:::ordiArrowMul(vc_pquads_wide_prepped_wsurveyDataWide_cca_scores)
+      # vc_pquads_wide_prepped_wsurveyDataWide_cca_multiplier <- vegan:::ordiArrowMul(vc_pquads_wide_prepped_wsurveyDataWide_cca_scores)
       
       # Create CCA arrow data
       CCA_arrowData <- vc_pquads_wide_prepped_wsurveyDataWide_cca_scores #* vc_pquads_wide_prepped_wsurveyDataWide_cca_multiplier
@@ -332,7 +335,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     
   }) |>
     bindEvent(selectedReferenceSpaces(),
-              ccaVars(),
+              # ccaVars(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
@@ -357,16 +360,22 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
       
       x_axis <- "DCA1"
       y_axis <- "DCA2"
+      x_axis_cca <- "CCA1"
+      y_axis_cca <- "CCA2"
       
     } else if(dcaAxisSelection == "dca1dca3"){
       
       x_axis <- "DCA1"
       y_axis <- "DCA3"
+      x_axis_cca <- "CCA1"
+      y_axis_cca <- "CCA3"
       
     } else if(dcaAxisSelection == "dca2dca3"){
       
       x_axis <- "DCA2"
       y_axis <- "DCA3"
+      x_axis_cca <- "CCA2"
+      y_axis_cca <- "CCA3"
       
     }
     
@@ -381,8 +390,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
         dplyr::group_by(Year, Group) |>
         dplyr::summarise("DCA1" = mean(DCA1),
                          "DCA2" = mean(DCA2),
-                         "DCA3" = mean(DCA3),
-                         "DCA4" = mean(DCA4)) |>
+                         "DCA3" = mean(DCA3)) |>
         dplyr::ungroup() |>
         dplyr::arrange(Group, Year)
       
@@ -393,8 +401,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
         dplyr::group_by(Year) |>
         dplyr::summarise("DCA1" = mean(DCA1),
                          "DCA2" = mean(DCA2),
-                         "DCA3" = mean(DCA3),
-                         "DCA4" = mean(DCA4)) |>
+                         "DCA3" = mean(DCA3)) |>
         dplyr::ungroup() |>
         dplyr::arrange(Year)
       
@@ -494,15 +501,15 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
                                                                                                         arrow = grid::arrow(),
                                                                                                         mapping = ggplot2::aes(x = 0,
                                                                                                                                y = 0,
-                                                                                                                               xend = CCA1,
-                                                                                                                               yend = CCA2,
+                                                                                                                               xend = .data[[x_axis_cca]],
+                                                                                                                               yend = .data[[y_axis_cca]],
                                                                                                                                label = `Hill-Ellenberg`))} +
           {if("hillEllenberg" %in% dcaVars() & !is.null(mvaResults$CCA_arrowData))ggplot2::geom_text(data = mvaResults$CCA_arrowData,
                                                                                                      color = 'black',
                                                                                                      # position = ggplot2::position_dodge(width = 0.9),
                                                                                                      size = 5,
-                                                                                                     mapping = ggplot2::aes(x = CCA1 * 1.075,
-                                                                                                                            y = CCA2 * 1.075,
+                                                                                                     mapping = ggplot2::aes(x = .data[[x_axis_cca]] * 1.075,
+                                                                                                                            y = .data[[y_axis_cca]] * 1.075,
                                                                                                                             label = `Hill-Ellenberg`))} +
           {if("uniqSurveySpecies" %in% dcaVars())ggplot2::geom_point(data = mvaResults$uniq_survey_species,
                                                                      color = '#32a87d',

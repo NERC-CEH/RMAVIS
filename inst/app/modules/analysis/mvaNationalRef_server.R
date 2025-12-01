@@ -6,7 +6,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
   runAnalysis <- reactiveVal()
   dcaAxisSelection <- reactiveVal()
   dcaVars <- reactiveVal()
-  ccaVars <- reactiveVal()
+  # ccaVars <- reactiveVal()
   selectedReferenceSpaces <- reactiveVal()
   groupSurveyPlots <- reactiveVal()
   selectSurveyMethod <- reactiveVal()
@@ -20,7 +20,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
     runAnalysis(sidebar_options()$runAnalysis)
     dcaAxisSelection(sidebar_options()$dcaAxisSelection)
     dcaVars(sidebar_options()$dcaVars)
-    ccaVars(sidebar_options()$ccaVars)
+    # ccaVars(sidebar_options()$ccaVars)
     groupSurveyPlots(sidebar_options()$groupSurveyPlots)
     selectedReferenceSpaces(sidebar_options()$selectedReferenceSpaces)
     selectSurveyMethod(sidebar_options()$selectSurveyMethod)
@@ -46,7 +46,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
     
   }) |>
     shiny::bindEvent(setupData(),
-                     ignoreInit = TRUE,
+                     ignoreInit = FALSE,
                      ignoreNULL = TRUE)
    
 ## Retrieve psquads -------------------------------------------------------
@@ -127,7 +127,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
       vc_pquads_wide <- vc_pquads_wide()
       vc_pquads_mean_unweighted_eivs <- vc_pquads_mean_unweighted_eivs()
       avgEIVs <- avgEIVs()
-      ccaVars <- ccaVars()
+      # ccaVars <- ccaVars()
       topvcCommunities <- vcAssignment$topvcCommunities
       
       if(isTRUE(regional_availability()$aggTaxa) & "mva" %in% aggTaxaOpts()){
@@ -233,15 +233,17 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
         tibble::column_to_rownames(var = "psq_id")
       
       # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
-      selected_pquads_prepped_cca  <- vegan::cca(as.formula(paste0("vc_pquads_mean_unweighted_eivs_prepped ~ ", paste0(c(RMAVIS:::ccaVars_vals[[ccaVars]]), collapse = " + "))), # selected_pquads_prepped ~ `F` + `L` + `N`
+      selected_pquads_prepped_cca  <- vegan::cca(as.formula(paste0("vc_pquads_mean_unweighted_eivs_prepped ~ ", paste0(RMAVIS:::he_options, collapse = " + "))), # selected_pquads_prepped ~ `F` + `L` + `N`
                                                  data = vc_pquads_mean_unweighted_eivs_prepped,
                                                  na.action = na.exclude)
       
       # Extract CCA scores
-      selected_pquads_prepped_cca_scores <- vegan::scores(selected_pquads_prepped_cca, display = "bp")
+      selected_pquads_prepped_cca_scores <- vegan::scores(selected_pquads_prepped_cca, 
+                                                          choices = c(1, 2, 3),
+                                                          display = "bp")
       
       # Extract CCA multiplier, not currently used.
-      selected_pquads_prepped_cca_multiplier <- vegan:::ordiArrowMul(selected_pquads_prepped_cca_scores)
+      # selected_pquads_prepped_cca_multiplier <- vegan:::ordiArrowMul(selected_pquads_prepped_cca_scores)
       
       # Create CCA arrow data
       CCA_arrowData <- selected_pquads_prepped_cca_scores |>
@@ -272,7 +274,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
       
   }) |>
     bindEvent(selectedReferenceSpaces(), # Changes every time the analysis is re-run
-              ccaVars(),
+              # ccaVars(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
 
@@ -300,8 +302,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
           dplyr::group_by(Year, Group) |>
           dplyr::summarise("DCA1" = mean(DCA1),
                            "DCA2" = mean(DCA2),
-                           "DCA3" = mean(DCA3),
-                           "DCA4" = mean(DCA4)) |>
+                           "DCA3" = mean(DCA3)) |>
           dplyr::ungroup() |>
           dplyr::arrange(Group, Year)
       
@@ -312,8 +313,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
           dplyr::group_by(Year) |>
           dplyr::summarise("DCA1" = mean(DCA1),
                            "DCA2" = mean(DCA2),
-                           "DCA3" = mean(DCA3),
-                           "DCA4" = mean(DCA4)) |>
+                           "DCA3" = mean(DCA3)) |>
           dplyr::ungroup() |>
           dplyr::arrange(Year)
         
@@ -355,6 +355,8 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
         
         x_axis <- "DCA1"
         y_axis <- "DCA2"
+        x_axis_cca <- "CCA1"
+        y_axis_cca <- "CCA2"
         
         pquad_hulls_selected <- pquad_hulls_nrs |>
           dplyr::filter(dcaAxes == "dca1dca2") |>
@@ -367,6 +369,8 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
         
         x_axis <- "DCA1"
         y_axis <- "DCA3"
+        x_axis_cca <- "CCA1"
+        y_axis_cca <- "CCA3"
         
         pquad_hulls_selected <- pquad_hulls_nrs |>
           dplyr::filter(dcaAxes == "dca1dca3") |>
@@ -379,6 +383,8 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
         
         x_axis <- "DCA2"
         y_axis <- "DCA3"
+        x_axis_cca <- "CCA2"
+        y_axis_cca <- "CCA3"
         
         pquad_hulls_selected <- pquad_hulls_nrs |>
           dplyr::filter(dcaAxes == "dca2dca3") |>
@@ -455,15 +461,15 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
                                                                                                            arrow = grid::arrow(),
                                                                                                            mapping = ggplot2::aes(x = 0,
                                                                                                                                   y = 0,
-                                                                                                                                  xend = CCA1,
-                                                                                                                                  yend = CCA2,
+                                                                                                                                  xend = .data[[x_axis_cca]],
+                                                                                                                                  yend = .data[[y_axis_cca]],
                                                                                                                                   label = `Hill-Ellenberg`))} +
             {if("hillEllenberg" %in% dcaVars() & !is.null(mvaResults$CCA_arrowData))ggplot2::geom_text(data = mvaResults$CCA_arrowData,
                                                                                                        color = 'black',
                                                                                                        # position = ggplot2::position_dodge(width = 0.9),
                                                                                                        size = 5,
-                                                                                                       mapping = ggplot2::aes(x = CCA1 * 1.075,
-                                                                                                                              y = CCA2 * 1.075,
+                                                                                                       mapping = ggplot2::aes(x = .data[[x_axis_cca]] * 1.075,
+                                                                                                                              y = .data[[y_axis_cca]] * 1.075,
                                                                                                                               label = `Hill-Ellenberg`))} +
             ggplot2::theme_minimal()
           

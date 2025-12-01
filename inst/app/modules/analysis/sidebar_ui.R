@@ -925,37 +925,38 @@ sidebarUI <- function(id){
           
         ),
         
-        shiny::div(
-          
-          id = ns("ccaVars_div"),
-          
-          bslib::layout_columns(
-            
-            col_widths = c(11, 1),
-            
-            shiny::selectizeInput(inputId = ns("ccaVars"),
-                                  label = "CCA Variables",
-                                  choices = RMAVIS:::ccaVars_options,
-                                  selected = "Moisture (F) x Nitrogen (N)",
-                                  multiple = FALSE),
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "CCA",
-              shiny::markdown(
-                "
-                Select the variables with which to perform a 
-                Constrained Correspondence Analysis (CCA).
-                "
-              ),
-              placement = "bottom"
-            )
-            
-          ),
-          
-          shiny::div(shiny::br())
-          
-        ),
+        # shiny::div(
+        #   
+        #   id = ns("ccaVars_div"),
+        #   
+        #   bslib::layout_columns(
+        #     
+        #     col_widths = c(11, 1),
+        #     
+        #     shiny::selectizeInput(inputId = ns("ccaVars"),
+        #                           label = "CCA Variables",
+        #                           choices = RMAVIS:::he_options,
+        #                           selected = RMAVIS:::he_options,
+        #                           multiple = TRUE,
+        #                           options = list(maxItems = 3)),
+        #     
+        #     bslib::popover(
+        #       bsicons::bs_icon("info-circle"),
+        #       title = "CCA",
+        #       shiny::markdown(
+        #         "
+        #         Select the variables with which to perform a 
+        #         Constrained Correspondence Analysis (CCA).
+        #         "
+        #       ),
+        #       placement = "bottom"
+        #     )
+        #     
+        #   ),
+        #   
+        #   shiny::div(shiny::br())
+        #   
+        # ),
         
         shiny::div(
           

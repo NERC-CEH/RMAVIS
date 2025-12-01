@@ -142,28 +142,13 @@ dcaVars_options <- c("Survey Quadrats" = "surveyQuadrats",
                      "Hill-Ellenberg" = "hillEllenberg",
                      "Trajectory" = "trajectory")
 
-# CCA options -------------------------------------------------------------
-ccaVars_vals <- list("FN" = c("F", "N"),
-                     "FR" = c("F", "R"),
-                     "FL" = c("F", "L"),
-                     "FS" = c("F", "S"),
-                     "NR" = c("N", "R"),
-                     "NL" = c("N", "L"),
-                     "NS" = c("N", "S"),
-                     "RL" = c("R", "L"),
-                     "RS" = c("R", "S"),
-                     "LS" = c("L", "S"))
 
-ccaVars_options <- c("Moisture (F) x Nitrogen (N)" = "FN",
-                     "Moisture (F) x Reaction (R)" = "FR",
-                     "Moisture (F) x Light (L)" = "FL",
-                     "Moisture (F) x Salinity (S)" = "FS",
-                     "Nitrogen (N) x Reaction (R)" = "NR",
-                     "Nitrogen (N) x Light (L)" = "NL",
-                     "Nitrogen (N) x Salinity (S)" = "NS",
-                     "Reaction (R) x Light (L)" = "RL",
-                     "Reaction (R) x Salinity (S)" = "RS",
-                     "Light (L) x Salinity (S)" = "LS")
+# Hill-Ellenberg Values ---------------------------------------------------
+he_options <- c("Moisture (F)" = "F",
+                "Nitrogen (N)" = "N",
+                "Reaction (R)" = "R",
+                "Light (L)" = "L",
+                "Salinity (S)" = "S")
 
 # DCA Survey Quadrat Options ----------------------------------------------
 surveyQuadratSelection_options <- c("All" = "all",
@@ -281,8 +266,7 @@ usethis::use_data(region_options,
                   resultsViewDiversity_options,
                   dcaAxisSelection_options,
                   dcaVars_options,
-                  ccaVars_vals,
-                  ccaVars_options,
+                  he_options,
                   surveyQuadratSelection_options,
                   selectSurveyYears_options,
                   selectSurveyQuadrats_options,
