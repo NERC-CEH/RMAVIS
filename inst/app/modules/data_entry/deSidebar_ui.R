@@ -83,7 +83,7 @@ deSidebarUI <- function(id){
                 3. 'Leith Hill Place Wood'.
                 4. 'Newborough Warren'.
                 
-                One example dataset is currently provided for the MNNPC:
+                Two example datasets are currently provided for the MNNPC:
                 1. 'St. Croix State Forest'
                 2. 'Earthworm-Invaded Forests'
                 "

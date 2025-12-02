@@ -132,11 +132,11 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
       
       if(isTRUE(regional_availability()$aggTaxa) & "mva" %in% aggTaxaOpts()){
         
-        surveyData_long <- surveyData()$surveyData_long_agg
+        surveyData_long <- surveyData()$surveyData_long_prop_agg
         
       } else {
         
-        surveyData_long <- surveyData()$surveyData_long
+        surveyData_long <- surveyData()$surveyData_long_prop
         
       }
       

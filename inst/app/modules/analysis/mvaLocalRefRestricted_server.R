@@ -123,18 +123,16 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
       selectedReferenceSpaces <- selectedReferenceSpaces()
       vc_pquads_wide <- vc_pquads_wide()
       vc_pquads_mean_unweighted_eivs <- vc_pquads_mean_unweighted_eivs()
-      surveyData_long <- surveyData()$surveyData_long
-      surveyData_long_agg <- surveyData()$surveyData_long_agg
       avgEIVs <- avgEIVs()
       # ccaVars <- ccaVars()
       
       if(isTRUE(regional_availability()$aggTaxa) & "mva" %in% aggTaxaOpts()){
         
-        surveyData_long <- surveyData()$surveyData_long_agg
+        surveyData_long <- surveyData()$surveyData_long_prop_agg
         
       } else {
         
-        surveyData_long <- surveyData()$surveyData_long
+        surveyData_long <- surveyData()$surveyData_long_prop
         
       }
       

@@ -616,7 +616,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     "surveyData_long_prop" = NULL,
     "surveyData_wide" = NULL,
     "surveyData_mat" = NULL,
-    "surveyData_long_agg" = NULL,
     "surveyData_long_prop_agg" = NULL,
     "surveyData_wide_agg" = NULL,
     "surveyData_mat_agg" = NULL
@@ -761,11 +760,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     # Compose data
     if(isTRUE(regional_availability$aggTaxa)){
       
-      surveyData$surveyData_long_agg <- RMAVIS::aggregate_taxa(plot_data = surveyData$surveyData_long, 
-                                                               agg_lookup = aggLookup,
-                                                               plot_data_taxon_col = "Species",
-                                                               agg_lookup_taxon_col = "taxon")
-      
       surveyData$surveyData_long_prop_agg <- RMAVIS::aggregate_taxa(plot_data = surveyData$surveyData_long_prop, 
                                                                     agg_lookup = aggLookup,
                                                                     plot_data_taxon_col = "Species",
@@ -816,7 +810,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       
     } else {
       
-      surveyData$surveyData_long_agg <- NULL
       surveyData$surveyData_long_prop_agg <- NULL
       surveyData$surveyData_wide_agg <- NULL
       surveyData$surveyData_mat_agg <- NULL

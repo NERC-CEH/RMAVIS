@@ -105,11 +105,11 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
       
       if(isTRUE(regional_availability()$aggTaxa) & "vc_assign" %in% aggTaxaOpts()){
         
-        surveyData_long <- surveyData()$surveyData_long_agg
+        surveyData_long <- surveyData()$surveyData_long_prop_agg
         
       } else {
         
-        surveyData_long <- surveyData()$surveyData_long
+        surveyData_long <- surveyData()$surveyData_long_prop
         
       }
       
@@ -124,6 +124,7 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
     } else if(removeLowFreqTaxa == FALSE){
       removeLowFreqTaxa_value <- NULL
     }
+    
     
     ## Compose sample floristic tables -----------------------------------------
     floristicTables_composed_year_group <- RMAVIS::composeSyntopicTables(surveyData = surveyData_long, 
@@ -144,79 +145,35 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
     
     floristicTables_composed_all <- rbind(floristicTables_composed_year, floristicTables_composed_year_group)
     
-    ## Prepare cover summary ---------------------------------------------------
-    if(coverScale == "domin"){
-      
-      floristicTables_composed_all <- floristicTables_composed_all |>
-        dplyr::mutate("Cover" = paste(Min.Cover, 
-                                      " - ", 
-                                      ifelse(Mean.Cover != "+", as.character(round(as.numeric(Mean.Cover))), Mean.Cover),
-                                      " - ", 
-                                      Max.Cover), .keep = "unused")
-      
-    } else if(coverScale == "percentage"){
-      
-      floristicTables_composed_all <- floristicTables_composed_all |>
-        dplyr::mutate_at(dplyr::vars(Min.Cover, Mean.Cover, Max.Cover),
-                         list(
-                           ~dplyr::case_when(
-                             . > 91 ~ "10",
-                             . > 76 ~ "9",
-                             . > 51 ~ "8",
-                             . > 34 ~ "7",
-                             . > 26 ~ "6",
-                             . > 11 ~ "5",
-                             . > 4 ~ "4",
-                             . > 3 ~ "3",
-                             . > 2 ~ "2",
-                             . > 1 ~ "1",
-                             . > 0 ~ "+",
-                             TRUE ~ NA
-                           )
+    ## Prepare cover summary ----------------------------------------------
+    floristicTables_composed_all <- floristicTables_composed_all |>
+      dplyr::mutate_at(dplyr::vars(Min.Cover, Mean.Cover, Max.Cover),
+                       list(
+                         ~dplyr::case_when(
+                           # is.na(.) ~ "",
+                           . > 0.91 ~ "10",
+                           . > 0.76 ~ "9",
+                           . > 0.51 ~ "8",
+                           . > 0.34 ~ "7",
+                           . > 0.26 ~ "6",
+                           . > 0.11 ~ "5",
+                           . > 0.4 ~ "4",
+                           . > 0.3 ~ "3",
+                           . > 0.2 ~ "2",
+                           . > 0.1 ~ "1",
+                           . > 0 ~ "+",
+                           TRUE ~ NA
                          )
-                         ) |>
-        suppressWarnings() |>
-        dplyr::mutate("Cover" = paste0(Min.Cover, 
-                                       " - ", 
-                                       ifelse(Mean.Cover != "+", round(as.numeric(Mean.Cover)), Mean.Cover),
-                                       " - ", 
-                                       Max.Cover), .keep = "unused")
-      
-    } else if(coverScale == "proportional"){
-      
-      floristicTables_composed_all <- floristicTables_composed_all |>
-        dplyr::mutate_at(dplyr::vars(Min.Cover, Mean.Cover, Max.Cover),
-                         list(
-                           ~dplyr::case_when(
-                             . > 0.91 ~ "10",
-                             . > 0.76 ~ "9",
-                             . > 0.51 ~ "8",
-                             . > 0.34 ~ "7",
-                             . > 0.26 ~ "6",
-                             . > 0.11 ~ "5",
-                             . > 0.4 ~ "4",
-                             . > 0.3 ~ "3",
-                             . > 0.2 ~ "2",
-                             . > 0.1 ~ "1",
-                             . > 0 ~ "+",
-                             TRUE ~ NA
-                           )
-                         )
-        ) |>
-        dplyr::mutate("Cover" = paste0(Min.Cover, 
-                                       " - ", 
-                                       ifelse(Mean.Cover != "+", round(as.numeric(Mean.Cover)), Mean.Cover),
-                                       " - ", 
-                                       Max.Cover), .keep = "unused")
-      
-      
-    } else if(coverScale %in% c("none", "braunBlanquet")){
-      
-      floristicTables_composed_all <- floristicTables_composed_all |>
-        dplyr::mutate("Cover" = NA) |>
-        dplyr::select(-c(Min.Cover, Mean.Cover, Max.Cover))
-      
-    }
+                       )
+      ) |>
+      dplyr::mutate("Cover" = paste0(ifelse(is.na(Min.Cover), "?", Min.Cover), 
+                                     " - ", 
+                                     ifelse(!is.na(Mean.Cover), 
+                                            ifelse(Mean.Cover != "+", round(as.numeric(Mean.Cover)), Mean.Cover),
+                                            "?"),
+                                     " - ", 
+                                     ifelse(is.na(Max.Cover), "?", Max.Cover)), 
+                    .keep = "unused")
     
     floristicTables_composed_all_rval(floristicTables_composed_all)
 

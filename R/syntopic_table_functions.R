@@ -53,33 +53,22 @@ composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Sp
     dplyr::mutate("rel_freq" = freq / n) |>
     dplyr::ungroup()
   
-  syntopicTables_min <- syntopicTables_prepped |>
+  syntopicTables_coverstats <- syntopicTables_prepped |>
     dplyr::group_by(ID, .data[[species_col_name]]) |>
     dplyr::summarise(
       "min_cover" = dplyr::case_when(
         "+" %in% .data[[cover_col_name]] ~ "+",
+        NA %in% .data[[cover_col_name]] ~ NA,
         TRUE ~ as.character(min(.data[[cover_col_name]], na.rm = TRUE))
       ),
-      .groups = "drop"
-    ) |>
-    suppressWarnings()
-  
-  syntopicTables_mean <- syntopicTables_prepped |>
-    dplyr::group_by(ID, .data[[species_col_name]]) |>
-    dplyr::summarise(
       "mean_cover" = dplyr::case_when(
         "+" %in% .data[[cover_col_name]] ~ as.character(mean(as.numeric(gsub("\\+", "0.5", .data[[cover_col_name]])), na.rm = TRUE)),
+        NA %in% .data[[cover_col_name]] ~ NA,
         TRUE ~ as.character(mean(as.numeric(.data[[cover_col_name]]), na.rm = TRUE))
       ),
-      .groups = "drop"
-    ) |>
-    suppressWarnings()
-  
-  syntopicTables_max <- syntopicTables_prepped |>
-    dplyr::group_by(ID, .data[[species_col_name]]) |>
-    dplyr::summarise(
       "max_cover" = dplyr::case_when(
         all(.data[[cover_col_name]] == "+") ~ "+",
+        NA %in% .data[[cover_col_name]] ~ NA,
         TRUE ~ as.character(max(as.numeric(.data[[cover_col_name]]), na.rm = TRUE))
       ),
       .groups = "drop"
@@ -90,9 +79,7 @@ composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Sp
     dplyr::group_by(ID, .data[[species_col_name]]) |>
     dplyr::summarise("rel_freq" = unique(rel_freq)) |>
     dplyr::ungroup() |>
-    dplyr::left_join(syntopicTables_min, by = c("ID", species_col_name)) |>
-    dplyr::left_join(syntopicTables_mean, by = c("ID", species_col_name)) |>
-    dplyr::left_join(syntopicTables_max, by = c("ID", species_col_name)) |>
+    dplyr::left_join(syntopicTables_coverstats, by = c("ID", species_col_name)) |>
     dplyr::filter(rel_freq > filter_threshold) |>
     dplyr::mutate(
       "constancy" =
@@ -108,9 +95,9 @@ composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Sp
     dplyr::select(ID, 
                   "Species" = species_col_name, 
                   "Constancy" = "constancy",
-                  "Min.Cover" = min_cover, 
-                  "Mean.Cover" = mean_cover, 
-                  "Max.Cover" = max_cover)
+                  "Min.Cover" = "min_cover", 
+                  "Mean.Cover" = "mean_cover", 
+                  "Max.Cover" = "max_cover")
   
   if(numeral_constancy == FALSE & factor_constancy == FALSE){
     

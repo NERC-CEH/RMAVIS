@@ -81,7 +81,7 @@ speciesFreq <- function(input, output, session, setupData, surveyData, sidebar_o
       
       if(isTRUE(regional_availability()$aggTaxa) & "frequency" %in% aggTaxaOpts()){
         
-        surveyData_long <- surveyData()$surveyData_long_agg
+        surveyData_long <- surveyData()$surveyData_long_prop_agg
         
       } else {
         

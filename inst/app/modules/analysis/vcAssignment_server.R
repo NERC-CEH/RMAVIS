@@ -143,11 +143,11 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
       
       if(isTRUE(regional_availability()$aggTaxa) & "vc_assign" %in% aggTaxaOpts()){
         
-        surveyData_long <- surveyData()$surveyData_long_agg
+        surveyData_long <- surveyData()$surveyData_long_prop_agg
         
       } else {
         
-        surveyData_long <- surveyData()$surveyData_long
+        surveyData_long <- surveyData()$surveyData_long_prop
         
       }
       
