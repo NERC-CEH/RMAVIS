@@ -7,13 +7,15 @@
         and analysis_server.
 *   Fixes:
       - Ensuring that the calculation of cover-weighted EIVs accounts for situations 
-        where the total cover is less than or greater than 100%.
+        where the total cover is less than or greater than 100% as at present
+        RMAVIS does not check the total cover values or stipulate required total
+        cover value ranges.
       - Fixing the trajectory arrow groupings.
 *   New Features:
       - Integrating the MNNPC vegetation classification system, which has
         involved extensive refactoring to ensure RMAVIS is fully extensible.
         All objects required by RMAVIS now flow from the setupData modules
-        and associated object.
+        and associated objects.
       - Adding a function `RMAVIS::aggregate_taxa`.
       - Adding aggregated surveyData objects and the option to use this aggregated
         survey data. Currently only enabled for the MNNPC.

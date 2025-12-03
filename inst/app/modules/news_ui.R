@@ -17,9 +17,8 @@ newsUI <- function(id) {
         <h3>2025-12-XX</h3>
         
         The v1.2.0 release of RMAVIS incorporates the Minnesota Native Plant Community Classification (MNNPC).
-        This has involved refactoring a several modules to ensure that RMAVIS is extensible and can easily incorporate additional vegetation classifications.
-        
-        However, this release of RMAVIS contains no breaking changes for the GB-NVC.
+        This has involved refactoring several modules to ensure that RMAVIS is extensible and can easily incorporate additional vegetation classifications,
+        however this release contains no breaking changes for the GB-NVC.
        
 
         <h3>2025-09-11</h3>

@@ -107,7 +107,7 @@ sidebar <- function(input, output, session,
     } else if(region() == "mnnpc"){
       shinyWidgets::updateSwitchInput(session = session,
                                       inputId = "removeLowFreqTaxa",
-                                      value = FALSE)
+                                      value = TRUE)
     }
     
   }) |>
@@ -151,6 +151,31 @@ sidebar <- function(input, output, session,
     bindEvent(region(),
               ignoreInit = FALSE,
               ignoreNULL = TRUE)
+  
+
+# Update select VC types --------------------------------------------------
+  observe({
+    
+    if(region() == "gbnvc"){
+      
+      shinyWidgets::updatePickerInput(session = session,
+                                      inputId = "selectVCtypes",
+                                      choices = RMAVIS:::nvcType_options,
+                                      selected = "Original")
+      
+    } else if(region() == "mnnpc"){
+      
+      shinyWidgets::updatePickerInput(session = session,
+                                      inputId = "selectVCtypes",
+                                      choices = c("Original"),
+                                      selected = "Original")
+    }
+    
+  }) |>
+    bindEvent(region(),
+              ignoreInit = FALSE,
+              ignoreNULL = TRUE)
+  
   
 
 # Update habitat restriction prefixes -------------------------------------

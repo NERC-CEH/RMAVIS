@@ -7,13 +7,13 @@ server <- function(input, output, session) {
   # Update page navbar ------------------------------------------------------
   observe({
 
-    if(region() != "mnnpc"){
+    if(region() == "mnnpc"){
 
-      shinyjs::hide(id = "mnnpc_logo_div")
+      shinyjs::show(id = "mnnpc_logo_div")
 
     } else {
 
-      shinyjs::show(id = "mnnpc_logo_div")
+      shinyjs::hide(id = "mnnpc_logo_div")
     }
 
   }) |>

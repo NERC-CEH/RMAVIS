@@ -30,7 +30,9 @@ supports two vegetation classifications:
 
 We will update and improve `RMAVIS` over time in response to user
 feedback and hope it acts as a useful tool for the ecology and
-conservation community.
+conservation community. We also welcome feedback, suggestions for new
+features, and requests to incorporate additional vegetation
+classification systems!
 
 ## Structure
 
@@ -41,11 +43,11 @@ There are 8 main sections in `RMAVIS` at present.
 **Data Entry** - Facilitates data entry and makes available the
 taxonomic information used by `RMAVIS`.
 
-**NVC Analysis** - The core of the `RMAVIS` application, containing the
-functionality present in the original v1.0 release.
+**VC Analysis** - The core of the `RMAVIS` application, containing the
+analysis outputs.
 
-**NVC Information** - Contains a set of searchable tables for inspecting
-the NVC community names, taxon names, floristic tables, and community
+**VC Information** - Contains a set of searchable tables for inspecting
+the VC community names, taxon names, floristic tables, and community
 attributes.
 
 **Documentation** - Provides a more detailed overview of the underlying
@@ -73,7 +75,7 @@ To run RMAVIS locally take the following steps.
     have a LaTeX distribution already installed.
 4.  From the R terminal run `RMAVIS::runApp()`.
 
-If you wish to use the NVC-matching functions outside of the `RMAVIS`
+If you wish to use the VC-matching functions outside of the `RMAVIS`
 app, these are also made available through the `RMAVIS` package.
 
 ## Recommended Citation

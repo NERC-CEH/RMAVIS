@@ -44,9 +44,9 @@ There are 8 main sections in `RMAVIS` at present.
 
 **Data Entry** - Facilitates data entry and makes available the taxonomic information used by `RMAVIS`.
 
-**NVC Analysis** - The core of the `RMAVIS` application, containing the functionality present in the original v1.0 release.
+**VC Analysis** - The core of the `RMAVIS` application, containing the analysis outputs.
 
-**NVC Information** - Contains a set of searchable tables for inspecting the NVC community names, taxon names, floristic tables, and community attributes.
+**VC Information** - Contains a set of searchable tables for inspecting the VC community names, taxon names, floristic tables, and community attributes.
 
 **Documentation** - Provides a more detailed overview of the underlying methods, data sources, and usage instructions.
 
