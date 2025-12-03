@@ -6,6 +6,7 @@ output:
     includes:
       in_header: "Report.preamble.tex"
 params: 
+    setupData: NULL
     sidebar_options: NULL
     surveyData: NULL
     surveyDataValidator: NULL
@@ -39,6 +40,9 @@ library(kableExtra)
 
 # source("../create_constants.R", local = knitr::knit_global())
 # sys.source("./create_constants.R", envir = knitr::knit_global())
+
+# Retrieve region
+region <- params$setupData$region
 
 # Retrieve report parameters
 surveyData <- params$surveyData
@@ -121,7 +125,14 @@ mvaNationalRef_CCA_arrowData <- mvaNationalRefResults$CCA_arrowData
 
 ```{r RMAVISVersion, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-cat("**Version:** ", as.character("v1.1.4"), sep = "")
+cat("**Version:** ", as.character("v1.2.0"), sep = "")
+
+```
+
+```{r region, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+region_print <- names(RMAVIS:::region_options[which(RMAVIS:::region_options == region)])
+
+cat("**Region:** ", as.character(region_print), sep = "")
 
 ```
 
@@ -154,10 +165,6 @@ cat("**Date & Time:** ", as.character(format(Sys.time(), "%Y-%m-%d %H:%M:%S")), 
 This report contains user-selected outputs of a RMAVIS application session.
 
 ## Main Options
-
-```{r inputMethod, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-cat("**Input Method:** ", as.character(inputMethod), sep = "")
-```
 
 ```{r habitatRestriction, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 cat("**Habitat Restriction:** ", as.character(habitatRestriction), sep = "")
@@ -242,7 +249,7 @@ kableExtra::kbl(x = quadratsPerYearGroup, format = "latex", booktabs = TRUE,
 
 ```{r vcAssignmentTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-reportOptions_vcAssignment <- reportOptions_options$`VC Assignment`
+reportOptions_vcAssignment <- RMAVIS:::reportOptions_options$`VC Assignment`
 
 if(any(reportOptions_vcAssignment %in% reportOptions)){
   
@@ -354,7 +361,7 @@ if("habitatCorrespondenceSite" %in% reportOptions & !is.null(habCor)){
 
 ```{r floristicTablesTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-reportOptions_floristicTables <- reportOptions_options$`Floristic Tables`
+reportOptions_floristicTables <- RMAVIS:::reportOptions_options$`Floristic Tables`
 
 if(any(reportOptions_floristicTables %in% reportOptions)){
   
@@ -434,7 +441,7 @@ if("speciesFrequencyTable" %in% reportOptions){
 
 ```{r eivTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-reportOptions_eiv <- reportOptions_options$`EIVs (incl. Mean Hill-Ellenberg)`
+reportOptions_eiv <- RMAVIS:::reportOptions_options$`EIVs (incl. Mean Hill-Ellenberg)`
 
 if(any(reportOptions_eiv %in% reportOptions) & !is.null(weightedMeanHEValuesSite)){
   
@@ -537,7 +544,7 @@ if("unweightedMeanHEValuesQuadrat" %in% reportOptions & !is.null(unweightedMeanH
 
 ```{r diversityTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-reportOptions_diversity <- reportOptions_options$Diversity
+reportOptions_diversity <- RMAVIS:::reportOptions_options$Diversity
 
 if(any(reportOptions_diversity %in% reportOptions)){
   
@@ -635,7 +642,7 @@ if("speciesRichnessQuadrat" %in% reportOptions){
 
 ```{r mvaTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-reportOptions_mva <- reportOptions_options$MVA
+reportOptions_mva <- RMAVIS:::reportOptions_options$MVA
 
 if(any(reportOptions_mva %in% reportOptions)){
   

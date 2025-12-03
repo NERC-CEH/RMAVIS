@@ -31,7 +31,6 @@ analysis <- function(input, output, session,
     bindEvent(setupData(),
               ignoreInit = FALSE)
 
-
 # Run modules -------------------------------------------------------------
   sidebar_options <- shiny::callModule(module = sidebar,
                                        id = "sidebar_id_1",
@@ -116,6 +115,7 @@ analysis <- function(input, output, session,
   
   shiny::callModule(module = report,
                     id = "sidebar_id_1",
+                    setupData = setupData,
                     sidebar_options = sidebar_options,
                     surveyData = surveyData,
                     surveyDataValidator = surveyDataValidator,

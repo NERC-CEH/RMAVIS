@@ -1,8 +1,22 @@
 # RMAVIS 1.2.0 (XX-12-2025)
-*   Modifications: NA
-*   Fixes: NA
+*   Modifications:
+      - Removing the CCA Hill-Ellenberg option in the MVA module. Now all
+        Hill-Ellenberg values (F, R, N, S, L) are included in the CCA by default.
+      - Removing MVA legend until a fix for the double legend is found.
+      - Combining the analysis modules into a parent set of modules: analysis_ui
+        and analysis_server.
+*   Fixes:
+      - Ensuring that the calculation of cover-weighted EIVs accounts for situations 
+        where the total cover is less than or greater than 100%.
+      - Fixing the trajectory arrow groupings.
 *   New Features:
-      - Integrating the MNNPC vegetation classification system.
+      - Integrating the MNNPC vegetation classification system, which has
+        involved extensive refactoring to ensure RMAVIS is fully extensible.
+        All objects required by RMAVIS now flow from the setupData modules
+        and associated object.
+      - Adding a function `RMAVIS::aggregate_taxa`.
+      - Adding aggregated surveyData objects and the option to use this aggregated
+        survey data. Currently only enabled for the MNNPC.
 
 # RMAVIS 1.1.4 (11-09-2025)
 *   Modifications: NA

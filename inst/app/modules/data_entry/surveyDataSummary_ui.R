@@ -52,7 +52,7 @@ surveyDataSummaryUI <- function(id){
         Quadrat, Group, and Site; or the CCA scores found in the MVA section.
         
         If a species is not present in the VC Floristic tables it still
-        contributes to (dis)similarity metrics used in theVC assignment process.
+        contributes to (dis)similarity metrics used in the VC assignment process.
         "
       ),
       

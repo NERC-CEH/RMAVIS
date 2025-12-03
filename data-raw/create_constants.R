@@ -168,9 +168,9 @@ groupSurveyPlots_options <- c("No" = "no",
                               "Year" = "year")
 
 # Report Options ----------------------------------------------------------
-reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "vcAssignmentResultsSite_Czekanowski",
-                                                   "Group, Czekanowski" = "vcAssignmentResultsGroup_Czekanowski",
-                                                   "Quadrat, Jaccard" = "vcAssignmentResultsQuadrat_Jaccard"),
+reportOptions_options <- list(`VC Assignment` = c("Site, Czekanowski" = "vcAssignmentResultsSite_Czekanowski",
+                                                  "Group, Czekanowski" = "vcAssignmentResultsGroup_Czekanowski",
+                                                  "Quadrat, Jaccard" = "vcAssignmentResultsQuadrat_Jaccard"),
                               `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
                                                      "Group" = "composedFloristicTablesGroup"),
                               `Habitat Correspondence` = c("Site" = "habitatCorrespondenceSite"),

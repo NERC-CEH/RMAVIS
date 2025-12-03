@@ -1,9 +1,25 @@
-# Server
 server <- function(input, output, session) {
 
   # Region ------------------------------------------------------------------
   region <- shiny::callModule(module = regionSelect,
                               id = "regionSelect_id_1")
+  
+  # Update page navbar ------------------------------------------------------
+  observe({
+
+    if(region() != "mnnpc"){
+
+      shinyjs::hide(id = "mnnpc_logo_div")
+
+    } else {
+
+      shinyjs::show(id = "mnnpc_logo_div")
+    }
+
+  }) |>
+    shiny::bindEvent(region(),
+                     ignoreInit = FALSE,
+                     ignoreNULL = TRUE)
   
 
   # Additional Info ---------------------------------------------------------
@@ -73,19 +89,10 @@ server <- function(input, output, session) {
   # Save module outputs to global environment, uncomment for development only!
   # observe({
   # 
-  #   # assign(x = "sidebar_options", value = sidebar_options(), envir = .GlobalEnv)
-  #   # assign(x = "surveyData", value = surveyData(), envir = .GlobalEnv)
-  #   # assign(x = "surveyDataValidator", value = surveyDataValidator(), envir = .GlobalEnv)
-  #   # assign(x = "surveyDataSummary", surveyDataSummary(), envir = .GlobalEnv)
-  #   # assign(x = "floristicTables", value = floristicTables(), envir = .GlobalEnv)
-  #   # assign(x = "vcAssignment", value = vcAssignment(), envir = .GlobalEnv)
-  #   # assign(x = "habCor", value = habCor(), envir = .GlobalEnv)
-  #   # assign(x = "speciesFreq", value = speciesFreq(), envir = .GlobalEnv)
-  #   # assign(x = "avgEIVs", value = avgEIVs(), envir = .GlobalEnv)
-  #   # assign(x = "diversityAnalysis", value = diversityAnalysis(), envir = .GlobalEnv)
-  #   # assign(x = "mvaNationalRefResults", value = mvaNationalRefResults(), envir = .GlobalEnv)
-  #   # assign(x = "mvaLocalRefRestrictedResults", value = mvaLocalRefRestrictedResults(), envir = .GlobalEnv)
-  #   # assign(x = "mvaLocalRefUnrestrictedResults", value = mvaLocalRefUnrestrictedResults(), envir = .GlobalEnv)
+  #   assign(x = "surveyData", value = surveyData(), envir = .GlobalEnv)
+  #   assign(x = "surveyDataValidator", value = surveyDataValidator(), envir = .GlobalEnv)
+  #   assign(x = "surveyDataSummary", surveyDataSummary(), envir = .GlobalEnv)
+  #   assign(x = "analysis", value = analysis(), envir = .GlobalEnv)
   # 
   # })
 

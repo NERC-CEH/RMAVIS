@@ -1,4 +1,5 @@
 report <- function(input, output, session,
+                   setupData,
                    sidebar_options,
                    surveyData,
                    surveyDataValidator,
@@ -15,14 +16,22 @@ report <- function(input, output, session,
   
   ns <- session$ns
   
-  # Retrieve sidebar options ------------------------------------------------
+
+# Retrieve setup data -----------------------------------------------------
+  region <- reactiveVal()
   
-  # observe({
-  #   
-  # }) |>
-  #   bindEvent(sidebar_options(), ignoreInit = TRUE)
- 
+  observe({
+    
+    region(setupData()$region)
+    
+  }) |>
+    shiny::bindEvent(setupData(),
+                     ignoreInit = FALSE,
+                     ignoreNULL = TRUE)
+
   
+
+# Render report -----------------------------------------------------------
   output$generateReport <- shiny::downloadHandler(
     
     filename = function() {
@@ -30,7 +39,7 @@ report <- function(input, output, session,
              "v1-2-0.",
              format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
              ".pdf",
-             sep="")
+             sep = "")
     },
     
     content = function(file) {
@@ -46,20 +55,24 @@ report <- function(input, output, session,
       tempReport <- file.path(td, "Report.Rmd")
       tempPreamble <- file.path(td, "Report.preamble.tex")
       tempRefs <- file.path(td, "Report.refs.bib")
-      tempLogo <- file.path(td, "ukceh_logo_long_720x170_rgb.png")
-      # tempConstants <- file.path(td, "create_constants.R")
+      tempLogo <- file.path(td, "logo.png")
       
       file.copy("./report/Report.Rmd", tempReport, overwrite = TRUE)
       file.copy("./report/Report.preamble.tex", tempPreamble, overwrite = TRUE)
       file.copy("./report/Report.refs.bib", tempRefs, overwrite = TRUE)
-      file.copy("./www/ukceh_logo_long_720x170_rgb.png", tempLogo, overwrite = TRUE)
-      # file.copy("./R/create_constants.R", tempConstants, overwrite = TRUE)
+      
+      if(region() == "gbnvc"){
+        file.copy("./www/UKCEH_Logo_Master_Black.png", tempLogo, overwrite = TRUE)
+      } else if(region() == "mnnpc"){
+        file.copy("./www/DNR_Logo_RGB.png", tempLogo, overwrite = TRUE)
+      }
       
       rmarkdown::render(tempReport,
                         clean = TRUE,
                         # output_dir,
                         output_file = file,
                         params = list(
+                          setupData = setupData(),
                           sidebar_options = sidebar_options(),
                           reportAuthorName = sidebar_options()$reportAuthorName,
                           surveyData = surveyData(),
