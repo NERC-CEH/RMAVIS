@@ -5,12 +5,14 @@
       - Removing MVA legend until a fix for the double legend is found.
       - Combining the analysis modules into a parent set of modules: analysis_ui
         and analysis_server.
+      - Improving error handling in upload data entry option.
 *   Fixes:
       - Ensuring that the calculation of cover-weighted EIVs accounts for situations 
         where the total cover is less than or greater than 100% as at present
         RMAVIS does not check the total cover values or stipulate required total
         cover value ranges.
       - Fixing the trajectory arrow groupings.
+      - Fixing matrix data upload formatting.
 *   New Features:
       - Integrating the MNNPC vegetation classification system, which has
         involved extensive refactoring to ensure RMAVIS is fully extensible.

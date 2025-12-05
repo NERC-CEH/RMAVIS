@@ -2,7 +2,7 @@ uploadDataUI <- function(id) {
   
   ns <- NS(id)
   
-  # Basic Inputs ------------------------------------------------------------
+# Basic Inputs ------------------------------------------------------------
   shiny::fluidRow(
     shiny::column(
       width = 12,
@@ -22,11 +22,12 @@ uploadDataUI <- function(id) {
         shiny::selectizeInput(inputId = ns("dataEntryFormat"),
                               label = "Data Entry Format",
                               choices = RMAVIS:::dataEntryFormat_options,
-                              selected = "table",
+                              selected = "long",
                               multiple = FALSE),
         
         shiny::actionButton(inputId = ns("confirmUpload"), 
-                            label = "Confirm Upload")
+                            label = "Confirm Upload",
+                            disabled = TRUE)
         
       ),
       
@@ -42,11 +43,13 @@ uploadDataUI <- function(id) {
       
       shiny::div(shiny::hr()),
       
-      shiny::div(
+      shinyjs::hidden(
         
-        id = ns("long_description"),
-        
-        shiny::markdown(
+        shiny::div(
+          
+          id = ns("long_description"),
+          
+          shiny::markdown(
           "
           Long data must be structured as a five-column table with the following columns.
           
@@ -57,35 +60,38 @@ uploadDataUI <- function(id) {
           - *Cover:* Contains the species-quadrat cover estimates, with values between 0 and 1. Double.
           
           Example:
+          "
+          ),
           
-          <center>
+          reactable::reactableOutput(outputId = ns("gbnvc_example_table_long"), height = "200px"),
           
-          | Year | Group | Quadrat |     Species      | Cover |
-          |:----:|:-----:|:-------:|:----------------:|:-----:|
-          | 2023 | A     | 1       | Calluna vulgaris | 0.5   |
-          | 2023 | A     | 1       | Empetrum nigrum  | 0.1   |
+          shiny::div(shiny::br()),
           
-          </center>
-          </br>
+          shiny::markdown(
+          "
           
           Formatting checks are displayed below.
           
           To test this functionality with pre-formatted data take the following steps:
-        - Select the 'Example' option.
-        - Select a example data set.
-        - Go to the 'Download Options' section and download the Survey Data.
+          - Select the 'Example' option.
+          - Select a example data set.
+          - Go to the 'Download Options' section and download the Survey Data.
           
           "
+          ),
+          
         )
         
       ),
       
-      shiny::div(
+      shinyjs::hidden(
         
-        id = ns("wide_description"),
-        
-        shiny::markdown(
-          "
+        shiny::div(
+          
+          id = ns("wide_description"),
+          
+          shiny::markdown(
+            "
           Wide data must be structured as a table with three ID columns:
           
           - *Year:* Contains the year the quadrat was surveyed. Integer.
@@ -97,71 +103,124 @@ uploadDataUI <- function(id) {
           Once uploaded wide data will be converted into long format.
           
           Example:
+          "
+          ),
           
-          <center>
+          reactable::reactableOutput(outputId = ns("gbnvc_example_table_wide")),
           
-          | Year | Group | Quadrat | Calluna vulgaris | Empetrum nigrum |
-          |:----:|:-----:|:-------:|:----------------:|:---------------:|
-          | 2023 | A     | 1       | 0.5              | 0.1             |
+          shiny::div(shiny::br()),
           
-          </center>
-          </br>
-          
+          shiny::markdown(
+          "
           Formatting checks are displayed below.
           
           "
+          ),
+          
         )
         
       ),
       
-      shiny::div(
+      shinyjs::hidden(
         
-        id = ns("matrix_description"),
-        
-        shiny::markdown(
+        shiny::div(
+          
+          id = ns("matrix_description"),
+          
+          shiny::markdown(
           "
           Matrix data must be structured with rows as quadrat IDs and columns as species names, with values as species-quadrat cover estimates, with values between 0 and 1, or simply 1 to indicate species presence.
           
           Once uploaded wide data will be converted into long format, with placeholder Year and Group values which the user may edit.
           
           Example:
+          "
+          ),
           
-          <center>
+          reactable::reactableOutput(outputId = ns("gbnvc_example_table_matrix")),
           
-          |   | Calluna vulgaris | Empetrum nigrum |
-          |:-:|:----------------:|:---------------:|
-          | 1 | 0.5              | 0.1             |
+          shiny::div(shiny::br()),
           
-          </center>
-          </br>
-          
+          shiny::markdown(
+            "
           Formatting checks are displayed below.
           
           "
+          ),
+          
         )
         
       ),
       
-      shiny::div(
+      shinyjs::hidden(
         
-        id = ns("mavis_description"),
-        
-        shiny::markdown(
+        shiny::div(
+          
+          id = ns("mavis_description"),
+          
+          shiny::markdown(
           "
           Upload data saved from the Windows MAVIS application.
           
           Formatting checks are displayed below.
           
           "
+          )
+          
         )
         
       ),
       
-      # shiny::div(shiny::br()),
+      shinyjs::hidden(
+        
+        shiny::div(
+          
+          id = ns("mnnpc_description"),
+          
+          shiny::markdown(
+          "
+          Upload data in the format of the Minnesota Department of Natural Resources (DNR) relevé database.
+          
+          The data should be in long format and contain seven columns: year, group, relnumb, physcode, minht, maxht, taxon, and scov.
+          
+          - *year:* Contains the year the quadrat/relevé was surveyed. Integer.
+          - *group:* Contains the quadrat/relevé group. String.
+          - *relnumb:* Contains the quadrat/relevé ID. String.
+          - *physcode:* Contains the ... . String.
+          - *minht:* Contains the ... . String.
+          - *maxht:* Contains the ... . String.
+          - *taxon:* Contains the ... . String.
+          - *scov:* Contains the... . String.
+          
+          Example:
+          "
+          ),
+          
+          reactable::reactableOutput(outputId = ns("mnnpc_example_table")),
+          
+          shiny::div(shiny::br()),
+          
+          shiny::markdown(
+          "
+          Formatting checks are displayed below.
+          
+          "
+          ),
+          
+        )
+        
+      ),
+      
+      shiny::div(shiny::br()),
       
       shiny::div(
         
-        shiny::htmlOutput(outputId = ns("columnNames_correct_expression"))
+        shiny::fluidRow(
+          
+          shiny::htmlOutput(outputId = ns("columnNames_raw_correct_expression"), inline = TRUE),
+          shiny::htmlOutput(outputId = ns("columnNames_prepped_correct_expression"), inline = TRUE)
+          
+        )
         
       ),
       

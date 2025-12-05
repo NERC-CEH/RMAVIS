@@ -50,7 +50,8 @@ server <- function(input, output, session) {
                                          taxonomicBackbone = taxonomicBackbone)
 
   uploadDataTable <- shiny::callModule(module = uploadData,
-                                       id = "uploadData_id_1")
+                                       id = "uploadData_id_1",
+                                       setupData = setupData)
 
   surveyData <- shiny::callModule(module = surveyData,
                                   id = "surveyData_id_1",

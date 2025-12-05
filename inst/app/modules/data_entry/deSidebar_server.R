@@ -198,7 +198,34 @@ deSidebar <- function(input, output, session, setupData,
               ignoreInit = TRUE)
   
   
-  # Download Survey Data ----------------------------------------------------
+# Update upload format options --------------------------------------------
+# due to module positioning this isn't passing through to uploadData_ui
+  # observe({
+  #   
+  #   if(region() == "gbnvc"){
+  #     
+  #     updated_dataupload_options <- c(RMAVIS:::dataEntryFormat_options, c("MAVIS" = "mavis"))
+  #     
+  #   } else if(region() == "mnnpc"){
+  #     
+  #     updated_dataupload_options <- c(RMAVIS:::dataEntryFormat_options, c("MNNPC Releves" = "mnnpc_releves"))
+  #     
+  #   }
+  #   
+  #   shiny::updateSelectizeInput(session = session,
+  #                               inputId = "dataEntryFormat",
+  #                               choices = updated_dataupload_options,
+  #                               selected = "long",
+  #                               server = TRUE)
+  #   
+  #   
+  # }) |>
+  #   shiny::bindEvent(region(),
+  #                    ignoreInit = FALSE,
+  #                    ignoreNULL = TRUE)
+  
+  
+# Download Survey Data ----------------------------------------------------
   output$downloadSurveyData <- downloadHandler(
     
     filename = function() {

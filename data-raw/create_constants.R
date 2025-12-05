@@ -32,7 +32,8 @@ example_data_options <- c("None" = "none",
 dataEntryFormat_options <- c("Long" = "long",
                              "Wide" = "wide",
                              "Matrix" = "matrix",
-                             "MAVIS" = "mavis")
+                             "MAVIS" = "mavis",
+                             "MNNPC Relevés" = "mnnpc_releves")
 
 
 # Constancy Conversion ----------------------------------------------------
