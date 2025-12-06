@@ -37,7 +37,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
   output$speciesAdjustmentTable <- rhandsontable::renderRHandsontable({
     
     speciesAdjustmentTable <- rhandsontable::rhandsontable(data = speciesAdjustmentTable_init,
-                                                           height = 500,
                                                            rowHeaders = NULL,
                                                            width = "100%"
                                                            ) |>
@@ -86,7 +85,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
   output$reallocateGroupsTable <- rhandsontable::renderRHandsontable({
     
     reallocateGroupsTable <- rhandsontable::rhandsontable(data = reallocateGroups_init,
-                                                          height = 300,
                                                           rowHeaders = NULL,
                                                           width = "100%"
                                                           ) |>
@@ -330,7 +328,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
     output$speciesAdjustmentTable <- rhandsontable::renderRHandsontable({
 
       speciesAdjustmentTable <- rhandsontable::rhandsontable(data = speciesAdjustmentTable,
-                                                             height = 500,
                                                              rowHeaders = NULL,
                                                              width = "100%"
       ) |>
@@ -406,7 +403,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
     output$reallocateGroupsTable <- rhandsontable::renderRHandsontable({
       
       reallocateGroupsTable <- rhandsontable::rhandsontable(data = reallocateGroupsTable,
-                                                            height = 300,
                                                             rowHeaders = NULL,
                                                             width = "100%"#,
                                                             # overflow = "visible",

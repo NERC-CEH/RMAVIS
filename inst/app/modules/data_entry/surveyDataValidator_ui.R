@@ -40,7 +40,7 @@ surveyDataValidatorUI <- function(id){
       
       shiny::h5("Validation Checks"),
       
-      shiny::div(shiny::br()),
+      # shiny::div(shiny::br()),
       
       bslib::layout_columns(
 
@@ -336,20 +336,20 @@ surveyDataValidatorUI <- function(id){
       
       shiny::h5("Species Adjustment Table"),
       
-      shiny::div(shiny::br()),
+      # shiny::div(shiny::br()),
       
       shiny::div(
-        rhandsontable::rHandsontableOutput(outputId = ns("speciesAdjustmentTable")) # , height = "300px"
+        rhandsontable::rHandsontableOutput(outputId = ns("speciesAdjustmentTable"), height = "200px")
       ),
       
       shiny::div(shiny::br()),
       
       shiny::h5("Group Re-allocation Table"),
       
-      shiny::div(shiny::br()),
+      # shiny::div(shiny::br()),
       
       shiny::div(
-        rhandsontable::rHandsontableOutput(outputId = ns("reallocateGroupsTable")) # , height = "300px"
+        rhandsontable::rHandsontableOutput(outputId = ns("reallocateGroupsTable"), height = "200px")
       )
       
     )
