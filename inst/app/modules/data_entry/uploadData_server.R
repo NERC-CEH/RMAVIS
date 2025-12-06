@@ -17,12 +17,12 @@ uploadData <- function(input, output, session, setupData) {
   
 # Example table data ------------------------------------------------------
   mnnpc_example_data <- tibble::tribble(
-    ~year, ~group, ~relnumb, ~minht, ~maxht, ~taxon, ~scov,
-    2023L, "A", 1L, 1L, 1L, "Calluna vulagris", 0.5, 
-    2023L, "A", 1L, 1L, 1L, "Empetrum nigrum", 0.1, 
-    2023L, "A", 1L, 1L, 1L, "Polytrichum commune", 0.1, 
-    2023L, "A", 1L, 1L, 1L, "Hypnum jutlandicum", 0.1, 
-    2023L, "A", 1L, 1L, 1L, "Ceratocapnos claviculata", 0.1, 
+    ~year, ~group, ~relnumb, ~physcode, ~minht, ~maxht, ~taxon, ~scov,
+    2023L, "A", 1L, "", 1L, 1L, "Calluna vulagris", 0.5, 
+    2023L, "A", 1L, "", 1L, 1L, "Empetrum nigrum", 0.1, 
+    2023L, "A", 1L, "", 1L, 1L, "Polytrichum commune", 0.1, 
+    2023L, "A", 1L, "", 1L, 1L, "Hypnum jutlandicum", 0.1, 
+    2023L, "A", 1L, "", 1L, 1L, "Ceratocapnos claviculata", 0.1, 
   )
   
   gbnvc_example_data_long <- RMAVIS::example_data$`Parsonage Down` |> 
@@ -140,6 +140,16 @@ uploadData <- function(input, output, session, setupData) {
                                                   headerClass = "my-header",
                                                   class = "my-col",
                                                   align = "center" # Needed as alignment is not passing through to header
+                                                ),
+                                                columns = list(
+                                                  year = reactable::colDef(format = reactable::colFormat(digits = 0)),
+                                                  group = reactable::colDef(),
+                                                  relnumb = reactable::colDef(format = reactable::colFormat(digits = 0)),
+                                                  physcode = reactable::colDef(),
+                                                  minht = reactable::colDef(format = reactable::colFormat(digits = 0)),
+                                                  maxht = reactable::colDef(format = reactable::colFormat(digits = 0)),
+                                                  taxon = reactable::colDef(),
+                                                  scov = reactable::colDef(format = reactable::colFormat(digits = 0))
                                                 ))
     
     return(mnnpc_example_table)
@@ -323,11 +333,11 @@ uploadData <- function(input, output, session, setupData) {
       
     } else if(input$dataEntryFormat == "mnnpc_releves"){
       
-      uploaded_data_raw <- read.csv(input$uploadDataInput$datapath)
-      
       if(region == "mnnpc"){
         
-        if(setequal(colnames(updated_data_raw), c("year", "group", "relnumb", "physcode", "minht", "maxht", "taxon", "scov"))){
+        uploaded_data_raw <- read.csv(input$uploadDataInput$datapath, check.names = FALSE)
+        
+        if(setequal(colnames(uploaded_data_raw), c("year", "group", "relnumb", "physcode", "minht", "maxht", "taxon", "scov"))){
           
           uploaded_data_prepped <- uploaded_data_raw |>
             MNNPC::process_dnr_releves()

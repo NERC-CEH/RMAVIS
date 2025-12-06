@@ -35,9 +35,13 @@ uploadDataUI <- function(id) {
       
       shiny::markdown(
         "
-        RMAVIS expects data to be uploaded as a .csv file in one of three formats: long, wide, or matrix.
+        RMAVIS expects data to be uploaded as a .csv file in one of five formats.
+        Three formats are available for all vegetation classification systems: Long, Wide, or Matrix.
+        Two vegetation classification-specific formats are also available: 1) MAVIS, which imports data using the outputs of the original MAVIS desktop program and is available for the GB-NVC only;
+        and 2) MNNPC Relevés which imports data in the format of the Minnesota Department of Natural Resources (DNR) relevé database and is available for the MNNPC only.
         Use the 'Data Entry Format' option to view the format required by each option, and select the format to upload.
         
+        After changing the data entry format option please re-upload the file.
         "
       ),
       
@@ -57,7 +61,12 @@ uploadDataUI <- function(id) {
           - *Group:* Contains the quadrat group. String.
           - *Quadrat:* Contains the quadrat ID. String.
           - *Species:* Contains the species. String.
-          - *Cover:* Contains the species-quadrat cover estimates, with values between 0 and 1. Double.
+          - *Cover:* Contains the species-quadrat cover estimates, either empty, or one of four systems: Percentage, Proportional, Domin, Braun-Blanquet (5 point).
+          
+          To test this functionality with pre-formatted data take the following steps:
+          - Select the 'Example' option.
+          - Select a example data set.
+          - Go to the 'Download Options' section and download the Survey Data.
           
           Example:
           "
@@ -69,14 +78,7 @@ uploadDataUI <- function(id) {
           
           shiny::markdown(
           "
-          
           Formatting checks are displayed below.
-          
-          To test this functionality with pre-formatted data take the following steps:
-          - Select the 'Example' option.
-          - Select a example data set.
-          - Go to the 'Download Options' section and download the Survey Data.
-          
           "
           ),
           
@@ -98,7 +100,7 @@ uploadDataUI <- function(id) {
           - *Group:* Contains the quadrat group. String.
           - *Quadrat:* Contains the quadrat ID. String.
           
-          with additional columns for each species and values as cover estimates (values between 0 and 1) or simply 1 to indicate the species presence.
+          with additional columns for each species and values as cover estimates, one of four systems: Percentage, Proportional, Domin, Braun-Blanquet (5 point).
           
           Once uploaded wide data will be converted into long format.
           
@@ -129,7 +131,7 @@ uploadDataUI <- function(id) {
           
           shiny::markdown(
           "
-          Matrix data must be structured with rows as quadrat IDs and columns as species names, with values as species-quadrat cover estimates, with values between 0 and 1, or simply 1 to indicate species presence.
+          Matrix data must be structured with rows as quadrat IDs and columns as species names, with values as species-quadrat cover estimates, one of four systems: Percentage, Proportional, Domin, Braun-Blanquet (5 point).
           
           Once uploaded wide data will be converted into long format, with placeholder Year and Group values which the user may edit.
           
@@ -186,11 +188,11 @@ uploadDataUI <- function(id) {
           - *year:* Contains the year the quadrat/relevé was surveyed. Integer.
           - *group:* Contains the quadrat/relevé group. String.
           - *relnumb:* Contains the quadrat/relevé ID. String.
-          - *physcode:* Contains the ... . String.
+          - *physcode:* Contains the ... , one of: B, C, D, E, F, G, H, K, S, or X. String.
           - *minht:* Contains the ... . String.
           - *maxht:* Contains the ... . String.
-          - *taxon:* Contains the ... . String.
-          - *scov:* Contains the... . String.
+          - *taxon:* Contains the taxon names, accepted taxa are present in `MNNPC::mnnpc_taxa_lookup`. String.
+          - *scov:* Contains the ... cover system values, one of 5 (87.5%), 4 (62.5%), 3 (37.5%), 2 (15%), 1 (2.5%), + (present, 0.5%), r (rare, 0.1%). String.
           
           Example:
           "
