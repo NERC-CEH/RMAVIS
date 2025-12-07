@@ -406,8 +406,10 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
       if(length(unique(dca_results_sample_site_selected$Year)) > 1){
         
         arrow_plot_data <- dca_results_sample_site_selected |>
-          dplyr::group_by(dplyr::across(-dplyr::any_of(c("Year", "DCA1", "DCA2", "DCA3", "DCA4")))) |>
+          dplyr::arrange(Year) |>
+          dplyr::group_by(dplyr::across(dplyr::any_of(c("Group", "Quadrat")))) |>
           dplyr::mutate("x" = get(x_axis), "y" = get(y_axis)) |>
+          dplyr::arrange(.by_group = TRUE) |>
           dplyr::mutate("endX" = dplyr::lead(x), "endY" = dplyr::lead(y)) |>
           dplyr::filter(!is.na(endX)) |>
           dplyr::ungroup()
@@ -487,11 +489,13 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
           
         )
         
+        mvaLocalRefRestrictedPlot_plotly <- plotly::ggplotly(p = mvaLocalRefRestrictedPlot_plot)
+        
         if("trajectory" %in% dcaVars() & !is.null(arrow_plot_data) & !is.null(dca_results_sample_site_selected)){
           
           if(nrow(arrow_plot_data) > 0){
             
-            mvaLocalRefRestrictedPlot_plotly <- plotly::ggplotly(p = mvaLocalRefRestrictedPlot_plot) |>
+            mvaLocalRefRestrictedPlot_plotly <- mvaLocalRefRestrictedPlot_plotly |>
               plotly::add_annotations(data = arrow_plot_data,
                                       showarrow = TRUE,
                                       text = "",
@@ -502,17 +506,12 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
                                       y = ~endY,
                                       ay = ~y)
             
-            mvaLocalRefRestrictedPlot_plotly <- plotly::hide_legend(mvaLocalRefRestrictedPlot_plotly)
             
           }
           
-        } else {
-          
-          mvaLocalRefRestrictedPlot_plotly <- plotly::ggplotly(p = mvaLocalRefRestrictedPlot_plot)
-          
-          mvaLocalRefRestrictedPlot_plotly <- plotly::hide_legend(mvaLocalRefRestrictedPlot_plotly)
-          
         }
+        
+        mvaLocalRefRestrictedPlot_plotly <- plotly::hide_legend(mvaLocalRefRestrictedPlot_plotly)
         
         
         return(mvaLocalRefRestrictedPlot_plotly)  

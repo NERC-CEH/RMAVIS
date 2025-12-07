@@ -434,9 +434,10 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     if(length(unique(dca_results_sample_site_selected$Year)) > 1){
       
       arrow_plot_data <- dca_results_sample_site_selected |>
-        # dplyr::group_by(dplyr::across(c(-Year, -DCA1, -DCA2, -DCA3, -DCA4))) |>
-        dplyr::group_by(dplyr::across(-dplyr::any_of(c("Year", "DCA1", "DCA2", "DCA3", "DCA4")))) |>
+        dplyr::arrange(Year) |>
+        dplyr::group_by(dplyr::across(dplyr::any_of(c("Group", "Quadrat")))) |>
         dplyr::mutate("x" = get(x_axis), "y" = get(y_axis)) |>
+        dplyr::arrange(.by_group = TRUE) |>
         dplyr::mutate("endX" = dplyr::lead(x), "endY" = dplyr::lead(y)) |>
         dplyr::filter(!is.na(endX)) |>
         dplyr::ungroup()
@@ -521,11 +522,13 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
         
       )
       
+      mvaLocalRefUnrestrictedPlot_plotly <- plotly::ggplotly(p = mvaLocalRefUnrestrictedPlot_plot)
+      
       if("trajectory" %in% dcaVars() & !is.null(arrow_plot_data)){
         
         if(nrow(arrow_plot_data) > 0){
           
-          mvaLocalRefUnrestrictedPlot_plotly <- plotly::ggplotly(p = mvaLocalRefUnrestrictedPlot_plot) |>
+          mvaLocalRefUnrestrictedPlot_plotly <- mvaLocalRefUnrestrictedPlot_plotly |>
             plotly::add_annotations(data = arrow_plot_data,
                                     showarrow = TRUE,
                                     text = "",
@@ -534,15 +537,9 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
                                     x = ~endX,
                                     ax = ~x,
                                     y = ~endY,
-                                    ay = ~y) |>
-            plotly::hide_legend()
-          
+                                    ay = ~y)
           
         }
-        
-      } else {
-        
-        mvaLocalRefUnrestrictedPlot_plotly <- plotly::ggplotly(p = mvaLocalRefUnrestrictedPlot_plot)
         
       }
       
