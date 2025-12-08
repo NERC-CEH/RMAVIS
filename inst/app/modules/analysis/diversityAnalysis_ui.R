@@ -80,6 +80,20 @@ diversityAnalysisUI <- function(id){
         
         shiny::div(shiny::br())
         
+      ),
+      
+      shiny::div(
+        
+        id = ns("taxonomicDiversityTable_div"),
+        
+        shiny::h5("Taxonomic Diversity, by Quadrat"),
+        
+        shiny::div(
+          reactable::reactableOutput(outputId = ns("taxonomicDiversityTable"))
+        ),
+        
+        shiny::div(shiny::br())
+        
       )
       
     )

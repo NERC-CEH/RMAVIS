@@ -1,3 +1,10 @@
+# Accepted taxa -----------------------------------------------------------
+accepted_taxa <- UKVegTB::taxonomic_backbone |>
+  dplyr::distinct(taxon_name) |>
+  dplyr::arrange(taxon_name)
+
+usethis::use_data(accepted_taxa, internal = FALSE, overwrite = TRUE)
+
 # Regions -----------------------------------------------------------------
 region_options <- c("Great Britain (GB-NVC)" = "gbnvc",
                     "Minnesota (MNNPC)" = "mnnpc")
@@ -126,7 +133,8 @@ resultsViewDiversity_options <- c("Site Summary Table"  = "diversitySummaryTable
                                   "Quadrat Diversity Indices Table" = "diversityIndicesTable",
                                   "Species Richness, by Site" = "speciesRichnessSite",
                                   "Species Richness, by Group" = "speciesRichnessGroup",
-                                  "Species Richness, by Quadrat" = "speciesRichnessQuadrat")
+                                  "Species Richness, by Quadrat" = "speciesRichnessQuadrat",
+                                  "Taxonomic Diversity, by Quadrat" = "taxonomicDiversityQuadrat")
 
 # DCA Axis Selection Options ----------------------------------------------
 dcaAxisSelection_options <- c("DCA1 vs DCA2" = "dca1dca2",

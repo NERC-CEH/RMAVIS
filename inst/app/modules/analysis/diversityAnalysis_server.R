@@ -18,10 +18,12 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
 
 # Retrieve setup data -----------------------------------------------------
   regional_availability <- reactiveVal()
+  higher_taxa <- reactiveVal()
   
   observe({
     
     regional_availability(setupData()$regional_availability)
+    higher_taxa(setupData()$higher_taxa)
     
   }) |>
     shiny::bindEvent(setupData(),
@@ -36,6 +38,7 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
     shinyjs::show(id = "speciesRichnessSiteTable_div")
     shinyjs::show(id = "speciesRichnessGroupTable_div")
     shinyjs::show(id = "speciesRichnessQuadratTable_div")
+    shinyjs::show(id = "taxonomicDiversityTable_div")
     
   }) |>
     bindEvent(resultsViewDiversity(),
@@ -79,7 +82,13 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
     } else {
       shinyjs::hide(id = "speciesRichnessQuadratTable_div")
     }
-
+    
+    # taxonomicDiversityTable
+    if("taxonomicDiversityQuadrat" %in% resultsViewDiversity()){
+      shinyjs::show(id = "taxonomicDiversityTable_div")
+    } else {
+      shinyjs::hide(id = "taxonomicDiversityTable_div")
+    }
     
   }) |>
     bindEvent(resultsViewDiversity(),
@@ -267,6 +276,44 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
     
   })
   
+  # Initialise Taxonomic Diversity Table ----------------------------------
+  taxonomicDiversityTable_init <- data.frame("Year" = integer(),
+                                             "Group" = character(),
+                                             "Quadrat" = character(),
+                                             "Δ" = double(),
+                                             "Δ*" = double(),
+                                             "Δ+" = double(),
+                                             "λ+" = double(),
+                                             "Δ+ s.d." = double(),
+                                             "S Δ+" = double())
+  
+  taxonomicDiversityTable_rval <- reactiveVal(taxonomicDiversityTable_init)
+  
+  output$taxonomicDiversityTable <- reactable::renderReactable({
+    
+    taxonomicDiversityTable <- reactable::reactable(data = taxonomicDiversityTable_init,
+                                                    filterable = FALSE,
+                                                    pagination = FALSE, 
+                                                    highlight = TRUE,
+                                                    bordered = TRUE,
+                                                    sortable = TRUE, 
+                                                    wrap = FALSE,
+                                                    resizable = TRUE,
+                                                    style = list(fontSize = "1rem"),
+                                                    class = "my-tbl",
+                                                    # style = list(fontSize = "1rem"),
+                                                    rowClass = "my-row",
+                                                    defaultColDef = reactable::colDef(
+                                                     format = reactable::colFormat(digits = 2),
+                                                     headerClass = "my-header",
+                                                     class = "my-col",
+                                                     align = "center" # Needed as alignment is not passing through to header
+                                                    ))
+    
+    return(taxonomicDiversityTable)
+    
+  })
+  
   
 
 # Calculate Diversity Metrics, Update Tables ------------------------------
@@ -295,6 +342,10 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
         surveyData_mat <- surveyData()$surveyData_mat
         
       }
+      
+      surveyData_mat_perc <- surveyData_mat * 100
+      
+      higher_taxa <- higher_taxa()
       
     })
 
@@ -404,9 +455,34 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
       dplyr::left_join(shannonsEvenness, by = "ID") |>
       dplyr::left_join(simpsonEvenness, by = "ID") |>
       dplyr::left_join(surveyData_conc, by = "ID") |>
-      dplyr::select(Year, Group, Quadrat, Richness, Shannon.Diversity, Simpson.Diversity, InverseSimpson.Diversity, Shannon.Evenness, Simpson.Evenness)
+      dplyr::select(Year, Group, Quadrat, Richness, Shannon.Diversity, Simpson.Diversity, 
+                    InverseSimpson.Diversity, Shannon.Evenness, Simpson.Evenness)
     
-
+# Taxonomic diversity -----------------------------------------------------
+    higher_taxa_data <- higher_taxa |>
+      dplyr::filter(taxon_name %in% colnames(surveyData_mat_perc)) |>
+      tibble::column_to_rownames("taxon_name") |>
+      tidyr::drop_na()
+    
+    taxdis <- vegan::taxa2dist(higher_taxa_data, varstep = TRUE)
+    
+    taxonomic_diversity <- vegan::taxondive(comm = surveyData_mat_perc, dis = taxdis, match.force = TRUE) |>
+      suppressMessages()
+    
+    taxonomic_diversity_tbl <- purrr::map(.x = c("D", "Dstar", "Lambda", "Dplus", "sd.Dplus", "SDplus"),
+                                          .f = function(x){tibble::enframe(taxonomic_diversity[[x]], name = "ID", value = x)}) |>
+      purrr::reduce(dplyr::inner_join, by = "ID")
+    
+    taxonomicDiversityTable <- taxonomic_diversity_tbl |>
+      dplyr::left_join(surveyData_conc, by = "ID") |>
+      dplyr::select(Year, Group, Quadrat,
+                    "Δ" = "D",
+                    "Δ*" = "Dstar",
+                    "Δ+" = "Dplus",
+                    "λ+" = "Lambda",
+                    "Δ+ s.d." = "sd.Dplus",
+                    "S Δ+" = "SDplus")
+    
 # Update summaryTable -----------------------------------------------------
     output$diversitySummaryTable <- reactable::renderReactable({
       
@@ -612,7 +688,64 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
     })
     
     speciesRichnessQuadratTable_rval(speciesRichness_quadrat_wide)
+
+
+# Update taxonomicDiversityTable -----------------------------------------
+    output$taxonomicDiversityTable <- reactable::renderReactable({
       
+      taxonomicDiversityTable <- reactable::reactable(data = taxonomicDiversityTable,
+                                                      filterable = FALSE,
+                                                      pagination = FALSE, 
+                                                      highlight = TRUE,
+                                                      bordered = TRUE,
+                                                      sortable = TRUE, 
+                                                      wrap = FALSE,
+                                                      resizable = TRUE,
+                                                      style = list(fontSize = "1rem"),
+                                                      class = "my-tbl",
+                                                      # style = list(fontSize = "1rem"),
+                                                      rowClass = "my-row",
+                                                      defaultColDef = reactable::colDef(
+                                                        format = reactable::colFormat(digits = 2),
+                                                        headerClass = "my-header",
+                                                        class = "my-col",
+                                                        align = "center" # Needed as alignment is not passing through to header
+                                                      ),
+                                                      columns = list(
+                                                        Year = reactable::colDef(
+                                                          format = reactable::colFormat(digits = 0),
+                                                          filterable = TRUE,
+                                                          filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                        ),
+                                                        Group = reactable::colDef(
+                                                          filterable = TRUE,
+                                                          filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                        ),
+                                                        Quadrat = reactable::colDef(
+                                                          filterable = TRUE,
+                                                          filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                       return rows.filter(function(row) {
+                                                                                       return row.values[columnId] == filterValue
+                                                                                       })
+                                                                                       }")
+                                                        )
+                                                      )
+      )
+      
+      return(taxonomicDiversityTable)
+      
+    })
+    
+    taxonomicDiversityTable_rval(taxonomicDiversityTable)
+
     
 
 # Compile All Data --------------------------------------------------------
@@ -620,7 +753,8 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
                              "diversityIndices" = diversityIndicesTable_rval(),
                              "speciesRichnessSite" = speciesRichnessSiteTable_rval(),
                              "speciesRichnessGroup" = speciesRichnessGroupTable_rval(),
-                             "speciesRichnessQuadrat" = speciesRichnessQuadratTable_rval())
+                             "speciesRichnessQuadrat" = speciesRichnessQuadratTable_rval(),
+                             "taxonomicDiversity" = taxonomicDiversityTable_rval())
 
     diversityDataAll_rval(diversityDataAll)
     
@@ -635,9 +769,12 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
 
 
 # Ensure Tables Are Not Suspended Are Hidden ------------------------------
+  outputOptions(output, "diversitySummaryTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "diversityIndicesTable", suspendWhenHidden = FALSE)
   outputOptions(output, "speciesRichnessSiteTable", suspendWhenHidden = FALSE)
   outputOptions(output, "speciesRichnessGroupTable", suspendWhenHidden = FALSE)
   outputOptions(output, "speciesRichnessQuadratTable", suspendWhenHidden = FALSE)
+  outputOptions(output, "taxonomicDiversityTable", suspendWhenHidden = FALSE)
   
   
 

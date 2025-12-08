@@ -8,6 +8,16 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
     "regional_availability" = as.list(tibble::deframe(RMAVIS:::regional_availability[, c("module", "gbnvc")])),
     "species_names" = RMAVIS::accepted_taxa[["taxon_name"]],
     "accepted_species" = RMAVIS::accepted_taxa,
+    "higher_taxa" = UKVegTB::taxonomic_backbone |>
+                      tibble::as_tibble() |>
+                      dplyr::select("taxon_name" = "taxon_name",
+                                    # "Kingdom" = "Kingdom",
+                                    # "Phylum" = "Phylum",
+                                    "Class" = "Class",
+                                    "Order" = "Order",
+                                    "Family" = "Family",
+                                    "Genus" = "Genus") |>
+                      dplyr::distinct(),
     "example_data" = RMAVIS::example_data,
     "floristic_tables" = RMAVIS::nvc_floristic_tables,
     "community_attributes" = RMAVIS::nvc_community_attributes,
@@ -53,6 +63,16 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       # Establish setup data which doesn't vary based on NVC type
       species_names_selected <- RMAVIS::accepted_taxa[["taxon_name"]]
       accepted_species_selected <- RMAVIS::accepted_taxa
+      higher_taxa_selected <- UKVegTB::taxonomic_backbone |>
+        tibble::as_tibble() |>
+        dplyr::select("taxon_name" = "taxon_name",
+                      # "Kingdom" = "Kingdom",
+                      # "Phylum" = "Phylum",
+                      "Class" = "Class",
+                      "Order" = "Order",
+                      "Family" = "Family",
+                      "Genus" = "Genus") |>
+        dplyr::distinct()
       example_data_selected <- RMAVIS::example_data
       example_data_options_selected <- RMAVIS:::example_data_options
       habitat_correspondences_selected <-  RMAVIS::habitat_correspondences
@@ -143,6 +163,16 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       unit_name_col_selected <- "npc_code"
       hab_rest_pref_selected <- MNNPC::mnnpc_vc_types
       agg_lookup_selected <- MNNPC::mnnpc_taxa_conv
+      higher_taxa_selected <- MNNPC::mnnpc_taxonomic_backbone |>
+        tibble::as_tibble() |>
+        dplyr::select("taxon_name" = "recommended_taxon_name",
+                      "Kingdom" = "kingdom",
+                      "Phylum" = "phylum",
+                      "Class" = "class",
+                      "Order" = "order",
+                      "Family" = "family",
+                      "Genus" = "genus") |>
+        dplyr::distinct()
       
     }
     
@@ -152,6 +182,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       "regional_availability" = regional_availability_selected,
       "species_names" = species_names_selected,
       "accepted_species" = accepted_species_selected,
+      "higher_taxa" = higher_taxa_selected,
       "example_data" = example_data_selected,
       "floristic_tables" = floristic_tables_selected,
       "community_attributes" = community_attributes_selected,

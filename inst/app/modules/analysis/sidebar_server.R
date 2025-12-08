@@ -782,7 +782,8 @@ sidebar <- function(input, output, session,
         "Diversity, Quadrat Indices" = diversityAnalysis$diversityIndices,
         "Diversity, Richness, Site" = diversityAnalysis$speciesRichnessSite,
         "Diversity, Richness, Group" = diversityAnalysis$speciesRichnessGroup,
-        "Diversity, Richness, Quadrat" = diversityAnalysis$speciesRichnessQuadrat
+        "Diversity, Richness, Quadrat" = diversityAnalysis$speciesRichnessQuadrat,
+        "Diversity, Taxonomic, Quadrat" = diversityAnalysis$taxonomicDiversity
       )
       
       if(isTRUE(show_habCor)){

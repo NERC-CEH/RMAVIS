@@ -1,11 +1,12 @@
 # RMAVIS 1.2.0 (XX-12-2025)
 *   Modifications:
       - Removing the CCA Hill-Ellenberg option in the MVA module. Now all
-        Hill-Ellenberg values (F, R, N, S, L) are included in the CCA by default.
-      - Removing MVA legend until a fix for the double legend is found.
+        Hill-Ellenberg values (F, R, N, S, L) apart from T are included in the CCA by default.
+      - Removing MVA legend until a fix for the double legend issue in plotly is found.
       - Combining the analysis modules into a parent set of modules: analysis_ui
         and analysis_server.
       - Improving error handling in upload data entry option.
+      - Now calculating taxonomic diversity metrics with `vegan::taxondive` in the Diversity module.
 *   Fixes:
       - Ensuring that the calculation of cover-weighted EIVs accounts for situations 
         where the total cover is less than or greater than 100% as at present
