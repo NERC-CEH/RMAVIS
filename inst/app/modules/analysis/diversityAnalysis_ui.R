@@ -8,12 +8,24 @@ diversityAnalysisUI <- function(id){
       
       shiny::div(
         
-        id = ns("diversitySummaryTable_div"),
+        id = ns("diversityTableYear_div"),
         
-        shiny::h5("Summary Table"),
+        shiny::h5("Diversity Measures - by Year"),
         
         shiny::div(
-          reactable::reactableOutput(outputId = ns("diversitySummaryTable"))
+          reactable::reactableOutput(outputId = ns("diversityTableYear"))
+        ),
+        
+      ),
+      
+      shiny::div(
+        
+        id = ns("diversityTableGroup_div"),
+        
+        shiny::h5("Diversity Measures - by Group"),
+        
+        shiny::div(
+          reactable::reactableOutput(outputId = ns("diversityTableGroup"))
         ),
         
         shiny::div(shiny::br())
@@ -22,74 +34,12 @@ diversityAnalysisUI <- function(id){
       
       shiny::div(
         
-        id = ns("diversityIndicesTable_div"),
+        id = ns("diversityTableQuadrat_div"),
         
-        shiny::h5("Quadrat Diversity Indices Table"),
-        
-        shiny::div(
-          reactable::reactableOutput(outputId = ns("diversityIndicesTable"))
-        ),
-        
-        shiny::div(shiny::br())
-        
-      ),
-      
-      shiny::div(
-        
-        id = ns("speciesRichnessSiteTable_div"),
-        
-        shiny::h5("Species Richness, by Site (Gamma Diversity)"),
+        shiny::h5("Diversity Measures - by Quadrat"),
         
         shiny::div(
-          reactable::reactableOutput(outputId = ns("speciesRichnessSiteTable"))
-        ),
-        
-      ),
-      
-      # shiny::div(shiny::br()),
-      # 
-      # shiny::h5("Beta Diversity"),
-      # 
-      # shiny::div(
-      #   reactable::reactableOutput(outputId = ns(""))
-      # ),
-      
-      shiny::div(
-        
-        id = ns("speciesRichnessGroupTable_div"),
-        
-        shiny::h5("Species Richness, by Group"),
-        
-        shiny::div(
-          reactable::reactableOutput(outputId = ns("speciesRichnessGroupTable"))
-        ),
-        
-        shiny::div(shiny::br())
-        
-      ),
-      
-      shiny::div(
-        
-        id = ns("speciesRichnessQuadratTable_div"),
-        
-        shiny::h5("Species Richness, by Quadrat (Alpha Diversity)"),
-        
-        shiny::div(
-          reactable::reactableOutput(outputId = ns("speciesRichnessQuadratTable"))
-        ),
-        
-        shiny::div(shiny::br())
-        
-      ),
-      
-      shiny::div(
-        
-        id = ns("taxonomicDiversityTable_div"),
-        
-        shiny::h5("Taxonomic Diversity, by Quadrat"),
-        
-        shiny::div(
-          reactable::reactableOutput(outputId = ns("taxonomicDiversityTable"))
+          reactable::reactableOutput(outputId = ns("diversityTableQuadrat"))
         ),
         
         shiny::div(shiny::br())

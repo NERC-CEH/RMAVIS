@@ -778,12 +778,9 @@ sidebar <- function(input, output, session,
         "Floristic Tables - Wide" = floristicTables$floristicTables_composed_all_wide,
         "VC Assignment - Quadrat" = vcAssignment$vcAssignmentPlot_Jaccard,
         "Frequency Table" = speciesFreq,
-        "Diversity, Summary" = diversityAnalysis$diversitySummary,
-        "Diversity, Quadrat Indices" = diversityAnalysis$diversityIndices,
-        "Diversity, Richness, Site" = diversityAnalysis$speciesRichnessSite,
-        "Diversity, Richness, Group" = diversityAnalysis$speciesRichnessGroup,
-        "Diversity, Richness, Quadrat" = diversityAnalysis$speciesRichnessQuadrat,
-        "Diversity, Taxonomic, Quadrat" = diversityAnalysis$taxonomicDiversity
+        "Diversity, Year" = diversityAnalysis$diversityYear,
+        "Diversity, Group" = diversityAnalysis$diversityGroup,
+        "Diversity, Quadrat" = diversityAnalysis$diversityQuadrat
       )
       
       if(isTRUE(show_habCor)){

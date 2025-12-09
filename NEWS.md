@@ -6,7 +6,7 @@
       - Combining the analysis modules into a parent set of modules: analysis_ui
         and analysis_server.
       - Improving error handling in upload data entry option.
-      - Now calculating taxonomic diversity metrics with `vegan::taxondive` in the Diversity module.
+      - Moving to `UKVegTB` version 0.1.4 which includes the `UKVegTB::phylo_tree` and `UKVegTB::phylo_taxa_lookup` objects.
 *   Fixes:
       - Ensuring that the calculation of cover-weighted EIVs accounts for situations 
         where the total cover is less than or greater than 100% as at present
@@ -22,6 +22,9 @@
       - Adding a function `RMAVIS::aggregate_taxa`.
       - Adding aggregated surveyData objects and the option to use this aggregated
         survey data. Currently only enabled for the MNNPC.
+      - Re-devloping the diversity module. We now calculate the alpha, beta, and gamma 
+        naive, taxonomic, and phylogenetic diversity by year, group, and quadrat,
+        for three Hill numbers: 0, 1, and 2 using the R package `rdiversity`.
 
 # RMAVIS 1.1.4 (11-09-2025)
 *   Modifications: NA

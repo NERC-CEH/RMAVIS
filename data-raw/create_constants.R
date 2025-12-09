@@ -1,10 +1,3 @@
-# Accepted taxa -----------------------------------------------------------
-accepted_taxa <- UKVegTB::taxonomic_backbone |>
-  dplyr::distinct(taxon_name) |>
-  dplyr::arrange(taxon_name)
-
-usethis::use_data(accepted_taxa, internal = FALSE, overwrite = TRUE)
-
 # Regions -----------------------------------------------------------------
 region_options <- c("Great Britain (GB-NVC)" = "gbnvc",
                     "Minnesota (MNNPC)" = "mnnpc")
@@ -129,12 +122,9 @@ resultsViewEIVs_options <- c("Weighted Mean Hill-Ellenberg Values, by Site" = "w
                              "Unweighted Mean Hill-Ellenberg Values, by Quadrat" = "unweightedMeanHEValuesQuadrat")
 
 # Results to View Diversity -----------------------------------------------
-resultsViewDiversity_options <- c("Site Summary Table"  = "diversitySummaryTable",
-                                  "Quadrat Diversity Indices Table" = "diversityIndicesTable",
-                                  "Species Richness, by Site" = "speciesRichnessSite",
-                                  "Species Richness, by Group" = "speciesRichnessGroup",
-                                  "Species Richness, by Quadrat" = "speciesRichnessQuadrat",
-                                  "Taxonomic Diversity, by Quadrat" = "taxonomicDiversityQuadrat")
+resultsViewDiversity_options <- c("Year"  = "year",
+                                  "Group" = "group",
+                                  "Quadrat" = "quadrat")
 
 # DCA Axis Selection Options ----------------------------------------------
 dcaAxisSelection_options <- c("DCA1 vs DCA2" = "dca1dca2",
@@ -190,11 +180,9 @@ reportOptions_options <- list(`VC Assignment` = c("Site, Czekanowski" = "vcAssig
                                                                      "Unweighted, Group" = "unweightedMeanHEValuesGroup",
                                                                      "Weighted, Quadrat" = "weightedMeanHEValuesQuadrat",
                                                                      "Unweighted, Quadrat" = "unweightedMeanHEValuesQuadrat"),
-                              `Diversity` = c("Summary" = "diversitySummary",
-                                              "Quadrat Indices" = "diversityIndices",
-                                              "Richness, Site" = "speciesRichnessSite",
-                                              "Richness, Group" = "speciesRichnessGroup",
-                                              "Richness, Quadrat" = "speciesRichnessQuadrat"),
+                              `Diversity` = c("Year"  = "year",
+                                              "Group" = "group",
+                                              "Quadrat" = "quadrat"),
                               `MVA` = c("National" = "mvaNationalReference",
                                         "Local (restricted)" = "mvaLocalReferenceRestricted",
                                         "Local (unrestricted)" = "mvaLocalReferenceUnrestricted"),

@@ -198,7 +198,7 @@ uploadDataUI <- function(id) {
           "
           ),
           
-          reactable::reactableOutput(outputId = ns("mnnpc_example_table")),
+          reactable::reactableOutput(outputId = ns("mnnpc_example_table"), height = "200px"),
           
           shiny::div(shiny::br()),
           

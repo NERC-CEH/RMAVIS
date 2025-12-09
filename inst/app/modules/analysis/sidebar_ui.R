@@ -47,12 +47,16 @@ sidebarUI <- function(id){
           "
           Aggregate taxa in the survey data for analysis, module-by-module.
           This option is provided as vegetation classification systems may group
-          taxa into aggregate ranks or groups e.g. _Viola ecological group 1_, as in the MNNPC.
+          taxa into aggregate ranks or groups e.g. _Viola ecological group 1_, as in the MNNPC
+          due to taxonomic changes, difficulty in identification to the species rank (including due to the presence of variable hybrids),
+          and historical mis-indentifcations necessitating aggregation.
           Conssequently, without aggregation matching un-aggregated survey data against aggregated reference
           data will produce false mis-matches.
-          By default the VC Assignment, Floristic Tables, MVA modules are
+          By default the VC Assignment, Floristic Tables, and MVA modules are
           selected as these use aggregated vegetation classifcation system data; whilst
           the other modules do not, therefore preserving taxonomic specificity.
+          Please note that if you have uploaded data in the MNNPC Relevés format
+          the survey data will be automatically aggregated.
           "
           ),
           placement = "bottom"

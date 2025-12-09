@@ -384,30 +384,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
 
 # Survey Table Validation Actions -----------------------------------------
   surveyData_corrected_rval <- reactiveVal()
-
-## Aggregate Taxa ---------------------------------------------------------
-  # observe({
-  # 
-  #   req(input$surveyData)
-  #   req(aggLookup())
-  # 
-  #   isolate({
-  # 
-  #     surveyData <- rhandsontable::hot_to_r(input$surveyData)
-  # 
-  #     surveyData_aggregated <- RMAVIS::aggregate_taxa(plot_data = surveyData,
-  #                                                     agg_lookup = aggLookup(),
-  #                                                     plot_data_taxon_col = "Species",
-  #                                                     agg_lookup_taxon_col = "taxon")
-  # 
-  #     surveyData_corrected_rval(surveyData_aggregated)
-  # 
-  #   })
-  # 
-  # }) |>
-  #   bindEvent(aggTaxa(),
-  #             ignoreInit = TRUE,
-  #             ignoreNULL = TRUE)
   
 ## Adjust Species Names ---------------------------------------------------
   observe({

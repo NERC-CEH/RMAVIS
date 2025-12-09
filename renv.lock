@@ -97,29 +97,35 @@
     },
     "MNNPC": {
       "Package": "MNNPC",
-      "Version": "0.9.3",
+      "Version": "0.9.5",
       "Source": "GitHub",
       "Title": "Minnesota Native Plant Community Classification System data",
-      "Date": "2025-12-03",
+      "Date": "2025-12-05",
       "Authors@R": "c(person(given = \"Amy\", family = \"Kendig\", role = c(\"aut\", \"cre\"), email = \"amy.kendig@state.mn.us\", comment = c(ORCID = \"0000-0002-2774-1795\")), person(given = \"Zeke\", family = \"Marshall\", role = c(\"aut\"), email = \"zekmar@ceh.ac.uk\", comment = c(ORCID = \"0000-0001-9260-7827\")) )",
       "Description": "Minnesota Native Plant Community Classification System objects for RMAVIS.",
       "License": "MIT + file LICENSE",
       "Encoding": "UTF-8",
       "Roxygen": "list(markdown = TRUE)",
-      "RoxygenNote": "7.3.1",
+      "RoxygenNote": "7.3.3",
       "Depends": [
         "R (>= 4.4)"
       ],
       "LazyData": "true",
       "Config/testthat/edition": "3",
+      "Imports": [
+        "dplyr (>= 1.1.0)"
+      ],
+      "Suggests": [
+        "testthat (>= 3.0.0)"
+      ],
       "Author": "Amy Kendig [aut, cre] (<https://orcid.org/0000-0002-2774-1795>), Zeke Marshall [aut] (<https://orcid.org/0000-0001-9260-7827>)",
       "Maintainer": "Amy Kendig <amy.kendig@state.mn.us>",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "MN-DNR-MBS",
       "RemoteRepo": "MNNPC",
-      "RemoteRef": "v0.9.3",
-      "RemoteSha": "e4f9892c4a51637916ab5f541a4ecd32fcad4bd3"
+      "RemoteRef": "v0.9.5",
+      "RemoteSha": "bd3b34f33833a063b3d83e84a24ac4c2fdd04af6"
     },
     "Matrix": {
       "Package": "Matrix",
@@ -357,8 +363,8 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "NERC-CEH",
       "RemoteRepo": "UKVegTB",
-      "RemoteRef": "main",
-      "RemoteSha": "3586993b396262a108cad96df2958eaed333393c"
+      "RemoteRef": "v0.1.3",
+      "RemoteSha": "7424c504b8eb828b78a6c4f90ee2fe574834953d"
     },
     "askpass": {
       "Package": "askpass",

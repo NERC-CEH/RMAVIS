@@ -29,7 +29,9 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
     "psq_taxon_name_col" = "nvc_taxon_name",
     "unit_name_col" = "nvc_code",
     "hab_rest_pref" = RMAVIS:::habitatRestrictionPrefixes,
-    "agg_lookup" = NULL
+    "agg_lookup" = NULL,
+    "phylo_tree" = UKVegTB::phylo_tree,
+    "phylo_taxa_lookup" = UKVegTB::phylo_taxa_lookup
   )
 
 # Initialise objets -------------------------------------------------------
@@ -81,6 +83,8 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       unit_name_col_selected <- "nvc_code"
       hab_rest_pref_selected <- RMAVIS:::habitatRestrictionPrefixes
       agg_lookup_selected <- NULL
+      phylo_tree_selected <- UKVegTB::phylo_tree
+      phylo_taxa_lookup_selected <- UKVegTB::phylo_taxa_lookup
       
       # Compose setup data from selected NVC types
       floristic_tables_selected <- tibble::tibble()
@@ -173,6 +177,8 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
                       "Family" = "family",
                       "Genus" = "genus") |>
         dplyr::distinct()
+      phylo_tree_selected <- MNNPC::mnnpc_phlyo_tree
+      phylo_taxa_lookup_selected <- MNNPC::mnnpc_phylo_taxa_lookup
       
     }
     
@@ -195,7 +201,9 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       "psq_taxon_name_col" = psq_taxon_name_col_selected,
       "unit_name_col" = unit_name_col_selected,
       "hab_rest_pref" = hab_rest_pref_selected,
-      "agg_lookup" = agg_lookup_selected
+      "agg_lookup" = agg_lookup_selected,
+      "phylo_tree" = phylo_tree_selected,
+      "phylo_taxa_lookup" = phylo_taxa_lookup_selected
     )
     
     setupData(setupData_list)

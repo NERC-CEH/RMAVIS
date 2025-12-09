@@ -16,14 +16,7 @@ uploadData <- function(input, output, session, setupData) {
   
   
 # Example table data ------------------------------------------------------
-  mnnpc_example_data <- tibble::tribble(
-    ~year, ~group, ~relnumb, ~physcode, ~minht, ~maxht, ~taxon, ~scov,
-    2023L, "A", 1L, "", 1L, 1L, "Calluna vulagris", 0.5, 
-    2023L, "A", 1L, "", 1L, 1L, "Empetrum nigrum", 0.1, 
-    2023L, "A", 1L, "", 1L, 1L, "Polytrichum commune", 0.1, 
-    2023L, "A", 1L, "", 1L, 1L, "Hypnum jutlandicum", 0.1, 
-    2023L, "A", 1L, "", 1L, 1L, "Ceratocapnos claviculata", 0.1, 
-  )
+  mnnpc_example_data <- MNNPC::example_releve
   
   gbnvc_example_data_long <- RMAVIS::example_data$`Parsonage Down` |> 
     dplyr::select(-Site) |>
