@@ -34,6 +34,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 LazyDataCompression: xz
 Imports:
+  ape,
   bookdown,
   bsicons,
   bslib,
@@ -49,6 +50,7 @@ Imports:
   purrr,
   reactable,
   readr,
+  rdiversity,
   rhandsontable,
   rmarkdown,
   shiny,
