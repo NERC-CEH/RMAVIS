@@ -35,11 +35,13 @@ calc_rdiversity_objects <- function(plot_data, higher_taxa, phylo_tree, phylo_ta
   higher_taxa_present <- higher_taxa |>
     dplyr::filter(taxon_name %in% unique(plot_data$Species))
   
+  data_mat_higher_taxa <- data_mat[, higher_taxa_present$taxon_name, drop = FALSE]
+  
   d_tax <- rdiversity::tax2dist(higher_taxa_present, rank_levels)
   
   s_tax <- rdiversity::dist2sim(d_tax, "linear")
   
-  meta_tax <- rdiversity::metacommunity(t(data_mat), s_tax) 
+  meta_tax <- rdiversity::metacommunity(t(data_mat_higher_taxa), s_tax) 
   
   # Phylogenetic analysis setup
   available_phylo_taxa_names <- phylo_taxa_lookup |> 
@@ -69,10 +71,18 @@ calc_rdiversity_objects <- function(plot_data, higher_taxa, phylo_tree, phylo_ta
   
   phylo_tree_use <- ape::keep.tip.phylo(phy = phylo_tree_phylo, tip = phylo_analysis_taxon_names)
   
-  d_phylo <- rdiversity::phy2dist(phylo_tree_use)
-  s_phylo_dist <- rdiversity::dist2sim(d_phylo, "linear")
-  
-  meta_phylo_dist <- rdiversity::metacommunity(t(data_mat_phylo_use), s_phylo_dist)
+  if(!is.null(phylo_tree_use)){
+    
+    d_phylo <- rdiversity::phy2dist(phylo_tree_use)
+    s_phylo_dist <- rdiversity::dist2sim(d_phylo, "linear")
+    
+    meta_phylo_dist <- rdiversity::metacommunity(t(data_mat_phylo_use), s_phylo_dist)
+    
+  } else {
+    
+    meta_phylo_dist <- NULL
+    
+  }
   
   # Compose list of objects to return
   rdiv_objects <- list("meta_naive" = meta_naive,
@@ -104,19 +114,64 @@ calc_rdiversity_metrics_subcom <- function(rdiv_objects, q = 0){
   meta_phylo_dist <- rdiv_objects[["meta_phylo_dist"]]
   
   # Naive diversity measures
-  alpha_naive_norm <- rdiversity::subdiv(rdiversity::norm_alpha(meta_naive), qs = q)
-  beta_naive_norm <- rdiversity::subdiv(rdiversity::norm_beta(meta_naive), qs = q)
-  gamma_naive <- rdiversity::sub_gamma(meta_naive, q)
+  if(!is.null(meta_naive)){
+    
+    alpha_naive_norm <- rdiversity::subdiv(rdiversity::norm_alpha(meta_naive), qs = q)
+    beta_naive_norm <- rdiversity::subdiv(rdiversity::norm_beta(meta_naive), qs = q)
+    
+    if(dim(meta_naive@similarity)[2] > 1){
+      gamma_naive <- rdiversity::sub_gamma(meta_naive, q)
+    } else {
+      gamma_naive <- NULL
+    }
+    
+  } else {
+    
+    alpha_naive_norm <- NULL
+    beta_naive_norm <- NULL
+    gamma_naive <- NULL
+    
+  }
   
   # Taxonomic diversity measures
-  alpha_tax_norm <- rdiversity::subdiv(rdiversity::norm_alpha(meta_tax), qs = q)
-  beta_tax_norm <- rdiversity::subdiv(rdiversity::norm_beta(meta_tax), qs = q)
-  gamma_tax <- rdiversity::sub_gamma(meta_tax, q)
+  if(!is.null(meta_tax)){
+    
+    alpha_tax_norm <- rdiversity::subdiv(rdiversity::norm_alpha(meta_tax), qs = q)
+    beta_tax_norm <- rdiversity::subdiv(rdiversity::norm_beta(meta_tax), qs = q)
+    
+    if(dim(meta_tax@similarity)[2] > 1){
+      gamma_tax <- rdiversity::sub_gamma(meta_tax, q)
+    } else {
+      gamma_tax <- NULL
+    }
+    
+  } else {
+    
+    alpha_tax_norm <- NULL
+    beta_tax_norm <- NULL
+    gamma_tax <- NULL
+    
+  }
   
   # Phylogenetic diversity measures
-  alpha_phylo_norm_dist <- rdiversity::subdiv(rdiversity::norm_alpha(meta_phylo_dist), qs = q)
-  beta_phylo_norm_dist <- rdiversity::subdiv(rdiversity::norm_beta(meta_phylo_dist), qs = q)
-  gamma_phylo_dist <- rdiversity::sub_gamma(meta_phylo_dist, q)
+  if(!is.null(meta_phylo_dist)){
+    
+    alpha_phylo_norm_dist <- rdiversity::subdiv(rdiversity::norm_alpha(meta_phylo_dist), qs = q)
+    beta_phylo_norm_dist <- rdiversity::subdiv(rdiversity::norm_beta(meta_phylo_dist), qs = q)
+    
+    if(dim(meta_phylo_dist@similarity)[2] > 1){
+      gamma_phylo_dist <- rdiversity::sub_gamma(meta_phylo_dist, q)
+    } else {
+      gamma_phylo_dist <- NULL
+    }
+    
+  } else {
+    
+    alpha_phylo_norm_dist <- NULL
+    beta_phylo_norm_dist <- NULL
+    gamma_phylo_dist <- NULL
+    
+  }
   
   # Collate results
   results <- dplyr::bind_rows(
@@ -162,19 +217,64 @@ calc_rdiversity_metrics_meta <- function(rdiv_objects, q = 0){
   meta_phylo_dist <- rdiv_objects[["meta_phylo_dist"]]
 
   # Naive diversity measures
-  norm_meta_alpha_naive <- rdiversity::norm_meta_alpha(meta_naive, qs = q)
-  norm_meta_beta_naive <- rdiversity::norm_meta_beta(meta_naive, qs = q)
-  gamma_naive <- rdiversity::meta_gamma(meta_naive, qs = q)
+  if(!is.null(meta_naive)){
+    
+    norm_meta_alpha_naive <- rdiversity::norm_meta_alpha(meta_naive, qs = q)
+    norm_meta_beta_naive <- rdiversity::norm_meta_beta(meta_naive, qs = q)
+    
+    if(dim(meta_naive@similarity)[2] > 1){
+      gamma_naive <- rdiversity::meta_gamma(meta_naive, qs = q)
+    } else {
+      gamma_naive <- NULL
+    }
+    
+  } else {
+    
+    norm_meta_alpha_naive <- NULL
+    norm_meta_beta_naive <- NULL
+    gamma_naive <- NULL
+    
+  }
 
   # Taxonomic diversity measures
-  norm_meta_alpha_tax <- rdiversity::norm_meta_alpha(meta_tax, qs = q)
-  norm_meta_beta_tax <- rdiversity::norm_meta_beta(meta_tax, qs = q)
-  gamma_tax <- rdiversity::meta_gamma(meta_tax, qs = q)
+  if(!is.null(meta_tax)){
+    
+    norm_meta_alpha_tax <- rdiversity::norm_meta_alpha(meta_tax, qs = q)
+    norm_meta_beta_tax <- rdiversity::norm_meta_beta(meta_tax, qs = q)
+    
+    if(dim(meta_tax@similarity)[2] > 1){
+      gamma_tax <- rdiversity::meta_gamma(meta_tax, qs = q)
+    } else {
+      gamma_tax <- NULL
+    }
+    
+  } else {
+    
+    norm_meta_alpha_tax <- NULL
+    norm_meta_beta_tax <- NULL
+    gamma_tax <- NULL
+    
+  }
 
   # Phylogenetic diversity measures
-  norm_meta_alpha_phylo_dist <- rdiversity::norm_meta_alpha(meta_phylo_dist, qs = q)
-  norm_meta_beta_phylo_dist <- rdiversity::norm_meta_beta(meta_phylo_dist, qs = q)
-  gamma_phylo_dist <- rdiversity::meta_gamma(meta_phylo_dist, qs = q)
+  if(!is.null(meta_phylo_dist)){
+    
+    norm_meta_alpha_phylo_dist <- rdiversity::norm_meta_alpha(meta_phylo_dist, qs = q)
+    norm_meta_beta_phylo_dist <- rdiversity::norm_meta_beta(meta_phylo_dist, qs = q)
+    
+    if(dim(meta_phylo_dist@similarity)[2] > 1){
+      gamma_phylo_dist <- rdiversity::meta_gamma(meta_phylo_dist, qs = q)
+    } else {
+      gamma_phylo_dist <- NULL
+    }
+    
+  } else {
+    
+    norm_meta_alpha_phylo_dist <- NULL
+    norm_meta_beta_phylo_dist <- NULL
+    gamma_phylo_dist <- NULL
+    
+  }
 
   # Collate results
   results <- dplyr::bind_rows(

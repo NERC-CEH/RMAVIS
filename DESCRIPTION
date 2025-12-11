@@ -63,7 +63,7 @@ Imports:
   vegan,
   writexl
 Remotes:
-  NERC-CEH/UKVegTB@v0.1.3,
+  NERC-CEH/UKVegTB@v0.1.5,
   MN-DNR-MBS/MNNPC@v0.9.5
 Suggests:
   testthat,

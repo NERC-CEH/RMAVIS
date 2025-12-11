@@ -43,9 +43,7 @@ surveyDataSummaryUI <- function(id){
       
       shiny::markdown(
         "
-        Below the availability of data for each species is displayed,
-        two datasets are currently used: Ecological Indicator Values (EIVs) and the VC Floristic
-        tables.
+        Below the availability of data for each species is displayed.
         
         If there are no EIVs for a species that species does
         not contribute to the mean EIVs calculated for each
@@ -53,7 +51,16 @@ surveyDataSummaryUI <- function(id){
         
         If a species is not present in the VC Floristic tables it still
         contributes to (dis)similarity metrics used in the VC assignment process.
+        
+        If a species is not present in the phylogenetic tree is does not contribute
+        to the calculation of phylogenetic diversity in the diversity section.
         "
+      ),
+      
+      shiny::div(shiny::br()),
+      
+      shiny::div(
+        reactable::reactableOutput(outputId = ns("speciesDataAvailabilitySummaryTable"))
       ),
       
       shiny::div(shiny::br()),

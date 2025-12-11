@@ -2,6 +2,25 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
   
   ns <- session$ns
   
+  dataListFilter <- function(tableId, style = "width: 100%; height: 28px;") {
+    function(values, name) {
+      dataListId <- sprintf("%s-%s-list", tableId, name)
+      tagList(
+        tags$input(
+          type = "text",
+          list = dataListId,
+          oninput = sprintf("Reactable.setFilter('%s', '%s', event.target.value || undefined)", tableId, name),
+          "aria-label" = sprintf("Filter %s", name),
+          style = style
+        ),
+        tags$datalist(
+          id = dataListId,
+          lapply(unique(values), function(value) tags$option(value = value))
+        )
+      )
+    }
+  }
+  
 # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
   aggTaxaOpts <- reactiveVal()
@@ -42,18 +61,6 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
 
 
 # Show/Hide Results -------------------------------------------------------
-  # observe({
-  #   
-  #   shinyjs::show(id = "diversityTableYear_div")
-  #   shinyjs::hide(id = "diversityTableGroup_div")
-  #   shinyjs::hide(id = "diversityTableQuadrat_div")
-  #   
-  # }) |>
-  #   bindEvent(resultsViewDiversity(),
-  #             ignoreNULL = FALSE,
-  #             ignoreInit = FALSE,
-  #             once = TRUE)
-  
   observe({
     
     # diversityTableYear
@@ -222,6 +229,10 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
       
     })
     
+    if(any(is.na(surveyData_long$Cover))){
+      surveyData_long$Cover <- 1
+    }
+    
     plot_data_year <- surveyData_long |>
       tidyr::nest(data = c(Year, Group, Quadrat, Species, Cover), .by = c("Year")) |>
       dplyr::summarise(
@@ -323,6 +334,7 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
     output$diversityTableYear <- reactable::renderReactable({
       
       diversityTableYear <- reactable::reactable(data = plot_data_year_results,
+                                                 height = 800,
                                                  filterable = FALSE,
                                                  pagination = FALSE, 
                                                  highlight = TRUE,
@@ -343,22 +355,28 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
                                                  columns = list(
                                                    Year = reactable::colDef(
                                                      filterable = TRUE,
-                                                     format = reactable::colFormat(digits = 0)
+                                                     format = reactable::colFormat(digits = 0),
+                                                     filterInput = dataListFilter("diversityTableYear")
                                                    ),
                                                    Metric = reactable::colDef(
                                                      filterable = TRUE,
+                                                     filterInput = dataListFilter("diversityTableYear")
                                                    ),
                                                    Measure = reactable::colDef(
                                                      filterable = TRUE,
+                                                     filterInput = dataListFilter("diversityTableYear")
                                                    ),
                                                    Hill.Number = reactable::colDef(
                                                      filterable = TRUE,
-                                                     format = reactable::colFormat(digits = 0)
+                                                     format = reactable::colFormat(digits = 0),
+                                                     filterInput = dataListFilter("diversityTableYear")
                                                    ),
                                                    Diversity = reactable::colDef(
-                                                     filterable = FALSE
+                                                     filterable = FALSE,
+                                                     filterInput = dataListFilter("diversityTableYear")
                                                    )
-                                                 )
+                                                 ),
+                                                 elementId = "diversityTableYear"
                                                  )
       
       return(diversityTableYear)
@@ -374,6 +392,7 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
     output$diversityTableGroup <- reactable::renderReactable({
       
       diversityTableGroup <- reactable::reactable(data = plot_data_group_results,
+                                                  height = 800,
                                                   filterable = FALSE,
                                                   pagination = FALSE, 
                                                   highlight = TRUE,
@@ -394,25 +413,31 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
                                                   columns = list(
                                                     Year = reactable::colDef(
                                                       filterable = TRUE,
-                                                      format = reactable::colFormat(digits = 0)
+                                                      format = reactable::colFormat(digits = 0),
+                                                      filterInput = dataListFilter("diversityTableGroup")
                                                     ),
                                                     Group = reactable::colDef(
                                                       filterable = TRUE,
+                                                      filterInput = dataListFilter("diversityTableGroup")
                                                     ),
                                                     Metric = reactable::colDef(
                                                       filterable = TRUE,
+                                                      filterInput = dataListFilter("diversityTableGroup")
                                                     ),
                                                     Measure = reactable::colDef(
                                                       filterable = TRUE,
+                                                      filterInput = dataListFilter("diversityTableGroup")
                                                     ),
                                                     Hill.Number = reactable::colDef(
                                                       filterable = TRUE,
-                                                      format = reactable::colFormat(digits = 0)
+                                                      format = reactable::colFormat(digits = 0),
+                                                      filterInput = dataListFilter("diversityTableGroup")
                                                     ),
                                                     Diversity = reactable::colDef(
                                                       filterable = FALSE
                                                     )
-                                                  )
+                                                  ),
+                                                  elementId = "diversityTableGroup"
       )
       
       return(diversityTableGroup)
@@ -427,6 +452,7 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
     output$diversityTableQuadrat <- reactable::renderReactable({
       
       diversityTableQuadrat <- reactable::reactable(data = plot_data_quadrat_results,
+                                                    height = 800,
                                                     filterable = FALSE,
                                                     pagination = FALSE, 
                                                     highlight = TRUE,
@@ -447,25 +473,35 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
                                                     columns = list(
                                                       Year = reactable::colDef(
                                                         filterable = TRUE,
-                                                        format = reactable::colFormat(digits = 0)
+                                                        format = reactable::colFormat(digits = 0),
+                                                        filterInput = dataListFilter("diversityTableQuadrat")
                                                       ),
                                                       Group = reactable::colDef(
                                                         filterable = TRUE,
+                                                        filterInput = dataListFilter("diversityTableQuadrat")
+                                                      ),
+                                                      Quadrat = reactable::colDef(
+                                                        filterable = TRUE,
+                                                        filterInput = dataListFilter("diversityTableQuadrat")
                                                       ),
                                                       Metric = reactable::colDef(
                                                         filterable = TRUE,
+                                                        filterInput = dataListFilter("diversityTableQuadrat")
                                                       ),
                                                       Measure = reactable::colDef(
                                                         filterable = TRUE,
+                                                        filterInput = dataListFilter("diversityTableQuadrat")
                                                       ),
                                                       Hill.Number = reactable::colDef(
                                                         filterable = TRUE,
-                                                        format = reactable::colFormat(digits = 0)
+                                                        format = reactable::colFormat(digits = 0),
+                                                        filterInput = dataListFilter("diversityTableQuadrat")
                                                       ),
                                                       Diversity = reactable::colDef(
                                                         filterable = FALSE
                                                       )
-                                                    )
+                                                    ),
+                                                    elementId = "diversityTableQuadrat"
                                                     )
       
       return(diversityTableQuadrat)

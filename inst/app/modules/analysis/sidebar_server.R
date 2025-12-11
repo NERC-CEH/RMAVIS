@@ -742,7 +742,8 @@ sidebar <- function(input, output, session,
                                     choices = updated_reportOptions_options,
                                     selected = c("vcAssignmentResultsSite_Czekanowski", 
                                                  "composedFloristicTablesSite", 
-                                                 "speciesFrequencyTable"))
+                                                 "speciesFrequencyTable",
+                                                 "diversity_year"))
     
     
   }) |> 

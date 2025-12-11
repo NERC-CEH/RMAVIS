@@ -17,6 +17,7 @@ options(shiny.autoload.r = FALSE)
 
 # Load required packages --------------------------------------------------
 suppressPackageStartupMessages({
+  library(ape)
   library(bookdown)
   library(bsicons)
   library(bslib)
@@ -31,6 +32,7 @@ suppressPackageStartupMessages({
   library(MNNPC)
   library(plotly)
   library(purrr)
+  library(rdiversity)
   library(reactable)
   library(readr)
   library(rhandsontable)
