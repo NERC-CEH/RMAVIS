@@ -12,11 +12,26 @@
 #'
 #' @examples
 #' ...
-calc_rdiversity_objects <- function(plot_data, higher_taxa, phylo_tree, phylo_taxa_lookup){
+calc_rdiversity_objects <- function(plot_data, higher_taxa, phylo_tree, phylo_taxa_lookup, groups = c("Year", "Group", "Quadrat")){
+  
+  # plot_data <- MNNPC::mnnpc_example_data$`St. Croix State Forest`
+  # higher_taxa <- MNNPC::mnnpc_taxonomic_backbone |>
+  #   tibble::as_tibble() |>
+  #   dplyr::select("taxon_name" = "recommended_taxon_name",
+  #                 "Kingdom" = "kingdom",
+  #                 "Phylum" = "phylum",
+  #                 "Class" = "class",
+  #                 "Order" = "order",
+  #                 "Family" = "family",
+  #                 "Genus" = "genus") |>
+  #   dplyr::distinct()
+  # phylo_tree <- MNNPC::mnnpc_phylo_tree
+  # phylo_taxa_lookup <- MNNPC::mnnpc_phylo_taxa_lookup
+  # groups <- c("Year", "Group", "Quadrat")
   
   # Prepare standard matrix
   data_mat <- plot_data |>
-    tidyr::unite(col = "ID", dplyr::any_of(c("Year", "Group", "Quadrat"))) |>
+    tidyr::unite(col = "ID", dplyr::any_of(groups)) |>
     tidyr::pivot_wider(id_cols = ID,
                        names_from = Species,
                        values_from = Cover,
@@ -49,11 +64,11 @@ calc_rdiversity_objects <- function(plot_data, higher_taxa, phylo_tree, phylo_ta
     
   data_mat_phylo <- plot_data |>
     dplyr::inner_join(available_phylo_taxa_names, by = c("Species" = "taxon_name")) |>
-    dplyr::group_by(Year, Group, Quadrat, search_name) |>
+    dplyr::group_by(dplyr::across(dplyr::all_of(c(groups, "search_name")))) |>
     dplyr::summarise("Cover" = sum(Cover, na.rm = TRUE)) |>
     dplyr::ungroup() |>
     dplyr::mutate("search_name" = stringr::str_replace_all(string = search_name, pattern = "\\s", replacement = "_")) |>
-    tidyr::unite(col = "ID", dplyr::any_of(c("Year", "Group", "Quadrat"))) |>
+    tidyr::unite(col = "ID", dplyr::any_of(groups)) |>
     tidyr::pivot_wider(id_cols = ID,
                        names_from = search_name,
                        values_from = Cover,

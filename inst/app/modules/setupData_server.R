@@ -177,7 +177,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
                       "Family" = "family",
                       "Genus" = "genus") |>
         dplyr::distinct()
-      phylo_tree_selected <- MNNPC::mnnpc_phlyo_tree
+      phylo_tree_selected <- MNNPC::mnnpc_phylo_tree
       phylo_taxa_lookup_selected <- MNNPC::mnnpc_phylo_taxa_lookup
       
     }

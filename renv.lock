@@ -97,10 +97,10 @@
     },
     "MNNPC": {
       "Package": "MNNPC",
-      "Version": "0.9.5",
+      "Version": "0.9.6",
       "Source": "GitHub",
       "Title": "Minnesota Native Plant Community Classification System data",
-      "Date": "2025-12-05",
+      "Date": "2025-12-12",
       "Authors@R": "c(person(given = \"Amy\", family = \"Kendig\", role = c(\"aut\", \"cre\"), email = \"amy.kendig@state.mn.us\", comment = c(ORCID = \"0000-0002-2774-1795\")), person(given = \"Zeke\", family = \"Marshall\", role = c(\"aut\"), email = \"zekmar@ceh.ac.uk\", comment = c(ORCID = \"0000-0001-9260-7827\")) )",
       "Description": "Minnesota Native Plant Community Classification System objects for RMAVIS.",
       "License": "MIT + file LICENSE",
@@ -124,8 +124,8 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "MN-DNR-MBS",
       "RemoteRepo": "MNNPC",
-      "RemoteRef": "v0.9.5",
-      "RemoteSha": "bd3b34f33833a063b3d83e84a24ac4c2fdd04af6"
+      "RemoteRef": "v0.9.6",
+      "RemoteSha": "a0da62d2c283b4d5089aa96988fb7d5f6267bac5"
     },
     "Matrix": {
       "Package": "Matrix",
@@ -340,10 +340,10 @@
     },
     "UKVegTB": {
       "Package": "UKVegTB",
-      "Version": "0.1.2",
+      "Version": "0.1.5",
       "Source": "GitHub",
       "Title": "UK Vegetation Science Taxonomic Backbone",
-      "Date": "2025-07-27",
+      "Date": "2025-12-10",
       "Authors@R": "c(person(given = \"Zeke\", family = \"Marshall\", role = c(\"aut\", \"cre\"), email = \"zekmar@ceh.ac.uk\", comment = c(ORCID = \"0000-0001-9260-7827\") ) )",
       "Description": "A lightweight taxonomic backbone of photoautotrophic taxa based on the UKSI, designed for use in vegetation science.",
       "License": "MIT + file LICENSE",
@@ -363,8 +363,8 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "NERC-CEH",
       "RemoteRepo": "UKVegTB",
-      "RemoteRef": "v0.1.3",
-      "RemoteSha": "7424c504b8eb828b78a6c4f90ee2fe574834953d"
+      "RemoteRef": "v0.1.5",
+      "RemoteSha": "ad4e79d2a138300ae1af9e18bd18c81dd7980da5"
     },
     "ape": {
       "Package": "ape",

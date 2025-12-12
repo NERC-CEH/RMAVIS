@@ -4,7 +4,13 @@
 \alias{calc_rdiversity_objects}
 \title{...}
 \usage{
-calc_rdiversity_objects(plot_data, higher_taxa, phylo_tree, phylo_taxa_lookup)
+calc_rdiversity_objects(
+  plot_data,
+  higher_taxa,
+  phylo_tree,
+  phylo_taxa_lookup,
+  groups = c("Year", "Group", "Quadrat")
+)
 }
 \arguments{
 \item{plot_data}{...}

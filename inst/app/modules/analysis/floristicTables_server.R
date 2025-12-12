@@ -715,7 +715,7 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
   })
   
 
-  # Comp EIVs text output ---------------------------------------------------
+# Comp EIVs text output ---------------------------------------------------
   comp_eivs_text_output_rval <- reactiveVal(paste("<font size=4.75>",
                                                    " ",
                                                    "</font>") 
@@ -792,9 +792,10 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
     
   })
   
-  # Create All Wide Composed Year Floristic Table ------------------------------
   
-  ## Initialise ----------------------------------------------------------------
+# Create All Wide Composed Year Floristic Table ------------------------------
+  
+## Initialise ----------------------------------------------------------------
   floristicTablesWide_composed_init <- data.frame("Species" = character(),
                                                   "Constancy" = character())
   
