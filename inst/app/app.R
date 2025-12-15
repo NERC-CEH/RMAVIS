@@ -104,6 +104,9 @@ source("./modules/data_entry/surveyDataSummary_server.R", local = TRUE)
 source("./modules/data_entry/taxonomicBackbone_ui.R", local = TRUE)
 source("./modules/data_entry/taxonomicBackbone_server.R", local = TRUE)
 
+source("./modules/data_entry/taxaLookup_ui.R", local = TRUE)
+source("./modules/data_entry/taxaLookup_server.R", local = TRUE)
+
 ## NVC --------------------------------------------------------------------
 source("./modules/analysis/sidebar_ui.R", local = TRUE)
 source("./modules/analysis/sidebar_server.R", local = TRUE)

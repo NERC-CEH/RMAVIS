@@ -64,7 +64,7 @@ Imports:
   writexl
 Remotes:
   NERC-CEH/UKVegTB@v0.1.5,
-  MN-DNR-MBS/MNNPC@v0.9.6
+  MN-DNR-MBS/MNNPC@v0.9.8
 Suggests:
   testthat,
   tinytex

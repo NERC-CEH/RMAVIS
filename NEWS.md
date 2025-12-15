@@ -27,6 +27,9 @@
         for three Hill numbers: 0, 1, and 2 using the R package `rdiversity`.
       - Adding a summary of the data availability for the species present in the
         survey data to the surveyDataSummary module.
+      - Adding a new tab to the Data Entry module, Taxa Lookup, which displays
+        concordances between taxon names, accepted/recommended taxon names,
+        and aggregated taxon names.
 
 # RMAVIS 1.1.4 (11-09-2025)
 *   Modifications: NA

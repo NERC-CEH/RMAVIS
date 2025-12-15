@@ -89,6 +89,18 @@ ui <- function(id){
             
             taxonomicBackboneUI(id = "taxonomicBackbone_id_1")
             
+          ),
+          
+          bslib::nav_panel(
+            
+            full_screen = TRUE,
+            
+            value = "taxaLookup_panel",
+            
+            bslib::card_header("Taxa Lookup"),
+            
+            taxaLookupUI(id = "taxaLookup_id_1")
+            
           )
           
         )

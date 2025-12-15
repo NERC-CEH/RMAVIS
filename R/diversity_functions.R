@@ -14,21 +14,6 @@
 #' ...
 calc_rdiversity_objects <- function(plot_data, higher_taxa, phylo_tree, phylo_taxa_lookup, groups = c("Year", "Group", "Quadrat")){
   
-  # plot_data <- MNNPC::mnnpc_example_data$`St. Croix State Forest`
-  # higher_taxa <- MNNPC::mnnpc_taxonomic_backbone |>
-  #   tibble::as_tibble() |>
-  #   dplyr::select("taxon_name" = "recommended_taxon_name",
-  #                 "Kingdom" = "kingdom",
-  #                 "Phylum" = "phylum",
-  #                 "Class" = "class",
-  #                 "Order" = "order",
-  #                 "Family" = "family",
-  #                 "Genus" = "genus") |>
-  #   dplyr::distinct()
-  # phylo_tree <- MNNPC::mnnpc_phylo_tree
-  # phylo_taxa_lookup <- MNNPC::mnnpc_phylo_taxa_lookup
-  # groups <- c("Year", "Group", "Quadrat")
-  
   # Prepare standard matrix
   data_mat <- plot_data |>
     tidyr::unite(col = "ID", dplyr::any_of(groups)) |>
@@ -39,7 +24,7 @@ calc_rdiversity_objects <- function(plot_data, higher_taxa, phylo_tree, phylo_ta
     tibble::column_to_rownames(var = "ID") |>
     as.matrix()
   
-  # Diversity setup
+  # Naive diversity setup
   meta_naive <- rdiversity::metacommunity(t(data_mat)) 
   
   # Taxonomic diversity setup

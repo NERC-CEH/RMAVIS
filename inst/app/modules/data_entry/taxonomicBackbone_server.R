@@ -25,7 +25,8 @@ taxonomicBackbone <- function(input, output, session, region) {
       tb <- MNNPC::mnnpc_taxonomic_backbone |>
         dplyr::select(
           "Informal.Group" = "informal_group",
-          "Taxon.Name" = "recommended_taxon_name",
+          "ID" = "id",
+          "Taxon.Name" = "taxon_name",
           "Rank" = "rank",
           "Full.Name" = "full_name"
         ) |>

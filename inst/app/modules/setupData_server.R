@@ -169,7 +169,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       agg_lookup_selected <- MNNPC::mnnpc_taxa_conv
       higher_taxa_selected <- MNNPC::mnnpc_taxonomic_backbone |>
         tibble::as_tibble() |>
-        dplyr::select("taxon_name" = "recommended_taxon_name",
+        dplyr::select("taxon_name" = "taxon_name",
                       "Kingdom" = "kingdom",
                       "Phylum" = "phylum",
                       "Class" = "class",

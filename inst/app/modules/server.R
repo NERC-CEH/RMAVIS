@@ -74,7 +74,10 @@ server <- function(input, output, session) {
   taxonomicBackbone <- shiny::callModule(module = taxonomicBackbone,
                                          id = "taxonomicBackbone_id_1",
                                          region = region)
-
+  
+  taxaLookup <- shiny::callModule(module = taxaLookup,
+                                  id = "taxaLookup_id_1",
+                                  region = region)
 
   # Analysis ----------------------------------------------------------------
   analysis <- shiny::callModule(module = analysis,

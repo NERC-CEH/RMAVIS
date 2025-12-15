@@ -739,7 +739,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       surveyData$surveyData_long_prop_agg <- RMAVIS::aggregate_taxa(plot_data = surveyData$surveyData_long_prop, 
                                                                     agg_lookup = aggLookup,
                                                                     plot_data_taxon_col = "Species",
-                                                                    agg_lookup_taxon_col = "taxon")
+                                                                    agg_lookup_taxon_col = "taxon_name")
       
       if(all(!is.na(surveyData$surveyData_long_prop_agg$Species))){
         
