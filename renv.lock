@@ -97,10 +97,10 @@
     },
     "MNNPC": {
       "Package": "MNNPC",
-      "Version": "0.9.6",
+      "Version": "0.9.8",
       "Source": "GitHub",
       "Title": "Minnesota Native Plant Community Classification System data",
-      "Date": "2025-12-12",
+      "Date": "2025-12-15",
       "Authors@R": "c(person(given = \"Amy\", family = \"Kendig\", role = c(\"aut\", \"cre\"), email = \"amy.kendig@state.mn.us\", comment = c(ORCID = \"0000-0002-2774-1795\")), person(given = \"Zeke\", family = \"Marshall\", role = c(\"aut\"), email = \"zekmar@ceh.ac.uk\", comment = c(ORCID = \"0000-0001-9260-7827\")) )",
       "Description": "Minnesota Native Plant Community Classification System objects for RMAVIS.",
       "License": "MIT + file LICENSE",
@@ -124,8 +124,8 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "MN-DNR-MBS",
       "RemoteRepo": "MNNPC",
-      "RemoteRef": "v0.9.6",
-      "RemoteSha": "a0da62d2c283b4d5089aa96988fb7d5f6267bac5"
+      "RemoteRef": "v0.9.8",
+      "RemoteSha": "79643a9aec20dc2a7b7fa467b6c28f52889859f8"
     },
     "Matrix": {
       "Package": "Matrix",
