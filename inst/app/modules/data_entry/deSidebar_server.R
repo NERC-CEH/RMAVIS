@@ -89,7 +89,7 @@ deSidebar <- function(input, output, session, setupData,
     
   }) |>
     bindEvent(example_data_options(),
-              ignoreInit = TRUE)
+              ignoreInit = FALSE)
 
 
 # Update Options Based On Example Data ------------------------------------

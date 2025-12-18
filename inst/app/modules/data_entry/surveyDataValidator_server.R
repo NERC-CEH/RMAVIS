@@ -4,12 +4,10 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
   
 # Retrieve Setup Data -----------------------------------------------------
   speciesNames <- reactiveVal()
-
+  
   observe({
     
-    setupData <- setupData()
-    
-    speciesNames(setupData$species_names)
+    speciesNames(setupData()$species_names)
     
   }) |>
     bindEvent(setupData(),
@@ -120,8 +118,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
       "groupIDUnique" = FALSE,
       "groupIDDuplicates" = FALSE,
       "coverValuesOK" = FALSE,
-      "surveyData_wide_ok" = FALSE,
-      "surveyData_mat_ok" = FALSE,
       "okToProceed" = FALSE
     )
   )
@@ -133,8 +129,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
     
     surveyData_original <- surveyData()$surveyData_original
     surveyData_long <- surveyData()$surveyData_long
-    surveyData_wide <- surveyData()$surveyData_wide
-    surveyData_mat <- surveyData()$surveyData_mat
     
     speciesNames <- speciesNames()
     coverScale <- coverScale()
@@ -245,19 +239,12 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
 
     }
 
-    # Check whether the survey data wide object is ok
-    surveyData_wide_ok <- isTRUE(!is.null(surveyData_wide))
-
-    # Check whether the survey data mat object is ok
-    surveyData_mat_ok <- isTRUE(!is.null(surveyData_mat))
-
     # Check whether the analysis is ok to proceed
     okToProceed <- isTRUE(all(surveyData_speciesInAccepted, surveyData_yearComplete,
                               surveyData_groupComplete, surveyData_quadratComplete,
                               surveyData_speciesComplete, surveyData_quadratIDUnique,
                               surveyData_speciesQuadratUnique,
                               surveyData_coverValuesOK,
-                              surveyData_wide_ok, surveyData_mat_ok,
                               surveyData_groupIDUnique))
 
 
@@ -278,8 +265,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
       "groupIDUnique" = surveyData_groupIDUnique,
       "groupIDDuplicates" = surveyData_groupIDDuplicates,
       "coverValuesOK" = surveyData_coverValuesOK,
-      "surveyData_wide_ok" = surveyData_wide_ok,
-      "surveyData_mat_ok" = surveyData_mat_ok,
       "okToProceed" = okToProceed
     )
 
@@ -384,7 +369,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
-  # Update Table to to Re-allocate groups ------------------------------
+# Update Table to to Re-allocate groups ----------------------------------
   reallocateGroupsTable_rval <- reactiveVal()
   
   observe({
@@ -429,7 +414,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
     bindEvent(surveyData(),
               ignoreInit = FALSE,
               ignoreNULL = TRUE)
-  
   
 # Create Text Validation Outputs ------------------------------------------
   observe({

@@ -120,19 +120,26 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
       vc_pquads_wide <- vc_pquads_wide()
       vc_pquads_mean_unweighted_eivs <- vc_pquads_mean_unweighted_eivs()
       avgEIVs <- avgEIVs()
-      # ccaVars <- ccaVars()
       
       if(isTRUE(regional_availability()$aggTaxa) & "mva" %in% aggTaxaOpts()){
         
-        surveyData_mat <- surveyData()$surveyData_mat_agg
+        surveyData_long <- surveyData()$surveyData_long_prop_agg
         
       } else {
         
-        surveyData_mat <- surveyData()$surveyData_mat
+        surveyData_long <- surveyData()$surveyData_long_prop
         
       }
       
     })
+    
+    surveyData_mat <- surveyData_long |>
+      tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
+      tidyr::pivot_wider(names_from = Species,
+                         values_from = Cover) |>
+      tibble::column_to_rownames(var = "ID") |>
+      dplyr::mutate_all(~replace(., is.na(.), 0)) |>
+      as.matrix()
     
     # Create pattern to subset matrix rows
     codes_regex <- paste0("^(", stringr::str_c(selectedReferenceSpaces, collapse = "|"), ")(?<=)\\_")

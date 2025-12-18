@@ -17,6 +17,7 @@ regionSelectUI <- function(id){
         shinyWidgets::slimSelectInput(inputId = ns("region"),
                                       label = paste0("🌍"),
                                       choices = RMAVIS:::region_options,
+                                      selected = "mnnpc",
                                       search = FALSE,
                                       inline = TRUE,
                                       width = 250)

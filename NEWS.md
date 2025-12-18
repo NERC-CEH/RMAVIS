@@ -7,6 +7,7 @@
         and analysis_server.
       - Improving error handling in upload data entry option.
       - Moving to `UKVegTB` version 0.1.5 which includes the `UKVegTB::phylo_tree` and `UKVegTB::phylo_taxa_lookup` objects.
+      - Removing surveyData_mat objects from the list returned by surveyData_server.
 *   Fixes:
       - Ensuring that the calculation of cover-weighted EIVs accounts for situations 
         where the total cover is less than or greater than 100% as at present

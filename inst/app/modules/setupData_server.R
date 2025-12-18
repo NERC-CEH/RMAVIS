@@ -18,6 +18,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
                                     "Family" = "Family",
                                     "Genus" = "Genus") |>
                       dplyr::distinct(),
+    "taxa_lookup" = UKVegTB::taxa_lookup |> dplyr::select(taxon_name, recommended_taxon_name),
     "example_data" = RMAVIS::example_data,
     "floristic_tables" = RMAVIS::nvc_floristic_tables,
     "community_attributes" = RMAVIS::nvc_community_attributes,
@@ -75,6 +76,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
                       "Family" = "Family",
                       "Genus" = "Genus") |>
         dplyr::distinct()
+      taxa_lookup_selected <- UKVegTB::taxa_lookup |> dplyr::select(taxon_name, recommended_taxon_name)
       example_data_selected <- RMAVIS::example_data
       example_data_options_selected <- RMAVIS:::example_data_options
       habitat_correspondences_selected <-  RMAVIS::habitat_correspondences
@@ -177,6 +179,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
                       "Family" = "family",
                       "Genus" = "genus") |>
         dplyr::distinct()
+      taxa_lookup_selected <- MNNPC::mnnpc_taxa_lookup |> dplyr::select(taxon_name, recommended_taxon_name)
       phylo_tree_selected <- MNNPC::mnnpc_phylo_tree
       phylo_taxa_lookup_selected <- MNNPC::mnnpc_phylo_taxa_lookup
       
@@ -189,6 +192,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       "species_names" = species_names_selected,
       "accepted_species" = accepted_species_selected,
       "higher_taxa" = higher_taxa_selected,
+      "taxa_lookup" = taxa_lookup_selected,
       "example_data" = example_data_selected,
       "floristic_tables" = floristic_tables_selected,
       "community_attributes" = community_attributes_selected,
