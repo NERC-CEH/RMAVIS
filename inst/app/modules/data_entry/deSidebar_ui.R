@@ -4,7 +4,7 @@ deSidebarUI <- function(id){
   
   bslib::sidebar(
     
-    width = 320,
+    width = 375,
     
     shiny::h5("Options"),
 

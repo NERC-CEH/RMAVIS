@@ -161,14 +161,20 @@ sidebar <- function(input, output, session,
       shinyWidgets::updatePickerInput(session = session,
                                       inputId = "selectVCtypes",
                                       choices = RMAVIS:::nvcType_options,
-                                      selected = "Original")
+                                      selected = "Original",
+                                      choicesOpt = list(
+                                        style = rep_len("font-size: 100%; line-height: 1.6;", length(RMAVIS:::nvcType_options))
+                                      ))
       
     } else if(region() == "mnnpc"){
       
       shinyWidgets::updatePickerInput(session = session,
                                       inputId = "selectVCtypes",
-                                      choices = c("Original"),
-                                      selected = "Original")
+                                      choices = MNNPC::mnnpc_ecs_sections,
+                                      selected = "statewide",
+                                      choicesOpt = list(
+                                        style = rep_len("font-size: 75%; line-height: 1.6;", length(MNNPC::mnnpc_ecs_sections))
+                                      ))
     }
     
   }) |>
@@ -192,7 +198,7 @@ sidebar <- function(input, output, session,
       
       shiny::updateSelectizeInput(session = session,
                                   inputId = "habitatRestriction",
-                                  choices = MNNPC::mnnpc_vc_types_named,
+                                  choices = c(MNNPC::mnnpc_vc_types_named, MNNPC::mnnpc_vc_types_flreg_named),
                                   selected = NULL)
     }
     
@@ -273,14 +279,17 @@ sidebar <- function(input, output, session,
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
-# Disable selected action buttons if okToProceed == FALSE ---------------
+# Enable/disable selected action buttons ----------------------------------
   observe({
+    
+    shiny::req(!is.null(surveyData()$surveyData_long))
+    
+    shiny::isolate({
+      okToProceed <- surveyDataValidator()$surveyDataValidation$okToProceed
+      surveyData_long <- surveyData()$surveyData_long
+    })
 
-    surveyDataValidator <- surveyDataValidator()
-
-    okToProceed <- surveyDataValidator$surveyDataValidation$okToProceed
-
-    if(okToProceed == TRUE & nrow(surveyData()$surveyData_long) > 0 & length(input$selectVCtypes) > 0){
+    if(okToProceed == TRUE & nrow(surveyData_long) > 0 & length(input$selectVCtypes) > 0 & !is.null(input$selectVCtypes)){
 
       shinyjs::enable(id = "runAnalysis")
       shinyjs::enable(id = "generateReport")

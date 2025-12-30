@@ -16,7 +16,7 @@ uploadData <- function(input, output, session, setupData) {
   
   
 # Example table data ------------------------------------------------------
-  mnnpc_example_data <- MNNPC::example_releve
+  mnnpc_example_data <- MNNPC::mnnpc_example_releve
   
   gbnvc_example_data_long <- RMAVIS::example_data$`Parsonage Down` |> 
     dplyr::select(-Site) |>
@@ -333,7 +333,12 @@ uploadData <- function(input, output, session, setupData) {
         if(setequal(colnames(uploaded_data_raw), c("year", "group", "relnumb", "physcode", "minht", "maxht", "taxon", "scov"))){
           
           uploaded_data_prepped <- uploaded_data_raw |>
-            MNNPC::process_dnr_releves()
+            MNNPC::process_dnr_releves(process_malformed_data = TRUE,
+                                       strip_suffixes = FALSE,
+                                       match_to_accepted = FALSE,
+                                       aggregate_into_analysis_groups = FALSE) |>
+            suppressMessages() |>
+            suppressWarnings()
           
           columnNames_raw_correct(TRUE)
           

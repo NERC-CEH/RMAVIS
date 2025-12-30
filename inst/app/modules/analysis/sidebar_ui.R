@@ -4,7 +4,7 @@ sidebarUI <- function(id){
   
   bslib::sidebar(
     
-    width = 320,
+    width = 375,
     
     shiny::h5("Options"),
     
@@ -47,16 +47,14 @@ sidebarUI <- function(id){
           "
           Aggregate taxa in the survey data for analysis, module-by-module.
           This option is provided as vegetation classification systems may group
-          taxa into aggregate ranks or groups e.g. _Viola ecological group 1_, as in the MNNPC
-          due to taxonomic changes, difficulty in identification to the species rank (including due to the presence of variable hybrids),
-          and historical mis-indentifcations necessitating aggregation.
-          Conssequently, without aggregation matching un-aggregated survey data against aggregated reference
+          taxa into aggregate ranks or groups e.g. _Viola ecological group 1_, as in the MNNPC.
+          This is neccessary due to taxonomic changes, difficulty in identification to the species rank (including due to the presence of variable hybrids),
+          and historical mis-indentifcations.
+          Consequently, without aggregation matching un-aggregated survey data against aggregated reference
           data will produce false mis-matches.
           By default the VC Assignment, Floristic Tables, and MVA modules are
           selected as these use aggregated vegetation classifcation system data; whilst
           the other modules do not, therefore preserving taxonomic specificity.
-          Please note that if you have uploaded data in the MNNPC Relevés format
-          the survey data will be automatically aggregated.
           "
           ),
           placement = "bottom"
@@ -83,8 +81,11 @@ sidebarUI <- function(id){
                                   label = NULL,
                                   choices = RMAVIS:::nvcType_options,
                                   selected = c("Original"),
-                                  multiple = TRUE
-        ),
+                                  multiple = TRUE,
+                                  choicesOpt = list(
+                                    style = rep_len("font-size: 100%; line-height: 1.6;", length(RMAVIS:::nvcType_options))
+                                  )
+                                  ),
         
         bslib::popover(
           bsicons::bs_icon("info-circle"),
@@ -99,8 +100,18 @@ sidebarUI <- function(id){
             -  Calthion, which contains the wet mesotrophic grassland communities as described in Wallace and Prosser (2017) and Prosser et al (2023).
             -  SOWG, which contains the Scottish Oceanic Wet Grassland communities as described in Wallace et al (2023).
             
-            One set of units is present for the MNNPC:
-            -  Original.
+            Eleven sets of units are present for the MNNPC, comprising the state-wide units and section-specific units.
+            -  Statewide
+            -  Lake Agassiz, Aspen Parklands
+            -  Minnesota and Northeast Iowa Morainal
+            -  Northern Minnesota and Ontario Peatlands
+            -  Northern Minnesota Drift and Lake Plains
+            -  North Central Glaciated Plains
+            -  Northern Superior Uplands
+            -  Paleozoic Plateau
+            -  Red River Valley
+            -  Southern Superior Uplands
+            -  Western Superior Uplands
             "
           ),
           placement = "bottom"
@@ -345,7 +356,7 @@ sidebarUI <- function(id){
                 bsicons::bs_icon("info-circle"),
                 title = "Classification",
                 shiny::markdown(
-                  "
+                "
                 Select a habitat classification you wish to retrieve correspondence,
                 values for using the fitted VC communities and sub-communities.
                 Note that all community level codes associated with sub-communities

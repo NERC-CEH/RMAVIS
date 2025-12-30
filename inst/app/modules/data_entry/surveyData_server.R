@@ -9,6 +9,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   speciesNames <- reactiveVal()
   aggLookup <- reactiveVal()
   taxa_lookup <- reactiveVal()
+  sd_taxon_name_col <- reactiveVal()
   
   observe({
     
@@ -19,6 +20,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       speciesNames(setupData()$species_names)
       aggLookup(setupData()$agg_lookup)
       taxa_lookup(setupData()$taxa_lookup)
+      sd_taxon_name_col(setupData()$sd_taxon_name_col)
     })
     
   }) |>
@@ -50,10 +52,12 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   reallocateGroups <- reactiveVal()
   combineDuplicates <- reactiveVal()
   aggTaxa <- reactiveVal()
+  matchAccepted <- reactiveVal()
+  
   speciesAdjustmentTable <- reactiveVal()
   reallocateGroupsTable <- reactiveVal()
-  combineDuplicates <- reactiveVal()
   surveyDataValidation <- reactiveVal()
+  
   okToProceed <- reactiveVal()
   
   observe({
@@ -62,10 +66,12 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     reallocateGroups(surveyDataValidator()$reallocateGroups)
     combineDuplicates(surveyDataValidator()$combineDuplicates)
     aggTaxa(surveyDataValidator()$aggTaxa)
+    matchAccepted(surveyDataValidator()$matchAccepted)
+    
     speciesAdjustmentTable(surveyDataValidator()$speciesAdjustmentTable)
     reallocateGroupsTable(surveyDataValidator()$reallocateGroupsTable)
-    combineDuplicates(surveyDataValidator()$combineDuplicates)
     surveyDataValidation(surveyDataValidator()$surveyDataValidation)
+    
     okToProceed(surveyDataValidator()$okToProceed)
     
   }) |>
@@ -81,24 +87,14 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
                                       "Species" = as.character(rep(NA_character_, 20)),
                                       "Cover" = as.numeric(rep(NA_real_, 20)))
   
-  # surveyData_mnnpc_init <- data.frame("Year" = as.integer(rep(as.numeric(format(Sys.Date(), "%Y")), 20)),
-  #                                     "Group" = as.character(rep("A", 20)),
-  #                                     "Releve.Number" = as.character(rep("1", 20)),
-  #                                     "Phys.Code" = as.character(rep("G", 20)),
-  #                                     "Min.Ht" = as.integer(rep(1, 20)),
-  #                                     "Max.Ht" = as.integer(rep(1, 20)),
-  #                                     "Taxon" = as.character(rep(NA_character_, 20)),
-  #                                     "Cover" = as.numeric(rep(NA_real_, 20)))
-  
-  surveyData_mnnpc_init <- MNNPC::example_releve |>
-    dplyr::rename("Year" = "year",
-                  "Group" = "group",
-                  "Releve.Number" = "relnumb",
-                  "Phys.Code" = "physcode",
-                  "Min.Ht" = "minht",
-                  "Max.Ht" = "maxht",
-                  "Taxon" = "taxon",
-                  "Cover" = "scov")
+  surveyData_mnnpc_init <- data.frame("Year" = as.integer(rep(as.numeric(format(Sys.Date(), "%Y")), 20)),
+                                      "Group" = as.character(rep("A", 20)),
+                                      "Releve.Number" = as.character(rep("1", 20)),
+                                      "Phys.Code" = as.character(rep("G", 20)),
+                                      "Min.Ht" = as.integer(rep(1, 20)),
+                                      "Max.Ht" = as.integer(rep(1, 20)),
+                                      "Taxon" = as.character(rep(NA_character_, 20)),
+                                      "Cover" = as.numeric(rep(NA_real_, 20)))
 
 
 # Establish module-specific functions -------------------------------------
@@ -128,13 +124,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         source = speciesNames(),
         strict = FALSE,
         default = as.character(NA_character_)
-      ) |>
-      rhandsontable::hot_col(
-        col = "Cover",
-        readOnly = FALSE,
-        type = "numeric",
-        strict = FALSE,
-        format = "0.000"
       )
     
   }
@@ -189,13 +178,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         source = speciesNames(),
         strict = FALSE,
         default = as.character(NA_character_)
-      ) |>
-      rhandsontable::hot_col(
-        col = "Cover",
-        readOnly = FALSE,
-        type = "numeric",
-        strict = FALSE,
-        format = "0.000"
       )
     
   }
@@ -253,6 +235,16 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         format_columns_gbnvc()
       
     }
+    
+    surveyData <- surveyData |>
+      rhandsontable::hot_col(
+        col = "Cover",
+        readOnly = FALSE,
+        type = cover_type(),
+        source = cover_source(),
+        strict = cover_strict(),
+        format = cover_format()
+      )
     
     return(surveyData)
     
@@ -318,6 +310,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       cover_format <- cover_format()
       cover_source <- cover_source()
       cover_strict <- cover_strict()
+      region <- region()
     })
     
     output$surveyData <- rhandsontable::renderRHandsontable({
@@ -340,12 +333,12 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
           })
         }")
       
-      if(region() == "mnnpc"){
+      if(region == "mnnpc"){
         
         surveyData <- surveyData |>
           format_columns_mnnpc()
         
-      } else if(region() == "gbnvc"){
+      } else if(region == "gbnvc"){
         
         surveyData <- surveyData |>
           format_columns_gbnvc()
@@ -507,30 +500,31 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       
       surveyData <- surveyDataTableData()
       speciesAdjustmentTable <- speciesAdjustmentTable()
-
-      if(!is.null(speciesAdjustmentTable)){
-
-        speciesAdjustmentTable <- speciesAdjustmentTable |>
-          dplyr::rename("Species" = Species.Submitted) |>
-          dplyr::select(-Species.Ignore)
-
-        surveyData_corrected <- surveyData |>
-          tibble::as_tibble() |>
-          dplyr::left_join(speciesAdjustmentTable, by = "Species") |>
-          dplyr::mutate(
-            "Species" = dplyr::case_when(
-              is.na(Species.Adjusted) ~ Species,
-              TRUE ~ as.character(Species.Adjusted)
-            )
-          ) |>
-          dplyr::filter(Species.Remove != "Yes" | is.na(Species.Remove)) |>
-          dplyr::select(-Species.Adjusted, -Species.Remove)
-        
-        surveyData_corrected_rval(surveyData_corrected)
-
-      }
-
+      sd_taxon_name_col <- sd_taxon_name_col()
+      
     })
+    
+    if(!is.null(speciesAdjustmentTable)){
+      
+      species_adjust <- speciesAdjustmentTable |>
+        dplyr::rename("{sd_taxon_name_col}" := "Species.Submitted") |>
+        dplyr::select(-Species.Ignore)
+      
+      surveyData_corrected <- surveyData |>
+        tibble::as_tibble() |>
+        dplyr::left_join(species_adjust, by = dplyr::join_by(!!!sd_taxon_name_col)) |>
+        dplyr::mutate(
+          "{sd_taxon_name_col}" := dplyr::case_when(
+            is.na(Species.Adjusted) ~ .data[[sd_taxon_name_col]],
+            TRUE ~ as.character(Species.Adjusted)
+          )
+        ) |>
+        dplyr::filter(Species.Remove != "Yes" | is.na(Species.Remove)) |>
+        dplyr::select(-Species.Adjusted, -Species.Remove)
+      
+      surveyData_corrected_rval(surveyData_corrected)
+      
+    }
 
   }) |>
     bindEvent(adjustSpecies(),
@@ -596,26 +590,27 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   
 
 ## Match to accepted taxa -------------------------------------------------
-  # observe({
-  #   
-  #   shiny::req(surveyDataTableData())
-  #   
-  #   isolate({
-  #     
-  #     surveyDataTableData <- surveyDataTableData()
-  #     surveyData_corrected <- surveyData_corrected_rval()
-  #     
-  #     surveyData_matchedAccepted <- surveyDataTableData |>
-  #       
-  #     
-  #     surveyData_corrected_rval(surveyData_noDuplicates)
-  #     
-  #   })
-  #   
-  # }) |>
-  #   bindEvent(combineDuplicates(),
-  #             ignoreInit = TRUE,
-  #             ignoreNULL = TRUE)
+  observe({
+
+    shiny::req(surveyDataTableData())
+
+    isolate({
+      surveyDataTableData <- surveyDataTableData()
+      sd_taxon_name_col <- sd_taxon_name_col()
+      taxa_lookup <- taxa_lookup()
+    })
+    
+    surveyData_matchedAccepted <- surveyDataTableData |>
+      dplyr::mutate("{sd_taxon_name_col}" := stringr::str_remove_all(string = .data[[sd_taxon_name_col]],
+                                                                     pattern = "\\ss.s.|\\ss.l.|\\ss.a.")) |>
+      dplyr::mutate("{sd_taxon_name_col}" := .data[[sd_taxon_name_col]] |> dplyr::recode(!!!tibble::deframe(taxa_lookup[, 1:2])))
+    
+    surveyData_corrected_rval(surveyData_matchedAccepted)
+
+  }) |>
+    bindEvent(matchAccepted(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
 
   
 ## Adjust/Correct Species Names -------------------------------------------
@@ -693,13 +688,11 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   observe({
     
     shiny::isolate({
-      
       region <- region()
       coverScale <- coverScale()
       surveyData <- surveyData_rval()
       surveyData_init <- surveyData_init()
       surveyDataTableData <- surveyDataTableData()
-      
     })
     
     surveyData$surveyData_original <- surveyDataTableData
@@ -716,7 +709,10 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
                       "maxht" = "Max.Ht",
                       "taxon" = "Taxon",
                       "scov" = "Cover") |>
-        MNNPC::process_dnr_releves() |> # MNNPC::process_dnr_releves(match_to_accepted = FALSE, aggregate_into_analysis_groups = FALSE, strip_suffixes = FALSE, process_malformed_data = TRUE)
+        MNNPC::process_dnr_releves(process_malformed_data = TRUE,
+                                   strip_suffixes = FALSE,
+                                   match_to_accepted = FALSE,
+                                   aggregate_into_analysis_groups = FALSE) |>
         suppressWarnings() |>
         suppressMessages()
     }
@@ -788,10 +784,14 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     # Aggregate data
     if(isTRUE(regional_availability$aggTaxa)){
       
-      surveyData$surveyData_long_prop_agg <- RMAVIS::aggregate_taxa(plot_data = surveyData$surveyData_long_prop, 
-                                                                    agg_lookup = aggLookup,
-                                                                    plot_data_taxon_col = "Species",
-                                                                    agg_lookup_taxon_col = "taxon_name")
+      surveyData$surveyData_long_prop_agg <- MNNPC::process_dnr_releves(releve_data = surveyData_long_prop,
+                                                                        process_malformed_data = TRUE,
+                                                                        strip_suffixes = TRUE,
+                                                                        match_to_accepted = FALSE,
+                                                                        aggregate_into_analysis_groups = TRUE) |>
+        suppressMessages() |>
+        suppressWarnings()
+    
     } else {
       
       surveyData$surveyData_long_prop_agg <- NULL

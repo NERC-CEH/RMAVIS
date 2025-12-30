@@ -165,7 +165,10 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     
     if(!is.null(habitatRestriction)){
       
-      pquads_to_use <- RMAVIS::subset_vcData(vc_data = pquads_to_use, habitatRestriction = habitatRestriction, col_name = unit_name_col, habitatRestrictionPrefixes = as.list(hab_rest_pref))
+      pquads_to_use <- RMAVIS::subset_vcData(vc_data = pquads_to_use, 
+                                             habitatRestriction = habitatRestriction, 
+                                             col_name = unit_name_col, 
+                                             habitatRestrictionPrefixes = as.list(hab_rest_pref))
       
     }
     

@@ -6,11 +6,11 @@
       - Combining the analysis modules into a parent set of modules: analysis_ui
         and analysis_server.
       - Improving error handling in upload data entry option.
-      - Moving to `UKVegTB` version 0.1.5 which includes the `UKVegTB::phylo_tree` and `UKVegTB::phylo_taxa_lookup` objects.
+      - Moving to `UKVegTB` version 0.1.6 which includes the `UKVegTB::phylo_tree` and `UKVegTB::phylo_taxa_lookup` objects.
       - Removing surveyData_mat objects from the list returned by surveyData_server.
 *   Fixes:
       - Ensuring that the calculation of cover-weighted EIVs accounts for situations 
-        where the total cover is less than or greater than 100% as at present
+        where the total cover is less than or greater than 100%, as at present
         RMAVIS does not check the total cover values or stipulate required total
         cover value ranges.
       - Fixing the trajectory arrow groupings.
@@ -20,7 +20,6 @@
         involved extensive refactoring to ensure RMAVIS is fully extensible.
         All objects required by RMAVIS now flow from the setupData modules
         and associated objects.
-      - Adding a function `RMAVIS::aggregate_taxa`.
       - Adding aggregated surveyData objects and the option to use this aggregated
         survey data. Currently only enabled for the MNNPC.
       - Re-developing the diversity module. We now calculate the alpha, beta, and gamma 

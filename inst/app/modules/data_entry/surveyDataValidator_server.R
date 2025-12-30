@@ -49,7 +49,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
         type = "dropdown",
         source = c("No", "Yes"),
         strict = TRUE,
-        default = as.character("No")
+        default = as.character("Yes")
       ) |>
       rhandsontable::hot_col(
         col = "Species.Remove",
@@ -143,6 +143,8 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
       surveyData_speciesToIgnore <- speciesToIgnore
 
       species_to_check <- setdiff(unique(surveyData_long$Species), speciesToIgnore)
+      
+      species_to_check <- gsub("\\scanopy|\\sunderstory|\\ssub-canopy", "", species_to_check)
 
       surveyData_speciesInAccepted <- isTRUE(all(species_to_check %in% speciesNames))
 
@@ -294,7 +296,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
 
       speciesAdjustmentTable <- data.frame("Species.Submitted" = surveyDataValidation$speciesNotAccepted,
                                            "Species.Adjusted" = as.character(NA_character_),
-                                           "Species.Ignore" = "No",
+                                           "Species.Ignore" = "Yes",
                                            "Species.Remove" = "No") |>
         dplyr::mutate(
           "Species.Ignore" =
@@ -335,7 +337,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
           type = "dropdown",
           source = c("No", "Yes"),
           strict = TRUE,
-          default = as.character("No")
+          default = as.character("Yes")
         ) |>
         rhandsontable::hot_col(
           col = "Species.Remove",
@@ -628,6 +630,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
       "adjustSpecies" = input$adjustSpecies,
       "reallocateGroups" = input$reallocateGroups,
       "combineDuplicates" = input$combineDuplicates,
+      "matchAccepted" = input$matchAccepted,
       "speciesAdjustmentTable" = rhandsontable::hot_to_r(input$speciesAdjustmentTable),
       "reallocateGroupsTable" = rhandsontable::hot_to_r(input$reallocateGroupsTable),
       "surveyDataValidation" = surveyDataValidation_rval()
@@ -639,6 +642,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
     bindEvent(input$adjustSpecies,
               input$reallocateGroups,
               input$combineDuplicates,
+              input$matchAccepted,
               input$speciesAdjustmentTable,
               input$reallocateGroupsTable,
               surveyDataValidation_rval(),

@@ -33,7 +33,8 @@ calc_rdiversity_objects <- function(plot_data, higher_taxa, phylo_tree, phylo_ta
   names(rank_levels) <- rank_level_names
   
   higher_taxa_present <- higher_taxa |>
-    dplyr::filter(taxon_name %in% unique(plot_data$Species))
+    dplyr::filter(taxon_name %in% unique(plot_data$Species)) |>
+    tidyr::drop_na()
   
   data_mat_higher_taxa <- data_mat[, higher_taxa_present$taxon_name, drop = FALSE]
   

@@ -72,6 +72,7 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
   observe({
     
     shiny::req(surveyData())
+    shiny::req(nrow(surveyData()$surveyData_long) > 0)
     
     shiny::isolate({
       surveyData_long <- surveyData()$surveyData_long
@@ -79,6 +80,11 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
       ft_taxon_name_col <- ft_taxon_name_col()
       phylo_taxa_lookup <- phylo_taxa_lookup()
     })
+    
+    # assign(x = "surveyData_long", value = surveyData_long, envir = .GlobalEnv)
+    # assign(x = "floristic_tables", value = floristic_tables, envir = .GlobalEnv)
+    # assign(x = "ft_taxon_name_col", value = ft_taxon_name_col, envir = .GlobalEnv)
+    # assign(x = "phylo_taxa_lookup", value = phylo_taxa_lookup, envir = .GlobalEnv)
     
     speciesDataAvailability <- surveyData_long |>
       dplyr::select("Species") |>

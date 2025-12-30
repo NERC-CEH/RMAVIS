@@ -3,7 +3,7 @@
 #' Combine taxa into aggregated groups by summing the cover using a lookup.
 #'
 #' @param plot_data A data frame containing vegetation plot survey data with 5 columns: Year, Group, Quadrat, Species, and Cover. See `MNNPC::mnnpc_example_data`.
-#' @param agg_lookup A data frame containing a lookup between accepted taxon names present in plot_data and taxa or groups of taxa combined for analysis. See `MNNPC::mnnpc_taxa_conv`.
+#' @param agg_lookup A data frame containing a lookup between accepted taxon names present in plot_data and taxa or groups of taxa combined for analysis. See `MNNPC::mnnpc_taxa_lookup`.
 #' @param plot_data_taxon_col The name of the column in plot_data containing the species/taxon names.
 #' @param agg_lookup_taxon_col The name of the column in agg_lookup containing the species/taxon names.
 #'
@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' RMAVIS::aggregate_taxa(plot_data = MNNPC::mnnpc_example_data$`St. Croix State Forest`, 
-#'                        agg_lookup = MNNPC::mnnpc_taxa_conv,
+#'                        agg_lookup = MNNPC::mnnpc_taxa_lookup,
 #'                        plot_data_taxon_col = "Species",
 #'                        agg_lookup_taxon_col = "taxon")
 aggregate_taxa <- function(plot_data, agg_lookup, plot_data_taxon_col, agg_lookup_taxon_col){

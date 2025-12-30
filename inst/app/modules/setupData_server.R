@@ -26,6 +26,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
     "psquad_cm_he" = RMAVIS::nvc_psquad_cm_he,
     "example_data_options" = RMAVIS:::example_data_options,
     "habitat_correspondences" = RMAVIS::habitat_correspondences,
+    "sd_taxon_name_col" = "Species",
     "ft_taxon_name_col" = "nvc_taxon_name",
     "psq_taxon_name_col" = "nvc_taxon_name",
     "unit_name_col" = "nvc_code",
@@ -63,7 +64,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
     
     if(region() == "gbnvc"){
       
-      # Establish setup data which doesn't vary based on NVC type
+      # Establish setup data which doesn't vary based on VC type
       species_names_selected <- RMAVIS::accepted_taxa[["taxon_name"]]
       accepted_species_selected <- RMAVIS::accepted_taxa
       higher_taxa_selected <- UKVegTB::taxonomic_backbone |>
@@ -80,6 +81,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       example_data_selected <- RMAVIS::example_data
       example_data_options_selected <- RMAVIS:::example_data_options
       habitat_correspondences_selected <-  RMAVIS::habitat_correspondences
+      sd_taxon_name_col_selected <- "Species"
       ft_taxon_name_col_selected <- "nvc_taxon_name"
       psq_taxon_name_col_selected <- "nvc_taxon_name"
       unit_name_col_selected <- "nvc_code"
@@ -88,7 +90,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       phylo_tree_selected <- UKVegTB::phylo_tree
       phylo_taxa_lookup_selected <- UKVegTB::phylo_taxa_lookup
       
-      # Compose setup data from selected NVC types
+      # Compose setup data from selected VC types
       floristic_tables_selected <- tibble::tibble()
       community_attributes_selected <- tibble::tibble()
       pquads_selected <- tibble::tibble()
@@ -154,21 +156,28 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       
     } else if(region() == "mnnpc"){
       
+      # Establish setup data which doesn't vary based on VC type
       species_names_selected <- MNNPC::mnnpc_accepted_taxa[["taxon_name"]]
       accepted_species_selected <- MNNPC::mnnpc_accepted_taxa
-      example_data_selected <- MNNPC::mnnpc_example_data
-      floristic_tables_selected <- MNNPC::mnnpc_floristic_tables
-      community_attributes_selected <- MNNPC::mnnpc_community_attributes
-      pquads_selected <- MNNPC::mnnpc_pquads
+      example_data_selected <- MNNPC::mnnpc_example_data |>
+        purrr::map(.f = ~ . |> dplyr::rename("Year" = "year",
+                                             "Group" = "group",
+                                             "Releve.Number" = "relnumb",
+                                             "Phys.Code" = "physcode",
+                                             "Min.Ht" = "minht",
+                                             "Max.Ht" = "maxht",
+                                             "Taxon" = "taxon",
+                                             "Cover" = "scov"))
       psquad_cm_he_selected <- NULL
       comm_he_selected <- NULL
       example_data_options_selected <- MNNPC:::example_data_options
       habitat_correspondences_selected <-  NULL
+      sd_taxon_name_col_selected <- "Taxon"
       ft_taxon_name_col_selected <- "npc_taxon_name"
       psq_taxon_name_col_selected <- "taxon_name"
       unit_name_col_selected <- "npc_code"
-      hab_rest_pref_selected <- MNNPC::mnnpc_vc_types
-      agg_lookup_selected <- MNNPC::mnnpc_taxa_conv
+      hab_rest_pref_selected <- MNNPC::mnnpc_vc_types_flreg_nested
+      agg_lookup_selected <- MNNPC::mnnpc_taxa_lookup |> dplyr::select(taxon_name, analysis_group)
       higher_taxa_selected <- MNNPC::mnnpc_taxonomic_backbone |>
         tibble::as_tibble() |>
         dplyr::select("taxon_name" = "taxon_name",
@@ -182,6 +191,11 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       taxa_lookup_selected <- MNNPC::mnnpc_taxa_lookup |> dplyr::select(taxon_name, recommended_taxon_name)
       phylo_tree_selected <- MNNPC::mnnpc_phylo_tree
       phylo_taxa_lookup_selected <- MNNPC::mnnpc_phylo_taxa_lookup
+      
+      # Compose setup data from selected VC types
+      floristic_tables_selected <- MNNPC::mnnpc_floristic_tables |> dplyr::filter(ecs_section %in% selected_vc_types)
+      community_attributes_selected <- MNNPC::mnnpc_community_attributes |> dplyr::filter(npc_code %in% unique(floristic_tables_selected$npc_code))
+      pquads_selected <- MNNPC::mnnpc_pquads |> dplyr::filter(npc_code %in% unique(floristic_tables_selected$npc_code))
       
     }
     
@@ -201,6 +215,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       "comm_cm_he" = comm_he_selected,
       "example_data_options" = example_data_options_selected,
       "habitat_correspondences" = habitat_correspondences_selected,
+      "sd_taxon_name_col" = sd_taxon_name_col_selected,
       "ft_taxon_name_col" = ft_taxon_name_col_selected,
       "psq_taxon_name_col" = psq_taxon_name_col_selected,
       "unit_name_col" = unit_name_col_selected,
