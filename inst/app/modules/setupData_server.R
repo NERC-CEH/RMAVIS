@@ -11,8 +11,8 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
     "higher_taxa" = UKVegTB::taxonomic_backbone |>
                       tibble::as_tibble() |>
                       dplyr::select("taxon_name" = "taxon_name",
-                                    # "Kingdom" = "Kingdom",
-                                    # "Phylum" = "Phylum",
+                                    "Kingdom" = "Kingdom",
+                                    "Phylum" = "Phylum",
                                     "Class" = "Class",
                                     "Order" = "Order",
                                     "Family" = "Family",
@@ -70,8 +70,8 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       higher_taxa_selected <- UKVegTB::taxonomic_backbone |>
         tibble::as_tibble() |>
         dplyr::select("taxon_name" = "taxon_name",
-                      # "Kingdom" = "Kingdom",
-                      # "Phylum" = "Phylum",
+                      "Kingdom" = "Kingdom",
+                      "Phylum" = "Phylum",
                       "Class" = "Class",
                       "Order" = "Order",
                       "Family" = "Family",

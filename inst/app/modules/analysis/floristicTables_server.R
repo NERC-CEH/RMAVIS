@@ -94,6 +94,18 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
   floristicTables_composed_all_wide_rval <- reactiveVal()
   floristicTables <- reactiveVal()
   
+  # Reset to NULL when Run Analysis is clear to clean the slate
+  # observe({
+  # 
+  #   floristicTables_composed_all_rval(NULL)
+  #   floristicTables_composed_all_wide_rval(NULL)
+  #   floristicTables(NULL)
+  # 
+  # }) |>
+  #   bindEvent(runAnalysis(),
+  #             ignoreNULL = TRUE,
+  #             ignoreInit = TRUE)
+  
   observe({
     
     shiny::req(surveyData())

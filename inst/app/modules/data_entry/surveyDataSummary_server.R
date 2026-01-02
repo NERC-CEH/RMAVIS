@@ -81,11 +81,6 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
       phylo_taxa_lookup <- phylo_taxa_lookup()
     })
     
-    # assign(x = "surveyData_long", value = surveyData_long, envir = .GlobalEnv)
-    # assign(x = "floristic_tables", value = floristic_tables, envir = .GlobalEnv)
-    # assign(x = "ft_taxon_name_col", value = ft_taxon_name_col, envir = .GlobalEnv)
-    # assign(x = "phylo_taxa_lookup", value = phylo_taxa_lookup, envir = .GlobalEnv)
-    
     speciesDataAvailability <- surveyData_long |>
       dplyr::select("Species") |>
       dplyr::distinct() |>

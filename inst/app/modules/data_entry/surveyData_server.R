@@ -602,7 +602,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     
     surveyData_matchedAccepted <- surveyDataTableData |>
       dplyr::mutate("{sd_taxon_name_col}" := stringr::str_remove_all(string = .data[[sd_taxon_name_col]],
-                                                                     pattern = "\\ss.s.|\\ss.l.|\\ss.a.")) |>
+                                                                     pattern = "\\ss.s.$|\\ss.l.$|\\ss.a.$")) |>
       dplyr::mutate("{sd_taxon_name_col}" := .data[[sd_taxon_name_col]] |> dplyr::recode(!!!tibble::deframe(taxa_lookup[, 1:2])))
     
     surveyData_corrected_rval(surveyData_matchedAccepted)

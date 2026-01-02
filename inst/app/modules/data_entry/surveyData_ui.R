@@ -12,7 +12,7 @@ surveyDataUI <- function(id) {
         
         bslib::layout_columns(
           
-          col_widths = c(1, 11),
+          col_widths = c(2, 10),
           
           shiny::h5("Data Input Table"),
           

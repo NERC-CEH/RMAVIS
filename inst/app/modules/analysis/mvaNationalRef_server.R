@@ -70,7 +70,6 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
       tibble::column_to_rownames(var = "psq_id") |>
       as.matrix()
     
-    
     vc_pquads_wide(vc_pquads_wide_prepped)
     
   }) |>
@@ -156,7 +155,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
       dplyr::filter(score == "sites") |>
       dplyr::select(-score, -weight) |>
       dplyr::rename("Quadrat" = label) |>
-      dplyr::mutate("VC.Code" = stringr::str_extract(string = Quadrat, pattern = ".+?(?=\\_)"), .before  = "Quadrat")
+      dplyr::mutate("VC.Code" = stringr::str_remove(string = Quadrat, pattern = "_\\d*$"), .before  = "Quadrat")
     
     # Create convex hulls around the pseudo-quadrat DCA points.
     pquad_hulls_dca1dca2 <- pquads_dca_results_quadrats |>

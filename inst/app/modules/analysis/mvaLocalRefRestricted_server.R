@@ -167,7 +167,7 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
     dca_results_pquads_site <- dca_results_pquads_site  |>
       dplyr::mutate("Year" = "Reference", .before  = "Quadrat") |>
       dplyr::mutate("Group" = "Reference", .before  = "Quadrat") |>
-      dplyr::mutate("VC.Code" = stringr::str_extract(string = Quadrat, pattern = ".+?(?=\\_)"), .before  = "Quadrat")
+      dplyr::mutate("VC.Code" = stringr::str_remove(string = Quadrat, pattern = "_\\d*$"), .before  = "Quadrat")
     
   
     # Calculate the surveyData DCA results using the pseudo-quadrat species scores

@@ -46,22 +46,23 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
 
 # Create floristic tables list --------------------------------------------
   samp_ft_rval <- reactiveVal()
-  comp_ft_rval <- reactiveVal()
-  
+  trigger <- reactiveVal(0)
+
   observe({
-    
+
     shiny::req(!is.null(floristicTables()))
-    
+
     shiny::isolate({
-      setupData <- setupData()
       floristicTables <- floristicTables()
     })
     
+    trigger(trigger() + 1)
+
     samp_ft_rval(floristicTables)
-    comp_ft_rval(setupData$floristic_tables)
-    
+
   }) |>
-    bindEvent(floristicTables(),
+    bindEvent(runAnalysis(),
+              floristicTables(),
               ignoreInit = FALSE,
               ignoreNULL = TRUE)
   
@@ -219,7 +220,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
   observe({
     
     shiny::req(!is.null(samp_ft_rval()))
-    shiny::req(!is.null(comp_ft_rval()))
+    shiny::req(!is.null(setupData()$floristic_tables))
     shiny::req(surveyDataSummary())
     
     shinybusy::show_modal_spinner(
@@ -232,9 +233,9 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
       
       surveyDataSummary <- surveyDataSummary()
       habitatRestriction <- habitatRestriction()
-      samp_ft <- samp_ft_rval()
-      comp_ft <- comp_ft_rval()
       hab_rest_pref <- hab_rest_pref()
+      samp_ft <- samp_ft_rval()
+      comp_ft <- setupData()$floristic_tables
       
     })
     
@@ -315,8 +316,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     shinybusy::remove_modal_spinner()
     
   }) |>
-    bindEvent(comp_ft_rval(),
-              samp_ft_rval(),
+    bindEvent(trigger(),
               ignoreInit = FALSE,
               ignoreNULL = TRUE)
   
