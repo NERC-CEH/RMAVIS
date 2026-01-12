@@ -55,7 +55,8 @@ vcCommAttr <- function(input, output, region, session) {
     } else if (region == "mnnpc"){
       
       cm_prepped <- MNNPC::mnnpc_community_attributes |>
-        dplyr::select("MNNPC.Code" = "npc_code",
+        dplyr::select("ECS.Section" = "ecs_section",
+                      "MNNPC.Code" = "npc_code",
                       "Rank" = "rank",
                       "Number.Samples" = "num_samples",
                       "Min.Species" = "min_species",

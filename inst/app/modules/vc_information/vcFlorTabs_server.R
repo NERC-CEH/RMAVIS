@@ -35,7 +35,12 @@ vcFlorTabs <- function(input, output, region, session) {
       
       ft_prepped <- MNNPC::mnnpc_floristic_tables |>
         dplyr::mutate(dplyr::across(.cols = c(minimum_cover, mean_cover, maximum_cover), ~round(., digits = 2))) |>
-        dplyr::select("MNNPC.Code" = "npc_code",
+        dplyr::left_join(MNNPC::mnnpc_community_attributes |>
+                           dplyr::select("ECS.Section" = "ecs_section",
+                                         npc_code),
+                         by = "npc_code") |>
+        dplyr::select(ECS.Section,
+                      "MNNPC.Code" = "npc_code",
                       "Taxon.Name" = "npc_taxon_name",
                       "Constancy" = "constancy",
                       "Frequency" = "absolute_frequency",

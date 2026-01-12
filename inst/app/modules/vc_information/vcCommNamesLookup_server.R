@@ -21,7 +21,7 @@ vcCommNamesLookup <- function(input, output, region, session) {
     } else if (region == "mnnpc"){
       
       names_prepped <- MNNPC::mnnpc_community_attributes |>
-        dplyr::select("MNNPC.Code" = "npc_code", "MNNPC.Name" = "fullname") |>
+        dplyr::select("ECS.Section" = "ecs_section", "MNNPC.Code" = "npc_code", "MNNPC.Name" = "fullname") |>
         dplyr::arrange(MNNPC.Code)
       
     }
