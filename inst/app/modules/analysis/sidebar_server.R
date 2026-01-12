@@ -198,7 +198,7 @@ sidebar <- function(input, output, session,
       
       shiny::updateSelectizeInput(session = session,
                                   inputId = "habitatRestriction",
-                                  choices = c(MNNPC::mnnpc_vc_types_named, MNNPC::mnnpc_vc_types_flreg_named),
+                                  choices = c(MNNPC::mnnpc_vc_systems_named, MNNPC::mnnpc_vc_systems_flreg_named),
                                   selected = NULL)
     }
     

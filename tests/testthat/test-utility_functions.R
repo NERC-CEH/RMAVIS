@@ -15,7 +15,7 @@ testthat::test_that("subset_nvcData works with the GB-NVC", {
 
 testthat::test_that("subset_nvcData works with the MNNPC", {
   
-  actual <- RMAVIS::subset_vcData(vc_data = MNNPC::mnnpc_pquads, habitatRestriction = c("AP"), col_name = "psq_id", habitatRestrictionPrefixes = as.list(MNNPC::mnnpc_vc_types_named))
+  actual <- RMAVIS::subset_vcData(vc_data = MNNPC::mnnpc_pquads, habitatRestriction = c("AP"), col_name = "psq_id", habitatRestrictionPrefixes = as.list(MNNPC::mnnpc_vc_systems_named))
   
   actual_colnames <- colnames(actual)
   actual_coltypes <- sapply(actual, class) |> unname()

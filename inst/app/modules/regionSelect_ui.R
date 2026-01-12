@@ -23,7 +23,9 @@ regionSelectUI <- function(id){
                                       width = 250)
         
       )
+      
     )
+    
   )
   
 }

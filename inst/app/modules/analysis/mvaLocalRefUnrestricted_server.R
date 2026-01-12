@@ -134,6 +134,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     })
     
     surveyData_mat <- surveyData_long |>
+      dplyr::mutate("Cover" = 1) |>
       tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
       tidyr::pivot_wider(names_from = Species,
                          values_from = Cover) |>

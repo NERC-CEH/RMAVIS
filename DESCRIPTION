@@ -1,7 +1,7 @@
 Package: RMAVIS
 Title: Assign Vegetation Survey Data to GB NVC Communities
 Version: 1.2.0
-Date: 2025-12-XX
+Date: 2026-01-XX
 Authors@R: c(person(given = "Zeke",
                     family = "Marshall",
                     role = c("aut", "cre"),
@@ -64,7 +64,7 @@ Imports:
   writexl
 Remotes:
   NERC-CEH/UKVegTB@v0.1.6,
-  MN-DNR-MBS/MNNPC@v0.9.9
+  MN-DNR-MBS/MNNPC@v1.0.0
 Suggests:
   testthat,
   tinytex

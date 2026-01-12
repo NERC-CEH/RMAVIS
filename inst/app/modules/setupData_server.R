@@ -176,7 +176,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       ft_taxon_name_col_selected <- "npc_taxon_name"
       psq_taxon_name_col_selected <- "taxon_name"
       unit_name_col_selected <- "npc_code"
-      hab_rest_pref_selected <- MNNPC::mnnpc_vc_types_flreg_nested
+      hab_rest_pref_selected <- MNNPC::mnnpc_vc_systems_flreg_nested
       agg_lookup_selected <- MNNPC::mnnpc_taxa_lookup |> dplyr::select(taxon_name, analysis_group)
       higher_taxa_selected <- MNNPC::mnnpc_taxonomic_backbone |>
         tibble::as_tibble() |>
@@ -193,9 +193,9 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       phylo_taxa_lookup_selected <- MNNPC::mnnpc_phylo_taxa_lookup
       
       # Compose setup data from selected VC types
-      floristic_tables_selected <- MNNPC::mnnpc_floristic_tables |> dplyr::filter(ecs_section %in% selected_vc_types)
-      community_attributes_selected <- MNNPC::mnnpc_community_attributes |> dplyr::filter(npc_code %in% unique(floristic_tables_selected$npc_code))
-      pquads_selected <- MNNPC::mnnpc_pquads |> dplyr::filter(npc_code %in% unique(floristic_tables_selected$npc_code))
+      community_attributes_selected <- MNNPC::mnnpc_community_attributes |> dplyr::filter(ecs_section %in% selected_vc_types)
+      floristic_tables_selected <- MNNPC::mnnpc_floristic_tables |> dplyr::filter(npc_code %in% community_attributes_selected$npc_code)
+      pquads_selected <- MNNPC::mnnpc_pquads |> dplyr::filter(npc_code %in% community_attributes_selected$npc_code)
       
     }
     

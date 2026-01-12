@@ -15,7 +15,7 @@ testthat::test_that("subset_vcData works on MNNPC data", {
   actual <- RMAVIS::subset_vcData(vc_data = MNNPC::mnnpc_pquads, 
                                   habitatRestriction = c("MH"), 
                                   col_name = "psq_id",
-                                  habitatRestrictionPrefixes = MNNPC::mnnpc_vc_types_flreg_nested)
+                                  habitatRestrictionPrefixes = MNNPC::mnnpc_vc_systems_flreg_nested)
   
   actual_system_region <- stringr::str_extract(string = actual$npc_code, pattern = "\\w{3}") |> unique()
   
