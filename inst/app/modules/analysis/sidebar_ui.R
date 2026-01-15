@@ -988,7 +988,7 @@ sidebarUI <- function(id){
             
             bslib::popover(
               bsicons::bs_icon("info-circle"),
-              title = "DCA",
+              title = "Axis Scores",
               shiny::markdown(
                 "
                 Select the variables to display in the multivariate analysis plots:
@@ -1000,7 +1000,7 @@ sidebarUI <- function(id){
                 - 'Reference Centroids': the centroids formed from the pseudo-quadrat DCA scores.
                 - 'Species': the DCA scores of the species.
                 - 'Unique Survey Species': the DCA scores of the species unique to the survey data, but absent from the best fitting VC communities pseudo-quadrats (Local Reference (unrestricted) only).
-                - 'Hill-Ellenberg': the CCA result axis scores for the Hill-Ellenberg selected in the 'CCA Variables' option.
+                - 'Hill-Ellenberg': the CCA result axis scores for Hill-Ellenberg values.
                 - 'Trajectory': arrows drawn between each set of selected sample plots by year, showing thetrajectory of the sample plots in the ordination space.
                 
                 Please see the documentation for more details.

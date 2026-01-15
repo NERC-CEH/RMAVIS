@@ -14,7 +14,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 4.0](https://img.shields.io/badge/License-LGPL%203.0-lightgrey.svg)](https://opensource.org/license/lgpl-3-0)
 <!-- badges: end -->
 
-**Authors**: Zeke Marshall (<zekmar@ceh.ac.uk>) & Amy Kendig
+**Main Authors**: Zeke Marshall (<zekmar@ceh.ac.uk>) and Amy Kendig
 (<amy.kendig@state.mn.us>).
 
 ## Overview

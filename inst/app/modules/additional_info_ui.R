@@ -138,7 +138,7 @@ additionalInfoUI <- function(id) {
           shiny::markdown(
           '
           Futher information on the Minnesota Native Plant Community Classification (MNNPC) can be found on 
-          the Minnesota Department of Natural Resources website here: https://www.dnr.state.mn.us/npc/classification.html.
+          the Minnesota Department of Natural Resources website: https://www.dnr.state.mn.us/npc/classification.html.
           
           Publications:
           
@@ -164,8 +164,7 @@ additionalInfoUI <- function(id) {
           
           shiny::markdown(
           '
-          The ecological land classification system ...
-          here: https://www.dnr.state.mn.us/ecs/index.html
+          The ecological land classification system: https://www.dnr.state.mn.us/ecs/index.html
           '
           )
           
@@ -180,7 +179,7 @@ additionalInfoUI <- function(id) {
           shiny::markdown(
           '
           The taxonomic backbone underpinning the MNNPC in RMAVIS is adapted from MNTaxa - The State of Minnesota Vascular Plant Checklist,
-          which can be found on the Minnesota Department of Natural Resources website here; https://www.dnr.state.mn.us/eco/mbs/plant-lists.html.
+          which can be found on the Minnesota Department of Natural Resources website: https://www.dnr.state.mn.us/eco/mbs/plant-lists.html.
           '
           )
           

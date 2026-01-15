@@ -24,9 +24,14 @@ Authors@R: c(person(given = "Zeke",
                     comment = c(ORCID = "0000-0002-0664-9420")),
              person(given = "Amy", 
                     family = "Kendig", 
-                    email = "Amy.Kendig@state.mn.us", 
+                    email = "amy.kendig@state.mn.us", 
                     role = c("aut"),
-                    comment = c(ORCID = "0000-0002-2774-1795")))
+                    comment = c(ORCID = "0000-0002-2774-1795")),
+             person(given = "Alaina", 
+                    family = "Berger", 
+                    email = "alaina.berger@state.mn.us", 
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0003-2736-0578")))
 Description: A R Shiny application for the assignment of vegetation survey plot data to vegetation classification communities with additional exploratory analyses.
 License: LGPL (>= 3)
 Encoding: UTF-8

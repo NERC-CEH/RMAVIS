@@ -28,9 +28,14 @@ authors:
     orcid: 'https://orcid.org/0000-0002-0664-9420'
   - given-names: Amy
     family-names: Kendig
-    email: Amy.Kendig@state.mn.us
+    email: amy.kendig@state.mn.us
     affiliation: Minnesota Department of Natural Resources
     orcid: 'https://orcid.org/0000-0002-2774-1795'
+  - given-names: Alaina
+    family-names: Berger
+    email: alaina.berger@state.mn.us
+    affiliation: Minnesota Department of Natural Resources
+    orcid: 'https://orcid.org/0000-0003-2736-0578'
 abstract: 'A Shiny application for the analysis of vegetation survey data and assignment to vegetation classification communities.'
 keywords:
   - Vegetation science

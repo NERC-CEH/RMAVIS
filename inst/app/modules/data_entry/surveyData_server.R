@@ -573,15 +573,20 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     shiny::isolate({
       
       surveyData <- surveyDataTableData()
-
+      region <- region()
+      
     })
     
-    surveyData_noDuplicates <- surveyData |>
-      dplyr::group_by(Year, Group, Quadrat, Species) |>
-      dplyr::summarise("Cover" = sum(Cover)) |>
-      dplyr::ungroup()
-    
-    surveyData_corrected_rval(surveyData_noDuplicates)
+    if(region == "gbnvc"){
+      
+      surveyData_noDuplicates <- surveyData |>
+        dplyr::group_by(Year, Group, Quadrat, Species) |>
+        dplyr::summarise("Cover" = sum(Cover)) |>
+        dplyr::ungroup()
+      
+      surveyData_corrected_rval(surveyData_noDuplicates)
+      
+    }
     
   }) |>
     bindEvent(combineDuplicates(),
@@ -712,7 +717,8 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         MNNPC::process_dnr_releves(process_malformed_data = TRUE,
                                    strip_suffixes = FALSE,
                                    match_to_accepted = FALSE,
-                                   aggregate_into_analysis_groups = FALSE) |>
+                                   aggregate_into_analysis_groups = FALSE,
+                                   cover_scale = coverScale) |>
         suppressWarnings() |>
         suppressMessages()
     }

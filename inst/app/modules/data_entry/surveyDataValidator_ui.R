@@ -12,26 +12,144 @@ surveyDataValidatorUI <- function(id){
       
       bslib::layout_columns(
         
-        col_widths = c(2, 2, 2, 2),
-      
-        shiny::div(
+        col_widths = c(3, 9),
+          
+        bslib::layout_columns(
+          
+          col_widths = c(11, 1),
+          
+          fill = FALSE,
+          
+          fillable = TRUE,
+          
           shiny::actionButton(inputId = ns("adjustSpecies"),
-                              label = "Adjust Species")
-        ),
+                              label = "Adjust Species", 
+                              style = "padding:4px; font-size:90%; margin-bottom: 5px !important;"),
+          
+          bslib::popover(
+            bsicons::bs_icon("info-circle"),
+            title = "Adjust Species",
+            id = ns("adjustSpeciesInfo"),
+            shiny::markdown(
+            "
+            This button retrieves the Species Adjustment Table below and uses the information entered
+            in the Species.Adjusted, Species.Ignore, and Species.Remove columns to adjust the species
+            in the Data Input Table.
+            "
+            ),
+            placement = "bottom"
+          )
+          
+        )
         
-        shiny::div(
+      ),
+      
+      bslib::layout_columns(
+        
+        col_widths = c(3, 9),
+        
+        bslib::layout_columns(
+          
+          col_widths = c(11, 1),
+          
+          fill = FALSE,
+          
+          fillable = TRUE,
+          
           shiny::actionButton(inputId = ns("combineDuplicates"),
-                              label = "Combine Duplicates")
-        ),
+                              label = "Combine Duplicates",
+                              style = "padding:4px; font-size:90%; margin-bottom: 5px !important;"),
+          
+          bslib::popover(
+            bsicons::bs_icon("info-circle"),
+            title = "Combine Duplicates",
+            id = ns("combineDuplicatesInfo"),
+            shiny::markdown(
+            "
+            The Combine Duplicates button identifies duplicate species within each Quadrat
+            and combines them by summing the cover values. This option only applies to
+            the GB-NVC as duplicate species are handled through a seperate process when
+            using the MNNPC.
+            "
+            ),
+            placement = "bottom"
+          )
+          
+        )
         
-        shiny::div(
+      ),
+      
+      bslib::layout_columns(
+        
+        col_widths = c(3, 9),
+        
+        bslib::layout_columns(
+          
+          col_widths = c(11, 1),
+          
+          fill = FALSE,
+          
+          fillable = TRUE,
+          
           shiny::actionButton(inputId = ns("reallocateGroups"),
-                              label = "Re-allocate Groups")
-        ),
+                              label = "Re-allocate Groups",
+                              style = "padding:4px; font-size:90%; margin-bottom: 5px !important;"),
+          
+          bslib::popover(
+            bsicons::bs_icon("info-circle"),
+            title = "Reallocate Groups",
+            id = ns("reallocateGroupsInfo"),
+            shiny::markdown(
+            "
+            The Reallocate Groups button retrieves the Quadrat-Group combinations
+            from the Group Re-allocation table below and alters the group
+            memberships in the Data Input Table.
+            "
+            ),
+            placement = "bottom"
+          )
+          
+        )
         
-        shiny::div(
+      ),
+      
+      bslib::layout_columns(
+        
+        col_widths = c(3, 9),
+        
+        bslib::layout_columns(
+          
+          col_widths = c(11, 1),
+          
+          fill = FALSE,
+          
+          fillable = TRUE,
+          
           shiny::actionButton(inputId = ns("matchAccepted"),
-                              label = "Match to Accepted")
+                              label = "Match to Accepted",
+                              style = "padding:4px; font-size:90%; margin-bottom: 5px !important;"),
+          
+          bslib::popover(
+            bsicons::bs_icon("info-circle"),
+            title = "Match to Accepted Taxa",
+            id = ns("matchAcceptedInfo"),
+            shiny::markdown(
+            "
+            The Match to Accepted button identifies species which
+            aren't accepted/recommended, as present in the Species.Submitted 
+            column of the Species Adjustment Table, then converts them to 
+            accepted/recommended taxa.
+            See the Taxa Lookup module for a lookup between all available
+            taxon names and the accepted/recommended taxon names.
+            The accepted/recommended taxon names can also be viewed in the
+            Taxonomic Backbone module.
+            Futher manual adjustment using the Species Adjustment Table may be 
+            required, particularly when taxa are spelled incorrectly. 
+            "
+            ),
+            placement = "bottom"
+          )
+          
         )
         
       ),

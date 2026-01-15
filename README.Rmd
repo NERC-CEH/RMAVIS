@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 [![License: CC BY 4.0](https://img.shields.io/badge/License-LGPL 3.0-lightgrey.svg)](https://opensource.org/license/lgpl-3-0)
 <!-- badges: end -->
 
-**Authors**: Zeke Marshall (zekmar@ceh.ac.uk) & Amy Kendig (amy.kendig@state.mn.us).
+**Main Authors**: Zeke Marshall (zekmar@ceh.ac.uk) and Amy Kendig (amy.kendig@state.mn.us).
           
 ## Overview
 
