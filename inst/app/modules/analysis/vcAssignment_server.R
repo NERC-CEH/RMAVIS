@@ -8,7 +8,6 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
   coverMethod <- reactiveVal()
   assignQuadrats <- reactiveVal(FALSE)
   habitatRestriction <- reactiveVal()
-  nTopResults <- reactiveVal()
   resultsViewVCAssign <- reactiveVal()
 
   observe({
@@ -18,7 +17,6 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     coverMethod(sidebar_options()$coverMethod)
     assignQuadrats(sidebar_options()$assignQuadrats)
     habitatRestriction(sidebar_options()$habitatRestriction)
-    nTopResults(sidebar_options()$nTopResults)
     resultsViewVCAssign(sidebar_options()$resultsViewVCAssign)
 
   }) |>
@@ -186,17 +184,14 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
       dplyr::select("ID" = ID,
                     "Mean.Similarity" = Similarity,
                     "VC.Code" = unit_name_col())|>
-      dplyr::group_by(ID) |>
-      dplyr::arrange(ID, dplyr::desc(Mean.Similarity)) |>
-      dplyr::ungroup() |>
       dplyr::left_join(surveyData_IDs, by = "ID")
     
     vcAssignmentPlot_Jaccard_prepped <- vcAssignmentPlot_Jaccard |>
       dplyr::select(Year, Group, Quadrat, VC.Code, Mean.Similarity)|>
       dplyr::group_by(Year, Group, Quadrat) |>
-      dplyr::slice(1:10) |>
+      dplyr::mutate("Rank" = rank(-Mean.Similarity), .before = "Mean.Similarity") |>
       dplyr::ungroup() |>
-      dplyr::arrange(Year, Group, Quadrat, dplyr::desc(Mean.Similarity))
+      dplyr::arrange(Year, Group, Quadrat, Rank)
     
     vcAssignmentPlot_Jaccard_rval(vcAssignmentPlot_Jaccard_prepped)
     
@@ -292,15 +287,21 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
       vcAssignmentSite_Czekanowski <- vcAssignmentSiteGroup_Czekanowski |>
         dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$")) |>
         dplyr::mutate("Year" = ID) |>
-        dplyr::select(Year, "VC.Code" = unit_name_col(), Similarity)|>
-        dplyr::arrange(Year, dplyr::desc(Similarity))
+        dplyr::select(Year, "VC.Code" = unit_name_col(), Similarity) |>
+        dplyr::group_by(Year) |>
+        dplyr::mutate("Rank" = rank(-Similarity), .before = "Similarity") |>
+        dplyr::ungroup() |>
+        dplyr::arrange(Year, Rank)
       
       vcAssignmentGroup_Czekanowski <- vcAssignmentSiteGroup_Czekanowski |>
         dplyr::filter(stringr::str_detect(string = ID, pattern = "^\\b[0-9_]+\\b$", negate = TRUE)) |>
         dplyr::mutate("Year" = stringr::str_extract(string = ID, pattern = "\\d{4}")) |>
         dplyr::mutate("Group" = stringr::str_extract(string = ID, pattern = "(?<=\\s-\\s).*$")) |>
         dplyr::select(Year, Group, "VC.Code" = unit_name_col(), Similarity) |>
-        dplyr::arrange(Year, Group, dplyr::desc(Similarity))
+        dplyr::group_by(Year, Group) |>
+        dplyr::mutate("Rank" = rank(-Similarity), .before = "Similarity") |>
+        dplyr::ungroup() |>
+        dplyr::arrange(Year, Group, Rank)
       
       vcAssignmentSite_Czekanowski_rval(vcAssignmentSite_Czekanowski)
       vcAssignmentGroup_Czekanowski_rval(vcAssignmentGroup_Czekanowski)
@@ -325,6 +326,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
   vcAssignmentPlot_JaccardTable_init <- data.frame("Year" = integer(),
                                                    "Group" = character(),
                                                    "Quadrat" = character(),
+                                                   "Rank" = integer(),
                                                    "Mean.Similarity" = numeric(),
                                                    "VC.Code" = character()
                                                    )
@@ -335,7 +337,8 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     
     vcAssignmentPlot_JaccardTable <- reactable::reactable(data = vcAssignmentPlot_JaccardTable_init,
                                                           filterable = FALSE,
-                                                          pagination = FALSE, 
+                                                          pagination = TRUE, 
+                                                          defaultPageSize = 30,
                                                           highlight = TRUE,
                                                           bordered = TRUE,
                                                           sortable = TRUE, 
@@ -362,10 +365,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     
     if(!is.null(vcAssignmentPlot_Jaccard_rval())){
       
-      vcAssignmentPlot_Jaccard <- vcAssignmentPlot_Jaccard_rval() |>
-        dplyr::group_by(Year, Group, Quadrat) |>
-        dplyr::slice(1:nTopResults()) |>
-        dplyr::ungroup()
+      vcAssignmentPlot_Jaccard <- vcAssignmentPlot_Jaccard_rval()
       
     } else if(is.null(vcAssignmentPlot_Jaccard_rval())){
       
@@ -377,7 +377,8 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
       
       vcAssignmentPlot_JaccardTable <- reactable::reactable(data = vcAssignmentPlot_Jaccard, 
                                                             filterable = FALSE,
-                                                            pagination = FALSE, 
+                                                            pagination = TRUE,
+                                                            defaultPageSize = 30,
                                                             highlight = TRUE,
                                                             bordered = TRUE,
                                                             sortable = TRUE, 
@@ -410,6 +411,18 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
                                                                                             })
                                                                                             }")
                                                              ),
+                                                             VC.Code = reactable::colDef(
+                                                               filterable = TRUE
+                                                             ),
+                                                             Rank = reactable::colDef(
+                                                               format = reactable::colFormat(digits = 0),
+                                                               filterable = TRUE,
+                                                               filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                            return rows.filter(function(row) {
+                                                                                            return row.values[columnId] <= filterValue
+                                                                                            })
+                                                                                            }")
+                                                             ),
                                                              Quadrat = reactable::colDef(
                                                                filterable = TRUE,
                                                                filterMethod = reactable::JS("function(rows, columnId, filterValue) {
@@ -427,7 +440,6 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     
   }) |>
     bindEvent(vcAssignmentPlot_Jaccard_rval(),
-              nTopResults(),
               ignoreInit = TRUE, 
               ignoreNULL = FALSE)
   
@@ -436,6 +448,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
   
   # Initialise VC Assignment Site Czekanowski Table -----------------------
   vcAssignmentSiteTable_Czekanowski_init <- data.frame("Year" = integer(),
+                                                       "Rank" = integer(),
                                                        "Similarity" = numeric(),
                                                        "VC.Code" = character()
                                                        )
@@ -444,7 +457,8 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     
     vcAssignmentSiteTable_Czekanowski <- reactable::reactable(data = vcAssignmentSiteTable_Czekanowski_init,
                                                               filterable = FALSE,
-                                                              pagination = FALSE, 
+                                                              pagination = TRUE, 
+                                                              defaultPageSize = 30,
                                                               highlight = TRUE,
                                                               bordered = TRUE,
                                                               sortable = TRUE, 
@@ -470,10 +484,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     
     if(!is.null(vcAssignmentSite_Czekanowski_rval())){
       
-      vcAssignmentSite_Czekanowski <- vcAssignmentSite_Czekanowski_rval() |>
-        dplyr::group_by(Year) |>
-        dplyr::slice(1:nTopResults()) |>
-        dplyr::ungroup()
+      vcAssignmentSite_Czekanowski <- vcAssignmentSite_Czekanowski_rval()
       
     } else if(is.null(vcAssignmentSite_Czekanowski_rval())){
       
@@ -485,7 +496,8 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
       
       vcAssignmentSiteTable_Czekanowski <- reactable::reactable(data = vcAssignmentSite_Czekanowski, 
                                                                 filterable = FALSE,
-                                                                pagination = FALSE, 
+                                                                pagination = TRUE, 
+                                                                defaultPageSize = 30,
                                                                 highlight = TRUE,
                                                                 bordered = TRUE,
                                                                 sortable = TRUE, 
@@ -510,6 +522,18 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
                                                                                                  return row.values[columnId] == filterValue
                                                                                                  })
                                                                                                  }")
+                                                                 ),
+                                                                 VC.Code = reactable::colDef(
+                                                                   filterable = TRUE
+                                                                 ),
+                                                                 Rank = reactable::colDef(
+                                                                   format = reactable::colFormat(digits = 0),
+                                                                   filterable = TRUE,
+                                                                   filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                                return rows.filter(function(row) {
+                                                                                                return row.values[columnId] <= filterValue
+                                                                                                })
+                                                                                                }")
                                                                  )
                                                                 )
       )
@@ -519,8 +543,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     })
     
   }) |>
-    bindEvent(vcAssignmentSite_Czekanowski_rval(), 
-              nTopResults(),
+    bindEvent(vcAssignmentSite_Czekanowski_rval(),
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
@@ -531,6 +554,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
   # Initialise VC Assignment Group Czekanowski Table ---------------------
   vcAssignmentGroupTable_Czekanowski_init <- data.frame("Year" = integer(),
                                                         "Group" = character(),
+                                                        "Rank" = integer(),
                                                         "Similarity" = numeric(),
                                                         "VC.Code" = character()
                                                         )
@@ -541,7 +565,8 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     
     vcAssignmentGroupTable_Czekanowski <- reactable::reactable(data = vcAssignmentGroupTable_Czekanowski_init,
                                                                filterable = FALSE,
-                                                               pagination = FALSE, 
+                                                               pagination = TRUE, 
+                                                               defaultPageSize = 30,
                                                                highlight = TRUE,
                                                                bordered = TRUE,
                                                                sortable = TRUE, 
@@ -568,10 +593,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     
     if(!is.null(vcAssignmentGroup_Czekanowski_rval())){
       
-      vcAssignmentGroup_Czekanowski <- vcAssignmentGroup_Czekanowski_rval() |>
-        dplyr::group_by(Year, Group) |>
-        dplyr::slice(1:nTopResults()) |>
-        dplyr::ungroup()
+      vcAssignmentGroup_Czekanowski <- vcAssignmentGroup_Czekanowski_rval()
       
     } else if(is.null(vcAssignmentGroup_Czekanowski_rval())){
       
@@ -583,7 +605,8 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
       
       vcAssignmentGroupTable_Czekanowski <- reactable::reactable(data = vcAssignmentGroup_Czekanowski, 
                                                                  filterable = FALSE,
-                                                                 pagination = FALSE, 
+                                                                 pagination = TRUE, 
+                                                                 defaultPageSize = 30,
                                                                  highlight = TRUE,
                                                                  bordered = TRUE,
                                                                  sortable = TRUE, 
@@ -616,6 +639,18 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
                                                                                                   return row.values[columnId] == filterValue
                                                                                                   })
                                                                                                   }")
+                                                                   ),
+                                                                   VC.Code = reactable::colDef(
+                                                                     filterable = TRUE
+                                                                   ),
+                                                                   Rank = reactable::colDef(
+                                                                     format = reactable::colFormat(digits = 0),
+                                                                     filterable = TRUE,
+                                                                     filterMethod = reactable::JS("function(rows, columnId, filterValue) {
+                                                                                                  return rows.filter(function(row) {
+                                                                                                  return row.values[columnId] <= filterValue
+                                                                                                  })
+                                                                                                  }")
                                                                    )
                                                                  )
                   )
@@ -626,7 +661,6 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     
   }) |>
     bindEvent(vcAssignmentGroup_Czekanowski_rval(),
-              nTopResults(),
               ignoreInit = TRUE, 
               ignoreNULL = FALSE)
   
@@ -641,61 +675,68 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     
     shiny::req(isTRUE(!is.null(vcAssignmentPlot_Jaccard_rval()) | !is.null(vcAssignmentSite_Czekanowski_rval())))
     
-    if(!is.null(vcAssignmentPlot_Jaccard_rval())){
-      
-      vcAssignmentPlot_Jaccard <- vcAssignmentPlot_Jaccard_rval() |>
-        dplyr::group_by(Year, Group, Quadrat) |>
-        dplyr::slice(1:nTopResults()) |>
-        dplyr::ungroup()
-      
-    } else {
-      
-      vcAssignmentPlot_Jaccard <- NULL
-      
-    }
-    
+    # Site/Year similarities
     if(!is.null(vcAssignmentSite_Czekanowski_rval())){
       
-      vcAssignmentSite_Czekanowski <- vcAssignmentSite_Czekanowski_rval() |>
-        dplyr::group_by(Year) |>
-        dplyr::slice(1:nTopResults()) |>
-        dplyr::ungroup()
+      vcAssignmentSite_Czekanowski <- vcAssignmentSite_Czekanowski_rval()
       
-      # Get all VC communities and sub-communities from vc assignment results
-      VC_communities_all <- vcAssignmentSite_Czekanowski |>
+      vc_communities_site <- vcAssignmentSite_Czekanowski |>
+        dplyr::filter(Rank <= 1) |>
+        dplyr::distinct(VC.Code) |>
         dplyr::pull(VC.Code)
       
     } else {
       
       vcAssignmentSite_Czekanowski <- NULL
       
-      # Get all VC communities and sub-communities from vc assignment results
-      VC_communities_all <- vcAssignmentPlot_Jaccard |>
-        dplyr::pull(VC.Code)
+      vc_communities_site <- NULL
       
     }
     
+    # Group similarities
     if(!is.null(vcAssignmentGroup_Czekanowski_rval())){
       
-      vcAssignmentGroup_Czekanowski <- vcAssignmentGroup_Czekanowski_rval() |>
-        dplyr::group_by(Year, Group) |>
-        dplyr::slice(1:nTopResults()) |>
-        dplyr::ungroup()
+      vcAssignmentGroup_Czekanowski <- vcAssignmentGroup_Czekanowski_rval()
+      
+      vc_communities_group <- vcAssignmentGroup_Czekanowski |>
+        dplyr::filter(Rank <= 1) |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
       
     } else {
       
       vcAssignmentGroup_Czekanowski <- NULL
+      
+      vc_communities_group <- NULL
         
     }
     
-    # Get all VC communities from community and sub-community codes
-    VC_communities_fromSubCom <- stringr::str_replace(string = VC_communities_all, 
-                                                      pattern = "(\\d)[^0-9]+$", 
-                                                      replace = "\\1") |>
+    # Quadrat similarities
+    if(!is.null(vcAssignmentPlot_Jaccard_rval())){
+      
+      vcAssignmentPlot_Jaccard <- vcAssignmentPlot_Jaccard_rval()
+      
+      vc_communities_quadrat <- vcAssignmentPlot_Jaccard |>
+        dplyr::filter(Rank <= 1) |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
+      
+    } else {
+      
+      vcAssignmentPlot_Jaccard <- NULL
+      
+      vc_communities_quadrat <- NULL
+      
+    }
+    
+    vc_communities_all <- unique(purrr::list_c(list(vc_communities_site, vc_communities_group, vc_communities_quadrat)))
+    
+    vc_communities_from_subcomms <- stringr::str_replace(string = vc_communities_all, 
+                                                         pattern = "(\\d)[^0-9]+$", 
+                                                         replace = "\\1") |>
       unique()
     
-    # Create data frame containing top-fitted VC subcommunities and communities
-    topVCCommunities <- unique(c(VC_communities_all, VC_communities_fromSubCom))
+    topVCCommunities <- unique(c(vc_communities_from_subcomms))
     
     vcAssignment_list <- list("vcAssignmentPlot_Jaccard" = vcAssignmentPlot_Jaccard,
                               "vcAssignmentSite_Czekanowski" = vcAssignmentSite_Czekanowski,
@@ -705,8 +746,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     vcAssignment_rval(vcAssignment_list)
     
   }) |>
-    bindEvent(nTopResults(),
-              vcAssignmentSite_Czekanowski_rval(),
+    bindEvent(vcAssignmentSite_Czekanowski_rval(),
               vcAssignmentGroup_Czekanowski_rval(),
               vcAssignmentPlot_Jaccard_rval(),
               ignoreInit = TRUE, 

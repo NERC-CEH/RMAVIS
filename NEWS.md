@@ -1,4 +1,4 @@
-# RMAVIS 1.2.0 (XX-12-2025)
+# RMAVIS 1.2.0 (XX-01-2026)
 *   Modifications:
       - Removing the CCA Hill-Ellenberg option in the MVA module. Now all
         Hill-Ellenberg values (F, R, N, S, L) apart from T are included in the CCA by default.
@@ -7,6 +7,8 @@
         and analysis_server.
       - Improving error handling in upload data entry option.
       - Moving to `UKVegTB` version 0.1.6 which includes the `UKVegTB::phylo_tree` and `UKVegTB::phylo_taxa_lookup` objects.
+      - Now returning all VC similarities, not just the top 10.
+      - Adding a rank column to the VC similarity tables.
       - Removing surveyData_mat objects from the list returned by surveyData_server.
 *   Fixes:
       - Ensuring that the calculation of cover-weighted EIVs accounts for situations 
@@ -30,6 +32,11 @@
       - Adding a new tab to the Data Entry module, Taxa Lookup, which displays
         concordances between taxon names, accepted/recommended taxon names,
         and aggregated taxon names.
+      - Adding the ability to match taxa to accepted taxa in the survey data validation
+        module.
+      - Coloring MVA species scores by whether they were present or absent in the
+        survey data.
+      
 
 # RMAVIS 1.1.4 (11-09-2025)
 *   Modifications: NA

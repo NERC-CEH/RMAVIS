@@ -127,7 +127,6 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
       vc_pquads_mean_unweighted_eivs <- vc_pquads_mean_unweighted_eivs()
       avgEIVs <- avgEIVs()
       # ccaVars <- ccaVars()
-      topvcCommunities <- vcAssignment$topvcCommunities
       
       if(isTRUE(regional_availability()$aggTaxa) & "mva" %in% aggTaxaOpts()){
         
@@ -148,7 +147,13 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
     pquads_dca_results_species <- vegan::scores(pquads_dca_results, tidy = TRUE) |>
       dplyr::filter(score == "species") |>
       dplyr::select(-score, -weight) |>
-      dplyr::rename("Species" = label)
+      dplyr::rename("Species" = label) |>
+      dplyr::mutate(
+        "Present" = dplyr::case_when(
+          Species %in% unique(surveyData_long$Species) ~ TRUE,
+          TRUE ~ FALSE
+        )
+      )
     
     # Extract the DCA results sample axis scores
     pquads_dca_results_quadrats <- vegan::scores(pquads_dca_results, tidy = TRUE) |>
@@ -430,10 +435,11 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
                                                                                                color = VC.Code),
                                                                                                size = 3)} +
             {if("species" %in% dcaVars())ggplot2::geom_point(data = mvaResults$dca_results_pquads_species,
-                                                             color = '#32a87d',
+                                                             # color = '#32a87d',
                                                              shape = 18,
                                                              mapping = ggplot2::aes(x = .data[[x_axis]], 
                                                                                     y = .data[[y_axis]],
+                                                                                    color = Present,
                                                                                     Species = Species))} +
             {if("surveyQuadrats" %in% dcaVars() && groupSurveyPlots() == "year")
               ggplot2::geom_point(data = dca_results_sample_site_selected,

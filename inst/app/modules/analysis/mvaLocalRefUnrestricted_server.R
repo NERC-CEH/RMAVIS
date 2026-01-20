@@ -170,7 +170,13 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     dca_results_species <- vegan::scores(pquads_surveyData_dca_results, tidy = TRUE) |>
       dplyr::filter(score == "species") |>
       dplyr::select(-score, -weight) |>
-      dplyr::rename("Species" = label)
+      dplyr::rename("Species" = label) |>
+      dplyr::mutate(
+        "Present" = dplyr::case_when(
+          Species %in% unique(surveyData_long$Species) ~ TRUE,
+          TRUE ~ FALSE
+        )
+      )
     
     # Determine the unique survey species, i.e. the species present in the survey data but absent in the pseudo-quadrats
     uniq_survey_species <- dca_results_species |>
@@ -474,10 +480,11 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
                                                                                              color = VC.Code),
                                                                       size = 3)} +
           {if("species" %in% dcaVars())ggplot2::geom_point(data = mvaResults$dca_results_species,
-                                                           color = '#32a87d',
+                                                           # color = '#32a87d',
                                                            shape = 18,
                                                            mapping = ggplot2::aes(x = .data[[x_axis]], 
                                                                                   y = .data[[y_axis]],
+                                                                                  color = Present,
                                                                                   Species = Species))} +
           {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = mvaResults$dca_results_pquads_site,
                                                                   mapping = ggplot2::aes(color = VC.Code,

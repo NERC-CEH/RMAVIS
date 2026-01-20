@@ -763,6 +763,12 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
       dplyr::mutate(Group = as.character(Group),
                     Quadrat = as.character(Quadrat))
     
+    # Ensure prop data cover values sum to 1
+    surveyData_long_prop <- surveyData_long_prop |>
+      dplyr::group_by(Year, Group, Quadrat) |>
+      dplyr::mutate("Cover" = signif(Cover * (1 / sum(Cover, na.rm = TRUE)), digits = 2)) |>
+      dplyr::ungroup()
+    
     # Store surveyData_long
     surveyData$surveyData_long <- surveyData_long
     surveyData$surveyData_long_prop <- surveyData_long_prop

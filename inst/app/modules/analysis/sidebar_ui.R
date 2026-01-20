@@ -225,41 +225,6 @@ sidebarUI <- function(id){
         
         shiny::div(
           
-          id = ns("resultsViewVCAssign_div"),
-          
-          bslib::layout_columns(
-            
-            col_widths = c(11, 1),
-            
-            shiny::selectizeInput(inputId = ns("resultsViewVCAssign"),
-                                  label = "Results to View",
-                                  choices = RMAVIS:::resultsViewVCAssign_options,
-                                  selected = c("vcAssignSiteCzekanowski"),
-                                  multiple = FALSE),
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Results to View",
-              id = ns("resultsToViewVCAssignInfo"),
-              shiny::markdown(
-                "
-                Three sets of VC assigment results are currently available:
-                -  Quadrat, Jaccard
-                -  Site, Czekanowski
-                -  Group, Czekanowski
-                "
-              ),
-              placement = "bottom"
-            )
-            
-          ),
-          
-          shiny::div(shiny::br())
-          
-        ),
-        
-        shiny::div(
-          
           id = ns("restrictHabitatInfo_div"),
           
           bslib::layout_columns(
@@ -295,34 +260,38 @@ sidebarUI <- function(id){
         
         shiny::div(
           
-          id = ns("nTopResults_div"),
+          id = ns("resultsViewVCAssign_div"),
           
           bslib::layout_columns(
             
             col_widths = c(11, 1),
             
-            shiny::selectizeInput(inputId = ns("nTopResults"), 
-                                  label = "Number of Top Results", 
-                                  choices = c(1:10), 
-                                  selected = 5, 
+            shiny::selectizeInput(inputId = ns("resultsViewVCAssign"),
+                                  label = "Results to View",
+                                  choices = RMAVIS:::resultsViewVCAssign_options,
+                                  selected = c("vcAssignSiteCzekanowski"),
                                   multiple = FALSE),
             
             bslib::popover(
               bsicons::bs_icon("info-circle"),
-              title = "Number of Top Results",
-              id = ns("nTopResultsInfo"),
+              title = "Results to View",
+              id = ns("resultsToViewVCAssignInfo"),
               shiny::markdown(
                 "
-                Select the number of top results to display per Site, Group, or
-                Quadrat.
+                Three sets of VC assigment results are currently available:
+                -  Quadrat, Jaccard
+                -  Site, Czekanowski
+                -  Group, Czekanowski
                 "
               ),
               placement = "bottom"
             )
-          )
+            
+          ),
+          
+          shiny::div(shiny::br())
           
         )
-        
         
       ),
       

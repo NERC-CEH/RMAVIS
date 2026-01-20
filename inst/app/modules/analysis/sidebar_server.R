@@ -37,7 +37,6 @@ sidebar <- function(input, output, session,
       "assignQuadrats" = input$assignQuadrats,
       "removeLowFreqTaxa" = input$removeLowFreqTaxa,
       "habitatRestriction" = input$habitatRestriction,
-      "nTopResults" = input$nTopResults,
       "resultsViewVCAssign" = input$resultsViewVCAssign,
       "habCorClass" = input$habCorClass,
       "floristicTablesView" = input$floristicTablesView,
@@ -71,7 +70,6 @@ sidebar <- function(input, output, session,
               input$assignQuadrats,
               input$removeLowFreqTaxa,
               input$habitatRestriction, 
-              input$nTopResults,
               input$resultsViewVCAssign,
               input$habCorClass, 
               input$floristicTablesView,
@@ -556,6 +554,7 @@ sidebar <- function(input, output, session,
     })
     
     topVCCommunities <- vcAssignment$topVCCommunities
+    
     selectedReferenceSpaces_options <- unique(setupData$floristic_tables[[unit_name_col]])
     
     shiny::updateSelectizeInput(

@@ -179,10 +179,35 @@ which provide a means to explore the applications functionality.
 **MNNPC**
 
 -   **St. Croix State Forest**:
-    Vegetation plot data from a deer exclosure experiment in a Mesic Oak Forest within St Croix State Forest [@berger2019].
+    The St. Croix State Forest Exclosure data set consists of six relevé monitoring 
+    plots established to document forest management involving a two cut even aged 
+    shelterwood harvest and deer browse exclosures [@berger2019]. The site is 
+    dominated by a mix of northern hardwoods and oak and is classified as the Central 
+    Dry Mesic Oak–Aspen–Red Maple Forest ([Ecological System Summaries and 
+    Class Fact Sheets – Upland Forests and Woodlands | Minnesota DNR](https://www.dnr.state.mn.us/npc/uplandforest.html)). 
+    The initial harvest occurred during the winter of 1994, followed by a shelterwood entry in 
+    winter 2000–2001. Monitoring relevé plots were placed inside and outside of deer 
+    exclosures in 2004, 2010, and 2018. One reference relevé plot was sampled in 1994 
+    and was used in place of a control to represent a mature, untreated condition. 
+    Results from this work indicated a shift toward more ruderal species composition, 
+    most likely due to a complex interplay of soil disturbance, deer browsing, 
+    herbicide use, and increased light availability.
     
 -   **Earthworm-Invaded Forests**
-    Vegetation plot data from .... [@graham2021, @graham2021a]
+    The Minnesota Earthworm Invaded Forest data set is a subset of relevé plots 
+    collected as part of a larger resurvey effort across Minnesota to document 
+    changes over the last 20+ years in State Parks and Scientific and Natural 
+    Areas (SNAs) along Minnesota’s North Shore of Lake Superior and the southern 
+    portion of the Eastern Broadleaf Province [@graham2021, @graham2021a]. This subset 
+    consists of 14 historical and 14 revisited relevé plots that, for this example, 
+    are pre grouped into two southern Mesic Hardwood Native Plant Classes (NPCs): 
+    Oak–Basswood (MHs38) and Maple–Basswood (MHs39) ([Ecological System Summaries and 
+    Class Fact Sheets – Upland Forests and Woodlands | Minnesota DNR](https://www.dnr.state.mn.us/npc/uplandforest.html)). 
+    Relevés were revisited in 2018 within a two week window of the original sampling date, and a 
+    rapid earthworm assessment was conducted by assigning a category indicating degree 
+    of impact as outlined in the MNDNR Relevé Handbook [@minnesotadepartmentofnaturalresources2013]. 
+    Most plots had high earthworm index values and showed loss of the duff layer 
+    at the time of resurvey.
 
 #### Cover Scale
 

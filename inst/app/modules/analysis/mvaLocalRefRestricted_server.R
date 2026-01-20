@@ -155,7 +155,13 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
     dca_results_pquads_species <- vegan::scores(selected_pquads_dca_results, tidy = TRUE) |>
       dplyr::filter(score == "species") |>
       dplyr::select(-score, -weight) |>
-      dplyr::rename("Species" = label)
+      dplyr::rename("Species" = label) |>
+      dplyr::mutate(
+        "Present" = dplyr::case_when(
+          Species %in% unique(surveyData_long$Species) ~ TRUE,
+          TRUE ~ FALSE
+        )
+      )
     
     # Extract the DCA results quadrat axis scores
     dca_results_pquads_site <- vegan::scores(selected_pquads_dca_results, tidy = TRUE) |>
@@ -439,10 +445,11 @@ mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData,
                                                                                                color = VC.Code),
                                                                         size = 3)} +
             {if("species" %in% dcaVars())ggplot2::geom_point(data = mvaResults$dca_results_pquads_species,
-                                                             color = '#32a87d',
+                                                             # color = '#32a87d',
                                                              shape = 18,
                                                              mapping = ggplot2::aes(x = .data[[x_axis]], 
                                                                                     y = .data[[y_axis]],
+                                                                                    color = Present,
                                                                                     Species = Species))} +
             {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = mvaResults$dca_results_pquads_site,
                                                                     mapping = ggplot2::aes(color = VC.Code,
