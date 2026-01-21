@@ -729,19 +729,18 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
       
     }
     
-    vc_communities_all <- unique(purrr::list_c(list(vc_communities_site, vc_communities_group, vc_communities_quadrat)))
+    topVCSubCommsAndComms <- unique(purrr::list_c(list(vc_communities_site, vc_communities_group, vc_communities_quadrat)))
     
-    vc_communities_from_subcomms <- stringr::str_replace(string = vc_communities_all, 
-                                                         pattern = "(\\d)[^0-9]+$", 
-                                                         replace = "\\1") |>
+    topVCComms <- stringr::str_replace(string = topVCSubCommsAndComms, 
+                                       pattern = "(\\d)[^0-9]+$", 
+                                       replace = "\\1") |>
       unique()
-    
-    topVCCommunities <- unique(c(vc_communities_from_subcomms))
     
     vcAssignment_list <- list("vcAssignmentPlot_Jaccard" = vcAssignmentPlot_Jaccard,
                               "vcAssignmentSite_Czekanowski" = vcAssignmentSite_Czekanowski,
                               "vcAssignmentGroup_Czekanowski" = vcAssignmentGroup_Czekanowski,
-                              "topVCCommunities" = topVCCommunities)
+                              "topVCComms" = topVCComms,
+                              "topVCSubCommsAndComms" = topVCSubCommsAndComms)
     
     vcAssignment_rval(vcAssignment_list)
     

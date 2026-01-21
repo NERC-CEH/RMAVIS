@@ -137,9 +137,25 @@ additionalInfoUI <- function(id) {
           
           shiny::markdown(
           '
-          Futher information on the Minnesota Native Plant Community Classification (MNNPC) can be found on 
-          the Minnesota Department of Natural Resources website: https://www.dnr.state.mn.us/npc/classification.html.
+          The Minnesota Native Plant Classification was published in 2003, with two additional field guides released in 2005, 
+          to provide a common language for vegetation conservation and management across Minnesota. It is used by multiple DNR divisions; 
+          federal agencies such as the U.S. Forest Service, Natural Resources Conservation Service, National Park Service, and U.S. Fish and Wildlife Service; 
+          county land departments; nonprofit organizations; educators; researchers; and environmental consultants. The current classification hierarchy aligns 
+          with Minnesota’s Ecological Classification System (ECS) provinces and sections, allowing vegetation management issues to be assessed consistently 
+          from broad landscapes down to individual stands. 
           
+          The published MN NPC is based on relevé data collected from 1964 through the early 2000s, 
+          replacing an older expert based descriptive system with an empirically derived one. A total of 5,523 plots were used in the original Field Guide development. 
+          Since then, an additional 4,144 relevés have been collected, including data from ecological systems that were under represented or absent in the original analysis. 
+          An update to the classification is currently underway, with a target completion date of 2027, and will incorporate these newer data to fill geographic gaps and 
+          correct regional imbalances present in the original analysis.
+          
+          The MNNPC tool being developed for RMAVIS builds on the published classification but serves a different purpose. 
+          The website presents the official, static classification, while the tool provides a data driven environment for exploring how new relevés, 
+          updated analyses, and additional ecological systems relate to the existing framework. The tool supports tasks such as testing plot assignments, 
+          examining fidelity and diversity metrics, and evaluating distinctions among similar communities. As new data continue to accumulate, 
+          the tool will help inform future refinements such as improved field keys and clearer separation of ecotonal communities.
+
           Publications:
           
           Aaseng, N.E., Almendinger, J.C., Dana, R.P., Hanson, D.S., Lee, M.D., Rowe, E.R., Rusterholz, K.A. and Wovcha, D.S., 2011. Minnesota’s native plant community classification: A statewide classification of terrestrial and wetland vegetation based on numerical analysis of plot data. Biological Report, 108, pp.1-27. URL: Minnesota’s native plant community classification: A statewide classification of terrestrial and wetland vegetation based on numerical analysis of plot data.

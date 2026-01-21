@@ -82,7 +82,7 @@ quadratsPerYearGroup <- surveyDataStructure$quadratsPerYearGroup
 vcAssignmentPlot_Jaccard <- vcAssignment$vcAssignmentPlot_Jaccard
 vcAssignmentSite_Czekanowski <- vcAssignment$vcAssignmentSite_Czekanowski
 vcAssignmentGroup_Czekanowski <- vcAssignment$vcAssignmentGroup_Czekanowski
-topVCCommunities <- vcAssignment$topVCCommunities
+topVCComms <- vcAssignment$topVCComms
 
 # Habitat Correspondences
 # habCor <- habCor$
@@ -627,7 +627,7 @@ if("mvaNationalReference" %in% reportOptions){
   
   mvaNationalRefPlot <- ggplot2::ggplot() +
     ggplot2::geom_polygon(data = mvaNationalRef_hulls |> dplyr::filter(dcaAxes == dcaAxisSelection,
-                                                                       VC %in% topVCCommunities), 
+                                                                       VC %in% topVCComms), 
                           alpha = 0.2,
                           mapping = ggplot2::aes(x = .data[[x_axis]],
                                                  y = .data[[y_axis]],

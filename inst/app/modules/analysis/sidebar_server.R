@@ -406,7 +406,7 @@ sidebar <- function(input, output, session,
     vcAssignment <- vcAssignment()
     setupData <- setupData()
     
-    topVCCommunities <- vcAssignment$topVCCommunities
+    topVCSubCommsAndComms <- vcAssignment$topVCSubCommsAndComms
     vc_code_values <- unique(setupData$floristic_tables[[unit_name_col()]])
     
     if(input$restrictVCFlorTablesOpts == TRUE){
@@ -414,8 +414,8 @@ sidebar <- function(input, output, session,
       shiny::updateSelectizeInput(
         session = session,
         inputId = "vcFloristicTable",
-        choices = topVCCommunities,
-        selected = topVCCommunities[1]
+        choices = topVCSubCommsAndComms,
+        selected = topVCSubCommsAndComms[1]
       )
       
     } else if(input$restrictVCFlorTablesOpts == FALSE){
@@ -424,7 +424,7 @@ sidebar <- function(input, output, session,
         session = session,
         inputId = "vcFloristicTable",
         choices = vc_code_values,
-        selected = topVCCommunities[1]
+        selected = topVCSubCommsAndComms[1]
       )
       
     }
@@ -553,7 +553,7 @@ sidebar <- function(input, output, session,
       unit_name_col <- unit_name_col()
     })
     
-    topVCCommunities <- vcAssignment$topVCCommunities
+    topVCComms <- vcAssignment$topVCComms
     
     selectedReferenceSpaces_options <- unique(setupData$floristic_tables[[unit_name_col]])
     
@@ -561,7 +561,7 @@ sidebar <- function(input, output, session,
       session = session,
       inputId = "selectedReferenceSpaces",
       choices = selectedReferenceSpaces_options,
-      selected = topVCCommunities
+      selected = topVCComms
     )
     
   }) |>

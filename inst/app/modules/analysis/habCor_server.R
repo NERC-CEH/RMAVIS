@@ -82,9 +82,9 @@ habCor <- function(input, output, session, setupData, vcAssignment, sidebar_opti
       
     })
       
-    topVCCommunities_df <- tibble::tibble(!!unit_name_col := vcAssignment$topVCCommunities)
+    topVCComms_df <- tibble::tibble(!!unit_name_col := vcAssignment$topVCComms)
     
-    habCor <- topVCCommunities_df |>
+    habCor <- topVCComms_df |>
       dplyr::left_join(habitat_correspondences, relationship = "many-to-many", by = unit_name_col)
     
     habCorTable <- habCor |>
