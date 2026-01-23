@@ -25,12 +25,18 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
   runAnalysis <- reactiveVal()
   aggTaxaOpts <- reactiveVal()
   resultsViewDiversity <- reactiveVal()
+  hillq <- reactiveVal()
+  divMetrics <- reactiveVal()
+  divMeasures <- reactiveVal()
   
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
     aggTaxaOpts(sidebar_options()$aggTaxaOpts)
     resultsViewDiversity(sidebar_options()$resultsViewDiversity)
+    hillq(sidebar_options()$hillq)
+    divMetrics(sidebar_options()$divMetrics)
+    divMeasures(sidebar_options()$divMeasures)
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -103,23 +109,23 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
   output$diversityTableQuadrat <- reactable::renderReactable({
 
     diversityTableQuadrat <- reactable::reactable(data = diversityTableQuadrat_init,
-                                                        filterable = FALSE,
-                                                        pagination = FALSE, 
-                                                        highlight = TRUE,
-                                                        bordered = TRUE,
-                                                        sortable = TRUE, 
-                                                        wrap = FALSE,
-                                                        resizable = TRUE,
-                                                        style = list(fontSize = "1rem"),
-                                                        class = "my-tbl",
-                                                        # style = list(fontSize = "1rem"),
-                                                        rowClass = "my-row",
-                                                        defaultColDef = reactable::colDef(
-                                                          format = reactable::colFormat(digits = 2),
-                                                          headerClass = "my-header",
-                                                          class = "my-col",
-                                                          align = "center" # Needed as alignment is not passing through to header
-                                                        ))
+                                                  filterable = FALSE,
+                                                  pagination = FALSE, 
+                                                  highlight = TRUE,
+                                                  bordered = TRUE,
+                                                  sortable = TRUE, 
+                                                  wrap = FALSE,
+                                                  resizable = TRUE,
+                                                  style = list(fontSize = "1rem"),
+                                                  class = "my-tbl",
+                                                  # style = list(fontSize = "1rem"),
+                                                  rowClass = "my-row",
+                                                  defaultColDef = reactable::colDef(
+                                                    format = reactable::colFormat(digits = 2),
+                                                    headerClass = "my-header",
+                                                    class = "my-col",
+                                                    align = "center" # Needed as alignment is not passing through to header
+                                                  ))
 
     return(diversityTableQuadrat)
 
@@ -139,23 +145,23 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
   output$diversityTableGroup <- reactable::renderReactable({
     
     diversityTableGroup <- reactable::reactable(data = diversityTableGroup_init,
-                                                      filterable = FALSE,
-                                                      pagination = FALSE, 
-                                                      highlight = TRUE,
-                                                      bordered = TRUE,
-                                                      sortable = TRUE, 
-                                                      wrap = FALSE,
-                                                      resizable = TRUE,
-                                                      style = list(fontSize = "1rem"),
-                                                      class = "my-tbl",
-                                                      # style = list(fontSize = "1rem"),
-                                                      rowClass = "my-row",
-                                                      defaultColDef = reactable::colDef(
-                                                        format = reactable::colFormat(digits = 2),
-                                                        headerClass = "my-header",
-                                                        class = "my-col",
-                                                        align = "center" # Needed as alignment is not passing through to header
-                                                      ))
+                                                filterable = FALSE,
+                                                pagination = FALSE, 
+                                                highlight = TRUE,
+                                                bordered = TRUE,
+                                                sortable = TRUE, 
+                                                wrap = FALSE,
+                                                resizable = TRUE,
+                                                style = list(fontSize = "1rem"),
+                                                class = "my-tbl",
+                                                # style = list(fontSize = "1rem"),
+                                                rowClass = "my-row",
+                                                defaultColDef = reactable::colDef(
+                                                  format = reactable::colFormat(digits = 2),
+                                                  headerClass = "my-header",
+                                                  class = "my-col",
+                                                  align = "center" # Needed as alignment is not passing through to header
+                                                ))
     
     return(diversityTableGroup)
     
@@ -174,23 +180,23 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
   output$diversityTableYear <- reactable::renderReactable({
     
     diversityTableYear <- reactable::reactable(data = diversityTableYear_init,
-                                                     filterable = FALSE,
-                                                     pagination = FALSE, 
-                                                     highlight = TRUE,
-                                                     bordered = TRUE,
-                                                     sortable = TRUE, 
-                                                     wrap = FALSE,
-                                                     resizable = TRUE,
-                                                     style = list(fontSize = "1rem"),
-                                                     class = "my-tbl",
-                                                     # style = list(fontSize = "1rem"),
-                                                     rowClass = "my-row",
-                                                     defaultColDef = reactable::colDef(
-                                                       format = reactable::colFormat(digits = 2),
-                                                       headerClass = "my-header",
-                                                       class = "my-col",
-                                                       align = "center" # Needed as alignment is not passing through to header
-                                                     ))
+                                               filterable = FALSE,
+                                               pagination = FALSE, 
+                                               highlight = TRUE,
+                                               bordered = TRUE,
+                                               sortable = TRUE, 
+                                               wrap = FALSE,
+                                               resizable = TRUE,
+                                               style = list(fontSize = "1rem"),
+                                               class = "my-tbl",
+                                               # style = list(fontSize = "1rem"),
+                                               rowClass = "my-row",
+                                               defaultColDef = reactable::colDef(
+                                                 format = reactable::colFormat(digits = 2),
+                                                 headerClass = "my-header",
+                                                 class = "my-col",
+                                                 align = "center" # Needed as alignment is not passing through to header
+                                               ))
     
     return(diversityTableYear)
     
@@ -210,8 +216,15 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
     )
     
     shiny::req(surveyData())
+    shiny::req(length(hillq()) > 0)
+    shiny::req(length(divMetrics()) > 0)
+    shiny::req(length(divMeasures()) > 0)
     
     shiny::isolate({
+      
+      hillq <- hillq()
+      divMetrics <- divMetrics()
+      divMeasures <- divMeasures()
       
       if(isTRUE(regional_availability()$aggTaxa) & "diversity" %in% aggTaxaOpts()){
         
@@ -228,6 +241,14 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
       phylo_tree <- phylo_tree()
       
     })
+    
+    assign(x = "hillq", value = hillq, envir = .GlobalEnv)
+    assign(x = "divMetrics", value = divMetrics, envir = .GlobalEnv)
+    assign(x = "divMeasures", value = divMeasures, envir = .GlobalEnv)
+    assign(x = "surveyData_long", value = surveyData_long, envir = .GlobalEnv)
+    assign(x = "higher_taxa", value = higher_taxa, envir = .GlobalEnv)
+    assign(x = "phylo_taxa_lookup", value = phylo_taxa_lookup, envir = .GlobalEnv)
+    assign(x = "phylo_tree", value = phylo_tree, envir = .GlobalEnv)
     
     if(any(is.na(surveyData_long$Cover))){
       surveyData_long$Cover <- 1
@@ -261,8 +282,10 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
                                                                           phylo_tree = phylo_tree, 
                                                                           phylo_taxa_lookup = phylo_taxa_lookup)),
                     .keep = "unused") |>
-      dplyr::cross_join(tibble::tibble("q" = c(0, 1, 2))) |>
+      dplyr::cross_join(tibble::tibble("q" = as.numeric(hillq))) |>
       dplyr::mutate("results" = list(RMAVIS::calc_rdiversity_metrics_meta(rdiv_objects = rdiv_objects,
+                                                                          measures = divMeasures,
+                                                                          metrics = divMetrics,
                                                                           q = q))) |>
       dplyr::ungroup() |>
       dplyr::select(-rdiv_objects, -q) |>
@@ -285,8 +308,10 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
                                                                           phylo_tree = phylo_tree, 
                                                                           phylo_taxa_lookup = phylo_taxa_lookup)),
                     .keep = "unused") |>
-      dplyr::cross_join(tibble::tibble("q" = c(0, 1, 2))) |>
+      dplyr::cross_join(tibble::tibble("q" = as.numeric(hillq))) |>
       dplyr::mutate("results" = list(RMAVIS::calc_rdiversity_metrics_meta(rdiv_objects = rdiv_objects, 
+                                                                          measures = divMeasures,
+                                                                          metrics = divMetrics,
                                                                           q = q))) |>
       dplyr::ungroup() |>
       dplyr::select(-rdiv_objects, -q) |>
@@ -310,8 +335,10 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
                                                                           phylo_tree = phylo_tree, 
                                                                           phylo_taxa_lookup = phylo_taxa_lookup)),
                     .keep = "unused") |>
-      dplyr::cross_join(tibble::tibble("q" = c(0, 1, 2))) |>
+      dplyr::cross_join(tibble::tibble("q" = as.numeric(hillq))) |>
       dplyr::mutate("results" = list(RMAVIS::calc_rdiversity_metrics_subcom(rdiv_objects = rdiv_objects,
+                                                                            measures = divMeasures,
+                                                                            metrics = divMetrics,
                                                                             q = q))) |>
       dplyr::ungroup() |>
       dplyr::select(-rdiv_objects, -q) |>

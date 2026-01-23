@@ -621,6 +621,112 @@ sidebarUI <- function(id){
         
         shiny::div(
           
+          id = ns("divMeasures_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("divMeasures"),
+                                  label = "Diversity Measures",
+                                  choices = list("Alpha" = "alpha", 
+                                                 "Beta" = "beta", 
+                                                 "Gamma" = "gamma"),
+                                  selected = c("alpha"),
+                                  multiple = TRUE),
+            
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Diversity Measures",
+              shiny::markdown(
+                "
+                Select the Diversity Measures to calculate:
+                - 'Alpha'
+                - 'Beta'
+                - 'Gamma'
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("divMetrics_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("divMetrics"),
+                                  label = "Diversity Metrics",
+                                  choices = c("Naive" = "naive", 
+                                              "Taxonomic" = "taxonomic", 
+                                              "Phylogenetic" = "phylogenetic"),
+                                  selected = c("naive", "taxonomic", "phylogenetic"),
+                                  multiple = TRUE),
+            
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Diversity Metrics",
+              shiny::markdown(
+                "
+                Select the Diversity Metrics to calculate:
+                - 'Naive'
+                - 'Taxonomic'
+                - 'Phylogenetic'
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("hillq_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("hillq"),
+                                  label = "Hill Numbers (q)",
+                                  choices = c(0, 1, 2),
+                                  selected = c(0),
+                                  multiple = TRUE),
+            
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Hill Numbers (q)",
+              shiny::markdown(
+                "
+                Select the Hill Numbers (q) which which to calculate diversity metrics and measures.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
           id = ns("resultsViewDiversity_div"),
           
           bslib::layout_columns(
@@ -639,13 +745,10 @@ sidebarUI <- function(id){
               title = "Results to View",
               shiny::markdown(
                 "
-                Select the diveristy metric results to view.
-                Five options are currently provided.
-                - 'Site Summary Table':
-                - 'Quadrat Diversity Indices Table':
-                - 'Species Richness, by Site':
-                - 'Species Richness, by Group':
-                - 'Species Richness, by Quadrat':
+                Select the diveristy partition results to view:
+                - 'Year'
+                - 'Group'
+                - 'Quadrat'
                 "
               ),
               placement = "bottom"

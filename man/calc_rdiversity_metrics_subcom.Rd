@@ -4,12 +4,21 @@
 \alias{calc_rdiversity_metrics_subcom}
 \title{...}
 \usage{
-calc_rdiversity_metrics_subcom(rdiv_objects, q = 0)
+calc_rdiversity_metrics_subcom(
+  rdiv_objects,
+  measures = c("alpha", "beta", "gamma"),
+  metrics = c("naive", "taxonomic", "phylogenetic"),
+  q = 0
+)
 }
 \arguments{
 \item{rdiv_objects}{}
 
-\item{q}{}
+\item{measures}{One or more of "alpha", "beta", and "gamma".}
+
+\item{metrics}{One or more of "naive", "taxonomic", and "phylogenetic".}
+
+\item{q}{description}
 }
 \value{
 ...

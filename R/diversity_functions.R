@@ -100,14 +100,16 @@ calc_rdiversity_objects <- function(plot_data, higher_taxa, phylo_tree, phylo_ta
 #' ...
 #'
 #' @param rdiv_objects 
-#' @param q 
+#' @param measures One or more of "alpha", "beta", and "gamma".
+#' @param metrics One or more of "naive", "taxonomic", and "phylogenetic".
+#' @param q description
 #'
 #' @returns ...
 #' @export
 #'
 #' @examples
 #' ...
-calc_rdiversity_metrics_subcom <- function(rdiv_objects, q = 0){
+calc_rdiversity_metrics_subcom <- function(rdiv_objects, measures = c("alpha", "beta", "gamma"), metrics = c("naive", "taxonomic", "phylogenetic"), q = 0){
   
   # Retrieve objects
   meta_naive <- rdiv_objects[["meta_naive"]]
@@ -115,12 +117,21 @@ calc_rdiversity_metrics_subcom <- function(rdiv_objects, q = 0){
   meta_phylo_dist <- rdiv_objects[["meta_phylo_dist"]]
   
   # Naive diversity measures
-  if(!is.null(meta_naive)){
+  if(!is.null(meta_naive) & "naive" %in% metrics){
     
-    alpha_naive_norm <- rdiversity::subdiv(rdiversity::norm_alpha(meta_naive), qs = q)
-    beta_naive_norm <- rdiversity::subdiv(rdiversity::norm_beta(meta_naive), qs = q)
+    if("alpha" %in% measures){
+      alpha_naive_norm <- rdiversity::subdiv(rdiversity::norm_alpha(meta_naive), qs = q)
+    } else{
+      alpha_naive_norm <- NULL
+    }
     
-    if(dim(meta_naive@similarity)[2] > 1){
+    if("beta" %in% measures){
+      beta_naive_norm <- rdiversity::subdiv(rdiversity::norm_beta(meta_naive), qs = q)
+    } else {
+      beta_naive_norm <- NULL
+    }
+    
+    if("gamma" %in% measures & dim(meta_naive@similarity)[2] > 1){
       gamma_naive <- rdiversity::sub_gamma(meta_naive, q)
     } else {
       gamma_naive <- NULL
@@ -135,12 +146,21 @@ calc_rdiversity_metrics_subcom <- function(rdiv_objects, q = 0){
   }
   
   # Taxonomic diversity measures
-  if(!is.null(meta_tax)){
+  if(!is.null(meta_tax) & "taxonomic" %in% metrics){
     
-    alpha_tax_norm <- rdiversity::subdiv(rdiversity::norm_alpha(meta_tax), qs = q)
-    beta_tax_norm <- rdiversity::subdiv(rdiversity::norm_beta(meta_tax), qs = q)
+    if("alpha" %in% measures){
+      alpha_tax_norm <- rdiversity::subdiv(rdiversity::norm_alpha(meta_tax), qs = q)
+    } else{
+      alpha_tax_norm <- NULL
+    }
     
-    if(dim(meta_tax@similarity)[2] > 1){
+    if("beta" %in% measures){
+      beta_tax_norm <- rdiversity::subdiv(rdiversity::norm_beta(meta_tax), qs = q)
+    } else {
+      beta_tax_norm <- NULL
+    }
+    
+    if("gamma" %in% measures & dim(meta_tax@similarity)[2] > 1){
       gamma_tax <- rdiversity::sub_gamma(meta_tax, q)
     } else {
       gamma_tax <- NULL
@@ -155,12 +175,21 @@ calc_rdiversity_metrics_subcom <- function(rdiv_objects, q = 0){
   }
   
   # Phylogenetic diversity measures
-  if(!is.null(meta_phylo_dist)){
+  if(!is.null(meta_phylo_dist) & "phylogenetic" %in% metrics){
     
-    alpha_phylo_norm_dist <- rdiversity::subdiv(rdiversity::norm_alpha(meta_phylo_dist), qs = q)
-    beta_phylo_norm_dist <- rdiversity::subdiv(rdiversity::norm_beta(meta_phylo_dist), qs = q)
+    if("alpha" %in% measures){
+      alpha_phylo_norm_dist <- rdiversity::subdiv(rdiversity::norm_alpha(meta_phylo_dist), qs = q)
+    } else{
+      alpha_phylo_norm_dist <- NULL
+    }
     
-    if(dim(meta_phylo_dist@similarity)[2] > 1){
+    if("beta" %in% measures){
+      beta_phylo_norm_dist <- rdiversity::subdiv(rdiversity::norm_beta(meta_phylo_dist), qs = q)
+    } else {
+      beta_phylo_norm_dist <- NULL
+    }
+    
+    if("gamma" %in% measures & dim(meta_phylo_dist@similarity)[2] > 1){
       gamma_phylo_dist <- rdiversity::sub_gamma(meta_phylo_dist, q)
     } else {
       gamma_phylo_dist <- NULL
@@ -203,6 +232,8 @@ calc_rdiversity_metrics_subcom <- function(rdiv_objects, q = 0){
 #' ...
 #'
 #' @param rdiv_objects ...
+#' @param measures One or more of "alpha", "beta", and "gamma".
+#' @param metrics One or more of "naive", "taxonomic", and "phylogenetic".
 #' @param q ...
 #'
 #' @returns...
@@ -210,7 +241,7 @@ calc_rdiversity_metrics_subcom <- function(rdiv_objects, q = 0){
 #'
 #' @examples
 #' ...
-calc_rdiversity_metrics_meta <- function(rdiv_objects, q = 0){
+calc_rdiversity_metrics_meta <- function(rdiv_objects, measures = c("alpha", "beta", "gamma"), metrics = c("naive", "taxonomic", "phylogenetic"), q = 0){
 
   # Retrieve objects
   meta_naive <- rdiv_objects[["meta_naive"]]
@@ -218,12 +249,21 @@ calc_rdiversity_metrics_meta <- function(rdiv_objects, q = 0){
   meta_phylo_dist <- rdiv_objects[["meta_phylo_dist"]]
 
   # Naive diversity measures
-  if(!is.null(meta_naive)){
+  if(!is.null(meta_naive) & "naive" %in% metrics){
     
-    norm_meta_alpha_naive <- rdiversity::norm_meta_alpha(meta_naive, qs = q)
-    norm_meta_beta_naive <- rdiversity::norm_meta_beta(meta_naive, qs = q)
+    if("alpha" %in% measures){
+      norm_meta_alpha_naive <- rdiversity::norm_meta_alpha(meta_naive, qs = q)
+    } else {
+      norm_meta_alpha_naive <- NULL
+    }
     
-    if(dim(meta_naive@similarity)[2] > 1){
+    if("beta" %in% measures){
+      norm_meta_beta_naive <- rdiversity::norm_meta_beta(meta_naive, qs = q)
+    } else {
+      norm_meta_beta_naive <- NULL
+    }
+    
+    if("gamma" %in% measures & dim(meta_naive@similarity)[2] > 1){
       gamma_naive <- rdiversity::meta_gamma(meta_naive, qs = q)
     } else {
       gamma_naive <- NULL
@@ -238,12 +278,21 @@ calc_rdiversity_metrics_meta <- function(rdiv_objects, q = 0){
   }
 
   # Taxonomic diversity measures
-  if(!is.null(meta_tax)){
+  if(!is.null(meta_tax) & "taxonomic" %in% metrics){
     
-    norm_meta_alpha_tax <- rdiversity::norm_meta_alpha(meta_tax, qs = q)
-    norm_meta_beta_tax <- rdiversity::norm_meta_beta(meta_tax, qs = q)
+    if("alpha" %in% measures){
+      norm_meta_alpha_tax <- rdiversity::norm_meta_alpha(meta_tax, qs = q)
+    } else {
+      norm_meta_alpha_tax <- NULL
+    }
     
-    if(dim(meta_tax@similarity)[2] > 1){
+    if("beta" %in% measures){
+      norm_meta_beta_tax <- rdiversity::norm_meta_beta(meta_tax, qs = q)
+    } else {
+      norm_meta_beta_tax <- NULL
+    }
+    
+    if("gamma" %in% measures & dim(meta_tax@similarity)[2] > 1){
       gamma_tax <- rdiversity::meta_gamma(meta_tax, qs = q)
     } else {
       gamma_tax <- NULL
@@ -258,12 +307,21 @@ calc_rdiversity_metrics_meta <- function(rdiv_objects, q = 0){
   }
 
   # Phylogenetic diversity measures
-  if(!is.null(meta_phylo_dist)){
+  if(!is.null(meta_phylo_dist) & "phylogenetic" %in% metrics){
     
-    norm_meta_alpha_phylo_dist <- rdiversity::norm_meta_alpha(meta_phylo_dist, qs = q)
-    norm_meta_beta_phylo_dist <- rdiversity::norm_meta_beta(meta_phylo_dist, qs = q)
+    if("alpha" %in% measures){
+      norm_meta_alpha_phylo_dist <- rdiversity::norm_meta_alpha(meta_phylo_dist, qs = q)
+    } else{
+      norm_meta_alpha_phylo_dist <- NULL
+    }
     
-    if(dim(meta_phylo_dist@similarity)[2] > 1){
+    if("beta" %in% measures){
+      norm_meta_beta_phylo_dist <- rdiversity::norm_meta_beta(meta_phylo_dist, qs = q)
+    } else {
+      norm_meta_beta_phylo_dist <- NULL
+    }
+    
+    if("gamma" %in% measures & dim(meta_phylo_dist@similarity)[2] > 1){
       gamma_phylo_dist <- rdiversity::meta_gamma(meta_phylo_dist, qs = q)
     } else {
       gamma_phylo_dist <- NULL
