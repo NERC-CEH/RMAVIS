@@ -201,12 +201,12 @@ surveyDataValidatorUI <- function(id){
                   title = "Quadrat Names Unique",
                   id = ns("quadratIDUniqueTextInfo"),
                   shiny::markdown(
-                    "
-                If TRUE all quadrat names/IDs are unique within each year.
-                
-                If FALSE there are duplicate quadrat names/IDs within a year.
-
-                "
+                  "
+                  If TRUE all quadrat names/IDs are unique within each year.
+                  
+                  If FALSE there are duplicate quadrat names/IDs within a year.
+  
+                  "
                   ),
                   placement = "bottom"
                 ),

@@ -97,15 +97,16 @@
     },
     "MNNPC": {
       "Package": "MNNPC",
-      "Version": "0.9.9",
-      "Source": "GitHub",
+      "Version": "1.0.0",
+      "Source": "unknown",
       "Title": "Minnesota Native Plant Community Classification System data",
-      "Date": "2025-01-02",
+      "Date": "2026-01-XX",
       "Authors@R": "c(person(given = \"Amy\", family = \"Kendig\", role = c(\"aut\", \"cre\"), email = \"amy.kendig@state.mn.us\", comment = c(ORCID = \"0000-0002-2774-1795\")), person(given = \"Zeke\", family = \"Marshall\", role = c(\"aut\"), email = \"zekmar@ceh.ac.uk\", comment = c(ORCID = \"0000-0001-9260-7827\")) )",
       "Description": "Minnesota Native Plant Community Classification System objects for RMAVIS.",
       "License": "MIT + file LICENSE",
       "Encoding": "UTF-8",
       "Roxygen": "list(markdown = TRUE)",
+      "LazyDataCompression": "xz",
       "RoxygenNote": "7.3.3",
       "Depends": [
         "R (>= 4.4)"
@@ -118,14 +119,9 @@
       "Suggests": [
         "testthat (>= 3.0.0)"
       ],
+      "NeedsCompilation": "no",
       "Author": "Amy Kendig [aut, cre] (<https://orcid.org/0000-0002-2774-1795>), Zeke Marshall [aut] (<https://orcid.org/0000-0001-9260-7827>)",
-      "Maintainer": "Amy Kendig <amy.kendig@state.mn.us>",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "MN-DNR-MBS",
-      "RemoteRepo": "MNNPC",
-      "RemoteRef": "v0.9.9",
-      "RemoteSha": "d95b041d830313810caca9885e1135acd1557e4a"
+      "Maintainer": "Amy Kendig <amy.kendig@state.mn.us>"
     },
     "Matrix": {
       "Package": "Matrix",
