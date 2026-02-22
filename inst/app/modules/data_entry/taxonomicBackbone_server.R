@@ -27,7 +27,9 @@ taxonomicBackbone <- function(input, output, session, region) {
           "Informal.Group" = "informal_group",
           "ID" = "id",
           "Taxon.Name" = "taxon_name",
-          "Rank" = "rank"
+          "Rank" = "rank",
+          "Qualifier" = "qualifier",
+          "Authority" = "authority"
         ) |>
         dplyr::distinct(Informal.Group, Taxon.Name, Rank, .keep_all = TRUE) |>
         dplyr::arrange(Taxon.Name)

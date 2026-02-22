@@ -32,7 +32,6 @@ sidebar <- function(input, output, session,
     
     sidebar_options_list <- list(
       "runAnalysis" = input$runAnalysis,
-      "aggTaxaOpts" = input$aggTaxaOpts,
       "selectVCtypes" = input$selectVCtypes,
       "assignQuadrats" = input$assignQuadrats,
       "removeLowFreqTaxa" = input$removeLowFreqTaxa,
@@ -68,7 +67,6 @@ sidebar <- function(input, output, session,
     
   }) |>
     bindEvent(input$runAnalysis,
-              input$aggTaxaOpts,
               input$selectVCtypes,
               input$assignQuadrats,
               input$removeLowFreqTaxa,
@@ -118,44 +116,6 @@ sidebar <- function(input, output, session,
     bindEvent(region(),
               ignoreInit = FALSE,
               ignoreNULL = TRUE)
-
-# Show/Hide and Update aggregate taxa options -----------------------------
-  observe({
-    
-    if(region() == "gbnvc"){
-      
-      shinyjs::hide(id = "aggTaxa_div")
-      
-      shinyWidgets::updatePickerInput(session = session,
-                                      inputId = "aggTaxaOpts",
-                                      choices = c("VC Assignment" = "vc_assign",
-                                                  "Floristic Tables" = "floristic_tables",
-                                                  "Frequency" = "frequency",
-                                                  "EIVs" = "eivs",
-                                                  "Diversity" = "diversity",
-                                                  "MVA" = "mva"),
-                                      selected = c("vc_assign", "floristic_tables", "mva"))
-      
-    } else if(region() == "mnnpc"){
-      
-      shinyjs::show(id = "aggTaxa_div")
-      
-      shinyWidgets::updatePickerInput(session = session,
-                                      inputId = "aggTaxaOpts",
-                                      choices = c("VC Assignment" = "vc_assign",
-                                                  "Floristic Tables" = "floristic_tables",
-                                                  "Frequency" = "frequency",
-                                                  "Diversity" = "diversity",
-                                                  "MVA" = "mva"),
-                                      selected = c("vc_assign", "floristic_tables", "mva"))
-      
-    }
-    
-  }) |>
-    bindEvent(region(),
-              ignoreInit = FALSE,
-              ignoreNULL = TRUE)
-  
 
 # Update select VC types --------------------------------------------------
   observe({
@@ -406,40 +366,25 @@ sidebar <- function(input, output, session,
 # Reactively update vcFloristicTable options -----------------------------
   observe({
     
-    shiny::req(vcAssignment())
-    shiny::req(setupData())
+    shiny::req(!is.null(vcAssignment()))
     
     vcAssignment <- vcAssignment()
-    setupData <- setupData()
     
-    topVCSubCommsAndComms <- vcAssignment$topVCSubCommsAndComms
-    vc_code_values <- unique(setupData$floristic_tables[[unit_name_col()]])
-    
-    if(input$restrictVCFlorTablesOpts == TRUE){
+    vcFloristicTable_vc_options <- vcAssignment |>
+      purrr::pluck(input$restrictVCFlorTablesOpts)
       
-      shiny::updateSelectizeInput(
-        session = session,
-        inputId = "vcFloristicTable",
-        choices = topVCSubCommsAndComms,
-        selected = topVCSubCommsAndComms[1]
-      )
-      
-    } else if(input$restrictVCFlorTablesOpts == FALSE){
-      
-      shiny::updateSelectizeInput(
-        session = session,
-        inputId = "vcFloristicTable",
-        choices = vc_code_values,
-        selected = topVCSubCommsAndComms[1]
-      )
-      
-    }
+    shiny::updateSelectizeInput(
+      session = session,
+      inputId = "vcFloristicTable",
+      choices = vcFloristicTable_vc_options,
+      selected = vcFloristicTable_vc_options[1]
+    )
     
   }) |>
     bindEvent(input$restrictVCFlorTablesOpts,
               vcAssignment(),
-              setupData(),
-              ignoreInit = TRUE)
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
   
 
   # Reactively update floristicTablesSetView options ------------------------
@@ -550,28 +495,50 @@ sidebar <- function(input, output, session,
               ignoreInit = FALSE,
               ignoreNULL = TRUE)
   
-  # Reactively update global reference DCA space selection ------------------
+  # Reactively update VC comms available for selection in the MVAs ------------------
   observe({
+    
+    shiny::req(!is.null(vcAssignment()))
     
     shiny::isolate({
       vcAssignment <- vcAssignment()
-      setupData <- setupData()
-      unit_name_col <- unit_name_col()
     })
     
-    topVCComms <- vcAssignment$topVCComms
+    MVA_vc_options <- vcAssignment |>
+      purrr::pluck(input$restrictVCMVAOpts)
     
-    selectedReferenceSpaces_options <- unique(setupData$floristic_tables[[unit_name_col]])
+    if(input$restrictVCMVAOpts %in% c("vc_comms_subcomms_all", "vc_comms_subcomms_10")){
+      
+      MVA_vc_selected <- vcAssignment |>
+        purrr::pluck("vc_comms_subcomms_10")
+      
+    } else if(input$restrictVCMVAOpts %in% c("vc_comms_all", "vc_comms_10")){
+      
+      MVA_vc_selected <- vcAssignment |>
+        purrr::pluck("vc_comms_10")
+      
+    } else if(input$restrictVCMVAOpts %in% c("vc_comms_1")){
+      
+      MVA_vc_selected <- vcAssignment |>
+        purrr::pluck("vc_comms_1")
+      
+    } else if(input$restrictVCMVAOpts %in% c("vc_comms_subcomms_1")){
+      
+      MVA_vc_selected <- vcAssignment |>
+        purrr::pluck("vc_comms_subcomms_1")
+      
+    }
     
     shiny::updateSelectizeInput(
       session = session,
       inputId = "selectedReferenceSpaces",
-      choices = selectedReferenceSpaces_options,
-      selected = topVCComms
+      choices = MVA_vc_options,
+      selected = MVA_vc_selected
     )
     
   }) |>
     bindEvent(vcAssignment(),
+              input$restrictVCMVAOpts,
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   

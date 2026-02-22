@@ -6,28 +6,24 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
   runAnalysis <- reactiveVal()
   dcaAxisSelection <- reactiveVal()
   dcaVars <- reactiveVal()
-  # ccaVars <- reactiveVal()
   selectedReferenceSpaces <- reactiveVal()
   groupSurveyPlots <- reactiveVal()
   selectSurveyMethod <- reactiveVal()
   selectSurveyYears <- reactiveVal()
   selectSurveyQuadrats <- reactiveVal()
   selectSurveyGroups <- reactiveVal()
-  aggTaxaOpts <- reactiveVal()
   
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
     dcaAxisSelection(sidebar_options()$dcaAxisSelection)
     dcaVars(sidebar_options()$dcaVars)
-    # ccaVars(sidebar_options()$ccaVars)
     groupSurveyPlots(sidebar_options()$groupSurveyPlots)
     selectedReferenceSpaces(sidebar_options()$selectedReferenceSpaces)
     selectSurveyMethod(sidebar_options()$selectSurveyMethod)
     selectSurveyYears(sidebar_options()$selectSurveyYears)
     selectSurveyQuadrats(sidebar_options()$selectSurveyQuadrats)
     selectSurveyGroups(sidebar_options()$selectSurveyGroups)
-    aggTaxaOpts(sidebar_options()$aggTaxaOpts)
     
   }) |>
     bindEvent(sidebar_options(), 
@@ -46,6 +42,7 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
     
   }) |>
     shiny::bindEvent(setupData(),
+                     runAnalysis(),
                      ignoreInit = FALSE,
                      ignoreNULL = TRUE)
    
@@ -56,18 +53,19 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
     
     shiny::isolate({
       pquads <- setupData()$pquads
-      psq_taxon_name_col <- setupData()$psq_taxon_name_col
+      ref_taxon_name_col <- setupData()$ref_taxon_name_col
+      ref_plot_name_col <- setupData()$ref_plot_name_col
     })
     
     vc_pquads_wide_prepped <- pquads |>
-      dplyr::select(psq_id, psq_taxon_name_col) |>
+      dplyr::select(ref_plot_name_col, ref_taxon_name_col) |>
       dplyr::mutate("present" = 1) |>
-      dplyr::distinct(.data[["psq_id"]], .data[[psq_taxon_name_col]], .keep_all = TRUE) |>
-      tidyr::pivot_wider(id_cols = psq_id,
-                         names_from = psq_taxon_name_col,
+      dplyr::distinct(.data[[ref_plot_name_col]], .data[[ref_taxon_name_col]], .keep_all = TRUE) |>
+      tidyr::pivot_wider(id_cols = ref_plot_name_col,
+                         names_from = ref_taxon_name_col,
                          values_fill = 0,
                          values_from = present) |>
-      tibble::column_to_rownames(var = "psq_id") |>
+      tibble::column_to_rownames(var = ref_plot_name_col) |>
       as.matrix()
     
     vc_pquads_wide(vc_pquads_wide_prepped)
@@ -86,10 +84,11 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
     
     shiny::isolate({
       psquad_cm_he <- setupData()$psquad_cm_he
+      ref_plot_name_col <- setupData()$ref_plot_name_col
     })
-    
+      
     psquad_cm_he_prepped <- psquad_cm_he |>
-      dplyr::select(psq_id, `F`, L, N, R, S)
+      dplyr::select(ref_plot_name_col, `F`, L, N, R, S)
 
     vc_pquads_mean_unweighted_eivs(psquad_cm_he_prepped)
     
@@ -126,9 +125,9 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
       vc_pquads_wide <- vc_pquads_wide()
       vc_pquads_mean_unweighted_eivs <- vc_pquads_mean_unweighted_eivs()
       avgEIVs <- avgEIVs()
-      # ccaVars <- ccaVars()
+      ref_plot_name_col <- setupData()$ref_plot_name_col
       
-      if(isTRUE(regional_availability()$aggTaxa) & "mva" %in% aggTaxaOpts()){
+      if(isTRUE(regional_availability()$aggTaxa)){
         
         surveyData_long <- surveyData()$surveyData_long_prop_agg
         
@@ -230,11 +229,11 @@ mvaNationalRef <- function(input, output, session, setupData, surveyData, vcAssi
                        "DCA4" = mean(DCA4)) |>
       dplyr::ungroup()
     
-    if(!is.null(vc_pquads_mean_unweighted_eivs)){
+    if(!is.null(vc_pquads_mean_unweighted_eivs) & isTRUE(use_eivs)){
       
       # Retrieve the unweighted mean Hill-Ellenberg scores for the pseudo-quadrats
       vc_pquads_mean_unweighted_eivs_prepped <- vc_pquads_mean_unweighted_eivs |>
-        tibble::column_to_rownames(var = "psq_id")
+        tibble::column_to_rownames(var = ref_plot_name_col)
       
       # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
       selected_pquads_prepped_cca  <- vegan::cca(as.formula(paste0("vc_pquads_mean_unweighted_eivs_prepped ~ ", paste0(RMAVIS:::he_options, collapse = " + "))), # selected_pquads_prepped ~ `F` + `L` + `N`

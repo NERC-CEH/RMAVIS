@@ -155,7 +155,7 @@ deSidebarUI <- function(id){
                 1. Percentage
                 2. Proportional
                 3. Domin
-                4. Braun-Blanquet (5 point)
+                4. Braun-Blanquet
                 
                 The format of the cover values entered in the table
                 will be checked against the selected cover scale

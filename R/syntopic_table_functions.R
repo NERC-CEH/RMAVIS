@@ -57,12 +57,13 @@ composeSyntopicTables <- function(surveyData, group_cols, species_col_name = "Sp
     dplyr::group_by(ID, .data[[species_col_name]]) |>
     dplyr::summarise(
       "min_cover" = dplyr::case_when(
+        "r" %in% .data[[cover_col_name]] ~ "r",
         "+" %in% .data[[cover_col_name]] ~ "+",
         NA %in% .data[[cover_col_name]] ~ NA,
         TRUE ~ as.character(min(.data[[cover_col_name]], na.rm = TRUE))
       ),
       "mean_cover" = dplyr::case_when(
-        "+" %in% .data[[cover_col_name]] ~ as.character(mean(as.numeric(gsub("\\+", "0.5", .data[[cover_col_name]])), na.rm = TRUE)),
+        "+" %in% .data[[cover_col_name]] | "r" %in% .data[[cover_col_name]] ~ as.character(mean(as.numeric(gsub("\\+|r", "0.001", .data[[cover_col_name]])), na.rm = TRUE)),
         NA %in% .data[[cover_col_name]] ~ NA,
         TRUE ~ as.character(mean(as.numeric(.data[[cover_col_name]]), na.rm = TRUE))
       ),

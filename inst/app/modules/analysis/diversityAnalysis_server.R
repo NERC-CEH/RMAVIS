@@ -23,7 +23,6 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
   
 # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
-  aggTaxaOpts <- reactiveVal()
   resultsViewDiversity <- reactiveVal()
   hillq <- reactiveVal()
   divMetrics <- reactiveVal()
@@ -32,7 +31,6 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
-    aggTaxaOpts(sidebar_options()$aggTaxaOpts)
     resultsViewDiversity(sidebar_options()$resultsViewDiversity)
     hillq(sidebar_options()$hillq)
     divMetrics(sidebar_options()$divMetrics)
@@ -226,29 +224,13 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
       divMetrics <- divMetrics()
       divMeasures <- divMeasures()
       
-      if(isTRUE(regional_availability()$aggTaxa) & "diversity" %in% aggTaxaOpts()){
-        
-        surveyData_long <- surveyData()$surveyData_long_prop_agg
-        
-      } else {
-        
-        surveyData_long <- surveyData()$surveyData_long_prop
-        
-      }
+      surveyData_long <- surveyData()$surveyData_long_prop
       
       higher_taxa <- higher_taxa()
       phylo_taxa_lookup <- phylo_taxa_lookup()
       phylo_tree <- phylo_tree()
       
     })
-    
-    assign(x = "hillq", value = hillq, envir = .GlobalEnv)
-    assign(x = "divMetrics", value = divMetrics, envir = .GlobalEnv)
-    assign(x = "divMeasures", value = divMeasures, envir = .GlobalEnv)
-    assign(x = "surveyData_long", value = surveyData_long, envir = .GlobalEnv)
-    assign(x = "higher_taxa", value = higher_taxa, envir = .GlobalEnv)
-    assign(x = "phylo_taxa_lookup", value = phylo_taxa_lookup, envir = .GlobalEnv)
-    assign(x = "phylo_tree", value = phylo_tree, envir = .GlobalEnv)
     
     if(any(is.na(surveyData_long$Cover))){
       surveyData_long$Cover <- 1

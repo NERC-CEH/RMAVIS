@@ -61,7 +61,7 @@ uploadDataUI <- function(id) {
           - *Group:* Contains the quadrat group. String.
           - *Quadrat:* Contains the quadrat ID. String.
           - *Species:* Contains the species. String.
-          - *Cover:* Contains the species-quadrat cover estimates, either empty, or one of four systems: Percentage, Proportional, Domin, Braun-Blanquet (5 point).
+          - *Cover:* Contains the species-quadrat cover estimates, either empty, or one of four systems: Percentage, Proportional, Domin, Braun-Blanquet.
           
           To test this functionality with pre-formatted data take the following steps:
           - Select the 'Example' option.
@@ -100,7 +100,7 @@ uploadDataUI <- function(id) {
           - *Group:* Contains the quadrat group. String.
           - *Quadrat:* Contains the quadrat ID. String.
           
-          with additional columns for each species and values as cover estimates, one of four systems: Percentage, Proportional, Domin, Braun-Blanquet (5 point).
+          with additional columns for each species and values as cover estimates, one of four systems: Percentage, Proportional, Domin, Braun-Blanquet.
           
           Once uploaded wide data will be converted into long format.
           
@@ -185,14 +185,14 @@ uploadDataUI <- function(id) {
           
           The data should be in long format and contain seven columns: year, group, relnumb, physcode, minht, maxht, taxon, and scov.
           
-          - *year:* Contains the year the quadrat/relevé was surveyed. Integer.
-          - *group:* Contains the quadrat/relevé group. String.
-          - *relnumb:* Contains the quadrat/relevé ID. String.
-          - *physcode:* Contains the ... , one of: B, C, D, E, F, G, H, K, S, or X. String.
-          - *minht:* Contains the ... . String.
-          - *maxht:* Contains the ... . String.
-          - *taxon:* Contains the taxon names, accepted taxa are present in `MNNPC::mnnpc_taxa_lookup`. String.
-          - *scov:* Contains the ... cover system values, one of 5 (87.5%), 4 (62.5%), 3 (37.5%), 2 (15%), 1 (2.5%), + (present, 0.5%), r (rare, 0.1%). String.
+          - *Year:* Contains the year the quadrat/relevé was surveyed. Integer.
+          - *Group:* Contains the quadrat/relevé group. String.
+          - *Releve.Number:* Contains the quadrat/relevé ID. String.
+          - *Phys.Code:* Contains the life form of the Taxon, one of: B (Broadleaved evergreen), C (Climber), D (Broadleaved deciduous), E (Needleleaf evergreen), F (Floating-leaved), G (Graminoid), H (Forb), K (Stem succulent), S (Submerged), or X (Epiphyte). String.
+          - *Min.Ht:* Contains the minimum height of the taxon, one of eight categories: 1 (0m-0.1m), 2 (0.1m-0.5m), 3 (0.5m-2m), 4 (2m-5m), 5 (5m-10m), 6 (10m-20m), 7 (20m-35m), and 8 (35m-50m). String.
+          - *Max.Ht:* Contains the maximum height of the taxon, one of eight categories: 1 (0m-0.1m), 2 (0.1m-0.5m), 3 (0.5m-2m), 4 (2m-5m), 5 (5m-10m), 6 (10m-20m), 7 (20m-35m), and 8 (35m-50m). String.
+          - *Taxon:* Contains the taxon names, see the taxon names present in the taxon_name column of `MNNPC::mnnpc_taxa_lookup`. String.
+          - *Cover:* Contains the cover values, either empty, or one of four systems: Percentage, Proportional, Domin, Braun-Blanquet (5 point).
           
           Example:
           "

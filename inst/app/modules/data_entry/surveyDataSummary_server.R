@@ -72,7 +72,7 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
   observe({
     
     shiny::req(surveyData())
-    shiny::req(nrow(surveyData()$surveyData_long) > 0)
+    shiny::req(nrow(surveyData()$surveyData_long) > 1)
     
     shiny::isolate({
       surveyData_long <- surveyData()$surveyData_long

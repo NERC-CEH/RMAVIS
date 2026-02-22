@@ -2,7 +2,7 @@
 % Please edit documentation in R/diversity_functions.R
 \name{calc_rdiversity_metrics_meta}
 \alias{calc_rdiversity_metrics_meta}
-\title{...}
+\title{Calculate diversity metrics for a metacommunity}
 \usage{
 calc_rdiversity_metrics_meta(
   rdiv_objects,

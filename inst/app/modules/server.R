@@ -46,8 +46,7 @@ server <- function(input, output, session) {
                                          setupData = setupData,
                                          surveyData = surveyData,
                                          surveyDataValidator = surveyDataValidator,
-                                         surveyDataSummary = surveyDataSummary,
-                                         taxonomicBackbone = taxonomicBackbone)
+                                         surveyDataSummary = surveyDataSummary)
 
   uploadDataTable <- shiny::callModule(module = uploadData,
                                        id = "uploadData_id_1",

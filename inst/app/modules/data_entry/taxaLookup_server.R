@@ -25,8 +25,8 @@ taxaLookup <- function(input, output, session, region) {
           "Informal.Group" = "informal_group",
           "Taxon.Name" = "taxon_name",
           "Recommended.Taxon.Name" = "recommended_taxon_name",
-          "Analysis.Group" = "analysis_group",
-          "Analysis.Group.Includes" = "analysis_group_includes"
+          "Recommended.Assignment" = "recommended_assignment",
+          "Analysis.Group" = "analysis_group"
         ) |>
         dplyr::arrange(Taxon.Name)
     }

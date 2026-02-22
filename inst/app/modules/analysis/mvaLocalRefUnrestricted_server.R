@@ -6,28 +6,24 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
   runAnalysis <- reactiveVal()
   dcaAxisSelection <- reactiveVal()
   dcaVars <- reactiveVal()
-  # ccaVars <- reactiveVal()
   groupSurveyPlots <- reactiveVal()
   selectedReferenceSpaces <- reactiveVal()
   selectSurveyMethod <- reactiveVal()
   selectSurveyYears <- reactiveVal()
   selectSurveyGroups <- reactiveVal()
   selectSurveyQuadrats <- reactiveVal()
-  aggTaxaOpts <- reactiveVal()
   
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
     dcaAxisSelection(sidebar_options()$dcaAxisSelection)
     dcaVars(sidebar_options()$dcaVars)
-    # ccaVars(sidebar_options()$ccaVars)
     groupSurveyPlots(sidebar_options()$groupSurveyPlots)
     selectedReferenceSpaces(sidebar_options()$selectedReferenceSpaces)
     selectSurveyMethod(sidebar_options()$selectSurveyMethod)
     selectSurveyYears(sidebar_options()$selectSurveyYears)
     selectSurveyGroups(sidebar_options()$selectSurveyGroups)
     selectSurveyQuadrats(sidebar_options()$selectSurveyQuadrats)
-    aggTaxaOpts(sidebar_options()$aggTaxaOpts)
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -45,6 +41,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     
   }) |>
     shiny::bindEvent(setupData(),
+                     runAnalysis(),
                      ignoreInit = FALSE,
                      ignoreNULL = TRUE)
   
@@ -55,18 +52,19 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     
     shiny::isolate({
       pquads <- setupData()$pquads
-      psq_taxon_name_col <- setupData()$psq_taxon_name_col
+      ref_taxon_name_col <- setupData()$ref_taxon_name_col
+      ref_plot_name_col <- setupData()$ref_plot_name_col
     })
     
     vc_pquads_wide_prepped <- pquads |>
-      dplyr::select(psq_id, psq_taxon_name_col) |>
+      dplyr::select(ref_plot_name_col, ref_taxon_name_col) |>
       dplyr::mutate("present" = 1) |>
-      dplyr::distinct(.data[["psq_id"]], .data[[psq_taxon_name_col]], .keep_all = TRUE) |>
-      tidyr::pivot_wider(id_cols = psq_id,
-                         names_from = psq_taxon_name_col,
+      dplyr::distinct(.data[[ref_plot_name_col]], .data[[ref_taxon_name_col]], .keep_all = TRUE) |>
+      tidyr::pivot_wider(id_cols = ref_plot_name_col,
+                         names_from = ref_taxon_name_col,
                          values_fill = 0,
                          values_from = present) |>
-      tibble::column_to_rownames(var = "psq_id") |>
+      tibble::column_to_rownames(var = ref_plot_name_col) |>
       as.matrix()
     
     vc_pquads_wide(vc_pquads_wide_prepped)
@@ -78,6 +76,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
   
 ## Retrieve psquad cm eivs  ----------------------------------------------
   vc_pquads_mean_unweighted_eivs <- reactiveVal()
+  EIVsAvailable <- reactiveVal()
   
   observe({
     
@@ -85,10 +84,11 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     
     shiny::isolate({
       psquad_cm_he <- setupData()$psquad_cm_he
+      ref_plot_name_col <- setupData()$ref_plot_name_col
     })
     
     psquad_cm_he_prepped <- psquad_cm_he |>
-      dplyr::select(psq_id, `F`, L, N, R, S)
+      dplyr::select(ref_plot_name_col, `F`, L, N, R, S)
     
     vc_pquads_mean_unweighted_eivs(psquad_cm_he_prepped)
     
@@ -120,8 +120,10 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
       vc_pquads_wide <- vc_pquads_wide()
       vc_pquads_mean_unweighted_eivs <- vc_pquads_mean_unweighted_eivs()
       avgEIVs <- avgEIVs()
+      ref_plot_name_col <- setupData()$ref_plot_name_col
+      use_eivs <- use_eivs()
       
-      if(isTRUE(regional_availability()$aggTaxa) & "mva" %in% aggTaxaOpts()){
+      if(isTRUE(regional_availability()$aggTaxa)){
         
         surveyData_long <- surveyData()$surveyData_long_prop_agg
         
@@ -193,7 +195,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
         "Year" =
           dplyr::case_when(
             stringr::str_detect(string = Quadrat, pattern = codes_regex) ~ "Reference",
-            TRUE ~ stringr::str_extract(string = Quadrat, pattern = "(\\d{4})")
+            TRUE ~ stringr::str_extract(string = Quadrat, pattern = "(\\d*)")
           ),
         .before  = "Quadrat"
       ) |>
@@ -209,7 +211,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
         "Group" =
           dplyr::case_when(
             stringr::str_detect(string = Quadrat, pattern = stringr::str_c(selectedReferenceSpaces, collapse = "|")) == TRUE ~ "Reference",
-            stringr::str_detect(string = Quadrat, pattern = stringr::str_c(selectedReferenceSpaces, collapse = "|")) == FALSE ~ stringr::str_extract(string = Quadrat, pattern = "\\d{4}\\s-\\s(.*)\\s-\\s.*", group = 1),
+            stringr::str_detect(string = Quadrat, pattern = stringr::str_c(selectedReferenceSpaces, collapse = "|")) == FALSE ~ stringr::str_extract(string = Quadrat, pattern = "\\d*\\s-\\s(.*)\\s-\\s.*", group = 1),
             TRUE ~ as.character("")
           ),
         .before  = "Quadrat"
@@ -222,7 +224,7 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
     dca_results_sample_site <- pquads_surveyData_dca_results_quadrats |>
       dplyr::filter(VC.Code == "Sample") |>
       dplyr::mutate("ID" = Quadrat, .before = "Year") |>
-      dplyr::mutate("Quadrat" = stringr::str_extract(string = Quadrat, pattern = "\\d{4}\\s-\\s.*\\s-\\s(.*)", group = 1))
+      dplyr::mutate("Quadrat" = stringr::str_extract(string = Quadrat, pattern = "\\d*\\s-\\s.*\\s-\\s(.*)", group = 1))
     
     # Create convex hulls around the pseudo-quadrat DCA points.
     pquad_hulls_dca1dca2 <- dca_results_pquads_site |>
@@ -287,12 +289,12 @@ mvaLocalRefUnrestricted <- function(input, output, session, setupData, surveyDat
                        "DCA4" = mean(DCA4)) |>
       dplyr::ungroup()
     
-    if(!is.null(vc_pquads_mean_unweighted_eivs)){
+    if(!is.null(vc_pquads_mean_unweighted_eivs) & isTRUE(use_eivs)){
       
       # Retrieve the un-weighted mean Hill-Ellenberg scores for the pseudo-quadrats
       vc_pquads_mean_unweighted_eivs_prepped <- vc_pquads_mean_unweighted_eivs |>
-        dplyr::filter(psq_id %in% rownames(vc_pquads_wide_prepped)) |>
-        tibble::column_to_rownames(var = "psq_id")
+        dplyr::filter(!!sym(ref_plot_name_col) %in% rownames(vc_pquads_wide_prepped)) |>
+        tibble::column_to_rownames(var = ref_plot_name_col)
       
       # Join the sample quadrat un-weighted mean Hill-Ellenberg scores
       unweightedMeanHEValuesQuadrat_prepped <- avgEIVs$unweightedMeanHEValuesQuadrat |>

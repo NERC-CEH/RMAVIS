@@ -4,7 +4,6 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
   
 # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
-  aggTaxaOpts <- reactiveVal()
   coverMethod <- reactiveVal()
   assignQuadrats <- reactiveVal(FALSE)
   habitatRestriction <- reactiveVal()
@@ -13,7 +12,6 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
   observe({
 
     runAnalysis(sidebar_options()$runAnalysis)
-    aggTaxaOpts(sidebar_options()$aggTaxaOpts)
     coverMethod(sidebar_options()$coverMethod)
     assignQuadrats(sidebar_options()$assignQuadrats)
     habitatRestriction(sidebar_options()$habitatRestriction)
@@ -26,16 +24,20 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
 # Retrieve setup data -----------------------------------------------------
   regional_availability <- reactiveVal()
   ft_taxon_name_col <- reactiveVal()
-  psq_taxon_name_col <- reactiveVal()
+  ref_taxon_name_col <- reactiveVal()
+  ref_plot_name_col <- reactiveVal()
   unit_name_col <- reactiveVal()
   hab_rest_pref <- reactiveVal()
+  community_attributes <- reactiveVal()
   
   observe({
     regional_availability(setupData()$regional_availability)
     ft_taxon_name_col(setupData()$ft_taxon_name_col)
-    psq_taxon_name_col(setupData()$psq_taxon_name_col)
+    ref_taxon_name_col(setupData()$ref_taxon_name_col)
+    ref_plot_name_col(setupData()$ref_plot_name_col)
     unit_name_col(setupData()$unit_name_col)
     hab_rest_pref(setupData()$hab_rest_pref)
+    community_attributes(setupData()$community_attributes)
     
   }) |>
     shiny::bindEvent(setupData(),
@@ -123,7 +125,6 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     
     shiny::req(surveyData())
     shiny::req(setupData())
-    shiny::req(aggTaxaOpts())
     
     if(assignQuadrats() == TRUE){
       
@@ -133,70 +134,70 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
         text = "Calculating Similarities - Quadrats"
       )
       
-    shiny::isolate({
+      shiny::isolate({
+        
+        pquads_to_use <- setupData()$pquads
+        habitatRestriction <- habitatRestriction()
+        hab_rest_pref <- hab_rest_pref()
+        unit_name_col <- unit_name_col()
+        
+        if(isTRUE(regional_availability()$aggTaxa)){
+          
+          surveyData_long <- surveyData()$surveyData_long_prop_agg
+          
+        } else {
+          
+          surveyData_long <- surveyData()$surveyData_long_prop
+          
+        }
+        
+      })
       
-      pquads_to_use <- setupData()$pquads
-      habitatRestriction <- habitatRestriction()
-      hab_rest_pref <- hab_rest_pref()
-      unit_name_col <- unit_name_col()
+      # Add an ID column to the survey data table
+      surveyData_prepped <- surveyData_long |>
+        tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = FALSE) |>
+        dplyr::rename("species" = "Species") 
       
-      if(isTRUE(regional_availability()$aggTaxa) & "vc_assign" %in% aggTaxaOpts()){
+      # Create a concordance to join back on to the results
+      surveyData_IDs <- surveyData_prepped |>
+        dplyr::select(ID, Year, Group, Quadrat) |>
+        dplyr::distinct()
+      
+      if(!is.null(habitatRestriction)){
         
-        surveyData_long <- surveyData()$surveyData_long_prop_agg
-        
-      } else {
-        
-        surveyData_long <- surveyData()$surveyData_long_prop
+        pquads_to_use <- RMAVIS::subset_vcData(vc_data = pquads_to_use, 
+                                               habitatRestriction = habitatRestriction, 
+                                               col_name = unit_name_col, 
+                                               habitatRestrictionPrefixes = as.list(hab_rest_pref))
         
       }
       
-    })
-    
-    # Add an ID column to the survey data table
-    surveyData_prepped <- surveyData_long |>
-      tidyr::unite(col = "ID", c("Year", "Group", "Quadrat"), sep = " - ", remove = FALSE) |>
-      dplyr::rename("species" = "Species") 
-    
-    # Create a concordance to join back on to the results
-    surveyData_IDs <- surveyData_prepped |>
-      dplyr::select(ID, Year, Group, Quadrat) |>
-      dplyr::distinct()
-    
-    if(!is.null(habitatRestriction)){
+      # Calculate VC Similarity by Quadrat
+      vcAssignmentPlot_Jaccard <- RMAVIS::similarityJaccard(samp_df = surveyData_prepped,
+                                                            comp_df = pquads_to_use,
+                                                            samp_species_col = "species",
+                                                            comp_species_col = ref_taxon_name_col(),
+                                                            samp_group_name = "ID",
+                                                            comp_group_name = ref_plot_name_col(),
+                                                            comp_groupID_name = unit_name_col(),
+                                                            remove_zero_matches = TRUE,
+                                                            average_comp = TRUE) |>
+        dplyr::select("ID" = ID,
+                      "Mean.Similarity" = Similarity,
+                      "VC.Code" = unit_name_col())|>
+        dplyr::left_join(surveyData_IDs, by = "ID")
       
-      pquads_to_use <- RMAVIS::subset_vcData(vc_data = pquads_to_use, 
-                                             habitatRestriction = habitatRestriction, 
-                                             col_name = unit_name_col, 
-                                             habitatRestrictionPrefixes = as.list(hab_rest_pref))
+      vcAssignmentPlot_Jaccard_prepped <- vcAssignmentPlot_Jaccard |>
+        dplyr::select(Year, Group, Quadrat, VC.Code, Mean.Similarity)|>
+        dplyr::group_by(Year, Group, Quadrat) |>
+        dplyr::mutate("Rank" = rank(-Mean.Similarity), .before = "Mean.Similarity") |>
+        dplyr::ungroup() |>
+        dplyr::arrange(Year, Group, Quadrat, Rank)
       
-    }
-    
-    # Calculate VC Similarity by Quadrat
-    vcAssignmentPlot_Jaccard <- RMAVIS::similarityJaccard(samp_df = surveyData_prepped,
-                                                          comp_df = pquads_to_use,
-                                                          samp_species_col = "species",
-                                                          comp_species_col = psq_taxon_name_col(),
-                                                          samp_group_name = "ID",
-                                                          comp_group_name = "psq_id",
-                                                          comp_groupID_name = unit_name_col(),
-                                                          remove_zero_matches = TRUE,
-                                                          average_comp = TRUE) |>
-      dplyr::select("ID" = ID,
-                    "Mean.Similarity" = Similarity,
-                    "VC.Code" = unit_name_col())|>
-      dplyr::left_join(surveyData_IDs, by = "ID")
-    
-    vcAssignmentPlot_Jaccard_prepped <- vcAssignmentPlot_Jaccard |>
-      dplyr::select(Year, Group, Quadrat, VC.Code, Mean.Similarity)|>
-      dplyr::group_by(Year, Group, Quadrat) |>
-      dplyr::mutate("Rank" = rank(-Mean.Similarity), .before = "Mean.Similarity") |>
-      dplyr::ungroup() |>
-      dplyr::arrange(Year, Group, Quadrat, Rank)
-    
-    vcAssignmentPlot_Jaccard_rval(vcAssignmentPlot_Jaccard_prepped)
-    
-    # Stop busy spinner
-    shinybusy::remove_modal_spinner()
+      vcAssignmentPlot_Jaccard_rval(vcAssignmentPlot_Jaccard_prepped)
+      
+      # Stop busy spinner
+      shinybusy::remove_modal_spinner()
       
     } else if(assignQuadrats() == FALSE){
       
@@ -673,74 +674,185 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
   
   observe({
     
-    shiny::req(isTRUE(!is.null(vcAssignmentPlot_Jaccard_rval()) | !is.null(vcAssignmentSite_Czekanowski_rval())))
+    shiny::req(isTRUE(!is.null(vcAssignmentPlot_Jaccard_rval())) | isTRUE(!is.null(vcAssignmentSite_Czekanowski_rval())))
+    
+    shiny::isolate({
+      
+      community_attributes <- community_attributes()
+      unit_name_col <- unit_name_col()
+      
+    })
+    
+    comm_codes <- community_attributes |>
+      dplyr::filter(rank %in% c("community", "class")) |>
+      dplyr::pull(unit_name_col)
+    
+    vcAssignmentSite_Czekanowski <- vcAssignmentSite_Czekanowski_rval()
+    vcAssignmentGroup_Czekanowski <- vcAssignmentGroup_Czekanowski_rval()
+    vcAssignmentPlot_Jaccard <- vcAssignmentPlot_Jaccard_rval()
     
     # Site/Year similarities
-    if(!is.null(vcAssignmentSite_Czekanowski_rval())){
+    if(!is.null(vcAssignmentSite_Czekanowski)){
       
-      vcAssignmentSite_Czekanowski <- vcAssignmentSite_Czekanowski_rval()
+      vc_comms_site_all <- vcAssignmentSite_Czekanowski |>
+        dplyr::filter(VC.Code %in% comm_codes) |>
+        dplyr::arrange(dplyr::desc(Similarity)) |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
       
-      vc_communities_site <- vcAssignmentSite_Czekanowski |>
-        dplyr::filter(Rank <= 1) |>
+      vc_comms_site_1 <- vcAssignmentSite_Czekanowski |>
+        dplyr::filter(VC.Code %in% comm_codes) |>
+        dplyr::slice_max(Similarity, n = 1, by = "Year") |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
+        
+      vc_comms_site_10 <- vcAssignmentSite_Czekanowski |>
+        dplyr::filter(VC.Code %in% comm_codes) |>
+        dplyr::slice_max(Similarity, n = 10, by = "Year") |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
+      
+      vc_comms_subcomms_site_all <- vcAssignmentSite_Czekanowski |>
+        dplyr::arrange(dplyr::desc(Similarity)) |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
+      
+      vc_comms_subcomms_site_1 <- vcAssignmentSite_Czekanowski |>
+        dplyr::slice_max(Similarity, n = 1, by = "Year") |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
+      
+      vc_comms_subcomms_site_10 <- vcAssignmentSite_Czekanowski |>
+        dplyr::slice_max(Similarity, n = 10, by = "Year") |>
         dplyr::distinct(VC.Code) |>
         dplyr::pull(VC.Code)
       
     } else {
       
       vcAssignmentSite_Czekanowski <- NULL
-      
-      vc_communities_site <- NULL
+      vc_comms_site_all <- NULL
+      vc_comms_site_1 <- NULL
+      vc_comms_site_10 <- NULL
+      vc_comms_subcomms_site_all <- NULL
+      vc_comms_subcomms_site_1 <- NULL
+      vc_comms_subcomms_site_10 <- NULL
       
     }
     
     # Group similarities
-    if(!is.null(vcAssignmentGroup_Czekanowski_rval())){
+    if(!is.null(vcAssignmentGroup_Czekanowski)){
       
-      vcAssignmentGroup_Czekanowski <- vcAssignmentGroup_Czekanowski_rval()
+      vc_comms_group_all <- vcAssignmentGroup_Czekanowski |>
+        dplyr::filter(VC.Code %in% comm_codes) |>
+        dplyr::arrange(dplyr::desc(Similarity)) |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
       
-      vc_communities_group <- vcAssignmentGroup_Czekanowski |>
-        dplyr::filter(Rank <= 1) |>
+      vc_comms_group_1 <- vcAssignmentGroup_Czekanowski |>
+        dplyr::filter(VC.Code %in% comm_codes) |>
+        dplyr::slice_max(Similarity, n = 1, by = c("Year", "Group")) |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
+      
+      vc_comms_group_10 <- vcAssignmentGroup_Czekanowski |>
+        dplyr::filter(VC.Code %in% comm_codes) |>
+        dplyr::slice_max(Similarity, n = 10, by = c("Year", "Group")) |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
+      
+      vc_comms_subcomms_group_all <- vcAssignmentGroup_Czekanowski |>
+        dplyr::arrange(dplyr::desc(Similarity)) |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
+      
+      vc_comms_subcomms_group_1 <- vcAssignmentGroup_Czekanowski |>
+        dplyr::slice_max(Similarity, n = 1, by = c("Year", "Group")) |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
+      
+      vc_comms_subcomms_group_10 <- vcAssignmentGroup_Czekanowski |>
+        dplyr::slice_max(Similarity, n = 10, by = c("Year", "Group")) |>
         dplyr::distinct(VC.Code) |>
         dplyr::pull(VC.Code)
       
     } else {
       
       vcAssignmentGroup_Czekanowski <- NULL
+      vc_comms_group_all <- NULL
+      vc_comms_group_1 <- NULL
+      vc_comms_group_10 <- NULL
+      vc_comms_subcomms_group_all <- NULL
+      vc_comms_subcomms_group_1 <- NULL
+      vc_comms_subcomms_group_10 <- NULL
       
-      vc_communities_group <- NULL
-        
     }
     
     # Quadrat similarities
-    if(!is.null(vcAssignmentPlot_Jaccard_rval())){
-      
-      vcAssignmentPlot_Jaccard <- vcAssignmentPlot_Jaccard_rval()
-      
-      vc_communities_quadrat <- vcAssignmentPlot_Jaccard |>
-        dplyr::filter(Rank <= 1) |>
+    if(!is.null(vcAssignmentPlot_Jaccard)){
+
+      vc_comms_quadrat_all <- vcAssignmentPlot_Jaccard |>
+        dplyr::filter(VC.Code %in% comm_codes) |>
+        dplyr::arrange(dplyr::desc(Mean.Similarity)) |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
+
+      vc_comms_quadrat_1 <- vcAssignmentPlot_Jaccard |>
+        dplyr::filter(VC.Code %in% comm_codes) |>
+        dplyr::slice_max(Mean.Similarity, n = 1, by = c("Year", "Group", "Quadrat")) |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
+
+      vc_comms_quadrat_10 <- vcAssignmentPlot_Jaccard |>
+        dplyr::filter(VC.Code %in% comm_codes) |>
+        dplyr::slice_max(Mean.Similarity, n = 10, by = c("Year", "Group", "Quadrat")) |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
+
+      vc_comms_subcomms_quadrat_all <- vcAssignmentPlot_Jaccard |>
+        dplyr::arrange(dplyr::desc(Mean.Similarity)) |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
+
+      vc_comms_subcomms_quadrat_1 <- vcAssignmentPlot_Jaccard |>
+        dplyr::slice_max(Mean.Similarity, n = 1, by = c("Year", "Group", "Quadrat")) |>
+        dplyr::distinct(VC.Code) |>
+        dplyr::pull(VC.Code)
+
+      vc_comms_subcomms_quadrat_10 <- vcAssignmentPlot_Jaccard |>
+        dplyr::slice_max(Mean.Similarity, n = 10, by = c("Year", "Group", "Quadrat")) |>
         dplyr::distinct(VC.Code) |>
         dplyr::pull(VC.Code)
       
     } else {
       
       vcAssignmentPlot_Jaccard <- NULL
-      
-      vc_communities_quadrat <- NULL
+      vc_comms_quadrat_all <- NULL
+      vc_comms_quadrat_1 <- NULL
+      vc_comms_quadrat_10 <- NULL
+      vc_comms_subcomms_quadrat_all <- NULL
+      vc_comms_subcomms_quadrat_1 <- NULL
+      vc_comms_subcomms_quadrat_10 <- NULL
       
     }
     
-    topVCSubCommsAndComms <- unique(purrr::list_c(list(vc_communities_site, vc_communities_group, vc_communities_quadrat)))
+    vc_comms_all <- c(vc_comms_site_all, vc_comms_group_all, vc_comms_quadrat_all) |> unique()
+    vc_comms_subcomms_all <- c(vc_comms_subcomms_site_all, vc_comms_subcomms_group_all, vc_comms_subcomms_quadrat_all) |> unique()
     
-    topVCComms <- stringr::str_replace(string = topVCSubCommsAndComms, 
-                                       pattern = "(\\d)[^0-9]+$", 
-                                       replace = "\\1") |>
-      unique()
+    vc_comms_1 <- c(vc_comms_site_1, vc_comms_group_1, vc_comms_quadrat_1) |> unique()
+    vc_comms_subcomms_1 <- c(vc_comms_subcomms_site_1, vc_comms_subcomms_group_1, vc_comms_subcomms_quadrat_1) |> unique()
     
+    vc_comms_10 <- c(vc_comms_site_10, vc_comms_group_10, vc_comms_quadrat_10) |> unique()
+    vc_comms_subcomms_10 <- c(vc_comms_subcomms_site_10, vc_comms_subcomms_group_10, vc_comms_subcomms_quadrat_10) |> unique()
+
     vcAssignment_list <- list("vcAssignmentPlot_Jaccard" = vcAssignmentPlot_Jaccard,
                               "vcAssignmentSite_Czekanowski" = vcAssignmentSite_Czekanowski,
                               "vcAssignmentGroup_Czekanowski" = vcAssignmentGroup_Czekanowski,
-                              "topVCComms" = topVCComms,
-                              "topVCSubCommsAndComms" = topVCSubCommsAndComms)
+                              "vc_comms_all" = vc_comms_all,
+                              "vc_comms_subcomms_all" = vc_comms_subcomms_all,
+                              "vc_comms_1" = vc_comms_1,
+                              "vc_comms_subcomms_1" = vc_comms_subcomms_1,
+                              "vc_comms_10" = vc_comms_10,
+                              "vc_comms_subcomms_10" = vc_comms_subcomms_10)
     
     vcAssignment_rval(vcAssignment_list)
     
@@ -749,7 +861,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
               vcAssignmentGroup_Czekanowski_rval(),
               vcAssignmentPlot_Jaccard_rval(),
               ignoreInit = TRUE, 
-              ignoreNULL = TRUE)
+              ignoreNULL = FALSE)
 
 
 # Return VC Assignment Data ----------------------------------------------

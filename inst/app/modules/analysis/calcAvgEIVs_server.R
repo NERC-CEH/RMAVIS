@@ -4,13 +4,11 @@ calcAvgEIVs <- function(input, output, session, setupData, surveyData, sidebar_o
 
 # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
-  aggTaxaOpts <- reactiveVal()
   resultsViewEIVs <- reactiveVal()
   
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
-    aggTaxaOpts(sidebar_options()$aggTaxaOpts)
     resultsViewEIVs(sidebar_options()$resultsViewEIVs)
     
   }) |>
@@ -298,15 +296,7 @@ calcAvgEIVs <- function(input, output, session, setupData, surveyData, sidebar_o
     # Isolate reactive objects
     shiny::isolate({
       
-      if(isTRUE(regional_availability()$aggTaxa) & "eivs" %in% aggTaxaOpts()){
-        
-        surveyData_long <- surveyData()$surveyData_long_prop_agg
-        
-      } else {
-        
-        surveyData_long <- surveyData()$surveyData_long_prop
-        
-      }
+      surveyData_long <- surveyData()$surveyData_long_prop
       
     })
       

@@ -40,7 +40,7 @@ vcInformation <- function(input, output, session,
   
   shiny::callModule(module = vcInfoSidebar,
                     id = "vcInfoSidebar_id_1",
-                    region = region,
+                    setupData = setupData,
                     vcCommNamesLookup = vcCommNamesLookup, 
                     vcFlorTabs = vcFlorTabs, 
                     vcCommAttr = vcCommAttr)

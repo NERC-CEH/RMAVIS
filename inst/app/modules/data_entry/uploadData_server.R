@@ -16,7 +16,15 @@ uploadData <- function(input, output, session, setupData) {
   
   
 # Example table data ------------------------------------------------------
-  mnnpc_example_data <- MNNPC::mnnpc_example_releve
+  mnnpc_example_data <- MNNPC::mnnpc_example_releve |>
+    dplyr::rename("Year" = "year",
+                  "Group" = "group",
+                  "Releve.Number" = "relnumb",
+                  "Phys.Code" = "physcode",
+                  "Min.Ht" = "minht",
+                  "Max.Ht" = "maxht",
+                  "Taxon" = "taxon",
+                  "Cover" = "scov")
   
   gbnvc_example_data_long <- RMAVIS::example_data$`Parsonage Down` |> 
     dplyr::select(-Site) |>
@@ -330,15 +338,11 @@ uploadData <- function(input, output, session, setupData) {
         
         uploaded_data_raw <- read.csv(input$uploadDataInput$datapath, check.names = FALSE)
         
-        if(setequal(colnames(uploaded_data_raw), c("year", "group", "relnumb", "physcode", "minht", "maxht", "taxon", "scov"))){
+        if(setequal(colnames(uploaded_data_raw), c("Year", "Group", "Releve.Number", 
+                                                   "Phys.Code", "Min.Ht", "Max.Ht", 
+                                                   "Taxon", "Cover"))){
           
-          uploaded_data_prepped <- uploaded_data_raw |>
-            MNNPC::process_dnr_releves(process_malformed_data = TRUE,
-                                       strip_suffixes = FALSE,
-                                       match_to_accepted = FALSE,
-                                       aggregate_into_analysis_groups = FALSE) |>
-            suppressMessages() |>
-            suppressWarnings()
+          uploaded_data_prepped <- uploaded_data_raw
           
           columnNames_raw_correct(TRUE)
           
@@ -349,13 +353,12 @@ uploadData <- function(input, output, session, setupData) {
           
         }
         
+      } else {
+        
         uploaded_data_prepped <- NULL
         columnNames_raw_correct(FALSE)
         
       }
-      
-      uploaded_data_prepped <- NULL
-      columnNames_raw_correct(FALSE)
       
     }
     
@@ -376,7 +379,18 @@ uploadData <- function(input, output, session, setupData) {
       })
       
       # Check that the prepped column names are correct
-      columnNames_prepped_correct <- all(colnames(uploaded_data_prepped) %in% c("Year", "Group", "Quadrat", "Species", "Cover"))
+      if(input$dataEntryFormat != "mnnpc_releves"){
+        
+        columnNames_prepped_correct <- all(colnames(uploaded_data_prepped) %in% c("Year", "Group", "Quadrat", "Species", "Cover"))
+        
+      } else if(input$dataEntryFormat == "mnnpc_releves"){
+        
+        columnNames_prepped_correct <- all(colnames(uploaded_data_prepped) %in% c("Year", "Group", "Releve.Number", 
+                                                                                  "Phys.Code", "Min.Ht", "Max.Ht", 
+                                                                                  "Taxon", "Cover"))
+        
+      }
+
       columnNames_prepped_correct(columnNames_prepped_correct)
       
     } else {

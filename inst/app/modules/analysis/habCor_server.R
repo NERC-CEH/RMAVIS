@@ -10,7 +10,8 @@ habCor <- function(input, output, session, setupData, vcAssignment, sidebar_opti
     habCorClass(sidebar_options()$habCorClass)
     
   }) |>
-    bindEvent(sidebar_options(), ignoreInit = TRUE)
+    bindEvent(sidebar_options(), 
+              ignoreInit = FALSE)
   
 
 # Retrieve setup data -----------------------------------------------------
@@ -26,6 +27,7 @@ habCor <- function(input, output, session, setupData, vcAssignment, sidebar_opti
     
   }) |>
     bindEvent(setupData(),
+              vcAssignment(),
               ignoreInit = FALSE,
               ignoreNULL = TRUE)
   
@@ -68,11 +70,10 @@ habCor <- function(input, output, session, setupData, vcAssignment, sidebar_opti
   
   observe({
     
-    shiny::req(vcAssignment())
     shiny::req(habitat_correspondences())
     shiny::req(isTRUE(run_module()))
+    shiny::req(vcAssignment())
     
-    # Retrieve the table, optionally modify the table without triggering recursion.
     shiny::isolate({
       
       vcAssignment <- vcAssignment()
@@ -82,7 +83,7 @@ habCor <- function(input, output, session, setupData, vcAssignment, sidebar_opti
       
     })
       
-    topVCComms_df <- tibble::tibble(!!unit_name_col := vcAssignment$topVCComms)
+    topVCComms_df <- tibble::tibble(!!unit_name_col := vcAssignment$vc_comms_subcomms_10)
     
     habCor <- topVCComms_df |>
       dplyr::left_join(habitat_correspondences, relationship = "many-to-many", by = unit_name_col)
@@ -130,7 +131,7 @@ habCor <- function(input, output, session, setupData, vcAssignment, sidebar_opti
     bindEvent(vcAssignment(),
               habCorClass(), 
               ignoreInit = TRUE, 
-              ignoreNULL = TRUE
+              ignoreNULL = FALSE
               )
   
   

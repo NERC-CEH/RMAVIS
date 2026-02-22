@@ -1,4 +1,4 @@
-#' ...
+#' Produce objects required for rdiversity
 #' 
 #' ...
 #'
@@ -95,7 +95,7 @@ calc_rdiversity_objects <- function(plot_data, higher_taxa, phylo_tree, phylo_ta
   
 }
 
-#' ...
+#' Calculate diversity metrics for a subcommunity
 #' 
 #' ...
 #'
@@ -227,7 +227,7 @@ calc_rdiversity_metrics_subcom <- function(rdiv_objects, measures = c("alpha", "
   
 }
 
-#' ...
+#' Calculate diversity metrics for a metacommunity
 #' 
 #' ...
 #'

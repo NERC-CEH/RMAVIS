@@ -2,7 +2,7 @@
 % Please edit documentation in R/diversity_functions.R
 \name{calc_rdiversity_metrics_subcom}
 \alias{calc_rdiversity_metrics_subcom}
-\title{...}
+\title{Calculate diversity metrics for a subcommunity}
 \usage{
 calc_rdiversity_metrics_subcom(
   rdiv_objects,

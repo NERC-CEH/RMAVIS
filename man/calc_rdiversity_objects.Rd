@@ -2,7 +2,7 @@
 % Please edit documentation in R/diversity_functions.R
 \name{calc_rdiversity_objects}
 \alias{calc_rdiversity_objects}
-\title{...}
+\title{Produce objects required for rdiversity}
 \usage{
 calc_rdiversity_objects(
   plot_data,

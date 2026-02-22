@@ -1,14 +1,27 @@
-vcInfoSidebar <- function(input, output, session, region, vcCommNamesLookup, vcFlorTabs, vcCommAttr) {
+vcInfoSidebar <- function(input, output, session, setupData, vcCommNamesLookup, vcFlorTabs, vcCommAttr) {
   
   ns <- session$ns
+  
+# Retrieve setup data -----------------------------------------------------
+  region <- reactiveVal()
+  
+  observe({
+    
+    region(setupData()$region)
+    
+  }) |>
+    bindEvent(setupData(),
+              ignoreInit = FALSE)
 
-  # Download Taxon Lookup ---------------------------------------------------
+
+# Download VC Information -------------------------------------------------
   output$downloadVCInformation <- downloadHandler(
     
     filename = function() {
       
       paste0("RMAVIS.VC.Information.",
-             "v1-2-0",
+             stringr::str_to_upper(region()),
+             ".v1-2-0",
              ".xlsx",
              sep="")
       
@@ -17,9 +30,9 @@ vcInfoSidebar <- function(input, output, session, region, vcCommNamesLookup, vcF
     content = function(file) {
       
       sheets <- list(
-        "names_lookup" = nvcCommNamesLookup(),
-        "floristic_tables" = nvcFlorTabs(),
-        "community_attributes" = nvcCommAttr() 
+        "names_lookup" = vcCommNamesLookup(),
+        "floristic_tables" = vcFlorTabs(),
+        "community_attributes" = vcCommAttr() 
       )
       
       writexl::write_xlsx(x = sheets, path = file)

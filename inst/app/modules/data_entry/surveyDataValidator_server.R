@@ -123,16 +123,18 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
   )
   
   observe({
-
+    
     shiny::req(surveyData())
-    shiny::req(speciesNames())
     
     surveyData_original <- surveyData()$surveyData_original
     surveyData_long <- surveyData()$surveyData_long
     
+    shiny::req(!is.null(surveyData_original))
+    shiny::req(!is.null(surveyData_long))
+    
     speciesNames <- speciesNames()
     coverScale <- coverScale()
-
+    
     # Check all species are accepted
     if(!is.null(input$speciesAdjustmentTable)){
 

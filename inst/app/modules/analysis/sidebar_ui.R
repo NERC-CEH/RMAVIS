@@ -16,55 +16,6 @@ sidebarUI <- function(id){
                         ),
 
 
-# Aggregate taxa ----------------------------------------------------------
-
-    shiny::div(
-      
-      id = ns("aggTaxa_div"),
-      
-      shiny::div(shiny::h6("Aggregate Taxa")),
-      
-      bslib::layout_columns(
-        
-        col_widths = c(11, 1),
-        
-        shinyWidgets::pickerInput(inputId = ns("aggTaxaOpts"),
-                                  choices = c("VC Assignment" = "vc_assign",
-                                              "Floristic Tables" = "floristic_tables",
-                                              "Frequency" = "frequency",
-                                              "EIVs" = "eivs",
-                                              "Diversity" = "diversity",
-                                              "MVA" = "mva"),
-                                  selected = c("vc_assign", "floristic_tables", "mva"),
-                                  multiple = TRUE
-        ),
-        
-        bslib::popover(
-          bsicons::bs_icon("info-circle"),
-          title = "Aggregate Taxa",
-          id = ns("aggTaxaOptsInfo"),
-          shiny::markdown(
-          "
-          Aggregate taxa in the survey data for analysis, module-by-module.
-          This option is provided as vegetation classification systems may group
-          taxa into aggregate ranks or groups e.g. _Viola ecological group 1_, as in the MNNPC.
-          This is neccessary due to taxonomic changes, difficulty in identification to the species rank (including due to the presence of variable hybrids),
-          and historical mis-indentifcations.
-          Consequently, without aggregation matching un-aggregated survey data against aggregated reference
-          data will produce false mis-matches.
-          By default the VC Assignment, Floristic Tables, and MVA modules are
-          selected as these use aggregated vegetation classifcation system data; whilst
-          the other modules do not, therefore preserving taxonomic specificity.
-          "
-          ),
-          placement = "bottom"
-        )
-        
-      )
-      
-    ),
-
-
 # Select VC types ---------------------------------------------------------
 
     shiny::div(
@@ -421,18 +372,27 @@ sidebarUI <- function(id){
             
             col_widths = c(11, 1),
             
-            shiny::checkboxInput(inputId = ns("restrictVCFlorTablesOpts"),
-                                 label = "Restrict",
-                                 value = TRUE),
+            shiny::selectInput(inputId = ns("restrictVCFlorTablesOpts"),
+                               label = "Restrict Comms",
+                               choices = RMAVIS:::vc_fit_restrict_options,
+                               selected = "vc_comms_subcomms_10",
+                               multiple = FALSE),
             
             bslib::popover(
               bsicons::bs_icon("info-circle"),
-              title = "Restrict",
+              title = "Restrict Comms",
               shiny::markdown(
                 "
-                Restrict the communities available for selection in the
-                'VC Table' option below to the top-fitting VC communities
-                as returned in the 'VC Assignment' tab.
+                Control the communities available for which to display floristic tables:
+                - All = All communities and sub-communities with similarity values greater than zero.
+                - Top 1 = The top-1 communities and sub-communities for each year, group, and quadrat.
+                - Top 10 = The top-10 communities and sub-communities for each year, group, and quadrat.
+                - All (Comm/Class only) = All communities with similarity values greater than zero.
+                - Top 1 (Comm/Class only) = The top-1 communities for each year, group, and quadrat.
+                - Top 10 (Comm/Class only) = The top-10 communities for each year, group, and quadrat.
+                
+                Note: In the case of the MNNPC we use the class rank in place of the community rank and
+                the type and sub-type ranks in place of the sub-community rank.
                 "
               ),
               placement = "bottom"
@@ -713,7 +673,7 @@ sidebarUI <- function(id){
               title = "Hill Numbers (q)",
               shiny::markdown(
                 "
-                Select the Hill Numbers (q) which which to calculate diversity metrics and measures.
+                Select the Hill Numbers (q) for which to calculate diversity metrics and measures.
                 "
               ),
               placement = "bottom"
@@ -801,6 +761,46 @@ sidebarUI <- function(id){
           
           shiny::div(shiny::br())
           
+        ),
+        
+        shiny::div(
+
+          id = ns("restrictVCMVAOpts_div"),
+
+          bslib::layout_columns(
+
+            col_widths = c(11, 1),
+            
+            shiny::selectInput(inputId = ns("restrictVCMVAOpts"),
+                               label = "Restrict Comms",
+                               choices = RMAVIS:::vc_fit_restrict_options,
+                               selected = "vc_comms_subcomms_10",
+                               multiple = FALSE),
+
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Restrict Comms",
+              shiny::markdown(
+                "
+                Control the communities available for inclusion in the MVA:
+                - All = All communities and sub-communities with similarity values greater than zero.
+                - Top 1 = The top-1 communities and sub-communities for each year, group, and quadrat.
+                - Top 10 = The top-10 communities and sub-communities for each year, group, and quadrat.
+                - All (Comm/Class only) = All communities with similarity values greater than zero.
+                - Top 1 (Comm/Class only) = The top-1 communities for each year, group, and quadrat.
+                - Top 10 (Comm/Class only) = The top-10 communities for each year, group, and quadrat.
+                
+                Note: In the case of the MNNPC we use the class rank in place of the community rank and
+                the type and sub-type ranks in place of the sub-community rank.
+                "
+              ),
+              placement = "bottom"
+            )
+
+          ),
+
+          shiny::div(shiny::br())
+
         ),
         
         shiny::div(

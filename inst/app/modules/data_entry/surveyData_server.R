@@ -300,6 +300,10 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
     bindEvent(coverScale(),
               ignoreInit = FALSE,
               ignoreNULL = TRUE)
+  
+
+# Initialise surveyData_corrected -----------------------------------------
+surveyData_corrected_rval <- reactiveVal()
 
 # Clear Survey Data Table -------------------------------------------------
   observe({
@@ -355,6 +359,9 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
           format = cover_format
         )
       
+      # Reset surveyData_corrected_rval
+      surveyData_corrected_rval(surveyData_init)
+      
       return(surveyData)
       
     })
@@ -362,6 +369,21 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   }) |>
     bindEvent(clearTable(),
               region(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+  
+
+# Reset surveyDataCorrected if input method changes -----------------------
+  observe({
+    
+    shiny::isolate({
+      surveyData_init <- surveyData_init()
+    })
+    
+    surveyData_corrected_rval(surveyData_init)
+    
+  }) |>
+    bindEvent(input$inputMethod,
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
@@ -488,7 +510,6 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
               ignoreNULL = TRUE)
 
 # Survey Table Validation Actions -----------------------------------------
-  surveyData_corrected_rval <- reactiveVal()
   
 ## Adjust Species Names ---------------------------------------------------
   observe({
@@ -686,26 +707,30 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
   surveyData_rval <- reactiveVal(list(
     "surveyData_original" = NULL,
     "surveyData_long" = NULL,
-    "surveyData_long_prop" = NULL,
-    "surveyData_long_prop_agg" = NULL
+    "surveyData_long_prop" = NULL
   ))
   
   observe({
     
     shiny::isolate({
       region <- region()
+      regional_availability <- regional_availability()
       coverScale <- coverScale()
       surveyData <- surveyData_rval()
       surveyData_init <- surveyData_init()
       surveyDataTableData <- surveyDataTableData()
     })
     
+    shiny::req(!isTRUE(all.equal(surveyDataTableData, surveyData_init)))
+    
+    # Save original data
     surveyData$surveyData_original <- surveyDataTableData
     
-    surveyData_long <- surveyData$surveyData_original
-    
+    # Process the data if the region is MNNPC
     if(region == "mnnpc"){
-      surveyData_long <- surveyData_long |>
+      
+      surveyData_long <- surveyDataTableData |>
+        dplyr::distinct() |>
         dplyr::rename("year" = "Year",
                       "group" = "Group",
                       "relnumb" = "Releve.Number",
@@ -714,29 +739,39 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
                       "maxht" = "Max.Ht",
                       "taxon" = "Taxon",
                       "scov" = "Cover") |>
-        MNNPC::process_dnr_releves(process_malformed_data = TRUE,
-                                   strip_suffixes = FALSE,
+        MNNPC::process_dnr_releves(strip_suffixes = FALSE,
                                    match_to_accepted = FALSE,
+                                   aggregate_into_assigned = TRUE,
                                    aggregate_into_analysis_groups = FALSE,
                                    cover_scale = coverScale) |>
         suppressWarnings() |>
         suppressMessages()
+      
+    } else {
+      
+      surveyData_long <- surveyDataTableData
+      
     }
     
+    # Ensure Group and Quadrat or Releve.Number columns are of class character
+    surveyData_long <- surveyData_long |>
+      dplyr::mutate(dplyr::across(dplyr::any_of(c("Group", "Quadrat")), as.character))
+    
+    # Create proportional data
     if(coverScale == "none"){
 
       surveyData_long_prop <- surveyData_long
 
-    } else if(coverScale == "percentage"){
+    } else if(coverScale == "percentage" | region == "mnnpc"){
 
       surveyData_long_prop <- surveyData_long |>
         dplyr::mutate("Cover" = as.numeric(Cover) / 100)
 
-    } else if(coverScale == "proportional"){
+    } else if(coverScale == "proportional"| region != "mnnpc"){
 
       surveyData_long_prop <- surveyData_long
 
-    } else if(coverScale == "domin"){
+    } else if(coverScale == "domin"| region != "mnnpc"){
 
       surveyData_long_prop <- surveyData_long |>
         dplyr::mutate("Cover" = as.character(Cover)) |>
@@ -744,7 +779,7 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
         dplyr::select(-Cover) |>
         dplyr::rename("Cover" = "Value")
 
-    } else if(coverScale == "braunBlanquet"){
+    } else if(coverScale == "braunBlanquet"| region != "mnnpc"){
 
       surveyData_long_prop <- surveyData_long |>
         dplyr::mutate("Cover" = as.character(Cover)) |>
@@ -754,24 +789,48 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
 
     }
     
-    # Ensure Group and Quadrat columns are of class character
-    surveyData_long <- surveyData_long |>
-      dplyr::mutate(Group = as.character(Group),
-                    Quadrat = as.character(Quadrat))
-    
-    surveyData_long_prop <- surveyData_long_prop |>
-      dplyr::mutate(Group = as.character(Group),
-                    Quadrat = as.character(Quadrat))
-    
     # Ensure prop data cover values sum to 1
     surveyData_long_prop <- surveyData_long_prop |>
       dplyr::group_by(Year, Group, Quadrat) |>
       dplyr::mutate("Cover" = signif(Cover * (1 / sum(Cover, na.rm = TRUE)), digits = 2)) |>
       dplyr::ungroup()
     
+    # Aggregate data
+    if(isTRUE(regional_availability$aggTaxa)){
+      
+      surveyData_long_prop_agg <- surveyDataTableData |>
+        dplyr::distinct() |>
+        dplyr::mutate(dplyr::across(dplyr::any_of(c("Group", "Quadrat", "Releve.Number")), as.character)) |>
+        dplyr::rename("year" = "Year",
+                      "group" = "Group",
+                      "relnumb" = "Releve.Number",
+                      "physcode" = "Phys.Code",
+                      "minht" = "Min.Ht",
+                      "maxht" = "Max.Ht",
+                      "taxon" = "Taxon",
+                      "scov" = "Cover") |>
+        MNNPC::process_dnr_releves(strip_suffixes = TRUE,
+                                   match_to_accepted = TRUE,
+                                   aggregate_into_assigned = FALSE,
+                                   aggregate_into_analysis_groups = TRUE,
+                                   cover_scale = coverScale) |>
+        suppressMessages() |>
+        suppressWarnings()|>
+        dplyr::mutate("Cover" = as.numeric(Cover) / 100)|>
+        dplyr::group_by(Year, Group, Quadrat) |>
+        dplyr::mutate("Cover" = signif(Cover * (1 / sum(Cover, na.rm = TRUE)), digits = 2)) |>
+        dplyr::ungroup()
+      
+    } else {
+      
+      surveyData_long_prop_agg <- NULL
+      
+    }
+    
     # Store surveyData_long
     surveyData$surveyData_long <- surveyData_long
     surveyData$surveyData_long_prop <- surveyData_long_prop
+    surveyData$surveyData_long_prop_agg <- surveyData_long_prop_agg
     surveyData_rval(surveyData)
 
   }) |>
@@ -779,45 +838,8 @@ surveyData <- function(input, output, session, uploadDataTable, setupData, surve
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
 
-# Aggregate Data ----------------------------------------------------------
-  observe({
     
-    shiny::isolate({
-      
-      surveyData <- surveyData_rval()
-      regional_availability <- regional_availability()
-      aggLookup <- aggLookup()
-      
-    })
-      
-    # Retrieve long survey table
-    surveyData_long_prop <- surveyData$surveyData_long_prop
-      
-    # Aggregate data
-    if(isTRUE(regional_availability$aggTaxa)){
-      
-      surveyData$surveyData_long_prop_agg <- MNNPC::process_dnr_releves(releve_data = surveyData_long_prop,
-                                                                        process_malformed_data = TRUE,
-                                                                        strip_suffixes = TRUE,
-                                                                        match_to_accepted = FALSE,
-                                                                        aggregate_into_analysis_groups = TRUE) |>
-        suppressMessages() |>
-        suppressWarnings()
-    
-    } else {
-      
-      surveyData$surveyData_long_prop_agg <- NULL
-      
-    }
-    
-    surveyData_rval(surveyData)
-
-  }) |>
-    bindEvent(surveyData_rval(),
-              ignoreInit = TRUE,
-              ignoreNULL = TRUE)
-    
-  # Ensure table is created whilst hidden.
+# Ensure table is created whilst hidden.
   outputOptions(output, "surveyData", suspendWhenHidden = FALSE)
   
   return(surveyData_rval)

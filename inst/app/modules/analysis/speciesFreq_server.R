@@ -4,12 +4,10 @@ speciesFreq <- function(input, output, session, setupData, surveyData, sidebar_o
   
 # Retrieve sidebar options ------------------------------------------------
   runAnalysis <- reactiveVal()
-  aggTaxaOpts <- reactiveVal()
   
   observe({
     
     runAnalysis(sidebar_options()$runAnalysis)
-    aggTaxaOpts(sidebar_options()$aggTaxaOpts)
     
   }) |>
     bindEvent(sidebar_options(), ignoreInit = TRUE)
@@ -79,15 +77,7 @@ speciesFreq <- function(input, output, session, setupData, surveyData, sidebar_o
     
     shiny::isolate({
       
-      if(isTRUE(regional_availability()$aggTaxa) & "frequency" %in% aggTaxaOpts()){
-        
-        surveyData_long <- surveyData()$surveyData_long_prop_agg
-        
-      } else {
-        
-        surveyData_long <- surveyData()$surveyData_long_prop
-        
-      }
+      surveyData_long <- surveyData()$surveyData_long_prop
       
     })
     

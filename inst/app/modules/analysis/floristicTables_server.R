@@ -11,7 +11,6 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
   vcFloristicTable <- reactiveVal()
   matchSpecies <- reactiveVal()
   runAnalysis <- reactiveVal()
-  aggTaxaOpts <- reactiveVal()
 
   observe({
 
@@ -23,7 +22,6 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
     vcFloristicTable(sidebar_options()$vcFloristicTable)
     matchSpecies(sidebar_options()$matchSpecies)
     runAnalysis(sidebar_options()$runAnalysis)
-    aggTaxaOpts(sidebar_options()$aggTaxaOpts)
 
   }) |>
     bindEvent(sidebar_options(), 
@@ -115,7 +113,7 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
       coverScale <- coverScale()
       removeLowFreqTaxa <- removeLowFreqTaxa()
       
-      if(isTRUE(regional_availability()$aggTaxa) & "vc_assign" %in% aggTaxaOpts()){
+      if(isTRUE(regional_availability()$aggTaxa)){
         
         surveyData_long <- surveyData()$surveyData_long_prop_agg
         
@@ -160,20 +158,21 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
     ## Prepare cover summary ----------------------------------------------
     floristicTables_composed_all <- floristicTables_composed_all |>
       dplyr::mutate_at(dplyr::vars(Min.Cover, Mean.Cover, Max.Cover),
+                       ~as.numeric(.)) |>
+      dplyr::mutate_at(dplyr::vars(Min.Cover, Mean.Cover, Max.Cover),
                        list(
                          ~dplyr::case_when(
-                           # is.na(.) ~ "",
-                           . > 0.91 ~ "10",
-                           . > 0.76 ~ "9",
-                           . > 0.51 ~ "8",
-                           . > 0.34 ~ "7",
-                           . > 0.26 ~ "6",
-                           . > 0.11 ~ "5",
-                           . > 0.4 ~ "4",
-                           . > 0.3 ~ "3",
-                           . > 0.2 ~ "2",
-                           . > 0.1 ~ "1",
-                           . > 0 ~ "+",
+                           . >= 0.955 ~ "10",
+                           . >= 0.83 ~ "9",
+                           . >= 0.63 ~ "8",
+                           . >= 0.42 ~ "7",
+                           . >= 0.3 ~ "6",
+                           . >= 0.18 ~ "5",
+                           . >= 0.08 ~ "4",
+                           . >= 0.03 ~ "3",
+                           . >= 0.005 ~ "2",
+                           . >= 0.003 ~ "1",
+                           . >= 0 ~ "+",
                            TRUE ~ NA
                          )
                        )

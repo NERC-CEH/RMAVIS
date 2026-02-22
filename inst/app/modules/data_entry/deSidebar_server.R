@@ -1,6 +1,5 @@
 deSidebar <- function(input, output, session, setupData,
-                      surveyData, surveyDataValidator, surveyDataSummary,
-                      taxonomicBackbone) {
+                      surveyData, surveyDataValidator, surveyDataSummary) {
   
   ns <- session$ns
 
@@ -30,6 +29,7 @@ deSidebar <- function(input, output, session, setupData,
   example_data_options <- reactiveVal()
   accepted_taxa <- reactiveVal()
   taxa_lookup <- reactiveVal()
+  taxonomic_backbone <- reactiveVal()
   region <- reactiveVal()
   
   observe({
@@ -37,9 +37,27 @@ deSidebar <- function(input, output, session, setupData,
     region(setupData()$region)
     
     if(region() == "gbnvc"){
+      
       taxa_lookup(UKVegTB::taxa_lookup)
+      taxonomic_backbone(UKVegTB::taxonomic_backbone)
+      
+      shiny::updateSelectizeInput(
+        session = session,
+        inputId = "coverScale",
+        selected = "percentage"
+      )
+      
     } else if(region() == "mnnpc"){
+      
       taxa_lookup(MNNPC::mnnpc_taxa_lookup)
+      taxonomic_backbone(MNNPC::mnnpc_taxonomic_backbone)
+      
+      shiny::updateSelectizeInput(
+        session = session,
+        inputId = "coverScale",
+        selected = "braunBlanquet"
+      )
+      
     }
     
     example_data_options(setupData()$example_data_options)
@@ -134,7 +152,7 @@ deSidebar <- function(input, output, session, setupData,
         shiny::updateSelectizeInput(
           session = session,
           inputId = "coverScale",
-          selected = "percentage"
+          selected = "braunBlanquet"
         )
         
       }
@@ -144,7 +162,7 @@ deSidebar <- function(input, output, session, setupData,
   }) |>
     bindEvent(input$inputMethod,
               input$selectedExampleData,
-              ignoreInit = TRUE)
+              ignoreInit = FALSE)
 
 
 # Validate Survey Table Data Modal Popup ----------------------------------
@@ -233,7 +251,7 @@ deSidebar <- function(input, output, session, setupData,
       paste0("RMAVIS.SurveyData.",
              "v1-2-0.",
              format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
-             ".csv",
+             ".xlsx",
              sep="")
       
     },
@@ -241,9 +259,17 @@ deSidebar <- function(input, output, session, setupData,
     content = function(file) {
       
       surveyData <- surveyData()
-      surveyData_long <- surveyData$surveyData_long
       
-      write.csv(x = surveyData_long, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
+      sheets <- list(
+        "original" = surveyData$surveyData_original,
+        "formatted" = surveyData$surveyData_long_prop
+      )
+      
+      if(!is.null(surveyData()$surveyData_long_prop_agg)){
+        sheets[["aggregated"]] <- surveyData()$surveyData_long_prop_agg
+      }
+      
+      writexl::write_xlsx(x = sheets, path = file)
       
     }
   )
@@ -283,7 +309,7 @@ deSidebar <- function(input, output, session, setupData,
     
     content = function(file) {
       
-      write.csv(x = taxonomicBackbone(), file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
+      write.csv(x = taxonomic_backbone(), file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
       
     }
   )

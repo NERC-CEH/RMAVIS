@@ -55,7 +55,7 @@ coverScale_options <- c("None" = "none",
 
 domin_options <- c("+", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
 
-braunBlanquet_options <- c("+", "1", "2", "3", "4", "5")
+braunBlanquet_options <- c("r", "+", "1", "2", "3", "4", "5")
 
 
 # Cover Scale Conversion Values -------------------------------------------
@@ -75,9 +75,11 @@ dominConvert <- c("10" = 0.955,
 braunBlanquetConvert <- c("5" = 0.875,
                           "4" = 0.625,
                           "3" = 0.375,
-                          "2" = 0.175,
-                          "1" = 0.05,
-                          "+" = 0.01) |>
+                          "2" = 0.150,
+                          "1" = 0.025,
+                          "+" = 0.01,
+                          "r" = 0.002
+                          ) |>
   tibble::enframe(name = "Cover", value = "Value")
 
 # Habitat Restriction Options ---------------------------------------------
@@ -241,6 +243,15 @@ habitat_correspondence_classifications <- readRDS(file = "./inst/extdata/habitat
   dplyr::pull(classification) |>
   unique()
 
+
+# VC Fit Restriction Options ----------------------------------------------
+vc_fit_restrict_options <- c("All" = "vc_comms_subcomms_all",
+                             "Top 1" = "vc_comms_subcomms_1",
+                             "Top 10" = "vc_comms_subcomms_10",
+                             "All (Comm/Class only)" = "vc_comms_all",
+                             "Top 1 (Comm/Class only)" = "vc_comms_1",
+                             "Top 10 (Comm/Class only)" = "vc_comms_10")
+
 # Save all constants as internal data -------------------------------------
 usethis::use_data(region_options,
                   regional_availability,
@@ -273,6 +284,7 @@ usethis::use_data(region_options,
                   bh_lookup,
                   habitatRestrictionPrefixes,
                   habitat_correspondence_classifications,
+                  vc_fit_restrict_options,
                   overwrite = TRUE,
                   internal = TRUE)
 
