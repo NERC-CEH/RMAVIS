@@ -1,4 +1,4 @@
-uploadDataUI <- function(id) {
+uploadDataUI <- function(id, choices, selected) {
   
   ns <- NS(id)
   
@@ -9,7 +9,13 @@ uploadDataUI <- function(id) {
       
       bslib::layout_columns(
         
-        col_widths = c(6, 6, 4),
+        col_widths = c(4, 6, 4),
+        
+        shiny::selectizeInput(inputId = ns("dataEntryFormat"),
+                              label = "Data Entry Format",
+                              choices = choices, #RMAVIS:::dataEntryFormat_options[1:4],
+                              selected = selected, #"long",
+                              multiple = FALSE),
         
         shiny::fileInput(inputId = ns("uploadDataInput"),
                          label = "Browse",
@@ -18,12 +24,6 @@ uploadDataUI <- function(id) {
                                     ".csv"
                          )
         ),
-        
-        shiny::selectizeInput(inputId = ns("dataEntryFormat"),
-                              label = "Data Entry Format",
-                              choices = RMAVIS:::dataEntryFormat_options,
-                              selected = "long",
-                              multiple = FALSE),
         
         shiny::actionButton(inputId = ns("confirmUpload"), 
                             label = "Confirm Upload",

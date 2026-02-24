@@ -50,6 +50,7 @@ server <- function(input, output, session) {
 
   uploadDataTable <- shiny::callModule(module = uploadData,
                                        id = "uploadData_id_1",
+                                       des_opts = deSidebar_options,
                                        setupData = setupData)
   
   surveyData <- shiny::callModule(module = surveyData,

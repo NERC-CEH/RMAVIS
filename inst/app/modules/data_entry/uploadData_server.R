@@ -1,4 +1,4 @@
-uploadData <- function(input, output, session, setupData) {
+uploadData <- function(input, output, session, des_opts, setupData) {
   
   ns <- session$ns
 
@@ -13,6 +13,20 @@ uploadData <- function(input, output, session, setupData) {
     shiny::bindEvent(setupData(),
                      ignoreInit = FALSE,
                      ignoreNULL = TRUE)
+  
+
+# Retrieve data entry sidebar options -------------------------------------
+  uploadData <- reactiveVal()
+  inputMethod <- reactiveVal()
+  
+  observe({
+    
+    uploadData(des_opts()$uploadData)
+    inputMethod(des_opts()$inputMethod)
+    
+  }) |>
+    bindEvent(des_opts(),
+              ignoreInit = TRUE)
   
   
 # Example table data ------------------------------------------------------
@@ -236,6 +250,69 @@ uploadData <- function(input, output, session, setupData) {
     return(uploadDataTable)
     
   })
+  
+
+
+# Trigger upload modal popup ----------------------------------------------
+  observe({
+    
+    shiny::req(inputMethod() == "upload")
+    
+    shiny::isolate({
+      region <- region()
+    })
+    
+    if(region == "mnnpc"){
+      
+      shiny::showModal(
+        
+        session = session,
+        
+        shiny::modalDialog(
+          
+          title = "Upload Data",
+          id = "uploadDataModal",
+          footer = shiny::modalButton("Close"),
+          size = "xl",
+          easyClose = TRUE,
+          fade = TRUE,
+          
+          uploadDataUI(id = "uploadData_id_1",
+                       choices = RMAVIS:::dataEntryFormat_options[5],
+                       selected = RMAVIS:::dataEntryFormat_options[5]),
+          
+        )
+      )
+      
+      
+    } else if(region == "gbnvc") {
+      
+      shiny::showModal(
+        
+        session = session,
+        
+        shiny::modalDialog(
+          
+          title = "Upload Data",
+          id = "uploadDataModal",
+          footer = shiny::modalButton("Close"),
+          size = "xl",
+          easyClose = TRUE,
+          fade = TRUE,
+          
+          uploadDataUI(id = "uploadData_id_1",
+                       choices = RMAVIS:::dataEntryFormat_options[1:4],
+                       selected = RMAVIS:::dataEntryFormat_options[1]),
+          
+        )
+      )
+      
+    }
+    
+  }) |>
+    bindEvent(uploadData(),
+              ignoreInit = TRUE,
+              ignoreNULL = FALSE)
 
 # Read and wrangle uploaded data ------------------------------------------
   observe({

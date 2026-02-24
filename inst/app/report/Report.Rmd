@@ -82,6 +82,7 @@ quadratsPerYearGroup <- surveyDataStructure$quadratsPerYearGroup
 vcAssignmentPlot_Jaccard <- vcAssignment$vcAssignmentPlot_Jaccard
 vcAssignmentSite_Czekanowski <- vcAssignment$vcAssignmentSite_Czekanowski
 vcAssignmentGroup_Czekanowski <- vcAssignment$vcAssignmentGroup_Czekanowski
+vc_comms_10 <- vcAssignment$vc_comms_10
 vc_comms_subcomms_10 <- vcAssignment$vc_comms_subcomms_10
 
 # Habitat Correspondences
@@ -102,18 +103,21 @@ diversityQuadrat <- diversityAnalysis$diversityQuadrat
 
 # MVA Local Reference, Restricted
 mvaLocalRefRestricted_quadrats_survey <- mvaLocalRefRestrictedResults$dca_results_sample_site
+mvaLocalRefRestricted_centroids <- mvaLocalRefRestrictedResults$pquad_centroids
 mvaLocalRefRestricted_hulls_pquads <- mvaLocalRefRestrictedResults$pquad_hulls
 mvaLocalRefRestricted_arrow_plot_data <- mvaLocalRefRestrictedResults$arrow_plot_data
 mvaLocalRefRestricted_CCA_arrowData <- mvaLocalRefRestrictedResults$CCA_arrowData
 
 # MVA Local Reference, Unrestricted
 mvaLocalRefUnrestricted_quadrats_survey <- mvaLocalRefUnrestrictedResults$dca_results_sample_site
+mvaLocalRefUnrestricted_centroids <- mvaLocalRefUnrestrictedResults$pquad_centroids
 mvaLocalRefUnrestricted_hulls_pquads <- mvaLocalRefUnrestrictedResults$pquad_hulls
 mvaLocalRefUnrestricted_arrow_plot_data <- mvaLocalRefUnrestrictedResults$arrow_plot_data
 mvaLocalRefUnrestricted_CCA_arrowData <- mvaLocalRefUnrestrictedResults$CCA_arrowData
 
 # MVA National Reference
 mvaNationalRef_quadrats_survey <- mvaNationalRefResults$dca_results_sample_site
+mvaNationalRef_centroids <- mvaNationalRefResults$pquad_centroids
 mvaNationalRef_hulls <- mvaNationalRefResults$pquad_hulls
 mvaNationalRef_CCA_arrowData <- mvaNationalRefResults$CCA_arrowData
 ```
@@ -262,11 +266,12 @@ if("vcAssignmentResultsSite_Czekanowski" %in% reportOptions){
    if(!is.null(vcAssignmentSite_Czekanowski)){
      
     vcAssignmentSite_Czekanowski_prepped <- vcAssignmentSite_Czekanowski |>
-      dplyr::mutate_if(is.numeric, round, digits = 2)
+      dplyr::mutate_if(is.numeric, round, digits = 2) |>
+      dplyr::filter(VC.Code %in% vc_comms_subcomms_10)
 
     kableExtra::kbl(x = vcAssignmentSite_Czekanowski_prepped, format = "latex", booktabs = TRUE,
                     longtable = TRUE, linesep = "",
-                    caption = "The top VC communities fitted using the Czekanowski method, for the site by year."
+                    caption = "The top 10 VC communities fitted using the Czekanowski method, for the site by year."
                     ) |>
       kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
      
@@ -285,11 +290,12 @@ if("vcAssignmentResultsGroup_Czekanowski" %in% reportOptions){
   if(!is.null(vcAssignmentGroup_Czekanowski)){
     
     vcAssignmentGroup_Czekanowski_prepped <- vcAssignmentGroup_Czekanowski |>
-      dplyr::mutate_if(is.numeric, round, digits = 2)
+      dplyr::mutate_if(is.numeric, round, digits = 2) |>
+      dplyr::filter(VC.Code %in% vc_comms_subcomms_10)
 
     kableExtra::kbl(x = vcAssignmentGroup_Czekanowski_prepped, format = "latex", booktabs = TRUE,
                     longtable = TRUE, linesep = "",
-                    caption = "The top VC communities fitted using the Czekanowski method, by group and year"
+                    caption = "The top 10 VC communities fitted using the Czekanowski method, by group and year"
                     ) |>
       kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
     
@@ -309,11 +315,12 @@ if("vcAssignmentResultsQuadrat_Jaccard" %in% reportOptions){
   if(!is.null(vcAssignmentPlot_Jaccard)){
     
     vcAssignmentPlot_Jaccard_prepped <- vcAssignmentPlot_Jaccard |>
-    dplyr::mutate_if(is.numeric, round, digits = 2)
+      dplyr::mutate_if(is.numeric, round, digits = 2) |>
+      dplyr::filter(VC.Code %in% vc_comms_subcomms_10)
 
     kableExtra::kbl(x = vcAssignmentPlot_Jaccard_prepped, format = "latex", booktabs = TRUE,
                     longtable = TRUE, linesep = "",
-                    caption = "The top VC communities fitted using the pseudo-quadrat method, by quadrat, group, and year") |>
+                    caption = "The top 10 VC communities fitted using the pseudo-quadrat method, by quadrat, group, and year") |>
       kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
     
   }
@@ -627,11 +634,11 @@ if("mvaNationalReference" %in% reportOptions){
   
   mvaNationalRefPlot <- ggplot2::ggplot() +
     ggplot2::geom_polygon(data = mvaNationalRef_hulls |> dplyr::filter(dcaAxes == dcaAxisSelection,
-                                                                       VC %in% vc_comms_subcomms_10), 
+                                                                       VC.Code %in% vc_comms_10), 
                           alpha = 0.2,
                           mapping = ggplot2::aes(x = .data[[x_axis]],
                                                  y = .data[[y_axis]],
-                                                 fill = VC
+                                                 fill = VC.Code
                                                  )) +
     ggplot2::geom_point(data = mvaNationalRef_quadrats_survey,
                         mapping = ggplot2::aes(Year = Year,
@@ -639,21 +646,25 @@ if("mvaNationalReference" %in% reportOptions){
                                                Quadrat = Quadrat,
                                                x = DCA1,
                                                y = DCA2)) +
-    ggplot2::geom_segment(data = mvaNationalRef_CCA_arrowData,
-                          color = 'black',
-                          arrow = grid::arrow(),
-                          mapping = ggplot2::aes(x = 0,
-                                                 y = 0,
-                                                 xend = CCA1,
-                                                 yend = CCA2,
-                                                 label = `Hill-Ellenberg`)) +
-    ggplot2::geom_text(data = mvaNationalRef_CCA_arrowData,
-                       color = 'black',
-                       # position = ggplot2::position_dodge(width = 0.9),
-                       size = 5,
-                       mapping = ggplot2::aes(x = CCA1 * 1.075,
-                                              y = CCA2 * 1.075,
-                                              label = `Hill-Ellenberg`)) +
+    ggplot2::geom_point(data = mvaNationalRef_centroids |> dplyr::filter(VC.Code %in% vc_comms_10),
+                        mapping = ggplot2::aes(color = VC.Code,
+                                               x = DCA1,
+                                               y = DCA2)) +
+    {if(!is.null(mvaNationalRef_CCA_arrowData))ggplot2::geom_segment(data = mvaNationalRef_CCA_arrowData,
+                                                                     color = 'black',
+                                                                     arrow = grid::arrow(),
+                                                                     mapping = ggplot2::aes(x = 0,
+                                                                                            y = 0,
+                                                                                            xend = CCA1,
+                                                                                            yend = CCA2,
+                                                                                            label = `Hill-Ellenberg`))} +
+    {if(!is.null(mvaNationalRef_CCA_arrowData))ggplot2::geom_text(data = mvaNationalRef_CCA_arrowData,
+                                                                  color = 'black',
+                                                                  # position = ggplot2::position_dodge(width = 0.9),
+                                                                  size = 5,
+                                                                  mapping = ggplot2::aes(x = CCA1 * 1.075,
+                                                                                         y = CCA2 * 1.075,
+                                                                                         label = `Hill-Ellenberg`))} +
     ggplot2::theme_minimal()
 
   mvaNationalRefPlot
@@ -682,11 +693,12 @@ if("mvaLocalReferenceRestricted" %in% reportOptions){
   y_axis <- "DCA2"
   
   mvaLocalRefRestrictedPlot <- ggplot2::ggplot() +
-    ggplot2::geom_polygon(data = mvaLocalRefRestricted_hulls_pquads  |> dplyr::filter(dcaAxes == dcaAxisSelection), 
+    ggplot2::geom_polygon(data = mvaLocalRefRestricted_hulls_pquads  |> dplyr::filter(dcaAxes == dcaAxisSelection,
+                                                                                      VC.Code %in% vc_comms_10), 
                           alpha = 0.2,
                           mapping = ggplot2::aes(x = .data[[x_axis]],
                                                  y = .data[[y_axis]],
-                                                 fill = VC.Comm
+                                                 fill = VC.Code
                                                  )) +
     ggplot2::geom_point(data = mvaLocalRefRestricted_quadrats_survey,
                         mapping = ggplot2::aes(Year = Year,
@@ -694,21 +706,25 @@ if("mvaLocalReferenceRestricted" %in% reportOptions){
                                                Quadrat = Quadrat,
                                                x = DCA1,
                                                y = DCA2)) +
-    ggplot2::geom_segment(data = mvaLocalRefRestricted_CCA_arrowData,
-                          color = 'black',
-                          arrow = grid::arrow(),
-                          mapping = ggplot2::aes(x = 0,
-                                                 y = 0,
-                                                 xend = CCA1,
-                                                 yend = CCA2,
-                                                 label = `Hill-Ellenberg`)) +
-    ggplot2::geom_text(data = mvaLocalRefRestricted_CCA_arrowData,
-                       color = 'black',
-                       # position = ggplot2::position_dodge(width = 0.9),
-                       size = 5,
-                       mapping = ggplot2::aes(x = CCA1 * 1.075,
-                                              y = CCA2 * 1.075,
-                                              label = `Hill-Ellenberg`)) +
+    ggplot2::geom_point(data = mvaLocalRefRestricted_centroids |> dplyr::filter(VC.Code %in% vc_comms_10),
+                        mapping = ggplot2::aes(color = VC.Code,
+                                               x = DCA1,
+                                               y = DCA2)) +
+    {if(!is.null(mvaLocalRefRestricted_CCA_arrowData))ggplot2::geom_segment(data = mvaLocalRefRestricted_CCA_arrowData,
+                                                                            color = 'black',
+                                                                            arrow = grid::arrow(),
+                                                                            mapping = ggplot2::aes(x = 0,
+                                                                                                   y = 0,
+                                                                                                   xend = CCA1,
+                                                                                                   yend = CCA2,
+                                                                                                   label = `Hill-Ellenberg`))} +
+    {if(!is.null(mvaLocalRefRestricted_CCA_arrowData))ggplot2::geom_text(data = mvaLocalRefRestricted_CCA_arrowData,
+                                                                         color = 'black',
+                                                                         # position = ggplot2::position_dodge(width = 0.9),
+                                                                         size = 5,
+                                                                         mapping = ggplot2::aes(x = CCA1 * 1.075,
+                                                                                                y = CCA2 * 1.075,
+                                                                                                label = `Hill-Ellenberg`))} +
     ggplot2::theme_minimal()
 
   mvaLocalRefRestrictedPlot
@@ -737,11 +753,12 @@ if("mvaLocalReferenceUnrestricted" %in% reportOptions){
   y_axis <- "DCA2"
   
   mvaLocalRefUnrestrictedPlot <- ggplot2::ggplot() +
-    ggplot2::geom_polygon(data = mvaLocalRefUnrestricted_hulls_pquads |> dplyr::filter(dcaAxes == dcaAxisSelection), 
+    ggplot2::geom_polygon(data = mvaLocalRefUnrestricted_hulls_pquads |> dplyr::filter(dcaAxes == dcaAxisSelection,
+                                                                                       VC.Code %in% vc_comms_10), 
                           alpha = 0.2,
                           mapping = ggplot2::aes(x = .data[[x_axis]],
                                                  y = .data[[y_axis]], 
-                                                 fill = VC.Comm
+                                                 fill = VC.Code
                                                  )) +
     ggplot2::geom_point(data = mvaLocalRefUnrestricted_quadrats_survey,
                         mapping = ggplot2::aes(Year = Year,
@@ -749,21 +766,25 @@ if("mvaLocalReferenceUnrestricted" %in% reportOptions){
                                                Quadrat = Quadrat,
                                                x = DCA1,
                                                y = DCA2)) +
-    ggplot2::geom_segment(data = mvaLocalRefUnrestricted_CCA_arrowData,
-                          color = 'black',
-                          arrow = grid::arrow(),
-                          mapping = ggplot2::aes(x = 0,
-                                                 y = 0,
-                                                 xend = CCA1,
-                                                 yend = CCA2,
-                                                 label = `Hill-Ellenberg`)) +
-    ggplot2::geom_text(data = mvaLocalRefUnrestricted_CCA_arrowData,
-                       color = 'black',
-                       # position = ggplot2::position_dodge(width = 0.9),
-                       size = 5,
-                       mapping = ggplot2::aes(x = CCA1 * 1.075,
-                                              y = CCA2 * 1.075,
-                                              label = `Hill-Ellenberg`)) +
+    ggplot2::geom_point(data = mvaLocalRefUnrestricted_centroids |> dplyr::filter(VC.Code %in% vc_comms_10),
+                        mapping = ggplot2::aes(color = VC.Code,
+                                               x = DCA1,
+                                               y = DCA2)) +
+    {if(!is.null(mvaLocalRefUnrestricted_CCA_arrowData))ggplot2::geom_segment(data = mvaLocalRefUnrestricted_CCA_arrowData,
+                                                                              color = 'black',
+                                                                              arrow = grid::arrow(),
+                                                                              mapping = ggplot2::aes(x = 0,
+                                                                                                     y = 0,
+                                                                                                     xend = CCA1,
+                                                                                                     yend = CCA2,
+                                                                                                     label = `Hill-Ellenberg`))} +
+    {if(!is.null(mvaLocalRefUnrestricted_CCA_arrowData))ggplot2::geom_text(data = mvaLocalRefUnrestricted_CCA_arrowData,
+                                                                           color = 'black',
+                                                                           # position = ggplot2::position_dodge(width = 0.9),
+                                                                           size = 5,
+                                                                           mapping = ggplot2::aes(x = CCA1 * 1.075,
+                                                                                                  y = CCA2 * 1.075,
+                                                                                                  label = `Hill-Ellenberg`))} +
     ggplot2::theme_minimal()
 
   mvaLocalRefUnrestrictedPlot

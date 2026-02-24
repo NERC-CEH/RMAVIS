@@ -190,7 +190,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
       vcAssignmentPlot_Jaccard_prepped <- vcAssignmentPlot_Jaccard |>
         dplyr::select(Year, Group, Quadrat, VC.Code, Mean.Similarity)|>
         dplyr::group_by(Year, Group, Quadrat) |>
-        dplyr::mutate("Rank" = rank(-Mean.Similarity), .before = "Mean.Similarity") |>
+        dplyr::mutate("Rank" = rank(-Mean.Similarity, ties.method = "min"), .before = "Mean.Similarity") |>
         dplyr::ungroup() |>
         dplyr::arrange(Year, Group, Quadrat, Rank)
       
@@ -290,7 +290,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
         dplyr::mutate("Year" = ID) |>
         dplyr::select(Year, "VC.Code" = unit_name_col(), Similarity) |>
         dplyr::group_by(Year) |>
-        dplyr::mutate("Rank" = rank(-Similarity), .before = "Similarity") |>
+        dplyr::mutate("Rank" = rank(-Similarity, ties.method = "min"), .before = "Similarity") |>
         dplyr::ungroup() |>
         dplyr::arrange(Year, Rank)
       
@@ -300,7 +300,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
         dplyr::mutate("Group" = stringr::str_extract(string = ID, pattern = "(?<=\\s-\\s).*$")) |>
         dplyr::select(Year, Group, "VC.Code" = unit_name_col(), Similarity) |>
         dplyr::group_by(Year, Group) |>
-        dplyr::mutate("Rank" = rank(-Similarity), .before = "Similarity") |>
+        dplyr::mutate("Rank" = rank(-Similarity, ties.method = "min"), .before = "Similarity") |>
         dplyr::ungroup() |>
         dplyr::arrange(Year, Group, Rank)
       

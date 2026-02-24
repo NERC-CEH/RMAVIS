@@ -156,7 +156,7 @@ additionalInfoUI <- function(id) {
           examining fidelity and diversity metrics, and evaluating distinctions among similar communities. As new data continue to accumulate, 
           the tool will help inform future refinements such as improved field keys and clearer separation of ecotonal communities.
 
-          Publications:
+          ### Publications:
           
           Aaseng, N.E., Almendinger, J.C., Dana, R.P., Hanson, D.S., Lee, M.D., Rowe, E.R., Rusterholz, K.A. and Wovcha, D.S., 2011. Minnesota’s native plant community classification: A statewide classification of terrestrial and wetland vegetation based on numerical analysis of plot data. Biological Report, 108, pp.1-27. URL: Minnesota’s native plant community classification: A statewide classification of terrestrial and wetland vegetation based on numerical analysis of plot data.
           
@@ -167,6 +167,22 @@ additionalInfoUI <- function(id) {
           Minnesota Department of Natural Resources. 2005b. Field guide to the native plant communities of Minnesota: The Prairie Parkland and Tallgrass Aspen Parklands provinces. Ecological Land Classification Program, Minnesota County Biological Survey, and Natural Heritage and Nongame Research Program, Minnesota Department of Natural Resources, St. Paul, MN, US.
           
           Minnesota Department of Natural Resources. 2007. A handbook for collecting vegetation plot data in Minnesota: The relevé method. Minnesota County Biological Survey, Minnesota Natural Heritage and Nongame Research Program, and Ecological Land Classification Program, Biological Report 92. Minnesota Department of Natural Resources, St. Paul, MN, US. URL: http://www.dnr.state.mn.us/eco/mcbs/vegetation_sampling.html (accessed November 11, 2025).
+          
+          ### Terms of use
+          
+          To help highlight use of relevé data outside of the Minnesota Department of Natural Resources (DNR) and to protect the DNRs 
+          copyright interest in these data, users are asked to acknowledge the DNRs Minnesota Biological Survey Program as the source 
+          of information in any product derived from the relevé data, and to include in any product an appropriate copyright notice in 
+          the name of the DNR (for example, Copyright 2026 State of Minnesota, Department of Natural Resources). Products include hard 
+          copy or digital versions of studies, summaries, reports, maps, proposals, plans, analyses, interpretations, derivative works, 
+          and compilations containing relevé data. If you have any questions about the data or its use, please contact:
+
+          Daniel Wovcha
+          500 Lafayette Rd., Box 25
+          St. Paul, MN 55155
+          
+          (651) 259-5154
+          Daniel.Wovcha@state.mn.us
           '
           )
           

@@ -12,7 +12,8 @@ deSidebar <- function(input, output, session, setupData,
       "inputMethod" = input$inputMethod,
       "clearTable" = input$clearTable,
       "selectedExampleData" = input$selectedExampleData,
-      "coverScale" = input$coverScale
+      "coverScale" = input$coverScale,
+      "uploadData" = input$uploadData
     )
     
     sidebar_options(sidebar_options_list)
@@ -22,6 +23,7 @@ deSidebar <- function(input, output, session, setupData,
               input$clearTable,
               input$selectedExampleData, 
               input$coverScale,
+              input$uploadData,
               ignoreInit = FALSE)
   
 
@@ -189,59 +191,6 @@ deSidebar <- function(input, output, session, setupData,
   }) |>
     bindEvent(input$validatesurveyData,
               ignoreInit = TRUE)
-  
-# Upload Data Modal Popup -------------------------------------------------
-  observe({
-    
-    shiny::showModal(
-      
-      session = session,
-      
-      shiny::modalDialog(
-        
-        title = "Upload Data",
-        id = "uploadDataModal",
-        footer = shiny::modalButton("Close"),
-        size = "xl",
-        easyClose = TRUE,
-        fade = TRUE,
-        
-        uploadDataUI(id = "uploadData_id_1"),
-        
-      )
-    )
-    
-  }) |>
-    bindEvent(input$uploadData,
-              ignoreInit = TRUE)
-  
-  
-# Update upload format options --------------------------------------------
-# due to module positioning this isn't passing through to uploadData_ui
-  # observe({
-  #   
-  #   if(region() == "gbnvc"){
-  #     
-  #     updated_dataupload_options <- c(RMAVIS:::dataEntryFormat_options, c("MAVIS" = "mavis"))
-  #     
-  #   } else if(region() == "mnnpc"){
-  #     
-  #     updated_dataupload_options <- c(RMAVIS:::dataEntryFormat_options, c("MNNPC Releves" = "mnnpc_releves"))
-  #     
-  #   }
-  #   
-  #   shiny::updateSelectizeInput(session = session,
-  #                               inputId = "dataEntryFormat",
-  #                               choices = updated_dataupload_options,
-  #                               selected = "long",
-  #                               server = TRUE)
-  #   
-  #   
-  # }) |>
-  #   shiny::bindEvent(region(),
-  #                    ignoreInit = FALSE,
-  #                    ignoreNULL = TRUE)
-  
   
 # Download Survey Data ----------------------------------------------------
   output$downloadSurveyData <- downloadHandler(

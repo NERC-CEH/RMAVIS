@@ -39,12 +39,12 @@ surveyDataValidatorUI <- function(id){
                   id = ns("speciesInAcceptedTextInfo"),
                   shiny::markdown(
                     "
-                If TRUE all species names in the survey table are accepted names.
-                
-                If FALSE one or more of the species names are not accepted.
-                
-                These names should be corrected using the 'Species Adjustment Table' and 'Adjust Species' button.
-                "
+                    If TRUE all species names in the survey table are accepted names.
+                    
+                    If FALSE one or more of the species names are not accepted.
+                    
+                    These names should be corrected using the 'Species Adjustment Table' and 'Adjust Species' button.
+                    "
                   ),
                   placement = "bottom"
                 ),
@@ -322,6 +322,47 @@ surveyDataValidatorUI <- function(id){
             
             fillable = TRUE,
             
+            shiny::actionButton(inputId = ns("matchAccepted"),
+                                label = "Match to Accepted",
+                                style = "padding:4px; font-size:90%; margin-bottom: 5px !important;"),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Match to Accepted Taxa",
+              id = ns("matchAcceptedInfo"),
+              shiny::markdown(
+                "
+                The Match to Accepted button identifies species which
+                aren't accepted/recommended, as present in the Species.Submitted 
+                column of the Species Adjustment Table, then converts them to 
+                accepted/recommended taxa.
+                See the Taxa Lookup module for a lookup between all available
+                taxon names and the accepted/recommended taxon names.
+                The accepted/recommended taxon names can also be viewed in the
+                Taxonomic Backbone module.
+                Futher manual adjustment using the Species Adjustment Table may be 
+                required, particularly when taxa are spelled incorrectly. 
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          )
+          
+        ),
+        
+        bslib::layout_columns(
+          
+          col_widths = c(3, 9),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            fill = FALSE,
+            
+            fillable = TRUE,
+            
             shiny::actionButton(inputId = ns("adjustSpecies"),
                                 label = "Adjust Species", 
                                 style = "padding:4px; font-size:90%; margin-bottom: 5px !important;"),
@@ -411,48 +452,8 @@ surveyDataValidatorUI <- function(id){
             
           )
           
-        ),
-        
-        bslib::layout_columns(
-          
-          col_widths = c(3, 9),
-          
-          bslib::layout_columns(
-            
-            col_widths = c(11, 1),
-            
-            fill = FALSE,
-            
-            fillable = TRUE,
-            
-            shiny::actionButton(inputId = ns("matchAccepted"),
-                                label = "Match to Accepted",
-                                style = "padding:4px; font-size:90%; margin-bottom: 5px !important;"),
-            
-            bslib::popover(
-              bsicons::bs_icon("info-circle"),
-              title = "Match to Accepted Taxa",
-              id = ns("matchAcceptedInfo"),
-              shiny::markdown(
-                "
-            The Match to Accepted button identifies species which
-            aren't accepted/recommended, as present in the Species.Submitted 
-            column of the Species Adjustment Table, then converts them to 
-            accepted/recommended taxa.
-            See the Taxa Lookup module for a lookup between all available
-            taxon names and the accepted/recommended taxon names.
-            The accepted/recommended taxon names can also be viewed in the
-            Taxonomic Backbone module.
-            Futher manual adjustment using the Species Adjustment Table may be 
-            required, particularly when taxa are spelled incorrectly. 
-            "
-              ),
-              placement = "bottom"
-            )
-            
-          )
-          
         )
+        
       )
       
         
