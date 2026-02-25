@@ -1,4 +1,4 @@
-# RMAVIS 1.2.0 (24-02-2026)
+# RMAVIS 1.2.0 (25-02-2026)
 *   Modifications:
       - Removing the CCA Hill-Ellenberg option in the MVA module. Now all
         Hill-Ellenberg values (F, R, N, S, L) apart from T are included in the CCA by default.
@@ -14,9 +14,7 @@
         modules there is now an option to select the top-1, top-10, or all non-zero fits by year, group, and quadrat.
 *   Fixes:
       - Ensuring that the calculation of cover-weighted EIVs accounts for situations 
-        where the total cover is less than or greater than 100%, as at present
-        RMAVIS does not check the total cover values or stipulate required total
-        cover value ranges.
+        where the total cover is less than or greater than 100%.
       - Fixing the trajectory arrow groupings.
       - Fixing matrix data upload formatting.
 *   New Features:

@@ -1,17 +1,28 @@
 #' Produce objects required for rdiversity
 #' 
-#' ...
+#' Produce the objects required by the `rdiversity` functions 
+#' `rdiversity::subdiv`, `rdiversity::norm_alpha`, `rdiversity::norm_beta`, 
+#' `rdiversity::sub_gamma`, `rdiversity::norm_meta_alpha`, `rdiversity::norm_meta_beta`,
+#' `rdiversity::meta_gamma` for the calculation of the naive, taxonomic, and phylogenetic
+#'  diversity of a collection of vegetation plots as implemented in the wrapper functions
+#'  `RMAVIS::calc_rdiversity_metrics_subcom` and `RMAVIS::calc_rdiversity_metrics_meta`.
 #'
-#' @param plot_data ...
-#' @param higher_taxa ...
-#' @param phylo_tree ...
-#' @param phylo_taxa_lookup ...
+#' @param plot_data A data frame containing vegetation plot data, e.g. `RMAVIS::RMAVIS::example_data$`Parsonage Down``
+#' @param higher_taxa A data frame containing the higher taxa associated with atleast the taxa present in plot_data, e.g. the taxon_name, Kingdom, Phylum, Class, Order, Family, and Genus columns present in `UKVegTB::taxonomic_backbone`.
+#' @param phylo_tree A phylogenetic tree in the format of a Newick string, e.g. `UKVegTB::phylo_tree`.
+#' @param phylo_taxa_lookup A data frame containing a lookup between the taxon_name values present in the plot_data, Open Tree of Life names and codes, e.g. `UKVegTB::phylo_taxa_lookup`.
 #'
-#' @returns ...
+#' @returns A list of three objects: meta_naive, meta_tax, and meta_phylo_dist
 #' @export
 #'
 #' @examples
-#' ...
+#' \dontrun{
+#' RMAVIS::calc_rdiversity_objects(plot_data = dplyr::filter(RMAVIS::example_data$`Parsonage Down`, Year == 1970 & Quadrat == "3N.1"), 
+#'                                 higher_taxa = dplyr::distinct(UKVegTB::taxonomic_backbone, taxon_name, Kingdom, Phylum, Class, Order, Family, Genus), 
+#'                                 phylo_tree = UKVegTB::phylo_tree, 
+#'                                 phylo_taxa_lookup = UKVegTB::phylo_taxa_lookup)
+#' 
+#' }
 calc_rdiversity_objects <- function(plot_data, higher_taxa, phylo_tree, phylo_taxa_lookup, groups = c("Year", "Group", "Quadrat")){
   
   # Prepare standard matrix
@@ -97,18 +108,25 @@ calc_rdiversity_objects <- function(plot_data, higher_taxa, phylo_tree, phylo_ta
 
 #' Calculate diversity metrics for a subcommunity
 #' 
-#' ...
+#' Calculate a set of subcommunity diversity measures and metrics using the objects
+#' produced by the function `RMAVIS::calc_rdiversity_objects`.
 #'
-#' @param rdiv_objects 
+#' @param rdiv_objects A list of three objects: meta_naive, meta_tax, and meta_phylo_dist, produced using the function `RMAVIS::calc_rdiversity_objects`.
 #' @param measures One or more of "alpha", "beta", and "gamma".
 #' @param metrics One or more of "naive", "taxonomic", and "phylogenetic".
-#' @param q description
+#' @param q A positive number representing a Hill-Number.
 #'
-#' @returns ...
+#' @returns A data frame containing the subcommunity partition diversity metrics for all combinations of specified measures and metrics
 #' @export
 #'
 #' @examples
-#' ...
+#' \dontrun{
+#' rdiv_objs <- RMAVIS::calc_rdiversity_objects(plot_data = dplyr::filter(RMAVIS::example_data$`Parsonage Down`, Year == 1970 & Quadrat == "3N.1"), 
+#'                                 higher_taxa = dplyr::distinct(UKVegTB::taxonomic_backbone, taxon_name, Kingdom, Phylum, Class, Order, Family, Genus), 
+#'                                 phylo_tree = UKVegTB::phylo_tree, 
+#'                                 phylo_taxa_lookup = UKVegTB::phylo_taxa_lookup) |>
+#'                RMAVIS::calc_rdiversity_metrics_subcom(measures = c("alpha", "beta", "gamma"), metrics = c("naive", "taxonomic", "phylogenetic"), q = 1)                                
+#' }
 calc_rdiversity_metrics_subcom <- function(rdiv_objects, measures = c("alpha", "beta", "gamma"), metrics = c("naive", "taxonomic", "phylogenetic"), q = 0){
   
   # Retrieve objects
@@ -229,18 +247,25 @@ calc_rdiversity_metrics_subcom <- function(rdiv_objects, measures = c("alpha", "
 
 #' Calculate diversity metrics for a metacommunity
 #' 
-#' ...
+#' Calculate a set of metacommunity diversity measures and metrics using the objects
+#' produced by the function `RMAVIS::calc_rdiversity_objects`.
 #'
-#' @param rdiv_objects ...
+#' @param rdiv_objects A list of three objects: meta_naive, meta_tax, and meta_phylo_dist, produced using the function `RMAVIS::calc_rdiversity_objects`.
 #' @param measures One or more of "alpha", "beta", and "gamma".
 #' @param metrics One or more of "naive", "taxonomic", and "phylogenetic".
-#' @param q ...
+#' @param q A positive number representing a Hill-Number.
 #'
-#' @returns...
+#' @returns A data frame containing the metacommunity partition diversity metrics for all combinations of specified measures and metrics
 #' @export
 #'
 #' @examples
-#' ...
+#' \dontrun{
+#' rdiv_objs <- RMAVIS::calc_rdiversity_objects(plot_data = dplyr::filter(RMAVIS::example_data$`Parsonage Down`, Quadrat == "3N.1"), 
+#'                                 higher_taxa = dplyr::distinct(UKVegTB::taxonomic_backbone, taxon_name, Kingdom, Phylum, Class, Order, Family, Genus), 
+#'                                 phylo_tree = UKVegTB::phylo_tree, 
+#'                                 phylo_taxa_lookup = UKVegTB::phylo_taxa_lookup) |>
+#'                RMAVIS::calc_rdiversity_metrics_meta(measures = c("alpha", "beta", "gamma"), metrics = c("naive", "taxonomic", "phylogenetic"), q = 1)                                
+#' }
 calc_rdiversity_metrics_meta <- function(rdiv_objects, measures = c("alpha", "beta", "gamma"), metrics = c("naive", "taxonomic", "phylogenetic"), q = 0){
 
   # Retrieve objects

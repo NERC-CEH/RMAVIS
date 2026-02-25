@@ -13,20 +13,31 @@ calc_rdiversity_objects(
 )
 }
 \arguments{
-\item{plot_data}{...}
+\item{plot_data}{A data frame containing vegetation plot data, e.g. \verb{RMAVIS::RMAVIS::example_data$}Parsonage Down``}
 
-\item{higher_taxa}{...}
+\item{higher_taxa}{A data frame containing the higher taxa associated with atleast the taxa present in plot_data, e.g. the taxon_name, Kingdom, Phylum, Class, Order, Family, and Genus columns present in \code{UKVegTB::taxonomic_backbone}.}
 
-\item{phylo_tree}{...}
+\item{phylo_tree}{A phylogenetic tree in the format of a Newick string, e.g. \code{UKVegTB::phylo_tree}.}
 
-\item{phylo_taxa_lookup}{...}
+\item{phylo_taxa_lookup}{A data frame containing a lookup between the taxon_name values present in the plot_data, Open Tree of Life names and codes, e.g. \code{UKVegTB::phylo_taxa_lookup}.}
 }
 \value{
-...
+A list of three objects: meta_naive, meta_tax, and meta_phylo_dist
 }
 \description{
-...
+Produce the objects required by the \code{rdiversity} functions
+\code{rdiversity::subdiv}, \code{rdiversity::norm_alpha}, \code{rdiversity::norm_beta},
+\code{rdiversity::sub_gamma}, \code{rdiversity::norm_meta_alpha}, \code{rdiversity::norm_meta_beta},
+\code{rdiversity::meta_gamma} for the calculation of the naive, taxonomic, and phylogenetic
+diversity of a collection of vegetation plots as implemented in the wrapper functions
+\code{RMAVIS::calc_rdiversity_metrics_subcom} and \code{RMAVIS::calc_rdiversity_metrics_meta}.
 }
 \examples{
-...
+\dontrun{
+RMAVIS::calc_rdiversity_objects(plot_data = dplyr::filter(RMAVIS::example_data$`Parsonage Down`, Year == 1970 & Quadrat == "3N.1"), 
+                                higher_taxa = dplyr::distinct(UKVegTB::taxonomic_backbone, taxon_name, Kingdom, Phylum, Class, Order, Family, Genus), 
+                                phylo_tree = UKVegTB::phylo_tree, 
+                                phylo_taxa_lookup = UKVegTB::phylo_taxa_lookup)
+
+}
 }

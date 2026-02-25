@@ -1,4 +1,4 @@
-# RMAVIS 1.2.0 (XX-01-2026)
+# RMAVIS 1.2.0 (25-02-2026)
 *   Modifications:
       - Removing the CCA Hill-Ellenberg option in the MVA module. Now all
         Hill-Ellenberg values (F, R, N, S, L) apart from T are included in the CCA by default.
@@ -10,11 +10,11 @@
       - Now returning all VC similarities, not just the top 10.
       - Adding a rank column to the VC similarity tables.
       - Removing surveyData_mat objects from the list returned by surveyData_server.
+      - In place of a binary option to restrict the top-fitting VC communities in the Floristic Table and MVA
+        modules there is now an option to select the top-1, top-10, or all non-zero fits by year, group, and quadrat.
 *   Fixes:
       - Ensuring that the calculation of cover-weighted EIVs accounts for situations 
-        where the total cover is less than or greater than 100%, as at present
-        RMAVIS does not check the total cover values or stipulate required total
-        cover value ranges.
+        where the total cover is less than or greater than 100%.
       - Fixing the trajectory arrow groupings.
       - Fixing matrix data upload formatting.
 *   New Features:
@@ -24,9 +24,10 @@
         and associated objects.
       - Adding aggregated surveyData objects and the option to use this aggregated
         survey data. Currently only enabled for the MNNPC.
-      - Re-developing the diversity module. We now calculate the alpha, beta, and gamma 
-        naive, taxonomic, and phylogenetic diversity by year, group, and quadrat,
-        for three Hill numbers: 0, 1, and 2 using the R package `rdiversity`.
+      - Re-developing the diversity module. We now provide the ability to calculate 
+        the alpha, beta, and gamma naive, taxonomic, and phylogenetic diversity 
+        by year, group, and quadrat, for three Hill numbers: 
+        0, 1, and 2 using the R package `rdiversity`.
       - Adding a summary of the data availability for the species present in the
         survey data to the surveyDataSummary module.
       - Adding a new tab to the Data Entry module, Taxa Lookup, which displays
@@ -36,7 +37,6 @@
         module.
       - Coloring MVA species scores by whether they were present or absent in the
         survey data.
-      
 
 # RMAVIS 1.1.4 (11-09-2025)
 *   Modifications: NA

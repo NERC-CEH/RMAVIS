@@ -12,20 +12,27 @@ calc_rdiversity_metrics_meta(
 )
 }
 \arguments{
-\item{rdiv_objects}{...}
+\item{rdiv_objects}{A list of three objects: meta_naive, meta_tax, and meta_phylo_dist, produced using the function \code{RMAVIS::calc_rdiversity_objects}.}
 
 \item{measures}{One or more of "alpha", "beta", and "gamma".}
 
 \item{metrics}{One or more of "naive", "taxonomic", and "phylogenetic".}
 
-\item{q}{...}
+\item{q}{A positive number representing a Hill-Number.}
 }
 \value{
-...
+A data frame containing the metacommunity partition diversity metrics for all combinations of specified measures and metrics
 }
 \description{
-...
+Calculate a set of metacommunity diversity measures and metrics using the objects
+produced by the function \code{RMAVIS::calc_rdiversity_objects}.
 }
 \examples{
-...
+\dontrun{
+rdiv_objs <- RMAVIS::calc_rdiversity_objects(plot_data = dplyr::filter(RMAVIS::example_data$`Parsonage Down`, Quadrat == "3N.1"), 
+                                higher_taxa = dplyr::distinct(UKVegTB::taxonomic_backbone, taxon_name, Kingdom, Phylum, Class, Order, Family, Genus), 
+                                phylo_tree = UKVegTB::phylo_tree, 
+                                phylo_taxa_lookup = UKVegTB::phylo_taxa_lookup) |>
+               RMAVIS::calc_rdiversity_metrics_meta(measures = c("alpha", "beta", "gamma"), metrics = c("naive", "taxonomic", "phylogenetic"), q = 1)                                
+}
 }
