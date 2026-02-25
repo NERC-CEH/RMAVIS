@@ -1,8 +1,7 @@
-deSidebar <- function(input, output, session, 
-                     surveyData, surveyDataValidator, surveyDataSummary) {
+deSidebar <- function(input, output, session, setupData,
+                      surveyData, surveyDataValidator, surveyDataSummary) {
   
   ns <- session$ns
-  
 
 # Compose list of inputs to return from module ----------------------------
   sidebar_options <- reactiveVal()
@@ -13,7 +12,8 @@ deSidebar <- function(input, output, session,
       "inputMethod" = input$inputMethod,
       "clearTable" = input$clearTable,
       "selectedExampleData" = input$selectedExampleData,
-      "coverScale" = input$coverScale
+      "coverScale" = input$coverScale,
+      "uploadData" = input$uploadData
     )
     
     sidebar_options(sidebar_options_list)
@@ -23,7 +23,53 @@ deSidebar <- function(input, output, session,
               input$clearTable,
               input$selectedExampleData, 
               input$coverScale,
+              input$uploadData,
               ignoreInit = FALSE)
+  
+
+# Retrieve setup data -----------------------------------------------------
+  example_data_options <- reactiveVal()
+  accepted_taxa <- reactiveVal()
+  taxa_lookup <- reactiveVal()
+  taxonomic_backbone <- reactiveVal()
+  region <- reactiveVal()
+  
+  observe({
+    
+    region(setupData()$region)
+    
+    if(region() == "gbnvc"){
+      
+      taxa_lookup(UKVegTB::taxa_lookup)
+      taxonomic_backbone(UKVegTB::taxonomic_backbone)
+      
+      shiny::updateSelectizeInput(
+        session = session,
+        inputId = "coverScale",
+        selected = "percentage"
+      )
+      
+    } else if(region() == "mnnpc"){
+      
+      taxa_lookup(MNNPC::mnnpc_taxa_lookup)
+      taxonomic_backbone(MNNPC::mnnpc_taxonomic_backbone)
+      
+      shiny::updateSelectizeInput(
+        session = session,
+        inputId = "coverScale",
+        selected = "braunBlanquet"
+      )
+      
+    }
+    
+    example_data_options(setupData()$example_data_options)
+    
+    accepted_taxa(setupData()$accepted_species)
+    
+  }) |>
+    bindEvent(setupData(),
+              ignoreInit = FALSE)
+
 
 # Show/Hide inputMethod-related inputs ------------------------------------
   observe({
@@ -50,10 +96,23 @@ deSidebar <- function(input, output, session,
     
   }) |>
     bindEvent(input$inputMethod, ignoreInit = FALSE)
+  
+# Update Example Data Options --------------------------------------------
+  observe({
+        
+    shiny::updateSelectizeInput(
+      session = session,
+      inputId = "selectedExampleData",
+      choices = example_data_options(),
+      selected = "none"
+    )
+    
+  }) |>
+    bindEvent(example_data_options(),
+              ignoreInit = FALSE)
 
 
-
-  # Update Options Based On Example Data ------------------------------------
+# Update Options Based On Example Data ------------------------------------
   observe({
 
     if(input$inputMethod == "example"){
@@ -83,13 +142,21 @@ deSidebar <- function(input, output, session,
         )
 
       } else if(input$selectedExampleData == "Newborough Warren"){
-
+        
         shiny::updateSelectizeInput(
           session = session,
           inputId = "coverScale",
           selected = "percentage"
         )
-
+        
+      } else if(input$selectedExampleData %in% c("St. Croix State Forest", "Earthworm-Invaded Forests")){
+        
+        shiny::updateSelectizeInput(
+          session = session,
+          inputId = "coverScale",
+          selected = "braunBlanquet"
+        )
+        
       }
 
     }
@@ -97,7 +164,7 @@ deSidebar <- function(input, output, session,
   }) |>
     bindEvent(input$inputMethod,
               input$selectedExampleData,
-              ignoreInit = TRUE)
+              ignoreInit = FALSE)
 
 
 # Validate Survey Table Data Modal Popup ----------------------------------
@@ -125,41 +192,15 @@ deSidebar <- function(input, output, session,
     bindEvent(input$validatesurveyData,
               ignoreInit = TRUE)
   
-# Upload Data Modal Popup -------------------------------------------------
-  observe({
-    
-    shiny::showModal(
-      
-      session = session,
-      
-      shiny::modalDialog(
-        
-        title = "Upload Data",
-        id = "uploadDataModal",
-        footer = shiny::modalButton("Close"),
-        size = "xl",
-        easyClose = TRUE,
-        fade = TRUE,
-        
-        uploadDataUI(id = "uploadData_id_1"),
-        
-      )
-    )
-    
-  }) |>
-    bindEvent(input$uploadData,
-              ignoreInit = TRUE)
-  
-  
-  # Download Survey Data ----------------------------------------------------
+# Download Survey Data ----------------------------------------------------
   output$downloadSurveyData <- downloadHandler(
     
     filename = function() {
       
       paste0("RMAVIS.SurveyData.",
-             "v1-1-3.",
+             "v1-2-0.",
              format(Sys.time(), "%y-%m-%d.%H-%M-%S"),
-             ".csv",
+             ".xlsx",
              sep="")
       
     },
@@ -167,9 +208,17 @@ deSidebar <- function(input, output, session,
     content = function(file) {
       
       surveyData <- surveyData()
-      surveyData_long <- surveyData$surveyData_long
       
-      write.csv(x = surveyData_long, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
+      sheets <- list(
+        "original" = surveyData$surveyData_original,
+        "formatted" = surveyData$surveyData_long_prop
+      )
+      
+      if(!is.null(surveyData()$surveyData_long_prop_agg)){
+        sheets[["aggregated"]] <- surveyData()$surveyData_long_prop_agg
+      }
+      
+      writexl::write_xlsx(x = sheets, path = file)
       
     }
   )
@@ -180,7 +229,8 @@ deSidebar <- function(input, output, session,
     filename = function() {
       
       paste0("RMAVIS.AcceptedTaxa.",
-             "v1-1-3",
+             stringr::str_to_upper(region()),
+             ".v1-2-0",
              ".csv",
              sep="")
       
@@ -188,7 +238,7 @@ deSidebar <- function(input, output, session,
     
     content = function(file) {
       
-      write.csv(x = RMAVIS::accepted_taxa, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
+      write.csv(x = accepted_taxa(), file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
       
     }
   )
@@ -199,7 +249,8 @@ deSidebar <- function(input, output, session,
     filename = function() {
       
       paste0("RMAVIS.TaxonomicBackbone.",
-             "v1-1-3",
+             stringr::str_to_upper(region()),
+             ".v1-2-0",
              ".csv",
              sep="")
       
@@ -207,7 +258,7 @@ deSidebar <- function(input, output, session,
     
     content = function(file) {
       
-      write.csv(x = UKVegTB::taxonomic_backbone, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
+      write.csv(x = taxonomic_backbone(), file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
       
     }
   )
@@ -218,7 +269,8 @@ deSidebar <- function(input, output, session,
     filename = function() {
       
       paste0("RMAVIS.TaxonLookup.",
-             "v1-1-3",
+             stringr::str_to_upper(region()),
+             ".v1-2-0",
              ".csv",
              sep="")
       
@@ -226,7 +278,7 @@ deSidebar <- function(input, output, session,
     
     content = function(file) {
       
-      write.csv(x = UKVegTB::taxa_lookup, file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
+      write.csv(x = taxa_lookup(), file, row.names = FALSE, fileEncoding = "UTF-8", na = "")
       
     }
   )

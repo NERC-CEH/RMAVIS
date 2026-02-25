@@ -1,6 +1,6 @@
 ---
 title: "RMAVIS - Documentation"
-subtitle: "v1.1.4"
+subtitle: "v1.2.0"
 # output:
 #   bookdown::word_document2:
 # always_allow_html: true
@@ -39,8 +39,6 @@ knitr::opts_chunk$set(echo = TRUE)
   
 }
 
-
-
 body .main-container {
   max-width: 2800px !important;
   width: 1100px !important;
@@ -58,40 +56,12 @@ body {
 }
 ```
 
-```{r constants, echo=FALSE}
-# Report options. Load from create_constants.R!!!
-reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAssignmentResultsSite_Czekanowski",
-                                                   "Group, Czekanowski" = "nvcAssignmentResultsGroup_Czekanowski",
-                                                   "Quadrat, Jaccard" = "nvcAssignmentResultsQuadrat_Jaccard"),
-                              `Habitat Correspondence` = c("Site" = "habitatCorrespondenceSite"),
-                              `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
-                                                     "Group" = "composedFloristicTablesGroup"),
-                              `Species Frequency` = c("Species Frequency" = "speciesFrequencyTable"),
-                              `EIVs (incl. Mean Hill-Ellenberg)` = c("Weighted, Site" = "weightedMeanHEValuesSite",
-                                                                     "Unweighted, Site" = "unweightedMeanHEValuesSite",
-                                                                     "Weighted, Group" = "weightedMeanHEValuesGroup",
-                                                                     "Unweighted, Group" = "unweightedMeanHEValuesGroup",
-                                                                     "Weighted, Quadrat" = "weightedMeanHEValuesQuadrat",
-                                                                     "Unweighted, Quadrat" = "unweightedMeanHEValuesQuadrat"),
-                              `Diversity` = c("Summary" = "diversitySummary",
-                                              "Quadrat Indices" = "diversityIndices",
-                                              "Richness, Site" = "speciesRichnessSite",
-                                              "Richness, Group" = "speciesRichnessGroup",
-                                              "Richness, Quadrat" = "speciesRichnessQuadrat"),
-                              `MVA` = c("National" = "mvaNationalReference",
-                                        "Local (restricted)" = "mvaLocalReferenceRestricted",
-                                        "Local (unrestricted)" = "mvaLocalReferenceUnrestricted"),
-                              `Survey Table` = c("Survey Table" = "surveyData")
-    )
-
-```
-
 # Introduction
 
 The assignment of vegetation sample plot data to established vegetation 
 classification units using computational methods is a well established and 
 recognised practice [@maciejewski2020]. 
-The results of this assignment process are used in various ways, 
+In the case of the GB-NVC the results of this assignment process are used in various ways, 
 including assisting in the phase 2 habitat survey
 (or NVC survey) [@rodwell2006national] process; 
 establishing an ecological baseline and identifying important ecological 
@@ -113,16 +83,26 @@ This R Shiny implementation of MAVIS (`RMAVIS`) is the newest program in this
 series, aiming to provide a web-based and easily operable system which
 can be updated and improved over time in response to user needs.
 
+At present `RMAVIS` supports two Vegetation Classification (VC) systems:
+
+1. The National Vegetation Classification of Great Britain (GB-NVC).
+2. The Minnesota Native Plant Community Classification (MNNPC).
+
 # Instructions and Methodology
+
+## Module Availability
+
+At present all modules are available for the GB-NVC. For the MNNPC the EIVs and
+Habitat Correspondence modules are not available.
 
 ## Data Entry
 
-The Data Entry group of modules contains the Data Input, Data Structure, and
-Validation, and Taxonomic Backbone modules.
+The Data Entry group of modules contains the Data Input, Data Structure, Data
+Validation, Taxonomic Backbone, and Taxa Lookup modules.
 
 ### Options
 
-**Input Method**
+#### Input Method
 
 Three methods for entering data into `RMAVIS` are provided: manual, upload,
 and example. The manual method allows the user to enter the data
@@ -131,8 +111,10 @@ data in. The upload method allows the user to upload the data in one of
 three formats: long, wide, and matrix. The example method allows the
 user to load a bundled dataset, in order to demonstrate the
 functionality of the app.
-The basic unit of data consists of a five column table containing the following
-information:
+
+The data entry input format varies by VC system:
+
+GB-NVC:
 
 -   **Year**: The year the quadrat was surveyed.
 -   **Group**: Names for each group of quadrats.
@@ -140,18 +122,30 @@ information:
 -   **Species**: Taxon names.
 -   **Cover**: Optionally, cover values.
 
+MNNPC:
+
+-   **Year:** Contains the year the quadrat/relevé was surveyed. Integer.
+-   **Group:** Contains the quadrat/relevé group. String.
+-   **Releve.Number:** Contains the quadrat/relevé ID. String.
+-   **Phys.Code:** Contains the life form of the Taxon, one of: B (Broadleaved evergreen), C (Climber), D (Broadleaved deciduous), E (Needleleaf evergreen), F (Floating-leaved), G (Graminoid), H (Forb), K (Stem succulent), S (Submerged), or X (Epiphyte). String.
+-   **Min.Ht:** Contains the minimum height of the taxon, one of eight categories: 1 (0m-0.1m), 2 (0.1m-0.5m), 3 (0.5m-2m), 4 (2m-5m), 5 (5m-10m), 6 (10m-20m), 7 (20m-35m), and 8 (35m-50m). String.
+-   **Max.Ht:** Contains the maximum height of the taxon, one of eight categories: 1 (0m-0.1m), 2 (0.1m-0.5m), 3 (0.5m-2m), 4 (2m-5m), 5 (5m-10m), 6 (10m-20m), 7 (20m-35m), and 8 (35m-50m). String.
+-   **Taxon:** Contains the taxon names, see the taxon names present in the taxon_name column of `MNNPC::mnnpc_taxa_lookup`. String.
+-   **Cover:** Contains the cover values, either empty, or one of four systems: Percentage, Proportional, Domin, Braun-Blanquet (5 point).
+
 
 ```{r dataEntryScreenshot, echo = FALSE, fig.cap = "The Data Input section of `RMAVIS` displaying the input data from Whitwell Common example dataset, which is correctly formatted. Note that the absence of cover values requires the 'None' to be selected in the 'Cover Scale' option.", out.width = '100%', fig.align='center'}
 knitr::include_graphics("./screenshots/data_entry.png", rel_path = FALSE)
 ```
 
-
 At present `RMAVIS` does not support the entry of constancy tables.
 
-**Example Dataset**
+#### Example Datasets
 
-Four example datasets are available in `RMAVIS`, which provide a means to
-explore the applications functionality.
+Four example datasets for the GB-NVC and two example dataset for the MNNPC are available in `RMAVIS`, 
+which provide a means to explore the applications functionality.
+
+**GB-NVC**
 
 -   **Parsonage Down**:
     The Parsonage Down dataset [@ridding2020] contains the results of a
@@ -181,20 +175,57 @@ explore the applications functionality.
     with four dune slacks surveyed over five years: 2014, 2015, 2016, 2017,
     and 2018 (which contain 18, 19, 18, 24, and 24 quadrats respectively)
     [@wallace2018]. Percentage cover values are provided.
+    
+**MNNPC**
 
-**Cover Scale**
+-   **St. Croix State Forest**:
+    The St. Croix State Forest Exclosure data set consists of six relevé monitoring 
+    plots established to document forest management involving a two cut even aged 
+    shelterwood harvest and deer browse exclosures [@berger2019]. The site is 
+    dominated by a mix of northern hardwoods and oak and is classified as the Central 
+    Dry Mesic Oak–Aspen–Red Maple Forest ([Ecological System Summaries and 
+    Class Fact Sheets – Upland Forests and Woodlands | Minnesota DNR](https://www.dnr.state.mn.us/npc/uplandforest.html)). 
+    The initial harvest occurred during the winter of 1994, followed by a shelterwood entry in 
+    winter 2000–2001. Monitoring relevé plots were placed inside and outside of deer 
+    exclosures in 2004, 2010, and 2018. One reference relevé plot was sampled in 1994 
+    and was used in place of a control to represent a mature, untreated condition. 
+    Results from this work indicated a shift toward more ruderal species composition, 
+    most likely due to a complex interplay of soil disturbance, deer browsing, 
+    herbicide use, and increased light availability.
+    
+-   **Earthworm-Invaded Forests**
+    The Minnesota Earthworm Invaded Forest data set is a subset of relevé plots 
+    collected as part of a larger resurvey effort across Minnesota to document 
+    changes over the last 20+ years in State Parks and Scientific and Natural 
+    Areas (SNAs) along Minnesota’s North Shore of Lake Superior and the southern 
+    portion of the Eastern Broadleaf Province [@graham2021, @graham2021a]. This subset 
+    consists of 14 historical and 14 revisited relevé plots that, for this example, 
+    are pre grouped into two southern Mesic Hardwood Native Plant Classes (NPCs): 
+    Oak–Basswood (MHs38) and Maple–Basswood (MHs39) ([Ecological System Summaries and 
+    Class Fact Sheets – Upland Forests and Woodlands | Minnesota DNR](https://www.dnr.state.mn.us/npc/uplandforest.html)). 
+    Relevés were revisited in 2018 within a two week window of the original sampling date, and a 
+    rapid earthworm assessment was conducted by assigning a category indicating degree 
+    of impact as outlined in the MNDNR Relevé Handbook [@minnesotadepartmentofnaturalresources2013]. 
+    Most plots had high earthworm index values and showed loss of the duff layer 
+    at the time of resurvey.
+
+#### Cover Scale
 
 Four cover scales are available for selection.
 
 -   **Percentage**: A value greater than 0 and less than equal to 100.
 -   **Proportional**: A value greater than 0 and less than or equal to 1.
 -   **Domin**: The Domin cover scale as outlined in @rodwell2006national (+, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10).
--   **Braun-Blanquet**: The 5 point Braun-Blanquet cover scale as outlined in @braun-blanquet1964 (+, 1, 2, 3, 4, 5).
+-   **Braun-Blanquet**: A 6 point Braun-Blanquet cover scale as outlined in @braun-blanquet1964 (r, +, 1, 2, 3, 4, 5).
 
 We recommend the use of percentage or proportional cover values where possible 
 to avoid information loss [@dengler2023].
 
-**Validation**
+#### Clear Table
+
+The clear table button resets the survey data input table.
+
+### Validation
 
 Pressing the Validation button opens the survey data validation pop up.
 
@@ -228,44 +259,110 @@ are provided:
     species column) in the survey table.
 
 The user may also combine duplicate observations of a species in
-quadrats using the "Combine Duplicates" button.
+quadrats using the "Combine Duplicates" button, re-allocate quadrats to different
+groups, and match taxon names to accepted taxon names.
 
 Until these conditions are met `RMAVIS` will not be able to proceed as
 the "Run Analysis" and "Generate Report" buttons will be disabled.
 
-**Clear Table**
+### Taxonomic Backbone
 
-The clear table button resets the survey data input table.
+The taxonomic backbone for the GB-NVC and MNNPC can be viewed and downloaded from `RMAVIS`
 
-### Taxonomic backbone
-
-The Taxonomic Backbone section provides an interface to explore the taxonomic backbone underpinning RMAVIS.
-This backbone is currently composed of the recommended taxa in 
-version 0250703a of the UKSI (https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy)
-from the following informal groups: alga, chromist, clubmoss, conifer, fern, 
+Version 1.2.0 of `RMAVIS` currently uses version 20250703a of the UKSI to form the GB-NVC taxonomic backbone,
+and contains all accepted taxca from the following informal groups: alga, chromist, clubmoss, conifer, fern, 
 flowering plant, ginkgo, hornwort, horsetail, lichen, liverwort, moss, quillwort, stonewort.
+The UKSI can be accessed from several sources:
+-   The versioned releases available via the NHM data portal (https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy)
+-   The UKSI sandbox (https://uksi-sandbox.nhm.ac.uk/)
+-   The NBN atlas species search (https://species.nbnatlas.org/)
+-   The NHM UKSI website (https://www.nhm.ac.uk/our-science/data/uk-species/index)
+-   The backbone is also available as a lightweight R package (https://github.com/NERC-CEH/UKVegTB)
+
+The MNNPC taxonomic backbone is adapted from MNTaxa - The State of Minnesota Vascular 
+Plant Checklist, which can be found on the Minnesota Department of Natural Resources 
+website: https://www.dnr.state.mn.us/eco/mbs/plant-lists.html. 
+
+### Taxa Lookup
+
+The taxa lookup module contains a lookup between the accepted taxa present in the taxonomic backbone
+and their synonyms as present in the UKSI.
+
     
 ### Download
 
 Available for download are:
 
--   **Accepted Taxa:** the taxa accepted by RMAVIS and associated UKSI taxon version keys.
--   **Taxonomic Backbone:** the taxonomic backbone used in RMAVIS, equal to the `UKVegTB::taxonomic_backbone` object.
--   **Taxon Lookup:** a lookup between the recommended taxon names as present in the Taxonomic Backbone, and available synonyms in the UKSI, equal to the `UKVegTB::taxa_lookup` object.
+-   **Accepted Taxa:** the taxa accepted by RMAVIS.
+-   **Taxonomic Backbone:** the taxonomic backbone used in RMAVIS.
+-   **Taxon Lookup:** a lookup between the accepted/recommended taxon names as present in the Taxonomic Backbone.
 -   **Survey Data:** the survey data entered into the data entry table.
 
 ## NVC Assignment
 
+### VC Types
+
+Different sets of VC units are available in both the GB-NVC and MNNPC; RMAVIS
+provides the ability to select one or more sets of VC units.
+
+At present, for the GB-NVC this is equivalent to `r paste(RMAVIS:::nvcType_options, collapse = ", ")`,
+with the default set to "Original".
+
+**Original**
+
+-   The original NVC floristic tables as described in the original NVC volumes
+    [@rodwell1991;@rodwell1992;@rodwell1992a;@rodwell1995;@rodwell2000].
+    
+**Calthion**
+
+-   An alternative version of MG4 (MG4v2) and the four MG4
+    sub-communities described in @prosser2023 and @wallace2017 (MG4v2a,
+    MG4v2b, MG4v2c, and MG4v2d).
+-   A new MG6 sub-community (MG6d) [@wallace2017]
+-   An alternative version of MG8 (MG8v2) and the four sub-communities
+    described in @wallace2017 (MG8v2a, MG8v2b, MG8v2c, and MG8v2d).
+-   An alternative version of MG13 (MG13v2) [@wallace2017].
+-   A new MG community (MG14) and two sub-communities (MG14a, MG14b)
+    [@wallace2017].
+-   A new MG community (MG15) and two sub-communities (MG15a, MG15b)
+    [@wallace2017].
+-   A new MG community (MG16) [@wallace2017].
+
+**SOWG**
+
+-   A new set of Scottish Oceanic Wet Grassland Communities as
+    described in @wallace2023.
+    
+Communities for which no floristic tables were produced and are therefore
+unavailable in `RMAVIS` are: A6, M30, M36, SM27, and W6c.
+
+For the MNNPC, the default VC type is "Statewide". The user can also select VC types that have been described using vegetation plots from a specific Ecological Classification System (ECS) Section, comprising: `r paste(names(MNNPC::mnnpc_ecs_sections), collapse = "; ")``. These geographic units within the state of Minnesota were developed by the MN DNR and are defined by origin of glacial deposits, regional elevation, distribution of plants, and regional climate. For more information, please visit the [Ecological Classification System website](https://www.dnr.state.mn.us/ecs/index.html).
+The acronym for selected ECS Sections will be appended to the MN NPC code in analysis results.
+
+```{r ecsMap, echo = FALSE, fig.cap = "Map of the Ecological Classification Systems Sections, as defined by the MN DNR, which can be used to constrain MN NPC Analysis to a specific geographic region.", out.width = '60%', fig.align='center'}
+knitr::include_graphics("ecs_map.png", rel_path = FALSE)
+```
+
+### Restrict Habitat
+
+The option to select a subset of VC units before performing an analysis is also provided.
+For the GB-NVC this is equivalent to selecting one or more NVC unit types:
+`r paste(names(RMAVIS:::gbnvc_vc_types_named), collapse = ", ")`. 
+
+For the MNNPC this
+is equivalent to selecting one or more NPC systems or NPC systems + floristic regions: 
+`r paste(names(MNNPC::mnnpc_vc_systems_flreg_named), collapse = ", ")`
+
 ### Similarity Indices
 
-In `RMAVIS` NVC community similarities are assigned to survey data for the
+In `RMAVIS` VC community similarities are assigned to survey data for the
 site and each group of plots by year using the Czekanowski quantitative
 coefficient of similarity [@bloom1981; @hill1989],
 as implemented in MATCH [@malloch1999], and also known as the Steinhaus 
 coefficient.
 The Czekanowski coefficient quantifies the similarity 
 between 1) a floristic table composed from survey data plots and 
-2) the NVC floristic tables; with the ordinal constancy classes of I-V, replaced
+2) the VC floristic tables; with the ordinal constancy classes of I-V, replaced
 with the numeric values 1-5.
 Species absent from the survey data, but present in the NVC
 floristic tables at a constancy of 1 are down-weighted to 0.1. 
@@ -299,11 +396,12 @@ and the converse for $c$ (${X \cup Y}$).
 
 ### Pseudo-Quadrat Methodology
 
-The pseudo-quadrat method as outlined in @tipping2013 and
-first developed in @rushton1996 and @critchley2002
+As the link between the GB-NVC units and their constituent plots was lost,
+to match individual quadrats we use pseudo-quadrat method as outlined in @tipping2013,
+first developed in @rushton1996 and @critchley2002. This
 uses a Bernoulli trial to determine the presence or
 absence of each species, with the probability of a successful trial
-equal to the relative frequency of occurrence of each species in a NVC
+equal to the relative frequency of occurrence of each species in a GB-NVC
 community or sub-community (unit). The relative frequency/probability
 values are derived from the ordinal constancy classes used in the NVC 
 [@rodwell2006national], specifically the mid-point of the percentage ranges which form 
@@ -311,59 +409,27 @@ the constancy classes, such that V (81-100%) = 0.9, IV (61-80%) = 0.7, III
 (41-60%) = 0.5, II (21-40%) = 0.3, and I (1-20%) = 0.1. These values were
 taken in the absence of the actual relative frequencies of each species
 in each NVC unit.
-The number of pseudo-quadrats is currently equal to the number of samples
-used to define the original unit, with the exception of the Scottish oceanic
-wet grassland communities for which 25 pseudo-quadrats were generated, which
-represents the estimated optimum.
+25 pseudo-quadrats were generated for each unit, which capture the majority of 
+the variation within each unit and represent the estimated optimum.
 Work to determine the optimum number of pseudo-quadrats is ongoing.
 
-### Communities
-
-The sets of 'NVC' communities available in `RMAVIS`:
-
-**Original**
-
--   The original NVC floristic tables as described in the original NVC volumes
-    [@rodwell1991;@rodwell1992;@rodwell1992a;@rodwell1995;@rodwell2000].
-    
-**Calthion**
-
--   An alternative version of MG4 (MG4v2) and the four MG4
-    sub-communities described in @prosser2023 and @wallace2017 (MG4v2a,
-    MG4v2b, MG4v2c, and MG4v2d).
--   A new MG6 sub-community (MG6d) [@wallace2017]
--   An alternative version of MG8 (MG8v2) and the four sub-communities
-    described in @wallace2017 (MG8v2a, MG8v2b, MG8v2c, and MG8v2d).
--   An alternative version of MG13 (MG13v2) [@wallace2017].
--   A new MG community (MG14) and two sub-communities (MG14a, MG14b)
-    [@wallace2017].
--   A new MG community (MG15) and two sub-communities (MG15a, MG15b)
-    [@wallace2017].
--   A new MG community (MG16) [@wallace2017].
-
-**SOWG**
-
--   A new set of Scottish Oceanic Wet Grassland Communities as
-    described in @wallace2023.
-    
-Communities for which no floristic tables were produced and are therefore
-unavailable in `RMAVIS` are: A6, M30, M36, SM27, and W6c.
+For the MNNPC the actual releves used to define each MN NPC unit are used.
 
 ### Options
 
-**Assign Quadrats**
+#### Assign Quadrats
 
 Optionally calculate similarity values for individual quadrats.
-If the user only wishes to assign NVC community similarity values for
+If the user only wishes to assign VC community similarity values for
 groups of quadrats or all quadrats in a year disable this option.
 Note that the Jaccard similarity calculations for individual quadrats can take
 a long time for large samples, so it may also be desirable to disable then.
 If there are less than two quadrats per year `RMAVIS` this option is set to 'Yes'
 and disabled, as similarity values for years and/or groups which contain
 less than two quadrats must be calculated using the Jaccard coefficient and 
-reference pseudo-quadrats.
+reference pseudo-quadrats or releves.
 
-**Results to View**
+#### Results to View
 
 Three sets of NVC assignment results are available in `RMAVIS` at present:
 
@@ -371,7 +437,7 @@ Three sets of NVC assignment results are available in `RMAVIS` at present:
 -   **Group, Czekanowski**
 -   **Quadrat, Jaccard**
 
-**Restrict Habitat**
+#### Restrict Habitat
 
 Optionally restrict the NVC assignment process to one or more broad NVC
 habitat types. This is recommended to increase the assignment speed.
@@ -384,7 +450,7 @@ or if re-surveyed plots do not fit in 'U' or 'H' the plots may be wrongly
 assigned, as such the restriction of reference MNVC habitats should be carefully
 considered.
 
-**Number of Top Results**
+#### Number of Top Results
 
 Select the number of top-fitted NVC communities to view.
 
@@ -405,7 +471,7 @@ Habitat correspondence data is drawn from four sources:
 
 ### Options
 
-**Classification**
+#### Classification
 
 The user may select the habitat classification system from which to
 retrieve associated habitats. At present the following systems are
@@ -433,7 +499,7 @@ two ways as described below.
 
 ### Options
 
-**View Options**
+#### View Options
 
 The user may choose to compare composed and NVC floristic tables, or view 
 all composed tables across each year, or a groups composed tables each year by
@@ -442,22 +508,22 @@ selecting one of the two options below:
 -   **Single Composed vs NVC**
 -   **Multiple Composed**
 
-**Restrict**
+#### Restrict
 
 Restrict the NVC communities available to select in the "NVC Table"
 option to the top-fitted NVC communities.
 
-**NVC Table**
+#### NVC Table
 
 Select a NVC community to display the floristic table for.
 
-**Composed Table**
+#### Composed Table
 
 Select a composed floristic table. The composed tables are formed by
 calculating the frequency class of each species across all quadrats in
 each year and year - group combination.
 
-**Match Species**
+#### Match Species
 
 The user may choose to re-arrange the floristic tables to match the
 species present in both tables, three options are provided:
@@ -494,6 +560,8 @@ for bryophytes was taken from BRYOATT [@hill2007].
 
 ### Options
 
+#### Results to View
+
 At present six sets of results are available:
 
 -   **Unweighted Mean Hill-Ellenberg Values, by Site**
@@ -505,27 +573,20 @@ At present six sets of results are available:
 
 ## Diversity
 
-The **Diversity** section allows the user to view a range of basic
-diversity metrics.
+The **Diversity** section allows the user to view a selection of diversity metrics.
+RMAVIS v1.2.0 adopts the approach outlined in @reeve2016 as implemented in the R
+package `rdiversity`.
+
+The naive, taxonomic, and phylogenetic alpha, beta and gamma diversity values are
+calculated for three Hill numbers (0, 1, and 2) for two metacommunity partitions (all 
+quadrats by Year, or all quadrats per group by year) and one subcommunity partition
+(individual quadrats by year) for both the GB-NVC and MNNPC.
 
 ### Options
 
-**Results to View**
+#### Results to View
 
-At present five sets of results are available:
-
--   **Site Summary Table**: contains the mean alpha diversity, gamma
-    diversity, and beta diversity of the site with years arranged
-    column-wise.
--   **Quadrat Diversity Indices Table**: contains the species richness,
-    Shannon diversity, Simpson diversity, Inverse Simpson diversity,
-    Shannon evenness, and Simpson evenness for each quadrat.
--   **Species Richness, by Site**: contains the species richness of the site
-    with years arranged column-wise.
--   **Species Richness, by Group**: contains the species richness of each
-    group with years arranged column-wise.
--   **Species Richness, by Quadrat**: contains the species richness of each
-    quadrat with years arranged column-wise.
+All diversity values are displayed by partition (Year, Group, Quadrat).
 
 ## MVA
 
@@ -625,7 +686,7 @@ the survey quadrats.
 
 ### Options
 
-**Axis Selection**
+#### Axis Selection
 
 The user may select any combination of the first three DCA axis scores
 to be displayed in the MVA plots:
@@ -634,12 +695,12 @@ to be displayed in the MVA plots:
 -   **DCA1 vs DCA3**
 -   **DCA2 vs DCA3**
 
-**National Reference Spaces**
+#### Selected Reference Spaces
 
-Here the user may select any NVC community to display in the **National
-Reference** MVA plot only.
+Here the user may select the VC communties which form the ordination, by default
+this is set to the top-10 fitting communities.
 
-**Group Survey Plots**
+#### Group Survey Plots
 
 Three options are available to 'group' the survey quadrat/plot data:
 
@@ -660,7 +721,7 @@ knitr::include_graphics("./screenshots/mva_grouped.png", rel_path = FALSE)
 ```
 
 
-**Survey Quadrat Selection**
+#### Survey Quadrat Selection
 
 Three methods are available for subsetting the survey quadrats being
 displayed:
@@ -672,23 +733,7 @@ displayed:
 -   **Select Quadrats**: where all the survey quadrats for selected quadrats
     will be displayed.
 
-**CCA Variables**
-
-At present the CCA axis scores from each combination of Hill-Ellenberg
-values are available for display in each MVA plot:
-
--   **Moisture (F) x Nitrogen (N)**
--   **Moisture (F) x Reaction (R)**
--   **Moisture (F) x Light (L)**
--   **Moisture (F) x Salinity (S)**
--   **Nitrogen (N) x Reaction (R)**
--   **Nitrogen (N) x Light (L)**
--   **Nitrogen (N) x Salinity (S)**
--   **Reaction (R) x Light (L)**
--   **Reaction (R) x Salinity (S)**
--   **Light (L) x Salinity (S)**
-
-**Axis Scores**
+#### Axis Scores
 
 The following results may be toggled on/off for display in the MVA
 plots.
@@ -701,8 +746,7 @@ plots.
 -   **Unique Survey Species**: the species present in the survey quadrats
     but absent in the top-fitted NVC communities pseudo-quadrats.
     Displayed in **Local Reference (unrestricted)** only.
--   **Hill-Ellenberg**: the Hill-Ellenberg CCA axis scores selected in the
-    "CCA Variables" option.
+-   **Hill-Ellenberg**: the Hill-Ellenberg CCA axis scores.
 -   **Trajectory**: arrows showing the direction of travel for
     individual quadrats in the ordination space.
 
@@ -715,24 +759,23 @@ group.
 
 ### Options
 
-**Author**
+#### Author
 
 A text input where the user is able to enter the name of the person/s
 using `RMAVIS`.
 
-**Project Name**
+#### Project Name
 
 A text input where the user is able to enter the project name/name of
 the site being analysed in `RMAVIS`.
 
-**Report Options**
+#### Report Options
 
 The user is able to select any of the results visualised in `RMAVIS` for
 inclusion in the report, displayed in the table below.
 
 ```{r reportOptions_table, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="The RMAVIS results available for inclusion in the pdf report."}
-
-reportOptions_table <- stack(lapply(reportOptions_options, names)) |>
+reportOptions_table <- stack(lapply(RMAVIS:::reportOptions_options, names)) |>
   as.data.frame() |>
   dplyr::select("Results Group" = ind, "Results Value" = values)
 
@@ -771,7 +814,6 @@ and
 George Linney
 for testing `RMAVIS`.
 
-
 We would also like to thank Laurence Jones for providing the Newborough
 Warren example dataset and Lucy Ridding for providing the Parsonage Down
 example dataset.
@@ -781,5 +823,16 @@ example dataset.
 To reference `RMAVIS` please cite the JOSS paper:
 
 Marshall et al., (2024). RMAVIS v1.0: a Shiny application for the analysis of vegetation survey data and assignment to GB NVC communities. Journal of Open Source Software, 9(100), 6682, https://doi.org/10.21105/joss.06682
+
+# MNNPC Terms of use
+
+To help highlight use of relevé data outside of the Minnesota Department of Natural Resources (DNR) and to protect the DNR's copyright interest in these data, users are asked to acknowledge the DNR's Minnesota Biological Survey Program as the source of information in any product derived from the relevé data, and to include in any product an appropriate copyright notice in the name of the DNR (for example, Copyright 2026 State of Minnesota, Department of Natural Resources). Products include hard copy or digital versions of studies, summaries, reports, maps, proposals, plans, analyses, interpretations, derivative works, and compilations containing relevé data. If you have any questions about the data or its use, please contact:
+
+Daniel Wovcha
+500 Lafayette Rd., Box 25
+St. Paul, MN 55155
+
+(651) 259-5154
+Daniel.Wovcha@state.mn.us
 
 # References

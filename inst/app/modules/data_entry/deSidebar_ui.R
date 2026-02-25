@@ -4,7 +4,7 @@ deSidebarUI <- function(id){
   
   bslib::sidebar(
     
-    width = 320,
+    width = 375,
     
     shiny::h5("Options"),
 
@@ -77,11 +77,15 @@ deSidebarUI <- function(id){
               id = ns("selectedExampleDataInfo"),
               shiny::markdown(
                 "
-                Four example datasets are currently provided:
+                Four example datasets are currently provided for the GB-NVC:
                 1. 'Parsonage Down'.
                 2. 'Whitwell Common'.
                 3. 'Leith Hill Place Wood'.
                 4. 'Newborough Warren'.
+                
+                Two example datasets are currently provided for the MNNPC:
+                1. 'St. Croix State Forest'
+                2. 'Earthworm-Invaded Forests'
                 "
               ),
               placement = "bottom"
@@ -151,7 +155,7 @@ deSidebarUI <- function(id){
                 1. Percentage
                 2. Proportional
                 3. Domin
-                4. Braun-Blanquet (5 point)
+                4. Braun-Blanquet
                 
                 The format of the cover values entered in the table
                 will be checked against the selected cover scale

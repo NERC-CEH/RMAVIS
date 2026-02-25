@@ -1,7 +1,7 @@
 Package: RMAVIS
-Title: Assign Vegetation Survey Data to GB NVC Communities
-Version: 1.1.4
-Date: 2025-09-11
+Title: Assign Vegetation Survey Data to VC Communities
+Version: 1.2.0
+Date: 2026-02-25
 Authors@R: c(person(given = "Zeke",
                     family = "Marshall",
                     role = c("aut", "cre"),
@@ -21,14 +21,25 @@ Authors@R: c(person(given = "Zeke",
                     family = "Marrs", 
                     email = "calluna@liverpool.ac.uk", 
                     role = c("aut"),
-                    comment = c(ORCID = "0000-0002-0664-9420")))
-Description: A R Shiny application for the assignment of vegetation survey plot data to GB NVC communities with additional exploratory analyses.
+                    comment = c(ORCID = "0000-0002-0664-9420")),
+             person(given = "Amy", 
+                    family = "Kendig", 
+                    email = "amy.kendig@state.mn.us", 
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0002-2774-1795")),
+             person(given = "Alaina", 
+                    family = "Berger", 
+                    email = "alaina.berger@state.mn.us", 
+                    role = c("aut"),
+                    comment = c(ORCID = "0000-0003-2736-0578")))
+Description: A R Shiny application for the assignment of vegetation survey plot data to vegetation classification communities with additional exploratory analyses.
 License: LGPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 LazyDataCompression: xz
 Imports:
+  ape,
   bookdown,
   bsicons,
   bslib,
@@ -44,6 +55,7 @@ Imports:
   purrr,
   reactable,
   readr,
+  rdiversity,
   rhandsontable,
   rmarkdown,
   shiny,
@@ -56,7 +68,8 @@ Imports:
   vegan,
   writexl
 Remotes:
-   github::NERC-CEH/UKVegTB@v0.1.2
+  NERC-CEH/UKVegTB@v0.1.6,
+  MN-DNR-MBS/MNNPC@v1.1.6
 Suggests:
   testthat,
   tinytex

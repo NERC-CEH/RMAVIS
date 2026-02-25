@@ -18,7 +18,7 @@ surveyDataSummaryUI <- function(id){
         
         Below the number of quadrats per year, along with the number of quadrats per group and year are displayed.
         Whether similarity values will be calculated by `RMAVIS` for each
-        year and year-group are displayed in the 'Similarities.Calculable?' column.
+        year and year-group are displayed in the 'Czekanowski.Similarities.Calculable?' column.
 
         "
       ),
@@ -43,17 +43,24 @@ surveyDataSummaryUI <- function(id){
       
       shiny::markdown(
         "
-        Below the availability of data for each species is displayed,
-        two datasets are currently used: Hill-Ellenberg values and the NVC Floristic
-        tables.
+        Below the availability of data for each species is displayed.
         
-        If there are no Hill-Ellenberg values for a species that species does
-        not contribute to the mean Hill-Ellenberg values calculated for each
+        If there are no EIVs for a species that species does
+        not contribute to the mean EIVs calculated for each
         Quadrat, Group, and Site; or the CCA scores found in the MVA section.
         
-        If a species is not present in the NVC Floristic tables it still
-        contributes to (dis)similarity metrics used in the NVC assignment process.
+        If a species is not present in the VC Floristic tables it still
+        contributes to (dis)similarity metrics used in the VC assignment process.
+        
+        If a species is not present in the phylogenetic tree is does not contribute
+        to the calculation of phylogenetic diversity in the diversity section.
         "
+      ),
+      
+      shiny::div(shiny::br()),
+      
+      shiny::div(
+        reactable::reactableOutput(outputId = ns("speciesDataAvailabilitySummaryTable"))
       ),
       
       shiny::div(shiny::br()),

@@ -189,7 +189,7 @@ similarityJaccard <- function(samp_df, comp_df,
   # Bind similarity results to ID values
   similarity_df <- cbind(eval_combinations, similarity_results_df)
   
-  # Add NVC codes
+  # Add VC codes
   similarity_df <- merge(similarity_df, comp_conc, by = comp_group_name)
   
   # Optionally take the mean across all similarities by comp_group_name

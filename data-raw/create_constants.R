@@ -1,3 +1,16 @@
+# Regions -----------------------------------------------------------------
+region_options <- c("Great Britain (GB-NVC)" = "gbnvc",
+                    "Minnesota (MNNPC)" = "mnnpc")
+
+# Regional Availability ---------------------------------------------------
+regional_availability <- tibble::tribble(
+  ~module, ~gbnvc, ~mnnpc,
+  "habCor", TRUE, FALSE,
+  "avgEIVs", TRUE, FALSE,
+  "taxonNameUpdates", TRUE, FALSE,
+  "aggTaxa", FALSE, TRUE
+)
+
 # NVC types ---------------------------------------------------------------
 nvcType_options <- c("Original",
                      "Calthion",
@@ -19,7 +32,8 @@ example_data_options <- c("None" = "none",
 dataEntryFormat_options <- c("Long" = "long",
                              "Wide" = "wide",
                              "Matrix" = "matrix",
-                             "MAVIS" = "mavis")
+                             "MAVIS" = "mavis",
+                             "MNNPC Relevés" = "mnnpc_releves")
 
 
 # Constancy Conversion ----------------------------------------------------
@@ -41,7 +55,7 @@ coverScale_options <- c("None" = "none",
 
 domin_options <- c("+", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
 
-braunBlanquet_options <- c("+", "1", "2", "3", "4", "5")
+braunBlanquet_options <- c("r", "+", "1", "2", "3", "4", "5")
 
 
 # Cover Scale Conversion Values -------------------------------------------
@@ -61,13 +75,15 @@ dominConvert <- c("10" = 0.955,
 braunBlanquetConvert <- c("5" = 0.875,
                           "4" = 0.625,
                           "3" = 0.375,
-                          "2" = 0.175,
-                          "1" = 0.05,
-                          "+" = 0.01) |>
+                          "2" = 0.150,
+                          "1" = 0.025,
+                          "+" = 0.01,
+                          "r" = 0.002
+                          ) |>
   tibble::enframe(name = "Cover", value = "Value")
 
 # Habitat Restriction Options ---------------------------------------------
-habitatRestriction_options <- list(
+gbnvc_vc_types_named <- list(
   "Woodland and scrub (W)" = "W",
   "Mires (M)" = "M",
   "Heaths (H)" = "H",
@@ -84,20 +100,20 @@ habitatRestriction_options <- list(
 )
 
 # Floristic Tables Options ------------------------------------------------
-floristicTablesView_options <- c("Single Composed vs NVC" = "singleComposedVsNVC",
+floristicTablesView_options <- c("Single Composed vs VC" = "singleComposedVsVC",
                                  "Multiple Composed" = "multipleComposed")
 
 # Initialise the set of floristic tables to view, will be updated in sidebar_server
 floristicTablesSetView_options <- c("all")
 
 matchSpecies_options <- c("No" = "No",
-                          "Composed to NVC" = "compToNVC",
-                          "NVC to Composed" = "NVCToComp")
+                          "Composed to VC" = "compToVC",
+                          "VC to Composed" = "VCToComp")
 
 # Results to View NVC Assignment ------------------------------------------
-resultsViewNVCAssign_options <- c("Site, Czekanowski" = "nvcAssignSiteCzekanowski",
-                                  "Group, Czekanowski" = "nvcAssignGroupCzekanowski",
-                                  "Quadrat, Jaccard" = "nvcAssignPlotJaccard")
+resultsViewVCAssign_options <- c("Site, Czekanowski" = "vcAssignSiteCzekanowski",
+                                 "Group, Czekanowski" = "vcAssignGroupCzekanowski",
+                                 "Quadrat, Jaccard" = "vcAssignPlotJaccard")
 
 # Results to View EIVs ----------------------------------------------------
 resultsViewEIVs_options <- c("Weighted Mean Hill-Ellenberg Values, by Site" = "weightedMeanHEValuesSite",
@@ -108,11 +124,9 @@ resultsViewEIVs_options <- c("Weighted Mean Hill-Ellenberg Values, by Site" = "w
                              "Unweighted Mean Hill-Ellenberg Values, by Quadrat" = "unweightedMeanHEValuesQuadrat")
 
 # Results to View Diversity -----------------------------------------------
-resultsViewDiversity_options <- c("Site Summary Table"  = "diversitySummaryTable",
-                                  "Quadrat Diversity Indices Table" = "diversityIndicesTable",
-                                  "Species Richness, by Site" = "speciesRichnessSite",
-                                  "Species Richness, by Group" = "speciesRichnessGroup",
-                                  "Species Richness, by Quadrat" = "speciesRichnessQuadrat")
+resultsViewDiversity_options <- c("Year"  = "year",
+                                  "Group" = "group",
+                                  "Quadrat" = "quadrat")
 
 # DCA Axis Selection Options ----------------------------------------------
 dcaAxisSelection_options <- c("DCA1 vs DCA2" = "dca1dca2",
@@ -129,28 +143,13 @@ dcaVars_options <- c("Survey Quadrats" = "surveyQuadrats",
                      "Hill-Ellenberg" = "hillEllenberg",
                      "Trajectory" = "trajectory")
 
-# CCA options -------------------------------------------------------------
-ccaVars_vals <- list("FN" = c("F", "N"),
-                     "FR" = c("F", "R"),
-                     "FL" = c("F", "L"),
-                     "FS" = c("F", "S"),
-                     "NR" = c("N", "R"),
-                     "NL" = c("N", "L"),
-                     "NS" = c("N", "S"),
-                     "RL" = c("R", "L"),
-                     "RS" = c("R", "S"),
-                     "LS" = c("L", "S"))
 
-ccaVars_options <- c("Moisture (F) x Nitrogen (N)" = "FN",
-                     "Moisture (F) x Reaction (R)" = "FR",
-                     "Moisture (F) x Light (L)" = "FL",
-                     "Moisture (F) x Salinity (S)" = "FS",
-                     "Nitrogen (N) x Reaction (R)" = "NR",
-                     "Nitrogen (N) x Light (L)" = "NL",
-                     "Nitrogen (N) x Salinity (S)" = "NS",
-                     "Reaction (R) x Light (L)" = "RL",
-                     "Reaction (R) x Salinity (S)" = "RS",
-                     "Light (L) x Salinity (S)" = "LS")
+# Hill-Ellenberg Values ---------------------------------------------------
+he_options <- c("Moisture (F)" = "F",
+                "Nitrogen (N)" = "N",
+                "Reaction (R)" = "R",
+                "Light (L)" = "L",
+                "Salinity (S)" = "S")
 
 # DCA Survey Quadrat Options ----------------------------------------------
 surveyQuadratSelection_options <- c("All" = "all",
@@ -170,9 +169,9 @@ groupSurveyPlots_options <- c("No" = "no",
                               "Year" = "year")
 
 # Report Options ----------------------------------------------------------
-reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAssignmentResultsSite_Czekanowski",
-                                                   "Group, Czekanowski" = "nvcAssignmentResultsGroup_Czekanowski",
-                                                   "Quadrat, Jaccard" = "nvcAssignmentResultsQuadrat_Jaccard"),
+reportOptions_options <- list(`VC Assignment` = c("Site, Czekanowski" = "vcAssignmentResultsSite_Czekanowski",
+                                                  "Group, Czekanowski" = "vcAssignmentResultsGroup_Czekanowski",
+                                                  "Quadrat, Jaccard" = "vcAssignmentResultsQuadrat_Jaccard"),
                               `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
                                                      "Group" = "composedFloristicTablesGroup"),
                               `Habitat Correspondence` = c("Site" = "habitatCorrespondenceSite"),
@@ -183,11 +182,9 @@ reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAss
                                                                      "Unweighted, Group" = "unweightedMeanHEValuesGroup",
                                                                      "Weighted, Quadrat" = "weightedMeanHEValuesQuadrat",
                                                                      "Unweighted, Quadrat" = "unweightedMeanHEValuesQuadrat"),
-                              `Diversity` = c("Summary" = "diversitySummary",
-                                              "Quadrat Indices" = "diversityIndices",
-                                              "Richness, Site" = "speciesRichnessSite",
-                                              "Richness, Group" = "speciesRichnessGroup",
-                                              "Richness, Quadrat" = "speciesRichnessQuadrat"),
+                              `Diversity` = c("Year"  = "diversity_year",
+                                              "Group" = "diversity_group",
+                                              "Quadrat" = "diversity_quadrat"),
                               `MVA` = c("National" = "mvaNationalReference",
                                         "Local (restricted)" = "mvaLocalReferenceRestricted",
                                         "Local (unrestricted)" = "mvaLocalReferenceUnrestricted"),
@@ -246,8 +243,19 @@ habitat_correspondence_classifications <- readRDS(file = "./inst/extdata/habitat
   dplyr::pull(classification) |>
   unique()
 
+
+# VC Fit Restriction Options ----------------------------------------------
+vc_fit_restrict_options <- c("All" = "vc_comms_subcomms_all",
+                             "Top 1" = "vc_comms_subcomms_1",
+                             "Top 10" = "vc_comms_subcomms_10",
+                             "All (Comm/Class only)" = "vc_comms_all",
+                             "Top 1 (Comm/Class only)" = "vc_comms_1",
+                             "Top 10 (Comm/Class only)" = "vc_comms_10")
+
 # Save all constants as internal data -------------------------------------
-usethis::use_data(nvcType_options,
+usethis::use_data(region_options,
+                  regional_availability,
+                  nvcType_options,
                   inputMethod_options,
                   example_data_options,
                   dataEntryFormat_options,
@@ -257,17 +265,16 @@ usethis::use_data(nvcType_options,
                   braunBlanquet_options,
                   dominConvert,
                   braunBlanquetConvert,
-                  habitatRestriction_options,
+                  gbnvc_vc_types_named,
                   floristicTablesView_options,
                   floristicTablesSetView_options,
                   matchSpecies_options,
-                  resultsViewNVCAssign_options,
+                  resultsViewVCAssign_options,
                   resultsViewEIVs_options,
                   resultsViewDiversity_options,
                   dcaAxisSelection_options,
                   dcaVars_options,
-                  ccaVars_vals,
-                  ccaVars_options,
+                  he_options,
                   surveyQuadratSelection_options,
                   selectSurveyYears_options,
                   selectSurveyQuadrats_options,
@@ -277,6 +284,7 @@ usethis::use_data(nvcType_options,
                   bh_lookup,
                   habitatRestrictionPrefixes,
                   habitat_correspondence_classifications,
+                  vc_fit_restrict_options,
                   overwrite = TRUE,
                   internal = TRUE)
 

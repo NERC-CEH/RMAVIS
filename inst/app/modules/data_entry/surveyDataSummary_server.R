@@ -1,9 +1,27 @@
-surveyDataSummary <- function(input, output, session, surveyData) {
+surveyDataSummary <- function(input, output, session, setupData, surveyData) {
   
   ns <- session$ns
   
+  # Retrieve Setup Data -----------------------------------------------------
+  floristic_tables <- reactiveVal()
+  ft_taxon_name_col <- reactiveVal()
+  EIVs_available <- reactiveVal()
+  phylo_taxa_lookup <- reactiveVal()
+  
+  observe({
+    
+    floristic_tables(setupData()$floristic_tables)
+    ft_taxon_name_col(setupData()$ft_taxon_name_col)
+    EIVs_available(setupData()$regional_availability$avgEIVs)
+    phylo_taxa_lookup(setupData()$phylo_taxa_lookup)
+    
+  }) |>
+    bindEvent(setupData(),
+              ignoreInit = FALSE)
+  
   # Create Survey Data Structure Table data ------------------------------
   surveyDataStructure_rval <- reactiveVal()
+  speciesDataAvailability_summary_rval <- reactiveVal()
   
   observe({
     
@@ -54,34 +72,72 @@ surveyDataSummary <- function(input, output, session, surveyData) {
   observe({
     
     shiny::req(surveyData())
+    shiny::req(nrow(surveyData()$surveyData_long) > 1)
     
-    surveyData <- surveyData()
-    surveyData_long <- surveyData$surveyData_long
-    
-    hill_ellenberg_w_names <- RMAVIS::hill_ellenberg |>
-      dplyr::left_join(UKVegTB::taxa_lookup, by = "TVK") |>
-      dplyr::select("Species" = "recommended_taxon_name", `F`, L, N, R, S)
+    shiny::isolate({
+      surveyData_long <- surveyData()$surveyData_long
+      floristic_tables <- floristic_tables()
+      ft_taxon_name_col <- ft_taxon_name_col()
+      phylo_taxa_lookup <- phylo_taxa_lookup()
+    })
     
     speciesDataAvailability <- surveyData_long |>
       dplyr::select("Species") |>
       dplyr::distinct() |>
       dplyr::mutate(
-        "Hill-Ellenberg" = 
+        "Veg.Class" = 
           dplyr::case_when(
-            Species %in% unique(dplyr::filter(hill_ellenberg_w_names, !is.na(`F`)) |> dplyr::pull(Species)) ~ "Yes",
+            Species %in% unique(floristic_tables[[ft_taxon_name_col]]) ~ "Yes",
             TRUE ~ as.character("No")
           )
       ) |>
       dplyr::mutate(
-        "NVC" = 
+        "Phylo.Tree" = 
           dplyr::case_when(
-            Species %in% unique(RMAVIS::nvc_floristic_tables$nvc_taxon_name) ~ "Yes",
+            Species %in% (dplyr::filter(phylo_taxa_lookup, phylo == TRUE) |> dplyr::pull(taxon_name)) ~ "Yes",
             TRUE ~ as.character("No")
           )
       )
     
+    if(isTRUE(EIVs_available())){
+      
+      hill_ellenberg_w_names <- RMAVIS::hill_ellenberg |>
+        dplyr::left_join(UKVegTB::taxa_lookup, by = "TVK") |>
+        dplyr::select("Species" = "recommended_taxon_name", `F`, L, N, R, S)
+      
+      speciesDataAvailability <- speciesDataAvailability |>
+        dplyr::mutate(
+          "EIV" = 
+            dplyr::case_when(
+              Species %in% unique(dplyr::filter(hill_ellenberg_w_names, !is.na(`F`)) |> dplyr::pull(Species)) ~ "Yes",
+              TRUE ~ as.character("No")
+            )
+        )
+      
+    }
     
     speciesDataAvailability_rval(speciesDataAvailability)
+    
+    speciesDataAvailability_summary <- speciesDataAvailability |>
+      tidyr::pivot_longer(cols = -Species,
+                          names_to = "metric",
+                          values_to = "value") |>
+      dplyr::group_by(metric) |>
+      dplyr::count(value) |>
+      dplyr::ungroup() |>
+      tidyr::pivot_wider(id_cols = metric,
+                         names_from = value,
+                         values_from = n,
+                         values_fill = 0) |>
+      dplyr::mutate("Percentage" = (Yes / (Yes + No)) * 100) |>
+      tidyr::pivot_longer(cols = -metric) |>
+      tidyr::pivot_wider(id_cols = name,
+                         names_from = metric,
+                         values_from = value) |>
+      dplyr::select(" " = "name", dplyr::any_of(c("Veg.Class", "Phylo.Tree", "EIV")))
+    
+    
+    speciesDataAvailability_summary_rval(speciesDataAvailability_summary)
     
   }) |>
     bindEvent(surveyData(),
@@ -89,9 +145,10 @@ surveyDataSummary <- function(input, output, session, surveyData) {
               ignoreNULL = TRUE)
   
 # Initialise speciesDataAvailability Table ------------------------------
-  speciesDataAvailabilityTable_init <- data.frame("Species" = integer(),
-                                                  "Hill-Ellenberg" = character(),
-                                                  "NVC" = character()
+  speciesDataAvailabilityTable_init <- data.frame("Species" = integer(0),
+                                                  "Veg.Class" = character(0),
+                                                  "Phylo.Tree" = character(0),
+                                                  "EIV" = character(0)
   )
   
   speciesDataAvailabilityTable_rval <- reactiveVal(speciesDataAvailabilityTable_init)
@@ -122,11 +179,46 @@ surveyDataSummary <- function(input, output, session, surveyData) {
     
   })
   
+# Initialise speciesDataAvailabilitySummary Table ------------------------------
+  speciesDataAvailability_summary_init <- data.frame("Species" = integer(0),
+                                                     "Veg.Class" = character(0),
+                                                     "Phylo.Tree" = character(0),
+                                                     "EIV" = character(0)
+  )
+  
+  speciesDataAvailability_summary_rval <- reactiveVal(speciesDataAvailability_summary_init)
+  
+  output$speciesDataAvailabilitySummaryTable <- reactable::renderReactable({
+    
+    speciesDataAvailabilitySummaryTable <- reactable::reactable(data = speciesDataAvailability_summary_init,
+                                                                filterable = FALSE,
+                                                                pagination = FALSE, 
+                                                                highlight = TRUE,
+                                                                bordered = TRUE,
+                                                                sortable = TRUE, 
+                                                                wrap = FALSE,
+                                                                resizable = TRUE,
+                                                                style = list(fontSize = "1rem"),
+                                                                class = "my-tbl",
+                                                                # style = list(fontSize = "1rem"),
+                                                                rowClass = "my-row",
+                                                                defaultColDef = reactable::colDef(
+                                                                  format = reactable::colFormat(digits = 0),
+                                                                  headerClass = "my-header",
+                                                                  class = "my-col",
+                                                                  align = "center" # Needed as alignment is not passing through to header
+                                                                )
+          )
+    
+    return(speciesDataAvailabilitySummaryTable)
+    
+  })
+  
   
   # Initialise quadratsPerYear Table ----------------------------------------
   quadratsPerYearTable_init <- data.frame("Year" = integer(),
                                           "n" = numeric(),
-                                          "Similarities.Calculable?" = character()
+                                          "Czekanowski.Similarities.Calculable?" = character()
   )
   
   quadratsPerYearTable_rval <- reactiveVal(quadratsPerYearTable_init)
@@ -157,10 +249,10 @@ surveyDataSummary <- function(input, output, session, surveyData) {
   })
   
   # Initialise quadratsPerYearGroup Table -----------------------------------
-  quadratsPerYearGroupTable_init <- data.frame("Year" = integer(),
-                                               "Group" = character(),
-                                               "n" = numeric(),
-                                               "Similarities.Calculable?" = character()
+  quadratsPerYearGroupTable_init <- data.frame("Year" = integer(0),
+                                               "Group" = character(0),
+                                               "n" = numeric(0),
+                                               "Czekanowski.Similarities.Calculable?" = character(0)
   )
   
   quadratsPerYearGroupTable_rval <- reactiveVal(quadratsPerYearGroupTable_init)
@@ -199,9 +291,9 @@ surveyDataSummary <- function(input, output, session, surveyData) {
     quadratsPerYear <- surveyDataStructure_rval()$quadratsPerYear |>
       dplyr::mutate("n" = quadratsPerYear, .keep = "unused") |>
       dplyr::mutate(
-        "Similarities.Calculable?" = 
+        "Czekanowski.Similarities.Calculable?" = 
           dplyr::case_when(
-            n < 5 ~ "No",
+            n < 2 ~ "No",
             TRUE ~ as.character("Yes")
           )
       )
@@ -245,7 +337,7 @@ surveyDataSummary <- function(input, output, session, surveyData) {
     quadratsPerYearGroup <- surveyDataStructure_rval()$quadratsPerYearGroup|>
       dplyr::mutate("n" = quadratsPerYearGroup, .keep = "unused") |>
       dplyr::mutate(
-        "Similarities.Calculable?" = 
+        "Czekanowski.Similarities.Calculable?" = 
           dplyr::case_when(
             n < 5 ~ "No",
             TRUE ~ as.character("Yes")
@@ -282,7 +374,7 @@ surveyDataSummary <- function(input, output, session, surveyData) {
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
-  # Update speciesDataAvailability Table ----------------------------------
+# Update speciesDataAvailability Table ----------------------------------
   observe({
     
     req(speciesDataAvailability_rval())
@@ -293,7 +385,7 @@ surveyDataSummary <- function(input, output, session, surveyData) {
       
       speciesDataAvailabilityTable <- reactable::reactable(data = speciesDataAvailability,
                                                            height = 300,
-                                                           filterable = FALSE,
+                                                           filterable = TRUE,
                                                            pagination = FALSE, 
                                                            highlight = TRUE,
                                                            bordered = TRUE,
@@ -309,30 +401,8 @@ surveyDataSummary <- function(input, output, session, surveyData) {
                                                              headerClass = "my-header",
                                                              class = "my-col",
                                                              align = "center" # Needed as alignment is not passing through to header
-                                                           ),
-                                                           columns = list(
-                                                             `Species` = reactable::colDef(
-                                                               filterable = TRUE
-                                                             ),
-                                                             `Hill-Ellenberg` = reactable::colDef(
-                                                               format = reactable::colFormat(digits = 0),
-                                                               filterable = TRUE,
-                                                               filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                                   return rows.filter(function(row) {
-                                                                                                   return row.values[columnId] == filterValue
-                                                                                                   })
-                                                                                                   }")
-                                                             ),
-                                                             `NVC` = reactable::colDef(
-                                                               format = reactable::colFormat(digits = 0),
-                                                               filterable = TRUE,
-                                                               filterMethod = reactable::JS("function(rows, columnId, filterValue) {
-                                                                                                   return rows.filter(function(row) {
-                                                                                                   return row.values[columnId] == filterValue
-                                                                                                   })
-                                                                                                   }")
-                                                             )
-                                                           ))
+                                                           )
+                                                          )
       
       return(speciesDataAvailabilityTable)
       
@@ -343,8 +413,46 @@ surveyDataSummary <- function(input, output, session, surveyData) {
               ignoreInit = TRUE, 
               ignoreNULL = TRUE)
   
+  # Update speciesDataAvailabilitySummary Table ----------------------------------
+  observe({
+    
+    req(speciesDataAvailability_summary_rval())
+    
+    speciesDataAvailability_summary <- speciesDataAvailability_summary_rval()
+    
+    output$speciesDataAvailabilitySummaryTable <- reactable::renderReactable({
+      
+      speciesDataAvailabilitySummaryTable <- reactable::reactable(data = speciesDataAvailability_summary,
+                                                                  filterable = FALSE,
+                                                                  pagination = FALSE, 
+                                                                  highlight = TRUE,
+                                                                  bordered = TRUE,
+                                                                  sortable = TRUE, 
+                                                                  wrap = FALSE,
+                                                                  resizable = TRUE,
+                                                                  style = list(fontSize = "1rem"),
+                                                                  class = "my-tbl",
+                                                                  # style = list(fontSize = "1rem"),
+                                                                  rowClass = "my-row",
+                                                                  defaultColDef = reactable::colDef(
+                                                                    format = reactable::colFormat(digits = 0),
+                                                                    headerClass = "my-header",
+                                                                    class = "my-col",
+                                                                    align = "center" # Needed as alignment is not passing through to header
+                                                                  )
+      )
+      
+      return(speciesDataAvailabilitySummaryTable)
+      
+    })
+    
+  }) |>
+    bindEvent(speciesDataAvailability_summary_rval(),
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE)
   
-  # Compose Data Object to Return -------------------------------------------
+  
+# Compose Data Object to Return -------------------------------------------
   surveyDataSummary_rval <- reactiveVal()
   
   observe({

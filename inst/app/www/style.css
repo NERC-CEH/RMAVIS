@@ -49,6 +49,12 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
   margin-bottom: 0 !important;
 }
 
+.accordion-item {
+    color: var(--bs-accordion-color) !important;
+    background-color: var(--bs-accordion-bg) !important;
+    border: var(--bs-accordion-border-width) !important; /* solid var(--bs-accordion-border-color) */
+}
+
 .navbar {
   --bs-navbar-padding-x: 0.25rem !important;
   --bs-navbar-padding-y: 0.25rem !important;
@@ -61,10 +67,14 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
 
 .navbar-nav {
   --bs-nav-link-padding-x: 0 !important;
-  --bs-nav-link-padding-y: 0rem !important;
+  --bs-nav-link-padding-y: 0.5rem !important;
   --bs-nav-link-color: black !important;
   --bs-nav-link-hover-color: black !important;
   --bs-nav-link-disabled-color: black !important;
+}
+
+.nav-underline {
+  -bs-nav-link-font-size: 1rem !important;
 }
 
 .bslib-sidebar-layout {
@@ -107,6 +117,28 @@ Approximate palette retrieved using https://html-color-codes.info/colors-from-im
 
 .accordion-button{
   font-size: 1rem !important;
+}
+
+/* --------------------------- slimselectinput -------------------------------*/
+.ss-main {
+    color: #000000 !important;
+    border: 4px solid !important;
+    border-color: #dcdee200 !important;
+    background-color: #dcdee200 !important;
+    font-weight: bold !important;
+}
+
+.ss-main:focus {
+    /*box-shadow: 0 0 5px var(--ceh-main-green) !important;*/
+}
+
+.ss-content .ss-list .ss-option {
+    text-align: right !important;
+}
+
+.ss-content .ss-list .ss-option.ss-highlighted, .ss-content .ss-list .ss-option:not(.ss-disabled).ss-selected {
+    color: #FFFFFF !important;
+    /* background-color: var(--ceh-main-green) !important;*/
 }
 
 /* ---------------------------- rhandsontable --------------------------------*/

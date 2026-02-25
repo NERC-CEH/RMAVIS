@@ -1,0 +1,385 @@
+#' Produce objects required for rdiversity
+#' 
+#' Produce the objects required by the `rdiversity` functions 
+#' `rdiversity::subdiv`, `rdiversity::norm_alpha`, `rdiversity::norm_beta`, 
+#' `rdiversity::sub_gamma`, `rdiversity::norm_meta_alpha`, `rdiversity::norm_meta_beta`,
+#' `rdiversity::meta_gamma` for the calculation of the naive, taxonomic, and phylogenetic
+#'  diversity of a collection of vegetation plots as implemented in the wrapper functions
+#'  `RMAVIS::calc_rdiversity_metrics_subcom` and `RMAVIS::calc_rdiversity_metrics_meta`.
+#'
+#' @param plot_data A data frame containing vegetation plot data, e.g. `RMAVIS::RMAVIS::example_data$`Parsonage Down``
+#' @param higher_taxa A data frame containing the higher taxa associated with atleast the taxa present in plot_data, e.g. the taxon_name, Kingdom, Phylum, Class, Order, Family, and Genus columns present in `UKVegTB::taxonomic_backbone`.
+#' @param phylo_tree A phylogenetic tree in the format of a Newick string, e.g. `UKVegTB::phylo_tree`.
+#' @param phylo_taxa_lookup A data frame containing a lookup between the taxon_name values present in the plot_data, Open Tree of Life names and codes, e.g. `UKVegTB::phylo_taxa_lookup`.
+#'
+#' @returns A list of three objects: meta_naive, meta_tax, and meta_phylo_dist
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' RMAVIS::calc_rdiversity_objects(plot_data = dplyr::filter(RMAVIS::example_data$`Parsonage Down`, Year == 1970 & Quadrat == "3N.1"), 
+#'                                 higher_taxa = dplyr::distinct(UKVegTB::taxonomic_backbone, taxon_name, Kingdom, Phylum, Class, Order, Family, Genus), 
+#'                                 phylo_tree = UKVegTB::phylo_tree, 
+#'                                 phylo_taxa_lookup = UKVegTB::phylo_taxa_lookup)
+#' 
+#' }
+calc_rdiversity_objects <- function(plot_data, higher_taxa, phylo_tree, phylo_taxa_lookup, groups = c("Year", "Group", "Quadrat")){
+  
+  # Prepare standard matrix
+  data_mat <- plot_data |>
+    tidyr::unite(col = "ID", dplyr::any_of(groups)) |>
+    tidyr::pivot_wider(id_cols = ID,
+                       names_from = Species,
+                       values_from = Cover,
+                       values_fill = 0) |>
+    tibble::column_to_rownames(var = "ID") |>
+    as.matrix()
+  
+  # Naive diversity setup
+  meta_naive <- rdiversity::metacommunity(t(data_mat)) 
+  
+  # Taxonomic diversity setup
+  rank_level_names <- rev(c(setdiff(colnames(higher_taxa), "taxon_name"), "taxon_name"))
+  rank_levels <- seq(from = 0, to = length(rank_level_names) - 1)
+  names(rank_levels) <- rank_level_names
+  
+  higher_taxa_present <- higher_taxa |>
+    dplyr::filter(taxon_name %in% unique(plot_data$Species)) |>
+    tidyr::drop_na()
+  
+  data_mat_higher_taxa <- data_mat[, higher_taxa_present$taxon_name, drop = FALSE]
+  
+  d_tax <- rdiversity::tax2dist(higher_taxa_present, rank_levels)
+  
+  s_tax <- rdiversity::dist2sim(d_tax, "linear")
+  
+  meta_tax <- rdiversity::metacommunity(t(data_mat_higher_taxa), s_tax) 
+  
+  # Phylogenetic analysis setup
+  available_phylo_taxa_names <- phylo_taxa_lookup |> 
+    dplyr::filter(phylo == TRUE)
+    
+  data_mat_phylo <- plot_data |>
+    dplyr::inner_join(available_phylo_taxa_names, by = c("Species" = "taxon_name")) |>
+    dplyr::group_by(dplyr::across(dplyr::all_of(c(groups, "search_name")))) |>
+    dplyr::summarise("Cover" = sum(Cover, na.rm = TRUE)) |>
+    dplyr::ungroup() |>
+    dplyr::mutate("search_name" = stringr::str_replace_all(string = search_name, pattern = "\\s", replacement = "_")) |>
+    tidyr::unite(col = "ID", dplyr::any_of(groups)) |>
+    tidyr::pivot_wider(id_cols = ID,
+                       names_from = search_name,
+                       values_from = Cover,
+                       values_fill = 0) |>
+    tibble::column_to_rownames(var = "ID") |>
+    as.matrix()
+  
+  data_mat_phylo_analysis <- rdiversity:::check_partition(data_mat_phylo) |> suppressMessages()
+  
+  phylo_tree_phylo <- ape::read.tree(text = phylo_tree)
+  
+  phylo_analysis_taxon_names <- intersect(colnames(data_mat_phylo_analysis), phylo_tree_phylo$tip.label)
+  
+  data_mat_phylo_use <- data_mat_phylo_analysis[, phylo_analysis_taxon_names, drop = FALSE]
+  
+  phylo_tree_use <- ape::keep.tip.phylo(phy = phylo_tree_phylo, tip = phylo_analysis_taxon_names)
+  
+  if(!is.null(phylo_tree_use)){
+    
+    d_phylo <- rdiversity::phy2dist(phylo_tree_use)
+    s_phylo_dist <- rdiversity::dist2sim(d_phylo, "linear")
+    
+    meta_phylo_dist <- rdiversity::metacommunity(t(data_mat_phylo_use), s_phylo_dist)
+    
+  } else {
+    
+    meta_phylo_dist <- NULL
+    
+  }
+  
+  # Compose list of objects to return
+  rdiv_objects <- list("meta_naive" = meta_naive,
+                       "meta_tax" = meta_tax,
+                       "meta_phylo_dist" = meta_phylo_dist)
+  
+  return(rdiv_objects)
+  
+  
+}
+
+#' Calculate diversity metrics for a subcommunity
+#' 
+#' Calculate a set of subcommunity diversity measures and metrics using the objects
+#' produced by the function `RMAVIS::calc_rdiversity_objects`.
+#'
+#' @param rdiv_objects A list of three objects: meta_naive, meta_tax, and meta_phylo_dist, produced using the function `RMAVIS::calc_rdiversity_objects`.
+#' @param measures One or more of "alpha", "beta", and "gamma".
+#' @param metrics One or more of "naive", "taxonomic", and "phylogenetic".
+#' @param q A positive number representing a Hill-Number.
+#'
+#' @returns A data frame containing the subcommunity partition diversity metrics for all combinations of specified measures and metrics
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' rdiv_objs <- RMAVIS::calc_rdiversity_objects(plot_data = dplyr::filter(RMAVIS::example_data$`Parsonage Down`, Year == 1970 & Quadrat == "3N.1"), 
+#'                                 higher_taxa = dplyr::distinct(UKVegTB::taxonomic_backbone, taxon_name, Kingdom, Phylum, Class, Order, Family, Genus), 
+#'                                 phylo_tree = UKVegTB::phylo_tree, 
+#'                                 phylo_taxa_lookup = UKVegTB::phylo_taxa_lookup) |>
+#'                RMAVIS::calc_rdiversity_metrics_subcom(measures = c("alpha", "beta", "gamma"), metrics = c("naive", "taxonomic", "phylogenetic"), q = 1)                                
+#' }
+calc_rdiversity_metrics_subcom <- function(rdiv_objects, measures = c("alpha", "beta", "gamma"), metrics = c("naive", "taxonomic", "phylogenetic"), q = 0){
+  
+  # Retrieve objects
+  meta_naive <- rdiv_objects[["meta_naive"]]
+  meta_tax <- rdiv_objects[["meta_tax"]]
+  meta_phylo_dist <- rdiv_objects[["meta_phylo_dist"]]
+  
+  # Naive diversity measures
+  if(!is.null(meta_naive) & "naive" %in% metrics){
+    
+    if("alpha" %in% measures){
+      alpha_naive_norm <- rdiversity::subdiv(rdiversity::norm_alpha(meta_naive), qs = q)
+    } else{
+      alpha_naive_norm <- NULL
+    }
+    
+    if("beta" %in% measures){
+      beta_naive_norm <- rdiversity::subdiv(rdiversity::norm_beta(meta_naive), qs = q)
+    } else {
+      beta_naive_norm <- NULL
+    }
+    
+    if("gamma" %in% measures & dim(meta_naive@similarity)[2] > 1){
+      gamma_naive <- rdiversity::sub_gamma(meta_naive, q)
+    } else {
+      gamma_naive <- NULL
+    }
+    
+  } else {
+    
+    alpha_naive_norm <- NULL
+    beta_naive_norm <- NULL
+    gamma_naive <- NULL
+    
+  }
+  
+  # Taxonomic diversity measures
+  if(!is.null(meta_tax) & "taxonomic" %in% metrics){
+    
+    if("alpha" %in% measures){
+      alpha_tax_norm <- rdiversity::subdiv(rdiversity::norm_alpha(meta_tax), qs = q)
+    } else{
+      alpha_tax_norm <- NULL
+    }
+    
+    if("beta" %in% measures){
+      beta_tax_norm <- rdiversity::subdiv(rdiversity::norm_beta(meta_tax), qs = q)
+    } else {
+      beta_tax_norm <- NULL
+    }
+    
+    if("gamma" %in% measures & dim(meta_tax@similarity)[2] > 1){
+      gamma_tax <- rdiversity::sub_gamma(meta_tax, q)
+    } else {
+      gamma_tax <- NULL
+    }
+    
+  } else {
+    
+    alpha_tax_norm <- NULL
+    beta_tax_norm <- NULL
+    gamma_tax <- NULL
+    
+  }
+  
+  # Phylogenetic diversity measures
+  if(!is.null(meta_phylo_dist) & "phylogenetic" %in% metrics){
+    
+    if("alpha" %in% measures){
+      alpha_phylo_norm_dist <- rdiversity::subdiv(rdiversity::norm_alpha(meta_phylo_dist), qs = q)
+    } else{
+      alpha_phylo_norm_dist <- NULL
+    }
+    
+    if("beta" %in% measures){
+      beta_phylo_norm_dist <- rdiversity::subdiv(rdiversity::norm_beta(meta_phylo_dist), qs = q)
+    } else {
+      beta_phylo_norm_dist <- NULL
+    }
+    
+    if("gamma" %in% measures & dim(meta_phylo_dist@similarity)[2] > 1){
+      gamma_phylo_dist <- rdiversity::sub_gamma(meta_phylo_dist, q)
+    } else {
+      gamma_phylo_dist <- NULL
+    }
+    
+  } else {
+    
+    alpha_phylo_norm_dist <- NULL
+    beta_phylo_norm_dist <- NULL
+    gamma_phylo_dist <- NULL
+    
+  }
+  
+  # Collate results
+  results <- dplyr::bind_rows(
+    
+    # Naive diversity
+    alpha_naive_norm,
+    beta_naive_norm,
+    gamma_naive,
+    
+    # Taxonomic diversity
+    alpha_tax_norm,
+    beta_tax_norm,
+    gamma_tax,
+    
+    # Phylogenetic diversity
+    alpha_phylo_norm_dist,
+    beta_phylo_norm_dist,
+    gamma_phylo_dist,
+    
+  )
+  
+  return(results)
+  
+}
+
+#' Calculate diversity metrics for a metacommunity
+#' 
+#' Calculate a set of metacommunity diversity measures and metrics using the objects
+#' produced by the function `RMAVIS::calc_rdiversity_objects`.
+#'
+#' @param rdiv_objects A list of three objects: meta_naive, meta_tax, and meta_phylo_dist, produced using the function `RMAVIS::calc_rdiversity_objects`.
+#' @param measures One or more of "alpha", "beta", and "gamma".
+#' @param metrics One or more of "naive", "taxonomic", and "phylogenetic".
+#' @param q A positive number representing a Hill-Number.
+#'
+#' @returns A data frame containing the metacommunity partition diversity metrics for all combinations of specified measures and metrics
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' rdiv_objs <- RMAVIS::calc_rdiversity_objects(plot_data = dplyr::filter(RMAVIS::example_data$`Parsonage Down`, Quadrat == "3N.1"), 
+#'                                 higher_taxa = dplyr::distinct(UKVegTB::taxonomic_backbone, taxon_name, Kingdom, Phylum, Class, Order, Family, Genus), 
+#'                                 phylo_tree = UKVegTB::phylo_tree, 
+#'                                 phylo_taxa_lookup = UKVegTB::phylo_taxa_lookup) |>
+#'                RMAVIS::calc_rdiversity_metrics_meta(measures = c("alpha", "beta", "gamma"), metrics = c("naive", "taxonomic", "phylogenetic"), q = 1)                                
+#' }
+calc_rdiversity_metrics_meta <- function(rdiv_objects, measures = c("alpha", "beta", "gamma"), metrics = c("naive", "taxonomic", "phylogenetic"), q = 0){
+
+  # Retrieve objects
+  meta_naive <- rdiv_objects[["meta_naive"]]
+  meta_tax <- rdiv_objects[["meta_tax"]]
+  meta_phylo_dist <- rdiv_objects[["meta_phylo_dist"]]
+
+  # Naive diversity measures
+  if(!is.null(meta_naive) & "naive" %in% metrics){
+    
+    if("alpha" %in% measures){
+      norm_meta_alpha_naive <- rdiversity::norm_meta_alpha(meta_naive, qs = q)
+    } else {
+      norm_meta_alpha_naive <- NULL
+    }
+    
+    if("beta" %in% measures){
+      norm_meta_beta_naive <- rdiversity::norm_meta_beta(meta_naive, qs = q)
+    } else {
+      norm_meta_beta_naive <- NULL
+    }
+    
+    if("gamma" %in% measures & dim(meta_naive@similarity)[2] > 1){
+      gamma_naive <- rdiversity::meta_gamma(meta_naive, qs = q)
+    } else {
+      gamma_naive <- NULL
+    }
+    
+  } else {
+    
+    norm_meta_alpha_naive <- NULL
+    norm_meta_beta_naive <- NULL
+    gamma_naive <- NULL
+    
+  }
+
+  # Taxonomic diversity measures
+  if(!is.null(meta_tax) & "taxonomic" %in% metrics){
+    
+    if("alpha" %in% measures){
+      norm_meta_alpha_tax <- rdiversity::norm_meta_alpha(meta_tax, qs = q)
+    } else {
+      norm_meta_alpha_tax <- NULL
+    }
+    
+    if("beta" %in% measures){
+      norm_meta_beta_tax <- rdiversity::norm_meta_beta(meta_tax, qs = q)
+    } else {
+      norm_meta_beta_tax <- NULL
+    }
+    
+    if("gamma" %in% measures & dim(meta_tax@similarity)[2] > 1){
+      gamma_tax <- rdiversity::meta_gamma(meta_tax, qs = q)
+    } else {
+      gamma_tax <- NULL
+    }
+    
+  } else {
+    
+    norm_meta_alpha_tax <- NULL
+    norm_meta_beta_tax <- NULL
+    gamma_tax <- NULL
+    
+  }
+
+  # Phylogenetic diversity measures
+  if(!is.null(meta_phylo_dist) & "phylogenetic" %in% metrics){
+    
+    if("alpha" %in% measures){
+      norm_meta_alpha_phylo_dist <- rdiversity::norm_meta_alpha(meta_phylo_dist, qs = q)
+    } else{
+      norm_meta_alpha_phylo_dist <- NULL
+    }
+    
+    if("beta" %in% measures){
+      norm_meta_beta_phylo_dist <- rdiversity::norm_meta_beta(meta_phylo_dist, qs = q)
+    } else {
+      norm_meta_beta_phylo_dist <- NULL
+    }
+    
+    if("gamma" %in% measures & dim(meta_phylo_dist@similarity)[2] > 1){
+      gamma_phylo_dist <- rdiversity::meta_gamma(meta_phylo_dist, qs = q)
+    } else {
+      gamma_phylo_dist <- NULL
+    }
+    
+  } else {
+    
+    norm_meta_alpha_phylo_dist <- NULL
+    norm_meta_beta_phylo_dist <- NULL
+    gamma_phylo_dist <- NULL
+    
+  }
+
+  # Collate results
+  results <- dplyr::bind_rows(
+
+    # Naive diversity
+    norm_meta_alpha_naive,
+    norm_meta_beta_naive,
+    gamma_naive,
+
+    # Taxonomic diversity
+    norm_meta_alpha_tax,
+    norm_meta_beta_tax,
+    gamma_tax,
+
+    # Phylogenetic diversity
+    norm_meta_alpha_phylo_dist,
+    norm_meta_beta_phylo_dist,
+    gamma_phylo_dist
+
+  )
+
+  return(results)
+
+}

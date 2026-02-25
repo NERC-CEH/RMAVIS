@@ -6,11 +6,12 @@ output:
     includes:
       in_header: "Report.preamble.tex"
 params: 
+    setupData: NULL
     sidebar_options: NULL
     surveyData: NULL
     surveyDataValidator: NULL
     surveyDataSummary: NULL
-    nvcAssignment: NULL
+    vcAssignment: NULL
     habCor: NULL
     floristicTables: NULL
     speciesFreq: NULL
@@ -40,11 +41,14 @@ library(kableExtra)
 # source("../create_constants.R", local = knitr::knit_global())
 # sys.source("./create_constants.R", envir = knitr::knit_global())
 
+# Retrieve region
+region <- params$setupData$region
+
 # Retrieve report parameters
 surveyData <- params$surveyData
 surveyDataValidator <- params$surveyDataValidator
 surveyDataSummary <- params$surveyDataSummary
-nvcAssignment <- params$nvcAssignment
+vcAssignment <- params$vcAssignment
 habCor <- params$habCor
 sidebar_options <- params$sidebar_options
 floristicTables <- params$floristicTables
@@ -63,7 +67,6 @@ surveyData_long <- surveyData$surveyData_long
 # Sidebar options
 inputMethod <- sidebar_options$inputMethod
 habitatRestriction <- sidebar_options$habitatRestriction
-nTopResults <- sidebar_options$nTopResults
 
 # Report options
 reportOptions <- sidebar_options$reportOptions
@@ -75,11 +78,12 @@ surveyDataStructure <- surveyDataSummary$surveyDataStructure
 quadratsPerYear <- surveyDataStructure$quadratsPerYear
 quadratsPerYearGroup <- surveyDataStructure$quadratsPerYearGroup
 
-# NVC Assignment
-nvcAssignmentPlot_Jaccard <- nvcAssignment$nvcAssignmentPlot_Jaccard
-nvcAssignmentSite_Czekanowski <- nvcAssignment$nvcAssignmentSite_Czekanowski
-nvcAssignmentGroup_Czekanowski <- nvcAssignment$nvcAssignmentGroup_Czekanowski
-topNVCCommunities <- nvcAssignment$topNVCCommunities
+# VC Assignment
+vcAssignmentPlot_Jaccard <- vcAssignment$vcAssignmentPlot_Jaccard
+vcAssignmentSite_Czekanowski <- vcAssignment$vcAssignmentSite_Czekanowski
+vcAssignmentGroup_Czekanowski <- vcAssignment$vcAssignmentGroup_Czekanowski
+vc_comms_10 <- vcAssignment$vc_comms_10
+vc_comms_subcomms_10 <- vcAssignment$vc_comms_subcomms_10
 
 # Habitat Correspondences
 # habCor <- habCor$
@@ -93,61 +97,43 @@ weightedMeanHEValuesQuadrat <- avgEIVs$weightedMeanHEValuesQuadrat
 unweightedMeanHEValuesQuadrat <- avgEIVs$unweightedMeanHEValuesQuadrat
 
 # Diversity
-diversitySummary <- diversityAnalysis$diversitySummary
-diversityIndices <- diversityAnalysis$diversityIndices
-speciesRichnessSite <- diversityAnalysis$speciesRichnessSite
-speciesRichnessGroup <- diversityAnalysis$speciesRichnessGroup
-speciesRichnessQuadrat <- diversityAnalysis$speciesRichnessQuadrat
+diversityYear <- diversityAnalysis$diversityYear
+diversityGroup <- diversityAnalysis$diversityGroup
+diversityQuadrat <- diversityAnalysis$diversityQuadrat
 
 # MVA Local Reference, Restricted
 mvaLocalRefRestricted_quadrats_survey <- mvaLocalRefRestrictedResults$dca_results_sample_site
+mvaLocalRefRestricted_centroids <- mvaLocalRefRestrictedResults$pquad_centroids
 mvaLocalRefRestricted_hulls_pquads <- mvaLocalRefRestrictedResults$pquad_hulls
 mvaLocalRefRestricted_arrow_plot_data <- mvaLocalRefRestrictedResults$arrow_plot_data
 mvaLocalRefRestricted_CCA_arrowData <- mvaLocalRefRestrictedResults$CCA_arrowData
 
 # MVA Local Reference, Unrestricted
 mvaLocalRefUnrestricted_quadrats_survey <- mvaLocalRefUnrestrictedResults$dca_results_sample_site
+mvaLocalRefUnrestricted_centroids <- mvaLocalRefUnrestrictedResults$pquad_centroids
 mvaLocalRefUnrestricted_hulls_pquads <- mvaLocalRefUnrestrictedResults$pquad_hulls
 mvaLocalRefUnrestricted_arrow_plot_data <- mvaLocalRefUnrestrictedResults$arrow_plot_data
 mvaLocalRefUnrestricted_CCA_arrowData <- mvaLocalRefUnrestrictedResults$CCA_arrowData
 
 # MVA National Reference
 mvaNationalRef_quadrats_survey <- mvaNationalRefResults$dca_results_sample_site
+mvaNationalRef_centroids <- mvaNationalRefResults$pquad_centroids
 mvaNationalRef_hulls <- mvaNationalRefResults$pquad_hulls
 mvaNationalRef_CCA_arrowData <- mvaNationalRefResults$CCA_arrowData
-
-
-# Report options. Load from create_constants.R!!!
-reportOptions_options <- list(`NVC Assignment` = c("Site, Czekanowski" = "nvcAssignmentResultsSite_Czekanowski",
-                                                   "Group, Czekanowski" = "nvcAssignmentResultsGroup_Czekanowski",
-                                                   "Quadrat, Jaccard" = "nvcAssignmentResultsQuadrat_Jaccard"),
-                              `Habitat Correspondence` = c("Site" = "habitatCorrespondenceSite"),
-                              `Floristic Tables` = c("Site" = "composedFloristicTablesSite",
-                                                     "Group" = "composedFloristicTablesGroup"),
-                              `Species Frequency` = c("Species Frequency" = "speciesFrequencyTable"),
-                              `EIVs (incl. Mean Hill-Ellenberg)` = c("Weighted, Site" = "weightedMeanHEValuesSite",
-                                                                     "Unweighted, Site" = "unweightedMeanHEValuesSite",
-                                                                     "Weighted, Group" = "weightedMeanHEValuesGroup",
-                                                                     "Unweighted, Group" = "unweightedMeanHEValuesGroup",
-                                                                     "Weighted, Quadrat" = "weightedMeanHEValuesQuadrat",
-                                                                     "Unweighted, Quadrat" = "unweightedMeanHEValuesQuadrat"),
-                              `Diversity` = c("Summary" = "diversitySummary",
-                                              "Quadrat Indices" = "diversityIndices",
-                                              "Richness, Site" = "speciesRichnessSite",
-                                              "Richness, Group" = "speciesRichnessGroup",
-                                              "Richness, Quadrat" = "speciesRichnessQuadrat"),
-                              `MVA` = c("National" = "mvaNationalReference",
-                                        "Local (restricted)" = "mvaLocalReferenceRestricted",
-                                        "Local (unrestricted)" = "mvaLocalReferenceUnrestricted"),
-                              `Survey Table` = c("Survey Table" = "surveyData")
-    )
 ```
 
 \vspace{-10truemm}
 
 ```{r RMAVISVersion, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-cat("**Version:** ", as.character("v1.1.4"), sep = "")
+cat("**Version:** ", as.character("v1.2.0"), sep = "")
+
+```
+
+```{r region, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+region_print <- names(RMAVIS:::region_options[which(RMAVIS:::region_options == region)])
+
+cat("**Region:** ", as.character(region_print), sep = "")
 
 ```
 
@@ -181,16 +167,8 @@ This report contains user-selected outputs of a RMAVIS application session.
 
 ## Main Options
 
-```{r inputMethod, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-cat("**Input Method:** ", as.character(inputMethod), sep = "")
-```
-
 ```{r habitatRestriction, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 cat("**Habitat Restriction:** ", as.character(habitatRestriction), sep = "")
-```
-
-```{r nTopResults, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-cat("**Number of Top Results:** ", as.character(nTopResults), sep = "")
 ```
 
 ## Selected Outputs
@@ -198,11 +176,21 @@ cat("**Number of Top Results:** ", as.character(nTopResults), sep = "")
 The report outputs selected by the app user are shown in Table \@ref(tab:selectedOutputs).
 
 ```{r selectedOutputs, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-reportOptions_options_named_df <- stack(lapply(reportOptions_options, names)) |>
+available_report_options <- RMAVIS:::reportOptions_options
+
+if(!is.null(avgEIVs)){
+  available_report_options <- available_report_options[names(available_report_options) != "EIVs (incl. Mean Hill-Ellenberg)"]
+}
+    
+if(!is.null(habCor)){
+  available_report_options <- available_report_options[names(available_report_options) != "Habitat Correspondence"]
+}
+
+reportOptions_options_named_df <- stack(lapply(available_report_options, names)) |>
   tibble::as_tibble() |>
   dplyr::select("Results Group" = ind, "Results Value" = values)
 
-reportOptions_selected <- lapply(reportOptions_options, function(x) x[which(x %in% reportOptions)])
+reportOptions_selected <- lapply(available_report_options, function(x) x[which(x %in% reportOptions)])
 reportOptions_selected <- reportOptions_selected[lengths(reportOptions_selected) > 0L]
 reportOptions_selected_df <- stack(lapply(reportOptions_selected, names)) |>
   tibble::as_tibble() |>
@@ -231,8 +219,8 @@ kableExtra::kbl(x = selectedOutputs, format = "latex", booktabs = TRUE,
 # Survey Data Structure
 
 As detailed in the survey data validation section of RMAVIS
-NVC similarities for groups and years are not calculated when there are
-less than five sample plots per year-group and per year.
+VC similarities for groups and years are not calculated when there are
+less than two sample plots per year-group and per year.
 Smaller sample sizes may also result in the failure of the composition of 
 representative floristic tables.
 See Table \@ref(tab:quadratsPerYear) and Table \@ref(tab:quadratsPerYearGroup)
@@ -256,33 +244,34 @@ kableExtra::kbl(x = quadratsPerYearGroup, format = "latex", booktabs = TRUE,
 
 ```
 
-```{r nvcAssignmentTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r vcAssignmentTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-reportOptions_nvcAssignment <- reportOptions_options$`NVC Assignment`
+reportOptions_vcAssignment <- RMAVIS:::reportOptions_options$`VC Assignment`
 
-if(any(reportOptions_nvcAssignment %in% reportOptions)){
+if(any(reportOptions_vcAssignment %in% reportOptions)){
   
   cat("\\newpage")
-  cat("# NVC Assignment")
+  cat("# VC Assignment")
   
 }
 
 ```
 
-```{r nvcAssignmentResultsSiteCzekanowski, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r vcAssignmentResultsSiteCzekanowski, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-if("nvcAssignmentResultsSite_Czekanowski" %in% reportOptions){
+if("vcAssignmentResultsSite_Czekanowski" %in% reportOptions){
   
-  cat("## NVC Assignment Czekanowski, by Site")
+  cat("## VC Assignment Czekanowski, by Site")
   
-   if(!is.null(nvcAssignmentSite_Czekanowski)){
+   if(!is.null(vcAssignmentSite_Czekanowski)){
      
-    nvcAssignmentSite_Czekanowski_prepped <- nvcAssignmentSite_Czekanowski |>
-      dplyr::mutate_if(is.numeric, round, digits = 2)
+    vcAssignmentSite_Czekanowski_prepped <- vcAssignmentSite_Czekanowski |>
+      dplyr::mutate_if(is.numeric, round, digits = 2) |>
+      dplyr::filter(VC.Code %in% vc_comms_subcomms_10)
 
-    kableExtra::kbl(x = nvcAssignmentSite_Czekanowski_prepped, format = "latex", booktabs = TRUE,
+    kableExtra::kbl(x = vcAssignmentSite_Czekanowski_prepped, format = "latex", booktabs = TRUE,
                     longtable = TRUE, linesep = "",
-                    caption = "The top NVC communities fitted using the Czekanowski method, for the site by year."
+                    caption = "The top 10 VC communities fitted using the Czekanowski method, for the site by year."
                     ) |>
       kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
      
@@ -292,20 +281,21 @@ if("nvcAssignmentResultsSite_Czekanowski" %in% reportOptions){
 
 ```
 
-```{r nvcAssignmentResultsGroupCzekanowski, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r vcAssignmentResultsGroupCzekanowski, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-if("nvcAssignmentResultsGroup_Czekanowski" %in% reportOptions){
+if("vcAssignmentResultsGroup_Czekanowski" %in% reportOptions){
   
-  cat("## NVC Assignment Czekanowski, by Group")
+  cat("## VC Assignment Czekanowski, by Group")
   
-  if(!is.null(nvcAssignmentGroup_Czekanowski)){
+  if(!is.null(vcAssignmentGroup_Czekanowski)){
     
-    nvcAssignmentGroup_Czekanowski_prepped <- nvcAssignmentGroup_Czekanowski |>
-      dplyr::mutate_if(is.numeric, round, digits = 2)
+    vcAssignmentGroup_Czekanowski_prepped <- vcAssignmentGroup_Czekanowski |>
+      dplyr::mutate_if(is.numeric, round, digits = 2) |>
+      dplyr::filter(VC.Code %in% vc_comms_subcomms_10)
 
-    kableExtra::kbl(x = nvcAssignmentGroup_Czekanowski_prepped, format = "latex", booktabs = TRUE,
+    kableExtra::kbl(x = vcAssignmentGroup_Czekanowski_prepped, format = "latex", booktabs = TRUE,
                     longtable = TRUE, linesep = "",
-                    caption = "The top NVC communities fitted using the Czekanowski method, by group and year"
+                    caption = "The top 10 VC communities fitted using the Czekanowski method, by group and year"
                     ) |>
       kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
     
@@ -316,20 +306,21 @@ if("nvcAssignmentResultsGroup_Czekanowski" %in% reportOptions){
 
 ```
 
-```{r nvcAssignmentResultsQuadrat, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r vcAssignmentResultsQuadrat, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-if("nvcAssignmentResultsQuadrat_Jaccard" %in% reportOptions){
+if("vcAssignmentResultsQuadrat_Jaccard" %in% reportOptions){
   
-  cat("## NVC Assignment Jaccard, by Quadrat")
+  cat("## VC Assignment Jaccard, by Quadrat")
   
-  if(!is.null(nvcAssignmentPlot_Jaccard)){
+  if(!is.null(vcAssignmentPlot_Jaccard)){
     
-    nvcAssignmentPlot_Jaccard_prepped <- nvcAssignmentPlot_Jaccard |>
-    dplyr::mutate_if(is.numeric, round, digits = 2)
+    vcAssignmentPlot_Jaccard_prepped <- vcAssignmentPlot_Jaccard |>
+      dplyr::mutate_if(is.numeric, round, digits = 2) |>
+      dplyr::filter(VC.Code %in% vc_comms_subcomms_10)
 
-    kableExtra::kbl(x = nvcAssignmentPlot_Jaccard_prepped, format = "latex", booktabs = TRUE,
+    kableExtra::kbl(x = vcAssignmentPlot_Jaccard_prepped, format = "latex", booktabs = TRUE,
                     longtable = TRUE, linesep = "",
-                    caption = "The top NVC communities fitted using the pseudo-quadrat method, by quadrat, group, and year") |>
+                    caption = "The top 10 VC communities fitted using the pseudo-quadrat method, by quadrat, group, and year") |>
       kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
     
   }
@@ -340,7 +331,7 @@ if("nvcAssignmentResultsQuadrat_Jaccard" %in% reportOptions){
 
 ```{r habitatCorrespondenceTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-if("habitatCorrespondenceSite" %in% reportOptions){
+if("habitatCorrespondenceSite" %in% reportOptions & !is.null(habCor)){
   
   cat("# Habitat Correspondences")
   
@@ -350,7 +341,7 @@ if("habitatCorrespondenceSite" %in% reportOptions){
 
 ```{r habitatCorrespondenceSite, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-if("habitatCorrespondenceSite" %in% reportOptions){
+if("habitatCorrespondenceSite" %in% reportOptions & !is.null(habCor)){
   
   cat("## Habitat Correspondences, by Site")
   
@@ -359,7 +350,7 @@ if("habitatCorrespondenceSite" %in% reportOptions){
   
   kableExtra::kbl(x = habCor_prepped, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "The habitats associated with the top-N fitting NVC communities from alternative habitat classifications.") |>
+                  caption = "The habitats associated with the top-N fitting VC communities from alternative habitat classifications.") |>
     kableExtra::kable_styling(font_size = 7) |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position")) |>
     kableExtra::landscape()
@@ -370,7 +361,7 @@ if("habitatCorrespondenceSite" %in% reportOptions){
 
 ```{r floristicTablesTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-reportOptions_floristicTables <- reportOptions_options$`Floristic Tables`
+reportOptions_floristicTables <- RMAVIS:::reportOptions_options$`Floristic Tables`
 
 if(any(reportOptions_floristicTables %in% reportOptions)){
   
@@ -450,9 +441,9 @@ if("speciesFrequencyTable" %in% reportOptions){
 
 ```{r eivTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-reportOptions_eiv <- reportOptions_options$`EIVs (incl. Mean Hill-Ellenberg)`
+reportOptions_eiv <- RMAVIS:::reportOptions_options$`EIVs (incl. Mean Hill-Ellenberg)`
 
-if(any(reportOptions_eiv %in% reportOptions)){
+if(any(reportOptions_eiv %in% reportOptions) & !is.null(weightedMeanHEValuesSite)){
   
   cat("\\newpage")
   cat("# Ecological Indicator Values")
@@ -463,7 +454,7 @@ if(any(reportOptions_eiv %in% reportOptions)){
 
 ```{r weightedMeanHEValuesSite, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-if("weightedMeanHEValuesSite" %in% reportOptions){
+if("weightedMeanHEValuesSite" %in% reportOptions & !is.null(weightedMeanHEValuesSite)){
   
   cat("## Weighted Mean Hill-Ellenberg Values, by Site")
   
@@ -478,7 +469,7 @@ if("weightedMeanHEValuesSite" %in% reportOptions){
 
 ```{r unweightedMeanHEValuesSite, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-if("unweightedMeanHEValuesSite" %in% reportOptions){
+if("unweightedMeanHEValuesSite" %in% reportOptions & !is.null(unweightedMeanHEValuesSite)){
   
   cat("## Unweighted Mean Hill-Ellenberg Values, by Site")
   
@@ -493,7 +484,7 @@ if("unweightedMeanHEValuesSite" %in% reportOptions){
 
 ```{r weightedMeanHEValuesGroup, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-if("weightedMeanHEValuesGroup" %in% reportOptions){
+if("weightedMeanHEValuesGroup" %in% reportOptions & !is.null(weightedMeanHEValuesGroup)){
   
   cat("## Weighted Mean Hill-Ellenberg Values, by Group")
   
@@ -508,7 +499,7 @@ if("weightedMeanHEValuesGroup" %in% reportOptions){
 
 ```{r unweightedMeanHEValuesGroup, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-if("unweightedMeanHEValuesGroup" %in% reportOptions){
+if("unweightedMeanHEValuesGroup" %in% reportOptions & !is.null(unweightedMeanHEValuesGroup)){
   
   cat("## Unweighted Mean Hill-Ellenberg Values, by Group")
   
@@ -523,7 +514,7 @@ if("unweightedMeanHEValuesGroup" %in% reportOptions){
 
 ```{r weightedMeanHEValuesQuadrat, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-if("weightedMeanHEValuesQuadrat" %in% reportOptions){
+if("weightedMeanHEValuesQuadrat" %in% reportOptions & !is.null(weightedMeanHEValuesQuadrat)){
   
   cat("## Weighted Mean Hill-Ellenberg Values, by Quadrat")
   
@@ -538,7 +529,7 @@ if("weightedMeanHEValuesQuadrat" %in% reportOptions){
 
 ```{r unweightedMeanHEValuesQuadrat, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-if("unweightedMeanHEValuesQuadrat" %in% reportOptions){
+if("unweightedMeanHEValuesQuadrat" %in% reportOptions & !is.null(unweightedMeanHEValuesQuadrat)){
   
   cat("## Unweighted Mean Hill-Ellenberg Values, by Quadrat")
   
@@ -553,7 +544,7 @@ if("unweightedMeanHEValuesQuadrat" %in% reportOptions){
 
 ```{r diversityTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-reportOptions_diversity <- reportOptions_options$Diversity
+reportOptions_diversity <- RMAVIS:::reportOptions_options$Diversity
 
 if(any(reportOptions_diversity %in% reportOptions)){
   
@@ -564,85 +555,45 @@ if(any(reportOptions_diversity %in% reportOptions)){
 
 ```
 
-```{r diversitySummary, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r diversityYear, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-if("diversitySummary" %in% reportOptions){
+if("diversity_year" %in% reportOptions){
   
-  cat("## Diversity Summary")
+  cat("## Diversity Measures - by Year")
   
-  kableExtra::kbl(x = diversitySummary, format = "latex", booktabs = TRUE,
+  kableExtra::kbl(x = diversityYear, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "Diversity Summary") |>
+                  caption = "Diversity Measures - by Year") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }
 
 ```
 
-```{r diversityIndices, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r diversityGroup, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-if("diversityIndices" %in% reportOptions){
-   
-  cat("## Diversity Indices")
+if("diversity_group" %in% reportOptions){
   
-  # cat("\\begin{landscape}")
+  cat("## Diversity Measures - by Group")
   
-  diversityIndices_prepped <- diversityIndices |>
-    dplyr::mutate_if(is.numeric, round, digits = 2)
-  
-  kableExtra::kbl(x = diversityIndices_prepped, format = "latex", booktabs = TRUE,
+  kableExtra::kbl(x = diversityGroup, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "Diversity Indices") |>
-    # Note that "scale_down" does not work when "longtable = TRUE"
-    # kableExtra::kable_styling(font_size = 7) |>
-    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position")) |>
-    kableExtra::landscape()
-  
-   # cat("\\end{landscape}")
-  
-}
-
-```
-
-```{r speciesRichnessSite, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-
-if("speciesRichnessSite" %in% reportOptions){
-  
-  cat("## Species Richness, by Site")
-  
-  kableExtra::kbl(x = speciesRichnessSite, format = "latex", booktabs = TRUE,
-                  longtable = TRUE, linesep = "",
-                  caption = "Species Richness, by Site") |>
+                  caption = "Diversity Measures - by Group") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }
 
 ```
 
-```{r speciesRichnessGroup, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r diversityQuadrat, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-if("speciesRichnessGroup" %in% reportOptions){
+if("diversity_quadrat" %in% reportOptions){
   
-  cat("## Species Richness, by Group")
+  cat("## Diversity Measures - by Quadrat")
   
-  kableExtra::kbl(x = speciesRichnessGroup, format = "latex", booktabs = TRUE,
+  kableExtra::kbl(x = diversityQuadrat, format = "latex", booktabs = TRUE,
                   longtable = TRUE, linesep = "",
-                  caption = "Species Richness, by Group") |>
-    kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
-  
-}
-
-```
-
-```{r speciesRichnessQuadrat, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
-
-if("speciesRichnessQuadrat" %in% reportOptions){
-  
-  cat("## Species Richness, by Quadrat")
-  
-  kableExtra::kbl(x = speciesRichnessQuadrat, format = "latex", booktabs = TRUE,
-                  longtable = TRUE, linesep = "",
-                  caption = "Species Richness, by Quadrat") |>
+                  caption = "Diversity Measures - by Quadrat") |>
     kableExtra::kable_styling(latex_options = c("repeat_header", "HOLD_position"))
   
 }
@@ -651,7 +602,7 @@ if("speciesRichnessQuadrat" %in% reportOptions){
 
 ```{r mvaTitle, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-reportOptions_mva <- reportOptions_options$MVA
+reportOptions_mva <- RMAVIS:::reportOptions_options$MVA
 
 if(any(reportOptions_mva %in% reportOptions)){
   
@@ -683,11 +634,11 @@ if("mvaNationalReference" %in% reportOptions){
   
   mvaNationalRefPlot <- ggplot2::ggplot() +
     ggplot2::geom_polygon(data = mvaNationalRef_hulls |> dplyr::filter(dcaAxes == dcaAxisSelection,
-                                                                       NVC %in% topNVCCommunities), 
+                                                                       VC.Code %in% vc_comms_10), 
                           alpha = 0.2,
                           mapping = ggplot2::aes(x = .data[[x_axis]],
                                                  y = .data[[y_axis]],
-                                                 fill = NVC
+                                                 fill = VC.Code
                                                  )) +
     ggplot2::geom_point(data = mvaNationalRef_quadrats_survey,
                         mapping = ggplot2::aes(Year = Year,
@@ -695,21 +646,25 @@ if("mvaNationalReference" %in% reportOptions){
                                                Quadrat = Quadrat,
                                                x = DCA1,
                                                y = DCA2)) +
-    ggplot2::geom_segment(data = mvaNationalRef_CCA_arrowData,
-                          color = 'black',
-                          arrow = grid::arrow(),
-                          mapping = ggplot2::aes(x = 0,
-                                                 y = 0,
-                                                 xend = CCA1,
-                                                 yend = CCA2,
-                                                 label = `Hill-Ellenberg`)) +
-    ggplot2::geom_text(data = mvaNationalRef_CCA_arrowData,
-                       color = 'black',
-                       # position = ggplot2::position_dodge(width = 0.9),
-                       size = 5,
-                       mapping = ggplot2::aes(x = CCA1 * 1.075,
-                                              y = CCA2 * 1.075,
-                                              label = `Hill-Ellenberg`)) +
+    ggplot2::geom_point(data = mvaNationalRef_centroids |> dplyr::filter(VC.Code %in% vc_comms_10),
+                        mapping = ggplot2::aes(color = VC.Code,
+                                               x = DCA1,
+                                               y = DCA2)) +
+    {if(!is.null(mvaNationalRef_CCA_arrowData))ggplot2::geom_segment(data = mvaNationalRef_CCA_arrowData,
+                                                                     color = 'black',
+                                                                     arrow = grid::arrow(),
+                                                                     mapping = ggplot2::aes(x = 0,
+                                                                                            y = 0,
+                                                                                            xend = CCA1,
+                                                                                            yend = CCA2,
+                                                                                            label = `Hill-Ellenberg`))} +
+    {if(!is.null(mvaNationalRef_CCA_arrowData))ggplot2::geom_text(data = mvaNationalRef_CCA_arrowData,
+                                                                  color = 'black',
+                                                                  # position = ggplot2::position_dodge(width = 0.9),
+                                                                  size = 5,
+                                                                  mapping = ggplot2::aes(x = CCA1 * 1.075,
+                                                                                         y = CCA2 * 1.075,
+                                                                                         label = `Hill-Ellenberg`))} +
     ggplot2::theme_minimal()
 
   mvaNationalRefPlot
@@ -738,11 +693,12 @@ if("mvaLocalReferenceRestricted" %in% reportOptions){
   y_axis <- "DCA2"
   
   mvaLocalRefRestrictedPlot <- ggplot2::ggplot() +
-    ggplot2::geom_polygon(data = mvaLocalRefRestricted_hulls_pquads  |> dplyr::filter(dcaAxes == dcaAxisSelection), 
+    ggplot2::geom_polygon(data = mvaLocalRefRestricted_hulls_pquads  |> dplyr::filter(dcaAxes == dcaAxisSelection,
+                                                                                      VC.Code %in% vc_comms_10), 
                           alpha = 0.2,
                           mapping = ggplot2::aes(x = .data[[x_axis]],
                                                  y = .data[[y_axis]],
-                                                 fill = NVC.Comm
+                                                 fill = VC.Code
                                                  )) +
     ggplot2::geom_point(data = mvaLocalRefRestricted_quadrats_survey,
                         mapping = ggplot2::aes(Year = Year,
@@ -750,21 +706,25 @@ if("mvaLocalReferenceRestricted" %in% reportOptions){
                                                Quadrat = Quadrat,
                                                x = DCA1,
                                                y = DCA2)) +
-    ggplot2::geom_segment(data = mvaLocalRefRestricted_CCA_arrowData,
-                          color = 'black',
-                          arrow = grid::arrow(),
-                          mapping = ggplot2::aes(x = 0,
-                                                 y = 0,
-                                                 xend = CCA1,
-                                                 yend = CCA2,
-                                                 label = `Hill-Ellenberg`)) +
-    ggplot2::geom_text(data = mvaLocalRefRestricted_CCA_arrowData,
-                       color = 'black',
-                       # position = ggplot2::position_dodge(width = 0.9),
-                       size = 5,
-                       mapping = ggplot2::aes(x = CCA1 * 1.075,
-                                              y = CCA2 * 1.075,
-                                              label = `Hill-Ellenberg`)) +
+    ggplot2::geom_point(data = mvaLocalRefRestricted_centroids |> dplyr::filter(VC.Code %in% vc_comms_10),
+                        mapping = ggplot2::aes(color = VC.Code,
+                                               x = DCA1,
+                                               y = DCA2)) +
+    {if(!is.null(mvaLocalRefRestricted_CCA_arrowData))ggplot2::geom_segment(data = mvaLocalRefRestricted_CCA_arrowData,
+                                                                            color = 'black',
+                                                                            arrow = grid::arrow(),
+                                                                            mapping = ggplot2::aes(x = 0,
+                                                                                                   y = 0,
+                                                                                                   xend = CCA1,
+                                                                                                   yend = CCA2,
+                                                                                                   label = `Hill-Ellenberg`))} +
+    {if(!is.null(mvaLocalRefRestricted_CCA_arrowData))ggplot2::geom_text(data = mvaLocalRefRestricted_CCA_arrowData,
+                                                                         color = 'black',
+                                                                         # position = ggplot2::position_dodge(width = 0.9),
+                                                                         size = 5,
+                                                                         mapping = ggplot2::aes(x = CCA1 * 1.075,
+                                                                                                y = CCA2 * 1.075,
+                                                                                                label = `Hill-Ellenberg`))} +
     ggplot2::theme_minimal()
 
   mvaLocalRefRestrictedPlot
@@ -793,11 +753,12 @@ if("mvaLocalReferenceUnrestricted" %in% reportOptions){
   y_axis <- "DCA2"
   
   mvaLocalRefUnrestrictedPlot <- ggplot2::ggplot() +
-    ggplot2::geom_polygon(data = mvaLocalRefUnrestricted_hulls_pquads |> dplyr::filter(dcaAxes == dcaAxisSelection), 
+    ggplot2::geom_polygon(data = mvaLocalRefUnrestricted_hulls_pquads |> dplyr::filter(dcaAxes == dcaAxisSelection,
+                                                                                       VC.Code %in% vc_comms_10), 
                           alpha = 0.2,
                           mapping = ggplot2::aes(x = .data[[x_axis]],
                                                  y = .data[[y_axis]], 
-                                                 fill = NVC.Comm
+                                                 fill = VC.Code
                                                  )) +
     ggplot2::geom_point(data = mvaLocalRefUnrestricted_quadrats_survey,
                         mapping = ggplot2::aes(Year = Year,
@@ -805,21 +766,25 @@ if("mvaLocalReferenceUnrestricted" %in% reportOptions){
                                                Quadrat = Quadrat,
                                                x = DCA1,
                                                y = DCA2)) +
-    ggplot2::geom_segment(data = mvaLocalRefUnrestricted_CCA_arrowData,
-                          color = 'black',
-                          arrow = grid::arrow(),
-                          mapping = ggplot2::aes(x = 0,
-                                                 y = 0,
-                                                 xend = CCA1,
-                                                 yend = CCA2,
-                                                 label = `Hill-Ellenberg`)) +
-    ggplot2::geom_text(data = mvaLocalRefUnrestricted_CCA_arrowData,
-                       color = 'black',
-                       # position = ggplot2::position_dodge(width = 0.9),
-                       size = 5,
-                       mapping = ggplot2::aes(x = CCA1 * 1.075,
-                                              y = CCA2 * 1.075,
-                                              label = `Hill-Ellenberg`)) +
+    ggplot2::geom_point(data = mvaLocalRefUnrestricted_centroids |> dplyr::filter(VC.Code %in% vc_comms_10),
+                        mapping = ggplot2::aes(color = VC.Code,
+                                               x = DCA1,
+                                               y = DCA2)) +
+    {if(!is.null(mvaLocalRefUnrestricted_CCA_arrowData))ggplot2::geom_segment(data = mvaLocalRefUnrestricted_CCA_arrowData,
+                                                                              color = 'black',
+                                                                              arrow = grid::arrow(),
+                                                                              mapping = ggplot2::aes(x = 0,
+                                                                                                     y = 0,
+                                                                                                     xend = CCA1,
+                                                                                                     yend = CCA2,
+                                                                                                     label = `Hill-Ellenberg`))} +
+    {if(!is.null(mvaLocalRefUnrestricted_CCA_arrowData))ggplot2::geom_text(data = mvaLocalRefUnrestricted_CCA_arrowData,
+                                                                           color = 'black',
+                                                                           # position = ggplot2::position_dodge(width = 0.9),
+                                                                           size = 5,
+                                                                           mapping = ggplot2::aes(x = CCA1 * 1.075,
+                                                                                                  y = CCA2 * 1.075,
+                                                                                                  label = `Hill-Ellenberg`))} +
     ggplot2::theme_minimal()
 
   mvaLocalRefUnrestrictedPlot

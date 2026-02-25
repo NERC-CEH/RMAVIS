@@ -1,0 +1,1272 @@
+sidebarUI <- function(id){
+  
+  ns <- NS(id)
+  
+  bslib::sidebar(
+    
+    width = 375,
+    
+    shiny::h5("Options"),
+    
+
+# Run Analysis ------------------------------------------------------------
+    shiny::actionButton(inputId = ns("runAnalysis"),
+                        label = "Run Analysis",
+                        disabled = ''
+                        ),
+
+
+# Select VC types ---------------------------------------------------------
+
+    shiny::div(
+      
+      id = ns("selectVCtypes_div"),
+      
+      shiny::h6("VC Types"),
+      
+      bslib::layout_columns(
+        
+        col_widths = c(11, 1),
+        
+        shinyWidgets::pickerInput(inputId = ns("selectVCtypes"),
+                                  label = NULL,
+                                  choices = RMAVIS:::nvcType_options,
+                                  selected = c("Original"),
+                                  multiple = TRUE,
+                                  choicesOpt = list(
+                                    style = rep_len("font-size: 100%; line-height: 1.6;", length(RMAVIS:::nvcType_options))
+                                  )
+                                  ),
+        
+        bslib::popover(
+          bsicons::bs_icon("info-circle"),
+          title = "Select VC types",
+          id = ns("selectVCtypesInfo"),
+          shiny::markdown(
+            "
+            Select the VC unit types for analysis.
+            
+            At present three sets of units are available for the GB-NVC:
+            -  Original, which contains the NVC communities as they appear originally in the NVC volumes (with updated taxonomy).
+            -  Calthion, which contains the wet mesotrophic grassland communities as described in Wallace and Prosser (2017) and Prosser et al (2023).
+            -  SOWG, which contains the Scottish Oceanic Wet Grassland communities as described in Wallace et al (2023).
+            
+            Eleven sets of units are present for the MNNPC, comprising the state-wide units and section-specific units.
+            -  Statewide
+            -  Lake Agassiz, Aspen Parklands
+            -  Minnesota and Northeast Iowa Morainal
+            -  Northern Minnesota and Ontario Peatlands
+            -  Northern Minnesota Drift and Lake Plains
+            -  North Central Glaciated Plains
+            -  Northern Superior Uplands
+            -  Paleozoic Plateau
+            -  Red River Valley
+            -  Southern Superior Uplands
+            -  Western Superior Uplands
+            "
+          ),
+          placement = "bottom"
+        )
+        
+      )
+      
+    ),
+
+    bslib::accordion(
+      
+      open = FALSE,
+
+# VC Assignment -----------------------------------------------------------
+      bslib::accordion_panel(
+        
+        "VC Assignment", 
+        
+        icon = bsicons::bs_icon("ui-checks-grid"),
+        
+        shiny::div(
+          
+          id = ns("assignQuadrats_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shinyWidgets::switchInput(inputId = ns("assignQuadrats"),
+                                      label = "Assign",
+                                      value = FALSE,
+                                      onLabel = "Yes",
+                                      offLabel = "No",
+                                      disabled = TRUE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Assign Quadrats",
+              id = ns("assignQuadratsInfo"),
+              shiny::markdown(
+                "
+                Toggle whether individual quadrats in the survey data are assigned
+                VC units.
+                
+                This option is set to 'Yes' and disabled if the number of 
+                quadrats for any year is less than 2, as similarities for the 
+                Site and Groups by year will not be calculated using the 
+                Czekanowski coefficient of similarity and so similarity values 
+                must be calculated using the Jaccard coefficient and reference
+                pseudo-quadrats.
+                
+                If the number of quadrats for all years is 2 or greater the
+                button is enabled and the user may optionally choose to
+                calculate similarities for individual quadrats.
+                
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("removeLowFreqTaxa_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shinyWidgets::switchInput(inputId = ns("removeLowFreqTaxa"),
+                                      label = "Remove",
+                                      value = TRUE,
+                                      onLabel = "Yes",
+                                      offLabel = "No",
+                                      disabled = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Remove Low Frequency Taxa",
+              id = ns("removeLowFreqTaxaInfo"),
+              shiny::markdown(
+                "
+                In the GB-NVC taxa which occurred in less than 5% of the plots which constituted each NVC unit were removed from the final floristic tables.
+                
+                Consequently, in the selected region is GB-NVC by default taxa which occur in less than 5% of the plots in each Group in the survey data are also removed.
+                
+                At present this does not effect the individual plot Jaccard similarity calculations, 
+                but does effect the Group and Year Czekanowski similarities and composition of the Floristic tables.
+                
+                This ensures that similarities are not biased towards more species-rich communities; 
+                however, conversely, if the number of survey quadrats is lower than the number of plots used to define a VC unit, 
+                particulary a species rich unit (e.g. CG2b in the GB-NVC or WFs57 in the MNNPC), it may be preferable to not remove low frequency taxa to ensure that there is not a bias towards more species-poor communities.
+                It is left to the user to make this decision, though in practice the results usually only display minor variations.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("restrictHabitatInfo_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("habitatRestriction"),
+                                  label = "Restrict Habitat",
+                                  choices = RMAVIS:::habitatRestrictionPrefixes,
+                                  selected = NULL,
+                                  multiple = TRUE
+            ),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Restrict Habitat",
+              id = ns("restrictHabitatInfo"),
+              shiny::markdown(
+                "
+                Optionally restrict the VC assignment process to one or more
+                broad VC habitat types. This is recommended to increase the
+                assignment speed, but only if the site being
+                analysed unequivocally conforms to the selected VC habitats.
+                "
+              ),
+              placement = "bottom"
+            )
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("resultsViewVCAssign_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("resultsViewVCAssign"),
+                                  label = "Results to View",
+                                  choices = RMAVIS:::resultsViewVCAssign_options,
+                                  selected = c("vcAssignSiteCzekanowski"),
+                                  multiple = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Results to View",
+              id = ns("resultsToViewVCAssignInfo"),
+              shiny::markdown(
+                "
+                Three sets of VC assigment results are currently available:
+                -  Quadrat, Jaccard
+                -  Site, Czekanowski
+                -  Group, Czekanowski
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        )
+        
+      ),
+      
+
+# Habitat Correspondence --------------------------------------------------
+      shiny::div(
+        
+        id = ns("habCor_accordion_panel_div"),
+        
+        bslib::accordion_panel(
+          
+          "Habitat Correspondence", 
+          
+          icon = bsicons::bs_icon("sliders"),
+          
+          shiny::div(
+            
+            id = ns("habCorClass_div"),
+            
+            bslib::layout_columns(
+              
+              col_widths = c(11, 1),
+              
+              shiny::selectizeInput(inputId = ns("habCorClass"),
+                                    label = "Classification",
+                                    choices = RMAVIS:::habitat_correspondence_classifications,
+                                    selected = "UKHab - Level5",
+                                    multiple = FALSE),
+              
+              bslib::popover(
+                bsicons::bs_icon("info-circle"),
+                title = "Classification",
+                shiny::markdown(
+                "
+                Select a habitat classification you wish to retrieve correspondence,
+                values for using the fitted VC communities and sub-communities.
+                Note that all community level codes associated with sub-communities
+                are also used, even if they aren't directly assigned. This is to account for the,
+                incomplete coverage of VC sub-communities in the habitat correspondences.
+                "
+                ),
+                placement = "bottom"
+              )
+            )
+          )
+          
+        )
+        
+      ),
+
+# Floristic Tables --------------------------------------------------------
+      bslib::accordion_panel(
+        
+        "Floristic Tables", 
+        
+        icon = bsicons::bs_icon("table"),
+        
+        shiny::div(
+          
+          id = ns("floristicTablesViewOpts_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("floristicTablesView"), 
+                                  label = "View Options", 
+                                  choices = RMAVIS:::floristicTablesView_options, 
+                                  selected = "singleComposedVsVC", 
+                                  multiple = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "View Options",
+              shiny::markdown(
+                "
+                Select a set of floristic tables to view, one of two options:
+                1. Single Composed vs VC
+                2. Multiple Composed
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("floristicTablesSetViewOpts_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("floristicTablesSetView"), 
+                                  label = "View Options", 
+                                  choices = RMAVIS:::floristicTablesSetView_options, 
+                                  selected = "all", 
+                                  multiple = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "View Options",
+              shiny::markdown(
+                "
+                Select a set of composed floristic tables to view.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("restrictVCFlorTablesOpts_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectInput(inputId = ns("restrictVCFlorTablesOpts"),
+                               label = "Restrict Comms",
+                               choices = RMAVIS:::vc_fit_restrict_options,
+                               selected = "vc_comms_subcomms_10",
+                               multiple = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Restrict Comms",
+              shiny::markdown(
+                "
+                Control the communities available for which to display floristic tables:
+                - All = All communities and sub-communities with similarity values greater than zero.
+                - Top 1 = The top-1 communities and sub-communities for each year, group, and quadrat.
+                - Top 10 = The top-10 communities and sub-communities for each year, group, and quadrat.
+                - All (Comm/Class only) = All communities with similarity values greater than zero.
+                - Top 1 (Comm/Class only) = The top-1 communities for each year, group, and quadrat.
+                - Top 10 (Comm/Class only) = The top-10 communities for each year, group, and quadrat.
+                
+                Note: In the case of the MNNPC we use the class rank in place of the community rank and
+                the type and sub-type ranks in place of the sub-community rank.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("vcFloristicTable_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("vcFloristicTable"), 
+                                  label = "VC Table", 
+                                  choices = NULL, 
+                                  selected = "A1", 
+                                  multiple = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "VC Community",
+              shiny::markdown(
+                "
+                Select an VC community, the floristic table of which will be
+                displayed alongside the composed floristic table.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("composedFloristicTable_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("composedFloristicTable"), 
+                                  label = "Composed Table", 
+                                  choices = NULL,
+                                  selected = NULL, # character(0)
+                                  multiple = TRUE,
+                                  options = list(maxItems = 1)),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Composed Table",
+              shiny::markdown(
+                "
+                Select one from the list of floristic tables composed from the survey
+                data.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        
+        shiny::div(
+          
+          id = ns("matchSpecies_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("matchSpecies"), 
+                                  label = "Match Species",
+                                  choices = RMAVIS:::matchSpecies_options, 
+                                  selected = "", 
+                                  multiple = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Match Species",
+              shiny::markdown(
+                "
+                Three options for arranging the composed and VC floristic tables
+                are provided:
+                - 'No': Displayes the tables side-by-side, ordered by Constancy.
+                - 'Composed to VC': Aligns the species in the composed table that
+                are present in the selected VC community with the VC floristic table.
+                Omits species which are not present in the VC community.
+                - 'VC to Composed': Aligns the species in the VC floristic table that
+                are present in the composed table with the composed table. Omits
+                species which are not present in the composed table.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          )
+        )
+        
+      ),
+
+
+# Frequency ---------------------------------------------------------------
+      bslib::accordion_panel(
+        
+        "Frequency", 
+        
+        icon = bsicons::bs_icon("graph-up-arrow")
+        
+      ),
+
+
+# EIVs --------------------------------------------------------------------
+
+      shiny::div(
+        
+        id = ns("eivs_accordion_panel_div"),
+        
+        bslib::accordion_panel(
+          
+          "EIVs", 
+          
+          icon = bsicons::bs_icon("water"),
+          
+          shiny::div(
+            
+            id = ns("resultsViewEIVs_div"),
+            
+            bslib::layout_columns(
+              
+              col_widths = c(11, 1),
+              
+              shiny::selectizeInput(inputId = ns("resultsViewEIVs"),
+                                    label = "Results to View",
+                                    choices = RMAVIS:::resultsViewEIVs_options,
+                                    selected = c("unweightedMeanHEValuesSite"),
+                                    multiple = FALSE),
+              
+              
+              bslib::popover(
+                bsicons::bs_icon("info-circle"),
+                title = "Results to View",
+                shiny::markdown(
+                  "
+                Select the Ecological Indicator Value (EIV) results to view.
+                Six options are currently provided.
+                - 'Unweighted Mean Hill-Ellenberg Values, by Site':
+                - 'Weighted Mean Hill-Ellenberg Values, by Site':
+                - 'Unweighted Mean Hill-Ellenberg Values, by Group':
+                - 'Weighted Mean Hill-Ellenberg Values, by Group':
+                - 'Unweighted Mean Hill-Ellenberg Values, by Quadrat':
+                - 'Weighted Mean Hill-Ellenberg Values, by Quadrat':
+                "
+                ),
+                placement = "bottom"
+              )
+              
+            )
+          )
+          
+        )
+        
+      ),
+
+
+# Diversity ---------------------------------------------------------------
+      bslib::accordion_panel(
+        
+        "Diversity", 
+        
+        icon = bsicons::bs_icon("tree"),
+        
+        shiny::div(
+          
+          id = ns("divMeasures_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("divMeasures"),
+                                  label = "Diversity Measures",
+                                  choices = list("Alpha" = "alpha", 
+                                                 "Beta" = "beta", 
+                                                 "Gamma" = "gamma"),
+                                  selected = c("alpha"),
+                                  multiple = TRUE),
+            
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Diversity Measures",
+              shiny::markdown(
+                "
+                Select the Diversity Measures to calculate:
+                - 'Alpha'
+                - 'Beta'
+                - 'Gamma'
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("divMetrics_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("divMetrics"),
+                                  label = "Diversity Metrics",
+                                  choices = c("Naive" = "naive", 
+                                              "Taxonomic" = "taxonomic", 
+                                              "Phylogenetic" = "phylogenetic"),
+                                  selected = c("naive", "taxonomic", "phylogenetic"),
+                                  multiple = TRUE),
+            
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Diversity Metrics",
+              shiny::markdown(
+                "
+                Select the Diversity Metrics to calculate:
+                - 'Naive'
+                - 'Taxonomic'
+                - 'Phylogenetic'
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("hillq_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("hillq"),
+                                  label = "Hill Numbers (q)",
+                                  choices = c(0, 1, 2),
+                                  selected = c(0),
+                                  multiple = TRUE),
+            
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Hill Numbers (q)",
+              shiny::markdown(
+                "
+                Select the Hill Numbers (q) for which to calculate diversity metrics and measures.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("resultsViewDiversity_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("resultsViewDiversity"),
+                                  label = "Results to View",
+                                  choices = RMAVIS:::resultsViewDiversity_options,
+                                  selected = c("diversitySummaryTable"),
+                                  multiple = FALSE),
+            
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Results to View",
+              shiny::markdown(
+                "
+                Select the diveristy partition results to view:
+                - 'Year'
+                - 'Group'
+                - 'Quadrat'
+                "
+              ),
+              placement = "bottom"
+            )
+          
+          )
+        )
+        
+      ),
+      
+
+# MVA ---------------------------------------------------------------------
+      bslib::accordion_panel(
+        
+        "MVA", 
+        
+        icon = bsicons::bs_icon("transparency"),
+        
+        shiny::div(
+          
+          id = ns("dcaAxisSelection_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("dcaAxisSelection"),
+                                  label = "Axis Selection",
+                                  choices = RMAVIS:::dcaAxisSelection_options,
+                                  selected = "dca1dca2",
+                                  multiple = FALSE),
+            
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Axis Selection",
+              shiny::markdown(
+                "
+                Select the Detrended Correspondence Analysis (DCA) axis scores
+                to display, all combinations of the first three axes are available:
+                - 'DCA1 vs DCA2'
+                - 'DCA1 vs DCA3'
+                - 'DCA2 vs DCA3'
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+
+          id = ns("restrictVCMVAOpts_div"),
+
+          bslib::layout_columns(
+
+            col_widths = c(11, 1),
+            
+            shiny::selectInput(inputId = ns("restrictVCMVAOpts"),
+                               label = "Restrict Comms",
+                               choices = RMAVIS:::vc_fit_restrict_options,
+                               selected = "vc_comms_subcomms_10",
+                               multiple = FALSE),
+
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Restrict Comms",
+              shiny::markdown(
+                "
+                Control the communities available for inclusion in the MVA:
+                - All = All communities and sub-communities with similarity values greater than zero.
+                - Top 1 = The top-1 communities and sub-communities for each year, group, and quadrat.
+                - Top 10 = The top-10 communities and sub-communities for each year, group, and quadrat.
+                - All (Comm/Class only) = All communities with similarity values greater than zero.
+                - Top 1 (Comm/Class only) = The top-1 communities for each year, group, and quadrat.
+                - Top 10 (Comm/Class only) = The top-10 communities for each year, group, and quadrat.
+                
+                Note: In the case of the MNNPC we use the class rank in place of the community rank and
+                the type and sub-type ranks in place of the sub-community rank.
+                "
+              ),
+              placement = "bottom"
+            )
+
+          ),
+
+          shiny::div(shiny::br())
+
+        ),
+        
+        shiny::div(
+          
+          id = ns("selectedReferenceSpaces_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("selectedReferenceSpaces"),
+                                  label = "Selected Reference Spaces",
+                                  choices = character(0),
+                                  selected = character(0),
+                                  multiple = TRUE),
+            
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Selected Reference Spaces",
+              shiny::markdown(
+                "
+                Select the VC communities to display the reference spaces
+                for. By default the top fitting VC communities are displayed.
+                Please see the documentation for a definition of the
+                'Reference Spaces' along with interpretation guidance.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("groupSurveyPlots_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("groupSurveyPlots"),
+                                  label = "Group Survey Plots",
+                                  choices = RMAVIS:::groupSurveyPlots_options,
+                                  selected = NULL,
+                                  multiple = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Group Survey Plots",
+              shiny::markdown(
+                "
+                Choose whether to group the survey plots by selecting one of the
+                following options:
+                - 'No': The individual plots are left ungrouped
+                - 'Group': Mean DCA axis scores are calculated from the individual plots
+                by group.
+                - 'Year': Mean DCA axis scores are calculated from the individual plots
+                by year.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("selectSurveyMethod_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("selectSurveyMethod"),
+                                  label = "Survey Quadrat Selection",
+                                  choices = RMAVIS:::surveyQuadratSelection_options,
+                                  selected = NULL,
+                                  multiple = FALSE),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Survey Quadrat Selection",
+              shiny::markdown(
+                "
+                Select the survey quadrat selection method. Three options are 
+                provided:
+                - 'Select Years':
+                - 'Select Groups':
+                - 'Select Quadrats':
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("selectSurveyYears_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("selectSurveyYears"),
+                                  label = "Select Survey Years",
+                                  choices = RMAVIS:::selectSurveyYears_options,
+                                  selected = NULL,
+                                  multiple = TRUE,
+                                  options = list(minItems = 1)),
+            
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Select Survey Years",
+              shiny::markdown(
+                "
+                Select survey quadrats for one or more of the years present in 
+                the survey data.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("selectSurveyGroups_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("selectSurveyGroups"),
+                                  label = "Select Survey Groups",
+                                  choices = RMAVIS:::selectSurveyGroups_options,
+                                  selected = c("F", "N"),
+                                  multiple = TRUE,
+                                  options = list(minItems = 1)),
+            
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Select Survey Groups",
+              shiny::markdown(
+                "
+                Select survey quadrats for one or more of the groups present in 
+                the survey data.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("selectSurveyQuadrats_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::selectizeInput(inputId = ns("selectSurveyQuadrats"),
+                                  label = "Select Survey Quadrats",
+                                  choices = RMAVIS:::selectSurveyQuadrats_options,
+                                  selected = NULL,
+                                  multiple = TRUE,
+                                  options = list(minItems = 1)),
+            
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Select Survey Quadrats",
+              shiny::markdown(
+                "
+                Select survey quadrats for one or more of the quadrats present in 
+                the survey data.
+                "
+              ),
+              placement = "bottom"
+            )
+            
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        # shiny::div(
+        #   
+        #   id = ns("ccaVars_div"),
+        #   
+        #   bslib::layout_columns(
+        #     
+        #     col_widths = c(11, 1),
+        #     
+        #     shiny::selectizeInput(inputId = ns("ccaVars"),
+        #                           label = "CCA Variables",
+        #                           choices = RMAVIS:::he_options,
+        #                           selected = RMAVIS:::he_options,
+        #                           multiple = TRUE,
+        #                           options = list(maxItems = 3)),
+        #     
+        #     bslib::popover(
+        #       bsicons::bs_icon("info-circle"),
+        #       title = "CCA",
+        #       shiny::markdown(
+        #         "
+        #         Select the variables with which to perform a 
+        #         Constrained Correspondence Analysis (CCA).
+        #         "
+        #       ),
+        #       placement = "bottom"
+        #     )
+        #     
+        #   ),
+        #   
+        #   shiny::div(shiny::br())
+        #   
+        # ),
+        
+        shiny::div(
+          
+          id = ns("dcaVars_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::checkboxGroupInput(inputId = ns("dcaVars"),
+                                      label = "Axis Scores",
+                                      choices = RMAVIS:::dcaVars_options,
+                                      selected = c("referenceSpace", "surveyQuadrats")),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Axis Scores",
+              shiny::markdown(
+                "
+                Select the variables to display in the multivariate analysis plots:
+                
+                Seven options are provided:
+                - 'Survey Quadrats': the DCA scores of the survey quadrats.
+                - 'Pseudo-Quadrats': the DCA scores of the pseudo-quadrats (Local Reference only).
+                - 'Reference Space': the convex hulls formed from the pseudo-quadrat DCA scores.
+                - 'Reference Centroids': the centroids formed from the pseudo-quadrat DCA scores.
+                - 'Species': the DCA scores of the species.
+                - 'Unique Survey Species': the DCA scores of the species unique to the survey data, but absent from the best fitting VC communities pseudo-quadrats (Local Reference (unrestricted) only).
+                - 'Hill-Ellenberg': the CCA result axis scores for Hill-Ellenberg values.
+                - 'Trajectory': arrows drawn between each set of selected sample plots by year, showing thetrajectory of the sample plots in the ordination space.
+                
+                Please see the documentation for more details.
+                "
+              ),
+              placement = "bottom"
+            )
+          )
+        )
+
+      ),
+
+
+# Report Options ----------------------------------------------------------
+      bslib::accordion_panel(
+        
+        "Report", 
+        
+        icon = bsicons::bs_icon("filetype-pdf"),
+        
+        shiny::div(
+          
+          id = ns("reportAuthorName_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::textInput(inputId = ns("reportAuthorName"),
+                             label = "Author"),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Report Author",
+              shiny::markdown(
+                "
+                Please enter the name of the person/s using RMAVIS, for attribution in the report.
+                "
+              ),
+              placement = "bottom"
+            )
+          ),
+          
+          shiny::div(shiny::br())
+          
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("reportProjectName_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::textInput(inputId = ns("reportProjectName"),
+                             label = "Project Name"),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Project Name",
+              shiny::markdown(
+                "
+                Please enter the name of the project/site being analysed in RMAVIS.
+                "
+              ),
+              placement = "bottom"
+            )
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("reportOptions_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shinyWidgets::pickerInput(inputId = ns("reportOptions"),
+                                      label = "Report Options",
+                                      choices = RMAVIS:::reportOptions_options,
+                                      selected = c("vcAssignmentResultsSite_Czekanowski", 
+                                                   "composedFloristicTablesSite", 
+                                                   "speciesFrequencyTable"),
+                                      options = shinyWidgets::pickerOptions(
+                                        dropdownAlignRight = TRUE
+                                      ),
+                                      choicesOpt = list(
+                                        style = rep_len("font-size: 75%; line-height: 1.6;", length(unlist(RMAVIS:::reportOptions_options)))
+                                      ),
+                                      multiple = TRUE
+            ),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Report Options",
+              shiny::markdown(
+                "
+                Select the RMAVIS outputs to include in the report.
+                
+                Please note that selecting the 'Survey Table' option may produce
+                a *very* long report if a large quantity of data is submitted to
+                RMAVIS.
+                "
+              ),
+              placement = "bottom"
+            )
+          ),
+          
+          shiny::div(shiny::br())
+          
+        ),
+        
+        shiny::div(
+          
+          id = ns("generateReport_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            shiny::downloadButton(
+              outputId = ns("generateReport"),
+              label = "Download Report",
+              class = NULL,
+              icon = NULL,
+              disabled = ''
+            ),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Download Report",
+              shiny::markdown(
+                "
+                Download a pdf report of the current RMAVIS analyses results.
+                "
+              ),
+              placement = "bottom"
+            )
+          )
+        )
+        
+        # reportUI(id = ns("report_id_1"))
+        
+      ),
+
+# Download Options --------------------------------------------------------
+      bslib::accordion_panel(
+        
+        "Download", 
+        
+        icon = bsicons::bs_icon("download"),
+        
+        ## Download VC Assignment Results -----------------------------------------
+        shiny::div(
+          
+          id = ns("downloadRMAVISResults_div"),
+          
+          bslib::layout_columns(
+            
+            col_widths = c(11, 1),
+            
+            downloadButton(
+              outputId = ns("downloadRMAVISResults"),
+              label = "RMAVIS Results",
+              class = NULL,
+              icon = NULL
+            ),
+            
+            bslib::popover(
+              bsicons::bs_icon("info-circle"),
+              title = "Download RMAVIS Results",
+              shiny::markdown(
+                "
+                
+                "
+              ),
+              placement = "bottom"
+              
+            )
+            
+          )
+          
+        )
+        
+      ) # Close Download Options
+
+    )
+
+  )
+  
+}
