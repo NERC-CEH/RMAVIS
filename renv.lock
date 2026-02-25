@@ -97,7 +97,7 @@
     },
     "MNNPC": {
       "Package": "MNNPC",
-      "Version": "1.1.5",
+      "Version": "1.1.6",
       "Source": "GitHub",
       "Title": "Minnesota Native Plant Community Classification System data",
       "Date": "2026-02-24",
@@ -127,8 +127,8 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "MN-DNR-MBS",
       "RemoteRepo": "MNNPC",
-      "RemoteRef": "v1.1.5",
-      "RemoteSha": "26e001bb3b88f8805919264c3b2070dbbbcce6b0"
+      "RemoteRef": "v1.1.6",
+      "RemoteSha": "a9e01cf5d8013c30c79ff4bd5606e0704fdf23bd"
     },
     "Matrix": {
       "Package": "Matrix",
