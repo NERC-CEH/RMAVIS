@@ -1,3 +1,11 @@
+# RMAVIS 1.2.1 (25-02-2026)
+*   Modifications:
+      - Now using `UKVegTB` v0.1.7.
+      - Recording `MNNPC` v1.1.6 in renv.lock. 
+*   Fixes:
+      - Ensuring that `MNNPC::process_dnr_releves` is not run until the survey data table is in the correct format following the selection of the MNNPC.
+*   New Features: NA
+
 # RMAVIS 1.2.0 (25-02-2026)
 *   Modifications:
       - Removing the CCA Hill-Ellenberg option in the MVA module. Now all

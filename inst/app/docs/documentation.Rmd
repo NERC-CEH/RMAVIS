@@ -1,6 +1,6 @@
 ---
 title: "RMAVIS - Documentation"
-subtitle: "v1.2.0"
+subtitle: "v1.2.1"
 # output:
 #   bookdown::word_document2:
 # always_allow_html: true
@@ -269,7 +269,7 @@ the "Run Analysis" and "Generate Report" buttons will be disabled.
 
 The taxonomic backbone for the GB-NVC and MNNPC can be viewed and downloaded from `RMAVIS`
 
-Version 1.2.0 of `RMAVIS` currently uses version 20250703a of the UKSI to form the GB-NVC taxonomic backbone,
+Version 1.2.1 of `RMAVIS` currently uses version 20250703a of the UKSI to form the GB-NVC taxonomic backbone,
 and contains all accepted taxca from the following informal groups: alga, chromist, clubmoss, conifer, fern, 
 flowering plant, ginkgo, hornwort, horsetail, lichen, liverwort, moss, quillwort, stonewort.
 The UKSI can be accessed from several sources:
@@ -574,7 +574,7 @@ At present six sets of results are available:
 ## Diversity
 
 The **Diversity** section allows the user to view a selection of diversity metrics.
-RMAVIS v1.2.0 adopts the approach outlined in @reeve2016 as implemented in the R
+RMAVIS v1.2.1 adopts the approach outlined in @reeve2016 as implemented in the R
 package `rdiversity`.
 
 The naive, taxonomic, and phylogenetic alpha, beta and gamma diversity values are

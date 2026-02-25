@@ -343,12 +343,12 @@
     },
     "UKVegTB": {
       "Package": "UKVegTB",
-      "Version": "0.1.6",
+      "Version": "0.1.7",
       "Source": "GitHub",
       "Title": "UK Vegetation Science Taxonomic Backbone",
-      "Date": "2025-12-31",
+      "Date": "2026-01-25",
       "Authors@R": "c(person(given = \"Zeke\", family = \"Marshall\", role = c(\"aut\", \"cre\"), email = \"zekmar@ceh.ac.uk\", comment = c(ORCID = \"0000-0001-9260-7827\") ) )",
-      "Description": "A lightweight taxonomic backbone of photoautotrophic taxa based on the UKSI, designed for use in vegetation science.",
+      "Description": "A lightweight taxonomic backbone based on the UKSI, designed for use in vegetation science.",
       "License": "MIT + file LICENSE",
       "Encoding": "UTF-8",
       "Roxygen": "list(markdown = TRUE)",
@@ -366,8 +366,8 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "NERC-CEH",
       "RemoteRepo": "UKVegTB",
-      "RemoteRef": "v0.1.6",
-      "RemoteSha": "515c440cecc3b91b34c553d2846c775b0b719edc"
+      "RemoteRef": "v0.1.7",
+      "RemoteSha": "0c1eea530af66dc380da738b3bf72413c348ab08"
     },
     "ape": {
       "Package": "ape",

@@ -723,17 +723,13 @@ surveyData_corrected_rval <- reactiveVal()
     
     shiny::req(!is.null(surveyDataTableData))
     shiny::req(!isTRUE(all.equal(surveyDataTableData, surveyData_init)))
+    shiny::req(setequal(colnames(surveyDataTableData), colnames(surveyData_init)))
     
     # Save original data
     surveyData$surveyData_original <- surveyDataTableData
     
     # Process the data if the region is MNNPC
     if(region == "mnnpc"){
-      
-      print(coverScale)
-      
-      # assign(x = "surveyDataTableData", value = surveyDataTableData, envir = .GlobalEnv)
-      # assign(x = "coverScale", value = coverScale, envir = .GlobalEnv)
       
       surveyData_long <- surveyDataTableData |>
         dplyr::distinct() |>
