@@ -33,7 +33,7 @@ devtools::install(pkg = ".")
 library(RMAVIS)
 
 # 8) Build package manual
-devtools::build_manual(pkg = ".", path = ".")
+# devtools::build_manual(pkg = ".", path = ".")
 
 # 9) Build pkgdown website
 # devtools::build_site()

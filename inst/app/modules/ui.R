@@ -1,305 +1,156 @@
-# UI
-ui <- bslib::page_navbar(
+ui <- function(id){
   
-  shinyjs::useShinyjs(),
+  bslib::page_navbar(
     
-  # Note using bslib::layout_columns() leads to additional bslib text in the tab title
-  title = shiny::div(
-
-    shiny::splitLayout(
-
-      # CEH Logo
-      bslib::card_image(file = "www/ukceh_logo_long_720x170_rgb.png", fill = FALSE, width = "300px"),
-
-      # App Title
-      shiny::div(shiny::h1("RMAVIS")),
+    shinyjs::useShinyjs(),
+    
+    # Note using bslib::layout_columns() leads to additional bslib text in the tab title
+    title = shiny::div(
       
-      # Align cell contents in the middle vertically
-      cellArgs = list(style = "vertical-align: middle !important; color: #565656 !important;")
-
+      shiny::splitLayout(
+        
+        # App Title
+        bslib::card_body(shiny::h1("RMAVIS"), padding = c(9, 0, 0, 0), class = "color: black !important;"),
+        
+        # Logo
+        bslib::card_image(file = "www/UKCEH_Logo_Master_Black.png", fill = FALSE, width = "140px"),
+        shinyjs::hidden(shiny::div(bslib::card_image(file = "www/DNR_Logo_RGB.png", fill = FALSE, width = "260px"), id = "mnnpc_logo_div")),
+        
+        # Cell widths
+        cellWidths = c(140, 150, 270),
+        
+        # Cell args
+        cellArgs = list(style = "vertical-align: middle !important; padding-right: 0px !important;")
+        
+      ),
+      
+      # Tab Title
+      tags$head(tags$title(paste0(" | UK Centre for Ecology & Hydrology")),
+                tags$link(rel = "shortcut icon", href = "https://brandroom.ceh.ac.uk/themes/custom/ceh/favicon.ico")
+      )
+      
     ),
     
-    # Tab Title
-    tags$head(tags$title(paste0(" | UK Centre for Ecology & Hydrology")),
-              tags$link(rel = "shortcut icon", href = "https://brandroom.ceh.ac.uk/themes/custom/ceh/favicon.ico")
-              )
-  
-   ),
-  
-  id = "nav",
-
-  tags$head(includeCSS("www/style.css")),
-  
-  bslib::nav_spacer(),
-  
-  bslib::nav_panel(
+    id = "nav",
     
-    "Home",
+    tags$head(includeCSS("www/style.css")),
     
-    homeUI(id = "home_id_1")
+    bslib::nav_spacer(),
     
-  ),
-  
-  bslib::nav_panel(
-    
-    "Data Entry",
-    
-    bslib::layout_sidebar(
+    bslib::nav_panel(
       
-      sidebar = deSidebarUI(id = "deSidebar_id_1"),
+      title = "Home",
       
-      bslib::navset_card_tab(
-        
-        bslib::nav_panel(
-          
-          full_screen = TRUE,
-          
-          bslib::card_header("Data Input"),
-          
-          value = "surveyData_panel",
-          
-          surveyDataUI(id = "surveyData_id_1")
-          
-        ),
-        
-        bslib::nav_panel(
-          
-          full_screen = TRUE,
-          
-          bslib::card_header("Data Structure"),
-          
-          value = "dataStructure_panel",
-          
-          surveyDataSummaryUI(id = "surveyDataSummary_id_1")
-          
-        ),
-        
-        bslib::nav_panel(
-          
-          full_screen = TRUE,
-          
-          value = "rmavisTaxonNamesLookup_panel",
-          
-          bslib::card_header("Taxonomic Backbone"),
-          
-          rmavisTaxonNamesLookupUI(id = "rmavisTaxonNamesLookup_id_1")
-          
-        )
-        
-      )
+      homeUI(id = "home_id_1")
       
-    )
+    ),
     
-  ),
-    
-  bslib::nav_panel(
-    
-    "NVC Analysis",
-    
-    bslib::layout_sidebar(
-
-      sidebar = sidebarUI(id = "sidebar_id_1"),
+    bslib::nav_panel(
       
-      bslib::navset_card_tab(
+      title = "Data Entry",
+      
+      bslib::layout_sidebar(
         
-        bslib::nav_panel(
-          
-          full_screen = TRUE,
-          
-          value = "nvcAssignment_panel",
-          
-          bslib::card_header("NVC Assignment"),
-          
-          nvcAssignmentUI(id = "nvcAssignment_id_1")
-          
-        ),
+        sidebar = deSidebarUI(id = "deSidebar_id_1"),
         
-        bslib::nav_panel(
+        bslib::navset_card_tab(
           
-          full_screen = TRUE,
-          
-          value = "habCor_panel",
-          
-          bslib::card_header("Habitat Correspondence"),
-          
-          habCorUI(id = "habCor_id_1")
-          
-        ),
-        
-        bslib::nav_panel(
-          
-          full_screen = TRUE,
-          
-          value = "floristicTables_panel",
-          
-          bslib::card_header("Floristic Tables"),
-          
-          floristicTablesUI(id = "floristicTables_id_1")
-          
-        ),
-        
-        bslib::nav_panel(
-          
-          full_screen = TRUE,
-          
-          value = "speciesFreq_panel",
-          
-          bslib::card_header("Frequency"),
-          
-          speciesFreqUI(id = "speciesFreq_id_1")
-          
-        ),
-        
-        bslib::nav_panel(
-          
-          full_screen = TRUE,
-          
-          value = "eivs_panel",
-          
-          bslib::card_header("EIVs"),
-          
-          calcAvgEIVsUI(id = "calcAvgEIVs_id_1")
-          
-        ),
-        
-        bslib::nav_panel(
-          
-          full_screen = TRUE,
-          
-          value = "diversity_panel",
-          
-          bslib::card_header("Diversity"),
-          
-          diversityAnalysisUI(id = "diversityAnalysis_id_1")
-          
-        ),
-        
-        bslib::nav_panel(
-          
-          full_screen = TRUE,
-          
-          value = "mva_panel",
-          
-          bslib::card_header("MVA"),
-          
-          bslib::layout_columns(
+          bslib::nav_panel(
             
-            col_widths = c(6, 6, 6),
+            full_screen = TRUE,
             
-            row_heights = c(1, 1),
+            bslib::card_header("Data Input"),
             
-            fill = FALSE,
+            value = "surveyData_panel",
             
-            fillable = TRUE,
+            surveyDataUI(id = "surveyData_id_1")
             
-            mvaNationalRefUI(id = "mvaNationalRef_id_1"),
+          ),
+          
+          bslib::nav_panel(
             
-            mvaLocalRefRestrictedUI(id = "mvaLocalRefRestricted_id_1"),
+            full_screen = TRUE,
             
-            mvaLocalRefUnrestrictedUI(id = "mvaLocalRefUnrestricted_id_1")
+            bslib::card_header("Data Structure"),
+            
+            value = "dataStructure_panel",
+            
+            surveyDataSummaryUI(id = "surveyDataSummary_id_1")
+            
+          ),
+          
+          bslib::nav_panel(
+            
+            full_screen = TRUE,
+            
+            value = "taxonomicBackbone_panel",
+            
+            bslib::card_header("Taxonomic Backbone"),
+            
+            taxonomicBackboneUI(id = "taxonomicBackbone_id_1")
+            
+          ),
+          
+          bslib::nav_panel(
+            
+            full_screen = TRUE,
+            
+            value = "taxaLookup_panel",
+            
+            bslib::card_header("Taxa Lookup"),
+            
+            taxaLookupUI(id = "taxaLookup_id_1")
             
           )
+          
         )
+        
       )
-
+      
+    ),
+    
+    analysisUI(id = "analysis_id_1"),
+    
+    vcInformationUI(id = "vcInfo_id_1"),
+    
+    bslib::nav_panel(
+      
+      title = "Documentation",
+      
+      documentationUI(id = "docs_id_1")
+      
+    ),
+    
+    bslib::nav_panel(
+      
+      title = "News❗",
+      
+      newsUI(id = "news_id_1")
+      
+    ),
+    
+    bslib::nav_panel(
+      
+      title = "Additional Information",
+      
+      additionalInfoUI(id = "additional_info_id_1")
+      
+    ),
+    
+    bslib::nav_panel(
+      
+      title = "Privacy",
+      
+      privacyUI(id = "privacy_id_1")
+      
+    ),
+    
+    bslib::nav_item(
+      
+      regionSelectUI(id = "regionSelect_id_1"),
+      
     )
-    
-  ),
-  
-  bslib::nav_panel(
-    
-    "NVC Information",
-    
-    bslib::layout_sidebar(
-      
-      sidebar = nvcInfoSidebarUI(id = "nvcInfoSidebar_id_1"),
-      
-      bslib::navset_card_tab(
-        
-        bslib::nav_panel(
-          
-          full_screen = TRUE,
-          
-          value = "nvcCommNamesLookup_panel",
-          
-          bslib::card_header("Community Names"),
-          
-          nvcCommNamesLookupUI(id = "nvcCommNamesLookup_id_1")
-          
-        ),
-        
-        bslib::nav_panel(
-          
-          full_screen = TRUE,
-          
-          value = "nvcFlorTabs_panel",
-          
-          bslib::card_header("Floristic Tables"),
-          
-          nvcFlorTabsUI(id = "nvcFlorTabs_id_1")
-          
-        ),
-        
-        bslib::nav_panel(
-          
-          full_screen = TRUE,
-          
-          value = "nvcTaxonNamesLookup_panel",
-          
-          bslib::card_header("NVC Taxon Name Updates"),
-          
-          nvcTaxonNamesLookupUI(id = "nvcTaxonNamesLookup_id_1")
-          
-        ),
-        
-        bslib::nav_panel(
-          
-          full_screen = TRUE,
-          
-          value = "nvcCommAttr_panel",
-          
-          bslib::card_header("Community Attributes"),
-          
-          nvcCommAttrUI(id = "nvcCommAttr_id_1")
-          
-        )
-        
-      )
-      
-      )
-    
-  ),
-    
-  bslib::nav_panel(
-    
-    "Documentation",
-    
-    documentationUI(id = "docs_id_1")
-    
-  ),
-  
-  bslib::nav_panel(
-
-    "News❗",
-
-    newsUI(id = "news_id_1")
-
-  ),
-  
-  bslib::nav_panel(
-    
-    "Additional Information",
-    
-    additionalInfoUI(id = "additiona_info_id_1")
-    
-  ),
-  
-  bslib::nav_panel(
-    
-    "Privacy",
-    
-    privacyUI(id = "privacy_id_1")
     
   )
   
-)
+}

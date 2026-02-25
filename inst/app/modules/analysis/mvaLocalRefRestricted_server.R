@@ -1,0 +1,542 @@
+mvaLocalRefRestricted <- function(input, output, session, setupData, surveyData, vcAssignment, avgEIVs, sidebar_options) {
+  
+  ns <- session$ns
+
+# Retrieve sidebar options ------------------------------------------------
+  runAnalysis <- reactiveVal()
+  dcaAxisSelection <- reactiveVal()
+  dcaVars <- reactiveVal()
+  groupSurveyPlots <- reactiveVal()
+  selectedReferenceSpaces <- reactiveVal()
+  selectSurveyMethod <- reactiveVal()
+  selectSurveyYears <- reactiveVal()
+  selectSurveyGroups <- reactiveVal()
+  selectSurveyQuadrats <- reactiveVal()
+  
+  observe({
+    
+    runAnalysis(sidebar_options()$runAnalysis)
+    dcaAxisSelection(sidebar_options()$dcaAxisSelection)
+    dcaVars(sidebar_options()$dcaVars)
+    groupSurveyPlots(sidebar_options()$groupSurveyPlots)
+    selectedReferenceSpaces(sidebar_options()$selectedReferenceSpaces)
+    selectSurveyMethod(sidebar_options()$selectSurveyMethod)
+    selectSurveyYears(sidebar_options()$selectSurveyYears)
+    selectSurveyQuadrats(sidebar_options()$selectSurveyQuadrats)
+    selectSurveyGroups(sidebar_options()$selectSurveyGroups)
+    
+  }) |>
+    bindEvent(sidebar_options(), ignoreInit = TRUE)
+
+## Retrieve options -------------------------------------------------------
+  regional_availability <- reactiveVal()
+  use_eivs <- reactiveVal()
+  
+  observe({
+    
+    regional_availability(setupData()$regional_availability)
+    use_eivs(setupData()$regional_availability$avgEIVs)
+    
+  }) |>
+    shiny::bindEvent(setupData(),
+                     runAnalysis(),
+                     ignoreInit = FALSE,
+                     ignoreNULL = TRUE)
+  
+## Retrieve psquads -------------------------------------------------------
+  vc_pquads_wide <- reactiveVal()
+  
+  observe({
+    
+    shiny::isolate({
+      pquads <- setupData()$pquads
+      ref_taxon_name_col <- setupData()$ref_taxon_name_col
+      ref_plot_name_col <- setupData()$ref_plot_name_col
+    })
+    
+    vc_pquads_wide_prepped <- pquads |>
+      dplyr::select(ref_plot_name_col, ref_taxon_name_col) |>
+      dplyr::mutate("present" = 1) |>
+      dplyr::distinct(.data[[ref_plot_name_col]], .data[[ref_taxon_name_col]], .keep_all = TRUE) |>
+      tidyr::pivot_wider(id_cols = ref_plot_name_col,
+                         names_from = ref_taxon_name_col,
+                         values_fill = 0,
+                         values_from = present) |>
+      tibble::column_to_rownames(var = ref_plot_name_col) |>
+      as.matrix()
+    
+    
+    vc_pquads_wide(vc_pquads_wide_prepped)
+    
+  }) |>
+    bindEvent(runAnalysis(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+  
+## Retrieve psquad cm eivs  ----------------------------------------------
+  vc_pquads_mean_unweighted_eivs <- reactiveVal()
+  
+  observe({
+    
+    shiny::req(isTRUE(use_eivs()))
+    
+    shiny::isolate({
+      psquad_cm_he <- setupData()$psquad_cm_he
+      ref_plot_name_col <- setupData()$ref_plot_name_col
+    })
+      
+    psquad_cm_he_prepped <- psquad_cm_he |>
+      dplyr::select(ref_plot_name_col, `F`, L, N, R, S)
+    
+    vc_pquads_mean_unweighted_eivs(psquad_cm_he_prepped)
+    
+  }) |>
+    bindEvent(runAnalysis(),
+              ignoreInit = TRUE,
+              ignoreNULL = TRUE)
+  
+# Run DCA and CCA ---------------------------------------------------------
+  mvaResults <- reactiveVal()
+  
+  observe({
+    
+    # Require selected objects are not NULL
+    shiny::req(surveyData())
+    shiny::req(runAnalysis() != 0)
+    shiny::req(vcAssignment())
+    shiny::req(vc_pquads_wide())
+    
+    # Start busy spinner
+    shinybusy::show_modal_spinner(
+      spin = "fading-circle",
+      color = "#3F9280",
+      text = "Performing Local Reference, Restricted MVA"
+    )
+    
+    # Isolate processes to prevent recursion when handling reactive objects not included in bindEvent
+    shiny::isolate({
+      
+      vcAssignment <- vcAssignment()
+      selectedReferenceSpaces <- selectedReferenceSpaces()
+      vc_pquads_wide <- vc_pquads_wide()
+      vc_pquads_mean_unweighted_eivs <- vc_pquads_mean_unweighted_eivs()
+      avgEIVs <- avgEIVs()
+      ref_plot_name_col <- setupData()$ref_plot_name_col
+      
+      if(isTRUE(regional_availability()$aggTaxa)){
+        
+        surveyData_long <- surveyData()$surveyData_long_prop_agg
+        
+      } else {
+        
+        surveyData_long <- surveyData()$surveyData_long_prop
+        
+      }
+      
+    })
+    
+    # Create pattern to subset matrix rows
+    codes_regex <- paste0("^(", stringr::str_c(selectedReferenceSpaces, collapse = "|"), ")(?<=)\\_")
+    
+    # Subset pseudo-quadrats for selected communities
+    selected_pquads <- vc_pquads_wide[stringr::str_detect(string = row.names(vc_pquads_wide), pattern = codes_regex), ]
+
+    # Remove columns (species) that are absent in all selected communities
+    selected_pquads_prepped <- selected_pquads[, colSums(abs(selected_pquads)) != 0] |>
+      tibble::as_tibble(rownames = NA)
+    
+    # Perform a DCA on the selected pseudo-quadrats
+    selected_pquads_dca_results <- vegan::decorana(veg = selected_pquads_prepped)
+    
+    # Extract the DCA results species axis scores
+    dca_results_pquads_species <- vegan::scores(selected_pquads_dca_results, tidy = TRUE) |>
+      dplyr::filter(score == "species") |>
+      dplyr::select(-score, -weight) |>
+      dplyr::rename("Species" = label) |>
+      dplyr::mutate(
+        "Present" = dplyr::case_when(
+          Species %in% unique(surveyData_long$Species) ~ TRUE,
+          TRUE ~ FALSE
+        )
+      )
+    
+    # Extract the DCA results quadrat axis scores
+    dca_results_pquads_site <- vegan::scores(selected_pquads_dca_results, tidy = TRUE) |>
+      dplyr::filter(score == "sites") |>
+      dplyr::select(-score, -weight) |>
+      dplyr::rename("Quadrat" = label)
+    
+    # Prepare the pseudo-quadrat DCA results quadrat axis scores
+    dca_results_pquads_site <- dca_results_pquads_site  |>
+      dplyr::mutate("Year" = "Reference", .before  = "Quadrat") |>
+      dplyr::mutate("Group" = "Reference", .before  = "Quadrat") |>
+      dplyr::mutate("VC.Code" = stringr::str_remove(string = Quadrat, pattern = "_\\d*$"), .before  = "Quadrat")
+    
+  
+    # Calculate the surveyData DCA results using the pseudo-quadrat species scores
+    dca_results_sample_site <- surveyData_long |>
+      tibble::as_tibble() |>
+      dplyr::select(-Cover) |>
+      dplyr::left_join(dca_results_pquads_species, by = "Species") |>
+      tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = FALSE) |>
+      dplyr::group_by(ID, Year, Group, Quadrat) |>
+      dplyr::summarise("DCA1" = mean(DCA1, na.rm = TRUE),
+                       "DCA2" = mean(DCA2, na.rm = TRUE),
+                       "DCA3" = mean(DCA3, na.rm = TRUE),
+                       "DCA4" = mean(DCA4, na.rm = TRUE),
+                       .groups = "drop") |>
+      dplyr::mutate("VC.Code" = "Sample", .before  = "Quadrat")
+    
+    # Create convex hulls around the pseudo-quadrat DCA points.
+    pquad_hulls_dca1dca2 <- dca_results_pquads_site |>
+      dplyr::group_by(VC.Code) |>
+      dplyr::slice(grDevices::chull(DCA1, DCA2)) |>
+      dplyr::ungroup() |>
+      dplyr::mutate("dcaAxes" = "dca1dca2")
+    
+    pquad_hulls_dca1dca3 <- dca_results_pquads_site |>
+      dplyr::group_by(VC.Code) |>
+      dplyr::slice(grDevices::chull(DCA1, DCA3)) |>
+      dplyr::ungroup() |>
+      dplyr::mutate("dcaAxes" = "dca1dca3")
+    
+    pquad_hulls_dca2dca3 <- dca_results_pquads_site |>
+      dplyr::group_by(VC.Code) |>
+      dplyr::slice(grDevices::chull(DCA2, DCA3)) |>
+      dplyr::ungroup() |>
+      dplyr::mutate("dcaAxes" = "dca2dca3")
+    
+    pquad_hulls <- rbind(pquad_hulls_dca1dca2,
+                         pquad_hulls_dca1dca3,
+                         pquad_hulls_dca2dca3)
+    
+    # Prepare the data required to draw arrows between points, ordered by Year
+    if(length(unique(dca_results_sample_site$Year)) > 1){
+      
+      arrow_plot_data <- dca_results_sample_site |>
+        dplyr::arrange(Year) |>
+        dplyr::select("Year" = Year, 
+                      "Group" = Group,
+                      "Quadrat" = Quadrat, 
+                      "x" = DCA1, 
+                      "y" = DCA2) |>
+        dplyr::group_by(Quadrat) |>
+        dplyr::mutate("endX" = dplyr::lead(x),
+                      "endY" = dplyr::lead(y)) |>
+        dplyr::filter(!is.na(endX)) |>
+        dplyr::ungroup()
+      
+    } else {
+      
+      arrow_plot_data <- NULL
+      
+    }
+    
+    # Calculate pseudo-quadrat centroids
+    pquad_centroids <- dca_results_pquads_site |>
+      dplyr::group_by(VC.Code) |>
+      dplyr::summarise("DCA1" = mean(DCA1),
+                       "DCA2" = mean(DCA2),
+                       "DCA3" = mean(DCA3),
+                       "DCA4" = mean(DCA4)) |>
+      dplyr::ungroup()
+    
+    # Calculate sample centroids
+    sample_centroids <- dca_results_sample_site |>
+      dplyr::group_by(VC.Code) |>
+      dplyr::summarise("DCA1" = mean(DCA1),
+                       "DCA2" = mean(DCA2),
+                       "DCA3" = mean(DCA3),
+                       "DCA4" = mean(DCA4)) |>
+      dplyr::ungroup()
+    
+    if(!is.null(vc_pquads_mean_unweighted_eivs) & isTRUE(use_eivs)){
+      
+      # Retrieve the un-weighted mean Hill-Ellenberg scores for the pseudo-quadrats
+      vc_pquads_mean_unweighted_eivs_prepped <- vc_pquads_mean_unweighted_eivs |>
+        dplyr::filter(!!sym(ref_plot_name_col) %in% rownames(selected_pquads_prepped)) |>
+        tibble::column_to_rownames(var = ref_plot_name_col)
+      
+      # Join the sample quadrat un-weighted mean Hill-Ellenberg scores
+      unweightedMeanHEValuesQuadrat_prepped <- avgEIVs$unweightedMeanHEValuesQuadrat |>
+        tidyr::unite(col = "ID", c(Year, Group, Quadrat), sep = " - ", remove = TRUE) |>
+        tibble::column_to_rownames(var = "ID") |>
+        dplyr::select("F" = "Moisture.F",
+                      "L" = "Light.L",
+                      "N" = "Nitrogen.N",
+                      "R" = "Reaction.R",
+                      "S" = "Salinity.S")
+      
+      all_mean_unweighted_eivs_prepped <- rbind(vc_pquads_mean_unweighted_eivs_prepped,
+                                                unweightedMeanHEValuesQuadrat_prepped)
+      
+      # Perform a CCA on the selected pseudo-quadrats using selected Hill-Ellenberg scores
+      vc_pquads_wide_prepped_wsurveyDataWide_cca  <- vegan::cca(as.formula(paste0("all_mean_unweighted_eivs_prepped ~ ", paste0(RMAVIS:::he_options, collapse = " + "))), # vc_pquads_wide_prepped_wsurveyDataWide ~ `F` + `L` + `N`
+                                                                data = all_mean_unweighted_eivs_prepped,
+                                                                na.action = na.exclude)
+      
+      # Extract CCA scores
+      vc_pquads_wide_prepped_wsurveyDataWide_cca_scores <- vegan::scores(vc_pquads_wide_prepped_wsurveyDataWide_cca, 
+                                                                         choices = c(1, 2, 3),
+                                                                         display = "bp")
+      
+      # Extract CCA multiplier
+      # vc_pquads_wide_prepped_wsurveyDataWide_cca_multiplier <- vegan:::ordiArrowMul(vc_pquads_wide_prepped_wsurveyDataWide_cca_scores)
+      
+      # Create CCA arrow data
+      CCA_arrowData <- vc_pquads_wide_prepped_wsurveyDataWide_cca_scores #* vc_pquads_wide_prepped_wsurveyDataWide_cca_multiplier
+      CCA_arrowData <- CCA_arrowData |>
+        tibble::as_tibble(rownames = NA) |>
+        tibble::rownames_to_column(var = "Hill-Ellenberg")
+      
+    } else {
+      
+      CCA_arrowData <- NULL
+      
+    }
+    
+    # Compose list of DCA results objects
+    mvaResults_list <- list("dca_results_pquads_species" = dca_results_pquads_species,
+                            "dca_results_pquads_site" = dca_results_pquads_site,
+                            "dca_results_sample_site" = dca_results_sample_site,
+                            "pquad_hulls" = pquad_hulls,
+                            "pquad_centroids" = pquad_centroids,
+                            "sample_centroids" = sample_centroids,
+                            "arrow_plot_data" = arrow_plot_data,
+                            "CCA_arrowData" = CCA_arrowData)
+    
+    mvaResults(mvaResults_list)
+    
+    shinybusy::remove_modal_spinner()
+      
+      
+  }) |>
+    bindEvent(selectedReferenceSpaces(),
+              # ccaVars(),
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE)
+  
+  
+# Subset data and create plot ---------------------------------------------
+    observe({
+      
+      shiny::req(mvaResults())
+      mvaResults <- mvaResults()
+      dcaAxisSelection <- dcaAxisSelection()
+      groupSurveyPlots <- groupSurveyPlots()
+      selectSurveyMethod <- selectSurveyMethod()
+      selectSurveyYears <- selectSurveyYears()
+      selectSurveyGroups <- selectSurveyGroups()
+      selectSurveyQuadrats <- selectSurveyQuadrats()
+      
+      pquad_hulls_selected <- mvaResults$pquad_hulls |>
+        dplyr::filter(dcaAxes == dcaAxisSelection) |>
+        dplyr::select(-dcaAxes)
+      
+      if(dcaAxisSelection == "dca1dca2"){
+        
+        x_axis <- "DCA1"
+        y_axis <- "DCA2"
+        x_axis_cca <- "CCA1"
+        y_axis_cca <- "CCA2"
+        
+      } else if(dcaAxisSelection == "dca1dca3"){
+        
+        x_axis <- "DCA1"
+        y_axis <- "DCA3"
+        x_axis_cca <- "CCA1"
+        y_axis_cca <- "CCA3"
+        
+      } else if(dcaAxisSelection == "dca2dca3"){
+        
+        x_axis <- "DCA2"
+        y_axis <- "DCA3"
+        x_axis_cca <- "CCA2"
+        y_axis_cca <- "CCA3"
+        
+      }
+      
+      if(groupSurveyPlots == "no"){
+        
+        dca_results_sample_site_selected <- mvaResults$dca_results_sample_site
+        
+        
+      } else if(groupSurveyPlots == "group") {
+        
+        dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
+          dplyr::group_by(Year, Group) |>
+          dplyr::summarise("DCA1" = mean(DCA1),
+                           "DCA2" = mean(DCA2),
+                           "DCA3" = mean(DCA3)) |>
+          dplyr::ungroup() |>
+          dplyr::arrange(Group, Year)
+        
+        
+      } else if(groupSurveyPlots == "year") {
+        
+        dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
+          dplyr::group_by(Year) |>
+          dplyr::summarise("DCA1" = mean(DCA1),
+                           "DCA2" = mean(DCA2),
+                           "DCA3" = mean(DCA3)) |>
+          dplyr::ungroup() |>
+          dplyr::arrange(Year)
+        
+      }
+      
+      if(groupSurveyPlots == "no" && selectSurveyMethod == "all"){
+        
+        dca_results_sample_site_selected <- mvaResults$dca_results_sample_site
+        
+      } else if(groupSurveyPlots == "no" && selectSurveyMethod == "selectYears"){
+        
+        dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
+          dplyr::filter(Year %in% selectSurveyYears)
+        
+      } else if(groupSurveyPlots == "no" && selectSurveyMethod == "selectGroups"){
+        
+        dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
+          dplyr::filter(Group %in% selectSurveyGroups)
+        
+      } else if(groupSurveyPlots == "no" && selectSurveyMethod == "selectQuadrats"){
+        
+        dca_results_sample_site_selected <- mvaResults$dca_results_sample_site |>
+          dplyr::filter(Quadrat %in% selectSurveyQuadrats)
+        
+      }
+      
+      # Prepare arrow data
+      if(length(unique(dca_results_sample_site_selected$Year)) > 1){
+        
+        arrow_plot_data <- dca_results_sample_site_selected |>
+          dplyr::arrange(Year) |>
+          dplyr::group_by(dplyr::across(dplyr::any_of(c("Group", "Quadrat")))) |>
+          dplyr::mutate("x" = get(x_axis), "y" = get(y_axis)) |>
+          dplyr::arrange(.by_group = TRUE) |>
+          dplyr::mutate("endX" = dplyr::lead(x), "endY" = dplyr::lead(y)) |>
+          dplyr::filter(!is.na(endX)) |>
+          dplyr::ungroup()
+        
+      } else {
+        
+        arrow_plot_data <- NULL
+        
+      }
+      
+      # Create an interactive plot of the DCA results
+      output$mvaLocalRefRestrictedPlot <- plotly::renderPlotly({
+        
+        suppressWarnings(
+          
+          # Create ggplot2 plot
+          mvaLocalRefRestrictedPlot_plot <- ggplot2::ggplot() +
+            {if("referenceSpace" %in% dcaVars())ggplot2::geom_polygon(data = pquad_hulls_selected, 
+                                                                      alpha = 0.2, 
+                                                                      mapping = ggplot2::aes(x = .data[[x_axis]], 
+                                                                                             y = .data[[y_axis]],
+                                                                                             fill = VC.Code))} +
+            {if("referenceCentroids" %in% dcaVars())ggplot2::geom_point(data = mvaResults$pquad_centroids,
+                                                                        mapping = ggplot2::aes(x = .data[[x_axis]], 
+                                                                                               y = .data[[y_axis]],
+                                                                                               fill = VC.Code,
+                                                                                               color = VC.Code),
+                                                                        size = 3)} +
+            {if("species" %in% dcaVars())ggplot2::geom_point(data = mvaResults$dca_results_pquads_species,
+                                                             # color = '#32a87d',
+                                                             shape = 18,
+                                                             mapping = ggplot2::aes(x = .data[[x_axis]], 
+                                                                                    y = .data[[y_axis]],
+                                                                                    color = Present,
+                                                                                    Species = Species))} +
+            {if("pseudoQuadrats" %in% dcaVars())ggplot2::geom_point(data = mvaResults$dca_results_pquads_site,
+                                                                    mapping = ggplot2::aes(color = VC.Code,
+                                                                                           Quadrat = Quadrat,
+                                                                                           x = .data[[x_axis]], 
+                                                                                           y = .data[[y_axis]]))} +
+            {if("surveyQuadrats" %in% dcaVars() && groupSurveyPlots() == "year")
+              ggplot2::geom_point(data = dca_results_sample_site_selected,
+                                  color = 'black',
+                                  mapping = ggplot2::aes(Year = Year,
+                                                         x = .data[[x_axis]],
+                                                         y = .data[[y_axis]]))} +
+            {if("surveyQuadrats" %in% dcaVars() && groupSurveyPlots() == "group")
+              ggplot2::geom_point(data = dca_results_sample_site_selected,
+                                  color = 'black',
+                                  mapping = ggplot2::aes(Year = Year,
+                                                         Group = Group,
+                                                         x = .data[[x_axis]],
+                                                         y = .data[[y_axis]]))} +
+            {if("surveyQuadrats" %in% dcaVars() && groupSurveyPlots() == "no")
+              ggplot2::geom_point(data = dca_results_sample_site_selected,
+                                  color = 'black',
+                                  mapping = ggplot2::aes(Year = Year,
+                                                         Group = Group,
+                                                         Quadrat = Quadrat,
+                                                         x = .data[[x_axis]],
+                                                         y = .data[[y_axis]]))} +
+            {if("hillEllenberg" %in% dcaVars() & !is.null(mvaResults$CCA_arrowData))ggplot2::geom_segment(data = mvaResults$CCA_arrowData,
+                                                                                                          color = 'black',
+                                                                                                          arrow = grid::arrow(),
+                                                                                                          mapping = ggplot2::aes(x = 0,
+                                                                                                                                 y = 0,
+                                                                                                                                 xend = .data[[x_axis_cca]],
+                                                                                                                                 yend = .data[[y_axis_cca]],
+                                                                                                                                 label = `Hill-Ellenberg`))} +
+            {if("hillEllenberg" %in% dcaVars() & !is.null(mvaResults$CCA_arrowData))ggplot2::geom_text(data = mvaResults$CCA_arrowData,
+                                                                                                       color = 'black',
+                                                                                                       # position = ggplot2::position_dodge(width = 0.9),
+                                                                                                       size = 5,
+                                                                                                       mapping = ggplot2::aes(x = .data[[x_axis_cca]] * 1.075,
+                                                                                                                              y = .data[[y_axis_cca]] * 1.075,
+                                                                                                                              label = `Hill-Ellenberg`))} +
+            ggplot2::theme_minimal()
+          
+        )
+        
+        mvaLocalRefRestrictedPlot_plotly <- plotly::ggplotly(p = mvaLocalRefRestrictedPlot_plot)
+        
+        if("trajectory" %in% dcaVars() & !is.null(arrow_plot_data) & !is.null(dca_results_sample_site_selected)){
+          
+          if(nrow(arrow_plot_data) > 0){
+            
+            mvaLocalRefRestrictedPlot_plotly <- mvaLocalRefRestrictedPlot_plotly |>
+              plotly::add_annotations(data = arrow_plot_data,
+                                      showarrow = TRUE,
+                                      text = "",
+                                      xref = "x", axref = "x",
+                                      yref = "y", ayref = "y",
+                                      x = ~endX,
+                                      ax = ~x,
+                                      y = ~endY,
+                                      ay = ~y)
+            
+            
+          }
+          
+        }
+        
+        mvaLocalRefRestrictedPlot_plotly <- plotly::hide_legend(mvaLocalRefRestrictedPlot_plotly)
+        
+        
+        return(mvaLocalRefRestrictedPlot_plotly)  
+      
+      
+      })
+      
+    }) |>
+    bindEvent(mvaResults(),
+              dcaAxisSelection(),
+              dcaVars(),
+              groupSurveyPlots(),
+              selectSurveyMethod(),
+              selectSurveyYears(),
+              selectSurveyGroups(),
+              selectSurveyQuadrats(),
+              ignoreInit = TRUE, 
+              ignoreNULL = TRUE)
+    
+  
+  # Return list of DCA results objects
+  return(mvaResults)
+  
+}

@@ -4,12 +4,10 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
   
 # Retrieve Setup Data -----------------------------------------------------
   speciesNames <- reactiveVal()
-
+  
   observe({
     
-    setupData <- setupData()
-    
-    speciesNames(setupData$species_names)
+    speciesNames(setupData()$species_names)
     
   }) |>
     bindEvent(setupData(),
@@ -37,7 +35,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
   output$speciesAdjustmentTable <- rhandsontable::renderRHandsontable({
     
     speciesAdjustmentTable <- rhandsontable::rhandsontable(data = speciesAdjustmentTable_init,
-                                                           height = 500,
                                                            rowHeaders = NULL,
                                                            width = "100%"
                                                            ) |>
@@ -52,7 +49,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
         type = "dropdown",
         source = c("No", "Yes"),
         strict = TRUE,
-        default = as.character("No")
+        default = as.character("Yes")
       ) |>
       rhandsontable::hot_col(
         col = "Species.Remove",
@@ -86,7 +83,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
   output$reallocateGroupsTable <- rhandsontable::renderRHandsontable({
     
     reallocateGroupsTable <- rhandsontable::rhandsontable(data = reallocateGroups_init,
-                                                          height = 300,
                                                           rowHeaders = NULL,
                                                           width = "100%"
                                                           ) |>
@@ -122,8 +118,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
       "groupIDUnique" = FALSE,
       "groupIDDuplicates" = FALSE,
       "coverValuesOK" = FALSE,
-      "surveyData_wide_ok" = FALSE,
-      "surveyData_mat_ok" = FALSE,
       "okToProceed" = FALSE
     )
   )
@@ -131,18 +125,16 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
   observe({
     
     shiny::req(surveyData())
-    shiny::req(speciesNames())
     
-    surveyData <- surveyData()
-    surveyData_original <- surveyData$surveyData_original
-    surveyData_long <- surveyData$surveyData_long
-    surveyData_wide <- surveyData$surveyData_wide
-    surveyData_mat <- surveyData$surveyData_mat
+    surveyData_original <- surveyData()$surveyData_original
+    surveyData_long <- surveyData()$surveyData_long
+    
+    shiny::req(!is.null(surveyData_original))
+    shiny::req(!is.null(surveyData_long))
     
     speciesNames <- speciesNames()
-    
     coverScale <- coverScale()
-
+    
     # Check all species are accepted
     if(!is.null(input$speciesAdjustmentTable)){
 
@@ -153,6 +145,8 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
       surveyData_speciesToIgnore <- speciesToIgnore
 
       species_to_check <- setdiff(unique(surveyData_long$Species), speciesToIgnore)
+      
+      species_to_check <- gsub("\\scanopy|\\sunderstory|\\ssub-canopy", "", species_to_check)
 
       surveyData_speciesInAccepted <- isTRUE(all(species_to_check %in% speciesNames))
 
@@ -249,19 +243,12 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
 
     }
 
-    # Check whether the survey data wide object is ok
-    surveyData_wide_ok <- isTRUE(!is.null(surveyData_wide))
-
-    # Check whether the survey data mat object is ok
-    surveyData_mat_ok <- isTRUE(!is.null(surveyData_mat))
-
     # Check whether the analysis is ok to proceed
     okToProceed <- isTRUE(all(surveyData_speciesInAccepted, surveyData_yearComplete,
                               surveyData_groupComplete, surveyData_quadratComplete,
                               surveyData_speciesComplete, surveyData_quadratIDUnique,
                               surveyData_speciesQuadratUnique,
                               surveyData_coverValuesOK,
-                              surveyData_wide_ok, surveyData_mat_ok,
                               surveyData_groupIDUnique))
 
 
@@ -282,8 +269,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
       "groupIDUnique" = surveyData_groupIDUnique,
       "groupIDDuplicates" = surveyData_groupIDDuplicates,
       "coverValuesOK" = surveyData_coverValuesOK,
-      "surveyData_wide_ok" = surveyData_wide_ok,
-      "surveyData_mat_ok" = surveyData_mat_ok,
       "okToProceed" = okToProceed
     )
 
@@ -313,7 +298,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
 
       speciesAdjustmentTable <- data.frame("Species.Submitted" = surveyDataValidation$speciesNotAccepted,
                                            "Species.Adjusted" = as.character(NA_character_),
-                                           "Species.Ignore" = "No",
+                                           "Species.Ignore" = "Yes",
                                            "Species.Remove" = "No") |>
         dplyr::mutate(
           "Species.Ignore" =
@@ -332,7 +317,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
     output$speciesAdjustmentTable <- rhandsontable::renderRHandsontable({
 
       speciesAdjustmentTable <- rhandsontable::rhandsontable(data = speciesAdjustmentTable,
-                                                             height = 500,
                                                              rowHeaders = NULL,
                                                              width = "100%"
       ) |>
@@ -355,7 +339,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
           type = "dropdown",
           source = c("No", "Yes"),
           strict = TRUE,
-          default = as.character("No")
+          default = as.character("Yes")
         ) |>
         rhandsontable::hot_col(
           col = "Species.Remove",
@@ -389,7 +373,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
               ignoreInit = TRUE,
               ignoreNULL = TRUE)
   
-  # Update Table to to Re-allocate groups ------------------------------
+# Update Table to to Re-allocate groups ----------------------------------
   reallocateGroupsTable_rval <- reactiveVal()
   
   observe({
@@ -397,8 +381,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
     shiny::req(!is.null(surveyData()$surveyData_long))
     shiny::req(reallocateGroups_rval())
     
-    surveyData <- surveyData()
-    surveyData_long <- surveyData$surveyData_long
+    surveyData_long <- surveyData()$surveyData_long
     
     reallocateGroups <- reallocateGroups_rval()
       
@@ -409,7 +392,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
     output$reallocateGroupsTable <- rhandsontable::renderRHandsontable({
       
       reallocateGroupsTable <- rhandsontable::rhandsontable(data = reallocateGroupsTable,
-                                                            height = 300,
                                                             rowHeaders = NULL,
                                                             width = "100%"#,
                                                             # overflow = "visible",
@@ -436,7 +418,6 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
     bindEvent(surveyData(),
               ignoreInit = FALSE,
               ignoreNULL = TRUE)
-  
   
 # Create Text Validation Outputs ------------------------------------------
   observe({
@@ -651,6 +632,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
       "adjustSpecies" = input$adjustSpecies,
       "reallocateGroups" = input$reallocateGroups,
       "combineDuplicates" = input$combineDuplicates,
+      "matchAccepted" = input$matchAccepted,
       "speciesAdjustmentTable" = rhandsontable::hot_to_r(input$speciesAdjustmentTable),
       "reallocateGroupsTable" = rhandsontable::hot_to_r(input$reallocateGroupsTable),
       "surveyDataValidation" = surveyDataValidation_rval()
@@ -662,6 +644,7 @@ surveyDataValidator <- function(input, output, session, setupData, surveyData, d
     bindEvent(input$adjustSpecies,
               input$reallocateGroups,
               input$combineDuplicates,
+              input$matchAccepted,
               input$speciesAdjustmentTable,
               input$reallocateGroupsTable,
               surveyDataValidation_rval(),

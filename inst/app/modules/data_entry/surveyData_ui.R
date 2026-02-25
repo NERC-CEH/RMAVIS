@@ -6,12 +6,15 @@ surveyDataUI <- function(id) {
     shiny::column(
       width = 12,
       
-      shiny::h5("Survey Data Table"),
+      shiny::h5("Data Input Table"),
       
       shiny::div(
         rhandsontable::rHandsontableOutput(outputId = ns("surveyData"))
+        
+        )
+      
       )
-    )
-  )
+    
+   )
   
 }

@@ -14,7 +14,19 @@ newsUI <- function(id) {
         
         shiny::markdown(
         '
-        The latest versions of RMAVIS (the v1.1.X series) contain a number of breaking changes relative to the v1.0.1 release.
+        <h3>2026-02-24</h3>
+        
+        The v1.2.0 release of RMAVIS incorporates the Minnesota Native Plant Community Classification (MNNPC).
+        This has involved refactoring several modules to ensure that RMAVIS is extensible and can easily incorporate additional vegetation classifications.
+        A second major change is the methodology used to calculate Diversity measures, specifically RMAVIS now utilises the approach described in Reeve et al (2014) *How to partition diversity* 
+        as implemented in the R package {rdiversity}; for more information please see the documentation.
+        This release contains no breaking changes for matching vegetation plots to the GB-NVC.
+       
+
+        <h3>2025-09-11</h3>
+        <details>
+        <summary><b>...</b></summary>
+        The v1.1.X series of RMAVIS releases contain a number of breaking changes relative to the v1.0.1 release.
         
         First, is a major update to the taxonomy, which is now aligned with version 20250703a of the UKSI, available <a href="https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy/" target="_blank">here</a>.
         A csv of the taxonomic backbone can also be downloaded from the Data Entry section of RMAVIS.
@@ -41,6 +53,7 @@ newsUI <- function(id) {
         <a href="https://zenodo.org/search?q=parent.id%3A10818640&f=allversions%3Atrue&l=list&p=1&s=10&sort=version" target="_blank">Zenodo</a>.
         
         Special thanks again to Colin Conroy and Barry Jobson for testing v1.1.2, v1.1.1, and v1.1.0 of RMAVIS!
+        </details>
         '
         )
         
