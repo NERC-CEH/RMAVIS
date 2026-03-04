@@ -1,3 +1,9 @@
+# RMAVIS 1.2.2 (04-03-2026)
+*   Modifications: NA
+*   Fixes:
+      - Ensuring that diversity metrics are calculated correctly when using GB-NVC and multiple strata.
+*   New Features: NA
+
 # RMAVIS 1.2.1 (25-02-2026)
 *   Modifications:
       - Now using `UKVegTB` v0.1.7.

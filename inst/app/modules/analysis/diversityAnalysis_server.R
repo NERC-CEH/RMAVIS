@@ -224,7 +224,9 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
       divMetrics <- divMetrics()
       divMeasures <- divMeasures()
       
-      surveyData_long <- surveyData()$surveyData_long_prop
+      surveyData_long <- surveyData()$surveyData_long_prop |>
+        dplyr::mutate("Species" = stringr::str_remove_all(string = Species, pattern = "\\s\\(c\\)$|\\s\\(s\\)$|\\s\\(g\\)$")) |>
+        dplyr::summarise("Cover" = sum(Cover, na.rm = TRUE), .by = c("Year", "Group", "Quadrat", Species))
       
       higher_taxa <- higher_taxa()
       phylo_taxa_lookup <- phylo_taxa_lookup()
