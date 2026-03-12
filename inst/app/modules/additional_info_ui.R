@@ -32,7 +32,7 @@ additionalInfoUI <- function(id) {
           
           shiny::markdown(
           '
-          Version 1.2.2 of `RMAVIS` currently uses version 20250703a of the UKSI to form its taxonomic backbone.
+          Version 1.2.3 of `RMAVIS` currently uses version 20250703a of the UKSI to form its taxonomic backbone.
           The UKSI can be accessed from several sources:
           * The versioned releases available via the NHM data portal (https://data.nhm.ac.uk/dataset/uk-species-inventory-simplified-copy)
           * The UKSI sandbox (https://uksi-sandbox.nhm.ac.uk/)

@@ -758,7 +758,6 @@ sidebar <- function(input, output, session,
       sheets <- list(
         "Floristic Tables - Long" = floristicTables$floristicTables_composed_all,
         "Floristic Tables - Wide" = floristicTables$floristicTables_composed_all_wide,
-        "VC Assignment - Quadrat" = vcAssignment$vcAssignmentPlot_Jaccard,
         "Frequency Table" = speciesFreq,
         "Diversity, Year" = diversityAnalysis$diversityYear,
         "Diversity, Group" = diversityAnalysis$diversityGroup,
@@ -778,7 +777,11 @@ sidebar <- function(input, output, session,
         sheets[["EIVs, Unweighted, Quadrat"]] <- avgEIVs$unweightedMeanHEValuesQuadrat
       }
       
-      if(!is.null(vcAssignment$vcAssignmentGroup_Czekanowski)){
+      if(!is.null(vcAssignment$vcAssignmentPlot_Jaccard)){
+        sheets[["VC Assignment - Quadrat"]] <- vcAssignment$vcAssignmentPlot_Jaccard
+      }
+      
+      if(!is.null(vcAssignment$vcAssignmentSite_Czekanowski)){
         sheets[["VC Assignment - Group"]] <- vcAssignment$vcAssignmentGroup_Czekanowski
       }
       

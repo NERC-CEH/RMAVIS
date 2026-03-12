@@ -1,3 +1,9 @@
+# RMAVIS 1.2.3 (12-03-2026)
+*   Modifications: NA
+*   Fixes:
+      - Ensuring that the results can be downloaded when individual plots are not matched.
+*   New Features: NA
+
 # RMAVIS 1.2.2 (04-03-2026)
 *   Modifications: NA
 *   Fixes:
