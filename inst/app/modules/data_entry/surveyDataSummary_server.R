@@ -118,7 +118,7 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
     
     speciesDataAvailability_rval(speciesDataAvailability)
     
-    speciesDataAvailability_summary <- speciesDataAvailability |>
+    speciesDataAvailability_wide <- speciesDataAvailability |>
       tidyr::pivot_longer(cols = -Species,
                           names_to = "metric",
                           values_to = "value") |>
@@ -128,7 +128,19 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
       tidyr::pivot_wider(id_cols = metric,
                          names_from = value,
                          values_from = n,
-                         values_fill = 0) |>
+                         values_fill = 0)
+    
+    if(!("No" %in% colnames(speciesDataAvailability_wide))){
+      speciesDataAvailability_wide <- speciesDataAvailability_wide |>
+        dplyr::mutate("No" = 0)
+    }
+    
+    if(!("Yes" %in% colnames(speciesDataAvailability_wide))){
+      speciesDataAvailability_wide <- speciesDataAvailability_wide |>
+        dplyr::mutate("Yes" = 0)
+    }
+    
+    speciesDataAvailability_summary <- speciesDataAvailability_wide |>
       dplyr::mutate("Percentage" = (Yes / (Yes + No)) * 100) |>
       tidyr::pivot_longer(cols = -metric) |>
       tidyr::pivot_wider(id_cols = name,

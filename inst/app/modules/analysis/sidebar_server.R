@@ -764,11 +764,11 @@ sidebar <- function(input, output, session,
         "Diversity, Quadrat" = diversityAnalysis$diversityQuadrat
       )
       
-      if(isTRUE(show_habCor)){
+      if(!is.null(habCor)){
         sheets[["Habitat Correspondences"]] <- habCor
       }
       
-      if(isTRUE(show_eivs)){
+      if(!is.null(avgEIVs)){
         sheets[["EIVs, Weighted, Site"]] <- avgEIVs$weightedMeanHEValuesSite
         sheets[["EIVs, Unweighted, Site"]] <- avgEIVs$unweightedMeanHEValuesSite
         sheets[["EIVs, Weighted, Group"]] <- avgEIVs$weightedMeanHEValuesGroup

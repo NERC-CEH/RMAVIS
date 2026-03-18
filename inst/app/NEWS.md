@@ -1,3 +1,10 @@
+# RMAVIS 1.2.4 (18-03-2026)
+*   Modifications: NA
+*   Fixes:
+      - Ensuring that the percentage of species with attributes are calculated even when all species or no species have attributes.
+      - Ensuring that Habitat Correspondence and Average EIVs are included in downloadable results.
+*   New Features: NA
+
 # RMAVIS 1.2.3 (12-03-2026)
 *   Modifications: NA
 *   Fixes:
