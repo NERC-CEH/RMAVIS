@@ -54,32 +54,19 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
       floristic_tables(floristic_tables_raw)
       
     } else if(region() == "mnnpc"){
-      
+
       floristic_tables(
         floristic_tables_raw |>
           dplyr::mutate_at(dplyr::vars(minimum_cover, mean_cover, maximum_cover),
                            list(
-                             ~dplyr::case_when(
-                               . > 91 ~ "10",
-                               . > 76 ~ "9",
-                               . > 51 ~ "8",
-                               . > 34 ~ "7",
-                               . > 26 ~ "6",
-                               . > 11 ~ "5",
-                               . > 4 ~ "4",
-                               . > 3 ~ "3",
-                               . > 2 ~ "2",
-                               . > 1 ~ "1",
-                               . > 0 ~ "+",
-                               TRUE ~ NA
-                               )
+                             ~round(.)
                              )
                            )
-        
+
         ) |>
         suppressWarnings()
-      
-      
+
+
     }
     
   }) |>
@@ -156,6 +143,8 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
     floristicTables_composed_all <- rbind(floristicTables_composed_year, floristicTables_composed_year_group)
     
     ## Prepare cover summary ----------------------------------------------
+    if(region() == "gbnvc"){
+      
     floristicTables_composed_all <- floristicTables_composed_all |>
       dplyr::mutate_at(dplyr::vars(Min.Cover, Mean.Cover, Max.Cover),
                        ~as.numeric(.)) |>
@@ -185,6 +174,25 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
                                      " - ", 
                                      ifelse(is.na(Max.Cover), "?", Max.Cover)), 
                     .keep = "unused")
+    
+    } else if(region() == "mnnpc"){
+      
+      floristicTables_composed_all <- floristicTables_composed_all |>
+        dplyr::mutate_at(dplyr::vars(Min.Cover, Mean.Cover, Max.Cover),
+                         ~as.numeric(.)) |>
+        dplyr::mutate_at(dplyr::vars(Min.Cover, Mean.Cover, Max.Cover),
+                         list(
+                           ~round(100 * .)
+                         )
+        ) |>
+        dplyr::mutate("Cover" = paste0(ifelse(is.na(Min.Cover), "?", Min.Cover), 
+                                       " - ", 
+                                       ifelse(is.na(Mean.Cover), "?", Mean.Cover),
+                                       " - ", 
+                                       ifelse(is.na(Max.Cover), "?", Max.Cover)), 
+                      .keep = "unused")
+      
+      }
     
     floristicTables_composed_all_rval(floristicTables_composed_all)
 
