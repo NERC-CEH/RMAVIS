@@ -1,3 +1,10 @@
+# RMAVIS 1.2.5 (19-03-2026)
+*   Modifications: NA
+*   Fixes:
+      - Altering `RMAVIS::calc_rdiversity_objects` to add checks for taxonomic and phylogentic data having more than one row, and therefore being computable.
+      - Ensuring that when no community attributes are returned in the floristicTables_server.R module (e.g. SM12a), NA values are returned.
+*   New Features: NA
+
 # RMAVIS 1.2.4 (18-03-2026)
 *   Modifications: NA
 *   Fixes:
