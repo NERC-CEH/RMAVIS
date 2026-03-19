@@ -14,7 +14,7 @@ rmarkdown::render(input = "./inst/app/docs/documentation.Rmd",  output_dir = "./
 # 1) document functions and objects
 devtools::document()
 
-# 2) build package
+  # 2) build package
 devtools::build()
 
 # 3) test package

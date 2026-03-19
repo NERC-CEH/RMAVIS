@@ -53,7 +53,15 @@ calc_rdiversity_objects <- function(plot_data, higher_taxa, phylo_tree, phylo_ta
   
   s_tax <- rdiversity::dist2sim(d_tax, "linear")
   
-  meta_tax <- rdiversity::metacommunity(t(data_mat_higher_taxa), s_tax) 
+  if(ncol(data_mat_higher_taxa) > 1){
+    
+    meta_tax <- rdiversity::metacommunity(t(data_mat_higher_taxa), s_tax)
+    
+  } else {
+    
+    meta_tax <- NULL
+    
+  }
   
   # Phylogenetic analysis setup
   available_phylo_taxa_names <- phylo_taxa_lookup |> 
@@ -83,7 +91,7 @@ calc_rdiversity_objects <- function(plot_data, higher_taxa, phylo_tree, phylo_ta
   
   phylo_tree_use <- ape::keep.tip.phylo(phy = phylo_tree_phylo, tip = phylo_analysis_taxon_names)
   
-  if(!is.null(phylo_tree_use)){
+  if(!is.null(phylo_tree_use) & ncol(data_mat_phylo_use) > 1){
     
     d_phylo <- rdiversity::phy2dist(phylo_tree_use)
     s_phylo_dist <- rdiversity::dist2sim(d_phylo, "linear")
