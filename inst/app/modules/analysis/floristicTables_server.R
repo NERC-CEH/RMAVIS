@@ -684,6 +684,12 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
         name_min_species <- comp_attr_values$min_species
         name_mean_species <- round(comp_attr_values$mean_species)
         name_max_species <- comp_attr_values$max_species
+      } else {
+        name_quadrats <- paste0("<font color=\"red\">NA</font>")
+        name_total_species <- paste0("<font color=\"red\">NA</font>")
+        name_min_species <- paste0("<font color=\"red\">NA</font>")
+        name_mean_species <- paste0("<font color=\"red\">NA</font>")
+        name_max_species <- paste0("<font color=\"red\">NA</font>")
       }
     } else if(class(comp_attr_values) == "try-error"){
       name_quadrats <- paste0("<font color=\"red\">NA</font>")
