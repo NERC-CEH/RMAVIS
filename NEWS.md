@@ -1,3 +1,9 @@
+# RMAVIS 1.2.6 (XX-03-2026)
+*   Modifications: 
+      - When using the MNNPC minimum, mean, and maximum cover values in the floristic tables module are now reported as percentages.
+*   Fixes: NA
+*   New Features: NA
+
 # RMAVIS 1.2.5 (19-03-2026)
 *   Modifications: NA
 *   Fixes:

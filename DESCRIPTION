@@ -1,7 +1,7 @@
 Package: RMAVIS
 Title: Assign Vegetation Survey Data to VC Communities
-Version: 1.2.5
-Date: 2026-03-19
+Version: 1.2.6
+Date: 2026-03-XX
 Authors@R: c(person(given = "Zeke",
                     family = "Marshall",
                     role = c("aut", "cre"),
