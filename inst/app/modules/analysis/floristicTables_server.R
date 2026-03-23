@@ -59,7 +59,7 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
         floristic_tables_raw |>
           dplyr::mutate_at(dplyr::vars(minimum_cover, mean_cover, maximum_cover),
                            list(
-                             ~round(.)
+                             ~signif(., digits = 2)
                              )
                            )
 
@@ -182,7 +182,7 @@ floristicTables <- function(input, output, session, region, setupData, surveyDat
                          ~as.numeric(.)) |>
         dplyr::mutate_at(dplyr::vars(Min.Cover, Mean.Cover, Max.Cover),
                          list(
-                           ~round(100 * .)
+                           ~signif(100 * ., digits = 2)
                          )
         ) |>
         dplyr::mutate("Cover" = paste0(ifelse(is.na(Min.Cover), "?", Min.Cover), 
