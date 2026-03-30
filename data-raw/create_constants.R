@@ -134,8 +134,8 @@ dcaAxisSelection_options <- c("DCA1 vs DCA2" = "dca1dca2",
                               "DCA2 vs DCA3" = "dca2dca3")
 
 # DCA Variable Options To Show --------------------------------------------
-dcaVars_options <- c("Survey Quadrats" = "surveyQuadrats",
-                     "Pseudo-Quadrats" = "pseudoQuadrats",
+dcaVars_options <- c("Survey Plots" = "surveyQuadrats",
+                     "Reference Plots" = "pseudoQuadrats",
                      "Reference Space" = "referenceSpace",
                      "Reference Centroids" = "referenceCentroids",
                      "Species" = "species",

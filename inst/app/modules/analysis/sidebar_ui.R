@@ -1066,8 +1066,8 @@ sidebarUI <- function(id){
                 Select the variables to display in the multivariate analysis plots:
                 
                 Seven options are provided:
-                - 'Survey Quadrats': the DCA scores of the survey quadrats.
-                - 'Pseudo-Quadrats': the DCA scores of the pseudo-quadrats (Local Reference only).
+                - 'Survey Plots': the DCA scores of the survey plots.
+                - 'Reference Plot': the DCA scores of the pseudo-quadrats (GB-NVC) or releves (MNNPC).
                 - 'Reference Space': the convex hulls formed from the pseudo-quadrat DCA scores.
                 - 'Reference Centroids': the centroids formed from the pseudo-quadrat DCA scores.
                 - 'Species': the DCA scores of the species.
