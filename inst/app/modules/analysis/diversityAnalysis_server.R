@@ -234,7 +234,7 @@ diversityAnalysis <- function(input, output, session, setupData, surveyData, sid
       
     })
     
-    if(any(is.na(surveyData_long$Cover))){
+    if(any(is.na(surveyData_long$Cover)) | all(surveyData_long$Cover == 0)){
       surveyData_long$Cover <- 1
     }
     
