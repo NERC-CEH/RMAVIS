@@ -172,7 +172,29 @@ sidebar <- function(input, output, session,
               ignoreNULL = TRUE)
 
   
-
+# Update VC Assignment results to view based on region --------------------
+  observe({
+    
+    if(region() == "gbnvc"){
+      
+      shiny::updateSelectizeInput(session = session,
+                                  inputId = "resultsViewVCAssign",
+                                  selected = "vcAssignSiteCzekanowski")
+      
+    } else if(region() == "mnnpc"){
+      
+      shiny::updateSelectizeInput(session = session,
+                                  inputId = "resultsViewVCAssign",
+                                  selected = "vcAssignPlotJaccard")
+    }
+    
+  }) |>
+    bindEvent(region(),
+              ignoreInit = FALSE,
+              ignoreNULL = TRUE)
+  
+  
+  
 # Update Options Based On Example Data ------------------------------------
   observe({
     

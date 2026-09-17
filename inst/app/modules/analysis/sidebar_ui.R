@@ -112,7 +112,7 @@ sidebarUI <- function(id){
                 Site and Groups by year will not be calculated using the 
                 Czekanowski coefficient of similarity and so similarity values 
                 must be calculated using the Jaccard coefficient and reference
-                pseudo-quadrats.
+                pseudo-quadrats (GB-NVC) or reléves (MNNPC).
                 
                 If the number of quadrats for all years is 2 or greater the
                 button is enabled and the user may optionally choose to
@@ -1067,11 +1067,11 @@ sidebarUI <- function(id){
                 
                 Seven options are provided:
                 - 'Survey Plots': the DCA scores of the survey plots.
-                - 'Reference Plot': the DCA scores of the pseudo-quadrats (GB-NVC) or releves (MNNPC).
-                - 'Reference Space': the convex hulls formed from the pseudo-quadrat DCA scores.
-                - 'Reference Centroids': the centroids formed from the pseudo-quadrat DCA scores.
+                - 'Reference Plot': the DCA scores of the pseudo-quadrats (GB-NVC) or reléves (MNNPC).
+                - 'Reference Space': the convex hulls formed from the pseudo-quadrat/reléve DCA scores.
+                - 'Reference Centroids': the centroids formed from the pseudo-quadrat/reléve DCA scores.
                 - 'Species': the DCA scores of the species.
-                - 'Unique Survey Species': the DCA scores of the species unique to the survey data, but absent from the best fitting VC communities pseudo-quadrats (Local Reference (unrestricted) only).
+                - 'Unique Survey Species': the DCA scores of the species unique to the survey data, but absent from the best fitting VC communities pseudo-quadrats/reléves (Local Reference (unrestricted) only).
                 - 'Hill-Ellenberg': the CCA result axis scores for Hill-Ellenberg values.
                 - 'Trajectory': arrows drawn between each set of selected sample plots by year, showing thetrajectory of the sample plots in the ordination space.
                 
