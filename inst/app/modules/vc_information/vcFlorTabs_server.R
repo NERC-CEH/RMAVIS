@@ -18,9 +18,9 @@ vcFlorTabs <- function(input, output, region, session) {
     
     if(region == "gbnvc"){
       
-      ft_prepped <- dplyr::bind_rows(RMAVIS::nvc_floristic_tables |> dplyr::mutate("Type" = "Original", .before = "nvc_code"),
-                                     RMAVIS::sowg_floristic_tables |> dplyr::mutate("Type" = "SOWG", .before = "nvc_code"),
-                                     RMAVIS::calthion_floristic_tables |> dplyr::mutate("Type" = "Calthion", .before = "nvc_code")) |>
+      ft_prepped <- dplyr::bind_rows(GBNVC::nvc_floristic_tables |> dplyr::mutate("Type" = "Original", .before = "nvc_code"),
+                                     GBNVC::sowg_floristic_tables |> dplyr::mutate("Type" = "SOWG", .before = "nvc_code"),
+                                     GBNVC::calthion_floristic_tables |> dplyr::mutate("Type" = "Calthion", .before = "nvc_code")) |>
         dplyr::select("NVC.Code" = "nvc_code", 
                       "Type",
                       "Taxon.Name" = "nvc_taxon_name",

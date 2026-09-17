@@ -20,12 +20,13 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
                       dplyr::distinct(),
     "taxa_lookup" = UKVegTB::taxa_lookup |> dplyr::select(taxon_name, recommended_taxon_name),
     "example_data" = RMAVIS::example_data,
-    "floristic_tables" = RMAVIS::nvc_floristic_tables,
-    "community_attributes" = RMAVIS::nvc_community_attributes,
-    "pquads" = RMAVIS::nvc_pquads,
-    "psquad_cm_he" = RMAVIS::nvc_psquad_cm_he,
+    "floristic_tables" = GBNVC::nvc_floristic_tables,
+    "community_attributes" = GBNVC::nvc_community_attributes,
+    "pquads" = GBNVC::nvc_pquads,
+    "self_sims" = GBNVC::nvc_pquads_self_sims,
+    "psquad_cm_he" = GBNVC::nvc_psquad_cm_he,
     "example_data_options" = RMAVIS:::example_data_options,
-    "habitat_correspondences" = RMAVIS::habitat_correspondences,
+    "habitat_correspondences" = GBNVC::habitat_correspondences,
     "sd_taxon_name_col" = "Species",
     "ft_taxon_name_col" = "nvc_taxon_name",
     "ref_taxon_name_col" = "nvc_taxon_name",
@@ -81,7 +82,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       taxa_lookup_selected <- UKVegTB::taxa_lookup |> dplyr::select(taxon_name, recommended_taxon_name)
       example_data_selected <- RMAVIS::example_data
       example_data_options_selected <- RMAVIS:::example_data_options
-      habitat_correspondences_selected <-  RMAVIS::habitat_correspondences
+      habitat_correspondences_selected <-  GBNVC::habitat_correspondences
       sd_taxon_name_col_selected <- "Species"
       ft_taxon_name_col_selected <- "nvc_taxon_name"
       ref_taxon_name_col_selected <- "nvc_taxon_name"
@@ -96,63 +97,73 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       floristic_tables_selected <- tibble::tibble()
       community_attributes_selected <- tibble::tibble()
       pquads_selected <- tibble::tibble()
+      self_sims_selected <- tibble::tibble()
       psquad_cm_he_selected <- tibble::tibble()
       comm_he_selected <- tibble::tibble()
       
       if("Original" %in% selected_vc_types){
         
         floristic_tables_selected <- floristic_tables_selected |>
-          dplyr::bind_rows(RMAVIS::nvc_floristic_tables)
+          dplyr::bind_rows(GBNVC::nvc_floristic_tables)
         
         community_attributes_selected <- community_attributes_selected |>
-          dplyr::bind_rows(RMAVIS::nvc_community_attributes)
+          dplyr::bind_rows(GBNVC::nvc_community_attributes)
         
         pquads_selected <- pquads_selected |>
-          dplyr::bind_rows(RMAVIS::nvc_pquads)
+          dplyr::bind_rows(GBNVC::nvc_pquads)
+        
+        self_sims_selected <- self_sims_selected |>
+          dplyr::bind_rows(GBNVC::nvc_pquads_self_sims)
         
         psquad_cm_he_selected <- psquad_cm_he_selected |>
-          dplyr::bind_rows(RMAVIS::nvc_psquad_cm_he)
+          dplyr::bind_rows(GBNVC::nvc_psquad_cm_he)
         
         comm_he_selected <- comm_he_selected |>
-          dplyr::bind_rows(RMAVIS::nvc_cm_he)
+          dplyr::bind_rows(GBNVC::nvc_cm_he)
         
       }
       
       if("Calthion" %in% selected_vc_types){
         
         floristic_tables_selected <- floristic_tables_selected |>
-          dplyr::bind_rows(RMAVIS::calthion_floristic_tables)
+          dplyr::bind_rows(GBNVC::calthion_floristic_tables)
         
         community_attributes_selected <- community_attributes_selected |>
-          dplyr::bind_rows(RMAVIS::calthion_community_attributes)
+          dplyr::bind_rows(GBNVC::calthion_community_attributes)
         
         pquads_selected <- pquads_selected |>
-          dplyr::bind_rows(RMAVIS::calthion_pquads)
+          dplyr::bind_rows(GBNVC::calthion_pquads)
+        
+        self_sims_selected <- self_sims_selected |>
+          dplyr::bind_rows(GBNVC::calthion_pquads_self_sims)
         
         psquad_cm_he_selected <- psquad_cm_he_selected |>
-          dplyr::bind_rows(RMAVIS::calthion_psquad_cm_he)
+          dplyr::bind_rows(GBNVC::calthion_psquad_cm_he)
         
         comm_he_selected <- comm_he_selected |>
-          dplyr::bind_rows(RMAVIS::calthion_cm_he)
+          dplyr::bind_rows(GBNVC::calthion_cm_he)
         
       }
       
       if("SOWG" %in% selected_vc_types){
         
         floristic_tables_selected <- floristic_tables_selected |>
-          dplyr::bind_rows(RMAVIS::sowg_floristic_tables)
+          dplyr::bind_rows(GBNVC::sowg_floristic_tables)
         
         community_attributes_selected <- community_attributes_selected |>
-          dplyr::bind_rows(RMAVIS::sowg_community_attributes)
+          dplyr::bind_rows(GBNVC::sowg_community_attributes)
         
         pquads_selected <- pquads_selected |>
-          dplyr::bind_rows(RMAVIS::sowg_pquads)
+          dplyr::bind_rows(GBNVC::sowg_pquads)
+        
+        self_sims_selected <- self_sims_selected |>
+          dplyr::bind_rows(GBNVC::sowg_pquads_self_sims)
         
         psquad_cm_he_selected <- psquad_cm_he_selected |>
-          dplyr::bind_rows(RMAVIS::sowg_psquad_cm_he)
+          dplyr::bind_rows(GBNVC::sowg_psquad_cm_he)
         
         comm_he_selected <- comm_he_selected |>
-          dplyr::bind_rows(RMAVIS::sowg_cm_he)
+          dplyr::bind_rows(GBNVC::sowg_cm_he)
         
       }
       
@@ -202,6 +213,8 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
         dplyr::filter(npc_code %in% community_attributes_selected$npc_code)
       pquads_selected <- MNNPC::mnnpc_releves |> 
         dplyr::filter(npc_code %in% community_attributes_selected$npc_code)
+      self_sims_selected <- MNNPC::mnnpc_releves_self_sims |> 
+        dplyr::filter(npc_code %in% community_attributes_selected$npc_code)
       
     }
     
@@ -217,6 +230,7 @@ setupData <- function(input, output, session, region, deSidebar_options, sidebar
       "floristic_tables" = floristic_tables_selected,
       "community_attributes" = community_attributes_selected,
       "pquads" = pquads_selected,
+      "self_sims" = self_sims_selected,
       "psquad_cm_he" = psquad_cm_he_selected,
       "comm_cm_he" = comm_he_selected,
       "example_data_options" = example_data_options_selected,

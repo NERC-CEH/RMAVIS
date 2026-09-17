@@ -16,7 +16,7 @@ vcTaxonNamesLookup <- function(input, output, region, session) {
     
     if(region == "gbnvc"){
       
-      nl_prepped <-  RMAVIS::nvc_taxa_lookup |>
+      nl_prepped <-  GBNVC::nvc_taxa_lookup |>
         dplyr::select(
           "Original.Name" = "original_taxon_name",
           "Original.TVK" = "original_TVK",

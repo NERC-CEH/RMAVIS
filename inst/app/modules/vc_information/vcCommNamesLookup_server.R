@@ -12,9 +12,9 @@ vcCommNamesLookup <- function(input, output, region, session) {
     
     if(region == "gbnvc"){
       
-      names_prepped <- dplyr::bind_rows(RMAVIS::nvc_community_attributes |> dplyr::mutate("Type" = "Original", .before = "nvc_code"),
-                                        RMAVIS::calthion_community_attributes |> dplyr::mutate("Type" = "Calthion", .before = "nvc_code"),
-                                        RMAVIS::sowg_community_attributes |> dplyr::mutate("Type" = "SOWG", .before = "nvc_code")) |>
+      names_prepped <- dplyr::bind_rows(GBNVC::nvc_community_attributes |> dplyr::mutate("Type" = "Original", .before = "nvc_code"),
+                                        GBNVC::calthion_community_attributes |> dplyr::mutate("Type" = "Calthion", .before = "nvc_code"),
+                                        GBNVC::sowg_community_attributes |> dplyr::mutate("Type" = "SOWG", .before = "nvc_code")) |>
         dplyr::select("NVC.Code" = "nvc_code", "Type", "NVC.Name" = "fullname") |>
         dplyr::arrange(NVC.Code)
       

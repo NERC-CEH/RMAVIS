@@ -350,7 +350,7 @@ uploadData <- function(input, output, session, des_opts, setupData) {
       if(all(c("Year", "Group", "Quadrat") %in% colnames(uploaded_data_raw) & !(c("Species", "Cover") %in% colnames(uploaded_data_raw)))){
         
         uploaded_data_prepped <- uploaded_data_raw |>
-          dplyr::mutate(dplyr::across(dplyr::everything(), as.character))|>
+          dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) |>
           tidyr::pivot_longer(cols = -c(Year, Group, Quadrat),
                               names_to = "Species",
                               values_to = "Cover",

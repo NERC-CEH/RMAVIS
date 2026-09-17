@@ -11,21 +11,21 @@ vcCommAttr <- function(input, output, region, session) {
     
     if(region == "gbnvc"){
       
-      nvc_cm_he_wide <- RMAVIS::nvc_cm_he |>
+      nvc_cm_he_wide <- GBNVC::nvc_cm_he |>
         dplyr::select(-sd) |>
         tidyr::pivot_wider(id_cols = nvc_code,
                            names_from = indicator, 
                            values_from = mean) |> 
         dplyr::mutate("Type" = "Original", .before = "nvc_code")
       
-      calthion_cm_he_wide <- RMAVIS::calthion_cm_he |>
+      calthion_cm_he_wide <- GBNVC::calthion_cm_he |>
         dplyr::select(-sd) |>
         tidyr::pivot_wider(id_cols = nvc_code,
                            names_from = indicator, 
                            values_from = mean) |> 
         dplyr::mutate("Type" = "Calthion", .before = "nvc_code")
       
-      sowg_cm_he_wide <- RMAVIS::sowg_cm_he |>
+      sowg_cm_he_wide <- GBNVC::sowg_cm_he |>
         dplyr::select(-sd) |>
         tidyr::pivot_wider(id_cols = nvc_code,
                            names_from = indicator, 
@@ -35,9 +35,9 @@ vcCommAttr <- function(input, output, region, session) {
       all_cm_he_wide <- dplyr::bind_rows(nvc_cm_he_wide, calthion_cm_he_wide, sowg_cm_he_wide) |>
         dplyr::mutate_if(is.numeric, round, 2)
       
-      cm_prepped <- dplyr::bind_rows(RMAVIS::nvc_community_attributes,
-                                     RMAVIS::calthion_community_attributes,
-                                     RMAVIS::sowg_community_attributes) |>
+      cm_prepped <- dplyr::bind_rows(GBNVC::nvc_community_attributes,
+                                     GBNVC::calthion_community_attributes,
+                                     GBNVC::sowg_community_attributes) |>
         dplyr::mutate("mean_species" = round(mean_species, digits = 0)) |>
         dplyr::inner_join(all_cm_he_wide, by = "nvc_code") |>
         dplyr::select("NVC.Code" = "nvc_code", 
