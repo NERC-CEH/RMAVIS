@@ -6,9 +6,10 @@
 \usage{
 calc_rdiversity_objects(
   plot_data,
-  higher_taxa,
-  phylo_tree,
-  phylo_taxa_lookup,
+  higher_taxa = NULL,
+  phylo_tree = NULL,
+  phylo_taxa_lookup = NULL,
+  traits = NULL,
   groups = c("Year", "Group", "Quadrat")
 )
 }
@@ -20,14 +21,18 @@ calc_rdiversity_objects(
 \item{phylo_tree}{A phylogenetic tree in the format of a Newick string, e.g. \code{UKVegTB::phylo_tree}.}
 
 \item{phylo_taxa_lookup}{A data frame containing a lookup between the taxon_name values present in the plot_data, Open Tree of Life names and codes, e.g. \code{UKVegTB::phylo_taxa_lookup}.}
+
+\item{traits}{A data frame containing the traits of interest.}
+
+\item{groups}{The grouping variables in plot_data, identifying one plot observation.}
 }
 \value{
-A list of three objects: meta_naive, meta_tax, and meta_phylo_dist
+A list of four objects: meta_naive, meta_tax, meta_phylo, and meta_func
 }
 \description{
 Produce the objects required by the \code{rdiversity} functions
-\code{rdiversity::subdiv}, \code{rdiversity::norm_alpha}, \code{rdiversity::norm_beta},
-\code{rdiversity::sub_gamma}, \code{rdiversity::norm_meta_alpha}, \code{rdiversity::norm_meta_beta},
+\code{rdiversity::subdiv}, \code{rdiversity::raw_alpha}, \code{rdiversity::raw_beta},
+\code{rdiversity::sub_gamma}, \code{rdiversity::raw_meta_alpha}, \code{rdiversity::raw_meta_beta},
 \code{rdiversity::meta_gamma} for the calculation of the naive, taxonomic, and phylogenetic
 diversity of a collection of vegetation plots as implemented in the wrapper functions
 \code{RMAVIS::calc_rdiversity_metrics_subcom} and \code{RMAVIS::calc_rdiversity_metrics_meta}.
@@ -37,7 +42,9 @@ diversity of a collection of vegetation plots as implemented in the wrapper func
 RMAVIS::calc_rdiversity_objects(plot_data = dplyr::filter(RMAVIS::example_data$`Parsonage Down`, Year == 1970 & Quadrat == "3N.1"), 
                                 higher_taxa = dplyr::distinct(UKVegTB::taxonomic_backbone, taxon_name, Kingdom, Phylum, Class, Order, Family, Genus), 
                                 phylo_tree = UKVegTB::phylo_tree, 
-                                phylo_taxa_lookup = UKVegTB::phylo_taxa_lookup)
+                                phylo_taxa_lookup = UKVegTB::phylo_taxa_lookup,
+                                traits = UKVegTB::traits |> dplyr::filter(trait_name \%in\% c("LDMC", "predicted_CSR")),
+                                groups = c("Year", "Group", "Quadrat"))
 
 }
 }

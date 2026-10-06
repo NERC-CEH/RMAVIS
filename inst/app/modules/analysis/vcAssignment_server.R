@@ -29,6 +29,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
   unit_name_col <- reactiveVal()
   hab_rest_pref <- reactiveVal()
   community_attributes <- reactiveVal()
+  self_sims <- reactiveVal()
   
   observe({
     regional_availability(setupData()$regional_availability)
@@ -38,6 +39,10 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
     unit_name_col(setupData()$unit_name_col)
     hab_rest_pref(setupData()$hab_rest_pref)
     community_attributes(setupData()$community_attributes)
+    self_sims(setupData()$self_sims)
+    
+    # assign(x = "unit_name_col", value = unit_name_col(), envir = .GlobalEnv)
+    # assign(x = "self_sims", value = self_sims(), envir = .GlobalEnv)
     
   }) |>
     shiny::bindEvent(setupData(),
@@ -140,6 +145,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
         habitatRestriction <- habitatRestriction()
         hab_rest_pref <- hab_rest_pref()
         unit_name_col <- unit_name_col()
+        self_sims <- self_sims()
         
         if(isTRUE(regional_availability()$aggTaxa)){
           
@@ -172,6 +178,11 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
         
       }
       
+      # Prep self-similarities
+      self_sims_prepped <- self_sims |>
+        dplyr::rename("VC.Code" = unit_name_col) |>
+        dplyr::select("VC.Code", "Max.Similarity" = "max_fit")
+      
       # Calculate VC Similarity by Quadrat
       vcAssignmentPlot_Jaccard <- RMAVIS::similarityJaccard(samp_df = surveyData_prepped,
                                                             comp_df = pquads_to_use,
@@ -184,7 +195,7 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
                                                             average_comp = TRUE) |>
         dplyr::select("ID" = ID,
                       "Mean.Similarity" = Similarity,
-                      "VC.Code" = unit_name_col())|>
+                      "VC.Code" = unit_name_col) |>
         dplyr::left_join(surveyData_IDs, by = "ID")
       
       vcAssignmentPlot_Jaccard_prepped <- vcAssignmentPlot_Jaccard |>
@@ -192,7 +203,9 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
         dplyr::group_by(Year, Group, Quadrat) |>
         dplyr::mutate("Rank" = rank(-Mean.Similarity, ties.method = "min"), .before = "Mean.Similarity") |>
         dplyr::ungroup() |>
-        dplyr::arrange(Year, Group, Quadrat, Rank)
+        dplyr::arrange(Year, Group, Quadrat, Rank) #|>
+        # dplyr::left_join(self_sims_prepped, by = "VC.Code") |>
+        # dplyr::mutate("Scaled.Similarity" = Mean.Similarity / Max.Similarity)
       
       vcAssignmentPlot_Jaccard_rval(vcAssignmentPlot_Jaccard_prepped)
       
@@ -327,9 +340,9 @@ vcAssignment <- function(input, output, session, setupData, surveyData, surveyDa
   vcAssignmentPlot_JaccardTable_init <- data.frame("Year" = integer(),
                                                    "Group" = character(),
                                                    "Quadrat" = character(),
+                                                   "VC.Code" = character(),
                                                    "Rank" = integer(),
-                                                   "Mean.Similarity" = numeric(),
-                                                   "VC.Code" = character()
+                                                   "Mean.Similarity" = numeric()
                                                    )
   
   vcAssignmentPlot_JaccardTable_rval <- reactiveVal(vcAssignmentPlot_JaccardTable_init)

@@ -7,16 +7,16 @@
 calc_rdiversity_metrics_meta(
   rdiv_objects,
   measures = c("alpha", "beta", "gamma"),
-  metrics = c("naive", "taxonomic", "phylogenetic"),
+  metrics = c("naive", "taxonomic", "phylogenetic", "functional"),
   q = 0
 )
 }
 \arguments{
-\item{rdiv_objects}{A list of three objects: meta_naive, meta_tax, and meta_phylo_dist, produced using the function \code{RMAVIS::calc_rdiversity_objects}.}
+\item{rdiv_objects}{A list of three objects: meta_naive, meta_tax, and meta_phylo, produced using the function \code{RMAVIS::calc_rdiversity_objects}.}
 
 \item{measures}{One or more of "alpha", "beta", and "gamma".}
 
-\item{metrics}{One or more of "naive", "taxonomic", and "phylogenetic".}
+\item{metrics}{One or more of "naive", "taxonomic", "phylogenetic", and "functional".}
 
 \item{q}{A positive number representing a Hill-Number.}
 }

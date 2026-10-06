@@ -1,12 +1,12 @@
-# RMAVIS 1.2.6 (XX-03-2026)
+# RMAVIS 1.2.6 (XX-10-2026)
 *   Modifications: 
       - When using the `MNNPC` minimum, mean, and maximum cover values in the floristic tables module are now reported as percentages.
       - All GB-NVC data objects are now included in a new package `GBNVC` instead of `RMAVIS`.
       - Now building app using R4.6.1.
+      - Ensuring the diversity functions run without taxonomic, phylogenetic, or functional data and return naive diversity metrics only.
 *   Fixes: NA
 *   New Features:
-      - When displaying the Jaccard similarity results, the maximum 'self-similarity' values for each community are now displayed
-        alongside along with Jaccard similarity values re-scaled using these maximum 'self-similarity' values.
+      - Adding functional diversity to diversity functions (not yet implemented in the `RMAVIS` app).
 
 # RMAVIS 1.2.5 (19-03-2026)
 *   Modifications: NA

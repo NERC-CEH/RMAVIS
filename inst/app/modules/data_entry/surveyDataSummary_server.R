@@ -101,7 +101,7 @@ surveyDataSummary <- function(input, output, session, setupData, surveyData) {
     
     if(isTRUE(EIVs_available())){
       
-      hill_ellenberg_w_names <- RMAVIS::hill_ellenberg |>
+      hill_ellenberg_w_names <- GBNVC::hill_ellenberg |>
         dplyr::left_join(UKVegTB::taxa_lookup, by = "TVK") |>
         dplyr::select("Species" = "recommended_taxon_name", `F`, L, N, R, S)
       
